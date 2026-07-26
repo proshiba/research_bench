@@ -50,25 +50,31 @@ cd cyberchef && npm ci && npx grunt prod
 
 ## 現状
 
-spec v1 にネイティブ対応したアプリはまだ無い。ポータルは**アダプタ**を挟んで
-各アプリの既存フォーマットをその場で正規化している（`assets/js/adapters.js`）。
-アプリ側が `api/v1/search.json` を出したら `apps.json` の `adapter` を `spec-v1` に
-変えるだけで、ポータルのコードは触らない。
+**3 アプリとも spec v1 にネイティブ対応済み。** ポータルは起動時に各アプリの `meta.json` を
+読み（`deep_links` と `embed_css` はここから来る）、`search.json` は画面に入ったときに遅延ロードする。
 
-実データで確認した索引規模と、いま横串が刺さる範囲:
-
-| ソース | 索引 | 横串の状況 |
+| ソース | エンティティ | search.json |
 | --- | --- | --- |
-| ai-security-analysis | 1,785 | IOC・ファミリ名で結合可能 |
-| vuln-intel-agent | 42,171 | CVE で結合可能（相手側が CVE を出せば） |
-| threatactor-intel-analysis | 673 | 索引はアクター名と別名のみ。マルウェア名・IOC・CVE が無い |
+| ai-security-analysis | 1,778 | 0.84 MB (gzip 0.12) |
+| vuln-intel-agent | 42,171 | 18.4 MB (gzip 2.26) |
+| threatactor-intel-analysis | 17,163 | 3.9 MB (gzip 0.58) |
 
-そのため **索引だけでは今のところ横串が 0 件**で、ワークベンチでアクターノードを
-展開したときに `profiles/<slug>/` を遅延取得して初めて結合する。
-（例: APT41 → ShadowPad → マルウェア解析側の 8 ケース）
+合計 61,112 エンティティ。索引構築は 3 ソース並列で約 4 秒。
 
-これを索引レベルでも効くようにするための各アプリへの要望は
-[`docs/portal-spec.md` §5.1](docs/portal-spec.md) にまとめてある。
+横串は実データで成立している。マルウェア名の表記ゆれも正規化で吸収する。
+
+| 検索語 | 結果 |
+| --- | --- |
+| `ShadowPad` | マルウェア解析 + アクター情報 |
+| `gh0st RAT` | マルウェア解析(`gh0strat`) + アクター情報 |
+| `Agent Tesla` | マルウェア解析(`agenttesla`) + アクター情報 |
+| `WannaCry` / `Amadey` | 2 ソース |
+
+ワークベンチで `ShadowPad` を 2 段展開すると、
+**マルウェア解析の 8 ケース ← ShadowPad → アクター情報の 11 アクター** が 1 枚のグラフになる。
+
+残課題は [`docs/portal-spec.md` §5.1](docs/portal-spec.md) にまとめてある
+（脆弱性台帳の優先度が全件 INFO のままなど）。
 
 ## 中身
 

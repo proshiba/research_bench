@@ -24,7 +24,7 @@ from typing import Any
 
 SPEC_TYPES = {
     "ioc.ipv4", "ioc.ipv6", "ioc.domain", "ioc.url", "ioc.endpoint", "ioc.email",
-    "ioc.md5", "ioc.sha1", "ioc.sha256",
+    "ioc.md5", "ioc.sha1", "ioc.sha256", "ioc.sha512",
     "cve", "actor", "malware", "case", "campaign", "product", "vendor", "ttp", "tool", "report",
 }
 
@@ -32,7 +32,7 @@ NAME_TYPES = {"actor", "malware", "tool"}
 
 DEFANGED = re.compile(r"\[\.\]|\(\.\)|\[dot\]|\(dot\)|hxxp|\[:\]|\[@\]", re.I)
 CVE_RE = re.compile(r"^CVE-\d{4}-\d{4,7}$")
-HEX = {"ioc.md5": 32, "ioc.sha1": 40, "ioc.sha256": 64}
+HEX = {"ioc.md5": 32, "ioc.sha1": 40, "ioc.sha256": 64, "ioc.sha512": 128}
 
 errors: list[str] = []
 warnings: list[str] = []

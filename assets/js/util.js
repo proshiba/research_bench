@@ -53,6 +53,7 @@ const CVE = /^CVE-\d{4}-\d{4,7}$/i;
 const HEX32 = /^[a-f0-9]{32}$/i;
 const HEX40 = /^[a-f0-9]{40}$/i;
 const HEX64 = /^[a-f0-9]{64}$/i;
+const HEX128 = /^[a-f0-9]{128}$/i;
 const DOMAIN = /^(?=.{1,253}$)(?!-)[a-z0-9-]{1,63}(?:\.[a-z0-9-]{1,63})*\.[a-z]{2,}$/i;
 const TTP = /^T\d{4}(?:\.\d{3})?$/i;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -64,6 +65,7 @@ export function detectType(raw) {
   if (IPV4.test(v)) return "ioc.ipv4";
   if (v.includes(":") && /^[0-9a-f:]+$/i.test(v) && v.split(":").length > 2) return "ioc.ipv6";
   if (CVE.test(v)) return "cve";
+  if (HEX128.test(v)) return "ioc.sha512";
   if (HEX64.test(v)) return "ioc.sha256";
   if (HEX40.test(v)) return "ioc.sha1";
   if (HEX32.test(v)) return "ioc.md5";
@@ -85,6 +87,7 @@ const TYPE_JA = {
   "ioc.md5": "MD5",
   "ioc.sha1": "SHA-1",
   "ioc.sha256": "SHA-256",
+  "ioc.sha512": "SHA-512",
   cve: "脆弱性",
   actor: "脅威アクター",
   malware: "マルウェア",

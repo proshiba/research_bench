@@ -119,7 +119,7 @@
 | `ioc.domain` | 小文字化・末尾ドット除去 |
 | `ioc.url` | 小文字スキーム |
 | `ioc.email` | 小文字化 |
-| `ioc.md5` / `ioc.sha1` / `ioc.sha256` | 小文字 16 進 |
+| `ioc.md5` / `ioc.sha1` / `ioc.sha256` / `ioc.sha512` | 小文字 16 進 |
 | `ttp` | 大文字 `T####[.###]` |
 | `campaign` | 活動名 |
 
@@ -170,7 +170,7 @@ CVE 形式のものだけ拾う。同じ CVE は 1 エンティティに畳み�
 
 - **同じ値は 1 エンティティに畳み、観測元アクター全部を `refs` に並べる**
 - `value` には `normalized_value` を優先して使う
-- 型の対応: `md5`→`ioc.md5`, `sha1`→`ioc.sha1`, `sha256`/`sha512`→`ioc.sha256`,
+- 型の対応: `md5`→`ioc.md5`, `sha1`→`ioc.sha1`, `sha256`→`ioc.sha256`, `sha512`→`ioc.sha512`,
   `ipv4`→`ioc.ipv4`, `ipv6`→`ioc.ipv6`, `domain`→`ioc.domain`, `url`→`ioc.url`,
   `email`→`ioc.email`
 - `certificate-fingerprint` は語彙に無いので**索引に入れない**

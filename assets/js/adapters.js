@@ -27,6 +27,7 @@ function ent(type, id, label, extra = {}) {
 // data.js の IOC 種別は表記ゆれがある（`sha256` / `SHA-256` / `接続先` …）。
 const MALDB_IOC_TYPES = {
   sha256: "ioc.sha256", "sha-256": "ioc.sha256",
+  sha512: "ioc.sha512", "sha-512": "ioc.sha512",
   sha1: "ioc.sha1", "sha-1": "ioc.sha1",
   md5: "ioc.md5",
   url: "ioc.url",
@@ -287,7 +288,7 @@ async function expandActor(source, entity) {
   }
 
   const IOC_MAP = {
-    md5: "ioc.md5", sha1: "ioc.sha1", sha256: "ioc.sha256", sha512: "ioc.sha256",
+    md5: "ioc.md5", sha1: "ioc.sha1", sha256: "ioc.sha256", sha512: "ioc.sha512",
     ipv4: "ioc.ipv4", ipv6: "ioc.ipv6", domain: "ioc.domain", url: "ioc.url", email: "ioc.email",
   };
   const list = Array.isArray(iocs) ? iocs : iocs?.indicators || iocs?.iocs || [];
@@ -310,12 +311,10 @@ async function expandActor(source, entity) {
  * ------------------------------------------------------------------ */
 
 async function loadSpecV1(source, onProgress) {
-  let indexUrl = source.index_url;
-  let meta = null;
-  if (!indexUrl && source.meta_url) {
-    meta = await fetch(source.meta_url, { mode: "cors" }).then((r) => r.json());
-    indexUrl = resolveUrl(source.meta_url, meta.endpoints?.search || "api/v1/search.json");
-  }
+  // endpoints.* は site_url からの相対（仕様 §1.1）。meta.json の URL 基準ではない。
+  const meta = source.meta || null;
+  const indexUrl = source.index_url
+    || resolveUrl(meta?.site_url || source.site_url, meta?.endpoints?.search || "api/v1/search.json");
   const text = await fetchWithProgress(indexUrl, { approx: source.approx_bytes, onProgress });
   const db = JSON.parse(text);
   const entities = (db.entities || []).map((e) => ent(e.type, e.id, e.label, {

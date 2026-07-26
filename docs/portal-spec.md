@@ -120,7 +120,7 @@
 | `ioc.url` | URL | 小文字スキーム・defang 解除 |
 | `ioc.endpoint` | `host:port` | 小文字化 |
 | `ioc.email` | メールアドレス | 小文字化 |
-| `ioc.md5` / `ioc.sha1` / `ioc.sha256` | ファイルハッシュ | 小文字 16 進 |
+| `ioc.md5` / `ioc.sha1` / `ioc.sha256` / `ioc.sha512` | ファイルハッシュ | 小文字 16 進 |
 | `cve` | 脆弱性識別子 | 大文字 `CVE-YYYY-NNNN` |
 | `actor` | 脅威アクター | 英数字のみ・小文字（§3） |
 | `malware` | マルウェアファミリ / ツール名 | 同上 |
@@ -180,32 +180,33 @@ UI では二重リング・破線エッジ・「ソース横断」バッジで�
 
 ## 5. 現状と移行
 
-2026-07 時点で spec v1 のネイティブ対応が済んでいるアプリはない。
-ポータルは **アダプタ** を挟んで既存フォーマットをその場で正規化している。
+2026-07 時点で **3 アプリとも spec v1 にネイティブ対応済み**。ポータルは `apps.json` で
+`adapter: "spec-v1"` を指定し、各アプリの `meta.json` を起動時に読んでから
+`search.json` を遅延ロードしている。
 
-| ソース | 現在のアダプタ | 読んでいるもの | spec v1 対応で不要になる |
+| ソース | エンティティ | search.json | 備考 |
 | --- | --- | --- | --- |
-| ai-security-analysis | `maldb` | `ui/data.js`（`window.MALDB`, 約 7.0 MB） | ✔ |
-| vuln-intel-agent | `vulnwatch` | `api/v1/search.json`（列指向, 約 11.2 MB） | ✔ |
-| threatactor-intel-analysis | `threatactor` | `ui/data/actors.json`（約 0.5 MB） | ✔ |
+| ai-security-analysis | 1,778 | 0.84 MB (gzip 0.12) | case 1,125 / malware 74 / campaign 26 / IOC 553 |
+| vuln-intel-agent | 42,171 | 18.4 MB (gzip 2.26) | cve 36,377 / report 5,794 |
+| threatactor-intel-analysis | 17,163 | 3.9 MB (gzip 0.58) | actor 673 / malware 1,090 / IOC 14,555 / cve 48 |
 
-移行は `apps.json` の `adapter` を `spec-v1` に変えるだけ。ポータルのコード変更は不要。
+合計 61,112 エンティティ。ブラウザでの索引構築は 3 ソース並列で約 7 秒。
 
-### 5.1 現アダプタで取りこぼしているもの
+`assets/js/adapters.js` には旧フォーマット用のアダプタ（`maldb` / `vulnwatch` / `threatactor`）
+も残してある。各アプリが spec v1 を出す前の形式に戻す必要が生じたときの退避用で、
+`apps.json` の `adapter` を切り替えれば使える。
 
-各アプリが spec v1 に対応するときに、まずここを埋めてほしい。
+### 5.1 残っている課題
 
-- **threatactor-intel-analysis**: `actors.json` にアクター名と別名しかなく、
-  **マルウェア名・IOC・CVE が索引に載っていない**。そのためアクター横断の IOC 検索ができない。
-  ワークベンチではアクターノードを展開したときに `profiles/<slug>/iocs.json` と
-  `actor-profile.json` を遅延取得して補っているが、クロスサーチには効かない。
-  → `search.json` に `malware` / `cve` / `ioc.*` エンティティを含めること。
-- **ai-security-analysis**: `data.js` が 7 MB あり、索引に不要な本文まで含む。
-  → IOC 値・SHA-256・ファミリ名・相関関係だけの軽量な `search.json` を別途出力すること。
-- **vuln-intel-agent**: ほぼ準拠済み。`priority` が全件 `INFO` になっているのは
-  台帳の再生成待ちで、仕様の問題ではない。
-
----
+- **vuln-intel-agent の優先度**: `vulndb/index.csv` は 26 列に移行済みだが、
+  `priority` が全 42,171 件 `INFO` のまま。`ransomware_use` は全件 `false`、
+  `kev_lag_days` は全件空。KEV 688 件・悪用観測 1,173 件があるので、
+  優先度の導出処理が動いていないと思われる。ポータル側では優先度フィルタが機能しない。
+- **アクター情報の CVE が 48 件**: `capabilities.vulnerabilities` が入っている
+  プロファイルが少ないため。脆弱性インテルとの横串はまだほとんど刺さらない。
+- **`ioc.sha512`**: 仕様の初版にこの型が無く、threatactor 側では SHA-512 を
+  `ioc.sha256` として出している（18 件）。仕様に型を追加したので、
+  次回の索引再生成で `ioc.sha512` に直してもらう。ハッシュ長が違うため誤結合は起きない。
 
 ## 5.2 適合チェック
 
