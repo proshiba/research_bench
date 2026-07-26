@@ -5,6 +5,7 @@
 
 import { createGraph } from "./graph.js";
 import { deepLink, graphLink, loadAllSources, resolveValue, store } from "./store.js";
+import { parseAny, toMermaid, toStix } from "./exchange.js";
 import { OPS, runChain } from "./transform.js";
 import { TYPE_GROUPS, el, shorten, typeGroup, typeLabel } from "./util.js";
 
@@ -54,10 +55,31 @@ export async function renderWorkbench(root, { onQuery } = {}) {
   const canvas = el("canvas");
   const status = el("span", { class: "wb-count" });
 
+  const exportBtn = el("button", {
+    class: "btn", type: "button", text: "書き出し ▾",
+    "aria-haspopup": "true", "aria-expanded": "false",
+    onclick: (ev) => { ev.stopPropagation(); toggleExportMenu(ev.target); },
+  });
+
+  const importInput = el("input", {
+    type: "file", accept: ".mmd,.mermaid,.md,.json,.txt,text/plain,application/json",
+    hidden: true,
+    onchange: async (ev) => {
+      const file = ev.target.files?.[0];
+      ev.target.value = "";
+      if (file) await importFile(file);
+    },
+  });
+
   const tools = el("div", { class: "wb-tools" }, [
     el("button", { class: "btn", type: "button", text: "全体表示", onclick: () => ui.graph.fit() }),
     el("button", { class: "btn", type: "button", text: "再レイアウト", onclick: () => ui.graph.relayout() }),
-    el("button", { class: "btn", type: "button", text: "PNG 保存", onclick: exportPng }),
+    exportBtn,
+    el("button", {
+      class: "btn", type: "button", text: "読み込み",
+      title: "Mermaid / STIX 2.1 のファイルからグラフを復元する",
+      onclick: () => importInput.click(),
+    }),
     el("button", {
       class: "btn", type: "button", text: "クリア",
       onclick: () => {
@@ -80,7 +102,7 @@ export async function renderWorkbench(root, { onQuery } = {}) {
     el("span", { class: "lg is-arrow", style: "color:var(--focus)", html: '<i></i>手動リンク' }),
   ]);
 
-  const canvasWrap = el("div", { class: "wb-canvas-wrap" }, [tools, canvas, legend]);
+  const canvasWrap = el("div", { class: "wb-canvas-wrap" }, [tools, canvas, legend, importInput]);
 
   /* --- 調査対象トレイ --- */
 
@@ -229,7 +251,7 @@ function restoreState() {
     // トレイの値を先に復元する。手動ノードの実体をここで作り直す必要がある。
     tray = [];
     for (const item of snap.tray || []) {
-      const res = resolveValue(item.value);
+      const res = resolveValue(item.value, { typeHint: item.type });
       if (res) tray.push({ value: res.value, type: res.type });
     }
     renderTray();
@@ -349,11 +371,121 @@ export async function pivotTo(source, entity) {
   saveState();
 }
 
+/* ---------------- 書き出しと読み込み ---------------- */
+
+let exportMenu = null;
+
+function toggleExportMenu(anchor) {
+  if (exportMenu) { exportMenu.remove(); exportMenu = null; anchor.setAttribute("aria-expanded", "false"); return; }
+
+  const pick = (fn) => () => { fn(); exportMenu?.remove(); exportMenu = null; anchor.setAttribute("aria-expanded", "false"); };
+  exportMenu = el("div", { class: "popover", role: "menu" }, [
+    el("div", { class: "menu-label", text: "書き出し" }),
+    el("button", { class: "popover-item", type: "button", role: "menuitem", text: "Mermaid (.mmd)", onclick: pick(exportMermaid) }),
+    el("button", { class: "popover-item", type: "button", role: "menuitem", text: "STIX 2.1 (.json)", onclick: pick(exportStix) }),
+    el("button", { class: "popover-item", type: "button", role: "menuitem", text: "PNG (.png)", onclick: pick(exportPng) }),
+  ]);
+  exportMenu.addEventListener("click", (ev) => ev.stopPropagation());
+  document.body.append(exportMenu);
+  const r = anchor.getBoundingClientRect();
+  exportMenu.style.left = `${Math.min(r.left, innerWidth - exportMenu.offsetWidth - 8)}px`;
+  exportMenu.style.top = `${r.bottom + 5}px`;
+  anchor.setAttribute("aria-expanded", "true");
+  setTimeout(() => document.addEventListener("click", closeExportMenu, { once: true }), 0);
+}
+
+function closeExportMenu() {
+  exportMenu?.remove();
+  exportMenu = null;
+  ui?.wrap.querySelector('[aria-haspopup="true"]')?.setAttribute("aria-expanded", "false");
+}
+
+function stamp() {
+  const d = new Date();
+  const p = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}`;
+}
+
+function download(filename, text, mime) {
+  const url = URL.createObjectURL(new Blob([text], { type: mime }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+
+function exportMermaid() {
+  if (!ui.graph.nodes.size) { ui.status.textContent = "書き出すノードがありません"; return; }
+  const cs = getComputedStyle(document.documentElement);
+  const text = toMermaid(ui.graph, (v) => cs.getPropertyValue(v).trim());
+  download(`workbench-${stamp()}.mmd`, text, "text/plain;charset=utf-8");
+  ui.status.textContent = `Mermaid を書き出しました（ノード ${ui.graph.nodes.size} / 辺 ${ui.graph.edges.size}）`;
+}
+
+function exportStix() {
+  if (!ui.graph.nodes.size) { ui.status.textContent = "書き出すノードがありません"; return; }
+  const bundle = toStix(ui.graph);
+  download(`workbench-${stamp()}.stix.json`, JSON.stringify(bundle, null, 2), "application/json;charset=utf-8");
+  ui.status.textContent = `STIX 2.1 を書き出しました（オブジェクト ${bundle.objects.length}）`;
+}
+
 function exportPng() {
   const a = document.createElement("a");
   a.href = ui.graph.exportPng();
-  a.download = "workbench.png";
+  a.download = `workbench-${stamp()}.png`;
   a.click();
+}
+
+async function importFile(file) {
+  ui.status.textContent = `${file.name} を読み込んでいます…`;
+  try {
+    const parsed = parseAny(await file.text(), file.name);
+    await loadAllSources();          // 索引に突き合わせて出典を復元するため
+    const r = importGraph(parsed);
+    ui.status.textContent = `${parsed.format === "stix" ? "STIX" : "Mermaid"} を読み込みました — `
+      + `ノード ${r.nodes}（うち索引に無いもの ${r.manual}） / リンク ${r.links}`
+      + (r.skipped ? ` / 解決できず ${r.skipped}` : "");
+  } catch (err) {
+    ui.status.textContent = `読み込めませんでした: ${err.message}`;
+  }
+}
+
+/**
+ * 読み込んだ内容をグラフに反映する。
+ * 値は索引に突き合わせ直すので、ファイルを作ったときより索引が新しければ
+ * 出典やソース横断がその場で付く。索引に無い値は手動ノードとして置く。
+ */
+function importGraph(parsed) {
+  const keyToNode = new Map();
+  let manual = 0, skipped = 0;
+
+  for (const n of parsed.nodes) {
+    const res = resolveValue(n.value, { typeHint: n.type });
+    if (!res) { skipped++; continue; }
+    let node = null;
+    for (const b of res.matches) node = ui.graph.addRoot(b.source, b.entity);
+    if (!node) { skipped++; continue; }
+    keyToNode.set(n.key, node.id);
+    if (res.manual) manual++;
+  }
+
+  ui.graph.linkExisting();
+
+  let links = 0;
+  for (const e of parsed.edges) {
+    const a = keyToNode.get(e.from), b = keyToNode.get(e.to);
+    if (!a || !b || a === b) continue;
+    const already = [...ui.graph.edges.values()]
+      .some((x) => (x.a === a && x.b === b) || (x.a === b && x.b === a));
+    // ソース由来で既に繋がっているものは張り直さない。手動リンクだけ復元する。
+    if (already && !e.manual) continue;
+    if (ui.graph.addManualEdge(a, b, e.rel)) links++;
+  }
+
+  ui.graph.whenSettled({ timeout: 1500 }).then(() => ui?.graph.fit());
+  saveState();
+  return { nodes: keyToNode.size, manual, links, skipped };
 }
 
 /* ---------------- 詳細タブ ---------------- */
