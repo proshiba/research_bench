@@ -41,6 +41,13 @@
 
     <div class="rail-spacer"></div>
 
+    <button class="rail-btn" type="button" id="osintBtn" title="OSINT 設定" aria-label="OSINT 設定">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="8" cy="12" r="3.6" />
+        <path d="M11.6 12H21M17.4 12v3.4M20 12v2.4" />
+      </svg>
+    </button>
+
     <button class="rail-btn" type="button" id="themeBtn" title="表示テーマ" aria-label="表示テーマを切り替え">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
         <circle cx="12" cy="12" r="4.2" />
@@ -101,6 +108,8 @@
 </div>
 
 <div class="popover" id="repoMenu" hidden role="menu"></div>
+
+<dialog class="modal" id="osintDialog" aria-labelledby="osintTitle"></dialog>
 
 <noscript>
   <p style="padding:2rem">このポータルは JavaScript が必要です。</p>

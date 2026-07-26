@@ -120,16 +120,24 @@ function manualBinding(value, type) {
 /**
  * ユーザーが入力した値を索引に突き合わせる。
  * 見つかれば該当する全ソースの実体を返し、見つからなければ手動ノードを作る。
- * ワークベンチの調査対象トレイから使う。
+ * ワークベンチの調査対象トレイと、Mermaid/STIX の読み込みから使う。
+ *
+ * @param {string} rawValue
+ * @param {{typeHint?: string}} opts 読み込んだファイルが種別を持っている場合に渡す。
+ *   `ShadowPad` のように値だけでは種別が判定できないものを正しく扱うため。
  */
-export function resolveValue(rawValue) {
+export function resolveValue(rawValue, { typeHint = null } = {}) {
   const value = refang(String(rawValue || "")).trim();
   if (!value) return null;
-  const detected = detectType(value);
+  const detected = typeHint || detectType(value);
 
   // 指標としての結合キーと、名前（アクター/マルウェア/ツール）としての結合キーの両方を試す
   const keys = [];
   if (detected) keys.push(joinKey(detected, value));
+  if (typeHint && typeHint !== detectType(value)) {
+    const d = detectType(value);
+    if (d) keys.push(joinKey(d, value));
+  }
   keys.push(joinKey("actor", value));
 
   const matches = [];
