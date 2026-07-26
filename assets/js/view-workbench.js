@@ -263,19 +263,37 @@ function restoreState() {
     ui.trayEl.querySelector(".tray-toggle").innerHTML = caretIcon(!!snap.collapsed);
 
     // トレイの値を先に復元する。手動ノードの実体をここで作り直す必要がある。
+    // staged が立っているものは他の画面から積まれた分で、グラフ側にはまだ無い。
     tray = [];
+    const staged = [];
     for (const item of snap.tray || []) {
       const res = resolveValue(item.value, { typeHint: item.type });
-      if (res) tray.push({ value: res.value, type: res.type });
+      if (!res) continue;
+      tray.push({ value: res.value, type: res.type });
+      if (item.staged) staged.push(res);
     }
     renderTray();
 
     const n = ui.graph.restore(snap.graph);
-    if (n) ui.status.textContent = `前回の状態を復元しました（ノード ${n}）`;
+    for (const res of staged) {
+      for (const b of res.matches) ui.graph.addRoot(b.source, b.entity);
+    }
+    if (staged.length) ui.graph.linkExisting();
+
+    if (staged.length) {
+      ui.status.textContent = n
+        ? `前回の状態を復元し、${staged.length} 件を受け取りました（ノード ${ui.graph.counts.nodes}）`
+        : `${staged.length} 件を受け取りました`;
+    } else if (n) {
+      ui.status.textContent = `前回の状態を復元しました（ノード ${n}）`;
+    }
   } finally {
     restoring = false;
   }
   ui.graph.resize();
+  // 受け取った分を含めて保存し直す（staged の印はここで消える）
+  saveState();
+  ui.graph.whenSettled({ timeout: 1500 }).then(() => ui?.graph.fit());
 }
 
 /* ---------------- 調査対象トレイ ---------------- */
@@ -373,6 +391,42 @@ function markTraySelection(node) {
 }
 
 /** クロスサーチなどからノードを 1 件立てる。 */
+/**
+ * 他の画面（モジュール画面など）から調査対象を渡す。
+ *
+ * ワークベンチが表示されていればその場で足す。表示されていなければ
+ * 保存状態のトレイに積んでおき、次に開いたときに載る。
+ * 戻り値は実際に積んだ件数。
+ */
+export function stageValues(values) {
+  const list = [...new Set([].concat(values).map((v) => String(v || "").trim()).filter(Boolean))];
+  if (!list.length) return 0;
+
+  if (ui) {
+    let n = 0;
+    for (const v of list) if (addValue(v)) n++;
+    return n;
+  }
+
+  const snap = readState() || {};
+  const staged = Array.isArray(snap.tray) ? [...snap.tray] : [];
+  let n = 0;
+  for (const raw of list) {
+    const res = resolveValue(raw);
+    if (!res) continue;
+    if (staged.some((t) => t.value.toLowerCase() === res.value.toLowerCase())) continue;
+    // staged: 次にワークベンチを開いたときにグラフへ載せる印
+    staged.push({ value: res.value, type: res.type, staged: true });
+    n++;
+  }
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify({ ...snap, v: 1, tray: staged }));
+  } catch {
+    return 0;
+  }
+  return n;
+}
+
 export async function pivotTo(source, entity) {
   if (!ui) return;
   ui.graph.resize();

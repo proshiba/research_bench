@@ -1,9 +1,11 @@
 // ポータルの起動・ルーティング・クローム（上部バー / ステータスバー）。
 
+import { getModule, loadModuleSettings } from "./modules.js";
 import { loadSettings } from "./osint.js";
 import { getSource, initStore, loadSource, onChange, store } from "./store.js";
 import { el, esc, fmtBytes, fmtNum } from "./util.js";
 import { renderDashboard } from "./view-dashboard.js";
+import { renderModules } from "./view-modules.js";
 import { openOsintSettings, osintSummary, osintTooltip } from "./view-osint-settings.js";
 import { renderSearch } from "./view-search.js";
 import { pivotTo, renderWorkbench } from "./view-workbench.js";
@@ -28,7 +30,7 @@ const dom = {
   openExternal: document.getElementById("openExternal"),
 };
 
-const state = { route: "dashboard", appId: null, query: "" };
+const state = { route: "dashboard", appId: null, query: "", moduleId: null };
 
 /* ---------------- ルーティング ---------------- */
 
@@ -38,6 +40,7 @@ function parseHash() {
   const arg = rest.join("/");
   if (route === "search") return { route: "search", query: decodeURIComponent(arg || "") };
   if (route === "workbench") return { route: "workbench" };
+  if (route === "modules") return { route: "modules", moduleId: decodeURIComponent(arg || "") || null };
   if (route === "dashboard") return { route: "dashboard", appId: arg || null };
   return { route: "dashboard", appId: null };
 }
@@ -55,6 +58,7 @@ async function render() {
     state.appId = parsed.appId || state.appId || store.sources[0]?.app_id || null;
   }
   if (parsed.route === "search") state.query = parsed.query;
+  if (parsed.route === "modules") state.moduleId = parsed.moduleId;
 
   for (const btn of dom.rail) {
     btn.setAttribute("aria-current", String(btn.dataset.route === state.route));
@@ -75,6 +79,12 @@ async function render() {
     await renderSearch(view, state.query, { onPivot: handlePivot });
   } else if (state.route === "workbench") {
     await renderWorkbench(view, { onQuery: (q) => setHash("search", q) });
+  } else if (state.route === "modules") {
+    renderModules(view, {
+      moduleId: state.moduleId,
+      onOpen: (id) => setHash("modules", id),
+      onBack: () => setHash("modules"),
+    });
   }
 }
 
@@ -107,6 +117,12 @@ function updateTopbar() {
     dom.ctxSlug.textContent = s ? s.app_id : "";
     dom.openExternal.hidden = !s;
     if (s) dom.openExternal.href = s.dashboard_url || s.site_url;
+  } else if (state.route === "modules") {
+    const mod = state.moduleId ? getModule(state.moduleId) : null;
+    dom.ctxDot.style.color = mod ? `var(${mod.accent})` : "var(--ink-faint)";
+    dom.ctxName.textContent = mod ? mod.name : "モジュール";
+    dom.ctxSlug.textContent = mod ? mod.id : "個別機能";
+    dom.openExternal.hidden = true;
   } else {
     dom.ctxDot.style.color = "var(--ink-faint)";
     dom.ctxName.textContent = state.route === "search" ? "クロスサーチ" : "ワークベンチ";
@@ -240,7 +256,8 @@ function initTheme() {
 
 async function boot() {
   initTheme();
-  loadSettings();     // 前回 session/local に置いた OSINT 設定があれば戻す
+  loadSettings();         // 前回 session/local に置いた OSINT 設定があれば戻す
+  loadModuleSettings();   // モジュールの設定（API のベース URL など）
 
   try {
     await initStore();
