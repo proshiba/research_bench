@@ -1,0 +1,288 @@
+// ポータルの起動・ルーティング・クローム（上部バー / ステータスバー）。
+
+import { getSource, initStore, loadSource, onChange, store } from "./store.js";
+import { el, esc, fmtBytes, fmtNum } from "./util.js";
+import { renderDashboard } from "./view-dashboard.js";
+import { renderSearch } from "./view-search.js";
+import { pivotTo, renderWorkbench } from "./view-workbench.js";
+
+const dom = {
+  rail: document.querySelectorAll(".rail-btn[data-route]"),
+  views: document.querySelectorAll(".view"),
+  ctxBtn: document.getElementById("ctxBtn"),
+  ctxMenu: document.getElementById("ctxMenu"),
+  ctxDot: document.getElementById("ctxDot"),
+  ctxName: document.getElementById("ctxName"),
+  ctxSlug: document.getElementById("ctxSlug"),
+  ctxCaret: document.getElementById("ctxCaret"),
+  searchForm: document.getElementById("searchForm"),
+  q: document.getElementById("q"),
+  statusbar: document.getElementById("statusbar"),
+  repoBtn: document.getElementById("repoBtn"),
+  repoMenu: document.getElementById("repoMenu"),
+  themeBtn: document.getElementById("themeBtn"),
+  openExternal: document.getElementById("openExternal"),
+};
+
+const state = { route: "dashboard", appId: null, query: "" };
+
+/* ---------------- ルーティング ---------------- */
+
+function parseHash() {
+  const raw = location.hash.replace(/^#\/?/, "");
+  const [route, ...rest] = raw.split("/");
+  const arg = rest.join("/");
+  if (route === "search") return { route: "search", query: decodeURIComponent(arg || "") };
+  if (route === "workbench") return { route: "workbench" };
+  if (route === "dashboard") return { route: "dashboard", appId: arg || null };
+  return { route: "dashboard", appId: null };
+}
+
+function setHash(route, arg) {
+  const next = arg ? `#/${route}/${encodeURIComponent(arg)}` : `#/${route}`;
+  if (location.hash === next) render();   // 同じ検索語の再実行
+  else location.hash = next;
+}
+
+async function render() {
+  const parsed = parseHash();
+  state.route = parsed.route;
+  if (parsed.route === "dashboard") {
+    state.appId = parsed.appId || state.appId || store.sources[0]?.app_id || null;
+  }
+  if (parsed.route === "search") state.query = parsed.query;
+
+  for (const btn of dom.rail) {
+    btn.setAttribute("aria-current", String(btn.dataset.route === state.route));
+  }
+  for (const view of dom.views) {
+    view.classList.toggle("is-active", view.dataset.route === state.route);
+  }
+
+  updateTopbar();
+
+  const view = [...dom.views].find((v) => v.dataset.route === state.route);
+  if (!view) return;
+
+  if (state.route === "dashboard") {
+    renderDashboard(view, getSource(state.appId));
+  } else if (state.route === "search") {
+    dom.q.value = state.query;
+    await renderSearch(view, state.query, { onPivot: handlePivot });
+  } else if (state.route === "workbench") {
+    await renderWorkbench(view, { onQuery: (q) => setHash("search", q) });
+  }
+}
+
+async function handlePivot(action) {
+  if (action.kind === "query") {
+    setHash("search", action.query);
+    return;
+  }
+  if (action.kind === "graph") {
+    setHash("workbench");
+    await renderWorkbench(
+      [...dom.views].find((v) => v.dataset.route === "workbench"),
+      { onQuery: (q) => setHash("search", q) },
+    );
+    pivotTo(action.source, action.entity);
+  }
+}
+
+/* ---------------- 上部バー ---------------- */
+
+function updateTopbar() {
+  const isDashboard = state.route === "dashboard";
+  dom.ctxBtn.disabled = !isDashboard;
+  dom.ctxCaret.hidden = !isDashboard;
+
+  if (isDashboard) {
+    const s = getSource(state.appId);
+    dom.ctxDot.style.color = s ? `var(--src-${s.accent})` : "var(--ink-faint)";
+    dom.ctxName.textContent = s ? s.name : "アプリ未登録";
+    dom.ctxSlug.textContent = s ? s.app_id : "";
+    dom.openExternal.hidden = !s;
+    if (s) dom.openExternal.href = s.dashboard_url || s.site_url;
+  } else {
+    dom.ctxDot.style.color = "var(--ink-faint)";
+    dom.ctxName.textContent = state.route === "search" ? "クロスサーチ" : "ワークベンチ";
+    dom.ctxSlug.textContent = state.route === "search" ? "統合インデックス" : "統合グラフ";
+    dom.openExternal.hidden = true;
+  }
+  buildAppMenu();
+  closeMenus();
+}
+
+function buildAppMenu() {
+  dom.ctxMenu.replaceChildren(el("div", { class: "menu-label", text: `接続ソース · spec v${store.spec}` }));
+  for (const s of store.sources) {
+    dom.ctxMenu.append(el("button", {
+      class: "ctx-item", type: "button", role: "menuitem",
+      "aria-current": String(s.app_id === state.appId),
+      onclick: () => { setHash("dashboard", s.app_id); closeMenus(); },
+    }, [
+      el("span", { class: "ctx-dot", style: `color:var(--src-${s.accent})` }),
+      el("span", { class: "ctx-item-name", text: s.name }),
+      el("span", { class: "ctx-item-slug", text: s.app_id }),
+    ]));
+  }
+}
+
+function closeMenus() {
+  dom.ctxMenu.hidden = true;
+  dom.ctxBtn.setAttribute("aria-expanded", "false");
+  dom.repoMenu.hidden = true;
+  dom.repoBtn.setAttribute("aria-expanded", "false");
+}
+
+/* ---------------- ステータスバー ---------------- */
+
+function renderStatus() {
+  const bar = dom.statusbar;
+  bar.replaceChildren();
+  bar.append(el("span", { html: `spec <b>v${esc(store.spec || "1.0")}</b>` }));
+
+  let indexed = 0;
+  for (const s of store.sources) {
+    if (s.status === "ready") indexed += s.entities.length;
+    const cls = s.status === "ready" ? "" : s.status === "loading" ? " is-loading"
+      : s.status === "error" ? " is-error" : " is-idle";
+    const label = s.status === "ready" ? fmtNum(s.entities.length)
+      : s.status === "loading" ? `${Math.round(s.progress * 100)}%`
+      : s.status === "error" ? "失敗" : "未取得";
+    bar.append(el("span", {
+      class: `st-src${cls}`,
+      style: s.status === "ready" || s.status === "loading" ? `color:var(--src-${s.accent})` : null,
+      title: s.status === "error" ? s.error
+        : s.status === "idle" ? `${fmtBytes(s.approx_bytes)} — 検索時に取得します`
+        : s.app_id,
+    }, [
+      el("i"),
+      el("span", { style: "color:var(--ink-faint)", text: `${s.short || s.name} ${label}` }),
+    ]));
+  }
+
+  bar.append(el("span", { html: `索引 <b>${fmtNum(indexed)}</b> エンティティ` }));
+
+  const failed = store.sources.filter((s) => s.status === "error");
+  if (failed.length) {
+    bar.append(el("button", {
+      class: "btn push", type: "button", style: "font-size:10.5px;padding:2px 7px",
+      text: `${failed.length} ソースの取得に失敗 — 再試行`,
+      onclick: () => failed.forEach((s) => loadSource(s, { force: true })),
+    }));
+  } else {
+    bar.append(el("span", { class: "push", text: "GitHub Pages 上の静的インデックスを直接読み込んでいます" }));
+  }
+}
+
+/* ---------------- リポジトリ ---------------- */
+
+const GH_ICON = '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>';
+
+function buildRepoMenu() {
+  const repos = [
+    { name: "proshiba/research_bench", url: "https://github.com/proshiba/research_bench" },
+    ...store.sources.filter((s) => s.repository).map((s) => ({
+      name: s.repository.replace("https://github.com/", ""), url: s.repository,
+    })),
+  ];
+  dom.repoMenu.replaceChildren(el("div", { class: "menu-label", text: "リポジトリ" }));
+  for (const r of repos) {
+    dom.repoMenu.append(el("a", {
+      class: "popover-item", href: r.url, target: "_blank", rel: "noopener", role: "menuitem",
+      html: GH_ICON + esc(r.name),
+    }));
+  }
+}
+
+/* ---------------- テーマ ---------------- */
+
+const THEMES = ["auto", "light", "dark"];
+
+function applyTheme(next) {
+  if (next === "auto") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", next);
+  try { localStorage.setItem("rb-theme", next); } catch { /* プライベートモードなど */ }
+  dom.themeBtn.title = `表示テーマ: ${{ auto: "自動", light: "ライト", dark: "ダーク" }[next]}`;
+}
+
+function initTheme() {
+  let saved = "auto";
+  try { saved = localStorage.getItem("rb-theme") || "auto"; } catch { /* 読めなくても既定で動く */ }
+  applyTheme(THEMES.includes(saved) ? saved : "auto");
+  dom.themeBtn.addEventListener("click", () => {
+    const cur = document.documentElement.getAttribute("data-theme") || "auto";
+    applyTheme(THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length]);
+  });
+}
+
+/* ---------------- 起動 ---------------- */
+
+async function boot() {
+  initTheme();
+
+  try {
+    await initStore();
+  } catch (err) {
+    document.getElementById("stage").innerHTML =
+      `<div class="empty"><h2>起動できませんでした</h2><p>${esc(err.message)}</p></div>`;
+    return;
+  }
+
+  buildAppMenu();
+  buildRepoMenu();
+  renderStatus();
+  onChange(() => { renderStatus(); buildAppMenu(); });
+
+  for (const btn of dom.rail) {
+    btn.addEventListener("click", () => {
+      if (btn.dataset.route === "search") setHash("search", dom.q.value.trim());
+      else setHash(btn.dataset.route);
+    });
+  }
+
+  dom.ctxBtn.addEventListener("click", (ev) => {
+    ev.stopPropagation();
+    if (dom.ctxBtn.disabled) return;
+    const open = dom.ctxMenu.hidden;
+    closeMenus();
+    dom.ctxMenu.hidden = !open;
+    dom.ctxBtn.setAttribute("aria-expanded", String(open));
+  });
+
+  dom.repoBtn.addEventListener("click", (ev) => {
+    ev.stopPropagation();
+    const open = dom.repoMenu.hidden;
+    closeMenus();
+    if (!open) return;
+    dom.repoMenu.hidden = false;
+    dom.repoBtn.setAttribute("aria-expanded", "true");
+    const r = dom.repoBtn.getBoundingClientRect();
+    const h = dom.repoMenu.offsetHeight;
+    dom.repoMenu.style.left = `${r.right + 6}px`;
+    dom.repoMenu.style.top = `${Math.max(8, Math.min(r.bottom - h, innerHeight - h - 8))}px`;
+  });
+
+  dom.ctxMenu.addEventListener("click", (ev) => ev.stopPropagation());
+  dom.repoMenu.addEventListener("click", (ev) => ev.stopPropagation());
+  document.addEventListener("click", closeMenus);
+  document.addEventListener("keydown", (ev) => {
+    if (ev.key === "Escape") closeMenus();
+    if (ev.key === "/" && document.activeElement !== dom.q) {
+      ev.preventDefault();
+      dom.q.focus();
+      dom.q.select();
+    }
+  });
+
+  dom.searchForm.addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    setHash("search", dom.q.value.trim());
+  });
+
+  addEventListener("hashchange", render);
+  await render();
+}
+
+boot();

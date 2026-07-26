@@ -1,0 +1,74 @@
+{
+  "spec_version": "1.0",
+  "sources": [
+    {
+      "app_id": "ai-security-analysis",
+      "name": "マルウェア解析",
+      "short": "マルウェア",
+      "accent": "mal",
+      "repository": "https://github.com/proshiba/AI-security-analysis",
+      "site_url": "https://proshiba.github.io/AI-security-analysis/ui/",
+      "dashboard_url": "https://proshiba.github.io/AI-security-analysis/ui/#/",
+      "adapter": "maldb",
+      "index_url": "https://proshiba.github.io/AI-security-analysis/ui/data.js",
+      "approx_bytes": 6980509,
+      "deep_links": {
+        "case": "#/case/{detail}",
+        "malware": "#/family/{detail}",
+        "campaign": "#/intel/{detail}",
+        "ioc.ipv4": "#/iocs?q={detail}",
+        "ioc.ipv6": "#/iocs?q={detail}",
+        "ioc.domain": "#/iocs?q={detail}",
+        "ioc.url": "#/iocs?q={detail}",
+        "ioc.endpoint": "#/iocs?q={detail}",
+        "ioc.md5": "#/iocs?q={detail}",
+        "ioc.sha1": "#/iocs?q={detail}",
+        "ioc.sha256": "#/iocs?q={detail}",
+        "ioc.email": "#/iocs?q={detail}",
+        "_graph": "#/graph?root={detail}"
+      }
+    },
+    {
+      "app_id": "vuln-intel-agent",
+      "name": "脆弱性インテル",
+      "short": "脆弱性",
+      "accent": "vuln",
+      "repository": "https://github.com/proshiba/vuln-intel-agent",
+      "site_url": "https://proshiba.github.io/vuln-intel-agent/",
+      "dashboard_url": "https://proshiba.github.io/vuln-intel-agent/",
+      "adapter": "vulnwatch",
+      "meta_url": "https://proshiba.github.io/vuln-intel-agent/api/v1/meta.json",
+      "index_url": "https://proshiba.github.io/vuln-intel-agent/api/v1/search.json",
+      "approx_bytes": 11169005,
+      "deep_links": {
+        "cve": "https://raw.githubusercontent.com/proshiba/vuln-intel-agent/main/vulndb/vulns/{prefix}/{detail}.yaml"
+      }
+    },
+    {
+      "app_id": "threatactor-intel-analysis",
+      "name": "アクター情報",
+      "short": "アクター",
+      "accent": "actor",
+      "repository": "https://github.com/proshiba/threatactor-intel-analysis",
+      "site_url": "https://proshiba.github.io/threatactor-intel-analysis/ui/",
+      "dashboard_url": "https://proshiba.github.io/threatactor-intel-analysis/ui/#/",
+      "adapter": "threatactor",
+      "index_url": "https://proshiba.github.io/threatactor-intel-analysis/ui/data/actors.json",
+      "profiles_base": "https://proshiba.github.io/threatactor-intel-analysis/profiles",
+      "approx_bytes": 476490,
+      "deep_links": {
+        "actor": "#/actor/{detail}",
+        "_graph": "#/relations/{detail}"
+      },
+      "notes": "現状の索引はアクター名と別名のみ。マルウェア名・IOC はワークベンチ展開時に遅延取得する。"
+    }
+  ],
+  "tools": [
+    {
+      "tool_id": "cyberchef",
+      "name": "CyberChef",
+      "url": "cyberchef/build/prod/index.html",
+      "build_hint": "cd cyberchef && npm ci && npx grunt prod"
+    }
+  ]
+}
