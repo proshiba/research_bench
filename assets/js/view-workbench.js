@@ -6,6 +6,7 @@
 import { createGraph } from "./graph.js";
 import { deepLink, graphLink, loadAllSources, resolveValue, store } from "./store.js";
 import { parseAny, toMermaid, toStix } from "./exchange.js";
+import { lookup, providersFor } from "./osint.js";
 import { OPS, runChain } from "./transform.js";
 import { TYPE_GROUPS, el, shorten, typeGroup, typeLabel } from "./util.js";
 
@@ -149,6 +150,7 @@ export async function renderWorkbench(root, { onQuery } = {}) {
 
   const paneDetail = el("div", { class: "tabpane", id: "wbDetail", role: "tabpanel" });
   const paneTransform = el("div", { class: "tabpane", id: "wbTransform", role: "tabpanel", hidden: true });
+  const paneOsint = el("div", { class: "tabpane", id: "wbOsint", role: "tabpanel", hidden: true });
 
   const tabDetail = el("button", {
     class: "tab", type: "button", role: "tab", text: "詳細",
@@ -158,22 +160,33 @@ export async function renderWorkbench(root, { onQuery } = {}) {
     class: "tab", type: "button", role: "tab", text: "変換",
     "aria-selected": "false", "aria-controls": "wbTransform",
   });
+  const tabOsint = el("button", {
+    class: "tab", type: "button", role: "tab", text: "OSINT",
+    "aria-selected": "false", "aria-controls": "wbOsint",
+  });
+
+  const TABS = [
+    ["detail", tabDetail, paneDetail],
+    ["transform", tabTransform, paneTransform],
+    ["osint", tabOsint, paneOsint],
+  ];
 
   function selectTab(which) {
-    const isDetail = which === "detail";
-    tabDetail.setAttribute("aria-selected", String(isDetail));
-    tabTransform.setAttribute("aria-selected", String(!isDetail));
-    paneDetail.hidden = !isDetail;
-    paneTransform.hidden = isDetail;
+    for (const [name, tab, pane] of TABS) {
+      const on = name === which;
+      tab.setAttribute("aria-selected", String(on));
+      pane.hidden = !on;
+    }
+    if (which === "osint") renderOsint(ui?.graph.selected);
   }
 
-  tabDetail.addEventListener("click", () => selectTab("detail"));
-  tabTransform.addEventListener("click", () => selectTab("transform"));
+  for (const [name, tab] of TABS) tab.addEventListener("click", () => selectTab(name));
 
   const side = el("aside", { class: "wb-side" }, [
-    el("div", { class: "tabs", role: "tablist" }, [tabDetail, tabTransform]),
+    el("div", { class: "tabs", role: "tablist" }, [tabDetail, tabTransform, tabOsint]),
     paneDetail,
     paneTransform,
+    paneOsint,
   ]);
 
   const wrap = el("div", { class: "wb" }, [trayEl, canvasWrap, side]);
@@ -193,7 +206,8 @@ export async function renderWorkbench(root, { onQuery } = {}) {
   });
   graph.resize();
 
-  ui = { wrap, graph, side, paneDetail, paneTransform, selectTab, status, onQuery, trayEl, trayList, trayCount };
+  ui = { wrap, graph, side, paneDetail, paneTransform, paneOsint, selectTab, status, onQuery,
+    trayEl, trayList, trayCount };
   // UI テストから座標を取るためのフック。?uitest=1 が無ければ生えない。
   if (new URLSearchParams(location.search).has("uitest")) window.__rbGraph = graph;
   renderTray();
@@ -630,6 +644,144 @@ function renderSide(node) {
 
   pane.replaceChildren(frag);
   renderTransform(node);
+  renderOsint(node);
+}
+
+/* ---------------- OSINT タブ ---------------- */
+
+function renderOsint(node) {
+  if (!ui) return;
+  const pane = ui.paneOsint;
+
+  if (!node) {
+    pane.replaceChildren(el("p", { class: "side-empty", text: "ノードを選ぶと、その値を OSINT サービスに照会できます。" }));
+    return;
+  }
+
+  const value = node.label;
+  const type = node.type;
+  const providers = providersFor(type);
+  const frag = document.createDocumentFragment();
+
+  frag.append(
+    el("h3", { class: "side-h", style: "margin-top:0", text: "照会する値" }),
+    el("p", { class: "side-label", text: value }),
+  );
+
+  if (!providers.length) {
+    frag.append(el("p", { class: "side-empty", text: `${typeLabel(type)} に対応する OSINT サービスはありません。` }));
+    pane.replaceChildren(frag);
+    return;
+  }
+
+  const results = el("div", { class: "osint-results" });
+
+  frag.append(el("h3", { class: "side-h", text: "サービス" }));
+  for (const p of providers) {
+    const row = el("div", { class: "osint-provider" });
+    const state = el("span", { class: "osint-state" });
+
+    const run = el("button", {
+      class: "btn", type: "button", text: "照会",
+      disabled: !p.callable || null,
+      title: p.callable ? null
+        : p.needsRelay ? "このサービスは CORS を許可していないため、中継の設定が必要です"
+        : "API キーが設定されていません",
+      onclick: async () => {
+        run.disabled = true;
+        state.className = "osint-state";
+        state.textContent = "照会中…";
+        try {
+          const out = await lookup(p.id, value, type);
+          state.textContent = "";
+          results.replaceChildren(renderOsintResult(p, out, node));
+        } catch (err) {
+          state.className = "osint-state is-error";
+          state.textContent = err.message;
+        } finally {
+          run.disabled = false;
+        }
+      },
+    });
+
+    row.append(
+      el("span", { class: "osint-name", text: p.label }),
+      run,
+      el("a", {
+        class: "btn", href: p.web(value, type), target: "_blank", rel: "noopener",
+        text: "サイトで開く", title: "キー不要。ブラウザで該当ページを開きます",
+      }),
+    );
+    frag.append(row, state);
+
+    if (!p.hasKey) {
+      frag.append(el("p", { class: "side-empty", text: "API キー未設定（左下の鍵アイコンから設定）" }));
+    } else if (p.needsRelay) {
+      frag.append(el("p", { class: "side-empty", text: "CORS 未対応のため中継が必要（左下の鍵アイコンから設定）" }));
+    }
+  }
+
+  frag.append(results);
+  pane.replaceChildren(frag);
+}
+
+function renderOsintResult(provider, out, node) {
+  const box = el("div", { class: "osint-box" });
+  box.append(el("h3", { class: "side-h", style: "margin-top:0", text: `${provider.label} の結果` }));
+
+  if (out.summary?.length) {
+    const dl = el("dl", { class: "side-attrs" });
+    for (const [k, v] of out.summary) dl.append(el("dt", { text: k }), el("dd", { text: String(v) }));
+    box.append(dl);
+  }
+
+  if (!out.related?.length) {
+    box.append(el("p", { class: "side-empty", text: "グラフに取り込める関連は見つかりませんでした。" }));
+    return box;
+  }
+
+  box.append(el("h3", { class: "side-h", text: `関連 ${out.related.length}` }));
+  const list = el("div", { class: "side-list" });
+  for (const r of out.related) {
+    list.append(el("div", { class: "osint-rel" }, [
+      el("span", { class: "osint-rel-val", text: shorten(r.value, 26), title: `${r.value}（${r.rel}）` }),
+      el("span", { class: "chip", text: typeLabel(r.type) }),
+      el("button", {
+        class: "btn", type: "button", text: "取り込む",
+        onclick: (ev) => {
+          const added = addRelated(node, r);
+          ev.target.textContent = added ? "取り込み済" : "取り込めず";
+          ev.target.disabled = true;
+        },
+      }),
+    ]));
+  }
+  box.append(list);
+  box.append(el("button", {
+    class: "btn", type: "button", style: "margin-top:8px",
+    text: `${out.related.length} 件すべて取り込む`,
+    onclick: (ev) => {
+      let n = 0;
+      for (const r of out.related) if (addRelated(node, r)) n++;
+      ev.target.textContent = `${n} 件を取り込みました`;
+      ev.target.disabled = true;
+      ui.graph.whenSettled({ timeout: 1500 }).then(() => ui?.graph.fit());
+    },
+  }));
+  return box;
+}
+
+/** OSINT で分かった関連を、由来をラベルに残した手動リンクとしてグラフに足す。 */
+function addRelated(node, related) {
+  const res = resolveValue(related.value, { typeHint: related.type });
+  if (!res) return false;
+  let target = null;
+  for (const b of res.matches) target = ui.graph.addRoot(b.source, b.entity);
+  if (!target) return false;
+  ui.graph.linkExisting();
+  ui.graph.addManualEdge(node.id, target.id, related.rel);
+  saveState();
+  return true;
 }
 
 function collectAttrs(node) {

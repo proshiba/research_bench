@@ -1,8 +1,10 @@
 // ポータルの起動・ルーティング・クローム（上部バー / ステータスバー）。
 
+import { loadSettings } from "./osint.js";
 import { getSource, initStore, loadSource, onChange, store } from "./store.js";
 import { el, esc, fmtBytes, fmtNum } from "./util.js";
 import { renderDashboard } from "./view-dashboard.js";
+import { openOsintSettings, osintSummary, osintTooltip } from "./view-osint-settings.js";
 import { renderSearch } from "./view-search.js";
 import { pivotTo, renderWorkbench } from "./view-workbench.js";
 
@@ -21,6 +23,8 @@ const dom = {
   repoBtn: document.getElementById("repoBtn"),
   repoMenu: document.getElementById("repoMenu"),
   themeBtn: document.getElementById("themeBtn"),
+  osintBtn: document.getElementById("osintBtn"),
+  osintDialog: document.getElementById("osintDialog"),
   openExternal: document.getElementById("openExternal"),
 };
 
@@ -174,6 +178,10 @@ function renderStatus() {
   }
 
   bar.append(el("span", { html: `索引 <b>${fmtNum(indexed)}</b> エンティティ` }));
+  bar.append(el("button", {
+    class: "st-link", type: "button", text: osintSummary(), title: osintTooltip(),
+    onclick: () => openOsintSettings(dom.osintDialog),
+  }));
 
   const failed = store.sources.filter((s) => s.status === "error");
   if (failed.length) {
@@ -232,6 +240,7 @@ function initTheme() {
 
 async function boot() {
   initTheme();
+  loadSettings();     // 前回 session/local に置いた OSINT 設定があれば戻す
 
   try {
     await initStore();
@@ -261,6 +270,9 @@ async function boot() {
     dom.ctxMenu.hidden = !open;
     dom.ctxBtn.setAttribute("aria-expanded", String(open));
   });
+
+  dom.osintBtn.addEventListener("click", () => openOsintSettings(dom.osintDialog));
+  dom.osintDialog.addEventListener("close", renderStatus);
 
   dom.repoBtn.addEventListener("click", (ev) => {
     ev.stopPropagation();
