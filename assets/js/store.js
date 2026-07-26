@@ -40,8 +40,36 @@ export async function initStore() {
     limits: [],
     error: null,
   }));
+  // meta.json は小さいので起動時にまとめて取る。deep_links と embed_css が
+  // ダッシュボード表示の時点で要るため、索引の遅延ロードとは切り離す（仕様 §1.1）。
+  await Promise.allSettled(store.sources.map(loadMeta));
   emit();
   return store;
+}
+
+/** ソースの meta.json を読み、apps.json の記述より優先して反映する。 */
+export async function loadMeta(source) {
+  if (!source.meta_url) return null;
+  try {
+    const res = await fetch(source.meta_url, { mode: "cors", credentials: "omit" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const meta = await res.json();
+    source.meta = meta;
+    if (meta.name) source.name = meta.name;
+    if (meta.site_url) source.site_url = meta.site_url;
+    if (meta.deep_links) source.deep_links = { ...(source.deep_links || {}), ...meta.deep_links };
+    if (meta.embed_css && !source.embed_css) source.embed_css = meta.embed_css;
+    if (meta.capabilities) source.capabilities = meta.capabilities;
+    if (meta.stats && source.status !== "ready") source.stats = meta.stats;
+    if (!source.index_url) {
+      source.index_url = resolveUrl(meta.site_url || source.meta_url,
+        meta.endpoints?.search || "api/v1/search.json");
+    }
+    return meta;
+  } catch (err) {
+    console.warn(`[research_bench] ${source.app_id} の meta.json を読めません`, err);
+    return null;
+  }
 }
 
 export function getSource(appId) {
@@ -254,7 +282,7 @@ export function deepLink(entity, kind) {
     detail: entity.detail ?? entity.id,
     id: entity.id,
     value: entity.value,
-    prefix: entity.attrs?._prefix ?? "",
+    prefix: entity.attrs?.prefix ?? entity.attrs?._prefix ?? "",
   };
   return resolveUrl(source.site_url, fillTemplate(tpl, vars));
 }
