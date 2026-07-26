@@ -45,9 +45,25 @@ jobs:
 
       - name: Assemble site
         run: |
+          VER=$(git rev-parse --short HEAD)
+          echo "ビルド識別子: $VER"
           mkdir -p _site
-          cp index.html apps.json _site/
+          cp apps.json _site/
           cp -r assets _site/
+
+          # GitHub Pages は cache-control: max-age=600 を返すため、資産をそのまま
+          # 参照すると新しい index.html と古い JS が混ざり得る。版を付けて防ぐ。
+          sed -e "s|href=\"assets/style.css\"|href=\"assets/style.css?v=$VER\"|" \
+              -e "s|src=\"assets/js/main.js\"|src=\"assets/js/main.js?v=$VER\"|" \
+              -e "s|name=\"rb-build\" content=\"dev\"|name=\"rb-build\" content=\"$VER\"|" \
+              index.html > _site/index.html
+
+          # モジュール間の相対 import にも同じ版を付ける
+          find _site/assets/js -name '*.js' -print0 \
+            | xargs -0 sed -i -E "s|(from \"\./[A-Za-z0-9_.-]+\.js)\"|\1?v=$VER\"|g"
+
+          grep -c "?v=$VER" _site/index.html
+          grep -ho "?v=$VER" _site/assets/js/*.js | wc -l
           mkdir -p _site/docs
           cp -r docs/* _site/docs/
           if [ -d cyberchef/build/prod ]; then
