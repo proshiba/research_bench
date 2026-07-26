@@ -101,6 +101,16 @@
 - `refs[].target` は **同じソース内の `id`**。他ソースの id を書いてはいけない。
 - ソースをまたぐ関係はポータルが `value` の一致から自動生成する（§3）。
 
+`attrs` は自由キーだが、次の 2 つだけ意味が決まっている。
+
+| キー | 型 | 扱い |
+| --- | --- | --- |
+| `attrs.flags` | 文字列の配列 | 検索結果でバッジとして表示する（例 `["kev","exploited"]`）。`kev` と `exploited` は警戒色になる |
+| `attrs.prefix` | 文字列 | `deep_links` のテンプレート変数 `{prefix}` に入る |
+
+`_` で始まるキーはポータルの内部用。producer 側では使わないこと。
+それ以外のキーは「キー名: 値」の形でそのまま表示されるので、**日本語のキー名を推奨**する。
+
 ### 2.1 `type` の語彙
 
 | type | 意味 | `value` の正規化 |
@@ -196,6 +206,19 @@ UI では二重リング・破線エッジ・「ソース横断」バッジで�
   台帳の再生成待ちで、仕様の問題ではない。
 
 ---
+
+## 5.2 適合チェック
+
+生成した 2 ファイルは [`validate-index.py`](validate-index.py) で検査できる。標準ライブラリだけで動く。
+
+```bash
+curl -sO https://raw.githubusercontent.com/proshiba/research_bench/main/docs/validate-index.py
+python3 validate-index.py ui/api/v1/meta.json ui/api/v1/search.json
+```
+
+必須フィールドの欠落、`id` の重複、`refs.target` の解決漏れ、defang されたままの値、
+型ごとの表記ゆれを検出し、エンティティ数・結合キー率・gzip 後のサイズを表示する。
+エラーが 1 件でもあれば終了コード 1 を返すので CI に組み込める。
 
 ## 6. ポータル側の登録
 

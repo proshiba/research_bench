@@ -146,7 +146,7 @@ function hitRow(entity, source, result, onPivot, accent) {
       text: "ソース横断 " + crossed.map((c) => c.source.short || c.source.name).join("/"),
     }));
   }
-  for (const f of entity.attrs?._flags || []) {
+  for (const f of entity.attrs?.flags || entity.attrs?._flags || []) {
     meta.append(el("span", { class: "chip" + (f === "kev" || f === "exploited" ? " is-crit" : ""), text: f.toUpperCase() }));
   }
   if (entity.attrs) {

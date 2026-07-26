@@ -85,6 +85,8 @@ assets/js/
   view-*.js           各モードの描画
   util.js
 docs/portal-spec.md   連携仕様 v1
+docs/validate-index.py  各アプリが自分の索引を検査するためのチェッカー
+docs/agent-prompts/   各アプリへの依頼内容（spec v1 対応）
 docs/mock/            最初に起こした画面イメージ
 cyberchef/            同梱の CyberChef（変換モジュールの引き渡し先）
 ```

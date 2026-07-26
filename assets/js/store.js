@@ -254,7 +254,7 @@ export function deepLink(entity, kind) {
     detail: entity.detail ?? entity.id,
     id: entity.id,
     value: entity.value,
-    prefix: entity.attrs?._prefix ?? "",
+    prefix: entity.attrs?.prefix ?? entity.attrs?._prefix ?? "",
   };
   return resolveUrl(source.site_url, fillTemplate(tpl, vars));
 }
