@@ -1,5 +1,7 @@
 /* research_bench portal
-   クロームは無彩色に徹し、色は「どのソース由来か」の符号化に予約する。 */
+   クロームは無彩色に徹する。
+   ワークベンチの色と形は「エンティティ種別」の符号化に予約し、出典ソースは
+   サイドバーのメタデータ側で示す。ソース色はソース別に並ぶ画面だけで使う。 */
 
 :root {
   --ground: #101319;
@@ -20,6 +22,17 @@
   --src-tool: #4fb8c9;
   --crit: #e5665e;
   --src-manual: #8a93a6;
+  /* エンティティ種別の色（dataviz 検証器で両モード全ペア判定済み）
+     ライト/ダーク共通の1組。詳細は assets/js/util.js の TYPE_GROUPS 参照 */
+  --type-network: #2f8ab1;
+  --type-host:    #3cb12f;
+  --type-file:    #cb2a65;
+  --type-malware: #a87038;
+  --type-actor:   #89419f;
+  --type-vuln:    #2a4fcb;
+  --type-context: #d445d9;
+  --type-other:   #8a93a6;
+
 
   --font-ui: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", Meiryo, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "Cascadia Mono", Menlo, Consolas, "Noto Sans Mono", monospace;
@@ -45,6 +58,17 @@
     --src-actor: #7649bb;
     --src-tool: #1c7d90;
     --src-manual: #6b7383;
+    /* エンティティ種別の色（dataviz 検証器で両モード全ペア判定済み）
+       ライト/ダーク共通の1組。詳細は assets/js/util.js の TYPE_GROUPS 参照 */
+    --type-network: #2f8ab1;
+    --type-host:    #3cb12f;
+    --type-file:    #cb2a65;
+    --type-malware: #a87038;
+    --type-actor:   #89419f;
+    --type-vuln:    #2a4fcb;
+    --type-context: #d445d9;
+    --type-other:   #6b7383;
+
     color-scheme: light;
   }
 }
@@ -67,6 +91,17 @@
   --src-tool: #4fb8c9;
   --crit: #e5665e;
   --src-manual: #8a93a6;
+  /* エンティティ種別の色（dataviz 検証器で両モード全ペア判定済み）
+     ライト/ダーク共通の1組。詳細は assets/js/util.js の TYPE_GROUPS 参照 */
+  --type-network: #2f8ab1;
+  --type-host:    #3cb12f;
+  --type-file:    #cb2a65;
+  --type-malware: #a87038;
+  --type-actor:   #89419f;
+  --type-vuln:    #2a4fcb;
+  --type-context: #d445d9;
+  --type-other:   #8a93a6;
+
   color-scheme: dark;
 }
 
@@ -88,6 +123,17 @@
   --src-tool: #1c7d90;
   --crit: #c0392b;
   --src-manual: #6b7383;
+  /* エンティティ種別の色（dataviz 検証器で両モード全ペア判定済み）
+     ライト/ダーク共通の1組。詳細は assets/js/util.js の TYPE_GROUPS 参照 */
+  --type-network: #2f8ab1;
+  --type-host:    #3cb12f;
+  --type-file:    #cb2a65;
+  --type-malware: #a87038;
+  --type-actor:   #89419f;
+  --type-vuln:    #2a4fcb;
+  --type-context: #d445d9;
+  --type-other:   #6b7383;
+
   color-scheme: light;
 }
 
@@ -783,9 +829,46 @@ a { color: inherit; }
   z-index: 5;
 }
 
-.lg { display: flex; align-items: center; gap: 6px; color: var(--ink-dim); }
+.lg { display: flex; align-items: center; gap: 5px; color: var(--ink-dim); }
 .lg i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-.lg.is-line i { width: 14px; height: 0; border-radius: 0; border-top: 1px dashed currentColor; }
+.lg .glyph { flex: none; }
+
+/* 索引に裏付けが無い手動ノード（破線の輪郭） */
+.lg.is-dashed i {
+  width: 11px;
+  height: 11px;
+  background: none;
+  border: 1.2px dashed currentColor;
+  border-radius: 50%;
+}
+
+/* 複数ソースに畳まれた実体を示す外側リング */
+.lg.is-ring i {
+  width: 11px;
+  height: 11px;
+  background: none;
+  border: 1px dashed currentColor;
+}
+
+/* 手動リンク（矢羽つきの実線） */
+.lg.is-arrow i {
+  position: relative;
+  width: 15px;
+  height: 0;
+  border-radius: 0;
+  background: none;
+  border-top: 1.6px solid currentColor;
+}
+
+.lg.is-arrow i::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -3px;
+  border: 3px solid transparent;
+  border-left-color: currentColor;
+  border-right: 0;
+}
 
 .wb-side {
   border-left: 1px solid var(--line);
@@ -815,7 +898,9 @@ a { color: inherit; }
 .tabpane[hidden] { display: none; }
 
 .side-type {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: .08em;
@@ -876,6 +961,45 @@ a { color: inherit; }
 }
 
 .side-rel:hover { background: var(--surface-3); }
+
+/* 手動リンクは自分で書いた注記なので、名前を直せて消せる */
+.side-rel.is-manual {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) auto;
+  gap: 6px;
+  align-items: center;
+  cursor: default;
+  border-left: 2px solid var(--focus);
+  padding-left: 5px;
+}
+
+.rel-edit {
+  min-width: 0;
+  padding: 2px 5px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-dim);
+}
+
+.rel-edit:focus { outline: 0; border-color: var(--focus); color: var(--ink); }
+
+.rel-go {
+  min-width: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  text-align: left;
+  font-size: 12px;
+  color: var(--ink-dim);
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rel-go:hover { color: var(--ink); text-decoration: underline; }
 .side-rel em { font-style: normal; font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint); }
 .side-rel span { color: var(--ink-dim); word-break: break-all; }
 

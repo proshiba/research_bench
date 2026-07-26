@@ -1,11 +1,12 @@
 // ワークベンチのグラフ。外部ライブラリなしの力学レイアウト + Canvas 描画。
 //
-// 1 ノード = 1 実体。同じ結合キーを持つ別ソースのエンティティは同じノードに畳み、
-// 二重リングで「ソース横断」を示す。これがポータルの中心的な価値なので目立たせる。
+// 1 ノード = 1 実体。同じ結合キーを持つ別ソースのエンティティは同じノードに畳む。
+// ノードの色と形は「エンティティ種別」で決まる（出典ソースではない）。
+// ソース横断で畳まれた実体は外側の破線リングで示し、出典はサイドバーに出す。
 
 import { getAdapter } from "./adapters.js";
 import { getSource, store } from "./store.js";
-import { joinKey } from "./util.js";
+import { TYPE_GROUPS, joinKey, typeGroup } from "./util.js";
 
 const REPULSION = 4200;
 const REST_LENGTH = 112;
@@ -47,6 +48,8 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
   let alpha = 1, raf = null;
   let selectedId = null, hoverId = null;
   let dragNode = null, panning = null, moved = false;
+  let linking = null;        // ドラッグ中の手動リンク { from, wx, wy, target }
+  let pendingLink = null;    // ボタン起動の手動リンク（次にクリックしたノードへ張る）
   let theme = {};
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -87,6 +90,57 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
       if (entity.label.length < node.label.length) node.label = entity.label;
     }
     return { node, created, joined: !created && node.sources.size > sourcesBefore };
+  }
+
+  /** ユーザーが自分で張るリンク。ソース由来の辺と区別して保持する。 */
+  function addManualEdge(fromId, toId, rel = "手動リンク") {
+    if (fromId === toId) return null;
+    const e = addEdge(fromId, toId, rel);
+    if (!e) return null;
+    e.manual = true;
+    e.from = fromId;
+    alpha = Math.max(alpha, 0.3);
+    kick();
+    notify();
+    return e;
+  }
+
+  /** ボタンからのリンク開始。次にクリックしたノードへ張る（マウス以外でも張れるように）。 */
+  function beginLink(nodeId) {
+    pendingLink = nodes.has(nodeId) ? nodeId : null;
+    canvas.style.cursor = pendingLink ? "crosshair" : "grab";
+    draw();
+    return !!pendingLink;
+  }
+
+  function cancelLink() {
+    pendingLink = null;
+    linking = null;
+    canvas.style.cursor = "grab";
+    draw();
+  }
+
+  /** ノードの画面座標。UI テストから位置を知るために使う。 */
+  function screenOf(nodeId) {
+    const n = nodes.get(nodeId);
+    if (!n) return null;
+    const [sx, sy] = toScreen(n.x, n.y);
+    return { x: sx, y: sy, r: radius(n) * view.k };
+  }
+
+  function removeEdge(edgeId) {
+    if (!edges.delete(edgeId)) return;
+    recountDegrees();
+    draw();
+    onMutate?.();
+  }
+
+  function setEdgeRel(edgeId, rel) {
+    const e = edges.get(edgeId);
+    if (!e) return;
+    e.rels = new Set([rel || "手動リンク"]);
+    draw();
+    onMutate?.();
   }
 
   function addEdge(aId, bId, rel, cross = false) {
@@ -304,10 +358,30 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
 
   /* ---------------- 描画 ---------------- */
 
-  const SOURCE_VAR = {
-    mal: "--src-mal", vuln: "--src-vuln", actor: "--src-actor",
-    tool: "--src-tool", manual: "--src-manual",
-  };
+  /** 種別グループごとの輪郭。色だけに頼らないための二次符号化。 */
+  function shapePath(shape, x, y, r) {
+    const poly = (n, rot, rad) => {
+      for (let i = 0; i < n; i++) {
+        const a = rot + (i / n) * Math.PI * 2;
+        const px = x + Math.cos(a) * rad, py = y + Math.sin(a) * rad;
+        if (i) ctx.lineTo(px, py); else ctx.moveTo(px, py);
+      }
+      ctx.closePath();
+    };
+    ctx.beginPath();
+    switch (shape) {
+      case "square": ctx.rect(x - r * 0.86, y - r * 0.86, r * 1.72, r * 1.72); break;
+      case "roundsquare":
+        if (ctx.roundRect) ctx.roundRect(x - r * 0.86, y - r * 0.86, r * 1.72, r * 1.72, r * 0.42);
+        else ctx.rect(x - r * 0.86, y - r * 0.86, r * 1.72, r * 1.72);
+        break;
+      case "diamond": poly(4, -Math.PI / 2, r * 1.18); break;
+      case "triangle": poly(3, -Math.PI / 2, r * 1.22); break;
+      case "pentagon": poly(5, -Math.PI / 2, r * 1.1); break;
+      case "hexagon": poly(6, -Math.PI / 2, r * 1.08); break;
+      default: ctx.arc(x, y, r, 0, Math.PI * 2);
+    }
+  }
 
   function readTheme() {
     const cs = getComputedStyle(document.documentElement);
@@ -318,21 +392,48 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
       faint: cs.getPropertyValue("--ink-faint").trim(),
       focus: cs.getPropertyValue("--focus").trim(),
       surface: cs.getPropertyValue("--surface").trim(),
-      accents: Object.fromEntries(
-        Object.entries(SOURCE_VAR).map(([k, v]) => [k, cs.getPropertyValue(v).trim()])),
+      types: Object.fromEntries(Object.entries(TYPE_GROUPS)
+        .map(([k, g]) => [k, cs.getPropertyValue(g.color).trim()])),
     };
   }
 
-  let accentOf = () => theme.dim;
-  function setAccentResolver(fn) { accentOf = fn; }
-
-  function nodeColors(n) {
-    const list = [...n.sources].map((appId) => theme.accents[accentOf(appId)] || theme.dim);
-    return list.length ? list : [theme.dim];
+  // 色と形は種別だけで決まる。出所（索引由来か手動追加か）は輪郭の実線/破線で示す。
+  function nodeColor(n) { return theme.types[typeGroup(n.type)] || theme.dim; }
+  function nodeShape(n) { return TYPE_GROUPS[typeGroup(n.type)]?.shape || "circle"; }
+  function isManualOnly(n) {
+    return n.members.length > 0 && n.members.every((m) => m.source.app_id === "__manual");
   }
 
   function toScreen(x, y) { return [x * view.k + view.tx, y * view.k + view.ty]; }
   function toWorld(sx, sy) { return [(sx - view.tx) / view.k, (sy - view.ty) / view.k]; }
+
+  /** 線の先端に矢羽を描く。手動リンクの向きを示すため。 */
+  function arrowHead(fromX, fromY, toX, toY, radius, color) {
+    const ang = Math.atan2(toY - fromY, toX - fromX);
+    const tipX = toX - Math.cos(ang) * radius;
+    const tipY = toY - Math.sin(ang) * radius;
+    const len = 9 / view.k, spread = 0.42;
+    ctx.beginPath();
+    ctx.moveTo(tipX, tipY);
+    ctx.lineTo(tipX - Math.cos(ang - spread) * len, tipY - Math.sin(ang - spread) * len);
+    ctx.lineTo(tipX - Math.cos(ang + spread) * len, tipY - Math.sin(ang + spread) * len);
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  function edgeLabel(text, mx, my) {
+    const label = text.length > 20 ? text.slice(0, 19) + "…" : text;
+    if (!label) return;
+    ctx.font = `${11 / view.k}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    const tw = ctx.measureText(label).width;
+    ctx.fillStyle = theme.surface;
+    ctx.fillRect(mx - tw / 2 - 3 / view.k, my - 7 / view.k, tw + 6 / view.k, 14 / view.k);
+    ctx.fillStyle = theme.dim;
+    ctx.fillText(label, mx, my);
+  }
 
   function draw() {
     if (!W || !H) return;
@@ -349,42 +450,55 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
       const a = nodes.get(e.a), b = nodes.get(e.b);
       if (!a || !b) continue;
       const lit = selectedId && (e.a === selectedId || e.b === selectedId);
+
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
       ctx.lineTo(b.x, b.y);
-      ctx.lineWidth = (lit ? 1.7 : 1) / view.k;
-      ctx.setLineDash(e.cross ? [5 / view.k, 4 / view.k] : []);
-      ctx.strokeStyle = e.cross ? theme.focus : theme.line;
-      ctx.globalAlpha = lit ? 1 : e.cross ? 0.9 : 0.65;
+      ctx.lineWidth = (e.manual ? 1.8 : lit ? 1.7 : 1) / view.k;
+      ctx.setLineDash(e.cross && !e.manual ? [5 / view.k, 4 / view.k] : []);
+      ctx.strokeStyle = e.manual || e.cross ? theme.focus : theme.line;
+      ctx.globalAlpha = e.manual ? 1 : lit ? 1 : e.cross ? 0.9 : 0.65;
       ctx.stroke();
       ctx.setLineDash([]);
       ctx.globalAlpha = 1;
 
-      // 選択ノードの次数が多いとラベルが重なって読めなくなるので、少ないときだけ出す
-      if (lit && view.k > 0.55 && labelledDegree <= 8) {
-        const first = [...e.rels][0] || "";
-        const label = first.length > 20 ? first.slice(0, 19) + "…" : first;
-        if (label) {
-          const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
-          ctx.font = `${11 / view.k}px ui-monospace, SFMono-Regular, Menlo, monospace`;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          const tw = ctx.measureText(label).width;
-          ctx.fillStyle = theme.surface;
-          ctx.fillRect(mx - tw / 2 - 3 / view.k, my - 7 / view.k, tw + 6 / view.k, 14 / view.k);
-          ctx.fillStyle = theme.dim;
-          ctx.fillText(label, mx, my);
-        }
+      // 手動リンクは向きが意味を持つので矢羽を出し、ラベルも常に見せる
+      if (e.manual) {
+        const from = nodes.get(e.from) === a ? a : b;
+        const to = from === a ? b : a;
+        arrowHead(from.x, from.y, to.x, to.y, radius(to) + 2 / view.k, theme.focus);
+        if (view.k > 0.5) edgeLabel([...e.rels][0] || "手動リンク", (a.x + b.x) / 2, (a.y + b.y) / 2);
+      } else if (lit && view.k > 0.55 && labelledDegree <= 8) {
+        // 選択ノードの次数が多いとラベルが重なって読めなくなるので、少ないときだけ出す
+        edgeLabel([...e.rels][0] || "", (a.x + b.x) / 2, (a.y + b.y) / 2);
       }
+    }
+
+    // 引きかけの手動リンク
+    if (linking) {
+      const from = linking.from;
+      const tx = linking.target ? linking.target.x : linking.wx;
+      const ty = linking.target ? linking.target.y : linking.wy;
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y);
+      ctx.lineTo(tx, ty);
+      ctx.lineWidth = 1.8 / view.k;
+      ctx.setLineDash(linking.target ? [] : [6 / view.k, 4 / view.k]);
+      ctx.strokeStyle = theme.focus;
+      ctx.stroke();
+      ctx.setLineDash([]);
+      arrowHead(from.x, from.y, tx, ty, linking.target ? radius(linking.target) + 2 / view.k : 0, theme.focus);
     }
 
     for (const n of nodes.values()) {
       const r = radius(n);
-      const colors = nodeColors(n);
+      const color = nodeColor(n);
+      const shape = nodeShape(n);
+      const manualOnly = isManualOnly(n);
       const isSel = n.id === selectedId;
-      const isHov = n.id === hoverId;
+      const isHov = n.id === hoverId || n === linking?.target;
 
-      if (isSel) {
+      if (isSel || n === linking?.target || n.id === pendingLink) {
         ctx.beginPath();
         ctx.arc(n.x, n.y, r + 8, 0, Math.PI * 2);
         ctx.fillStyle = theme.focus;
@@ -393,30 +507,32 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
         ctx.globalAlpha = 1;
       }
 
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
-      ctx.fillStyle = colors[0];
-      ctx.globalAlpha = isSel || isHov ? 0.36 : 0.2;
+      shapePath(shape, n.x, n.y, r);
+      ctx.fillStyle = color;
+      ctx.globalAlpha = manualOnly ? 0.09 : isSel || isHov ? 0.36 : 0.2;
       ctx.fill();
       ctx.globalAlpha = 1;
       ctx.lineWidth = (isSel ? 2.4 : 1.6) / view.k;
-      ctx.strokeStyle = colors[0];
+      ctx.strokeStyle = color;
+      // 索引に裏付けが無い手動ノードは破線にして、事実と仮説を見分けられるようにする
+      if (manualOnly) ctx.setLineDash([3.5 / view.k, 2.5 / view.k]);
       ctx.stroke();
+      ctx.setLineDash([]);
 
-      // 2 ソース以上に存在する実体は二重リングにする
-      for (let i = 1; i < colors.length; i++) {
+      // 複数ソースに畳まれた実体は外側の破線リングで示す（色は種別に使うため）
+      if (n.sources.size > 1) {
         ctx.beginPath();
-        ctx.arc(n.x, n.y, r + 3.5 * i, 0, Math.PI * 2);
+        ctx.arc(n.x, n.y, r + 4.5, 0, Math.PI * 2);
         ctx.lineWidth = 1.2 / view.k;
         ctx.setLineDash([3 / view.k, 3 / view.k]);
-        ctx.strokeStyle = colors[i];
+        ctx.strokeStyle = theme.focus;
         ctx.stroke();
         ctx.setLineDash([]);
       }
 
       if (!n.expanded) {
         ctx.beginPath();
-        ctx.arc(n.x + r * 0.72, n.y - r * 0.72, 2.6 / view.k, 0, Math.PI * 2);
+        ctx.arc(n.x + r * 0.78, n.y - r * 0.78, 2.6 / view.k, 0, Math.PI * 2);
         ctx.fillStyle = theme.focus;
         ctx.fill();
       }
@@ -427,7 +543,7 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
         ctx.fillStyle = isSel || isHov ? theme.ink : theme.dim;
-        ctx.fillText(label, n.x, n.y + r + 5 / view.k);
+        ctx.fillText(label, n.x, n.y + r + 6 / view.k);
       }
     }
 
@@ -477,12 +593,14 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
       minX = Math.min(minX, n.x); maxX = Math.max(maxX, n.x);
       minY = Math.min(minY, n.y); maxY = Math.max(maxY, n.y);
     }
-    const pad = 70;
-    const k = Math.min(2, Math.max(0.25,
-      Math.min((W - pad * 2) / Math.max(1, maxX - minX), (H - pad * 2) / Math.max(1, maxY - minY))));
+    // 下辺は凡例が重なるので余白を多めに取る
+    const padX = 70, padTop = 60, padBottom = 96;
+    const k = Math.min(2, Math.max(0.25, Math.min(
+      (W - padX * 2) / Math.max(1, maxX - minX),
+      (H - padTop - padBottom) / Math.max(1, maxY - minY))));
     view.k = k;
     view.tx = W / 2 - ((minX + maxX) / 2) * k;
-    view.ty = H / 2 - ((minY + maxY) / 2) * k;
+    view.ty = (padTop + (H - padBottom)) / 2 - ((minY + maxY) / 2) * k;
     draw();
   }
 
@@ -519,6 +637,27 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
     const n = pick(wx, wy);
     moved = false;
     canvas.setPointerCapture(ev.pointerId);
+
+    // ボタンでリンク待ちのときは、次のクリックが相手の指定になる
+    if (pendingLink && n && n.id !== pendingLink) {
+      const from = nodes.get(pendingLink);
+      pendingLink = null;
+      canvas.style.cursor = "grab";
+      addManualEdge(from.id, n.id);
+      onStatus?.({ message: `${from.label} → ${n.label} にリンクを張りました` });
+      return;
+    }
+
+    // Ctrl（Mac は Cmd）を押しながらノードから引くと手動リンクになる
+    if (n && (ev.ctrlKey || ev.metaKey)) {
+      ev.preventDefault();
+      linking = { from: n, wx, wy, target: null };
+      select(n.id);
+      onStatus?.({ message: `${n.label} からリンクを引いています — 相手のノードで離してください（Esc で取り消し）` });
+      draw();
+      return;
+    }
+
     if (n) {
       dragNode = n;
       select(n.id);
@@ -530,6 +669,15 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
   });
 
   canvas.addEventListener("pointermove", (ev) => {
+    if (linking) {
+      const [wx, wy] = pointer(ev);
+      linking.wx = wx; linking.wy = wy;
+      const hit = pick(wx, wy);
+      linking.target = hit && hit !== linking.from ? hit : null;
+      canvas.style.cursor = linking.target ? "alias" : "crosshair";
+      draw();
+      return;
+    }
     if (dragNode) {
       const [wx, wy] = pointer(ev);
       dragNode.x = wx; dragNode.y = wy;
@@ -556,6 +704,19 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
   });
 
   function endPointer() {
+    if (linking) {
+      const { from, target } = linking;
+      linking = null;
+      canvas.style.cursor = "grab";
+      if (target) {
+        addManualEdge(from.id, target.id);
+        onStatus?.({ message: `${from.label} → ${target.label} にリンクを張りました` });
+      } else {
+        onStatus?.({ message: "リンクを取り消しました（相手のノード上で離してください）" });
+      }
+      draw();
+      return;
+    }
     if (dragNode && moved) dragNode.pinned = true;
     const changed = moved && (dragNode || panning);
     dragNode = null;
@@ -567,6 +728,13 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
   canvas.addEventListener("pointerup", endPointer);
   canvas.addEventListener("pointercancel", endPointer);
   canvas.addEventListener("pointerleave", () => { hoverId = null; draw(); });
+
+  window.addEventListener("keydown", (ev) => {
+    if (ev.key === "Escape" && (linking || pendingLink)) {
+      cancelLink();
+      onStatus?.({ message: "リンクを取り消しました" });
+    }
+  });
 
   canvas.addEventListener("dblclick", (ev) => {
     const [wx, wy] = pointer(ev);
@@ -617,14 +785,19 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
   /** 別画面に移ったりリロードしても復元できるよう、グラフの状態を書き出す。 */
   function serialize() {
     return {
-      v: 1,
+      v: 2,
       nodes: [...nodes.values()].map((n) => ({
         id: n.id,
         x: Math.round(n.x), y: Math.round(n.y),
         pinned: !!n.pinned, expanded: !!n.expanded,
         m: n.members.map((m) => [m.source.app_id, m.entity.id]),
       })),
-      edges: [...edges.values()].map((e) => [e.a, e.b, [...e.rels], e.cross ? 1 : 0]),
+      edges: [...edges.values()].map((e) => ({
+        a: e.a, b: e.b, rels: [...e.rels],
+        cross: e.cross ? 1 : 0,
+        manual: e.manual ? 1 : 0,
+        from: e.manual ? e.from : undefined,
+      })),
       view: { k: view.k, tx: view.tx, ty: view.ty },
       selected: selectedId,
     };
@@ -632,7 +805,7 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
 
   /** serialize() の出力から復元する。ソースが読み込み済みである必要がある。 */
   function restore(snap) {
-    if (!snap || snap.v !== 1) return 0;
+    if (!snap || (snap.v !== 1 && snap.v !== 2)) return 0;
     nodes.clear();
     edges.clear();
     selectedId = null;
@@ -654,10 +827,19 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
       restored++;
     }
 
-    for (const [a, b, rels, cross] of snap.edges || []) {
-      if (!nodes.has(a) || !nodes.has(b)) continue;
-      const edge = addEdge(a, b, null, !!cross);
-      if (edge) for (const r of rels || []) edge.rels.add(r);
+    for (const raw of snap.edges || []) {
+      // v1 は配列、v2 はオブジェクト
+      const e = Array.isArray(raw)
+        ? { a: raw[0], b: raw[1], rels: raw[2], cross: raw[3] }
+        : raw;
+      if (!nodes.has(e.a) || !nodes.has(e.b)) continue;
+      const edge = addEdge(e.a, e.b, null, !!e.cross);
+      if (!edge) continue;
+      for (const r of e.rels || []) edge.rels.add(r);
+      if (e.manual) {
+        edge.manual = true;
+        edge.from = nodes.has(e.from) ? e.from : e.a;
+      }
     }
 
     if (snap.view) { view.k = snap.view.k ?? 1; view.tx = snap.view.tx ?? 0; view.ty = snap.view.ty ?? 0; }
@@ -670,8 +852,10 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
   }
 
   return {
-    addRoot, addEntity, addEdge, expand, remove, keepOnly, clear, select, fit, relayout, resize,
-    linkExisting, setAccentResolver, whenSettled, serialize, restore,
+    addRoot, addEntity, addEdge, addManualEdge, removeEdge, setEdgeRel,
+    beginLink, cancelLink, screenOf,
+    expand, remove, keepOnly, clear, select, fit, relayout, resize,
+    linkExisting, whenSettled, serialize, restore,
     exportPng: () => canvas.toDataURL("image/png"),
     get nodes() { return nodes; },
     get edges() { return edges; },
