@@ -19,6 +19,7 @@
   --src-actor: #b48ae0;
   --src-tool: #4fb8c9;
   --crit: #e5665e;
+  --src-manual: #8a93a6;
 
   --font-ui: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", Meiryo, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "Cascadia Mono", Menlo, Consolas, "Noto Sans Mono", monospace;
@@ -43,7 +44,7 @@
     --src-vuln: #a8721a;
     --src-actor: #7649bb;
     --src-tool: #1c7d90;
-    --crit: #c0392b;
+    --src-manual: #6b7383;
     color-scheme: light;
   }
 }
@@ -65,6 +66,7 @@
   --src-actor: #b48ae0;
   --src-tool: #4fb8c9;
   --crit: #e5665e;
+  --src-manual: #8a93a6;
   color-scheme: dark;
 }
 
@@ -85,6 +87,7 @@
   --src-actor: #7649bb;
   --src-tool: #1c7d90;
   --crit: #c0392b;
+  --src-manual: #6b7383;
   color-scheme: light;
 }
 
@@ -118,6 +121,7 @@ a { color: inherit; }
 .accent-vuln { color: var(--src-vuln); }
 .accent-actor { color: var(--src-actor); }
 .accent-tool { color: var(--src-tool); }
+.accent-manual { color: var(--src-manual); }
 
 /* ---------------- shell ---------------- */
 
@@ -288,6 +292,20 @@ a { color: inherit; }
 }
 
 .search:focus-within { border-color: var(--focus); }
+
+/* ワークベンチではグラフ内の操作と紛れるため、既定で虫眼鏡だけに縮める */
+.search.is-compact {
+  flex: 0 0 auto;
+  width: 44px;
+  padding: 0;
+  justify-content: center;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.search.is-compact:hover { border-color: var(--ink-faint); }
+.search.is-compact input,
+.search.is-compact kbd { display: none; }
 .search > svg { width: 15px; height: 15px; color: var(--ink-faint); flex: none; }
 
 .search input {
@@ -594,9 +612,142 @@ a { color: inherit; }
 .wb {
   height: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
+  grid-template-columns: auto minmax(0, 1fr) 300px;
   min-height: 0;
 }
+
+/* ---------------- 調査対象トレイ ---------------- */
+
+.wb-tray {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  width: 242px;
+  min-height: 0;
+  background: var(--surface-2);
+  border-right: 1px solid var(--line);
+  transition: width .16s ease;
+}
+
+.wb-tray[data-collapsed="true"] { width: 30px; }
+.wb-tray[data-collapsed="true"] .tray-body { display: none; }
+
+.tray-body {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+  padding: 12px 10px;
+  gap: 9px;
+}
+
+.tray-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 4px;
+  border-left: 1px solid var(--line-soft);
+}
+
+.wb-tray[data-collapsed="true"] .tray-rail { border-left: 0; }
+
+.tray-toggle {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink-faint);
+  cursor: pointer;
+}
+
+.tray-toggle:hover { color: var(--ink); border-color: var(--ink-faint); }
+.tray-toggle svg { width: 10px; height: 10px; }
+
+/* 折りたたみ中は中身が見えないので、件数だけ残して「隠れている」ことを示す */
+.wb-tray[data-collapsed="false"] .tray-count { display: none; }
+
+.tray-count {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-dim);
+  background: var(--surface-3);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  user-select: none;
+}
+
+.tray-count:empty { display: none; }
+
+.tray-add { display: flex; gap: 5px; min-width: 0; }
+.tray-add .btn { flex: 0 0 auto; padding: 5px 8px; font-size: 11px; }
+
+.tray-add input {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 7px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.tray-add input:focus { outline: 0; border-color: var(--focus); }
+
+.tray-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 0;
+}
+
+.tray-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 6px;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-left: 2px solid currentColor;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.tray-item:hover { border-color: var(--ink-faint); }
+.tray-item[aria-current="true"] { border-color: var(--focus); }
+.tray-item-val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tray-item-meta { font-size: 10px; color: var(--ink-faint); }
+.tray-del {
+  background: none;
+  border: 0;
+  padding: 0 2px;
+  color: var(--ink-faint);
+  cursor: pointer;
+  line-height: 1;
+  font-size: 13px;
+}
+.tray-del:hover { color: var(--crit); }
+.tray-empty { font-size: 11px; line-height: 1.7; color: var(--ink-faint); }
 
 .wb-canvas-wrap { position: relative; min-width: 0; min-height: 0; }
 .wb-canvas-wrap canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: none; }
@@ -882,7 +1033,9 @@ a { color: inherit; }
 /* ---------------- responsive ---------------- */
 
 @media (max-width: 900px) {
-  .wb { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) minmax(0, 42%); }
+  .wb { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr) minmax(0, 42%); }
+  .wb-tray, .wb-tray[data-collapsed="true"] { width: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+  .tray-body { grid-template-rows: auto auto auto; max-height: 190px; }
   .wb-side { border-left: 0; border-top: 1px solid var(--line); }
   .hit { grid-template-columns: 92px minmax(0, 1fr); }
   .hit-acts { grid-column: 1 / -1; }

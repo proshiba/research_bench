@@ -109,8 +109,16 @@ function updateTopbar() {
     dom.ctxSlug.textContent = state.route === "search" ? "統合インデックス" : "統合グラフ";
     dom.openExternal.hidden = true;
   }
+  // ワークベンチではグラフ内の操作と紛れやすいので、検索窓は虫眼鏡だけに縮めておく
+  setSearchCompact(state.route === "workbench" && !dom.q.value.trim());
+
   buildAppMenu();
   closeMenus();
+}
+
+function setSearchCompact(compact) {
+  dom.searchForm.classList.toggle("is-compact", compact);
+  dom.searchForm.title = compact ? "クリックして全ソース横断検索" : "";
 }
 
 function buildAppMenu() {
@@ -271,6 +279,7 @@ async function boot() {
     if (ev.key === "Escape") closeMenus();
     if (ev.key === "/" && document.activeElement !== dom.q) {
       ev.preventDefault();
+      setSearchCompact(false);
       dom.q.focus();
       dom.q.select();
     }
@@ -279,6 +288,17 @@ async function boot() {
   dom.searchForm.addEventListener("submit", (ev) => {
     ev.preventDefault();
     setHash("search", dom.q.value.trim());
+  });
+
+  dom.searchForm.addEventListener("click", () => {
+    if (!dom.searchForm.classList.contains("is-compact")) return;
+    setSearchCompact(false);
+    dom.q.focus();
+  });
+
+  dom.q.addEventListener("focus", () => setSearchCompact(false));
+  dom.q.addEventListener("blur", () => {
+    if (state.route === "workbench" && !dom.q.value.trim()) setSearchCompact(true);
   });
 
   addEventListener("hashchange", render);

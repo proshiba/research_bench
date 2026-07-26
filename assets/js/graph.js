@@ -4,7 +4,7 @@
 // 二重リングで「ソース横断」を示す。これがポータルの中心的な価値なので目立たせる。
 
 import { getAdapter } from "./adapters.js";
-import { store } from "./store.js";
+import { getSource, store } from "./store.js";
 import { joinKey } from "./util.js";
 
 const REPULSION = 4200;
@@ -37,7 +37,7 @@ function nodeKeyFor(source, entity) {
   return k ? `k:${entity.type}:${k}` : `e:${source.app_id}:${entity.id}`;
 }
 
-export function createGraph(canvas, { onSelect, onStatus } = {}) {
+export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
   const ctx = canvas.getContext("2d");
   const nodes = new Map();   // nodeId → node
   const edges = new Map();   // edgeId → edge
@@ -249,6 +249,7 @@ export function createGraph(canvas, { onSelect, onStatus } = {}) {
 
   function notify() {
     onSelect?.(selectedId ? nodes.get(selectedId) : null, { nodes: nodes.size, edges: edges.size });
+    onMutate?.();
   }
 
   function select(nodeId) {
@@ -303,7 +304,10 @@ export function createGraph(canvas, { onSelect, onStatus } = {}) {
 
   /* ---------------- 描画 ---------------- */
 
-  const SOURCE_VAR = { mal: "--src-mal", vuln: "--src-vuln", actor: "--src-actor", tool: "--src-tool" };
+  const SOURCE_VAR = {
+    mal: "--src-mal", vuln: "--src-vuln", actor: "--src-actor",
+    tool: "--src-tool", manual: "--src-manual",
+  };
 
   function readTheme() {
     const cs = getComputedStyle(document.documentElement);
@@ -553,9 +557,11 @@ export function createGraph(canvas, { onSelect, onStatus } = {}) {
 
   function endPointer() {
     if (dragNode && moved) dragNode.pinned = true;
+    const changed = moved && (dragNode || panning);
     dragNode = null;
     panning = null;
     kick();
+    if (changed) onMutate?.();
   }
 
   canvas.addEventListener("pointerup", endPointer);
@@ -608,9 +614,64 @@ export function createGraph(canvas, { onSelect, onStatus } = {}) {
   });
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => draw());
 
+  /** 別画面に移ったりリロードしても復元できるよう、グラフの状態を書き出す。 */
+  function serialize() {
+    return {
+      v: 1,
+      nodes: [...nodes.values()].map((n) => ({
+        id: n.id,
+        x: Math.round(n.x), y: Math.round(n.y),
+        pinned: !!n.pinned, expanded: !!n.expanded,
+        m: n.members.map((m) => [m.source.app_id, m.entity.id]),
+      })),
+      edges: [...edges.values()].map((e) => [e.a, e.b, [...e.rels], e.cross ? 1 : 0]),
+      view: { k: view.k, tx: view.tx, ty: view.ty },
+      selected: selectedId,
+    };
+  }
+
+  /** serialize() の出力から復元する。ソースが読み込み済みである必要がある。 */
+  function restore(snap) {
+    if (!snap || snap.v !== 1) return 0;
+    nodes.clear();
+    edges.clear();
+    selectedId = null;
+    let restored = 0;
+
+    for (const sn of snap.nodes || []) {
+      let node = null;
+      for (const [appId, entId] of sn.m || []) {
+        const src = getSource(appId);
+        const entity = src?.byId?.get(entId);
+        if (!entity) continue;
+        node = addEntityInfo(src, entity, { x: sn.x, y: sn.y }).node;
+      }
+      if (!node) continue;              // ソース側から消えた実体は黙って落とす
+      node.x = sn.x; node.y = sn.y;
+      node.vx = 0; node.vy = 0;
+      node.pinned = !!sn.pinned;
+      node.expanded = !!sn.expanded;
+      restored++;
+    }
+
+    for (const [a, b, rels, cross] of snap.edges || []) {
+      if (!nodes.has(a) || !nodes.has(b)) continue;
+      const edge = addEdge(a, b, null, !!cross);
+      if (edge) for (const r of rels || []) edge.rels.add(r);
+    }
+
+    if (snap.view) { view.k = snap.view.k ?? 1; view.tx = snap.view.tx ?? 0; view.ty = snap.view.ty ?? 0; }
+    if (snap.selected && nodes.has(snap.selected)) selectedId = snap.selected;
+    recountDegrees();
+    alpha = 0.05;                        // 位置は保存値を尊重し、揺らさない
+    draw();
+    notify();
+    return restored;
+  }
+
   return {
     addRoot, addEntity, addEdge, expand, remove, keepOnly, clear, select, fit, relayout, resize,
-    linkExisting, setAccentResolver, whenSettled,
+    linkExisting, setAccentResolver, whenSettled, serialize, restore,
     exportPng: () => canvas.toDataURL("image/png"),
     get nodes() { return nodes; },
     get edges() { return edges; },

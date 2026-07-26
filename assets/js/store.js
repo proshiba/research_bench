@@ -3,7 +3,7 @@
 // ソースは互いを知らない。横串はここで `joinKey` の一致から作る（仕様 §3）。
 
 import { getAdapter } from "./adapters.js";
-import { detectType, fillTemplate, joinKey, resolveUrl } from "./util.js";
+import { detectType, fillTemplate, joinKey, refang, resolveUrl } from "./util.js";
 
 const listeners = new Set();
 
@@ -72,8 +72,82 @@ export async function loadMeta(source) {
   }
 }
 
+/** 手動追加ノード用の疑似ソース。アプリ一覧やステータスバーには出さない。 */
+export const MANUAL_APP_ID = "__manual";
+
+store.manual = {
+  app_id: MANUAL_APP_ID,
+  name: "手動追加",
+  short: "手動",
+  accent: "manual",
+  adapter: "spec-v1",
+  status: "ready",
+  entities: [],
+  byId: new Map(),
+  deep_links: {},
+  stats: {},
+  limits: [],
+};
+
 export function getSource(appId) {
+  if (appId === MANUAL_APP_ID) return store.manual;
   return store.sources.find((s) => s.app_id === appId) || null;
+}
+
+/** 手動追加ノードの実体を作る（同じ値なら作り直さない）。 */
+function manualBinding(value, type) {
+  const id = `manual:${type}:${value.toLowerCase()}`;
+  let entity = store.manual.byId.get(id);
+  if (!entity) {
+    const key = joinKey(type, value);
+    entity = {
+      type, id, label: value, value, detail: value,
+      attrs: { 出所: "手動追加" }, refs: [],
+      _src: MANUAL_APP_ID, _blob: `${value}  手動追加`.toLowerCase(),
+      _key: key, _keys: key ? [key] : [],
+    };
+    store.manual.byId.set(id, entity);
+    store.manual.entities.push(entity);
+    if (key) {
+      const bucket = store.joins.get(key);
+      if (bucket) bucket.push({ source: store.manual, entity });
+      else store.joins.set(key, [{ source: store.manual, entity }]);
+    }
+  }
+  return { source: store.manual, entity };
+}
+
+/**
+ * ユーザーが入力した値を索引に突き合わせる。
+ * 見つかれば該当する全ソースの実体を返し、見つからなければ手動ノードを作る。
+ * ワークベンチの調査対象トレイから使う。
+ */
+export function resolveValue(rawValue) {
+  const value = refang(String(rawValue || "")).trim();
+  if (!value) return null;
+  const detected = detectType(value);
+
+  // 指標としての結合キーと、名前（アクター/マルウェア/ツール）としての結合キーの両方を試す
+  const keys = [];
+  if (detected) keys.push(joinKey(detected, value));
+  keys.push(joinKey("actor", value));
+
+  const matches = [];
+  const seen = new Set();
+  for (const k of keys) {
+    for (const b of store.joins.get(k) || []) {
+      if (b.source === store.manual) continue;
+      const uid = `${b.source.app_id}::${b.entity.id}`;
+      if (seen.has(uid)) continue;
+      seen.add(uid);
+      matches.push(b);
+    }
+  }
+
+  if (matches.length) {
+    return { value, type: matches[0].entity.type, matches, manual: false };
+  }
+  return { value, type: detected || "report", matches: [manualBinding(value, detected || "report")], manual: true };
 }
 
 /** 索引に使う小文字の連結文字列。検索のたびに作り直さないよう一度だけ計算する。 */
@@ -189,6 +263,9 @@ export function search(rawQuery) {
   if (!q) return result;
 
   const needle = q.toLowerCase();
+  // 索引側は refang 済みなので、入力が defang されていても引けるようにする
+  const refanged = refang(q).toLowerCase();
+  const needles = refanged && refanged !== needle ? [needle, refanged] : [needle];
   const exactKeys = new Set();
   // 入力が指標として解釈できるなら、その型の結合キーで完全一致を引く
   if (result.detectedType) {
@@ -216,14 +293,14 @@ export function search(rawQuery) {
     if (partial.length < PER_SOURCE_LIMIT) {
       for (const e of source.entities) {
         if (seen.has(e.id)) continue;
-        if (!e._blob.includes(needle)) continue;
+        if (!needles.some((n) => e._blob.includes(n))) continue;
         seen.add(e.id);
         partial.push(e);
         if (partial.length >= PER_SOURCE_LIMIT * 3) break;
       }
     }
 
-    partial.sort((a, b) => rank(a, needle) - rank(b, needle));
+    partial.sort((a, b) => rank(a, refanged || needle) - rank(b, refanged || needle));
     const items = exact.concat(partial).slice(0, PER_SOURCE_LIMIT);
     const count = exact.length + partial.length;
     if (!count) continue;
