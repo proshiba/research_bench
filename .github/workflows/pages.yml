@@ -1,0 +1,74 @@
+name: Deploy portal to Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - apps.json
+      - assets/**
+      - docs/**
+      - cyberchef/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: cyberchef/package-lock.json
+
+      # CyberChef はワークベンチの変換モジュールから使う。
+      # ビルドに失敗してもポータル自体は成立するので、デプロイは止めない。
+      - name: Build CyberChef
+        id: cyberchef
+        continue-on-error: true
+        working-directory: cyberchef
+        run: |
+          npm ci
+          npx grunt prod
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          cp index.html apps.json _site/
+          cp -r assets _site/
+          mkdir -p _site/docs
+          cp -r docs/* _site/docs/
+          if [ -d cyberchef/build/prod ]; then
+            mkdir -p _site/cyberchef/build/prod
+            cp -r cyberchef/build/prod/. _site/cyberchef/build/prod/
+            echo "CyberChef を同梱しました"
+          else
+            echo "::warning::CyberChef のビルドに失敗したため変換モジュールの引き渡し先が入りません"
+          fi
+          touch _site/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
