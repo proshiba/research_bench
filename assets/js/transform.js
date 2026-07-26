@@ -179,6 +179,9 @@ export async function runChain(input, chain) {
 }
 
 /* ---------------- CyberChef への引き渡し ---------------- */
+//
+// 現在ワークベンチの UI からは呼んでいない（内蔵変換で足りるため引き渡しボタンを外した）。
+// 再度つなぐときは view-workbench.js の変換タブからこの 3 つを呼べばよい。
 
 let cyberchefUrl = null;
 let availability = null;
