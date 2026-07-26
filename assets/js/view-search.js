@@ -1,7 +1,7 @@
 // クロスサーチ。ソース別にまとめた結果と、ソース横断で一致した指標を示す。
 
 import { crossSourceMatches, deepLink, loadAllSources, readySources, search, store } from "./store.js";
-import { el, esc, fmtNum, highlight, typeLabel } from "./util.js";
+import { TYPE_GROUPS, el, esc, fmtNum, highlight, typeGroup, typeLabel } from "./util.js";
 
 let lastQuery = "";
 
@@ -132,11 +132,13 @@ function groupCard(group, result, onPivot) {
     }));
   }
 
-  for (const e of group.items) card.append(hitRow(e, s, result, onPivot, accent));
+  for (const e of group.items) card.append(hitRow(e, s, result, onPivot));
   return card;
 }
 
-function hitRow(entity, source, result, onPivot, accent) {
+function hitRow(entity, source, result, onPivot) {
+  // 種別の色はワークベンチと揃える（グループ見出しだけがソース色）
+  const accent = `var(${TYPE_GROUPS[typeGroup(entity.type)].color})`;
   const crossed = crossSourceMatches(entity);
   const meta = el("div", { class: "hit-meta" });
 

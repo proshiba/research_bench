@@ -105,6 +105,44 @@ export function typeLabel(t) {
 }
 
 /**
+ * エンティティ種別のグループ。ワークベンチのノードは
+ * このグループで色と形が決まる（ソース由来ではない）。
+ *
+ * 色は dataviz の検証器で全ペア判定を通したもの:
+ * 両モードの L バンド通過・クロマ床通過・通常視 ΔE 15.7（床 15）。
+ * CVD ΔE は 6.3 で 6–8 の帯に入るため、**形状という二次符号化が前提**。
+ * 形とノード直下のラベルが常に出ているのでこの条件を満たす。
+ * 赤系は状態色（--crit）に予約しているため候補から外してある。
+ */
+export const TYPE_GROUPS = {
+  network: { label: "IP / エンドポイント", shape: "circle", color: "--type-network" },
+  host:    { label: "ドメイン / URL",      shape: "hexagon", color: "--type-host" },
+  file:    { label: "ファイル / ケース",   shape: "square", color: "--type-file" },
+  malware: { label: "マルウェア / ツール", shape: "triangle", color: "--type-malware" },
+  actor:   { label: "アクター",            shape: "diamond", color: "--type-actor" },
+  vuln:    { label: "脆弱性 / 製品",       shape: "pentagon", color: "--type-vuln" },
+  context: { label: "キャンペーン / TTP",  shape: "roundsquare", color: "--type-context" },
+  other:   { label: "その他",              shape: "ring", color: "--type-other" },
+};
+
+const TYPE_TO_GROUP = {
+  "ioc.ipv4": "network", "ioc.ipv6": "network", "ioc.endpoint": "network",
+  "ioc.domain": "host", "ioc.url": "host",
+  "ioc.md5": "file", "ioc.sha1": "file", "ioc.sha256": "file", "ioc.sha512": "file",
+  case: "file",
+  malware: "malware", tool: "malware",
+  actor: "actor",
+  cve: "vuln", product: "vuln", vendor: "vuln", report: "vuln",
+  campaign: "context", ttp: "context",
+  "ioc.email": "other",
+};
+
+/** 種別 → グループ名。未知の種別は other に落とす（落ちないこと自体が仕様）。 */
+export function typeGroup(type) {
+  return TYPE_TO_GROUP[type] || "other";
+}
+
+/**
  * ソース横断の結合キー。同じ実体が別々のソースで違う書き方をされていても
  * 同じキーに落ちるようにする。仕様 §3 と対応。
  */

@@ -6,7 +6,7 @@
 import { createGraph } from "./graph.js";
 import { deepLink, graphLink, loadAllSources, resolveValue, store } from "./store.js";
 import { OPS, runChain } from "./transform.js";
-import { el, shorten, typeLabel } from "./util.js";
+import { TYPE_GROUPS, el, shorten, typeGroup, typeLabel } from "./util.js";
 
 const STORE_KEY = "rb-workbench-v1";
 
@@ -71,11 +71,13 @@ export async function renderWorkbench(root, { onQuery } = {}) {
     status,
   ]);
 
+  // 凡例は「エンティティ種別」で並べる。色と形はここで決まる（出典はサイドバー）
   const legend = el("div", { class: "wb-legend" }, [
-    ...store.sources.map((s) =>
-      el("span", { class: "lg", style: `color:var(--src-${s.accent})` }, [el("i"), s.name])),
-    el("span", { class: "lg", style: "color:var(--src-manual)" }, [el("i"), "手動追加"]),
-    el("span", { class: "lg is-line", style: "color:var(--focus)" }, [el("i"), "ソース横断のリンク"]),
+    ...Object.entries(TYPE_GROUPS).map(([key, g]) =>
+      el("span", { class: "lg", style: `color:var(${g.color})`, html: shapeGlyph(g.shape) + escapeText(g.label) })),
+    el("span", { class: "lg is-dashed", style: "color:var(--ink-dim)", html: '<i></i>手動追加（索引に無い）' }),
+    el("span", { class: "lg is-ring", style: "color:var(--focus)", html: '<i></i>複数ソースに存在' }),
+    el("span", { class: "lg is-arrow", style: "color:var(--focus)", html: '<i></i>手動リンク' }),
   ]);
 
   const canvasWrap = el("div", { class: "wb-canvas-wrap" }, [tools, canvas, legend]);
@@ -167,11 +169,11 @@ export async function renderWorkbench(root, { onQuery } = {}) {
     },
     onMutate: saveState,
   });
-  graph.setAccentResolver((appId) =>
-    (appId === "__manual" ? "manual" : store.sources.find((s) => s.app_id === appId)?.accent) || "manual");
   graph.resize();
 
   ui = { wrap, graph, side, paneDetail, paneTransform, selectTab, status, onQuery, trayEl, trayList, trayCount };
+  // UI テストから座標を取るためのフック。?uitest=1 が無ければ生えない。
+  if (new URLSearchParams(location.search).has("uitest")) window.__rbGraph = graph;
   renderTray();
   renderSide(null);
 
@@ -183,6 +185,31 @@ export async function renderWorkbench(root, { onQuery } = {}) {
   });
 
   return ui;
+}
+
+function escapeText(t) {
+  return String(t).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+}
+
+/** 凡例と詳細パネルで使う、Canvas の形と揃えた小さな図形。 */
+export function shapeGlyph(shape, size = 11) {
+  const c = size / 2, r = size * 0.42;
+  const poly = (n, rot, rad = r) => Array.from({ length: n }, (_, i) => {
+    const a = rot + (i / n) * Math.PI * 2;
+    return `${(c + Math.cos(a) * rad).toFixed(2)},${(c + Math.sin(a) * rad).toFixed(2)}`;
+  }).join(" ");
+  const T = -Math.PI / 2;
+  let body;
+  if (shape === "square") body = `<rect x="${c - r}" y="${c - r}" width="${r * 2}" height="${r * 2}"/>`;
+  else if (shape === "roundsquare") body = `<rect x="${c - r}" y="${c - r}" width="${r * 2}" height="${r * 2}" rx="${r * 0.45}"/>`;
+  else if (shape === "diamond") body = `<polygon points="${poly(4, T, r * 1.18)}"/>`;
+  else if (shape === "triangle") body = `<polygon points="${poly(3, T, r * 1.24)}"/>`;
+  else if (shape === "pentagon") body = `<polygon points="${poly(5, T, r * 1.1)}"/>`;
+  else if (shape === "hexagon") body = `<polygon points="${poly(6, T, r * 1.08)}"/>`;
+  else if (shape === "ring") body = `<circle cx="${c}" cy="${c}" r="${r}" stroke-dasharray="2 1.6"/>`;
+  else body = `<circle cx="${c}" cy="${c}" r="${r}"/>`;
+  return `<svg class="glyph" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" aria-hidden="true"
+    fill="currentColor" fill-opacity="0.24" stroke="currentColor" stroke-width="1.2">${body}</svg>`;
 }
 
 function caretIcon(pointRight) {
@@ -260,9 +287,7 @@ function renderTray() {
     const res = resolveValue(item.value);
     const srcs = res ? new Set(res.matches.map((b) => b.source.app_id)) : new Set();
     const manual = !res || res.manual;
-    const accent = manual
-      ? "var(--src-manual)"
-      : `var(--src-${store.sources.find((s) => s.app_id === [...srcs][0])?.accent || "manual"})`;
+    const accent = `var(${TYPE_GROUPS[typeGroup(item.type)].color})`;
 
     const del = el("button", {
       class: "tray-del", type: "button", text: "×", title: "トレイから外す",
@@ -346,14 +371,17 @@ function renderSide(node) {
     return;
   }
 
-  const primary = node.members[0];
-  const accent = `var(--src-${primary.source.accent})`;
+  const group = TYPE_GROUPS[typeGroup(node.type)];
+  const accent = `var(${group.color})`;
   const frag = document.createDocumentFragment();
 
   frag.append(
-    el("span", { class: "side-type", style: `color:${accent}`, text: node.type }),
+    el("span", {
+      class: "side-type", style: `color:${accent}`,
+      html: shapeGlyph(group.shape) + escapeText(node.type),
+    }),
     el("p", { class: "side-label", text: node.label }),
-    el("p", { class: "side-empty", text: typeLabel(node.type) }),
+    el("p", { class: "side-empty", text: `${typeLabel(node.type)} — ${group.label}` }),
   );
 
   frag.append(el("div", { class: "tf-row", style: "margin-top:12px" }, [
@@ -378,8 +406,21 @@ function renderSide(node) {
       class: "btn", type: "button", text: "トレイに入れる",
       onclick: () => { addValue(node.label); },
     }),
+    el("button", {
+      class: "btn", type: "button", text: "リンクを張る",
+      onclick: (ev) => {
+        ui.graph.beginLink(node.id);
+        ev.target.classList.add("is-on");
+        ui.status.textContent = `${node.label} からリンクを張ります — 相手のノードをクリックしてください（Esc で取り消し）`;
+      },
+    }),
     el("button", { class: "btn", type: "button", text: "削除", onclick: () => ui.graph.remove(node.id) }),
   ]));
+
+  frag.append(el("p", {
+    class: "side-empty", style: "margin-top:8px",
+    text: "Ctrl（Mac は Cmd）を押しながらノードから他のノードへドラッグしてもリンクを張れます。",
+  }));
 
   frag.append(el("h3", { class: "side-h", text: `出典ソース ${node.members.length}` }));
   const srcList = el("ul", { class: "side-list" });
@@ -411,16 +452,40 @@ function renderSide(node) {
   }
 
   const rels = relationsOf(node);
-  frag.append(el("h3", { class: "side-h", text: `関連 ${rels.length}` }));
+  const manualCount = rels.filter((r) => r.manual).length;
+  frag.append(el("h3", {
+    class: "side-h",
+    text: manualCount ? `関連 ${rels.length}（うち手動 ${manualCount}）` : `関連 ${rels.length}`,
+  }));
   if (rels.length) {
     const list = el("div", { class: "side-list" });
     for (const r of rels.slice(0, 60)) {
-      list.append(el("button", {
-        class: "side-rel", type: "button", title: r.label,
-        onclick: () => { ui.graph.select(r.nodeId); },
-      }, [
-        el("em", { text: r.rel }),
-        el("span", { text: shorten(r.label, 30) }),
+      if (!r.manual) {
+        list.append(el("button", {
+          class: "side-rel", type: "button", title: r.label,
+          onclick: () => { ui.graph.select(r.nodeId); },
+        }, [
+          el("em", { text: r.rel }),
+          el("span", { text: shorten(r.label, 30) }),
+        ]));
+        continue;
+      }
+      // 手動リンクは自分の記述なので、名前を変えられて消せる
+      const relInput = el("input", {
+        class: "rel-edit", type: "text", value: r.rel, "aria-label": "リンクの名前",
+        onchange: (ev) => ui.graph.setEdgeRel(r.edgeId, ev.target.value.trim()),
+      });
+      list.append(el("div", { class: "side-rel is-manual" }, [
+        relInput,
+        el("button", {
+          class: "rel-go", type: "button", title: r.label, text: shorten(r.label, 22),
+          onclick: () => ui.graph.select(r.nodeId),
+        }),
+        el("button", {
+          class: "tray-del", type: "button", text: "×", title: "このリンクを消す",
+          "aria-label": `${r.rel} のリンクを消す`,
+          onclick: () => { ui.graph.removeEdge(r.edgeId); renderSide(node); },
+        }),
       ]));
     }
     frag.append(list);
@@ -456,7 +521,10 @@ function relationsOf(node) {
     const otherId = e.a === node.id ? e.b : e.a;
     const other = ui.graph.nodes.get(otherId);
     if (!other) continue;
-    out.push({ nodeId: otherId, label: other.label, rel: [...e.rels][0] || "関連" });
+    out.push({
+      nodeId: otherId, label: other.label, rel: [...e.rels][0] || "関連",
+      edgeId: e.id, manual: !!e.manual,
+    });
   }
   return out;
 }

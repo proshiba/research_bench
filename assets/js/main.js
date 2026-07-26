@@ -149,6 +149,9 @@ function renderStatus() {
   const bar = dom.statusbar;
   bar.replaceChildren();
   bar.append(el("span", { html: `spec <b>v${esc(store.spec || "1.0")}</b>` }));
+  // どのビルドを見ているかが分かるようにする。キャッシュ由来の混乱を切り分けるため
+  const build = document.querySelector('meta[name="rb-build"]')?.content || "dev";
+  bar.append(el("span", { html: `build <b>${esc(build)}</b>`, title: "配信中のポータルのビルド識別子" }));
 
   let indexed = 0;
   for (const s of store.sources) {
