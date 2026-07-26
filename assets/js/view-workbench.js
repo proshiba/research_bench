@@ -680,13 +680,22 @@ function renderOsint(node) {
   for (const p of providers) {
     const row = el("div", { class: "osint-provider" });
     const state = el("span", { class: "osint-state" });
+    const link = el("a", {
+      class: "btn", href: p.web(value, type), target: "_blank", rel: "noopener",
+      text: "サイトで開く", title: "キー不要。ブラウザで該当ページを開きます",
+    });
+
+    // CORS を許可していないサービスは API 連携せず、リンクだけ出す
+    if (p.linkOnly) {
+      row.append(el("span", { class: "osint-name", text: p.label }), link);
+      frag.append(row);
+      continue;
+    }
 
     const run = el("button", {
       class: "btn", type: "button", text: "照会",
       disabled: !p.callable || null,
-      title: p.callable ? null
-        : p.needsRelay ? "このサービスは CORS を許可していないため、中継の設定が必要です"
-        : "API キーが設定されていません",
+      title: p.callable ? null : "API キーが設定されていません",
       onclick: async () => {
         run.disabled = true;
         state.className = "osint-state";
@@ -704,21 +713,20 @@ function renderOsint(node) {
       },
     });
 
-    row.append(
-      el("span", { class: "osint-name", text: p.label }),
-      run,
-      el("a", {
-        class: "btn", href: p.web(value, type), target: "_blank", rel: "noopener",
-        text: "サイトで開く", title: "キー不要。ブラウザで該当ページを開きます",
-      }),
-    );
+    row.append(el("span", { class: "osint-name", text: p.label }), run, link);
     frag.append(row, state);
 
     if (!p.hasKey) {
       frag.append(el("p", { class: "side-empty", text: "API キー未設定（左下の鍵アイコンから設定）" }));
-    } else if (p.needsRelay) {
-      frag.append(el("p", { class: "side-empty", text: "CORS 未対応のため中継が必要（左下の鍵アイコンから設定）" }));
     }
+  }
+
+  // リンクだけのサービスが混じっている理由を 1 行だけ添えておく
+  const linkOnly = providers.filter((p) => p.linkOnly).map((p) => p.label);
+  if (linkOnly.length) {
+    frag.append(el("p", { class: "side-empty" }, [
+      `${linkOnly.join(" / ")} は CORS を許可していないため API 連携はせず、リンクのみ。`,
+    ]));
   }
 
   frag.append(results);

@@ -98,9 +98,6 @@ const TYPE_JA = {
   ttp: "TTP",
   tool: "ツール",
   report: "レポート",
-  // ポータル内だけの種別。OSINT のタグのように分類が定まらない値に使う。
-  // 各アプリの索引がこれを出すことはない（spec の語彙には含めない）。
-  other: "分類不明",
 };
 
 export function typeLabel(t) {

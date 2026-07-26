@@ -1,11 +1,11 @@
-// OSINT 設定画面。API キーの置き場所と中継の設定をここで決める。
+// OSINT 設定画面。API キーの置き場所をここで決める。
 //
 // キーはこのポータルの外に出さない。保存先の既定は「メモリだけ」で、
 // リロードすると消える。session / local を選ぶと同一オリジンの別文書からも
 // 読めるようになるため、その旨を画面にも書いてある。
 
-import { PROVIDERS, clearSettings, getSettings, pingRelay, relayReady, saveSettings } from "./osint.js";
-import { el, esc } from "./util.js";
+import { PROVIDERS, clearSettings, getSettings, saveSettings } from "./osint.js";
+import { el } from "./util.js";
 
 const STORAGE_CHOICES = [
   ["memory", "メモリだけ", "リロードで消える。最も安全。"],
@@ -18,45 +18,35 @@ export function openOsintSettings(dialog) {
   const note = el("p", { class: "modal-note" });
 
   const keyInputs = {};
-  const keyRows = Object.entries(PROVIDERS).map(([id, p]) => {
-    const input = el("input", {
-      type: "password", class: "modal-input", autocomplete: "off", spellcheck: "false",
-      id: `key-${id}`, value: cur.keys[p.keyField] || "",
-      placeholder: p.direct ? "API キー" : "API キー（中継の設定も必要）",
+  const keyRows = Object.entries(PROVIDERS)
+    .filter(([, p]) => !p.linkOnly)
+    .map(([id, p]) => {
+      const input = el("input", {
+        type: "password", class: "modal-input", autocomplete: "off", spellcheck: "false",
+        id: `key-${id}`, value: cur.keys[p.keyField] || "", placeholder: "API キー",
+      });
+      keyInputs[p.keyField] = input;
+      const reveal = el("button", {
+        class: "btn", type: "button", text: "表示",
+        onclick: () => {
+          const hidden = input.type === "password";
+          input.type = hidden ? "text" : "password";
+          reveal.textContent = hidden ? "隠す" : "表示";
+        },
+      });
+      return el("div", { class: "modal-field" }, [
+        el("label", { for: `key-${id}` }, [
+          p.label,
+          el("span", {
+            class: "chip", style: "margin-left:6px", text: "ブラウザから直接",
+            title: "Access-Control-Allow-Origin: * を返すため、中継なしでそのまま呼べます",
+          }),
+        ]),
+        el("div", { class: "modal-row" }, [input, reveal]),
+      ]);
     });
-    keyInputs[p.keyField] = input;
-    const reveal = el("button", {
-      class: "btn", type: "button", text: "表示",
-      onclick: () => {
-        const hidden = input.type === "password";
-        input.type = hidden ? "text" : "password";
-        reveal.textContent = hidden ? "隠す" : "表示";
-      },
-    });
-    return el("div", { class: "modal-field" }, [
-      el("label", { for: `key-${id}` }, [
-        p.label,
-        el("span", {
-          class: p.direct ? "chip" : "chip is-crit",
-          style: "margin-left:6px",
-          text: p.direct ? "ブラウザから直接" : "中継が必要",
-          title: p.direct
-            ? "Access-Control-Allow-Origin: * を返すため、そのまま呼べます"
-            : "CORS ヘッダを返さないため、ブラウザから直接は呼べません",
-        }),
-      ]),
-      el("div", { class: "modal-row" }, [input, reveal]),
-    ]);
-  });
 
-  const relayUrl = el("input", {
-    type: "url", class: "modal-input", id: "relay-url", spellcheck: "false",
-    value: cur.relay.url || "", placeholder: "http://127.0.0.1:8787",
-  });
-  const relayToken = el("input", {
-    type: "password", class: "modal-input", id: "relay-token", autocomplete: "off",
-    value: cur.relay.token || "", placeholder: "起動時に表示されるトークン",
-  });
+  const linkOnly = Object.values(PROVIDERS).filter((p) => p.linkOnly).map((p) => p.label);
 
   const storageSel = el("div", { class: "modal-choices" }, STORAGE_CHOICES.map(([value, label, desc]) =>
     el("label", { class: "modal-choice" }, [
@@ -67,14 +57,13 @@ export function openOsintSettings(dialog) {
   function collect() {
     return {
       keys: Object.fromEntries(Object.entries(keyInputs).map(([f, i]) => [f, i.value.trim()])),
-      relay: { url: relayUrl.value.trim(), token: relayToken.value.trim() },
       storage: dialog.querySelector('input[name="rb-storage"]:checked')?.value || "memory",
     };
   }
 
   const body = el("div", { class: "modal-body" }, [
     el("p", { class: "modal-lead" }, [
-      "API キーはこのポータルの中だけで持ち、送信先はそれぞれのサービス本体だけです。",
+      "API キーはこのポータルの中だけで持ち、送信先はそのサービス本体だけです。",
       el("br"),
       "研究用リポジトリや GitHub Pages には一切保存されません。",
     ]),
@@ -85,43 +74,13 @@ export function openOsintSettings(dialog) {
     el("h3", { class: "side-h", text: "キーの置き場所" }),
     storageSel,
 
-    el("h3", { class: "side-h", text: "ローカル中継（VirusTotal / abuse.ch 用）" }),
+    el("h3", { class: "side-h", text: "キーを使わないサービス" }),
     el("p", { class: "modal-desc" }, [
-      "この 2 つはブラウザからの呼び出しに CORS を許可していないため、直接は呼べません。",
+      `${linkOnly.join(" / ")} はブラウザからの呼び出しに CORS を許可していないため、`,
       el("br"),
-      "自分の端末で ",
-      el("code", { text: "node tools/osint-relay.mjs" }),
-      " を動かし、表示された URL とトークンを入れると使えます。",
+      "API 連携はしていません（中継サーバーを挟めば呼べますが、キーがブラウザの外に出ます）。",
       el("br"),
-      "中継はキーを保持せず、宛先も 5 ホストに限定した素通しです。空欄なら中継は使いません。",
-    ]),
-    el("div", { class: "modal-field" }, [
-      el("label", { for: "relay-url", text: "中継の URL" }),
-      el("div", { class: "modal-row" }, [
-        relayUrl,
-        el("button", {
-          class: "btn", type: "button", text: "疎通確認",
-          onclick: async (ev) => {
-            saveSettings(collect());
-            ev.target.disabled = true;
-            note.className = "modal-note";
-            note.textContent = "中継に問い合わせています…";
-            try {
-              const info = await pingRelay();
-              note.textContent = `中継に繋がりました（転送先 ${info.allowed?.length ?? "?"} ホスト）`;
-            } catch (err) {
-              note.className = "modal-note is-error";
-              note.textContent = err.message;
-            } finally {
-              ev.target.disabled = false;
-            }
-          },
-        }),
-      ]),
-    ]),
-    el("div", { class: "modal-field" }, [
-      el("label", { for: "relay-token", text: "中継のトークン" }),
-      relayToken,
+      "OSINT タブの「サイトで開く」から、キー無しで該当ページを開けます。",
     ]),
   ]);
 
@@ -145,7 +104,7 @@ export function openOsintSettings(dialog) {
           const n = Object.values(saved.keys).filter(Boolean).length;
           note.className = "modal-note";
           note.textContent = `保存しました（キー ${n} 件 / 置き場所: ${
-            STORAGE_CHOICES.find(([v]) => v === saved.storage)[1]}${relayReady() ? " / 中継あり" : ""}）`;
+            STORAGE_CHOICES.find(([v]) => v === saved.storage)[1]}）`;
         },
       }),
     ]),
@@ -168,12 +127,13 @@ export function osintSummary() {
   const n = Object.values(s.keys).filter(Boolean).length;
   if (!n) return "OSINT 未設定";
   const where = { memory: "メモリ", session: "タブ", local: "ブラウザ" }[s.storage];
-  return `OSINT ${n} 件（${where}${s.relay.url ? " / 中継あり" : ""}）`;
+  return `OSINT ${n} 件（${where}）`;
 }
 
 export function osintTooltip() {
   const s = getSettings();
   return Object.entries(PROVIDERS)
-    .map(([, p]) => `${p.label}: ${s.keys[p.keyField] ? "設定済み" : "未設定"}`)
-    .join(" / ") + (s.relay.url ? `\n中継: ${esc(s.relay.url)}` : "\n中継: なし");
+    .map(([, p]) => `${p.label}: ${
+      p.linkOnly ? "リンクのみ（CORS 未対応）" : s.keys[p.keyField] ? "設定済み" : "未設定"}`)
+    .join(" / ");
 }
