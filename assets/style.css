@@ -16,9 +16,15 @@
   --focus: #8fa9c9;
   --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .28);
 
-  --src-mal: #62c07f;
-  --src-vuln: #e0a33f;
-  --src-actor: #b48ae0;
+  /* ソース色（4 スロット・dataviz 検証器で両モード全ペア判定済み）
+     ライトは L 0.60 / ダークは L 0.66・どちらも C 0.14 で揃えてある。
+     通常視 ΔE 17.0、CVD ΔE 6.9 は 6–8 の帯なので **ソース名という二次符号化が前提**。
+     ソース色を出す場所（ステータスバー・検索の見出し・アプリ切り替え）では
+     必ず名前が併記されているのでこの条件を満たす。 */
+  --src-mal: #37ab6b;
+  --src-vuln: #cf7b26;
+  --src-actor: #bd72c1;
+  --src-news: #4697e4;
   --src-tool: #4fb8c9;
   --crit: #e5665e;
   --src-manual: #8a93a6;
@@ -53,9 +59,10 @@
     --ink-faint: #868d9b;
     --focus: #3f6591;
     --shadow: 0 1px 2px rgba(23, 27, 35, .08), 0 8px 24px rgba(23, 27, 35, .07);
-    --src-mal: #2d8a52;
-    --src-vuln: #a8721a;
-    --src-actor: #7649bb;
+    --src-mal: #1c985a;
+    --src-vuln: #bb6802;
+    --src-actor: #a960ae;
+    --src-news: #3284d0;
     --src-tool: #1c7d90;
     --src-manual: #6b7383;
     /* エンティティ種別の色（dataviz 検証器で両モード全ペア判定済み）
@@ -85,9 +92,10 @@
   --ink-faint: #6a7284;
   --focus: #8fa9c9;
   --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .28);
-  --src-mal: #62c07f;
-  --src-vuln: #e0a33f;
-  --src-actor: #b48ae0;
+  --src-mal: #37ab6b;
+  --src-vuln: #cf7b26;
+  --src-actor: #bd72c1;
+  --src-news: #4697e4;
   --src-tool: #4fb8c9;
   --crit: #e5665e;
   --src-manual: #8a93a6;
@@ -117,9 +125,10 @@
   --ink-faint: #868d9b;
   --focus: #3f6591;
   --shadow: 0 1px 2px rgba(23, 27, 35, .08), 0 8px 24px rgba(23, 27, 35, .07);
-  --src-mal: #2d8a52;
-  --src-vuln: #a8721a;
-  --src-actor: #7649bb;
+  --src-mal: #1c985a;
+  --src-vuln: #bb6802;
+  --src-actor: #a960ae;
+  --src-news: #3284d0;
   --src-tool: #1c7d90;
   --crit: #c0392b;
   --src-manual: #6b7383;
@@ -166,6 +175,7 @@ a { color: inherit; }
 .accent-mal { color: var(--src-mal); }
 .accent-vuln { color: var(--src-vuln); }
 .accent-actor { color: var(--src-actor); }
+.accent-news { color: var(--src-news); }
 .accent-tool { color: var(--src-tool); }
 .accent-manual { color: var(--src-manual); }
 

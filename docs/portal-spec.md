@@ -183,7 +183,7 @@ UI では二重リング・破線エッジ・「ソース横断」バッジで�
 
 ## 5. 現状と移行
 
-2026-07 時点で **3 アプリとも spec v1 にネイティブ対応済み**。ポータルは `apps.json` で
+2026-07 時点で **4 アプリとも spec v1 にネイティブ対応済み**。ポータルは `apps.json` で
 `adapter: "spec-v1"` を指定し、各アプリの `meta.json` を起動時に読んでから
 `search.json` を遅延ロードしている。
 
@@ -192,8 +192,13 @@ UI では二重リング・破線エッジ・「ソース横断」バッジで�
 | ai-security-analysis | 1,778 | 0.84 MB (gzip 0.12) | case 1,125 / malware 74 / campaign 26 / IOC 553 |
 | vuln-intel-agent | 42,171 | 18.4 MB (gzip 2.26) | cve 36,377 / report 5,794 |
 | threatactor-intel-analysis | 17,163 | 3.9 MB (gzip 0.58) | actor 673 / malware 1,090 / IOC 14,555 / cve 48 |
+| tech-memo (daily-news) | 15,249 | 5.3 MB (gzip 0.93) | report 7,260 / IOC 5,533 / cve 1,390 / malware 407 / actor 230 / product 429 |
 
-合計 61,112 エンティティ。ブラウザでの索引構築は 3 ソース並列で約 7 秒。
+合計 76,361 エンティティ。
+
+tech-memo は `capabilities` に `embed-mode` を宣言していて、iframe に入ったことを
+自分で検出してヘッダーを畳み、親のテーマにも追従する。§4 でいう望ましい形なので
+`embed_css` は要らない。適合チェッカーも警告 0 件で通っている。
 
 `assets/js/adapters.js` には旧フォーマット用のアダプタ（`maldb` / `vulnwatch` / `threatactor`）
 も残してある。各アプリが spec v1 を出す前の形式に戻す必要が生じたときの退避用で、

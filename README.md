@@ -171,7 +171,7 @@ cd cyberchef && npm ci && npx grunt prod
 
 ## 現状
 
-**3 アプリとも spec v1 にネイティブ対応済み。** ポータルは起動時に各アプリの `meta.json` を
+**4 アプリとも spec v1 にネイティブ対応済み。** ポータルは起動時に各アプリの `meta.json` を
 読み（`deep_links` と `embed_css` はここから来る）、`search.json` は画面に入ったときに遅延ロードする。
 
 | ソース | エンティティ | search.json |
@@ -179,17 +179,23 @@ cd cyberchef && npm ci && npx grunt prod
 | ai-security-analysis | 1,778 | 0.84 MB (gzip 0.12) |
 | vuln-intel-agent | 42,171 | 18.4 MB (gzip 2.26) |
 | threatactor-intel-analysis | 17,163 | 3.9 MB (gzip 0.58) |
+| tech-memo (daily-news) | 15,249 | 5.3 MB (gzip 0.93) |
 
-合計 61,112 エンティティ。索引構築は 3 ソース並列で約 4 秒。
+合計 76,361 エンティティ。
 
 横串は実データで成立している。マルウェア名の表記ゆれも正規化で吸収する。
 
 | 検索語 | 結果 |
 | --- | --- |
-| `ShadowPad` | マルウェア解析 + アクター情報 |
+| `ShadowPad` | マルウェア解析 + アクター情報 + ニュース |
+| `CVE-2021-44228` | 脆弱性インテル + ニュース + アクター情報 |
 | `gh0st RAT` | マルウェア解析(`gh0strat`) + アクター情報 |
 | `Agent Tesla` | マルウェア解析(`agenttesla`) + アクター情報 |
-| `WannaCry` / `Amadey` | 2 ソース |
+| `Lazarus` | ニュース + アクター情報 |
+
+デイリーニュースを足したことで、他の 3 ソースのいずれかと繋がる値が **722 件**増えた
+（CVE 303・IOC 約 300・アクター 39・マルウェア 18）。ニュースは
+「いつ話題になったか」を持つ唯一のソースなので、他の索引にある実体に時間軸が付く。
 
 ワークベンチで `ShadowPad` を 2 段展開すると、
 **マルウェア解析の 8 ケース ← ShadowPad → アクター情報の 11 アクター** が 1 枚のグラフになる。
