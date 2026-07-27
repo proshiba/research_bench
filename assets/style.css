@@ -282,6 +282,12 @@ a { color: inherit; }
 .ctx-btn:hover:not(:disabled) { border-color: var(--ink-faint); }
 .ctx-btn:disabled { cursor: default; }
 
+/* ダッシュボード以外では「戻る」として働く。押せる場所だと分かるように色を出す */
+.ctx-btn.is-home { color: var(--ink-dim); }
+.ctx-btn.is-home:hover { color: var(--ink); border-color: var(--focus); }
+.ctx-home { display: grid; place-items: center; color: var(--focus); }
+.ctx-home svg { width: 14px; height: 14px; }
+
 .ctx-dot {
   width: 8px;
   height: 8px;
@@ -1321,6 +1327,55 @@ a { color: inherit; }
 .st-src.is-error { color: var(--crit); }
 
 @keyframes pulse { 50% { opacity: .25; } }
+
+/* ---------------- 右クリックの調査メニュー ---------------- */
+
+.node-menu {
+  position: fixed;
+  z-index: 60;
+  min-width: 240px;
+  max-width: 300px;
+  max-height: min(70svh, 560px);
+  overflow: auto;
+}
+
+.node-menu .menu-label.is-sub {
+  margin-top: 4px;
+  border-top: 1px solid var(--line);
+  padding-top: 6px;
+}
+
+.node-menu .popover-item { justify-content: flex-start; gap: 6px; }
+.node-menu .popover-item:disabled { color: var(--ink-faint); cursor: default; }
+.node-menu .popover-item:disabled:hover { background: none; }
+.menu-hint { margin-left: auto; font-size: 10px; color: var(--ink-faint); }
+
+/* 取り込んだ HTML や WHOIS 全文のような長い属性 */
+.attr-bar { display: flex; gap: 6px; flex-wrap: wrap; }
+.attr-toggle {
+  font: inherit;
+  font-size: 11px;
+  padding: 1px 7px;
+  color: var(--ink-dim);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  cursor: pointer;
+}
+.attr-toggle:hover { color: var(--ink); border-color: var(--ink-faint); }
+.attr-long {
+  margin: 6px 0 0;
+  max-height: 240px;
+  overflow: auto;
+  padding: 7px 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  color: var(--ink-dim);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
 
 /* ---------------- モジュール ---------------- */
 

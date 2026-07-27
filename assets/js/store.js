@@ -95,15 +95,15 @@ export function getSource(appId) {
 }
 
 /** 手動追加ノードの実体を作る（同じ値なら作り直さない）。 */
-function manualBinding(value, type) {
+function manualBinding(value, type, { label = null, attrs = null, origin = "手動追加" } = {}) {
   const id = `manual:${type}:${value.toLowerCase()}`;
   let entity = store.manual.byId.get(id);
   if (!entity) {
     const key = joinKey(type, value);
     entity = {
-      type, id, label: value, value, detail: value,
-      attrs: { 出所: "手動追加" }, refs: [],
-      _src: MANUAL_APP_ID, _blob: `${value}  手動追加`.toLowerCase(),
+      type, id, label: label || value, value, detail: value,
+      attrs: { 出所: origin }, refs: [],
+      _src: MANUAL_APP_ID, _blob: `${value}  ${origin}`.toLowerCase(),
       _key: key, _keys: key ? [key] : [],
     };
     store.manual.byId.set(id, entity);
@@ -114,7 +114,21 @@ function manualBinding(value, type) {
       else store.joins.set(key, [{ source: store.manual, entity }]);
     }
   }
+  if (label && label !== entity.label) entity.label = label;
+  if (attrs) Object.assign(entity.attrs, attrs);
   return { source: store.manual, entity };
+}
+
+/**
+ * 調査結果として手元で作る実体を登録する。
+ *
+ * 索引に無い値（AS・地理・Web ページなど）や、索引にある値に足したい属性
+ * （取得した HTML やヘッダなど）をここで持たせる。既にあれば属性を足すだけ。
+ */
+export function registerManual(value, type, { label, attrs, origin } = {}) {
+  const v = refang(String(value || "")).trim();
+  if (!v || !type) return null;
+  return manualBinding(v, type, { label, attrs, origin });
 }
 
 /**

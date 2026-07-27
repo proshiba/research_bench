@@ -4,17 +4,38 @@
 // 別のモードに移ってもリロードしても続きから調査できるようにするため。
 
 import { createGraph } from "./graph.js";
-import { deepLink, graphLink, loadAllSources, resolveValue, store } from "./store.js";
+import { deepLink, graphLink, loadAllSources, registerManual, resolveValue, store } from "./store.js";
 import { parseAny, toMermaid, toStix } from "./exchange.js";
+import { actionsFor, nodeValue } from "./investigate.js";
 import { lookup, providersFor } from "./osint.js";
 import { OPS, runChain } from "./transform.js";
-import { TYPE_GROUPS, el, shorten, typeGroup, typeLabel } from "./util.js";
+import { TYPE_GROUPS, el, shorten, typeGroup, typeLabel, typeShape } from "./util.js";
 
 const STORE_KEY = "rb-workbench-v1";
 
 let ui = null;
 let tray = [];          // [{ value, type }]
 let restoring = false;
+
+/**
+ * 調査で手元に作った実体（AS・地理・Web ページや、取得した HTML などの属性）。
+ * これらは索引に無いのでリロードすると消える。ここに控えておいて復元時に作り直す。
+ *   キー: `${type} ${値の小文字}` → { value, type, label, attrs }
+ */
+let extras = new Map();
+
+const extraKey = (value, type) => `${type} ${String(value).toLowerCase()}`;
+
+function rememberExtra(value, type, { label, attrs } = {}) {
+  if (!value || !type) return;
+  const k = extraKey(value, type);
+  const cur = extras.get(k) || { value: String(value), type, label: null, attrs: {} };
+  if (label) cur.label = label;
+  for (const [ak, av] of Object.entries(attrs || {})) {
+    if (av != null && av !== "") cur.attrs[ak] = String(av);
+  }
+  extras.set(k, cur);
+}
 
 /* ---------------- 保存と復元 ---------------- */
 
@@ -24,11 +45,15 @@ function saveState() {
     localStorage.setItem(STORE_KEY, JSON.stringify({
       v: 1,
       tray,
+      extras: [...extras.values()],
       collapsed: ui.trayEl.dataset.collapsed === "true",
       graph: ui.graph.serialize(),
     }));
-  } catch {
-    // 容量超過やプライベートモードでは黙って諦める。調査自体は続けられる。
+  } catch (err) {
+    // 容量超過は黙って捨てるとデータを失ったことに気づけないので、状態だけは伝える
+    if (ui && String(err?.name).includes("Quota")) {
+      ui.status.textContent = "保存できませんでした（localStorage の容量超過）。取り込んだ本文が大きい可能性があります。";
+    }
   }
 }
 
@@ -42,6 +67,7 @@ function readState() {
 }
 
 function clearState() {
+  extras = new Map();
   try { localStorage.removeItem(STORE_KEY); } catch { /* 消せなくても支障はない */ }
 }
 
@@ -98,6 +124,12 @@ export async function renderWorkbench(root, { onQuery } = {}) {
   const legend = el("div", { class: "wb-legend" }, [
     ...Object.entries(TYPE_GROUPS).map(([key, g]) =>
       el("span", { class: "lg", style: `color:var(${g.color})`, html: shapeGlyph(g.shape) + escapeText(g.label) })),
+    // 調査で作る種別は、同じ色のまま形だけ変えて見分ける
+    ...[["webpage", "host"], ["net.asn", "network"], ["geo", "context"]].map(([type, group]) =>
+      el("span", {
+        class: "lg", style: `color:var(${TYPE_GROUPS[group].color})`,
+        html: shapeGlyph(typeShape(type)) + escapeText(typeLabel(type)),
+      })),
     el("span", { class: "lg is-dashed", style: "color:var(--ink-dim)", html: '<i></i>手動追加（索引に無い）' }),
     el("span", { class: "lg is-ring", style: "color:var(--focus)", html: '<i></i>複数ソースに存在' }),
     el("span", { class: "lg is-arrow", style: "color:var(--focus)", html: '<i></i>手動リンク' }),
@@ -203,6 +235,7 @@ export async function renderWorkbench(root, { onQuery } = {}) {
       else if (s.message) status.textContent = s.message;
     },
     onMutate: saveState,
+    onContext: (node, at) => openNodeMenu(node, at),
   });
   graph.resize();
 
@@ -243,7 +276,18 @@ export function shapeGlyph(shape, size = 11) {
   else if (shape === "pentagon") body = `<polygon points="${poly(5, T, r * 1.1)}"/>`;
   else if (shape === "hexagon") body = `<polygon points="${poly(6, T, r * 1.08)}"/>`;
   else if (shape === "ring") body = `<circle cx="${c}" cy="${c}" r="${r}" stroke-dasharray="2 1.6"/>`;
-  else body = `<circle cx="${c}" cy="${c}" r="${r}"/>`;
+  else if (shape === "window") {
+    const w = r * 2.1, h = r * 1.7;
+    body = `<rect x="${c - w / 2}" y="${c - h / 2}" width="${w}" height="${h}" rx="${r * 0.28}"/>`
+      + `<path d="M${c - w / 2} ${c - h / 2 + h * 0.34}H${c + w / 2}"/>`;
+  } else if (shape === "cloud") {
+    body = `<path d="M${c - r} ${c + r * 0.5}a${r * 0.55} ${r * 0.55} 0 0 1 ${r * 0.1} -${r * 0.95}`
+      + `a${r * 0.7} ${r * 0.7} 0 0 1 ${r * 1.3} -${r * 0.1}`
+      + `a${r * 0.55} ${r * 0.55} 0 0 1 ${r * 0.5} ${r * 1.05} Z"/>`;
+  } else if (shape === "pin") {
+    body = `<path d="M${c} ${c + r * 1.2} C${c - r * 1.1} ${c + r * 0.1} ${c - r * 0.85} ${c - r * 0.5}`
+      + ` ${c} ${c - r * 1.1} C${c + r * 0.85} ${c - r * 0.5} ${c + r * 1.1} ${c + r * 0.1} ${c} ${c + r * 1.2} Z"/>`;
+  } else body = `<circle cx="${c}" cy="${c}" r="${r}"/>`;
   return `<svg class="glyph" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" aria-hidden="true"
     fill="currentColor" fill-opacity="0.24" stroke="currentColor" stroke-width="1.2">${body}</svg>`;
 }
@@ -261,6 +305,15 @@ function restoreState() {
   try {
     ui.trayEl.dataset.collapsed = String(!!snap.collapsed);
     ui.trayEl.querySelector(".tray-toggle").innerHTML = caretIcon(!!snap.collapsed);
+
+    // 調査で作った実体を先に作り直す。これが無いとグラフ復元時に
+    // 「ソース側から消えた実体」と見なされて落ちてしまう。
+    extras = new Map();
+    for (const x of snap.extras || []) {
+      if (!x?.value || !x?.type) continue;
+      extras.set(extraKey(x.value, x.type), { ...x, attrs: x.attrs || {} });
+      registerManual(x.value, x.type, { label: x.label, attrs: x.attrs, origin: "調査結果" });
+    }
 
     // トレイの値を先に復元する。手動ノードの実体をここで作り直す必要がある。
     // staged が立っているものは他の画面から積まれた分で、グラフ側にはまだ無い。
@@ -578,7 +631,7 @@ function renderSide(node) {
   frag.append(
     el("span", {
       class: "side-type", style: `color:${accent}`,
-      html: shapeGlyph(group.shape) + escapeText(node.type),
+      html: shapeGlyph(typeShape(node.type)) + escapeText(node.type),
     }),
     el("p", { class: "side-label", text: node.label }),
     el("p", { class: "side-empty", text: `${typeLabel(node.type)} — ${group.label}` }),
@@ -647,7 +700,7 @@ function renderSide(node) {
   if (attrs.length) {
     frag.append(el("h3", { class: "side-h", text: "属性" }));
     const dl = el("dl", { class: "side-attrs" });
-    for (const [k, v] of attrs) dl.append(el("dt", { text: k }), el("dd", { text: v }));
+    for (const [k, v] of attrs) dl.append(el("dt", { text: k }), attrValue(v));
     frag.append(dl);
   }
 
@@ -844,6 +897,163 @@ function addRelated(node, related) {
   ui.graph.addManualEdge(node.id, target.id, related.rel);
   saveState();
   return true;
+}
+
+/* ---------------- 右クリックの調査メニュー ---------------- */
+
+let nodeMenu = null;
+
+function closeNodeMenu() {
+  nodeMenu?.remove();
+  nodeMenu = null;
+}
+
+/** ノードを右クリックしたときのメニュー。種別に応じた調査だけを並べる。 */
+function openNodeMenu(node, at) {
+  closeNodeMenu();
+  if (!ui || !node) return;
+
+  const actions = actionsFor(node);
+  const menu = el("div", { class: "popover node-menu", role: "menu" });
+  nodeMenu = menu;
+
+  menu.append(el("div", { class: "menu-label", text: `${typeLabel(node.type)} · ${shorten(nodeValue(node), 28)}` }));
+
+  let lastGroup = null;
+  for (const a of actions) {
+    if (a.group !== lastGroup) {
+      lastGroup = a.group;
+      menu.append(el("div", { class: "menu-label is-sub", text: a.group }));
+    }
+    menu.append(el("button", {
+      class: "popover-item", type: "button", role: "menuitem",
+      disabled: !a.ready || null,
+      title: a.ready ? null : `${a.why}（左端の鍵アイコンから設定）`,
+      onclick: () => { closeNodeMenu(); runAction(node, a); },
+    }, [
+      a.label,
+      ...(a.ready ? [] : [el("span", { class: "menu-hint", text: "未設定" })]),
+    ]));
+  }
+
+  menu.append(el("div", { class: "menu-label is-sub", text: "操作" }));
+  const basics = [
+    ["索引から展開", () => ui.graph.expand(node)],
+    ["トレイに入れる", () => { addValue(nodeValue(node)); }],
+    ["リンクを張る", () => ui.graph.beginLink(node.id)],
+    ["値をコピー", async () => {
+      try { await navigator.clipboard.writeText(nodeValue(node)); ui.status.textContent = "コピーしました"; }
+      catch { ui.status.textContent = "コピーできませんでした"; }
+    }],
+    ["削除", () => { ui.graph.remove(node.id); saveState(); }],
+  ];
+  for (const [label, fn] of basics) {
+    menu.append(el("button", {
+      class: "popover-item", type: "button", role: "menuitem", text: label,
+      onclick: () => { closeNodeMenu(); fn(); },
+    }));
+  }
+
+  document.body.append(menu);
+  // 画面からはみ出さない位置に置く
+  const r = menu.getBoundingClientRect();
+  menu.style.left = `${Math.max(8, Math.min(at.x, innerWidth - r.width - 8))}px`;
+  menu.style.top = `${Math.max(8, Math.min(at.y, innerHeight - r.height - 8))}px`;
+
+  const off = () => { closeNodeMenu(); document.removeEventListener("click", off); };
+  setTimeout(() => document.addEventListener("click", off), 0);
+  menu.addEventListener("click", (ev) => ev.stopPropagation());
+}
+
+/** メニューから選んだ調査を実行し、結果をグラフに反映する。 */
+async function runAction(node, action) {
+  if (!ui) return;
+  const label = `${shorten(nodeValue(node), 24)} を ${action.label}`;
+  ui.status.textContent = `${label}…`;
+  try {
+    const out = await action.run({
+      onProgress: (job) => {
+        if (!ui) return;
+        const p = job.progress || {};
+        const nums = Object.entries(p).map(([k, v]) => `${k} ${v}`).join(" / ");
+        ui.status.textContent = `${label}… ジョブ ${job.status}${nums ? ` — ${nums}` : ""}`;
+      },
+    });
+    applyResult(node, out);
+    ui.status.textContent = `${label}: ${out.note || "完了"}`;
+  } catch (err) {
+    ui.status.textContent = `${label}: ${err.message}`;
+  }
+}
+
+/** 調査結果を、元ノードの属性と新しい関連ノードとしてグラフに入れる。 */
+function applyResult(node, out) {
+  // 元のノードに属性を足す。索引由来の実体は触らず、手元の実体側に持たせる
+  const own = Object.fromEntries(Object.entries(out.attrs || {}).filter(([, v]) => v != null && v !== ""));
+  if (Object.keys(own).length) {
+    registerManual(nodeValue(node), node.type, { attrs: own, origin: "調査結果" });
+    rememberExtra(nodeValue(node), node.type, { attrs: own });
+    // 手元の実体を同じノードに合流させる（種別と値が同じなので畳まれる）
+    const b = registerManual(nodeValue(node), node.type, {});
+    if (b) ui.graph.addEntity(b.source, b.entity);
+  }
+
+  for (const r of out.related || []) {
+    const b = registerManual(r.value, r.type, { label: r.label, attrs: r.attrs, origin: "調査結果" });
+    if (!b) continue;
+    rememberExtra(r.value, r.type, { label: r.label, attrs: r.attrs });
+
+    // 索引に同じ値があればそちらも同じノードに載せる（横串が効く）
+    const res = resolveValue(r.value, { typeHint: r.type });
+    let target = ui.graph.addEntity(b.source, b.entity);
+    for (const m of res?.matches || []) {
+      if (m.source === b.source) continue;
+      target = ui.graph.addEntity(m.source, m.entity) || target;
+    }
+    ui.graph.linkExisting();
+    if (target) ui.graph.addManualEdge(node.id, target.id, r.rel);
+  }
+
+  renderSide(ui.graph.selected);
+  saveState();
+  ui.graph.whenSettled({ timeout: 1500 }).then(() => ui?.graph.fit());
+}
+
+/**
+ * 属性 1 件の表示。
+ *
+ * 調査で取り込んだ HTML 本文や WHOIS 全文のように長いものは、そのまま並べると
+ * パネルが埋まるので畳んでおく。開くと折り返さない等幅で全文を出す。
+ */
+function attrValue(v) {
+  const text = String(v);
+  const long = text.length > 160 || text.includes("\n");
+  if (!long) return el("dd", { text });
+
+  const pre = el("pre", { class: "attr-long", text, hidden: true });
+  const head = el("button", {
+    class: "attr-toggle", type: "button",
+    text: `${text.length.toLocaleString()} 文字 — 開く`,
+    onclick: () => {
+      pre.hidden = !pre.hidden;
+      head.textContent = pre.hidden
+        ? `${text.length.toLocaleString()} 文字 — 開く`
+        : `${text.length.toLocaleString()} 文字 — 閉じる`;
+    },
+  });
+  const copy = el("button", {
+    class: "attr-toggle", type: "button", text: "コピー",
+    onclick: async () => {
+      try {
+        await navigator.clipboard.writeText(text);
+        copy.textContent = "コピーしました";
+        setTimeout(() => { copy.textContent = "コピー"; }, 1500);
+      } catch {
+        copy.textContent = "コピーできません";
+      }
+    },
+  });
+  return el("dd", {}, [el("span", { class: "attr-bar" }, [head, copy]), pre]);
 }
 
 function collectAttrs(node) {
