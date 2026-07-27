@@ -82,33 +82,38 @@ Mermaid）でもラベルから種別を推定して読み込む。STIX の id �
 | モジュール | 中身 |
 | --- | --- |
 | **Shodan 検索** | IP を渡して `/shodan/host/{ip}` を引く。キーは端末の中だけ |
-| **Active Research** | 自作の調査 API（[hellow-world](https://hellow-world.hiroshiba.chatgpt.site/api-docs)）の 8 ツール |
+| **Active Research** | 自作の調査 API（[hellow-world](https://hellow-world.hiroshiba.chatgpt.site/api-docs)）の 10 ツール |
 | **CyberChef** | 同梱の CyberChef をこの画面の中で開く。値を持ち込める |
 
 どのモジュールでも、結果から取れた値（IP・ドメイン・エンドポイントなど）は
 **「送る」でワークベンチの調査対象に積める**。ワークベンチを開いていなくても積んでおけて、
 次に開いたときにグラフに載る。モジュール単体の確認とグラフ調査がここで繋がる。
 
-### Active Research の 8 ツール
+### Active Research の 10 ツール
 
-| ツール | エンドポイント |
-| --- | --- |
-| DNS 照会 | `GET /api/tools/dns` |
-| RDAP / WHOIS | `GET /api/tools/rdap` |
-| 証明書 (CT ログ) | `GET /api/tools/certificate` |
-| Web 解析 | `GET /api/tools/web-analyze` |
-| バナー取得 | `GET /api/tools/banner` |
-| ポート確認 | `GET /api/tools/port-scan` |
-| VirusTotal | `GET /api/tools/virustotal` |
-| 任意リクエスト | `POST /api/request` |
+| ツール | エンドポイント | |
+| --- | --- | --- |
+| DNS 照会 | `GET /api/tools/dns` | |
+| RDAP / WHOIS | `GET /api/tools/rdap` | |
+| 証明書 (CT ログ) | `GET /api/tools/certificate` | |
+| Web 解析 | `GET /api/tools/web-analyze` | |
+| Open Directory | `GET /api/tools/open-directory` | **非同期ジョブ** |
+| バナー取得 | `GET /api/tools/banner` | |
+| ポート確認 | `GET /api/tools/port-scan` | **非同期ジョブ** |
+| VirusTotal | `GET /api/tools/virustotal` | トークン必要 |
+| GitHub 調査 | `GET /api/tools/github` | トークン必要 |
+| 任意リクエスト | `POST /api/request` | |
 
-ベース URL は画面で変えられるので、別環境に向けられる。認証は不要。
+非同期ジョブは start が `job.id` を返し、`action=status&jobId=…` を完了まで叩く形。
+ポータルは進捗（走査したポート数やディレクトリ数）を出しながら待ち、途中で中止もできる。
+
+ベース URL は画面で変えられるので、別環境に向けられる。API 自体の認証は不要。
 API 側は `Access-Control-Allow-Origin: *` を返すため、中継なしでブラウザから直接呼べる
-（`x-apikey` を許可し、プリフライトに 204 を返すところまで実測済み）。
+（`authorization` を許可し、プリフライトに 204 を返すところまで実測済み）。
 
-VirusTotal ツールだけは API キーをこの API サーバーに送る。**キーが端末の外に出る**ので、
-画面上でもその旨を明示している。ブラウザの中だけで済ませたい場合は
-ワークベンチの OSINT タブ（Shodan）側を使う。
+VirusTotal と GitHub のツールは、利用者のトークンを `Authorization: Bearer` で
+この API サーバーに渡す。**トークンが端末の外に出る**ので、画面上でもその旨を明示している。
+ブラウザの中だけで済ませたい場合はワークベンチの OSINT タブ（Shodan）側を使う。
 
 ## OSINT 連携
 

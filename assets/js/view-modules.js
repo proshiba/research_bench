@@ -4,7 +4,7 @@
 // API を叩くモジュールならリクエストと生の応答が見え、CyberChef ならその UI が開く。
 // 取れた値は「ワークベンチに送る」でグラフ側に持ち込める。
 
-import { TOOLS, call, getTool, ping } from "./api-active-research.js";
+import { TOOLS, getTool, ping, run } from "./api-active-research.js";
 import { MODULES, filterModules, getModule, getModuleSettings, saveModuleSettings } from "./modules.js";
 import { PROVIDERS, lookup, providersFor } from "./osint.js";
 import { store } from "./store.js";
@@ -133,9 +133,17 @@ function resultBox({ title, meta, summary, detail, iocs, raw }) {
   }
 
   if (iocs?.length) {
+    // 証明書のように数百件になることがある。一覧は打ち切るが、
+    // 打ち切ったことは必ず書く（「すべて送る」は全件を送る）。
+    const SHOWN = 60;
+    const shown = iocs.slice(0, SHOWN);
     box.append(el("h4", { class: "side-h", text: `取れた値 ${iocs.length}` }));
+    if (iocs.length > SHOWN) {
+      box.append(el("p", { class: "side-empty", text:
+        `一覧は先頭 ${SHOWN} 件だけ出しています（残り ${iocs.length - SHOWN} 件は下の「すべて送る」に含まれます）。` }));
+    }
     const list = el("div", { class: "mod-iocs" });
-    for (const r of iocs) {
+    for (const r of shown) {
       list.append(el("div", { class: "mod-ioc" }, [
         el("span", { class: "mod-ioc-val", text: shorten(r.value, 34), title: `${r.value}（${r.rel}）` }),
         el("span", { class: "chip", text: typeLabel(r.type) }),
@@ -200,7 +208,9 @@ function buildForm(params, values) {
     let input;
     if (p.type === "select") {
       input = el("select", { class: "modal-input", id: `p-${p.name}` },
-        p.options.map((o) => el("option", { value: o, text: o, selected: values[p.name] === o || null })));
+        p.options.map((o) => el("option", {
+          value: o, text: o || "（指定なし）", selected: values[p.name] === o || null,
+        })));
     } else if (p.type === "checkbox") {
       input = el("input", { type: "checkbox", id: `p-${p.name}`, checked: !!values[p.name] || null });
     } else {
@@ -234,7 +244,7 @@ function renderShodan(body) {
     placeholder: "1.1.1.1", "aria-label": "IP アドレス",
   });
   const out = el("div", { class: "mod-out" });
-  const run = el("button", {
+  const runBtn = el("button", {
     class: "btn is-on", type: "button", text: "照会",
     onclick: async () => {
       const v = value.value.trim();
@@ -244,7 +254,7 @@ function renderShodan(body) {
         out.replaceChildren(errorBox("Shodan の host 照会は IP アドレスだけです。"));
         return;
       }
-      run.disabled = true;
+      runBtn.disabled = true;
       out.replaceChildren(el("p", { class: "side-empty", text: "照会中…" }));
       try {
         const res = await lookup("shodan", v, t);
@@ -257,7 +267,7 @@ function renderShodan(body) {
       } catch (err) {
         out.replaceChildren(errorBox(err.message));
       } finally {
-        run.disabled = false;
+        runBtn.disabled = false;
       }
     },
   });
@@ -271,7 +281,7 @@ function renderShodan(body) {
       ]),
     ]),
     el("div", { class: "mod-actions" }, [
-      run,
+      runBtn,
       el("a", {
         class: "btn", href: PROVIDERS.shodan.web("1.1.1.1"), target: "_blank", rel: "noopener",
         text: "Shodan を開く",
@@ -300,43 +310,76 @@ function renderActiveResearch(body) {
   const pane = el("div", { class: "mod-tool-pane" });
   const tabs = el("div", { class: "mod-tools", role: "tablist" });
 
+  /** ツールの params は配列のことも、入力値で変わる関数のこともある。 */
+  const paramsOf = (tool, v) => (typeof tool.params === "function" ? tool.params(v) : tool.params);
+
   function paintTool() {
     for (const b of tabs.children) b.setAttribute("aria-selected", String(b.dataset.tool === selected.id));
-    form = buildForm(selected.params, values);
+    paintForm();
+    out.replaceChildren();
+  }
+
+  function paintForm() {
+    form = buildForm(paramsOf(selected, values), values);
+    // action のように、選び直すと必要な引数が変わるものはフォームごと作り直す
+    for (const name of selected.rebuildOn || []) {
+      form.inputs[name]?.addEventListener("change", () => {
+        Object.assign(values, form.read());
+        paintForm();
+      });
+    }
     pane.replaceChildren(
       el("p", { class: "mod-tool-desc" }, [
         selected.desc,
         el("code", { class: "mod-endpoint", text: `${selected.method} /${selected.path}` }),
+        ...(selected.async ? [el("span", { class: "chip", text: "非同期ジョブ" })] : []),
       ]),
       ...(selected.keyWarning
         ? [el("p", { class: "mod-warn", text:
-            "このツールは API キーを API サーバーに送ります。キーが端末の外に出る点だけご承知ください。" })]
+            "このツールはトークンを API サーバーに送ります（Authorization: Bearer）。"
+            + "端末の外に出る点だけご承知ください。" })]
         : []),
       form.wrap,
-      el("div", { class: "mod-actions" }, [runBtn]),
+      el("div", { class: "mod-actions" }, [runBtn, cancelBtn]),
     );
-    out.replaceChildren();
   }
+
+  let controller = null;
+  const cancelBtn = el("button", {
+    class: "btn", type: "button", text: "中止", hidden: true,
+    onclick: () => controller?.abort(),
+  });
 
   const runBtn = el("button", {
     class: "btn is-on", type: "button", text: "実行",
     onclick: async () => {
       const v = form.read();
       Object.assign(values, v);
-      const missing = selected.params.filter((p) => p.required && !v[p.name]).map((p) => p.label);
+      const missing = paramsOf(selected, values).filter((p) => p.required && !v[p.name]).map((p) => p.label);
       if (missing.length) {
         out.replaceChildren(errorBox(`${missing.join(" / ")} を入れてください。`));
         return;
       }
       runBtn.disabled = true;
-      out.replaceChildren(el("p", { class: "side-empty", text: "実行中…" }));
+      cancelBtn.hidden = !selected.async;
+      controller = new AbortController();
+
+      const progress = el("p", { class: "side-empty", text: selected.async ? "ジョブを開始しています…" : "実行中…" });
+      out.replaceChildren(progress);
       const b = saveModuleSettings({ activeResearchBase: base.value.trim() }).activeResearchBase;
+
       try {
-        const res = await call(b, selected, v);
-        const d = res.json;
+        const res = await run(b, selected, v, {
+          signal: controller.signal,
+          onProgress: (job) => {
+            const p = selected.progress ? selected.progress(job.progress || {}) : "";
+            progress.textContent = `ジョブ ${job.status}${p ? ` — ${p}` : ""}`;
+          },
+        });
+        const d = res.data;
         if (!d) {
           out.replaceChildren(resultBox({
-            title: `${selected.label} — 応答が JSON ではありません`,
+            title: `${selected.label} — 結果を読めませんでした`,
             meta: `HTTP ${res.status} / ${res.ms} ms`,
             raw: res.text,
           }));
@@ -346,19 +389,22 @@ function renderActiveResearch(body) {
         // エラーだからと捨てずに、警告を添えて要点も見せる。
         const box = resultBox({
           title: `${selected.label} の結果`,
-          meta: `HTTP ${res.status} / ${res.ms} ms`,
+          meta: `HTTP ${res.status} / ${res.ms} ms${res.job ? ` / jobId ${res.job.id}` : ""}`,
           summary: selected.summary(d),
           detail: selected.detail ? selected.detail(d) : null,
           iocs: selected.iocs(d),
-          raw: JSON.stringify(d, null, 2),
+          raw: JSON.stringify(res.raw ?? d, null, 2),
         });
         out.replaceChildren(...(d.ok === false
           ? [errorBox(`API は ok:false を返しました${d.error ? `: ${d.error}` : "（理由の記載なし）"}`), box]
           : [box]));
       } catch (err) {
-        out.replaceChildren(errorBox(err.message), corsHelp(base.value.trim()));
+        if (err.name === "AbortError") out.replaceChildren(el("p", { class: "side-empty", text: "中止しました。" }));
+        else out.replaceChildren(errorBox(err.message), corsHelp(base.value.trim()));
       } finally {
         runBtn.disabled = false;
+        cancelBtn.hidden = true;
+        controller = null;
       }
     },
   });

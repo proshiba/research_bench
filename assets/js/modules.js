@@ -57,9 +57,10 @@ export const MODULES = [
     id: "active-research",
     name: "Active Research",
     short: "Active",
-    summary: "DNS・RDAP・証明書・Web 解析・バナー・ポート確認などを API 経由で実行する。",
-    detail: "自作の調査 API（hellow-world）に対応。ベース URL は設定で変えられます。",
-    tags: ["能動調査", "DNS", "証明書", "ポート"],
+    summary: "DNS・RDAP・証明書・Web 解析・Open Directory・バナー・ポート確認・VirusTotal・GitHub を API 経由で実行する。",
+    detail: "自作の調査 API（hellow-world）に対応。ベース URL は設定で変えられます。"
+      + "ポート確認と Open Directory は非同期ジョブなので、完了まで進捗を出しながら待ちます。",
+    tags: ["能動調査", "DNS", "証明書", "ポート", "GitHub"],
     accent: "--type-host",
     icon: `<path d="M12 3.2v17.6M3.2 12h17.6" stroke-dasharray="2 2.6" />
            <circle cx="12" cy="12" r="4.4" /><circle cx="12" cy="12" r="8.6" />`,
