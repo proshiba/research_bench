@@ -16,6 +16,7 @@ const dom = {
   ctxBtn: document.getElementById("ctxBtn"),
   ctxMenu: document.getElementById("ctxMenu"),
   ctxDot: document.getElementById("ctxDot"),
+  ctxHome: document.getElementById("ctxHome"),
   ctxName: document.getElementById("ctxName"),
   ctxSlug: document.getElementById("ctxSlug"),
   ctxCaret: document.getElementById("ctxCaret"),
@@ -107,8 +108,15 @@ async function handlePivot(action) {
 
 function updateTopbar() {
   const isDashboard = state.route === "dashboard";
-  dom.ctxBtn.disabled = !isDashboard;
+  // ダッシュボード以外ではアプリ選択の意味が無いが、押せない箱が残っていると
+  // 操作できないことが分かりにくい。ここをダッシュボードへ戻る入口にする。
+  dom.ctxBtn.disabled = false;
   dom.ctxCaret.hidden = !isDashboard;
+  dom.ctxHome.hidden = isDashboard;
+  dom.ctxDot.hidden = !isDashboard;
+  dom.ctxBtn.classList.toggle("is-home", !isDashboard);
+  dom.ctxBtn.setAttribute("aria-haspopup", String(isDashboard));
+  dom.ctxBtn.title = isDashboard ? "表示するアプリを選ぶ" : "ダッシュボードに戻る";
 
   if (isDashboard) {
     const s = getSource(state.appId);
@@ -281,7 +289,12 @@ async function boot() {
 
   dom.ctxBtn.addEventListener("click", (ev) => {
     ev.stopPropagation();
-    if (dom.ctxBtn.disabled) return;
+    // ダッシュボード以外ではアプリ選択ではなく「戻る」として働く
+    if (state.route !== "dashboard") {
+      closeMenus();
+      setHash("dashboard");
+      return;
+    }
     const open = dom.ctxMenu.hidden;
     closeMenus();
     dom.ctxMenu.hidden = !open;

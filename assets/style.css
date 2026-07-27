@@ -282,6 +282,12 @@ a { color: inherit; }
 .ctx-btn:hover:not(:disabled) { border-color: var(--ink-faint); }
 .ctx-btn:disabled { cursor: default; }
 
+/* ダッシュボード以外では「戻る」として働く。押せる場所だと分かるように色を出す */
+.ctx-btn.is-home { color: var(--ink-dim); }
+.ctx-btn.is-home:hover { color: var(--ink); border-color: var(--focus); }
+.ctx-home { display: grid; place-items: center; color: var(--focus); }
+.ctx-home svg { width: 14px; height: 14px; }
+
 .ctx-dot {
   width: 8px;
   height: 8px;
