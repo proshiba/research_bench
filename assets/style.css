@@ -748,20 +748,67 @@ a { color: inherit; }
 
 .tray-count:empty { display: none; }
 
-.tray-add { display: flex; gap: 5px; min-width: 0; }
+.tray-add { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.tray-add-row { display: flex; gap: 5px; min-width: 0; align-items: flex-start; }
 .tray-add .btn { flex: 0 0 auto; padding: 5px 8px; font-size: 11px; }
 
-.tray-add input {
+/* 複数行を貼れるように textarea。中身のぶんだけ伸びる（上限は JS 側で 132px） */
+.tray-add textarea {
   flex: 1;
   min-width: 0;
+  min-height: 26px;
   padding: 5px 7px;
+  resize: none;
+  overflow-y: auto;
+  line-height: 1.45;
   background: var(--surface);
+  color: var(--ink);
   border: 1px solid var(--line);
   font-family: var(--font-mono);
   font-size: 11px;
 }
 
-.tray-add input:focus { outline: 0; border-color: var(--focus); }
+.tray-add textarea:focus { outline: 0; border-color: var(--focus); }
+
+/* 貼り付けた値を、追加する前に 1 件ずつ見せる */
+.tray-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-height: 168px;
+  overflow-y: auto;
+}
+
+.tray-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 1px 3px 1px 5px;
+  background: var(--surface-3);
+  border: 1px solid var(--line);
+}
+
+.tray-chip-type { font-size: 9.5px; color: var(--ink-faint); flex: none; }
+.tray-chip-val {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tray-chip-del {
+  flex: none;
+  padding: 0 3px;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--ink-faint);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.tray-chip-del:hover { color: var(--crit); }
 
 .tray-list {
   margin: 0;
@@ -1271,6 +1318,8 @@ a { color: inherit; }
 }
 
 .st-link:hover { color: var(--ink); border-color: var(--ink-faint); }
+/* 配信側に新しい版が出ているときの案内。見落とすと「直したのに変わらない」になる */
+.st-link.is-new { color: var(--focus); border-color: var(--focus); font-weight: 600; }
 
 /* ---------------- popover ---------------- */
 

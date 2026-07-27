@@ -180,6 +180,14 @@ function renderStatus() {
   // どのビルドを見ているかが分かるようにする。キャッシュ由来の混乱を切り分けるため
   const build = document.querySelector('meta[name="rb-build"]')?.content || "dev";
   bar.append(el("span", { html: `build <b>${esc(build)}</b>`, title: "配信中のポータルのビルド識別子" }));
+  if (newBuild) {
+    bar.append(el("button", {
+      class: "st-link is-new", type: "button",
+      text: `新しいビルド ${newBuild} があります — 再読み込み`,
+      title: "ブラウザが古い index.html を掴んでいます。押すと取り直します",
+      onclick: () => location.reload(),
+    }));
+  }
 
   let indexed = 0;
   for (const s of store.sources) {
@@ -216,6 +224,30 @@ function renderStatus() {
     }));
   } else {
     bar.append(el("span", { class: "push", text: "GitHub Pages 上の静的インデックスを直接読み込んでいます" }));
+  }
+}
+
+/* ---------------- 配信版の追従 ---------------- */
+
+// GitHub Pages は index.html に max-age=600 を付けるため、更新直後は
+// 古い index.html を掴んだままになる。資産には ?v=<sha> を付けているので
+// 一度掴んだ組は一貫しているが、「直したはずが変わらない」に見えてしまう。
+// 起動時に配信側の版を見に行き、違っていたら気づけるようにする。
+let newBuild = null;
+
+async function checkBuild() {
+  const current = document.querySelector('meta[name="rb-build"]')?.content;
+  if (!current || current === "dev") return;      // ローカルでは意味がない
+  try {
+    const res = await fetch(`index.html?_=${Date.now()}`, { cache: "no-store" });
+    if (!res.ok) return;
+    const latest = (await res.text()).match(/name="rb-build"\s+content="([^"]+)"/)?.[1];
+    if (latest && latest !== current) {
+      newBuild = latest;
+      renderStatus();
+    }
+  } catch {
+    // 取れなくても支障はない。表示中の版のまま使える
   }
 }
 
@@ -279,6 +311,7 @@ async function boot() {
   buildRepoMenu();
   renderStatus();
   onChange(() => { renderStatus(); buildAppMenu(); });
+  checkBuild();           // 配信側に新しい版が出ていないか（待たない）
 
   for (const btn of dom.rail) {
     btn.addEventListener("click", () => {

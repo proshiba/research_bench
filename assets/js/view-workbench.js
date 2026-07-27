@@ -9,7 +9,7 @@ import { parseAny, toMermaid, toStix } from "./exchange.js";
 import { actionsFor, nodeValue } from "./investigate.js";
 import { lookup, providersFor } from "./osint.js";
 import { OPS, runChain } from "./transform.js";
-import { TYPE_GROUPS, el, shorten, typeGroup, typeLabel, typeShape } from "./util.js";
+import { TYPE_GROUPS, detectType, el, shorten, typeGroup, typeLabel, typeShape } from "./util.js";
 
 const STORE_KEY = "rb-workbench-v1";
 
@@ -149,20 +149,67 @@ export async function renderWorkbench(root, { onQuery } = {}) {
 
   /* --- 調査対象トレイ --- */
 
-  const trayInput = el("input", {
-    type: "search", spellcheck: "false", "aria-label": "調査対象を追加",
-    placeholder: "IP / ドメイン / ハッシュ",
+  // 1 行の input ではなく textarea。複数行を貼れるようにするため。
+  // 見た目は 1 行のままで、中身が増えたぶんだけ伸びる。
+  const trayInput = el("textarea", {
+    rows: 1, spellcheck: "false", "aria-label": "調査対象を追加",
+    placeholder: "IP / ドメイン / ハッシュ（改行で複数可）",
   });
+  const trayPreview = el("div", { class: "tray-preview", hidden: true });
+  const trayAddBtn = el("button", { class: "btn", type: "submit", text: "追加" });
   const trayForm = el("form", { class: "tray-add" }, [
-    trayInput,
-    el("button", { class: "btn", type: "submit", text: "追加" }),
+    el("div", { class: "tray-add-row" }, [trayInput, trayAddBtn]),
+    trayPreview,
   ]);
+
+  // 貼り付けた分をその場で分解して見せる。追加する前に何が入るか分かるように。
+  let pending = [];
+
+  function growInput() {
+    trayInput.style.height = "auto";
+    trayInput.style.height = `${Math.min(trayInput.scrollHeight, 132)}px`;
+  }
+
+  function refreshPreview() {
+    pending = parseBulk(trayInput.value);
+    trayAddBtn.textContent = pending.length > 1 ? `追加 ${pending.length} 件` : "追加";
+    trayPreview.hidden = pending.length < 2;
+    if (trayPreview.hidden) { trayPreview.replaceChildren(); return; }
+    trayPreview.replaceChildren(...pending.map((v) => el("span", { class: "tray-chip", title: v }, [
+      el("span", { class: "tray-chip-type", text: typeLabel(detectType(v)) }),
+      el("span", { class: "tray-chip-val", text: shorten(v, 24) }),
+      el("button", {
+        class: "tray-chip-del", type: "button", text: "×", "aria-label": `${v} を外す`,
+        onclick: () => {
+          trayInput.value = pending.filter((x) => x !== v).join("\n");
+          growInput();
+          refreshPreview();
+        },
+      }),
+    ])));
+  }
+
+  trayInput.addEventListener("input", () => { growInput(); refreshPreview(); });
+  // 貼り付けは input より後に値が入るので、次のフレームで見る
+  trayInput.addEventListener("paste", () => setTimeout(() => { growInput(); refreshPreview(); }, 0));
+  trayInput.addEventListener("keydown", (ev) => {
+    // Enter で追加、Shift+Enter で改行（複数行を手で打てるように）
+    if (ev.key === "Enter" && !ev.shiftKey) {
+      ev.preventDefault();
+      trayForm.requestSubmit();
+    }
+  });
+
   trayForm.addEventListener("submit", (ev) => {
     ev.preventDefault();
-    const raw = trayInput.value.trim();
-    if (!raw) return;
-    const added = addValue(raw);
-    if (added) trayInput.value = "";
+    const values = parseBulk(trayInput.value);
+    if (!values.length) return;
+    const n = addValues(values);
+    if (n.added || n.duplicate) {
+      trayInput.value = "";
+      growInput();
+      refreshPreview();
+    }
   });
 
   const trayList = el("ul", { class: "tray-list" });
@@ -361,6 +408,63 @@ function restoreState() {
 }
 
 /* ---------------- 調査対象トレイ ---------------- */
+
+/**
+ * 貼り付けたテキストを調査対象の並びに分解する。
+ *
+ * 1 行 1 件を基本にしつつ、カンマ・セミコロン・タブ区切りの貼り付けも受ける。
+ * 空白では切らない（"Lazarus Group" のように空白を含む名前があるため）。
+ * 箇条書きの記号と番号、前後の引用符は落とす。同じ値は 1 件に畳む。
+ */
+export function parseBulk(text) {
+  const out = [];
+  const seen = new Set();
+  for (const line of String(text || "").split(/[\n\r,;\t]+/)) {
+    // 前後の空白を先に落とさないと、記号の除去が効かない
+    const v = line
+      .trim()
+      .replace(/^(?:[-*・•]|\d+[.)])\s+/, "")       // 箇条書きの記号・番号
+      .replace(/^["'`<(\[]+|["'`>)\]]+$/g, "")      // 前後の引用符や括弧
+      .trim();
+    if (!v) continue;
+    const k = v.toLowerCase();
+    if (seen.has(k)) continue;
+    seen.add(k);
+    out.push(v);
+  }
+  return out;
+}
+
+/**
+ * まとめて追加する。1 件ずつ addValue を呼ぶと整列と保存が毎回走るので、
+ * ここで一度だけまとめてやる。戻り値は内訳（画面に出すため）。
+ */
+function addValues(values) {
+  const n = { added: 0, duplicate: 0, failed: [] };
+  const before = new Set(tray.map((t) => t.value.toLowerCase()));
+
+  for (const raw of values) {
+    const res = resolveValue(raw);
+    if (!res) { n.failed.push(raw); continue; }
+    for (const b of res.matches) ui.graph.addRoot(b.source, b.entity);
+    if (before.has(res.value.toLowerCase())) { n.duplicate++; continue; }
+    before.add(res.value.toLowerCase());
+    tray.push({ value: res.value, type: res.type });
+    n.added++;
+  }
+
+  ui.graph.linkExisting();
+  renderTray();
+  saveState();
+  ui.graph.whenSettled({ timeout: 1600 }).then(() => ui?.graph.fit());
+
+  const parts = [];
+  if (n.added) parts.push(`${n.added} 件を追加`);
+  if (n.duplicate) parts.push(`${n.duplicate} 件は既にあり`);
+  if (n.failed.length) parts.push(`${n.failed.length} 件は解釈できず（${shorten(n.failed[0], 20)} など）`);
+  setStatus(parts.join(" / ") || "追加できるものがありませんでした", { error: !n.added && !n.duplicate });
+  return n;
+}
 
 /** 値を索引に突き合わせてグラフに載せる。トレイにも登録する。 */
 function addValue(raw) {
