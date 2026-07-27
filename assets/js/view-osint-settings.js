@@ -48,6 +48,39 @@ export function openOsintSettings(dialog) {
 
   const linkOnly = Object.values(PROVIDERS).filter((p) => p.linkOnly).map((p) => p.label);
 
+  // Active Research API 経由で使うトークン。値はあの API サーバーを通るので、
+  // ブラウザだけで完結する Shodan とは節を分けて置く。
+  const VIA_API = [
+    ["virustotal", "VirusTotal のトークン", "ワークベンチの右クリック調査で使います"],
+    ["github", "GitHub のトークン", "コード検索で使います"],
+  ];
+  const viaRows = VIA_API.map(([field, label, hint]) => {
+    const input = el("input", {
+      type: "password", class: "modal-input", autocomplete: "off", spellcheck: "false",
+      id: `key-${field}`, value: cur.keys[field] || "", placeholder: "トークン",
+    });
+    keyInputs[field] = input;
+    const reveal = el("button", {
+      class: "btn", type: "button", text: "表示",
+      onclick: () => {
+        const hidden = input.type === "password";
+        input.type = hidden ? "text" : "password";
+        reveal.textContent = hidden ? "隠す" : "表示";
+      },
+    });
+    return el("div", { class: "modal-field" }, [
+      el("label", { for: `key-${field}` }, [
+        label,
+        el("span", {
+          class: "chip is-crit", style: "margin-left:6px", text: "端末の外に出る",
+          title: "Active Research API に Authorization: Bearer で渡します",
+        }),
+      ]),
+      el("div", { class: "modal-row" }, [input, reveal]),
+      el("span", { class: "modal-desc", text: hint }),
+    ]);
+  });
+
   const storageSel = el("div", { class: "modal-choices" }, STORAGE_CHOICES.map(([value, label, desc]) =>
     el("label", { class: "modal-choice" }, [
       el("input", { type: "radio", name: "rb-storage", value, checked: cur.storage === value || null }),
@@ -63,13 +96,19 @@ export function openOsintSettings(dialog) {
 
   const body = el("div", { class: "modal-body" }, [
     el("p", { class: "modal-lead" }, [
-      "API キーはこのポータルの中だけで持ち、送信先はそのサービス本体だけです。",
+      "キーはこのブラウザの中にだけ置きます。研究用リポジトリや GitHub Pages には保存されません。",
       el("br"),
-      "研究用リポジトリや GitHub Pages には一切保存されません。",
+      "ただし送信先は 2 通りあります。下の節ごとに書き分けてあります。",
     ]),
 
-    el("h3", { class: "side-h", text: "API キー" }),
+    el("h3", { class: "side-h", text: "ブラウザの中だけで使うキー" }),
     ...keyRows,
+
+    el("h3", { class: "side-h", text: "Active Research API 経由で使うトークン" }),
+    el("p", { class: "modal-desc", text:
+      "この 2 つは調査 API サーバーに Authorization: Bearer で渡します。"
+      + "つまり値がこの端末の外に出ます。ブラウザだけで完結させたい場合は入れないでください。" }),
+    ...viaRows,
 
     el("h3", { class: "side-h", text: "キーの置き場所" }),
     storageSel,
@@ -132,8 +171,10 @@ export function osintSummary() {
 
 export function osintTooltip() {
   const s = getSettings();
-  return Object.entries(PROVIDERS)
-    .map(([, p]) => `${p.label}: ${
-      p.linkOnly ? "リンクのみ（CORS 未対応）" : s.keys[p.keyField] ? "設定済み" : "未設定"}`)
-    .join(" / ");
+  const rows = [
+    `Shodan: ${s.keys.shodan ? "設定済み" : "未設定"}（ブラウザから直接）`,
+    `VirusTotal: ${s.keys.virustotal ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
+    `GitHub: ${s.keys.github ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
+  ];
+  return rows.join("\n");
 }

@@ -98,6 +98,11 @@ const TYPE_JA = {
   ttp: "TTP",
   tool: "ツール",
   report: "レポート",
+  // ここから下はポータル内部だけで使う種別。調査の結果として手元で作るもので、
+  // 各アプリの search.json がこれを出すことはない（spec の語彙には含めない）。
+  "net.asn": "AS",
+  geo: "地理",
+  webpage: "Web ページ",
 };
 
 export function typeLabel(t) {
@@ -127,19 +132,37 @@ export const TYPE_GROUPS = {
 
 const TYPE_TO_GROUP = {
   "ioc.ipv4": "network", "ioc.ipv6": "network", "ioc.endpoint": "network",
-  "ioc.domain": "host", "ioc.url": "host",
+  "net.asn": "network",
+  "ioc.domain": "host", "ioc.url": "host", webpage: "host",
   "ioc.md5": "file", "ioc.sha1": "file", "ioc.sha256": "file", "ioc.sha512": "file",
   case: "file",
   malware: "malware", tool: "malware",
   actor: "actor",
   cve: "vuln", product: "vuln", vendor: "vuln", report: "vuln",
-  campaign: "context", ttp: "context",
+  campaign: "context", ttp: "context", geo: "context",
   "ioc.email": "other",
+};
+
+/**
+ * グループの形より優先する、種別ごとの形。
+ *
+ * 色はグループで決める（検証済みの組を崩さないため）が、同じグループの中でも
+ * 実体の性格が違うものは形で見分けられるようにする。
+ */
+const TYPE_SHAPE = {
+  "net.asn": "cloud",
+  geo: "pin",
+  webpage: "window",
 };
 
 /** 種別 → グループ名。未知の種別は other に落とす（落ちないこと自体が仕様）。 */
 export function typeGroup(type) {
   return TYPE_TO_GROUP[type] || "other";
+}
+
+/** 種別 → 形。種別固有の形が無ければグループの形を使う。 */
+export function typeShape(type) {
+  return TYPE_SHAPE[type] || TYPE_GROUPS[typeGroup(type)]?.shape || "circle";
 }
 
 /**

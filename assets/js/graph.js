@@ -6,7 +6,7 @@
 
 import { getAdapter } from "./adapters.js";
 import { getSource, store } from "./store.js";
-import { TYPE_GROUPS, joinKey, typeGroup } from "./util.js";
+import { TYPE_GROUPS, joinKey, typeGroup, typeShape } from "./util.js";
 
 const REPULSION = 4200;
 const REST_LENGTH = 112;
@@ -38,7 +38,7 @@ function nodeKeyFor(source, entity) {
   return k ? `k:${entity.type}:${k}` : `e:${source.app_id}:${entity.id}`;
 }
 
-export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
+export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } = {}) {
   const ctx = canvas.getContext("2d");
   const nodes = new Map();   // nodeId → node
   const edges = new Map();   // edgeId → edge
@@ -379,6 +379,40 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
       case "triangle": poly(3, -Math.PI / 2, r * 1.22); break;
       case "pentagon": poly(5, -Math.PI / 2, r * 1.1); break;
       case "hexagon": poly(6, -Math.PI / 2, r * 1.08); break;
+
+      // Web ページ。ブラウザの窓に見えるよう、上辺にタイトルバーを持つ角丸四角
+      case "window": {
+        const w = r * 1.9, h = r * 1.5;
+        const left = x - w / 2, top = y - h / 2;
+        if (ctx.roundRect) ctx.roundRect(left, top, w, h, r * 0.24);
+        else ctx.rect(left, top, w, h);
+        ctx.moveTo(left, top + h * 0.32);
+        ctx.lineTo(left + w, top + h * 0.32);
+        break;
+      }
+
+      // AS。回線の塊なので雲
+      case "cloud": {
+        const s = r * 0.92;
+        ctx.moveTo(x - s, y + s * 0.5);
+        ctx.arc(x - s * 0.55, y + s * 0.1, s * 0.55, Math.PI * 0.6, Math.PI * 1.6);
+        ctx.arc(x + s * 0.02, y - s * 0.35, s * 0.68, Math.PI * 1.15, Math.PI * 1.9);
+        ctx.arc(x + s * 0.68, y + s * 0.05, s * 0.52, Math.PI * 1.6, Math.PI * 0.5);
+        ctx.closePath();
+        break;
+      }
+
+      // 地理。地図のピン
+      case "pin": {
+        const s = r * 1.05;
+        ctx.moveTo(x, y + s * 1.15);
+        ctx.quadraticCurveTo(x - s * 0.95, y - s * 0.1, x - s * 0.52, y - s * 0.62);
+        ctx.arc(x, y - s * 0.35, s * 0.63, Math.PI * 1.25, Math.PI * 1.75);
+        ctx.quadraticCurveTo(x + s * 0.95, y - s * 0.1, x, y + s * 1.15);
+        ctx.closePath();
+        break;
+      }
+
       default: ctx.arc(x, y, r, 0, Math.PI * 2);
     }
   }
@@ -399,7 +433,7 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
 
   // 色と形は種別だけで決まる。出所（索引由来か手動追加か）は輪郭の実線/破線で示す。
   function nodeColor(n) { return theme.types[typeGroup(n.type)] || theme.dim; }
-  function nodeShape(n) { return TYPE_GROUPS[typeGroup(n.type)]?.shape || "circle"; }
+  function nodeShape(n) { return typeShape(n.type); }
   function isManualOnly(n) {
     return n.members.length > 0 && n.members.every((m) => m.source.app_id === "__manual");
   }
@@ -740,6 +774,18 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate } = {}) {
     const [wx, wy] = pointer(ev);
     const n = pick(wx, wy);
     if (n) expand(n);
+  });
+
+  // 右クリック。ノードの上なら調査メニューを開く（何も無い場所では既定の動作に任せる）
+  canvas.addEventListener("contextmenu", (ev) => {
+    const [wx, wy] = pointer(ev);
+    const n = pick(wx, wy);
+    if (!n) return;
+    ev.preventDefault();
+    selectedId = n.id;
+    draw();
+    notify();
+    onContext?.(n, { x: ev.clientX, y: ev.clientY });
   });
 
   canvas.addEventListener("wheel", (ev) => {

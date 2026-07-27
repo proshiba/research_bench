@@ -6,7 +6,7 @@
 
 import { TOOLS, getTool, ping, run } from "./api-active-research.js";
 import { MODULES, filterModules, getModule, getModuleSettings, saveModuleSettings } from "./modules.js";
-import { PROVIDERS, lookup, providersFor } from "./osint.js";
+import { PROVIDERS, getSettings, lookup, providersFor } from "./osint.js";
 import { store } from "./store.js";
 import { configureCyberchef, cyberchefAvailable, cyberchefBuildHint, cyberchefLink } from "./transform.js";
 import { detectType, el, shorten, typeLabel } from "./util.js";
@@ -305,7 +305,9 @@ function renderActiveResearch(body) {
   const out = el("div", { class: "mod-out" });
   let selected = TOOLS[0];
   let form = null;
-  const values = {};
+  // 設定済みのトークンを初期値に入れておく（毎回貼り直さずに済むように）
+  const saved = getSettings().keys;
+  const values = { apikey: saved.virustotal || "", token: saved.github || "" };
 
   const pane = el("div", { class: "mod-tool-pane" });
   const tabs = el("div", { class: "mod-tools", role: "tablist" });
@@ -464,9 +466,9 @@ function corsHelp(base) {
       + "API 側で次の 2 つを返すようにすると呼べるようになります。" }),
     el("pre", { class: "mod-pre", text:
       `Access-Control-Allow-Origin: ${location.origin}\n`
-      + "Access-Control-Allow-Headers: content-type, x-apikey\n"
+      + "Access-Control-Allow-Headers: content-type, accept, authorization\n"
       + "Access-Control-Allow-Methods: GET, POST, OPTIONS\n\n"
-      + "# OPTIONS には 204 を返すこと（POST と x-apikey はプリフライトが要る）" }),
+      + "# OPTIONS には 204 を返すこと（POST と Authorization はプリフライトが要る）" }),
     el("p", { class: "modal-desc", text:
       "2026-07 の実測ではこの API は ACAO: * を返しているので、通常はこの画面は出ません。"
       + "出た場合は Origin を絞ったか、API が落ちているかのどちらかです。" }),

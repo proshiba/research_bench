@@ -17,8 +17,11 @@
 
 const STORE_KEY = "rb-osint-v1";
 
+// shodan はブラウザから直接 Shodan へ。virustotal と github は Active Research API に
+// Authorization: Bearer で渡すので、値が端末の外（あの API サーバー）に出る。
+// この違いは設定画面でも明示する。
 const settings = {
-  keys: { shodan: "" },
+  keys: { shodan: "", virustotal: "", github: "" },
   storage: "memory",              // memory | session | local
 };
 
@@ -69,7 +72,7 @@ export function saveSettings(next) {
 }
 
 export function clearSettings() {
-  settings.keys = { shodan: "" };
+  settings.keys = { shodan: "", virustotal: "", github: "" };
   settings.storage = "memory";
   for (const k of ["session", "local"]) backing(k)?.removeItem(STORE_KEY);
 }
@@ -117,8 +120,9 @@ export const PROVIDERS = {
     },
   },
 
-  // 以下 2 つは CORS ヘッダを返さないため、ブラウザからは API を呼べない。
-  // キーを外に預けずに済ませるため、該当ページを開くリンクだけを出す。
+  // 以下 2 つは CORS ヘッダを返さないため、ブラウザからは直接 API を呼べない。
+  // ワークベンチの右クリック調査では Active Research API 経由で引ける（トークンは
+  // その API サーバーを通る）。ここに出るのはキー不要のリンクだけ。
   virustotal: {
     label: "VirusTotal",
     linkOnly: true,
