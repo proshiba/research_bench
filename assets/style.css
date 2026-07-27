@@ -830,6 +830,8 @@ a { color: inherit; }
 .wb-tools > * { pointer-events: auto; }
 .wb-tools .btn { background: var(--surface-2); }
 .wb-count { margin-left: auto; align-self: center; font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
+/* 失敗は薄い文字のままだと見落とすので、警戒色にして少し強くする */
+.wb-count.is-error { color: var(--crit); font-weight: 600; }
 
 .wb-legend {
   position: absolute;
