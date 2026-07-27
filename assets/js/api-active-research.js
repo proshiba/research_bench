@@ -139,6 +139,36 @@ export async function ping(base) {
 
 /* ---------------- 値の抽出 ---------------- */
 
+/**
+ * WHOIS / RDAP の応答を 1 つの形に均す。
+ *
+ * この API の rdap は 2026-07 に応答の形が変わり、平たい record を返すようになった。
+ * 古い形（rdap.data + whois.iana）で動いている環境もあり得るので両方読む。
+ * record 側のキー名には綴りの揺れ（namerservers / registranct_contact_email）が
+ * あるため、正しい綴りも一緒に見る。
+ */
+export function rdapRecord(d) {
+  const r = d?.record || {};
+  const legacy = d?.rdap?.data || {};
+  const ev = (action) => (legacy.events || []).find((e) => e.eventAction === action)?.eventDate || null;
+
+  return {
+    registrar: r.registrar
+      || (legacy.entities || []).find((e) => (e.roles || []).includes("registrar"))
+        ?.vcardArray?.[1]?.find((f) => f[0] === "fn")?.[3]
+      || null,
+    created: r.create_date || ev("registration"),
+    updated: r.update_date || ev("last changed"),
+    expires: r.expired_date || ev("expiration"),
+    status: r.domain_status || legacy.status || [],
+    nameservers: (r.namerservers || r.nameservers
+      || (legacy.nameservers || []).map((n) => n.ldhName)).filter(Boolean),
+    contact: r.registranct_contact_email || r.registrant_contact_email || null,
+    note: r.note || null,
+    raw: r.raw_whois || d?.whois?.iana?.text || null,
+  };
+}
+
 function push(out, seen, type, value, rel) {
   const v = String(value ?? "").trim().replace(/\.$/, "");
   if (!v) return;
@@ -203,18 +233,24 @@ export const TOOLS = [
     path: "api/tools/rdap",
     params: [{ name: "target", label: "ドメイン", placeholder: "example.com", required: true }],
     query: (v) => ({ target: v.target }),
-    summary: (d) => [
-      ["対象", d.target],
-      ["RDAP", d.rdap ? `HTTP ${d.rdap.status} — ${d.rdap.source || "?"}` : "なし"],
-      ["RDAP の応答", d.rdap?.data?.error || d.rdap?.data?.handle || null],
-      ["登録日", (d.rdap?.data?.events || []).find((e) => e.eventAction === "registration")?.eventDate],
-      ["ネームサーバー", (d.rdap?.data?.nameservers || []).map((n) => n.ldhName).join(", ")],
-      ["WHOIS 参照先", d.whois?.iana?.server],
-    ],
-    detail: (d) => d.whois?.iana?.text || "",
+    summary: (d) => {
+      const r = rdapRecord(d);
+      return [
+        ["対象", d.target],
+        ["レジストラ", r.registrar],
+        ["登録日", r.created],
+        ["最終更新", r.updated],
+        ["有効期限", r.expires],
+        ["ステータス", r.status.join(" / ")],
+        ["ネームサーバー", r.nameservers.join(", ")],
+        ["連絡先", r.contact],
+        ["注記", r.note],
+      ];
+    },
+    detail: (d) => rdapRecord(d).raw || "",
     iocs: (d) => {
       const out = [], seen = new Set();
-      for (const n of d.rdap?.data?.nameservers || []) push(out, seen, "ioc.domain", n.ldhName, "RDAP: NS");
+      for (const n of rdapRecord(d).nameservers) push(out, seen, "ioc.domain", n, "WHOIS: NS");
       return out;
     },
   },

@@ -37,6 +37,16 @@ function rememberExtra(value, type, { label, attrs } = {}) {
   extras.set(k, cur);
 }
 
+/**
+ * 下部のステータス行。失敗は色を変えないと見落とすので、成否をここで一元化する。
+ * error を渡したときだけ警戒色にし、次の成功メッセージで自動的に戻る。
+ */
+function setStatus(text, { error = false } = {}) {
+  if (!ui) return;
+  ui.status.textContent = text;
+  ui.status.classList.toggle("is-error", !!error);
+}
+
 /* ---------------- 保存と復元 ---------------- */
 
 function saveState() {
@@ -52,7 +62,7 @@ function saveState() {
   } catch (err) {
     // 容量超過は黙って捨てるとデータを失ったことに気づけないので、状態だけは伝える
     if (ui && String(err?.name).includes("Quota")) {
-      ui.status.textContent = "保存できませんでした（localStorage の容量超過）。取り込んだ本文が大きい可能性があります。";
+      setStatus("保存できませんでした（localStorage の容量超過）。取り込んだ本文が大きい可能性があります。", { error: true });
     }
   }
 }
@@ -227,12 +237,13 @@ export async function renderWorkbench(root, { onQuery } = {}) {
   const graph = createGraph(canvas, {
     onSelect: (node, counts) => {
       status.textContent = `ノード ${counts.nodes} / 辺 ${counts.edges}`;
+      status.classList.remove("is-error");
       renderSide(node);
       markTraySelection(node);
     },
     onStatus: (s) => {
-      if (s.error) status.textContent = s.error;
-      else if (s.message) status.textContent = s.message;
+      if (s.error) { status.textContent = s.error; status.classList.add("is-error"); }
+      else if (s.message) { status.textContent = s.message; status.classList.remove("is-error"); }
     },
     onMutate: saveState,
     onContext: (node, at) => openNodeMenu(node, at),
@@ -537,18 +548,18 @@ function download(filename, text, mime) {
 }
 
 function exportMermaid() {
-  if (!ui.graph.nodes.size) { ui.status.textContent = "書き出すノードがありません"; return; }
+  if (!ui.graph.nodes.size) { setStatus("書き出すノードがありません", { error: true }); return; }
   const cs = getComputedStyle(document.documentElement);
   const text = toMermaid(ui.graph, (v) => cs.getPropertyValue(v).trim());
   download(`workbench-${stamp()}.mmd`, text, "text/plain;charset=utf-8");
-  ui.status.textContent = `Mermaid を書き出しました（ノード ${ui.graph.nodes.size} / 辺 ${ui.graph.edges.size}）`;
+  setStatus(`Mermaid を書き出しました（ノード ${ui.graph.nodes.size} / 辺 ${ui.graph.edges.size}）`);
 }
 
 function exportStix() {
-  if (!ui.graph.nodes.size) { ui.status.textContent = "書き出すノードがありません"; return; }
+  if (!ui.graph.nodes.size) { setStatus("書き出すノードがありません", { error: true }); return; }
   const bundle = toStix(ui.graph);
   download(`workbench-${stamp()}.stix.json`, JSON.stringify(bundle, null, 2), "application/json;charset=utf-8");
-  ui.status.textContent = `STIX 2.1 を書き出しました（オブジェクト ${bundle.objects.length}）`;
+  setStatus(`STIX 2.1 を書き出しました（オブジェクト ${bundle.objects.length}）`);
 }
 
 function exportPng() {
@@ -559,7 +570,7 @@ function exportPng() {
 }
 
 async function importFile(file) {
-  ui.status.textContent = `${file.name} を読み込んでいます…`;
+  setStatus(`${file.name} を読み込んでいます…`);
   try {
     const parsed = parseAny(await file.text(), file.name);
     await loadAllSources();          // 索引に突き合わせて出典を復元するため
@@ -568,7 +579,7 @@ async function importFile(file) {
       + `ノード ${r.nodes}（うち索引に無いもの ${r.manual}） / リンク ${r.links}`
       + (r.skipped ? ` / 解決できず ${r.skipped}` : "");
   } catch (err) {
-    ui.status.textContent = `読み込めませんでした: ${err.message}`;
+    setStatus(`読み込めませんでした: ${err.message}`, { error: true });
   }
 }
 
@@ -943,7 +954,7 @@ function openNodeMenu(node, at) {
     ["リンクを張る", () => ui.graph.beginLink(node.id)],
     ["値をコピー", async () => {
       try { await navigator.clipboard.writeText(nodeValue(node)); ui.status.textContent = "コピーしました"; }
-      catch { ui.status.textContent = "コピーできませんでした"; }
+      catch { setStatus("コピーできませんでした", { error: true }); }
     }],
     ["削除", () => { ui.graph.remove(node.id); saveState(); }],
   ];
@@ -969,20 +980,20 @@ function openNodeMenu(node, at) {
 async function runAction(node, action) {
   if (!ui) return;
   const label = `${shorten(nodeValue(node), 24)} を ${action.label}`;
-  ui.status.textContent = `${label}…`;
+  setStatus(`${label}…`);
   try {
     const out = await action.run({
       onProgress: (job) => {
         if (!ui) return;
         const p = job.progress || {};
         const nums = Object.entries(p).map(([k, v]) => `${k} ${v}`).join(" / ");
-        ui.status.textContent = `${label}… ジョブ ${job.status}${nums ? ` — ${nums}` : ""}`;
+        setStatus(`${label}… ジョブ ${job.status}${nums ? ` — ${nums}` : ""}`);
       },
     });
     applyResult(node, out);
-    ui.status.textContent = `${label}: ${out.note || "完了"}`;
+    setStatus(`${label}: ${out.note || "完了"}`, { error: !!out.error });
   } catch (err) {
-    ui.status.textContent = `${label}: ${err.message}`;
+    setStatus(`${label}: ${err.message}`, { error: true });
   }
 }
 

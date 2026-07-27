@@ -7,7 +7,7 @@
 // 調査の実体は Active Research API と Shodan。VirusTotal と GitHub は
 // Active Research 経由なので、トークンが API サーバーを通る（画面で明示する）。
 
-import { getTool, run } from "./api-active-research.js";
+import { getTool, rdapRecord, run } from "./api-active-research.js";
 import { getModuleSettings } from "./modules.js";
 import { getSettings, lookup as osintLookup } from "./osint.js";
 import { detectType } from "./util.js";
@@ -43,7 +43,7 @@ export function nodeValue(node) {
 
 /* ---------------- 結果の組み立て ---------------- */
 
-const res = () => ({ attrs: {}, related: [], note: null });
+const res = () => ({ attrs: {}, related: [], note: null, error: false });
 
 function addRel(out, type, value, rel, extra = {}) {
   const v = String(value ?? "").trim().replace(/\.$/, "");
@@ -108,20 +108,28 @@ export const ACTIONS = [
     async run(node) {
       const out = res();
       const d = await callTool("rdap", { target: hostOf(nodeValue(node)) }, { allowNotOk: true });
-      const data = d.rdap?.data || {};
-      out.attrs["RDAP"] = d.rdap ? `HTTP ${d.rdap.status}` : null;
-      out.attrs["登録日"] = (data.events || []).find((e) => e.eventAction === "registration")?.eventDate;
-      out.attrs["最終更新"] = (data.events || []).find((e) => e.eventAction === "last changed")?.eventDate;
-      out.attrs["ステータス"] = (data.status || []).join(", ") || null;
-      out.attrs["WHOIS 参照先"] = d.whois?.iana?.server;
-      if (d.whois?.iana?.text) out.attrs["WHOIS 本文"] = d.whois.iana.text;
-      for (const ns of data.nameservers || []) addRel(out, "ioc.domain", ns.ldhName, "RDAP: NS");
-      const registrar = (data.entities || []).find((e) => (e.roles || []).includes("registrar"));
-      if (registrar?.vcardArray) {
-        const fn = registrar.vcardArray[1]?.find((f) => f[0] === "fn")?.[3];
-        if (fn) out.attrs["レジストラ"] = fn;
+      const r = rdapRecord(d);
+
+      out.attrs["レジストラ"] = r.registrar;
+      out.attrs["登録日"] = r.created;
+      out.attrs["最終更新"] = r.updated;
+      out.attrs["有効期限"] = r.expires;
+      out.attrs["ステータス"] = r.status.join("\n") || null;
+      out.attrs["連絡先"] = r.contact;
+      if (r.note) out.attrs["注記"] = r.note;
+      if (r.raw) out.attrs["WHOIS 本文"] = r.raw;
+
+      for (const ns of r.nameservers) addRel(out, "ioc.domain", ns, "WHOIS: NS");
+
+      if (d.ok === false) {
+        out.error = true;
+        out.note = `WHOIS を引けませんでした: ${d.error || "(理由の記載なし)"}`;
+      } else if (!r.registrar && !r.raw) {
+        out.error = true;
+        out.note = "応答に WHOIS の中身がありませんでした";
+      } else {
+        out.note = `${r.registrar || "登録情報"} を取り込みました`;
       }
-      if (d.ok === false) out.note = `RDAP は ${d.rdap?.data?.error || "エラー"} を返しました（WHOIS 本文は取得済み）`;
       return out;
     },
   },
@@ -330,7 +338,12 @@ async function callTool(id, values, { allowNotOk = false, onProgress } = {}) {
   if (!tool) throw new Error(`未知のツール: ${id}`);
   const r = await run(getModuleSettings().activeResearchBase, tool, values, { onProgress });
   const d = r.data;
-  if (!d) throw new Error(`応答を読めませんでした (HTTP ${r.status})`);
+  if (!d) {
+    // 5xx は API サーバー側が落ちている（応答が HTML のこともある）。
+    // 利用者が直せる話ではないので、そう分かる書き方にする。
+    if (r.status >= 500) throw new Error(`API サーバーがエラーを返しました (HTTP ${r.status})。時間をおいて試してください`);
+    throw new Error(`応答を読めませんでした (HTTP ${r.status})`);
+  }
   if (d.ok === false && !allowNotOk) throw new Error(d.error || "API が ok:false を返しました");
   return d;
 }
