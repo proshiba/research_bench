@@ -1271,6 +1271,8 @@ a { color: inherit; }
 }
 
 .st-link:hover { color: var(--ink); border-color: var(--ink-faint); }
+/* 配信側に新しい版が出ているときの案内。見落とすと「直したのに変わらない」になる */
+.st-link.is-new { color: var(--focus); border-color: var(--focus); font-weight: 600; }
 
 /* ---------------- popover ---------------- */
 
