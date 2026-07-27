@@ -2,12 +2,13 @@
 
 import { getModule, loadModuleSettings } from "./modules.js";
 import { loadSettings } from "./osint.js";
-import { getSource, initStore, loadSource, onChange, store } from "./store.js";
+import { deepLink, getSource, initStore, loadSource, onChange, store } from "./store.js";
 import { el, esc, fmtBytes, fmtNum } from "./util.js";
-import { renderDashboard } from "./view-dashboard.js";
+import { openDashboardAt, renderDashboard } from "./view-dashboard.js";
 import { renderModules } from "./view-modules.js";
 import { openOsintSettings, osintSummary, osintTooltip } from "./view-osint-settings.js";
 import { renderSearch } from "./view-search.js";
+import { refreshTop, renderTop } from "./view-top.js";
 import { pivotTo, renderWorkbench } from "./view-workbench.js";
 
 const dom = {
@@ -55,9 +56,8 @@ function setHash(route, arg) {
 async function render() {
   const parsed = parseHash();
   state.route = parsed.route;
-  if (parsed.route === "dashboard") {
-    state.appId = parsed.appId || state.appId || store.sources[0]?.app_id || null;
-  }
+  // ダッシュボードは引数なし＝速報トップ、引数ありでそのアプリ
+  if (parsed.route === "dashboard") state.appId = parsed.appId || null;
   if (parsed.route === "search") state.query = parsed.query;
   if (parsed.route === "modules") state.moduleId = parsed.moduleId;
 
@@ -74,7 +74,8 @@ async function render() {
   if (!view) return;
 
   if (state.route === "dashboard") {
-    renderDashboard(view, getSource(state.appId));
+    if (state.appId) renderDashboard(view, getSource(state.appId));
+    else renderTop(view, { onOpen: openFromTop, onQuery: (q) => setHash("search", q) });
   } else if (state.route === "search") {
     dom.q.value = state.query;
     await renderSearch(view, state.query, { onPivot: handlePivot });
@@ -87,6 +88,13 @@ async function render() {
       onBack: () => setHash("modules"),
     });
   }
+}
+
+/** 速報トップから、そのアプリのダッシュボードへ移る（実体があればその場所へ）。 */
+function openFromTop(appId, entity) {
+  const source = getSource(appId);
+  if (entity && source) openDashboardAt(deepLink(entity, entity.type) || null);
+  setHash("dashboard", appId);
 }
 
 async function handlePivot(action) {
@@ -119,10 +127,10 @@ function updateTopbar() {
   dom.ctxBtn.title = isDashboard ? "表示するアプリを選ぶ" : "ダッシュボードに戻る";
 
   if (isDashboard) {
-    const s = getSource(state.appId);
+    const s = state.appId ? getSource(state.appId) : null;
     dom.ctxDot.style.color = s ? `var(--src-${s.accent})` : "var(--ink-faint)";
-    dom.ctxName.textContent = s ? s.name : "アプリ未登録";
-    dom.ctxSlug.textContent = s ? s.app_id : "";
+    dom.ctxName.textContent = s ? s.name : "速報";
+    dom.ctxSlug.textContent = s ? s.app_id : "トップ";
     dom.openExternal.hidden = !s;
     if (s) dom.openExternal.href = s.dashboard_url || s.site_url;
   } else if (state.route === "modules") {
@@ -151,6 +159,15 @@ function setSearchCompact(compact) {
 
 function buildAppMenu() {
   dom.ctxMenu.replaceChildren(el("div", { class: "menu-label", text: `接続ソース · spec v${store.spec}` }));
+  dom.ctxMenu.append(el("button", {
+    class: "ctx-item", type: "button", role: "menuitem",
+    "aria-current": String(state.route === "dashboard" && !state.appId),
+    onclick: () => { setHash("dashboard"); closeMenus(); },
+  }, [
+    el("span", { class: "ctx-dot", style: "color:var(--focus)" }),
+    el("span", { class: "ctx-item-name", text: "速報トップ" }),
+    el("span", { class: "ctx-item-slug", text: "各ソースの新着" }),
+  ]));
   for (const s of store.sources) {
     dom.ctxMenu.append(el("button", {
       class: "ctx-item", type: "button", role: "menuitem",
@@ -310,7 +327,7 @@ async function boot() {
   buildAppMenu();
   buildRepoMenu();
   renderStatus();
-  onChange(() => { renderStatus(); buildAppMenu(); });
+  onChange(() => { renderStatus(); buildAppMenu(); refreshTop(); });
   checkBuild();           // 配信側に新しい版が出ていないか（待たない）
 
   for (const btn of dom.rail) {

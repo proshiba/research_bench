@@ -8,6 +8,14 @@ import { el } from "./util.js";
 
 let mounted = null;
 
+// 速報トップから「この記事を開く」と言われたときの行き先。
+// 一度使ったら捨てる（次に同じアプリを開いたときは普通の入口に戻す）。
+let pendingUrl = null;
+
+export function openDashboardAt(url) {
+  pendingUrl = url || null;
+}
+
 export function renderDashboard(root, source) {
   if (!source) {
     root.replaceChildren(el("div", { class: "empty" }, [
@@ -17,16 +25,26 @@ export function renderDashboard(root, source) {
     return;
   }
 
-  // 同じアプリを表示中なら iframe を作り直さない（再読み込みを避ける）
-  if (mounted?.appId === source.app_id && root.contains(mounted.wrap)) return;
+  // 同じアプリを表示中なら iframe を作り直さない（再読み込みを避ける）。
+  // ただし行き先を指定されているときは、その場所へ移す。
+  if (mounted?.appId === source.app_id && root.contains(mounted.wrap)) {
+    if (pendingUrl) {
+      mounted.frame.src = pendingUrl;
+      pendingUrl = null;
+    }
+    return;
+  }
 
   const loading = el("div", { class: "frame-loading" }, [
     el("div", { class: "spinner" }),
     el("span", { text: `${source.name} を読み込んでいます` }),
   ]);
 
+  const src = pendingUrl || source.dashboard_url || source.site_url;
+  pendingUrl = null;
+
   const frame = el("iframe", {
-    src: source.dashboard_url || source.site_url,
+    src,
     title: source.name,
     loading: "lazy",
     referrerpolicy: "no-referrer",
@@ -49,7 +67,7 @@ export function renderDashboard(root, source) {
   const wrap = el("div", { class: "frame-wrap" }, [
     el("div", { class: "frame-bar" }, [
       el("span", { class: "frame-tag", text: "IFRAME" }),
-      el("span", { class: "frame-url", text: source.dashboard_url || source.site_url }),
+      el("span", { class: "frame-url", text: src }),
       el("span", { class: "frame-note", text: source.repository ? source.app_id : "" }),
     ]),
     host,
