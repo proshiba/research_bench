@@ -1484,6 +1484,32 @@ a { color: inherit; }
 .top-tag.is-s4 { font-size: 16px; font-weight: 600; color: var(--ink); }
 .top-tag-more { align-self: center; font-size: 10.5px; color: var(--ink-faint); }
 
+/* 見出しに載せたときに出る要約。body 直下に 1 枚だけ置いて位置を JS で決める
+   （パネルが overflow: auto なので、中に入れると切られてしまう） */
+.top-card {
+  position: fixed;
+  z-index: 40;
+  width: min(340px, calc(100vw - 24px));
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  pointer-events: none;
+}
+.top-card-title { margin: 0 0 6px; font-size: 12.5px; font-weight: 600; line-height: 1.5; }
+.top-card-text { margin: 0; font-size: 12px; line-height: 1.75; color: var(--ink-dim); }
+.top-card-text.is-pending { color: var(--ink-faint); }
+.top-card-text.is-missing { color: var(--ink-faint); }
+.top-card-text.is-error { color: var(--crit); }
+.top-card-foot:empty { display: none; }
+.top-card-foot {
+  margin: 8px 0 0;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink-faint);
+}
+
 .top-list {
   list-style: none;
   margin: 0;
