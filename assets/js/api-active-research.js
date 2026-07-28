@@ -169,6 +169,35 @@ export function rdapRecord(d) {
   };
 }
 
+/**
+ * AbuseIPDB の応答を 1 つの形に均す。
+ *
+ * AbuseIPDB 本体は `{ data: { abuseConfidenceScore, ... } }` を返す。
+ * この API サーバーがそれをどう包むかは実装次第なので、素通し・1 枚包み・
+ * 要約付きのどれでも読めるようにしてある。見つからなければ score は null で、
+ * 「0 点」とは言わない（分からないことを安全側に丸めない）。
+ */
+export function abuseRecord(d) {
+  const cand = [d?.data?.data, d?.data, d?.result, d?.summary, d];
+  const a = cand.find((c) => c && typeof c === "object" && "abuseConfidenceScore" in c) || {};
+  const num = (v) => (typeof v === "number" && Number.isFinite(v) ? v : null);
+
+  return {
+    ip: a.ipAddress ?? null,
+    score: num(a.abuseConfidenceScore),
+    reports: num(a.totalReports),
+    users: num(a.numDistinctUsers),
+    lastReportedAt: a.lastReportedAt ?? null,
+    isp: a.isp ?? null,
+    usageType: a.usageType ?? null,
+    country: a.countryCode ?? a.countryName ?? null,
+    domain: a.domain ?? null,
+    hostnames: Array.isArray(a.hostnames) ? a.hostnames : [],
+    whitelisted: typeof a.isWhitelisted === "boolean" ? a.isWhitelisted : null,
+    tor: typeof a.isTor === "boolean" ? a.isTor : null,
+  };
+}
+
 function push(out, seen, type, value, rel) {
   const v = String(value ?? "").trim().replace(/\.$/, "");
   if (!v) return;
@@ -447,6 +476,48 @@ export const TOOLS = [
       }
       const family = a.popular_threat_classification?.suggested_threat_label;
       if (family) push(out, seen, "malware", family, "VT: 推定ファミリ");
+      return out;
+    },
+  },
+
+  {
+    id: "abuseipdb",
+    label: "AbuseIPDB",
+    desc: "IP の通報状況を API 経由で引く",
+    keyWarning: true,
+    method: "GET",
+    path: "api/tools/abuseipdb",
+    // パラメータ名は他の IP 系ツール（dns / banner / port-scan）に合わせて target。
+    // API 側の実装が別名を使う場合はここだけ直せばよい。
+    params: [
+      { name: "target", label: "IP アドレス", placeholder: "8.8.8.8", required: true },
+      { name: "maxAgeInDays", label: "遡る日数", placeholder: "90", type: "number", hint: "既定 90・最大 365" },
+      { name: "apikey", label: "AbuseIPDB API キー", type: "password", required: true,
+        hint: "Authorization: Bearer で API サーバーに渡します（ブラウザの外に出ます）" },
+    ],
+    query: (v) => ({ target: v.target, maxAgeInDays: v.maxAgeInDays || "" }),
+    headers: (v) => ({ authorization: `Bearer ${v.apikey}` }),
+    summary: (d) => {
+      const a = abuseRecord(d);
+      return [
+        ["信頼度スコア", a.score != null ? `${a.score} / 100` : null],
+        ["通報数", a.reports],
+        ["通報した利用者数", a.users],
+        ["最終通報", a.lastReportedAt],
+        ["ISP", a.isp],
+        ["用途", a.usageType],
+        ["国", a.country],
+        ["ドメイン", a.domain],
+        ["ホスト名", (a.hostnames || []).join(", ")],
+        ["ホワイトリスト", a.whitelisted == null ? null : a.whitelisted ? "はい" : "いいえ"],
+        ["Tor", a.tor == null ? null : a.tor ? "はい" : "いいえ"],
+      ];
+    },
+    iocs: (d) => {
+      const out = [], seen = new Set();
+      const a = abuseRecord(d);
+      if (a.domain) push(out, seen, "ioc.domain", a.domain, "AbuseIPDB: ドメイン");
+      for (const h of a.hostnames || []) push(out, seen, "ioc.domain", h, "AbuseIPDB: ホスト名");
       return out;
     },
   },

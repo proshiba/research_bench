@@ -11,17 +11,20 @@
 //   Shodan            … Access-Control-Allow-Origin: * → ブラウザから直接呼べる
 //   VirusTotal        … CORS ヘッダなし → ブラウザから直接は呼べない
 //   abuse.ch/ThreatFox… CORS ヘッダなし → 同上
+//   AbuseIPDB         … OPTIONS が 405、実応答にも CORS ヘッダなし → 同上
+//   urlscan.io        … プリフライトには * が付くが実応答に付かない → 読めない
+//   Censys (Platform) … CORS ヘッダなし → 同上
 // API で取りに行くのは、ブラウザだけで完結する Shodan だけにしている。
-// 残る 2 つは、キーの要らないリンク（linkOnly）として該当ページを開くだけ。
-// 中継サーバーを置けば呼べるが、キーがブラウザの外に出るので採っていない。
+// 残りは、キーの要らないリンク（linkOnly）として該当ページを開くか、
+// Active Research API 経由で引く（その場合キーがブラウザの外に出る）。
 
 const STORE_KEY = "rb-osint-v1";
 
-// shodan はブラウザから直接 Shodan へ。virustotal と github は Active Research API に
-// Authorization: Bearer で渡すので、値が端末の外（あの API サーバー）に出る。
-// この違いは設定画面でも明示する。
+// shodan はブラウザから直接 Shodan へ。virustotal / github / abuseipdb は
+// Active Research API に Authorization: Bearer で渡すので、値が端末の外
+// （あの API サーバー）に出る。この違いは設定画面でも明示する。
 const settings = {
-  keys: { shodan: "", virustotal: "", github: "" },
+  keys: { shodan: "", virustotal: "", github: "", abuseipdb: "" },
   storage: "memory",              // memory | session | local
 };
 
@@ -72,7 +75,7 @@ export function saveSettings(next) {
 }
 
 export function clearSettings() {
-  settings.keys = { shodan: "", virustotal: "", github: "" };
+  settings.keys = { shodan: "", virustotal: "", github: "", abuseipdb: "" };
   settings.storage = "memory";
   for (const k of ["session", "local"]) backing(k)?.removeItem(STORE_KEY);
 }
@@ -132,6 +135,13 @@ export const PROVIDERS = {
       return `https://www.virustotal.com/gui/${kind}/${encodeURIComponent(v)}`;
     },
     supports: (type) => IP.has(type) || HASH.has(type) || type === "ioc.domain" || type === "ioc.url",
+  },
+
+  abuseipdb: {
+    label: "AbuseIPDB",
+    linkOnly: true,
+    web: (v) => `https://www.abuseipdb.com/check/${encodeURIComponent(v)}`,
+    supports: (type) => IP.has(type),
   },
 
   abusech: {

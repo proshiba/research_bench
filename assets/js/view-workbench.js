@@ -8,6 +8,7 @@ import { deepLink, graphLink, loadAllSources, registerManual, resolveValue, stor
 import { parseAny, toMermaid, toStix } from "./exchange.js";
 import { actionsFor, nodeValue } from "./investigate.js";
 import { lookup, providersFor } from "./osint.js";
+import { LEVEL_JA, riskOf } from "./risk.js";
 import { OPS, runChain } from "./transform.js";
 import { TYPE_GROUPS, detectType, el, shorten, typeGroup, typeLabel, typeShape } from "./util.js";
 
@@ -143,6 +144,10 @@ export async function renderWorkbench(root, { onQuery } = {}) {
     el("span", { class: "lg is-dashed", style: "color:var(--ink-dim)", html: '<i></i>手動追加（索引に無い）' }),
     el("span", { class: "lg is-ring", style: "color:var(--focus)", html: '<i></i>複数ソースに存在' }),
     el("span", { class: "lg is-arrow", style: "color:var(--focus)", html: '<i></i>手動リンク' }),
+    // 危険度は色を増やさず、塗り / 中抜き / 小点で段階を見分ける
+    el("span", { class: "lg", style: "color:var(--crit)", html: '<i class="rk is-high"></i>危険度 高' }),
+    el("span", { class: "lg", style: "color:var(--crit)", html: '<i class="rk is-elevated"></i>中' }),
+    el("span", { class: "lg", style: "color:var(--ink-faint)", html: '<i class="rk is-low"></i>低' }),
   ]);
 
   const canvasWrap = el("div", { class: "wb-canvas-wrap" }, [tools, canvas, legend, importInput]);
@@ -810,6 +815,19 @@ function renderSide(node) {
     srcList.append(el("li", {}, [row]));
   }
   frag.append(srcList);
+
+  const risks = riskOf(node);
+  if (risks.length) {
+    frag.append(el("h3", { class: "side-h", text: "危険度" }));
+    frag.append(el("ul", { class: "side-list risk-list" }, risks.map((r) => el("li", {}, [
+      el("div", { class: `risk-row is-${r.level}` }, [
+        el("span", { class: `rk is-${r.level}` }),
+        el("span", { class: "risk-src", text: r.label }),
+        el("b", { class: "risk-score", text: r.text }),
+        el("span", { class: "risk-level", text: LEVEL_JA[r.level] }),
+      ]),
+    ]))));
+  }
 
   const attrs = collectAttrs(node);
   if (attrs.length) {
