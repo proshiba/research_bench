@@ -5,6 +5,7 @@
 // ソース横断で畳まれた実体は外側の破線リングで示し、出典はサイドバーに出す。
 
 import { getAdapter } from "./adapters.js";
+import { worstLevel } from "./risk.js";
 import { getSource, store } from "./store.js";
 import { TYPE_GROUPS, joinKey, typeGroup, typeShape } from "./util.js";
 
@@ -15,7 +16,7 @@ const DAMPING = 0.85;
 const CENTER_PULL = 0.0014;
 const EXPAND_CAP = 40;
 
-/** ソース内の被参照インデックス。展開時に逆방向の辺も辿れるようにする。 */
+/** ソース内の被参照インデックス。展開時に逆方向の辺も辿れるようにする。 */
 const reverseIndexes = new WeakMap();
 
 function reverseIndex(source) {
@@ -426,6 +427,7 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
       faint: cs.getPropertyValue("--ink-faint").trim(),
       focus: cs.getPropertyValue("--focus").trim(),
       surface: cs.getPropertyValue("--surface").trim(),
+      crit: cs.getPropertyValue("--crit").trim(),
       types: Object.fromEntries(Object.entries(TYPE_GROUPS)
         .map(([k, g]) => [k, cs.getPropertyValue(g.color).trim()])),
     };
@@ -571,6 +573,11 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
         ctx.fill();
       }
 
+      // 危険度の印。右上は「未展開」で埋まっているので右下に置く。
+      // 色は 1 色（警戒色）だけにして、段階は塗り/中抜き/小点で見分ける
+      // ——種別の符号化に使っている色数を増やさないため。
+      riskBadge(n, r);
+
       if (view.k > 0.4) {
         const label = n.label.length > 26 ? n.label.slice(0, 25) + "…" : n.label;
         ctx.font = `${isSel ? "600 " : ""}${11 / view.k}px ui-monospace, SFMono-Regular, Menlo, monospace`;
@@ -582,6 +589,35 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
     }
 
     ctx.restore();
+  }
+
+  /** ノード右下の危険度バッジ。clean は何も描かない（印が増えるだけなので）。 */
+  function riskBadge(n, r) {
+    const level = worstLevel(n);
+    if (level === "clean") return;
+    const bx = n.x + r * 0.74;
+    const by = n.y + r * 0.74;
+    const rad = (level === "low" ? 2.6 : 4.2) / view.k;
+
+    // 下地。ノードの塗りや辺の線と重なっても印だと分かるようにする
+    ctx.beginPath();
+    ctx.arc(bx, by, rad + 1.4 / view.k, 0, Math.PI * 2);
+    ctx.fillStyle = theme.surface;
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(bx, by, rad, 0, Math.PI * 2);
+    if (level === "high") {
+      ctx.fillStyle = theme.crit;
+      ctx.fill();
+    } else if (level === "elevated") {
+      ctx.lineWidth = 1.6 / view.k;
+      ctx.strokeStyle = theme.crit;
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = theme.faint;
+      ctx.fill();
+    }
   }
 
   const settleWaiters = [];

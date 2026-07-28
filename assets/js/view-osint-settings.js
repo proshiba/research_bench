@@ -53,6 +53,7 @@ export function openOsintSettings(dialog) {
   const VIA_API = [
     ["virustotal", "VirusTotal のトークン", "ワークベンチの右クリック調査で使います"],
     ["github", "GitHub のトークン", "コード検索で使います"],
+    ["abuseipdb", "AbuseIPDB のトークン", "IP の通報状況と信頼度スコアを引きます"],
   ];
   const viaRows = VIA_API.map(([field, label, hint]) => {
     const input = el("input", {
@@ -106,7 +107,7 @@ export function openOsintSettings(dialog) {
 
     el("h3", { class: "side-h", text: "Active Research API 経由で使うトークン" }),
     el("p", { class: "modal-desc", text:
-      "この 2 つは調査 API サーバーに Authorization: Bearer で渡します。"
+      "これらは調査 API サーバーに Authorization: Bearer で渡します。"
       + "つまり値がこの端末の外に出ます。ブラウザだけで完結させたい場合は入れないでください。" }),
     ...viaRows,
 
@@ -175,6 +176,7 @@ export function osintTooltip() {
     `Shodan: ${s.keys.shodan ? "設定済み" : "未設定"}（ブラウザから直接）`,
     `VirusTotal: ${s.keys.virustotal ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
     `GitHub: ${s.keys.github ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
+    `AbuseIPDB: ${s.keys.abuseipdb ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
   ];
   return rows.join("\n");
 }

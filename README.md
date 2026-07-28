@@ -81,7 +81,7 @@ CVD ΔE は 6–8 の帯に入るため、**形とノード直下のラベルと
 | 種別 | 出てくる調査 |
 | --- | --- |
 | ドメイン / URL / Web ページ | DNS・WHOIS/RDAP・証明書 (CT)・ページ取得・本文取得・ディレクトリ探索・ポート・バナー |
-| IP | ページ取得・ポート・バナー・Shodan |
+| IP | ページ取得・ポート・バナー・Shodan・VirusTotal・AbuseIPDB |
 | ハッシュ | VirusTotal |
 | すべて | GitHub コード検索・展開・トレイに入れる・リンクを張る・コピー・削除 |
 
@@ -99,6 +99,34 @@ CVD ΔE は 6–8 の帯に入るため、**形とノード直下のラベルと
 
 取り込んだ HTML や WHOIS 全文のような長い属性は畳んで表示し、開くと全文が出る。
 これらはリロードしても残る（グラフの状態と一緒に `localStorage` に入る）。
+
+### 危険度
+
+AbuseIPDB のスコアと VirusTotal の検知ベンダー数は、**ノード右下の印**とサイドバーの
+「危険度」節に出る。生の数字はそのままサイドバーと属性に残る。
+
+提供元ごとに尺度が違う（0–100 の信頼度と、何社が検知したか）ので、**1 つの点数には均さない。**
+数字は提供元の単位のまま持ち、グラフの印だけを提供元ごとの境目で段階に落とす。
+
+| 提供元 | 高 | 中 | 低 |
+| --- | --- | --- | --- |
+| AbuseIPDB（信頼度 0–100） | 80 以上 | 25 以上 | 1 以上 |
+| VirusTotal（検知ベンダー数） | 5 社以上 | 2 社以上 | 1 社以上 |
+
+VirusTotal を割合で見ないのは、`5 / 94` が 5% だからといって軽いわけではないため。
+1 社だけの検知は誤検知が普通にあるので「低」に落としている。
+
+印は**警戒色 1 色だけ**を使い、段階は塗り分けで見分ける（種別に使っている色を増やさないため）。
+
+| | 印 |
+| --- | --- |
+| **高** | 塗りつぶした丸 |
+| **中** | 中抜きの丸 |
+| **低** | 小さな灰色の点 |
+| **検知なし** | グラフには何も出さない。サイドバーには「検知なし」と出る |
+
+複数の提供元が付いているノードは、**いちばん悪い段階**が印になる。
+境目は `assets/js/risk.js` の `SCALES` に集めてあるので、そこだけ直せば画面も追従する。
 
 ワークベンチ左端の**調査対象トレイ**に IP・ドメイン・ハッシュを足すとグラフに載る。
 索引に見つかればその全ソースの実体が、見つからなければ手動ノードとして置かれる。
@@ -134,14 +162,14 @@ Mermaid）でもラベルから種別を推定して読み込む。STIX の id �
 | モジュール | 中身 |
 | --- | --- |
 | **Shodan 検索** | IP を渡して `/shodan/host/{ip}` を引く。キーは端末の中だけ |
-| **Active Research** | 自作の調査 API（[hellow-world](https://hellow-world.hiroshiba.chatgpt.site/api-docs)）の 10 ツール |
+| **Active Research** | 自作の調査 API（[hellow-world](https://hellow-world.hiroshiba.chatgpt.site/api-docs)）の 11 ツール |
 | **CyberChef** | 同梱の CyberChef をこの画面の中で開く。値を持ち込める |
 
 どのモジュールでも、結果から取れた値（IP・ドメイン・エンドポイントなど）は
 **「送る」でワークベンチの調査対象に積める**。ワークベンチを開いていなくても積んでおけて、
 次に開いたときにグラフに載る。モジュール単体の確認とグラフ調査がここで繋がる。
 
-### Active Research の 10 ツール
+### Active Research の 11 ツール
 
 | ツール | エンドポイント | |
 | --- | --- | --- |
@@ -153,6 +181,7 @@ Mermaid）でもラベルから種別を推定して読み込む。STIX の id �
 | バナー取得 | `GET /api/tools/banner` | |
 | ポート確認 | `GET /api/tools/port-scan` | **非同期ジョブ** |
 | VirusTotal | `GET /api/tools/virustotal` | トークン必要 |
+| AbuseIPDB | `GET /api/tools/abuseipdb` | トークン必要 |
 | GitHub 調査 | `GET /api/tools/github` | トークン必要 |
 | 任意リクエスト | `POST /api/request` | |
 
@@ -163,7 +192,7 @@ Mermaid）でもラベルから種別を推定して読み込む。STIX の id �
 API 側は `Access-Control-Allow-Origin: *` を返すため、中継なしでブラウザから直接呼べる
 （`authorization` を許可し、プリフライトに 204 を返すところまで実測済み）。
 
-VirusTotal と GitHub のツールは、利用者のトークンを `Authorization: Bearer` で
+VirusTotal / AbuseIPDB / GitHub のツールは、利用者のトークンを `Authorization: Bearer` で
 この API サーバーに渡す。**トークンが端末の外に出る**ので、画面上でもその旨を明示している。
 ブラウザの中だけで済ませたい場合はワークベンチの OSINT タブ（Shodan）側を使う。
 
@@ -173,23 +202,30 @@ VirusTotal と GitHub のツールは、利用者のトークンを `Authorizati
 結果の要約はその場に出て、関連（逆引き・報告された脆弱性など）は
 **由来をラベルに残した手動リンク**としてグラフに取り込める。
 
-**サーバーを置かない方針なので、API で取りに行くのはブラウザだけで完結する Shodan だけ。**
-VirusTotal と abuse.ch は CORS を許可しておらず、ブラウザから直接は呼べない。中継サーバーを
-挟めば呼べるが、それはキーをブラウザの外に出すことになるので採らなかった。この 2 つは
-キーの要らない「サイトで開く」リンクとして該当ページを開くだけにしてある。
+**ブラウザから直接呼べるのは Shodan だけ。**他はどれも CORS を許可しておらず、
+ポータル単体（GitHub Pages の静的配信）からは応答を読めない。実測は次のとおり。
 
-| サービス | 対応する値 | 連携 |
-| --- | --- | --- |
-| Shodan | IP | **API**（`Access-Control-Allow-Origin: *` を返すため直接呼べる） |
-| VirusTotal | IP / ドメイン / URL / ハッシュ | リンクのみ（CORS ヘッダなし） |
-| ThreatFox (abuse.ch) | IP / ドメイン / URL / ハッシュ / エンドポイント | リンクのみ（CORS ヘッダなし） |
+| サービス | 対応する値 | ブラウザから直接 | 実測した CORS の状況 |
+| --- | --- | --- | --- |
+| Shodan | IP | **可** | 実応答に `Access-Control-Allow-Origin: *` |
+| VirusTotal | IP / ドメイン / URL / ハッシュ | 不可 | CORS ヘッダなし |
+| ThreatFox (abuse.ch) | IP / ドメイン / URL / ハッシュ / エンドポイント | 不可 | CORS ヘッダなし |
+| AbuseIPDB | IP | 不可 | `OPTIONS` が 405・実応答にもヘッダなし |
+| urlscan.io | ドメイン / URL / IP | 不可 | プリフライトには `*` が付くが**実応答に付かない** |
+| Censys (Platform API) | IP / ドメイン | 不可 | CORS ヘッダなし |
+
+直接呼べないものは 2 通りの扱いにしている。
+
+- **Active Research API 経由で引く**（VirusTotal / AbuseIPDB / GitHub）。
+  トークンがあの API サーバーを通るので、設定画面で節を分けて明示している。
+- **キーの要らないリンクだけ出す**（ThreatFox など）。「サイトで開く」で該当ページを開く。
 
 **Shodan の API キーはブラウザの外に出ない。**左端の鍵アイコンから入れたキーは
 この端末の中だけにあり、送信先は Shodan 本体だけ。
 
-VirusTotal と GitHub のトークンは別扱いで、**Active Research API サーバーに
-`Authorization: Bearer` で渡す**（あちらが VirusTotal / GitHub を代理で叩く）。
-つまりこの 2 つは端末の外に出る。設定画面でも節を分けて明示している。
+VirusTotal / AbuseIPDB / GitHub のトークンは別扱いで、**Active Research API サーバーに
+`Authorization: Bearer` で渡す**（あちらが各サービスを代理で叩く）。
+つまりこれらは端末の外に出る。設定画面でも節を分けて明示している。
 ブラウザだけで完結させたい場合は入れなければよい。
 
 置き場所は 3 段階から選べる。
@@ -284,6 +320,7 @@ assets/js/
   modules.js          モジュールの登録簿と設定
   api-active-research.js  調査 API のクライアントとツール定義
   investigate.js      グラフの右クリックから引く調査（種別ごとの項目と結果の整形）
+  risk.js             危険度の尺度と段階（提供元ごとの境目はここだけ）
   view-*.js           各モードの描画
   util.js
 docs/portal-spec.md   連携仕様 v1

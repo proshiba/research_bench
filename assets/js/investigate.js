@@ -4,12 +4,16 @@
 // 実行結果は「そのノードに足す属性」と「新しく生やす関連ノード」に分けて返し、
 // 呼び出し側（view-workbench）がグラフへ反映する。
 //
-// 調査の実体は Active Research API と Shodan。VirusTotal と GitHub は
+// 調査の実体は Active Research API と Shodan。VirusTotal / GitHub / AbuseIPDB は
 // Active Research 経由なので、トークンが API サーバーを通る（画面で明示する）。
+//
+// 危険度が付く調査（AbuseIPDB のスコア、VirusTotal の検知ベンダー数）は
+// risk.js の形で属性に持たせる。グラフの印とサイドバーはそこから読む。
 
-import { getTool, rdapRecord, run } from "./api-active-research.js";
+import { abuseRecord, getTool, rdapRecord, run } from "./api-active-research.js";
 import { getModuleSettings } from "./modules.js";
 import { getSettings, lookup as osintLookup } from "./osint.js";
+import { riskAttrs } from "./risk.js";
 import { detectType } from "./util.js";
 
 const IP = new Set(["ioc.ipv4", "ioc.ipv6"]);
@@ -292,10 +296,18 @@ export const ACTIONS = [
       const d = await callTool("virustotal",
         { type: kind, value: nodeValue(node), apikey: getSettings().keys.virustotal }, { allowNotOk: true });
       const a = d.data?.attributes || {};
-      const st = d.summary?.analysisStats || {};
+      const st = d.summary?.analysisStats || a.last_analysis_stats || {};
+      // 分母は「判定を返したベンダーの総数」。malicious だけ見ても多いのか少ないのか
+      // 分からないので、必ず総数と一緒に出す
+      const vendors = ["malicious", "suspicious", "harmless", "undetected"]
+        .reduce((n, k) => n + (typeof st[k] === "number" ? st[k] : 0), 0);
       out.attrs["VT 判定"] = d.summary?.verdict;
-      out.attrs["VT 検知"] = st.malicious != null ? `悪性 ${st.malicious} / 疑わしい ${st.suspicious ?? 0}` : null;
+      out.attrs["VT 検知"] = st.malicious != null
+        ? `${st.malicious} / ${vendors} ベンダー（疑わしい ${st.suspicious ?? 0}）` : null;
       out.attrs["VT 評判"] = d.summary?.reputation;
+      Object.assign(out.attrs, riskAttrs("virustotal", {
+        score: st.malicious, max: vendors || undefined, suspicious: st.suspicious,
+      }));
       out.attrs["カテゴリ"] = [...new Set(Object.values(d.summary?.categories || {}))].join(", ") || null;
       addPlace(out, { asn: a.asn ? `AS${a.asn}` : null, org: a.as_owner, country: a.country });
       for (const r of a.last_dns_records || []) {
@@ -304,7 +316,51 @@ export const ACTIONS = [
       }
       const family = a.popular_threat_classification?.suggested_threat_label;
       if (family) addRel(out, "malware", family, "VT: 推定ファミリ");
-      if (d.ok === false) out.note = `VirusTotal がエラーを返しました: ${d.error || "(理由なし)"}`;
+      if (d.ok === false) {
+        out.error = true;
+        out.note = `VirusTotal がエラーを返しました: ${d.error || "(理由なし)"}`;
+      } else if (st.malicious != null) {
+        out.note = `${st.malicious} / ${vendors} ベンダーが検知${
+          d.summary?.verdict ? `（判定 ${d.summary.verdict}）` : ""}`;
+      } else {
+        out.note = "応答に検知の内訳がありませんでした";
+      }
+      return out;
+    },
+  },
+
+  {
+    id: "abuseipdb", group: "脅威情報", label: "AbuseIPDB で通報状況を見る", needs: "abuseipdb",
+    when: (t) => IP.has(t),
+    async run(node) {
+      const out = res();
+      const d = await callTool("abuseipdb",
+        { target: nodeValue(node), apikey: getSettings().keys.abuseipdb }, { allowNotOk: true });
+      const a = abuseRecord(d);
+
+      out.attrs["AbuseIPDB 信頼度"] = a.score != null ? `${a.score} / 100` : null;
+      out.attrs["AbuseIPDB 通報数"] = a.reports;
+      out.attrs["AbuseIPDB 通報者数"] = a.users;
+      out.attrs["AbuseIPDB 最終通報"] = a.lastReportedAt;
+      out.attrs["用途"] = a.usageType;
+      out.attrs["ISP"] = a.isp;
+      if (a.whitelisted) out.attrs["AbuseIPDB ホワイトリスト"] = "はい";
+      if (a.tor) out.attrs["Tor 出口"] = "はい";
+      Object.assign(out.attrs, riskAttrs("abuseipdb", { score: a.score }));
+
+      addPlace(out, { isp: a.isp, country: a.country });
+      if (a.domain) addRel(out, "ioc.domain", a.domain, "AbuseIPDB: ドメイン");
+      for (const h of a.hostnames) addRel(out, "ioc.domain", h, "AbuseIPDB: ホスト名");
+
+      if (d.ok === false) {
+        out.error = true;
+        out.note = `AbuseIPDB がエラーを返しました: ${d.error || "(理由なし)"}`;
+      } else if (a.score == null) {
+        out.error = true;
+        out.note = "応答にスコアが入っていませんでした";
+      } else {
+        out.note = `信頼度スコア ${a.score} / 100（通報 ${a.reports ?? "?"} 件）`;
+      }
       return out;
     },
   },
@@ -342,6 +398,8 @@ async function callTool(id, values, { allowNotOk = false, onProgress } = {}) {
     // 5xx は API サーバー側が落ちている（応答が HTML のこともある）。
     // 利用者が直せる話ではないので、そう分かる書き方にする。
     if (r.status >= 500) throw new Error(`API サーバーがエラーを返しました (HTTP ${r.status})。時間をおいて試してください`);
+    // 404 は「この API サーバーにそのツールが無い」。利用者が値を直しても直らないので分けて言う
+    if (r.status === 404) throw new Error(`この API サーバーに ${tool.label} がありません (HTTP 404)`);
     throw new Error(`応答を読めませんでした (HTTP ${r.status})`);
   }
   if (d.ok === false && !allowNotOk) throw new Error(d.error || "API が ok:false を返しました");
@@ -356,6 +414,7 @@ function tokenState(needs) {
     shodan: [keys.shodan, "Shodan の API キーが未設定です"],
     vt: [keys.virustotal, "VirusTotal のトークンが未設定です"],
     github: [keys.github, "GitHub のトークンが未設定です"],
+    abuseipdb: [keys.abuseipdb, "AbuseIPDB のトークンが未設定です"],
   };
   const [value, why] = map[needs] || [];
   return { ready: !!value, why };

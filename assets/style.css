@@ -935,6 +935,33 @@ a { color: inherit; }
   border-right: 0;
 }
 
+/* 危険度の印。Canvas 側（graph.js の riskBadge）と同じ描き分けにする。
+   色は警戒色 1 色だけ。段階は塗り / 中抜き / 小点で見分けるので、
+   色が判別しづらい環境でも段階の差は残る。 */
+.rk {
+  flex: none;
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: none;
+}
+.rk.is-high { background: var(--crit); }
+.rk.is-elevated { border: 1.6px solid var(--crit); }
+.rk.is-low { width: 6px; height: 6px; background: var(--ink-faint); }
+/* 「引いたが何も出なかった」を空白にすると引き忘れと見分けが付かないので印を出す */
+.rk.is-clean { width: 6px; height: 6px; border: 1px solid var(--line); }
+.lg .rk { width: 9px; height: 9px; }
+.lg .rk.is-low { width: 6px; height: 6px; }
+
+.risk-list { gap: 2px; }
+.risk-row { display: flex; align-items: center; gap: 7px; padding: 4px 2px; }
+.risk-src { font-size: 12px; color: var(--ink-dim); }
+.risk-score { margin-left: auto; font-family: var(--font-mono); font-size: 12px; color: var(--ink); }
+.risk-level { font-size: 11px; color: var(--ink-faint); min-width: 3.4em; text-align: right; }
+.risk-row.is-high .risk-score,
+.risk-row.is-high .risk-level { color: var(--crit); font-weight: 600; }
+
 .wb-side {
   border-left: 1px solid var(--line);
   background: var(--surface-2);
