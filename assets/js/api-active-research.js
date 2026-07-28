@@ -170,17 +170,48 @@ export function rdapRecord(d) {
 }
 
 /**
+ * AbuseIPDB の通報カテゴリ。数字だけ返るので名前にする。
+ * https://www.abuseipdb.com/categories
+ */
+const ABUSE_CATEGORIES = {
+  1: "DNS 侵害", 2: "DNS 汚染", 3: "詐欺注文", 4: "DDoS", 5: "FTP 総当たり",
+  6: "Ping of Death", 7: "フィッシング", 8: "VoIP 詐欺", 9: "オープンプロキシ",
+  10: "Web スパム", 11: "メールスパム", 12: "ブログスパム", 13: "VPN", 14: "ポートスキャン",
+  15: "ハッキング", 16: "SQL インジェクション", 17: "なりすまし", 18: "総当たり",
+  19: "不正ボット", 20: "踏み台", 21: "Web アプリ攻撃", 22: "SSH", 23: "IoT 標的",
+};
+
+/** カテゴリの集計を「多い順」の 1 行にする。 */
+export function abuseCategoryText(counts, limit = 6) {
+  if (!counts?.size) return null;
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([id, n]) => `${ABUSE_CATEGORIES[id] || `分類 ${id}`} ${n}`)
+    .join(" / ");
+}
+
+/**
  * AbuseIPDB の応答を 1 つの形に均す。
  *
- * AbuseIPDB 本体は `{ data: { abuseConfidenceScore, ... } }` を返す。
- * この API サーバーがそれをどう包むかは実装次第なので、素通し・1 枚包み・
- * 要約付きのどれでも読めるようにしてある。見つからなければ score は null で、
- * 「0 点」とは言わない（分からないことを安全側に丸めない）。
+ * この API は `{ ok, source, query, summary, data, note }` を返す。summary と data は
+ * 中身が少しずつ違う（summary だけに組織名と国名、data だけにホスト名と通報明細）ので
+ * 重ねて読む。包み方が変わっても拾えるよう、素通しと 1 枚包みも見る。
+ *
+ * score が見つからなければ null。「0 点」とは言わない（分からないことを安全側に丸めない）。
  */
 export function abuseRecord(d) {
-  const cand = [d?.data?.data, d?.data, d?.result, d?.summary, d];
-  const a = cand.find((c) => c && typeof c === "object" && "abuseConfidenceScore" in c) || {};
+  const has = (c) => c && typeof c === "object" && "abuseConfidenceScore" in c;
+  const layers = [d?.data?.data, d?.data, d?.summary, d?.result, d].filter(has);
+  // 後ろの層ほど優先度が低い。先に見つかった値を残す
+  const a = Object.assign({}, ...layers.slice().reverse());
   const num = (v) => (typeof v === "number" && Number.isFinite(v) ? v : null);
+
+  // verbose のときだけ入る通報明細。何をして通報されたかがスコアの根拠になる
+  const categories = new Map();
+  for (const r of Array.isArray(a.reports) ? a.reports : []) {
+    for (const c of r.categories || []) categories.set(c, (categories.get(c) || 0) + 1);
+  }
 
   return {
     ip: a.ipAddress ?? null,
@@ -189,12 +220,18 @@ export function abuseRecord(d) {
     users: num(a.numDistinctUsers),
     lastReportedAt: a.lastReportedAt ?? null,
     isp: a.isp ?? null,
+    org: a.asOrganization ?? null,
+    asn: a.asn ?? null,
     usageType: a.usageType ?? null,
     country: a.countryCode ?? a.countryName ?? null,
+    countryName: a.countryName ?? null,
     domain: a.domain ?? null,
     hostnames: Array.isArray(a.hostnames) ? a.hostnames : [],
     whitelisted: typeof a.isWhitelisted === "boolean" ? a.isWhitelisted : null,
     tor: typeof a.isTor === "boolean" ? a.isTor : null,
+    categories,
+    detailCount: Array.isArray(a.reports) ? a.reports.length : null,
+    note: d?.note ?? null,
   };
 }
 
@@ -487,15 +524,14 @@ export const TOOLS = [
     keyWarning: true,
     method: "GET",
     path: "api/tools/abuseipdb",
-    // パラメータ名は他の IP 系ツール（dns / banner / port-scan）に合わせて target。
-    // API 側の実装が別名を使う場合はここだけ直せばよい。
     params: [
-      { name: "target", label: "IP アドレス", placeholder: "8.8.8.8", required: true },
+      { name: "ip", label: "IP アドレス", placeholder: "8.8.8.8", required: true },
       { name: "maxAgeInDays", label: "遡る日数", placeholder: "90", type: "number", hint: "既定 90・最大 365" },
+      { name: "verbose", label: "通報の明細も取る", type: "checkbox", hint: "何をして通報されたかの内訳が付く" },
       { name: "apikey", label: "AbuseIPDB API キー", type: "password", required: true,
         hint: "Authorization: Bearer で API サーバーに渡します（ブラウザの外に出ます）" },
     ],
-    query: (v) => ({ target: v.target, maxAgeInDays: v.maxAgeInDays || "" }),
+    query: (v) => ({ ip: v.ip, maxAgeInDays: v.maxAgeInDays || "", verbose: v.verbose ? "true" : "" }),
     headers: (v) => ({ authorization: `Bearer ${v.apikey}` }),
     summary: (d) => {
       const a = abuseRecord(d);
@@ -504,13 +540,16 @@ export const TOOLS = [
         ["通報数", a.reports],
         ["通報した利用者数", a.users],
         ["最終通報", a.lastReportedAt],
+        ["通報の種類", abuseCategoryText(a.categories)],
         ["ISP", a.isp],
+        ["組織", a.org],
         ["用途", a.usageType],
         ["国", a.country],
         ["ドメイン", a.domain],
         ["ホスト名", (a.hostnames || []).join(", ")],
         ["ホワイトリスト", a.whitelisted == null ? null : a.whitelisted ? "はい" : "いいえ"],
         ["Tor", a.tor == null ? null : a.tor ? "はい" : "いいえ"],
+        ["注記", a.note],
       ];
     },
     iocs: (d) => {

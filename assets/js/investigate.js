@@ -10,7 +10,7 @@
 // 危険度が付く調査（AbuseIPDB のスコア、VirusTotal の検知ベンダー数）は
 // risk.js の形で属性に持たせる。グラフの印とサイドバーはそこから読む。
 
-import { abuseRecord, getTool, rdapRecord, run } from "./api-active-research.js";
+import { abuseCategoryText, abuseRecord, getTool, rdapRecord, run } from "./api-active-research.js";
 import { getModuleSettings } from "./modules.js";
 import { getSettings, lookup as osintLookup } from "./osint.js";
 import { riskAttrs } from "./risk.js";
@@ -334,20 +334,25 @@ export const ACTIONS = [
     when: (t) => IP.has(t),
     async run(node) {
       const out = res();
+      // verbose を付けると通報の明細が返る。スコアの根拠（何をして通報されたか）が
+      // 分かるので、グラフから引くときは常に取る
       const d = await callTool("abuseipdb",
-        { target: nodeValue(node), apikey: getSettings().keys.abuseipdb }, { allowNotOk: true });
+        { ip: nodeValue(node), verbose: true, apikey: getSettings().keys.abuseipdb }, { allowNotOk: true });
       const a = abuseRecord(d);
 
       out.attrs["AbuseIPDB 信頼度"] = a.score != null ? `${a.score} / 100` : null;
       out.attrs["AbuseIPDB 通報数"] = a.reports;
       out.attrs["AbuseIPDB 通報者数"] = a.users;
       out.attrs["AbuseIPDB 最終通報"] = a.lastReportedAt;
+      out.attrs["AbuseIPDB 通報の種類"] = abuseCategoryText(a.categories);
       out.attrs["用途"] = a.usageType;
       out.attrs["ISP"] = a.isp;
+      out.attrs["組織"] = a.org;
       if (a.whitelisted) out.attrs["AbuseIPDB ホワイトリスト"] = "はい";
       if (a.tor) out.attrs["Tor 出口"] = "はい";
       Object.assign(out.attrs, riskAttrs("abuseipdb", { score: a.score }));
 
+      // AbuseIPDB は AS 番号を返さない（組織名だけ）ので AS ノードは作らない
       addPlace(out, { isp: a.isp, country: a.country });
       if (a.domain) addRel(out, "ioc.domain", a.domain, "AbuseIPDB: ドメイン");
       for (const h of a.hostnames) addRel(out, "ioc.domain", h, "AbuseIPDB: ホスト名");
@@ -359,7 +364,8 @@ export const ACTIONS = [
         out.error = true;
         out.note = "応答にスコアが入っていませんでした";
       } else {
-        out.note = `信頼度スコア ${a.score} / 100（通報 ${a.reports ?? "?"} 件）`;
+        const kinds = abuseCategoryText(a.categories, 3);
+        out.note = `信頼度スコア ${a.score} / 100（通報 ${a.reports ?? "?"} 件${kinds ? ` — ${kinds}` : ""}）`;
       }
       return out;
     },

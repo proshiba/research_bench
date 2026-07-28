@@ -116,6 +116,14 @@ AbuseIPDB のスコアと VirusTotal の検知ベンダー数は、**ノード�
 VirusTotal を割合で見ないのは、`5 / 94` が 5% だからといって軽いわけではないため。
 1 社だけの検知は誤検知が普通にあるので「低」に落としている。
 
+AbuseIPDB は**通報数ではなく信頼度スコアで判断する**。通報が 97 件あってもスコア 0 という
+IP が実在する（1 人が同じ IP を繰り返し通報している場合など）。通報数は属性に残るので、
+スコアと食い違っていればそこで気づける。
+
+グラフから引くときは `verbose=true` を付けて通報の明細も取る。**何をして通報されたか**が
+スコアの根拠なので、`ポートスキャン 50 / ハッキング 36 / 総当たり 32` のように多い順で属性に入る。
+AbuseIPDB は AS 番号を返さない（組織名だけ）ので、ここからは AS ノードを作らない。
+
 印は**警戒色 1 色だけ**を使い、段階は塗り分けで見分ける（種別に使っている色を増やさないため）。
 
 | | 印 |
@@ -181,7 +189,7 @@ Mermaid）でもラベルから種別を推定して読み込む。STIX の id �
 | バナー取得 | `GET /api/tools/banner` | |
 | ポート確認 | `GET /api/tools/port-scan` | **非同期ジョブ** |
 | VirusTotal | `GET /api/tools/virustotal` | トークン必要 |
-| AbuseIPDB | `GET /api/tools/abuseipdb` | トークン必要 |
+| AbuseIPDB | `GET /api/tools/abuseipdb` | トークン必要。`verbose=true` で通報の明細 |
 | GitHub 調査 | `GET /api/tools/github` | トークン必要 |
 | 任意リクエスト | `POST /api/request` | |
 
