@@ -10,6 +10,7 @@
 // 押すとそのアプリのダッシュボードへ飛ぶ。タグはクロスサーチに繋ぐ。
 
 import { loadAllSources, store } from "./store.js";
+import { hasSummarySource, loadSummaries, summaryError, summaryNow, summaryState } from "./summaries.js";
 import { el, fmtNum, shorten } from "./util.js";
 
 /** ニュースの記事に付く、タグとして扱う属性。値は「、」や「,」で複数入ることがある。 */
@@ -81,20 +82,101 @@ function stats(rows) {
 /**
  * 見出しの並び。押すとそのアプリの該当ページを開く。
  * id: true は CVE 番号やアクター名のような短い識別子（折り返さず省略する）。
+ * hover: true はマウスを載せると要約を出す（要約を持つソースだけ）。
  */
-function itemList(source, items, { id = false } = {}) {
-  return el("ul", { class: "top-list" }, items.map(({ entity, day, note, flags, label }) =>
-    el("li", {}, [
-      el("button", {
-        class: "top-item", type: "button", title: `${label || entity.label}\n${entity.label}`,
-        onclick: () => ctx.onOpen?.(source.app_id, entity),
-      }, [
-        el("span", { class: "top-item-day", text: day || "" }),
-        el("span", { class: `top-item-label${id ? " is-id" : ""}`, text: label || entity.label }),
-        ...(flags || []).map((f) => el("span", { class: "top-flag", text: f })),
-        ...(note ? [el("span", { class: "top-item-note", text: note })] : []),
-      ]),
-    ])));
+function itemList(source, items, { id = false, hover = false } = {}) {
+  return el("ul", { class: "top-list" }, items.map(({ entity, day, note, flags, label }) => {
+    const btn = el("button", {
+      class: "top-item", type: "button",
+      // 要約が出る行では title を付けない。ブラウザ標準の吹き出しと二重になるため
+      title: hover ? null : `${label || entity.label}\n${entity.label}`,
+      onclick: () => ctx.onOpen?.(source.app_id, entity),
+    }, [
+      el("span", { class: "top-item-day", text: day || "" }),
+      el("span", { class: `top-item-label${id ? " is-id" : ""}`, text: label || entity.label }),
+      ...(flags || []).map((f) => el("span", { class: "top-flag", text: f })),
+      ...(note ? [el("span", { class: "top-item-note", text: note })] : []),
+    ]);
+    if (hover) attachSummary(btn, source, entity);
+    return el("li", {}, [btn]);
+  }));
+}
+
+/* ---------------- 要約の吹き出し ---------------- */
+
+let card = null;          // 出しっぱなしにしない。1 枚を使い回す
+let cardTimer = null;
+let cardFor = null;       // いまどの実体のために出しているか
+
+function hideCard() {
+  clearTimeout(cardTimer);
+  cardTimer = null;
+  cardFor = null;
+  card?.remove();
+}
+
+/** 吹き出しを対象の行の右側に置く。はみ出すなら左、下が足りなければ上に寄せる。 */
+function placeCard(anchor) {
+  const r = anchor.getBoundingClientRect();
+  const w = card.offsetWidth, h = card.offsetHeight;
+  const gap = 10;
+  let x = r.right + gap;
+  if (x + w > innerWidth - 8) x = Math.max(8, r.left - gap - w);
+  let y = r.top - 4;
+  if (y + h > innerHeight - 8) y = Math.max(8, innerHeight - 8 - h);
+  card.style.left = `${Math.round(x)}px`;
+  card.style.top = `${Math.round(y)}px`;
+}
+
+function showCard(anchor, source, entity) {
+  if (cardFor === entity) return;
+  card?.remove();
+  cardFor = entity;
+
+  const state = summaryState(source, entity);
+  const body = state === "ready"
+    ? el("p", { class: "top-card-text", text: summaryNow(source, entity) })
+    : el("p", {
+      class: `top-card-text is-${state}`,
+      text: state === "pending" ? "要約を読み込んでいます…"
+        : state === "error" ? `要約を取得できませんでした（${summaryError(source) || "理由不明"}）`
+          : "この記事の要約は索引にありません。",
+    });
+
+  card = el("div", { class: "top-card", role: "tooltip" }, [
+    el("p", { class: "top-card-title", text: entity.label }),
+    body,
+    el("p", { class: "top-card-foot", text: [entity.attrs?.日付, entity.attrs?.イベント種別].filter(Boolean).join(" · ") }),
+  ]);
+  document.body.append(card);
+  placeCard(anchor);
+}
+
+/**
+ * 見出し 1 行に要約の吹き出しを付ける。
+ *
+ * 要約は索引に入っていないことがあり、その場合は別ファイルを取りに行く。
+ * トップ画面を開いただけでは取らず、**最初にマウスが載ったとき**に 1 回だけ取る。
+ * 取れたら出しっぱなしの吹き出しをその場で描き直す。
+ */
+function attachSummary(btn, source, entity) {
+  const open = () => {
+    clearTimeout(cardTimer);
+    // すっと通り過ぎただけで出さない
+    cardTimer = setTimeout(() => {
+      showCard(btn, source, entity);
+      if (summaryState(source, entity) === "pending" && hasSummarySource(source)) {
+        loadSummaries(source).then(() => {
+          if (cardFor === entity && btn.isConnected) { cardFor = null; showCard(btn, source, entity); }
+        });
+      }
+    }, 220);
+  };
+  btn.addEventListener("pointerenter", open);
+  btn.addEventListener("focus", open);
+  btn.addEventListener("pointerleave", hideCard);
+  btn.addEventListener("blur", hideCard);
+  btn.addEventListener("click", hideCard);
 }
 
 /**
@@ -163,10 +245,11 @@ function newsPanel(source) {
       stats([["記事", picked.length], ["タグ付き", withTag], ["登場した CVE", cves.size]]),
       tagCloud(counts),
       el("h3", { class: "side-h", text: "見出し" }),
-      // 種別はタグ雲に出ているので、ここは見出しだけに絞って読みやすさを取る
+      // 種別はタグ雲に出ているので、ここは見出しだけに絞って読みやすさを取る。
+      // 中身はマウスを載せたときに要約として出す
       itemList(source, picked.map((e) => ({
         entity: e, day: span === 1 ? null : dayOf(e, ["日付"]),
-      }))),
+      })), { hover: true }),
     ]),
   });
 }
@@ -286,6 +369,7 @@ let mount = null;
 
 function repaint() {
   if (!mount) return;
+  hideCard();
   const grid = mount.querySelector(".top-grid");
   if (!grid) return;
   const ordered = [...store.sources].sort((a, b) => {
