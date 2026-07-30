@@ -259,6 +259,11 @@ SDO なので**束だけを他の STIX ツールへ渡しても題と説明が�
 | 題 | 200 文字 | 超えたぶんは切る |
 | 説明 | 5,000 文字 | 同上 |
 
+**上限は `/api/meta` から取る。**API の `limits` / `thumbnail` / `pagination` を
+起動後に読んでポータル側の既定値を上書きするので、**API 側で変えれば追従する**
+（取得に失敗したときだけ既定値のまま動く）。受け付けない画像形式のときは
+**画像だけ諦めて本体は保存する** — 保存ごと失敗させない。
+
 画面写真は**今見えているまま**を撮る。全体を写したいときは「全体表示」を
 押してから保存する。一覧のカードは切り取らずに全体を出す。
 
@@ -270,13 +275,27 @@ SDO なので**束だけを他の STIX ツールへ渡しても題と説明が�
 一覧の検索欄は**サーバー側の `?q=`** に投げる（題・説明・**STIX の `name`** を横断）。
 題を付け忘れた保存も、中身のマルウェア名やアクター名から辿れる。
 
-サムネイルは一覧に画像そのものではなく**取得 URL** が載る。`me` のものは
-画像の取得にも `Authorization` が要るので、`<img src>` では出せない。
-`fetch` で取ってからオブジェクト URL にして貼っている。
+一覧は `offset` で辿る。応答の `total` と `hasMore` を使い、**何件のうち何件を
+出しているか常に断る**（黙って打ち切らない）。続きは「さらに読み込む」で足す。
 
-API 側に残っている依頼は
-[`docs/agent-prompts/active-research-stix-storage.md`](docs/agent-prompts/active-research-stix-storage.md)
-（一覧のページング、サムネイルの `ETag`、`/api/meta` への上限の記載）。
+### サムネイルの取り方
+
+一覧に載るのは画像そのものではなく**取得 URL とメタデータ**。`me` のものは
+画像の取得にも `Authorization` が要るので `<img src>` では出せない。
+`fetch` で取ってオブジェクト URL にして貼り、入れ替え時に `revokeObjectURL` する。
+
+控えの鍵は **`id:sha256`**（`sha256` は API が返す画像の指紋で、`ETag` と同じ値）。
+中身が変わっていなければ**要求そのものが出ない**。中身が変われば鍵も変わるので、
+更新した画像は自動で取り直される。
+
+条件付き GET はポータルでは組んでいない。API が `ETag` と `Cache-Control`
+（`public` は `max-age=300`、`me` は `private, max-age=0, must-revalidate`）を
+付けるので、**ブラウザが `If-None-Match` を付けて 304 に落とす**。
+`Authorization` 付きの応答が私用キャッシュに入るか確信が持てなかったので、
+実ネットワーク経路で確かめてある（`private` + `Authorization` でも 304 になる）。
+
+連携の記録は
+[`docs/agent-prompts/active-research-stix-storage.md`](docs/agent-prompts/active-research-stix-storage.md)。
 
 ## モジュール
 

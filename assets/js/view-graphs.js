@@ -18,18 +18,27 @@ let items = [];
 let visibility = "me";
 let query = "";
 let loading = false;
+let loadingMore = false;
 let error = null;
 let bound = false;
 let reqSeq = 0;
+let total = 0;
+let hasMore = false;
 
-/** id → オブジェクト URL。取り直しを避けるための控え。消すときは revoke する。 */
+/**
+ * 画像の控え。鍵は `id:sha256`（sha256 は API が返す画像の指紋＝ETag と同じ値）。
+ * 中身が変われば鍵も変わるので、更新した画像は自動で取り直される。
+ * 変わっていなければ条件付き GET すら発生しない。
+ */
 const thumbs = new Map();
 
+const thumbKey = (item) => `${item.id}:${item.thumbnail?.sha256 || ""}`;
+
 function dropThumbs(keep) {
-  for (const [id, url] of thumbs) {
-    if (keep && keep.has(id)) continue;
+  for (const [key, url] of thumbs) {
+    if (keep && keep.has(key)) continue;
     URL.revokeObjectURL(url);
-    thumbs.delete(id);
+    thumbs.delete(key);
   }
 }
 
@@ -41,15 +50,19 @@ async function load() {
   error = null;
   render();
   try {
-    const got = await list({ visibility, limit: 100, q: query });
+    const got = await list({ visibility, q: query });
     // 打っている最中に前の結果が返ってくることがある。古いものは捨てる
     if (seq !== reqSeq) return;
-    items = got;
-    dropThumbs(new Set(items.map((o) => o.id)));
+    items = got.items;
+    total = got.total;
+    hasMore = got.hasMore;
+    dropThumbs(new Set(items.map(thumbKey)));
   } catch (e) {
     if (seq !== reqSeq) return;
     error = e.message || String(e);
     items = [];
+    total = 0;
+    hasMore = false;
   } finally {
     if (seq === reqSeq) {
       loading = false;
@@ -58,12 +71,37 @@ async function load() {
   }
 }
 
-/** 画像を取ってその img にだけ入れる。画面全体は描き直さない。 */
-async function fillThumb(id, img) {
-  if (thumbs.has(id)) { img.src = thumbs.get(id); return; }
+/** 続きを足す。offset は今持っている件数から。 */
+async function loadMore() {
+  if (loadingMore || !hasMore) return;
+  const seq = reqSeq;
+  loadingMore = true;
+  render();
   try {
-    const url = await thumbnailUrl(id);
-    thumbs.set(id, url);
+    const got = await list({ visibility, q: query, offset: items.length });
+    if (seq !== reqSeq) return;
+    // 取得中に消えた分があると id が重なることがある。畳んでおく
+    const seen = new Set(items.map((o) => o.id));
+    items = [...items, ...got.items.filter((o) => !seen.has(o.id))];
+    total = got.total;
+    hasMore = got.hasMore;
+  } catch (e) {
+    if (seq === reqSeq) error = e.message || String(e);
+  } finally {
+    if (seq === reqSeq) {
+      loadingMore = false;
+      render();
+    }
+  }
+}
+
+/** 画像を取ってその img にだけ入れる。画面全体は描き直さない。 */
+async function fillThumb(item, img) {
+  const key = thumbKey(item);
+  if (thumbs.has(key)) { img.src = thumbs.get(key); img.classList.remove("is-pending"); return; }
+  try {
+    const url = await thumbnailUrl(item.id);
+    thumbs.set(key, url);
     img.src = url;
     img.classList.remove("is-pending");
   } catch {
@@ -108,7 +146,8 @@ async function deleteItem(item) {
   try {
     await remove(item.id);
     items = items.filter((o) => o.id !== item.id);
-    dropThumbs(new Set(items.map((o) => o.id)));
+    total = Math.max(0, total - 1);
+    dropThumbs(new Set(items.map(thumbKey)));
     render();
   } catch (e) {
     error = e.message || String(e);
@@ -158,7 +197,7 @@ function card(item) {
   let thumb;
   if (item.thumbnail) {
     thumb = el("img", { class: "gcard-shot is-pending", alt: "", loading: "lazy" });
-    fillThumb(item.id, thumb);
+    fillThumb(item, thumb);
   } else {
     thumb = el("div", { class: "gcard-shot is-empty", text: "画面写真なし" });
   }
@@ -268,7 +307,18 @@ function render() {
         : el("p", { class: "gv-hint", text: "ワークベンチでグラフを作り、右上の「保存」から保存できます。" }),
     ]);
   } else {
-    main = el("div", { class: "gv-grid" }, items.map(card));
+    // 何件のうち何件を出しているかは常に断る（黙って打ち切らない）
+    main = el("div", {}, [
+      el("p", { class: "gv-count", text: total > items.length ? `${total} 件中 ${items.length} 件` : `${total} 件` }),
+      el("div", { class: "gv-grid" }, items.map(card)),
+      hasMore
+        ? el("div", { class: "gv-more" }, [el("button", {
+          class: "btn", type: "button", disabled: loadingMore,
+          text: loadingMore ? "読み込み中…" : `さらに読み込む（残り ${Math.max(0, total - items.length)} 件）`,
+          onclick: () => loadMore(),
+        })])
+        : null,
+    ]);
   }
 
   shell.main.replaceChildren(main);

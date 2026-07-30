@@ -22,15 +22,53 @@ import { DEFAULT_BASE } from "./api-active-research.js";
 import { authHeaders, isLoggedIn, recoverFromUnauthorized } from "./auth-active-research.js";
 import { getModuleSettings } from "./modules.js";
 
-/** STIX 本体の上限は 10 MiB。手前で止めて、API に弾かれる前に理由を出す。 */
-export const MAX_BYTES = 10 * 1024 * 1024;
+/**
+ * 上限。API が /api/meta で機械可読に出してくれるので、起動後はそちらで上書きする。
+ * ここの値は取得前・取得失敗時の控えで、実測に合わせた既定値。
+ * 手前で確かめてから送る（弾かれてから理由を出すより早いため）。
+ */
+export const LIMITS = {
+  stixMaxBytes: 10 * 1024 * 1024,
+  thumbMaxBytes: 512 * 1024,
+  thumbTypes: ["image/png", "image/jpeg", "image/webp"],
+  titleMax: 200,
+  descriptionMax: 5000,
+  qMax: 200,
+  listMaxLimit: 100,
+  listPageSize: 50,
+};
 
-/** サムネイルの上限（デコード後）。API と同じ値を持って、送る前に確かめる。 */
-export const MAX_THUMB_BYTES = 512 * 1024;
+let metaLoaded = null;
 
-/** API 側の上限に合わせる。手前で切って、保存が丸ごと失敗しないようにする。 */
-export const MAX_TITLE = 200;
-export const MAX_DESCRIPTION = 5000;
+/**
+ * /api/meta の stix ツール定義から上限を取り込む。1 回だけ引いて使い回す。
+ * 失敗しても既定値のまま動く（上限の確認が甘くなるだけで、API 側が弾く）。
+ */
+export async function loadLimits() {
+  if (metaLoaded) return LIMITS;
+  metaLoaded = (async () => {
+    try {
+      const res = await fetch(new URL("/api/meta", base() + "/"), { credentials: "omit" });
+      const tool = (await res.json())?.tools?.find((t) => t.id === "stix");
+      if (!tool) return LIMITS;
+      const l = tool.limits || {};
+      const t = tool.thumbnail || {};
+      const p = tool.pagination || {};
+      if (l.stix_max_bytes) LIMITS.stixMaxBytes = l.stix_max_bytes;
+      if (l.title_max) LIMITS.titleMax = l.title_max;
+      if (l.description_max) LIMITS.descriptionMax = l.description_max;
+      if (l.q_max) LIMITS.qMax = l.q_max;
+      if (t.max_bytes) LIMITS.thumbMaxBytes = t.max_bytes;
+      if (Array.isArray(t.content_types) && t.content_types.length) LIMITS.thumbTypes = t.content_types;
+      if (p.max_limit) LIMITS.listMaxLimit = p.max_limit;
+      if (p.default_limit) LIMITS.listPageSize = p.default_limit;
+    } catch {
+      // 既定値のまま進む
+    }
+    return LIMITS;
+  })();
+  return metaLoaded;
+}
 
 /** 長い属性（取り込んだ HTML など）を保存時に切る長さ。STIX の上限に当たらないための保険。 */
 const ATTR_CAP = 4000;
@@ -180,9 +218,16 @@ function normalize(o) {
     owner: o.owner?.login || null,
     title: o.graphTitle || "",
     description: o.graphDescription || "",
-    // 一覧に載るのは取得 URL とメタデータだけ。画像は別途取りに行く
+    // 一覧に載るのは取得 URL とメタデータだけ。画像は別途取りに行く。
+    // sha256 は画像の中身の指紋（ETag と同じ値）。控えの鍵に使うと、
+    // 中身が変わっていない画像は取り直しも条件付き GET も要らなくなる
     thumbnail: t?.url
-      ? { url: new URL(t.url, base() + "/").href, contentType: t.contentType || null, sizeBytes: t.sizeBytes ?? null }
+      ? {
+        url: new URL(t.url, base() + "/").href,
+        contentType: t.contentType || null,
+        sizeBytes: t.sizeBytes ?? null,
+        sha256: t.sha256 || null,
+      }
       : null,
     sizeBytes: o.sizeBytes ?? null,
     objectCount: o.objectCount ?? null,
@@ -195,11 +240,29 @@ function normalize(o) {
 /**
  * 一覧。q を渡すと題・説明・STIX name を部分一致で絞る（サーバー側）。
  * 題も説明もサムネイルの在処も一覧に載るので、ここだけで画面が作れる。
+ *
+ * 件数は offset で辿る。total と hasMore が返るので、
+ * 「全部ではない」ことを画面で断れる。
  */
-export async function list({ visibility = "me", limit = 50, q = "" } = {}) {
-  if (visibility === "me" && !isLoggedIn()) return [];
-  const json = await req("GET", endpoint({ visibility, limit, q: q.slice(0, 200) }));
-  return (json?.objects || []).map(normalize);
+export async function list({ visibility = "me", limit, offset = 0, q = "" } = {}) {
+  await loadLimits();
+  if (visibility === "me" && !isLoggedIn()) {
+    return { items: [], total: 0, offset: 0, hasMore: false };
+  }
+  const json = await req("GET", endpoint({
+    visibility,
+    limit: Math.min(limit || LIMITS.listPageSize, LIMITS.listMaxLimit),
+    offset,
+    q: q.slice(0, LIMITS.qMax),
+  }));
+  const items = (json?.objects || []).map(normalize);
+  return {
+    items,
+    total: json?.total ?? items.length,
+    offset: json?.offset ?? offset,
+    // hasMore が無い API でも動くよう、件数からも判定できるようにしておく
+    hasMore: json?.hasMore ?? (offset + items.length < (json?.total ?? items.length)),
+  };
 }
 
 /** 1 件を STIX 本体まで取る。復元と、旧い保存の画像取り出しに使う。 */
@@ -224,6 +287,10 @@ export async function read(id) {
  * サムネイルの画像。me のものは取得にも Authorization が要るので
  * <img src> では出せない。取ってからオブジェクト URL にする。
  * 使い終わったら revokeObjectURL すること。
+ *
+ * API が ETag と Cache-Control（public は max-age=300、me は private）を
+ * 付けてくれるので、2 回目以降の fetch はブラウザが If-None-Match を付けて
+ * 304 に落とす。ここで自前の条件付き GET は組まない。
  */
 export async function thumbnailUrl(id) {
   const b = await req("GET", endpoint({ id, asset: "thumbnail" }), undefined, { blob: true });
@@ -232,8 +299,9 @@ export async function thumbnailUrl(id) {
 
 function checkSize(stix) {
   const bytes = new TextEncoder().encode(JSON.stringify(stix)).length;
-  if (bytes > MAX_BYTES) {
-    throw new Error(`STIX が ${(bytes / 1024 / 1024).toFixed(1)} MiB あり、上限 10 MiB を超えています`);
+  if (bytes > LIMITS.stixMaxBytes) {
+    const cap = (LIMITS.stixMaxBytes / 1024 / 1024).toFixed(0);
+    throw new Error(`STIX が ${(bytes / 1024 / 1024).toFixed(1)} MiB あり、上限 ${cap} MiB を超えています`);
   }
 }
 
@@ -247,25 +315,36 @@ function decodedBytes(base64) {
 /** 保存本文の組み立て。題と説明は API の上限で切る。 */
 function payload({ visibility, title, description, thumbnail, stix }) {
   checkSize(stix);
-  if (thumbnail && decodedBytes(thumbnail.base64) > MAX_THUMB_BYTES) {
-    throw new Error(`サムネイルが上限 512 KiB を超えています（${Math.round(decodedBytes(thumbnail.base64) / 1024)} KiB）`);
+  let thumb = thumbnail;
+  if (thumb) {
+    const bytes = decodedBytes(thumb.base64);
+    if (!LIMITS.thumbTypes.includes(thumb.contentType)) {
+      // 受け付けない形式を送ると保存ごと失敗する。画像だけ諦めて本体は通す
+      thumb = null;
+    } else if (bytes > LIMITS.thumbMaxBytes) {
+      throw new Error(
+        `サムネイルが上限 ${Math.round(LIMITS.thumbMaxBytes / 1024)} KiB を超えています（${Math.round(bytes / 1024)} KiB）`,
+      );
+    }
   }
   return {
     visibility,
-    graphTitle: (title || "").trim().slice(0, MAX_TITLE) || null,
-    graphDescription: (description || "").trim().slice(0, MAX_DESCRIPTION) || null,
+    graphTitle: (title || "").trim().slice(0, LIMITS.titleMax) || null,
+    graphDescription: (description || "").trim().slice(0, LIMITS.descriptionMax) || null,
     // 省略すると更新時に現在値を保持する仕様。撮れなかったときは触らない
-    ...(thumbnail ? { thumbnail } : {}),
+    ...(thumb ? { thumbnail: thumb } : {}),
     stix,
   };
 }
 
 export async function create(stix, opts = {}) {
+  await loadLimits();
   const json = await req("POST", endpoint(), payload({ ...opts, stix }));
   return normalize(json?.object || {});
 }
 
 export async function update(id, stix, opts = {}) {
+  await loadLimits();
   const json = await req("PUT", endpoint({ id }), payload({ ...opts, stix }));
   return normalize(json?.object || { id });
 }
