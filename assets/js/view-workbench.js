@@ -873,16 +873,16 @@ function openSave() {
     return;
   }
   openSaveDialog(ui.saveDialog, savedRef, async ({ title, description, visibility, asNew }) => {
-    // 画面写真は「今見えている通り」を撮る。撮ってから束を組む
-    const screenshot = ui.graph.exportThumb();
-    const stix = wrapBundle(toStix(ui.graph), {
-      title, description, screenshot, snapshot: buildSnapshot(),
-    });
+    // 画面写真は「今見えている通り」を撮る。API のサムネイル欄へ別に渡すので
+    // 束には入れない（同じ画像を 2 か所に持たない）
+    const thumbnail = ui.graph.exportThumb();
+    const stix = wrapBundle(toStix(ui.graph), { title, description, snapshot: buildSnapshot() });
+    const opts = { visibility, title, description, thumbnail };
 
     const id = asNew ? null : savedRef?.id;
     const saved = id
-      ? await stixUpdate(id, stix, { visibility })
-      : await stixCreate(stix, { visibility });
+      ? await stixUpdate(id, stix, opts)
+      : await stixCreate(stix, opts);
 
     savedRef = { id: saved.id, title, description, visibility };
     renderSaveBtn();

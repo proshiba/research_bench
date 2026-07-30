@@ -1,104 +1,74 @@
 // 保存したグラフの一覧。
 //
-// API の一覧はメタデータ（id・公開範囲・更新時刻・サイズ）しか返さず、
-// 題・説明・画面写真は STIX 本体の中にある。そのため一覧を出すには
-// 1 件ずつ本体を取りに行く必要がある。毎回全部取ると重いので、
-// 取れた分は localStorage に控えて次からは即座に出す。
+// 題・説明・サムネイルの在処はすべて API の一覧に載るので、一覧は 1 リクエストで作れる。
+// 絞り込みもサーバー側（?q=）に任せる。題・説明・STIX の name を横断してくれる。
 //
-// 将来 API 側が一覧に name / description を載せたら、stix-store.js の
-// normalize() がそれを拾うのでこの追加取得は自然に減る。
+// サムネイルだけは別。一覧に載るのは取得 URL とメタデータで、画像そのものは
+// もう 1 回取りに行く。me のものは画像の取得にも Authorization が要るため、
+// <img src="…"> では出せない（ヘッダを付けられない）。fetch してから
+// オブジェクト URL にして貼る。
 
 import { authState, onAuthChange } from "./auth-active-research.js";
-import { list, read, remove } from "./stix-store.js";
+import { list, read, remove, thumbnailUrl } from "./stix-store.js";
 import { el, shorten } from "./util.js";
 import { openSavedGraph } from "./view-workbench.js";
-
-const CACHE_KEY = "rb-graphs-v1";
-/** 本体の同時取得数。一覧を開いた瞬間に何十本も並列で投げない */
-const FETCH_CONCURRENCY = 4;
 
 let root = null;
 let items = [];
 let visibility = "me";
+let query = "";
 let loading = false;
 let error = null;
 let bound = false;
+let reqSeq = 0;
 
-/* ---------------- 控え ---------------- */
+/** id → オブジェクト URL。取り直しを避けるための控え。消すときは revoke する。 */
+const thumbs = new Map();
 
-function readCache() {
-  try { return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}"); } catch { return {}; }
-}
-
-function writeCache(map) {
-  try { localStorage.setItem(CACHE_KEY, JSON.stringify(map)); } catch { /* 容量超過は無視してよい */ }
-}
-
-/** 控えは更新時刻で持つ。API 側が更新されていたら作り直す。 */
-function mergeCache(list) {
-  const cache = readCache();
-  return list.map((o) => {
-    const c = cache[o.id];
-    if (o.loaded || !c || c.updatedAt !== o.updatedAt) return o;
-    return { ...o, title: c.title, description: c.description, screenshot: c.screenshot, loaded: true };
-  });
-}
-
-function rememberCache(item) {
-  const cache = readCache();
-  cache[item.id] = {
-    updatedAt: item.updatedAt,
-    title: item.title,
-    description: item.description,
-    // 画面写真は控えの大半を占めるので、大きすぎるものは控えない
-    screenshot: (item.screenshot || "").length < 200_000 ? item.screenshot : null,
-  };
-  writeCache(cache);
+function dropThumbs(keep) {
+  for (const [id, url] of thumbs) {
+    if (keep && keep.has(id)) continue;
+    URL.revokeObjectURL(url);
+    thumbs.delete(id);
+  }
 }
 
 /* ---------------- 取得 ---------------- */
 
 async function load() {
+  const seq = ++reqSeq;
   loading = true;
   error = null;
   render();
   try {
-    items = mergeCache(await list({ visibility, limit: 100 }));
-    render();
-    await fillMissing();
+    const got = await list({ visibility, limit: 100, q: query });
+    // 打っている最中に前の結果が返ってくることがある。古いものは捨てる
+    if (seq !== reqSeq) return;
+    items = got;
+    dropThumbs(new Set(items.map((o) => o.id)));
   } catch (e) {
+    if (seq !== reqSeq) return;
     error = e.message || String(e);
     items = [];
   } finally {
-    loading = false;
-    render();
+    if (seq === reqSeq) {
+      loading = false;
+      render();
+    }
   }
 }
 
-/** 題や画面写真が無い分だけ本体を取りに行く。届いた順に画面へ出す。 */
-async function fillMissing() {
-  const queue = items.filter((o) => !o.loaded).map((o) => o.id);
-  if (!queue.length) return;
-
-  let cursor = 0;
-  const worker = async () => {
-    while (cursor < queue.length) {
-      const id = queue[cursor++];
-      try {
-        const full = await read(id);
-        const i = items.findIndex((o) => o.id === id);
-        // 取得中に一覧が入れ替わっていたら捨てる
-        if (i < 0) continue;
-        items[i] = { ...items[i], ...full };
-        rememberCache(items[i]);
-        render();
-      } catch {
-        const i = items.findIndex((o) => o.id === id);
-        if (i >= 0) { items[i] = { ...items[i], loaded: true, failed: true }; render(); }
-      }
-    }
-  };
-  await Promise.all(Array.from({ length: Math.min(FETCH_CONCURRENCY, queue.length) }, worker));
+/** 画像を取ってその img にだけ入れる。画面全体は描き直さない。 */
+async function fillThumb(id, img) {
+  if (thumbs.has(id)) { img.src = thumbs.get(id); return; }
+  try {
+    const url = await thumbnailUrl(id);
+    thumbs.set(id, url);
+    img.src = url;
+    img.classList.remove("is-pending");
+  } catch {
+    img.replaceWith(el("div", { class: "gcard-shot is-empty", text: "画面写真を取得できませんでした" }));
+  }
 }
 
 /* ---------------- 画面 ---------------- */
@@ -121,16 +91,14 @@ function closeMenus() {
 }
 
 async function openItem(item) {
-  // 一覧では本体まで取っていないことがある。開く直前に確実に取る
+  // 一覧には STIX 本体が載らない。開く直前に取る
   let full = item;
-  if (!item.snapshot && !item.stix) {
-    try {
-      full = { ...item, ...(await read(item.id)) };
-    } catch (e) {
-      error = e.message || String(e);
-      render();
-      return;
-    }
+  try {
+    full = { ...item, ...(await read(item.id)) };
+  } catch (e) {
+    error = e.message || String(e);
+    render();
+    return;
   }
   if (openSavedGraph(full)) location.hash = "#/workbench";
 }
@@ -140,9 +108,7 @@ async function deleteItem(item) {
   try {
     await remove(item.id);
     items = items.filter((o) => o.id !== item.id);
-    const cache = readCache();
-    delete cache[item.id];
-    writeCache(cache);
+    dropThumbs(new Set(items.map((o) => o.id)));
     render();
   } catch (e) {
     error = e.message || String(e);
@@ -176,7 +142,7 @@ function cardMenu(item) {
 function confirmDelete(item, menu) {
   const pop = menu.querySelector(".gcard-pop");
   pop.replaceChildren(
-    el("p", { class: "gcard-confirm", text: "削除すると STIX は復元できません。" }),
+    el("p", { class: "gcard-confirm", text: "削除すると STIX と画面写真は復元できません。" }),
     el("button", {
       class: "popover-item", type: "button", text: "やめる",
       onclick: (ev) => { ev.stopPropagation(); closeMenus(); render(); },
@@ -189,9 +155,13 @@ function confirmDelete(item, menu) {
 }
 
 function card(item) {
-  const thumb = item.screenshot
-    ? el("img", { class: "gcard-shot", src: item.screenshot, alt: "", loading: "lazy" })
-    : el("div", { class: "gcard-shot is-empty", text: item.loaded ? "画面写真なし" : "読み込み中…" });
+  let thumb;
+  if (item.thumbnail) {
+    thumb = el("img", { class: "gcard-shot is-pending", alt: "", loading: "lazy" });
+    fillThumb(item.id, thumb);
+  } else {
+    thumb = el("div", { class: "gcard-shot is-empty", text: "画面写真なし" });
+  }
 
   const meta = [
     fmtDate(item.updatedAt),
@@ -210,39 +180,71 @@ function card(item) {
     thumb,
     el("div", { class: "gcard-body" }, [
       el("div", { class: "gcard-head" }, [
-        el("h3", { class: "gcard-title", text: item.title || (item.failed ? "（読み込めませんでした）" : "無題のグラフ") }),
+        el("h3", { class: "gcard-title", text: item.title || "無題のグラフ" }),
         cardMenu(item),
       ]),
-      item.description
-        ? el("p", { class: "gcard-desc", text: shorten(item.description, 120) })
-        : null,
+      item.description ? el("p", { class: "gcard-desc", text: shorten(item.description, 120) }) : null,
       el("p", { class: "gcard-meta" }, [
         el("span", { class: `gcard-vis is-${item.visibility}`, text: item.visibility === "public" ? "公開" : "自分だけ" }),
+        item.visibility === "public" && item.owner ? el("span", { text: `@${item.owner}` }) : null,
         el("span", { text: meta }),
       ]),
     ]),
   ]);
 }
 
+let searchTimer = null;
+let shell = null;      // { wrap, main, tabs }
+
+/**
+ * 外枠は 1 回だけ組んで使い回す。
+ * 絞り込みのたびに作り直すと、打っている最中に入力欄が入れ替わって
+ * focus とカーソル位置が飛ぶ。
+ */
+function buildShell() {
+  const search = el("input", {
+    class: "gv-search", type: "search", id: "gvSearch",
+    placeholder: "題・説明・STIX の名前で絞る",
+    "aria-label": "保存したグラフを絞り込む",
+    oninput: (ev) => {
+      query = ev.target.value;
+      // 1 文字ごとに投げない。打ち終わりを待つ
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(load, 280);
+    },
+  });
+
+  const tabs = [["me", "自分のグラフ"], ["public", "公開されているもの"]].map(([v, label]) =>
+    el("button", {
+      class: "btn", type: "button", text: label, dataset: { vis: v },
+      onclick: () => { if (visibility !== v) { visibility = v; load(); } },
+    }));
+
+  const main = el("div", { class: "gv-main" });
+  const wrap = el("div", { class: "gv" }, [
+    el("div", { class: "gv-head" }, [
+      el("div", { class: "gv-headings" }, [
+        el("h2", { class: "gv-title", text: "保存したグラフ" }),
+        el("p", { class: "gv-lead", text: "調査 API の STIX ストレージに置いたものです。押すとワークベンチに復元します。" }),
+      ]),
+      search,
+      el("div", { class: "gv-tabs" }, tabs),
+      el("button", { class: "btn", type: "button", text: "再読み込み", onclick: () => load() }),
+    ]),
+    main,
+  ]);
+  return { wrap, main, tabs };
+}
+
 function render() {
   if (!root) return;
   const a = authState();
 
-  const tabs = el("div", { class: "gv-tabs" }, [
-    ["me", "自分のグラフ"], ["public", "公開されているもの"],
-  ].map(([v, label]) => el("button", {
-    class: "btn" + (visibility === v ? " is-on" : ""), type: "button", text: label,
-    onclick: () => { if (visibility !== v) { visibility = v; load(); } },
-  })));
-
-  const head = el("div", { class: "gv-head" }, [
-    el("div", {}, [
-      el("h2", { class: "gv-title", text: "保存したグラフ" }),
-      el("p", { class: "gv-lead", text: "調査 API の STIX ストレージに置いたものです。押すとワークベンチに復元します。" }),
-    ]),
-    tabs,
-    el("button", { class: "btn", type: "button", text: "再読み込み", onclick: () => load() }),
-  ]);
+  if (!shell || !root.contains(shell.wrap)) {
+    shell = buildShell();
+    root.replaceChildren(shell.wrap);
+  }
+  for (const t of shell.tabs) t.classList.toggle("is-on", t.dataset.vis === visibility);
 
   let main;
   if (visibility === "me" && !a.loggedIn) {
@@ -256,14 +258,20 @@ function render() {
     main = el("div", { class: "gv-empty" }, [el("p", { text: "読み込み中…" })]);
   } else if (!items.length) {
     main = el("div", { class: "gv-empty" }, [
-      el("p", { text: visibility === "me" ? "まだ保存したグラフがありません。" : "公開されているグラフはありません。" }),
-      el("p", { class: "gv-hint", text: "ワークベンチでグラフを作り、右上の「保存」から保存できます。" }),
+      el("p", {
+        text: query
+          ? `「${query}」に当たるグラフはありません。`
+          : visibility === "me" ? "まだ保存したグラフがありません。" : "公開されているグラフはありません。",
+      }),
+      query
+        ? null
+        : el("p", { class: "gv-hint", text: "ワークベンチでグラフを作り、右上の「保存」から保存できます。" }),
     ]);
   } else {
     main = el("div", { class: "gv-grid" }, items.map(card));
   }
 
-  root.replaceChildren(el("div", { class: "gv" }, [head, main]));
+  shell.main.replaceChildren(main);
 }
 
 export function renderGraphs(container) {

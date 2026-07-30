@@ -229,41 +229,54 @@ Mermaid）でもラベルから種別を推定して読み込む。STIX の id �
 **書き込みと `me` の一覧はログインが必須。**これは API の認証強制フラグとは
 無関係で、常に必要（実測で確認）。公開したものの一覧だけは匿名で読める。
 
-### 題・説明・画面写真の置き場所
+### 何がどこに入るか
 
-**API が保存するのは STIX JSON だけで、題・説明・画面写真を入れる欄が無い。**
-そのため、それらは束の中の **STIX `report` オブジェクト**に載せている。
+API は STIX 本体とは別に、**題（`graphTitle`）・説明（`graphDescription`）・
+サムネイル（`thumbnail`）**を一次情報として持つ。一覧にも載るので、
+**一覧は 1 リクエストで作れる**。
+
+束の中には `report` オブジェクトを 1 つだけ足している。
 
 ```jsonc
 { "type": "report", "spec_version": "2.1",
-  "name": "APT41 の C2 インフラ",          // 題
-  "description": "…",                      // 説明
+  "name": "APT41 の C2 インフラ",   // 題（束だけ渡しても読めるように）
+  "description": "…",
   "published": "2026-07-30T…",
   "object_refs": ["ipv4-addr--…", …],
-  "x_rb_screenshot": "data:image/jpeg;base64,…",   // 画面写真（5〜30 KB）
-  "x_rb_graph": { … } }                            // 配置とトレイ（復元用）
+  "x_rb_graph": { … } }             // 配置・ピン・トレイ（復元用）
 ```
 
-`report` は 2.1 の正規の SDO なので、**他の STIX ツールから読んでも題と説明が
-そのまま見える**。ポータル固有のものだけ `x_rb_*` に置いてある。
+理由は 2 つ。**`x_rb_graph` を置く欄が API に無い**こと（これが無いと復元が
+「STIX の取り込み直し」に落ちて配置が変わる）、そして `report` が 2.1 の正規の
+SDO なので**束だけを他の STIX ツールへ渡しても題と説明が読める**こと。
 
-画面写真は**今見えているまま**を撮って縮小し JPEG にする（等倍の PNG は
-1 MB を超え、STIX の 10 MiB 上限をすぐ食うため）。全体を写したいときは
-「全体表示」を押してから保存する。一覧のカードは切り取らずに全体を出す。
+画像は `report` には入れない（API 側と二重持ちになるため）。
+
+| | 上限 | ポータルが送るもの |
+| --- | --- | --- |
+| STIX 本体 | 10 MiB | 実測 3 KB 前後 |
+| サムネイル | 512 KiB | **WebP** 640px・実測 4 KiB（WebP を吐けない環境では JPEG） |
+| 題 | 200 文字 | 超えたぶんは切る |
+| 説明 | 5,000 文字 | 同上 |
+
+画面写真は**今見えているまま**を撮る。全体を写したいときは「全体表示」を
+押してから保存する。一覧のカードは切り取らずに全体を出す。
 
 取り込んだ HTML のような長い属性は、保存時に 4,000 文字で切っている。
-画面写真そのもの（`_shot`）は保存に載せない。
+サイドバーの画面写真（`_shot`）は保存に載せない。
 
-### 一覧が遅い理由（API 側の対応待ち）
+### 絞り込み
 
-**API の一覧はメタデータしか返さず、題・説明・画面写真は STIX 本体の中にある。**
-そのため一覧は「一覧を 1 回 + 足りない分を 1 件ずつ」取りに行く。取れた分は
-`localStorage` に控えるので 2 回目以降は速いが、初回と別端末では件数ぶん走る。
+一覧の検索欄は**サーバー側の `?q=`** に投げる（題・説明・**STIX の `name`** を横断）。
+題を付け忘れた保存も、中身のマルウェア名やアクター名から辿れる。
 
-一覧に `name` / `description` / `thumbnail` を載せてもらう依頼を出してある
-（[`docs/agent-prompts/active-research-stix-metadata.md`](docs/agent-prompts/active-research-stix-metadata.md)）。
-**ポータル側は載っていればそれを使い、無ければ本体を取りに行く**ので、
-API 側が対応した時点で自動的に 1 リクエストになる。
+サムネイルは一覧に画像そのものではなく**取得 URL** が載る。`me` のものは
+画像の取得にも `Authorization` が要るので、`<img src>` では出せない。
+`fetch` で取ってからオブジェクト URL にして貼っている。
+
+API 側に残っている依頼は
+[`docs/agent-prompts/active-research-stix-storage.md`](docs/agent-prompts/active-research-stix-storage.md)
+（一覧のページング、サムネイルの `ETag`、`/api/meta` への上限の記載）。
 
 ## モジュール
 
@@ -477,13 +490,13 @@ assets/js/
   summaries.js        見出しの要約（索引に無いソースだけ別ファイルを遅延取得）
   risk.js             危険度の尺度と段階（提供元ごとの境目はここだけ）
   auth-active-research.js 調査 API のログイン（PKCE・トークン保管・自動リフレッシュ）
-  stix-store.js       グラフの保存（STIX ストレージの API と、束への題・説明・画面写真の載せ方）
+  stix-store.js       グラフの保存（STIX ストレージの API と、束への配置情報の載せ方）
   view-*.js           各モードの描画
   util.js
 docs/portal-spec.md   連携仕様 v1
 docs/auth-pkce.md     Active Research API の認証（OAuth 2.0 + PKCE）の取り決め
 docs/validate-index.py  各アプリが自分の索引を検査するためのチェッカー
-docs/agent-prompts/   各アプリへの依頼内容（spec v1 対応・認証・STIX のメタデータ）
+docs/agent-prompts/   各アプリへの依頼内容（spec v1 対応・認証・STIX ストレージ）
 docs/mock/            最初に起こした画面イメージ
 cyberchef/            同梱の CyberChef（変換モジュールの引き渡し先）
 ```
