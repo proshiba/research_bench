@@ -4,6 +4,8 @@
 // リロードすると消える。session / local を選ぶと同一オリジンの別文書からも
 // 読めるようになるため、その旨を画面にも書いてある。
 
+import { authState, authStorage, beginLogin, logout, setAuthStorage } from "./auth-active-research.js";
+import { getModuleSettings } from "./modules.js";
 import { PROVIDERS, clearSettings, getSettings, saveSettings } from "./osint.js";
 import { el } from "./util.js";
 
@@ -12,6 +14,64 @@ const STORAGE_CHOICES = [
   ["session", "このタブだけ (sessionStorage)", "タブを閉じると消える。"],
   ["local", "このブラウザに保存 (localStorage)", "次回も残る。共有端末では避けること。"],
 ];
+
+/**
+ * Active Research のログイン節。
+ *
+ * キーを手で貼るのとは別の話なので節を分ける。ここで得るのは「この API の
+ * セッション」で、外部サービスのキーではない。GitHub でログインするが、
+ * GitHub のトークンは API サーバーの中に留まりポータルには渡ってこない。
+ */
+function authSection() {
+  const a = authState();
+  const rows = [];
+
+  if (a.loggedIn) {
+    const name = a.user?.login || a.user?.name;
+    rows.push(el("div", { class: "auth-row" }, [
+      el("span", { class: "auth-dot is-on" }),
+      el("span", {}, [
+        el("strong", { text: name ? `@${name}` : "ログイン中" }),
+        el("span", { class: "modal-desc", text: a.scope ? `scope: ${a.scope}` : "" }),
+      ]),
+      el("button", {
+        class: "btn", type: "button", text: "ログアウト",
+        onclick: () => { logout(); },
+      }),
+    ]));
+  } else {
+    rows.push(el("div", { class: "auth-row" }, [
+      el("span", { class: "auth-dot" }),
+      el("span", {}, [
+        el("strong", { text: "未ログイン" }),
+        el("span", { class: "modal-desc", text: "認証が要らない調査はこのままでも使えます。" }),
+      ]),
+      el("button", {
+        class: "btn is-on", type: "button", text: "GitHub でログイン",
+        onclick: (ev) => {
+          // 画面ごと移動するので、二度押しを防いでから出る
+          ev.target.disabled = true;
+          ev.target.textContent = "移動します…";
+          beginLogin(getModuleSettings().activeResearchBase);
+        },
+      }),
+    ]));
+  }
+
+  if (a.error) rows.push(el("p", { class: "modal-note is-error", text: a.error }));
+
+  rows.push(el("div", { class: "modal-choices" }, STORAGE_CHOICES.map(([value, label, desc]) =>
+    el("label", { class: "modal-choice" }, [
+      el("input", {
+        type: "radio", name: "rb-auth-storage", value,
+        checked: authStorage() === value || null,
+        onchange: () => setAuthStorage(value),
+      }),
+      el("span", {}, [el("strong", { text: label }), el("span", { class: "modal-desc", text: desc })]),
+    ]))));
+
+  return rows;
+}
 
 export function openOsintSettings(dialog) {
   const cur = getSettings();
@@ -54,6 +114,10 @@ export function openOsintSettings(dialog) {
     ["virustotal", "VirusTotal のトークン", "ワークベンチの右クリック調査で使います"],
     ["github", "GitHub のトークン", "コード検索で使います"],
     ["abuseipdb", "AbuseIPDB のトークン", "IP の通報状況と信頼度スコアを引きます"],
+    ["urlscan", "urlscan.io の API キー", "既存スキャンを検索します（新規スキャンは投げません）"],
+    ["censys", "Censys の Personal Access Token", "CenQL でホスト・証明書を検索します"],
+    ["cloudflareAccount", "Cloudflare アカウント ID", "Browser Gateway で使います"],
+    ["cloudflareToken", "Cloudflare API トークン", "Browser Rendering - Edit 権限が必要です"],
   ];
   const viaRows = VIA_API.map(([field, label, hint]) => {
     const input = el("input", {
@@ -74,7 +138,7 @@ export function openOsintSettings(dialog) {
         label,
         el("span", {
           class: "chip is-crit", style: "margin-left:6px", text: "端末の外に出る",
-          title: "Active Research API に Authorization: Bearer で渡します",
+          title: "Active Research API にサービスごとの専用ヘッダで渡します",
         }),
       ]),
       el("div", { class: "modal-row" }, [input, reveal]),
@@ -102,12 +166,20 @@ export function openOsintSettings(dialog) {
       "ただし送信先は 2 通りあります。下の節ごとに書き分けてあります。",
     ]),
 
+    el("h3", { class: "side-h", text: "調査 API へのログイン" }),
+    el("p", { class: "modal-desc", text:
+      "Active Research API に GitHub でログインします。得られるのは この API の"
+      + "セッショントークンだけで、GitHub のトークンは API サーバーの中に留まります。"
+      + "トークンの既定の置き場所は「このタブだけ」です"
+      + "（メモリだけだとリロードのたびにログインし直しになります）。" }),
+    ...authSection(),
+
     el("h3", { class: "side-h", text: "ブラウザの中だけで使うキー" }),
     ...keyRows,
 
     el("h3", { class: "side-h", text: "Active Research API 経由で使うトークン" }),
     el("p", { class: "modal-desc", text:
-      "これらは調査 API サーバーに Authorization: Bearer で渡します。"
+      "これらは調査 API サーバーにサービスごとの専用ヘッダ（X-VirusTotal-Key など）で渡します。"
       + "つまり値がこの端末の外に出ます。ブラウザだけで完結させたい場合は入れないでください。" }),
     ...viaRows,
 
@@ -132,6 +204,7 @@ export function openOsintSettings(dialog) {
         class: "btn", type: "button", text: "すべて消す",
         onclick: () => {
           clearSettings();
+          logout();
           dialog.close();
         },
       }),
@@ -177,6 +250,9 @@ export function osintTooltip() {
     `VirusTotal: ${s.keys.virustotal ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
     `GitHub: ${s.keys.github ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
     `AbuseIPDB: ${s.keys.abuseipdb ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
+    `urlscan: ${s.keys.urlscan ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
+    `Censys: ${s.keys.censys ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
+    `Cloudflare: ${s.keys.cloudflareToken ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
   ];
   return rows.join("\n");
 }

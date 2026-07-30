@@ -1,20 +1,30 @@
 // Active Research API（https://hellow-world.hiroshiba.chatgpt.site）のクライアント。
 //
-// API 自体の認証は不要。ただし VirusTotal と GitHub のツールだけは
-// 利用者のトークンを Authorization: Bearer で渡す（API サーバーには保存されない）。
+// ヘッダの使い分け（2026-07 に API 側が分離した）:
+//   Authorization: Bearer … **この API のセッショントークン**（GitHub ログインで得る）
+//   X-VirusTotal-Key など … 各外部サービスの API キー（ツール定義の keyHeader）
+// 以前は Authorization を外部キーの受け渡しにも使っていたので衝突していた。
+//
+// セッションは auth-active-research.js が持つ。ログインしていなければ何も付けない
+// （API 側は enforcement_enabled が false のあいだ匿名でも動く）。
 // ベース URL は設定で変えられる（自前の別環境に向けられるように）。
 //
 // CORS の実測（2026-07）:
-//   Access-Control-Allow-Origin: *
-//   Access-Control-Allow-Headers: content-type, accept, authorization
+//   Access-Control-Allow-Origin: *（Cookie を使わないのでこれで足りる）
+//   Access-Control-Allow-Headers: content-type, accept, authorization,
+//     x-virustotal-key, x-github-token, x-abuseipdb-key, x-urlscan-api-key,
+//     x-censys-token, x-cloudflare-api-token …
+//   Access-Control-Expose-Headers: retry-after, x-ratelimit-interval, www-authenticate
 //   Access-Control-Allow-Methods: GET, POST, OPTIONS / プリフライトは 204 / max-age 86400
 //   → ブラウザから直接呼べる。中継は要らない。
+//   www-authenticate が読めるので、この API が出した 401 と外部サービスの 401 を区別できる。
 //   将来 Origin を絞ったときに気づけるよう、失敗時は CORS の可能性も併記して出す。
 //
 // port-scan と open-directory は非同期ジョブ。start が 202 で job.id を返し、
 // action=status&jobId=… を completed になるまで叩く。結果は job.result に入っていて、
 // 中身は同期だった頃と同じ形なので、要約と値の抽出はそのまま使える。
 
+import { authHeaders, recoverFromUnauthorized } from "./auth-active-research.js";
 import { detectType } from "./util.js";
 
 export const DEFAULT_BASE = "https://hellow-world.hiroshiba.chatgpt.site";
@@ -32,7 +42,7 @@ const POLL_TIMEOUT_MS = 5 * 60 * 1000;
  * 「そもそも繋がらなかった」ときの両方なので、その場で切り分けられない。
  * ブラウザは理由を JS に渡さない仕様なので、両方の可能性を書いて返す。
  */
-export async function call(base, tool, values, { signal } = {}) {
+export async function call(base, tool, values, { signal, retried = false } = {}) {
   const url = new URL(tool.path, base.replace(/\/+$/, "") + "/");
   const init = { method: tool.method || "GET", headers: {}, signal, credentials: "omit" };
 
@@ -43,6 +53,12 @@ export async function call(base, tool, values, { signal } = {}) {
     for (const [k, v] of Object.entries(tool.query(values))) {
       if (v !== "" && v != null) url.searchParams.set(k, v);
     }
+  }
+  // この API のセッション。ログインしていなければ何も付かない
+  Object.assign(init.headers, await authHeaders());
+  // 外部サービスのキーは、ツールごとの専用ヘッダで渡す
+  if (tool.keyHeader && values[tool.keyField || "apikey"]) {
+    init.headers[tool.keyHeader] = values[tool.keyField || "apikey"];
   }
   for (const [k, v] of Object.entries(tool.headers ? tool.headers(values) : {})) {
     if (v) init.headers[k] = v;
@@ -63,6 +79,15 @@ export async function call(base, tool, values, { signal } = {}) {
   const text = await res.text();
   let json = null;
   try { json = JSON.parse(text); } catch { /* JSON でないこともある */ }
+
+  // セッションが切れていたら 1 回だけ取り直して同じ要求をやり直す。
+  // 外部サービス側の 401（キーが違う）と混ざらないよう、
+  // WWW-Authenticate が付いている＝この API が出した 401 のときだけ扱う。
+  if (res.status === 401 && !retried && res.headers.get("www-authenticate")) {
+    if (await recoverFromUnauthorized(json)) {
+      return call(base, tool, values, { signal, retried: true });
+    }
+  }
 
   return { status: res.status, ms, url: url.href, text, json };
 }
@@ -235,6 +260,39 @@ export function abuseRecord(d) {
   };
 }
 
+/**
+ * Censys の応答から値を取り出す小道具。
+ *
+ * Platform API v3 のヒットは `data.result.hits[]` で、フィールド名は
+ * 契約プランと fields 指定で変わる。取れなければ空を返して落ちないようにする。
+ */
+export function censysHits(d) {
+  const hits = d?.data?.result?.hits ?? d?.data?.hits ?? d?.result?.hits;
+  return Array.isArray(hits) ? hits : [];
+}
+
+export function censysIp(hit) {
+  return hit?.host?.ip ?? hit?.ip ?? hit?.["host.ip"] ?? null;
+}
+
+export function censysPorts(hit) {
+  const svc = hit?.host?.services ?? hit?.services ?? [];
+  const ports = (Array.isArray(svc) ? svc : []).map((x) => x?.port).filter((p) => Number.isFinite(p));
+  const flat = hit?.["host.services.port"];
+  if (!ports.length && Array.isArray(flat)) return flat.filter((p) => Number.isFinite(p));
+  return [...new Set(ports)];
+}
+
+export function censysNames(hit) {
+  const out = new Set();
+  for (const n of hit?.host?.dns?.names ?? hit?.dns?.names ?? []) {
+    if (detectType(n) === "ioc.domain") out.add(n);
+  }
+  const web = hit?.web?.hostname ?? hit?.["web.hostname"];
+  if (web && detectType(web) === "ioc.domain") out.add(web);
+  return [...out];
+}
+
 function push(out, seen, type, value, rel) {
   const v = String(value ?? "").trim().replace(/\.$/, "");
   if (!v) return;
@@ -345,7 +403,8 @@ export const TOOLS = [
 
   {
     id: "web-analyze",
-    label: "Web 解析",
+    label: "Web 解析（旧）",
+    deprecated: "API 側で deprecated。/api/request の includeAnalyze に移行済み",
     desc: "使われている技術・Cookie 名・注目ヘッダ・リンクを取る",
     method: "GET",
     path: "api/tools/web-analyze",
@@ -488,10 +547,10 @@ export const TOOLS = [
       { name: "value", label: "値", placeholder: "8.8.8.8 / example.com / ハッシュ", required: true },
       { name: "relationships", label: "関連", placeholder: "（任意）", hint: "カンマ区切り・最大 8" },
       { name: "apikey", label: "VirusTotal API キー", type: "password", required: true,
-        hint: "Authorization: Bearer で API サーバーに渡します（ブラウザの外に出ます）" },
+        hint: "X-VirusTotal-Key で API サーバーに渡します（ブラウザの外に出ます）" },
     ],
     query: (v) => ({ type: v.type, value: v.value, relationships: v.relationships || "" }),
-    headers: (v) => ({ authorization: `Bearer ${v.apikey}` }),
+    keyHeader: "X-VirusTotal-Key",
     summary: (d) => [
       ["判定", d.summary?.verdict],
       ["検知", d.summary?.analysisStats
@@ -529,10 +588,10 @@ export const TOOLS = [
       { name: "maxAgeInDays", label: "遡る日数", placeholder: "90", type: "number", hint: "既定 90・最大 365" },
       { name: "verbose", label: "通報の明細も取る", type: "checkbox", hint: "何をして通報されたかの内訳が付く" },
       { name: "apikey", label: "AbuseIPDB API キー", type: "password", required: true,
-        hint: "Authorization: Bearer で API サーバーに渡します（ブラウザの外に出ます）" },
+        hint: "X-AbuseIPDB-Key で API サーバーに渡します（ブラウザの外に出ます）" },
     ],
     query: (v) => ({ ip: v.ip, maxAgeInDays: v.maxAgeInDays || "", verbose: v.verbose ? "true" : "" }),
-    headers: (v) => ({ authorization: `Bearer ${v.apikey}` }),
+    keyHeader: "X-AbuseIPDB-Key",
     summary: (d) => {
       const a = abuseRecord(d);
       return [
@@ -557,6 +616,146 @@ export const TOOLS = [
       const a = abuseRecord(d);
       if (a.domain) push(out, seen, "ioc.domain", a.domain, "AbuseIPDB: ドメイン");
       for (const h of a.hostnames || []) push(out, seen, "ioc.domain", h, "AbuseIPDB: ホスト名");
+      return out;
+    },
+  },
+
+  {
+    id: "urlscan",
+    label: "urlscan",
+    desc: "urlscan.io の既存スキャンを検索する（新規スキャンは投げない）",
+    keyWarning: true,
+    method: "GET",
+    path: "api/tools/urlscan",
+    params: [
+      { name: "action", label: "動作", type: "select", options: ["search", "result"] },
+      { name: "q", label: "検索クエリ", placeholder: "domain:example.com AND date:>now-30d",
+        hint: "action=search で必須。ElasticSearch の query string 構文" },
+      { name: "scanId", label: "Scan ID", placeholder: "（action=result で必須）" },
+      { name: "size", label: "件数", placeholder: "25", type: "number", hint: "1〜100" },
+      { name: "apikey", label: "urlscan API キー", type: "password", required: true,
+        hint: "X-Urlscan-API-Key で API サーバーに渡します（ブラウザの外に出ます）" },
+    ],
+    query: (v) => ({ action: v.action || "search", q: v.q || "", scanId: v.scanId || "", size: v.size || "" }),
+    keyHeader: "X-Urlscan-API-Key",
+    summary: (d) => {
+      const r = d.data || {};
+      const top = (r.results || [])[0];
+      return [
+        ["件数", r.total != null ? `${(r.results || []).length} / ${r.total}` : null],
+        ["続きあり", r.has_more == null ? null : r.has_more ? "はい" : "いいえ"],
+        ["先頭の URL", top?.page?.url || top?.task?.url],
+        ["先頭の IP", top?.page?.ip],
+        ["先頭の AS", top?.page?.asnname || top?.page?.asn],
+        ["先頭の国", top?.page?.country],
+        ["スキャン日時", top?.task?.time],
+      ];
+    },
+    iocs: (d) => {
+      const out = [], seen = new Set();
+      for (const r of d.data?.results || []) {
+        const p = r.page || {};
+        if (p.ip) push(out, seen, detectType(p.ip) === "ioc.ipv6" ? "ioc.ipv6" : "ioc.ipv4", p.ip, "urlscan: 解決 IP");
+        if (p.domain) push(out, seen, "ioc.domain", p.domain, "urlscan: ドメイン");
+        const u = p.url || r.task?.url;
+        if (u) push(out, seen, "ioc.url", u, "urlscan: スキャンした URL");
+      }
+      return out;
+    },
+  },
+
+  {
+    id: "censys",
+    label: "Censys",
+    desc: "Censys Platform API v3 に CenQL 検索を送る",
+    keyWarning: true,
+    method: "GET",
+    path: "api/tools/censys",
+    params: [
+      { name: "query", label: "CenQL", placeholder: 'host.ip: 1.1.1.1', required: true,
+        hint: 'host.ip: … / web.hostname: "…" / host.services.software.product="GitLab"' },
+      { name: "pageSize", label: "件数", placeholder: "25", type: "number", hint: "1〜100" },
+      { name: "fields", label: "取得フィールド", placeholder: "（任意）", hint: "カンマ区切り・最大 50" },
+      { name: "apikey", label: "Censys Personal Access Token", type: "password", required: true,
+        hint: "X-Censys-Token で API サーバーに渡します（ブラウザの外に出ます）" },
+    ],
+    query: (v) => ({ query: v.query, pageSize: v.pageSize || "", fields: v.fields || "" }),
+    keyHeader: "X-Censys-Token",
+    summary: (d) => {
+      const hits = censysHits(d);
+      return [
+        ["ヒット", hits.length || null],
+        ["CenQL", d.query?.cenql],
+        ["HTTP", d.response?.status],
+        ["残りレート", d.response?.rateLimitRemaining],
+        ["先頭の IP", hits[0] && censysIp(hits[0])],
+        ["先頭のポート", hits[0] && censysPorts(hits[0]).join(", ")],
+      ];
+    },
+    iocs: (d) => {
+      const out = [], seen = new Set();
+      for (const h of censysHits(d)) {
+        const ip = censysIp(h);
+        if (ip) push(out, seen, detectType(ip) === "ioc.ipv6" ? "ioc.ipv6" : "ioc.ipv4", ip, "Censys: ホスト");
+        for (const name of censysNames(h)) push(out, seen, "ioc.domain", name, "Censys: 名前");
+        for (const port of censysPorts(h)) {
+          if (ip) push(out, seen, "ioc.endpoint", `${ip}:${port}`, "Censys: 開いているポート");
+        }
+      }
+      return out;
+    },
+  },
+
+  {
+    id: "browser-gateway",
+    label: "Browser Gateway",
+    desc: "Cloudflare 上の Chromium で開いて画面と HTML を取る（自分のブラウザには読み込ませない）",
+    keyWarning: true,
+    method: "POST",
+    path: "api/tools/browser-gateway",
+    params: [
+      { name: "url", label: "URL", placeholder: "https://example.com/", required: true },
+      { name: "device", label: "端末", type: "select", options: ["desktop", "mobile"] },
+      { name: "javascript", label: "JavaScript を実行する", type: "checkbox", hint: "既定は実行する" },
+      { name: "scrollY", label: "スクロール位置", placeholder: "0", type: "number",
+        hint: "JavaScript 無効時は 0 のみ" },
+      { name: "accountId", label: "Cloudflare アカウント ID", type: "password", required: true,
+        hint: "X-Cloudflare-Account-Id で渡します（ブラウザの外に出ます）" },
+      { name: "apikey", label: "Cloudflare API トークン", type: "password", required: true,
+        hint: "Browser Rendering - Edit 権限。X-Cloudflare-API-Token で渡します" },
+    ],
+    body: (v) => ({
+      url: v.url,
+      device: v.device || "desktop",
+      // 未指定は「実行する」が既定。チェックを外したときだけ false を送る
+      javascript: v.javascript === false ? false : undefined,
+      scrollY: v.scrollY ? Number(v.scrollY) : undefined,
+    }),
+    keyHeader: "X-Cloudflare-API-Token",
+    headers: (v) => ({ "X-Cloudflare-Account-Id": v.accountId }),
+    summary: (d) => {
+      const g = d.gateway || {};
+      return [
+        ["HTTP", d.response?.status],
+        ["題名", d.response?.title],
+        ["最終 URL", d.response?.finalUrl],
+        ["解決 IP", (d.request?.resolvedIps || []).join(", ")],
+        ["描画", d.response?.browserMs != null ? `${d.response.browserMs} ms` : null],
+        ["画面", g.screenshot ? `${g.screenshot.width}×${g.screenshot.height}` : null],
+        ["リンク", (g.links || []).length || null],
+        ["HTML", g.renderedHtml ? `${g.renderedHtml.length.toLocaleString()} 文字${g.renderedHtmlTruncated ? "（打ち切り）" : ""}` : null],
+        ["自分のブラウザに読み込んでいない", g.targetLoadedInUserBrowser === false ? "はい" : null],
+      ];
+    },
+    iocs: (d) => {
+      const out = [], seen = new Set();
+      for (const ip of d.request?.resolvedIps || []) {
+        push(out, seen, detectType(ip) === "ioc.ipv6" ? "ioc.ipv6" : "ioc.ipv4", ip, "Browser Gateway: 解決 IP");
+      }
+      if (d.response?.finalUrl) push(out, seen, "ioc.url", d.response.finalUrl, "Browser Gateway: 最終 URL");
+      for (const l of (d.gateway?.links || []).slice(0, 60)) {
+        if (l.url) push(out, seen, "ioc.url", l.url, "Browser Gateway: ページ内リンク");
+      }
       return out;
     },
   },
@@ -608,7 +807,7 @@ export const TOOLS = [
       seed: v.seed || "", username: v.username || "", repository: v.repository || "",
       targetType: v.targetType || "", owner: v.owner || "",
     }),
-    headers: (v) => ({ authorization: `Bearer ${v.token}` }),
+    keyHeader: "X-GitHub-Token", keyField: "token",
     summary: (d) => [
       ["動作", d.action],
       ["GitHub のクエリ", d.query?.githubQuery || d.query?.pattern],
@@ -638,6 +837,8 @@ export const TOOLS = [
       { name: "url", label: "URL", placeholder: "https://example.com/", required: true },
       { name: "method", label: "メソッド", type: "select", options: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"] },
       { name: "followRedirects", label: "リダイレクトを追う", type: "checkbox", hint: "最大 10 回" },
+      { name: "includeAnalyze", label: "ページ解析も付ける", type: "checkbox",
+        hint: "技術・Cookie・リンク・内部パスを analysis に入れる（旧 Web 解析の後継）" },
       { name: "headers", label: "ヘッダ (JSON)", placeholder: '{"accept":"application/json"}' },
       { name: "body", label: "本文", placeholder: "（任意）" },
     ],
@@ -647,6 +848,8 @@ export const TOOLS = [
       return {
         url: v.url, method: v.method || "GET", headers, body: v.body || undefined,
         followRedirects: !!v.followRedirects,
+        // クエリでは効かない（実測）。必ず本文に載せる
+        ...(v.includeAnalyze ? { includeAnalyze: true } : {}),
       };
     },
     summary: (d) => {

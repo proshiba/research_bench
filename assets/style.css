@@ -951,6 +951,39 @@ a { color: inherit; }
 .rk.is-low { width: 6px; height: 6px; background: var(--ink-faint); }
 /* 「引いたが何も出なかった」を空白にすると引き忘れと見分けが付かないので印を出す */
 .rk.is-clean { width: 6px; height: 6px; border: 1px solid var(--line); }
+
+/* ---------------- 調査 API のログイン ---------------- */
+
+.auth-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+.auth-row > span:nth-child(2) { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+.auth-row strong { font-size: 12.5px; font-weight: 600; }
+.auth-row .modal-desc { margin: 0; }
+/* 未ログインは輪だけ、ログイン中は塗る。危険度の印と同じ描き分けにする */
+.auth-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--ink-faint);
+}
+.auth-dot.is-on { background: var(--src-mal); border-color: var(--src-mal); }
+
+/* 隔離ブラウザで撮った画面。サイドバーの幅に収める */
+.side-shot { display: block; border: 1px solid var(--line); background: var(--surface-2); }
+/* 縦に長いページでもサイドバーを埋め尽くさないよう高さを抑える。
+   等倍で見たいときは押して別タブへ */
+.side-shot img { display: block; width: 100%; max-height: 260px; height: auto; object-fit: cover; object-position: top; }
+.side-shot:hover { border-color: var(--focus); }
+
+.st-link.is-on { color: var(--ink); }
+.st-link.is-error { color: var(--crit); font-weight: 600; }
 .lg .rk { width: 9px; height: 9px; }
 .lg .rk.is-low { width: 6px; height: 6px; }
 

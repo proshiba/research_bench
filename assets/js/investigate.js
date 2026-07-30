@@ -10,7 +10,10 @@
 // 危険度が付く調査（AbuseIPDB のスコア、VirusTotal の検知ベンダー数）は
 // risk.js の形で属性に持たせる。グラフの印とサイドバーはそこから読む。
 
-import { abuseCategoryText, abuseRecord, getTool, rdapRecord, run } from "./api-active-research.js";
+import {
+  abuseCategoryText, abuseRecord, censysHits, censysIp, censysNames, censysPorts,
+  getTool, rdapRecord, run,
+} from "./api-active-research.js";
 import { getModuleSettings } from "./modules.js";
 import { getSettings, lookup as osintLookup } from "./osint.js";
 import { riskAttrs } from "./risk.js";
@@ -158,12 +161,14 @@ export const ACTIONS = [
   },
 
   {
+    // 旧 web-analyze は API 側で deprecated。request の includeAnalyze が後継。
+    // 応答の analysis に counts は無いので、配列の長さから出す。
     id: "web-analyze", group: "ページ", label: "Web ページを取得して解析",
     when: (t) => NAMEISH.has(t) || IP.has(t),
     async run(node) {
       const out = res();
       const url = urlOf(nodeValue(node));
-      const d = await callTool("web-analyze", { url });
+      const d = await callTool("request", { url, method: "GET", followRedirects: true, includeAnalyze: true });
       const a = d.analysis || {};
       // ページそのものをノードにする。HTML 由来の中身は属性として持たせる
       addRel(out, "webpage", d.request?.url || url, "取得したページ", {
@@ -173,14 +178,16 @@ export const ACTIONS = [
           技術: (a.technologies || []).join(", "),
           Cookie: (a.cookieNames || []).join(", "),
           注目ヘッダ: Object.entries(a.notableHeaders || {}).map(([k, v]) => `${k}: ${v}`).join("\n"),
-          リンク数: a.counts?.links,
-          内部パス数: a.counts?.internalPaths,
+          リンク数: (a.links || []).length || null,
+          内部パス数: (a.internalPaths || []).length || null,
           内部パス: (a.internalPaths || []).slice(0, 60).join("\n"),
           外部リンク: (a.links || []).slice(0, 60).join("\n"),
           取得元: url,
         },
       });
-      for (const ip of d.request?.resolvedIps || []) addRel(out, ipType(ip), ip, "解決 IP");
+      for (const ip of [...(d.request?.resolvedIps || []), ...(d.request?.finalResolvedIps || [])]) {
+        addRel(out, ipType(ip), ip, "解決 IP");
+      }
       out.attrs["技術"] = (a.technologies || []).join(", ") || null;
       out.note = `HTTP ${d.response?.status ?? "?"} — ページを 1 件足しました`;
       return out;
@@ -372,6 +379,143 @@ export const ACTIONS = [
   },
 
   {
+    id: "urlscan", group: "脅威情報", label: "urlscan で過去のスキャンを探す", needs: "urlscan",
+    when: (t) => IP.has(t) || t === "ioc.domain" || t === "ioc.url" || t === "webpage",
+    async run(node) {
+      const out = res();
+      const v = nodeValue(node);
+      const t = node.type;
+      // 種別ごとに検索軸を変える。日付を切って上流の負担を抑える
+      const q = IP.has(t) ? `page.ip:"${v}"`
+        : t === "ioc.domain" ? `page.domain:"${v}"`
+          : `page.url:"${urlOf(v)}"`;
+      const d = await callTool("urlscan",
+        { action: "search", q: `${q} AND date:>now-1y`, size: 25, apikey: getSettings().keys.urlscan },
+        { allowNotOk: true });
+      const r = d.data || {};
+      const rows = r.results || [];
+
+      out.attrs["urlscan 件数"] = r.total != null ? `${rows.length} / ${r.total}` : rows.length || null;
+      out.attrs["urlscan クエリ"] = d.query?.q || q;
+      out.attrs["urlscan 最終スキャン"] = rows[0]?.task?.time || null;
+
+      for (const row of rows.slice(0, 40)) {
+        const p = row.page || {};
+        if (p.ip) addRel(out, ipType(p.ip), p.ip, "urlscan: 解決 IP");
+        if (p.domain) addRel(out, "ioc.domain", p.domain, "urlscan: ドメイン");
+        const u = p.url || row.task?.url;
+        if (u) {
+          addRel(out, "webpage", u, "urlscan: スキャンされたページ", {
+            attrs: {
+              題名: p.title, サーバー: p.server, 国: p.country,
+              AS: p.asnname || p.asn, 解決IP: p.ip,
+              スキャン日時: row.task?.time,
+              取得元: `https://urlscan.io/result/${row._id || ""}/`,
+            },
+          });
+        }
+        if (p.asn) {
+          addPlace(out, { asn: p.asn, org: p.asnname, country: p.country });
+        }
+      }
+
+      if (d.ok === false) {
+        out.error = true;
+        out.note = `urlscan がエラーを返しました: ${d.error || "(理由なし)"}`;
+      } else {
+        out.note = rows.length
+          ? `${rows.length} 件のスキャン（全 ${r.total ?? "?"} 件。グラフには先頭 40 件）`
+          : "該当するスキャンがありませんでした";
+      }
+      return out;
+    },
+  },
+
+  {
+    id: "censys", group: "脅威情報", label: "Censys で引く", needs: "censys",
+    when: (t) => IP.has(t) || t === "ioc.domain",
+    async run(node) {
+      const out = res();
+      const v = nodeValue(node);
+      const q = IP.has(node.type) ? `host.ip: ${v}` : `web.hostname: "${v}"`;
+      const d = await callTool("censys",
+        { query: q, pageSize: 25, apikey: getSettings().keys.censys }, { allowNotOk: true });
+      const hits = censysHits(d);
+
+      out.attrs["Censys ヒット"] = hits.length || null;
+      out.attrs["Censys クエリ"] = d.query?.cenql || q;
+
+      for (const h of hits.slice(0, 25)) {
+        const ip = censysIp(h);
+        const ports = censysPorts(h);
+        if (ip) {
+          addRel(out, ipType(ip), ip, "Censys: ホスト");
+          for (const port of ports) addRel(out, "ioc.endpoint", `${ip}:${port}`, "Censys: 開いているポート");
+        }
+        for (const name of censysNames(h)) addRel(out, "ioc.domain", name, "Censys: 名前");
+      }
+      // 自分自身のポートは属性にも入れておく（関連を辿らなくても見える）
+      const self = hits.find((h) => censysIp(h) === v);
+      if (self) out.attrs["開いていたポート (Censys)"] = censysPorts(self).join(", ") || null;
+
+      if (d.ok === false) {
+        out.error = true;
+        out.note = `Censys がエラーを返しました: ${d.error || "(理由なし)"}`;
+      } else {
+        out.note = hits.length ? `${hits.length} 件ヒットしました` : "ヒットしませんでした";
+      }
+      return out;
+    },
+  },
+
+  {
+    id: "browser-gateway", group: "ページ", label: "隔離ブラウザで開く（画面と HTML）",
+    needs: "cloudflare",
+    when: (t) => t === "ioc.url" || t === "webpage" || t === "ioc.domain",
+    async run(node) {
+      const out = res();
+      const url = urlOf(nodeValue(node));
+      const keys = getSettings().keys;
+      const d = await callTool("browser-gateway",
+        { url, device: "desktop", accountId: keys.cloudflareAccount, apikey: keys.cloudflareToken },
+        { allowNotOk: true });
+      const g = d.gateway || {};
+
+      // スクリーンショットは localStorage に入れない（すぐ容量を食う）。
+      // `_` 始まりのキーは属性一覧にも出ないので、画面側だけが読む
+      const shot = g.screenshot?.base64
+        ? `data:${g.screenshot.contentType || "image/png"};base64,${g.screenshot.base64}`
+        : null;
+
+      addRel(out, "webpage", d.response?.finalUrl || url, "隔離ブラウザで見たページ", {
+        attrs: {
+          HTTP: d.response?.status != null ? `${d.response.status}` : null,
+          題名: d.response?.title,
+          描画: d.response?.browserMs != null ? `${d.response.browserMs} ms` : null,
+          画面: g.screenshot ? `${g.screenshot.width}×${g.screenshot.height}` : null,
+          リンク数: (g.links || []).length || null,
+          "ページ内リンク": (g.links || []).slice(0, 60).map((l) => l.url).filter(Boolean).join("\n"),
+          "描画後 HTML": g.renderedHtml ? g.renderedHtml.slice(0, 20000) : null,
+          取得元: url,
+          ...(shot ? { _shot: shot } : {}),
+        },
+      });
+
+      for (const ip of d.request?.resolvedIps || []) addRel(out, ipType(ip), ip, "解決 IP");
+      out.attrs["題名"] = d.response?.title || null;
+
+      if (d.ok === false) {
+        out.error = true;
+        out.note = `Browser Gateway がエラーを返しました: ${d.error || "(理由なし)"}`;
+      } else {
+        out.note = `HTTP ${d.response?.status ?? "?"}・リンク ${(g.links || []).length} 件`
+          + `${g.targetLoadedInUserBrowser === false ? "（自分のブラウザには読み込んでいません）" : ""}`;
+      }
+      return out;
+    },
+  },
+
+  {
     id: "github", group: "脅威情報", label: "GitHub でコード検索", needs: "github",
     when: () => true,
     async run(node) {
@@ -421,6 +565,10 @@ function tokenState(needs) {
     vt: [keys.virustotal, "VirusTotal のトークンが未設定です"],
     github: [keys.github, "GitHub のトークンが未設定です"],
     abuseipdb: [keys.abuseipdb, "AbuseIPDB のトークンが未設定です"],
+    urlscan: [keys.urlscan, "urlscan の API キーが未設定です"],
+    censys: [keys.censys, "Censys の Personal Access Token が未設定です"],
+    cloudflare: [keys.cloudflareAccount && keys.cloudflareToken,
+      "Cloudflare のアカウント ID と API トークンが未設定です"],
   };
   const [value, why] = map[needs] || [];
   return { ready: !!value, why };

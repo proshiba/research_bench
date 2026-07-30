@@ -98,8 +98,10 @@ CVD ΔE は 6–8 の帯に入るため、**形とノード直下のラベルと
 
 | 種別 | 出てくる調査 |
 | --- | --- |
-| ドメイン / URL / Web ページ | DNS・WHOIS/RDAP・証明書 (CT)・ページ取得・本文取得・ディレクトリ探索・ポート・バナー |
-| IP | ページ取得・ポート・バナー・Shodan・VirusTotal・AbuseIPDB |
+| ドメイン | DNS・WHOIS/RDAP・証明書 (CT)・ページ解析・本文取得・ポート・バナー・VirusTotal・urlscan・Censys・隔離ブラウザ |
+| URL / Web ページ | DNS・WHOIS/RDAP・証明書 (CT)・ページ解析・本文取得・ディレクトリ探索・urlscan・隔離ブラウザ（URL のみ VirusTotal） |
+| IP | ページ解析・ポート・バナー・Shodan・VirusTotal・AbuseIPDB・urlscan・Censys |
+| エンドポイント (host:port) | DNS・ページ解析・本文取得・ポート・バナー |
 | ハッシュ | VirusTotal |
 | すべて | GitHub コード検索・展開・トレイに入れる・リンクを張る・コピー・削除 |
 
@@ -117,6 +119,17 @@ CVD ΔE は 6–8 の帯に入るため、**形とノード直下のラベルと
 
 取り込んだ HTML や WHOIS 全文のような長い属性は畳んで表示し、開くと全文が出る。
 これらはリロードしても残る（グラフの状態と一緒に `localStorage` に入る）。
+
+### 隔離ブラウザ
+
+**Browser Gateway** は Cloudflare 上の Chromium で対象ページを開き、
+**画面・描画後 HTML・ページ内リンク**を持ち帰る。**対象ページを自分のブラウザに
+読み込ませない**ので、調べたいだけで踏みたくないページに使える。
+
+画面はサイドバーに出る。ただし **`localStorage` には保存しない** —
+base64 の PNG は数百 KB あり、数枚で容量上限を食い潰すため。
+リロードすると消えるので、必要なら取り直す（`assets/js/view-workbench.js` の
+`VOLATILE_ATTRS`）。
 
 ### 危険度
 
@@ -188,39 +201,69 @@ Mermaid）でもラベルから種別を推定して読み込む。STIX の id �
 | モジュール | 中身 |
 | --- | --- |
 | **Shodan 検索** | IP を渡して `/shodan/host/{ip}` を引く。キーは端末の中だけ |
-| **Active Research** | 自作の調査 API（[hellow-world](https://hellow-world.hiroshiba.chatgpt.site/api-docs)）の 11 ツール |
+| **Active Research** | 自作の調査 API（[hellow-world](https://hellow-world.hiroshiba.chatgpt.site/api-docs)）の 14 ツール |
 | **CyberChef** | 同梱の CyberChef をこの画面の中で開く。値を持ち込める |
 
 どのモジュールでも、結果から取れた値（IP・ドメイン・エンドポイントなど）は
 **「送る」でワークベンチの調査対象に積める**。ワークベンチを開いていなくても積んでおけて、
 次に開いたときにグラフに載る。モジュール単体の確認とグラフ調査がここで繋がる。
 
-### Active Research の 11 ツール
+### Active Research の 14 ツール
 
 | ツール | エンドポイント | |
 | --- | --- | --- |
 | DNS 照会 | `GET /api/tools/dns` | |
 | RDAP / WHOIS | `GET /api/tools/rdap` | |
 | 証明書 (CT ログ) | `GET /api/tools/certificate` | |
-| Web 解析 | `GET /api/tools/web-analyze` | |
+| Web 解析（旧） | `GET /api/tools/web-analyze` | **deprecated**。下記のとおり移行済み |
 | Open Directory | `GET /api/tools/open-directory` | **非同期ジョブ** |
 | バナー取得 | `GET /api/tools/banner` | |
 | ポート確認 | `GET /api/tools/port-scan` | **非同期ジョブ** |
 | VirusTotal | `GET /api/tools/virustotal` | トークン必要 |
 | AbuseIPDB | `GET /api/tools/abuseipdb` | トークン必要。`verbose=true` で通報の明細 |
 | GitHub 調査 | `GET /api/tools/github` | トークン必要 |
-| 任意リクエスト | `POST /api/request` | |
+| **urlscan** | `GET /api/tools/urlscan` | トークン必要。既存スキャンの検索（新規スキャンは投げない） |
+| **Censys** | `GET /api/tools/censys` | トークン必要。CenQL 検索 |
+| **Browser Gateway** | `POST /api/tools/browser-gateway` | Cloudflare の資格情報が必要 |
+| 任意リクエスト | `POST /api/request` | `includeAnalyze` でページ解析も付く |
+
+`Web 解析` は API 側で deprecated になったので、ポータルは
+`POST /api/request` の `includeAnalyze`（本文で渡す。クエリでは効かない）に移した。
+右クリックの項目名は変えていない。
 
 非同期ジョブは start が `job.id` を返し、`action=status&jobId=…` を完了まで叩く形。
 ポータルは進捗（走査したポート数やディレクトリ数）を出しながら待ち、途中で中止もできる。
 
-ベース URL は画面で変えられるので、別環境に向けられる。API 自体の認証は不要。
+ベース URL は画面で変えられるので、別環境に向けられる。API 側の認証は**今は強制されて
+いない**ので、ログインしなくても動く（下記「ログイン」）。
 API 側は `Access-Control-Allow-Origin: *` を返すため、中継なしでブラウザから直接呼べる
 （`authorization` を許可し、プリフライトに 204 を返すところまで実測済み）。
 
-VirusTotal / AbuseIPDB / GitHub のツールは、利用者のトークンを `Authorization: Bearer` で
-この API サーバーに渡す。**トークンが端末の外に出る**ので、画面上でもその旨を明示している。
-ブラウザの中だけで済ませたい場合はワークベンチの OSINT タブ（Shodan）側を使う。
+### ログイン
+
+**`Authorization: Bearer` はこの API のセッション専用**で、外部サービスのキーは
+サービスごとの専用ヘッダ（`X-VirusTotal-Key` / `X-AbuseIPDB-Key` / `X-GitHub-Token` …）で渡す。
+以前は両方 `Authorization` を使っていたので衝突していた。
+
+セッションは **GitHub ログイン**で得る。OSINT 設定の「調査 API へのログイン」から始まり、
+OAuth 2.0 の認可コードフロー + PKCE で交換する。詳細は
+[`docs/auth-pkce.md`](docs/auth-pkce.md)。
+
+- **Cookie は使わない。**ポータル（`github.io`）と API（`chatgpt.site`）は別サイトなので、
+  セッション Cookie はサードパーティ Cookie になり Safari / Firefox では届かない
+- ポータルは静的配信でシークレットを隠せないため、**PKCE のパブリッククライアント**
+- 得られるのは**この API のセッションだけ**。GitHub のトークンは API サーバーに留まる
+- トークンの置き場所の既定は「このタブだけ」（`sessionStorage`）。
+  メモリだけだとリロードのたびにログインし直しになる
+- アクセストークンの期限が近ければ**呼び出しの前に取り直す**。
+  `401` + `WWW-Authenticate` を受けたときも 1 回だけ取り直して再試行する
+- ログイン状態はステータスバーに出る（`調査 API @<名前>`）。失敗時は警戒色
+
+**認証は今のところ強制されていない**（`/api/meta` の `enforcement_enabled` が `false`）。
+未ログインでも従来どおり使える。
+
+VirusTotal / AbuseIPDB / GitHub のキーは**トークンが端末の外に出る**ので、画面上でもその旨を
+明示している。ブラウザの中だけで済ませたい場合はワークベンチの OSINT タブ（Shodan）側を使う。
 
 ## OSINT 連携
 
@@ -242,15 +285,27 @@ VirusTotal / AbuseIPDB / GitHub のツールは、利用者のトークンを `A
 
 直接呼べないものは 2 通りの扱いにしている。
 
-- **Active Research API 経由で引く**（VirusTotal / AbuseIPDB / GitHub）。
-  トークンがあの API サーバーを通るので、設定画面で節を分けて明示している。
+- **Active Research API 経由で引く**（VirusTotal / AbuseIPDB / urlscan / Censys / GitHub /
+  Cloudflare）。トークンがあの API サーバーを通るので、設定画面で節を分けて明示している。
+  ワークベンチの右クリックから使う。
 - **キーの要らないリンクだけ出す**（ThreatFox など）。「サイトで開く」で該当ページを開く。
 
 **Shodan の API キーはブラウザの外に出ない。**左端の鍵アイコンから入れたキーは
 この端末の中だけにあり、送信先は Shodan 本体だけ。
 
-VirusTotal / AbuseIPDB / GitHub のトークンは別扱いで、**Active Research API サーバーに
-`Authorization: Bearer` で渡す**（あちらが各サービスを代理で叩く）。
+API 経由のトークンは別扱いで、**Active Research API サーバーにサービスごとの
+専用ヘッダで渡す**（あちらが各サービスを代理で叩く）。`Authorization` は
+あの API 自身のログインセッション専用なので、サービスのキーとは混ざらない。
+
+| 設定項目 | 送るヘッダ |
+| --- | --- |
+| VirusTotal | `X-VirusTotal-Key` |
+| AbuseIPDB | `X-AbuseIPDB-Key` |
+| urlscan | `X-Urlscan-API-Key` |
+| Censys | `X-Censys-Token` |
+| GitHub | `X-GitHub-Token` |
+| Cloudflare | `X-Cloudflare-Account-Id` + `X-Cloudflare-API-Token` |
+
 つまりこれらは端末の外に出る。設定画面でも節を分けて明示している。
 ブラウザだけで完結させたい場合は入れなければよい。
 
@@ -348,6 +403,7 @@ assets/js/
   investigate.js      グラフの右クリックから引く調査（種別ごとの項目と結果の整形）
   summaries.js        見出しの要約（索引に無いソースだけ別ファイルを遅延取得）
   risk.js             危険度の尺度と段階（提供元ごとの境目はここだけ）
+  auth-active-research.js 調査 API のログイン（PKCE・トークン保管・自動リフレッシュ）
   view-*.js           各モードの描画
   util.js
 docs/portal-spec.md   連携仕様 v1

@@ -20,11 +20,14 @@
 
 const STORE_KEY = "rb-osint-v1";
 
-// shodan はブラウザから直接 Shodan へ。virustotal / github / abuseipdb は
-// Active Research API に Authorization: Bearer で渡すので、値が端末の外
+// shodan はブラウザから直接 Shodan へ。それ以外は Active Research API に
+// サービスごとの専用ヘッダ（X-VirusTotal-Key など）で渡すので、値が端末の外
 // （あの API サーバー）に出る。この違いは設定画面でも明示する。
 const settings = {
-  keys: { shodan: "", virustotal: "", github: "", abuseipdb: "" },
+  keys: {
+    shodan: "", virustotal: "", github: "", abuseipdb: "",
+    urlscan: "", censys: "", cloudflareAccount: "", cloudflareToken: "",
+  },
   storage: "memory",              // memory | session | local
 };
 
@@ -75,7 +78,10 @@ export function saveSettings(next) {
 }
 
 export function clearSettings() {
-  settings.keys = { shodan: "", virustotal: "", github: "", abuseipdb: "" };
+  settings.keys = {
+    shodan: "", virustotal: "", github: "", abuseipdb: "",
+    urlscan: "", censys: "", cloudflareAccount: "", cloudflareToken: "",
+  };
   settings.storage = "memory";
   for (const k of ["session", "local"]) backing(k)?.removeItem(STORE_KEY);
 }
@@ -142,6 +148,24 @@ export const PROVIDERS = {
     linkOnly: true,
     web: (v) => `https://www.abuseipdb.com/check/${encodeURIComponent(v)}`,
     supports: (type) => IP.has(type),
+  },
+
+  urlscan: {
+    label: "urlscan.io",
+    linkOnly: true,
+    web: (v, type) => (type === "ioc.url"
+      ? `https://urlscan.io/search/#${encodeURIComponent(`page.url:"${v}"`)}`
+      : `https://urlscan.io/search/#${encodeURIComponent(v)}`),
+    supports: (type) => IP.has(type) || type === "ioc.domain" || type === "ioc.url",
+  },
+
+  censys: {
+    label: "Censys",
+    linkOnly: true,
+    web: (v, type) => (IP.has(type)
+      ? `https://search.censys.io/hosts/${encodeURIComponent(v)}`
+      : `https://platform.censys.io/search?q=${encodeURIComponent(v)}`),
+    supports: (type) => IP.has(type) || type === "ioc.domain",
   },
 
   abusech: {
