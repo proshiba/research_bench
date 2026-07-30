@@ -6,6 +6,7 @@ import { loadSettings } from "./osint.js";
 import { deepLink, getSource, initStore, loadSource, onChange, store } from "./store.js";
 import { el, esc, fmtBytes, fmtNum } from "./util.js";
 import { openDashboardAt, renderDashboard } from "./view-dashboard.js";
+import { renderGraphs } from "./view-graphs.js";
 import { renderModules } from "./view-modules.js";
 import { openOsintSettings, osintSummary, osintTooltip } from "./view-osint-settings.js";
 import { renderSearch } from "./view-search.js";
@@ -43,6 +44,7 @@ function parseHash() {
   const arg = rest.join("/");
   if (route === "search") return { route: "search", query: decodeURIComponent(arg || "") };
   if (route === "workbench") return { route: "workbench" };
+  if (route === "graphs") return { route: "graphs" };
   if (route === "modules") return { route: "modules", moduleId: decodeURIComponent(arg || "") || null };
   if (route === "dashboard") return { route: "dashboard", appId: arg || null };
   return { route: "dashboard", appId: null };
@@ -82,6 +84,8 @@ async function render() {
     await renderSearch(view, state.query, { onPivot: handlePivot });
   } else if (state.route === "workbench") {
     await renderWorkbench(view, { onQuery: (q) => setHash("search", q) });
+  } else if (state.route === "graphs") {
+    renderGraphs(view);
   } else if (state.route === "modules") {
     renderModules(view, {
       moduleId: state.moduleId,
@@ -142,8 +146,14 @@ function updateTopbar() {
     dom.openExternal.hidden = true;
   } else {
     dom.ctxDot.style.color = "var(--ink-faint)";
-    dom.ctxName.textContent = state.route === "search" ? "クロスサーチ" : "ワークベンチ";
-    dom.ctxSlug.textContent = state.route === "search" ? "統合インデックス" : "統合グラフ";
+    const TITLES = {
+      search: ["クロスサーチ", "統合インデックス"],
+      graphs: ["保存したグラフ", "STIX ストレージ"],
+      workbench: ["ワークベンチ", "統合グラフ"],
+    };
+    const [name, slug] = TITLES[state.route] || TITLES.workbench;
+    dom.ctxName.textContent = name;
+    dom.ctxSlug.textContent = slug;
     dom.openExternal.hidden = true;
   }
   // ワークベンチではグラフ内の操作と紛れやすいので、検索窓は虫眼鏡だけに縮めておく

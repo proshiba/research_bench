@@ -6,6 +6,8 @@
 import { createGraph } from "./graph.js";
 import { deepLink, graphLink, loadAllSources, registerManual, resolveValue, store } from "./store.js";
 import { parseAny, toMermaid, toStix } from "./exchange.js";
+import { openSaveDialog } from "./view-graph-save.js";
+import { create as stixCreate, stripReport, update as stixUpdate, wrapBundle } from "./stix-store.js";
 import { actionsFor, nodeValue } from "./investigate.js";
 import { lookup, providersFor } from "./osint.js";
 import { LEVEL_JA, riskOf } from "./risk.js";
@@ -17,6 +19,21 @@ const STORE_KEY = "rb-workbench-v1";
 let ui = null;
 let tray = [];          // [{ value, type }]
 let restoring = false;
+
+/**
+ * 今のグラフが「保存済みのどれ」に紐づいているか。
+ * これがあると保存ボタンが「更新」になり、上書き先が決まる。
+ * localStorage の写しにも入れるので、リロードしても更新のままになる。
+ */
+let savedRef = null;    // { id, title, description, visibility }
+
+/**
+ * 一覧から「開く」を押されたが、ワークベンチがまだ組み上がっていない／
+ * 索引を読み終えていないときの預かり。索引が無いと実体を作り直せないため、
+ * 読み込み完了まで待ってから載せる。
+ */
+let pendingOpen = null;
+let sourcesReady = false;
 
 /**
  * 調査で手元に作った実体（AS・地理・Web ページや、取得した HTML などの属性）。
@@ -68,16 +85,26 @@ function setStatus(text, { error = false } = {}) {
 
 /* ---------------- 保存と復元 ---------------- */
 
+/**
+ * 今のワークベンチの状態一式。localStorage と STIX 保存の両方でこれを使う。
+ * 同じ形にしておけば、保存したグラフの復元も既存の復元経路をそのまま通せる。
+ */
+export function buildSnapshot() {
+  if (!ui) return null;
+  return {
+    v: 1,
+    tray,
+    extras: extrasForSave(),
+    collapsed: ui.trayEl.dataset.collapsed === "true",
+    graph: ui.graph.serialize(),
+    saved: savedRef,
+  };
+}
+
 function saveState() {
   if (!ui || restoring) return;
   try {
-    localStorage.setItem(STORE_KEY, JSON.stringify({
-      v: 1,
-      tray,
-      extras: extrasForSave(),
-      collapsed: ui.trayEl.dataset.collapsed === "true",
-      graph: ui.graph.serialize(),
-    }));
+    localStorage.setItem(STORE_KEY, JSON.stringify(buildSnapshot()));
   } catch (err) {
     // 容量超過は黙って捨てるとデータを失ったことに気づけないので、状態だけは伝える
     if (ui && String(err?.name).includes("Quota")) {
@@ -127,6 +154,12 @@ export async function renderWorkbench(root, { onQuery } = {}) {
     },
   });
 
+  // 保存/更新。ツール列の右端（ステータスの後ろ）に置く
+  const saveBtn = el("button", {
+    class: "btn is-save", type: "button", text: "保存",
+    onclick: () => openSave(),
+  });
+
   const tools = el("div", { class: "wb-tools" }, [
     el("button", { class: "btn", type: "button", text: "全体表示", onclick: () => ui.graph.fit() }),
     el("button", { class: "btn", type: "button", text: "再レイアウト", onclick: () => ui.graph.relayout() }),
@@ -143,10 +176,13 @@ export async function renderWorkbench(root, { onQuery } = {}) {
         tray = [];
         renderTray();
         clearState();
+        savedRef = null;
+        renderSaveBtn();
         renderSide(null);
       },
     }),
     status,
+    saveBtn,
   ]);
 
   // 凡例は「エンティティ種別」で並べる。色と形はここで決まる（出典はサイドバー）
@@ -370,7 +406,8 @@ export async function renderWorkbench(root, { onQuery } = {}) {
   graph.resize();
 
   ui = { wrap, graph, side, paneDetail, paneTransform, paneOsint, selectTab, status, onQuery,
-    trayEl, trayList, trayCount };
+    trayEl, trayList, trayCount, saveBtn, saveDialog: document.getElementById("graphSaveDialog") };
+  renderSaveBtn();
   // UI テストから座標を取るためのフック。?uitest=1 が無ければ生えない。
   if (new URLSearchParams(location.search).has("uitest")) window.__rbGraph = graph;
   renderTray();
@@ -380,7 +417,14 @@ export async function renderWorkbench(root, { onQuery } = {}) {
   // 索引が無いと展開も復元もできないので、読み込みを待ってから状態を戻す
   loadAllSources().then(() => {
     if (!ui) return;
+    sourcesReady = true;
     restoreState();
+    // 一覧から開かれた分があれば、前回の状態より優先して載せる
+    if (pendingOpen) {
+      const item = pendingOpen;
+      pendingOpen = null;
+      openSavedGraph(item);
+    }
     renderSide(graph.selected);
   });
 
@@ -430,9 +474,19 @@ function caretIcon(pointRight) {
 }
 
 function restoreState() {
-  const snap = readState();
-  if (!snap || snap.v !== 1) return;
+  applySnapshot(readState());
+}
+
+/**
+ * 状態の写しをワークベンチに載せる。localStorage からの復帰と、
+ * 保存したグラフを開くときの両方でここを通す（経路を 1 本にしておく）。
+ */
+export function applySnapshot(snap, { note = null, saved = undefined } = {}) {
+  if (!ui || !snap || snap.v !== 1) return;
   restoring = true;
+  // 保存済みグラフを開いたときは呼び出し側が紐づけを渡す。
+  // localStorage からの復帰では写しの中の値を使う
+  savedRef = saved !== undefined ? saved : (snap.saved || null);
   try {
     ui.trayEl.dataset.collapsed = String(!!snap.collapsed);
     ui.trayEl.querySelector(".tray-toggle").innerHTML = caretIcon(!!snap.collapsed);
@@ -464,7 +518,9 @@ function restoreState() {
     }
     if (staged.length) ui.graph.linkExisting();
 
-    if (staged.length) {
+    if (note) {
+      ui.status.textContent = note;
+    } else if (staged.length) {
       ui.status.textContent = n
         ? `前回の状態を復元し、${staged.length} 件を受け取りました（ノード ${ui.graph.counts.nodes}）`
         : `${staged.length} 件を受け取りました`;
@@ -474,6 +530,7 @@ function restoreState() {
   } finally {
     restoring = false;
   }
+  renderSaveBtn();
   ui.graph.resize();
   // 受け取った分を含めて保存し直す（staged の印はここで消える）
   saveState();
@@ -795,6 +852,72 @@ function importGraph(parsed) {
   ui.graph.whenSettled({ timeout: 1500 }).then(() => ui?.graph.fit());
   saveState();
   return { nodes: keyToNode.size, manual, links, skipped };
+}
+
+/* ---------------- グラフの保存 ---------------- */
+
+/** 紐づけの有無で「保存」か「更新」かを出し分ける。 */
+function renderSaveBtn() {
+  if (!ui?.saveBtn) return;
+  const on = !!savedRef?.id;
+  ui.saveBtn.textContent = on ? "更新" : "保存";
+  ui.saveBtn.classList.toggle("is-on", on);
+  ui.saveBtn.title = on
+    ? `「${savedRef.title}」を上書きします（別のグラフとしても保存できます）`
+    : "調査 API にこのグラフを保存します";
+}
+
+function openSave() {
+  if (!ui.graph.counts.nodes) {
+    setStatus("空のグラフは保存できません（STIX の report は 1 件以上の参照が要ります）", { error: true });
+    return;
+  }
+  openSaveDialog(ui.saveDialog, savedRef, async ({ title, description, visibility, asNew }) => {
+    // 画面写真は「今見えている通り」を撮る。撮ってから束を組む
+    const screenshot = ui.graph.exportThumb();
+    const stix = wrapBundle(toStix(ui.graph), {
+      title, description, screenshot, snapshot: buildSnapshot(),
+    });
+
+    const id = asNew ? null : savedRef?.id;
+    const saved = id
+      ? await stixUpdate(id, stix, { visibility })
+      : await stixCreate(stix, { visibility });
+
+    savedRef = { id: saved.id, title, description, visibility };
+    renderSaveBtn();
+    saveState();
+    setStatus(id ? `「${title}」を更新しました` : `「${title}」を保存しました`);
+  });
+}
+
+/**
+ * 保存したグラフを開く。一覧画面から呼ぶ。
+ *
+ * ワークベンチが未構築、または索引の読み込み前なら預かって後で載せる
+ * （索引が無いと手動ノードの実体を作り直せない）。
+ */
+export function openSavedGraph(item) {
+  if (!item?.snapshot && !item?.stix) return false;
+  if (!ui || !sourcesReady) { pendingOpen = item; return true; }
+  const snapshot = item?.snapshot;
+  const ref = { id: item.id, title: item.title, description: item.description, visibility: item.visibility };
+
+  if (snapshot) {
+    applySnapshot(snapshot, { saved: ref, note: `「${item.title}」を開きました（ノード ${snapshot.graph?.nodes?.length ?? 0}）` });
+    return true;
+  }
+
+  // ポータル以外が保存した STIX には配置の写しが無い。素の束として取り込む
+  if (item?.stix) {
+    importGraph(parseAny(JSON.stringify(stripReport(item.stix)), "saved.json"));
+    savedRef = ref;
+    renderSaveBtn();
+    saveState();
+    setStatus(`「${item.title}」を STIX から取り込みました（配置は再計算しています）`);
+    return true;
+  }
+  return false;
 }
 
 /* ---------------- 詳細タブ ---------------- */

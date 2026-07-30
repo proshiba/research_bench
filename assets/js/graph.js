@@ -1068,6 +1068,28 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
   });
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => draw());
 
+  /**
+   * 一覧に出す小さな画面写真。
+   *
+   * 等倍の PNG は 1 MB を超えることがあり、保存する STIX の 10 MiB 上限を
+   * すぐ食う。縮小して JPEG にすると数十 KB に収まる。
+   * キャンバスは透過のまま描いているので、JPEG にする前に下地を塗る
+   * （塗らないと透過部分が黒になる）。
+   */
+  function exportThumb({ width = 480, quality = 0.72 } = {}) {
+    if (!W || !H) return null;
+    const scale = Math.min(1, width / W);
+    const off = document.createElement("canvas");
+    off.width = Math.max(1, Math.round(W * scale));
+    off.height = Math.max(1, Math.round(H * scale));
+    const c = off.getContext("2d");
+    readTheme();
+    c.fillStyle = theme.surface || "#ffffff";
+    c.fillRect(0, 0, off.width, off.height);
+    c.drawImage(canvas, 0, 0, off.width, off.height);
+    return off.toDataURL("image/jpeg", quality);
+  }
+
   /** 別画面に移ったりリロードしても復元できるよう、グラフの状態を書き出す。 */
   function serialize() {
     return {
@@ -1147,6 +1169,7 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
     selectMany, selectWhere, toggleSelection, clearSelection, setPrimary, removeMany, setPinned,
     linkExisting, whenSettled, serialize, restore,
     exportPng: () => canvas.toDataURL("image/png"),
+    exportThumb,
     get nodes() { return nodes; },
     get edges() { return edges; },
     get selected() { return selectedId ? nodes.get(selectedId) : null; },
