@@ -6,6 +6,7 @@
 
 import { TOOLS, getTool, ping, run } from "./api-active-research.js";
 import { MODULES, filterModules, getModule, getModuleSettings, saveModuleSettings } from "./modules.js";
+import { credentialState } from "./credentials.js";
 import { PROVIDERS, getSettings, lookup, providersFor } from "./osint.js";
 import { store } from "./store.js";
 import { configureCyberchef, cyberchefAvailable, cyberchefBuildHint, cyberchefLink } from "./transform.js";
@@ -200,8 +201,12 @@ function errorBox(message) {
   return el("p", { class: "mod-error", text: message });
 }
 
-/** ツール定義の params からフォームを組む。 */
-function buildForm(params, values) {
+/**
+ * ツール定義の params からフォームを組む。
+ * storedKey には「調査 API に預けてあるキーの param 名」を渡す。
+ * その欄は空でよいことを画面に出す。
+ */
+function buildForm(params, values, { storedKey = null, storedHint = "" } = {}) {
   const wrap = el("div", { class: "mod-form" });
   const inputs = {};
   for (const p of params) {
@@ -221,13 +226,18 @@ function buildForm(params, values) {
       });
     }
     inputs[p.name] = input;
+    const stored = p.name === storedKey;
+    if (stored) input.placeholder = `調査 API に預けてあります（${storedHint}）`;
     wrap.append(el("div", { class: `mod-field${p.type === "checkbox" ? " is-check" : ""}` }, [
       el("label", { for: `p-${p.name}` }, [
         p.label,
-        ...(p.required ? [el("span", { class: "mod-req", text: "必須" })] : []),
+        ...(p.required && !stored ? [el("span", { class: "mod-req", text: "必須" })] : []),
+        ...(stored ? [el("span", { class: "chip", style: "margin-left:6px", text: "預け済み" })] : []),
       ]),
       input,
-      ...(p.hint ? [el("span", { class: "modal-desc", text: p.hint })] : []),
+      ...(stored
+        ? [el("span", { class: "modal-desc", text: "空のままで実行できます。入れた場合はその値が今回だけ優先されます。" })]
+        : p.hint ? [el("span", { class: "modal-desc", text: p.hint })] : []),
     ]));
   }
   const read = () => Object.fromEntries(Object.entries(inputs).map(([k, i]) =>
@@ -322,7 +332,11 @@ function renderActiveResearch(body) {
   }
 
   function paintForm() {
-    form = buildForm(paramsOf(selected, values), values);
+    const cred = selected.credProvider && credentialState(selected.credProvider);
+    form = buildForm(paramsOf(selected, values), values, {
+      storedKey: cred ? (selected.keyField || "apikey") : null,
+      storedHint: cred?.hint || "",
+    });
     // action のように、選び直すと必要な引数が変わるものはフォームごと作り直す
     for (const name of selected.rebuildOn || []) {
       form.inputs[name]?.addEventListener("change", () => {
@@ -357,7 +371,13 @@ function renderActiveResearch(body) {
     onclick: async () => {
       const v = form.read();
       Object.assign(values, v);
-      const missing = paramsOf(selected, values).filter((p) => p.required && !v[p.name]).map((p) => p.label);
+      // 調査 API に預けてあるキーは、空のまま実行してよい
+      // （空ならヘッダが落ち、API が預かっている鍵を使う）
+      const stored = selected.credProvider && credentialState(selected.credProvider);
+      const keyName = selected.keyField || "apikey";
+      const missing = paramsOf(selected, values)
+        .filter((p) => p.required && !v[p.name] && !(stored && p.name === keyName))
+        .map((p) => p.label);
       if (missing.length) {
         out.replaceChildren(errorBox(`${missing.join(" / ")} を入れてください。`));
         return;
@@ -376,6 +396,11 @@ function renderActiveResearch(body) {
           onProgress: (job) => {
             const p = selected.progress ? selected.progress(job.progress || {}) : "";
             progress.textContent = `ジョブ ${job.status}${p ? ` — ${p}` : ""}`;
+          },
+          // レート制限は待てば通る。失敗にはせず、待っていることだけ出す
+          onWait: ({ seconds, attempt, of, tier }) => {
+            progress.textContent = `レート制限で ${seconds} 秒待っています（${attempt}/${of}`
+              + `${tier ? ` · ${tier === "anonymous" ? "未ログイン枠" : tier}` : ""}）`;
           },
         });
         const d = res.data;

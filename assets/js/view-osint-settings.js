@@ -5,6 +5,9 @@
 // 読めるようになるため、その旨を画面にも書いてある。
 
 import { authState, authStorage, beginLogin, logout, setAuthStorage } from "./auth-active-research.js";
+import {
+  PROVIDERS as CRED_PROVIDERS, credentialState, deleteCredential, loadCredentials, saveCredential,
+} from "./credentials.js";
 import { getModuleSettings } from "./modules.js";
 import { PROVIDERS, clearSettings, getSettings, saveSettings } from "./osint.js";
 import { el } from "./util.js";
@@ -76,6 +79,13 @@ function authSection() {
 export function openOsintSettings(dialog) {
   const cur = getSettings();
   const note = el("p", { class: "modal-note" });
+  const setNote = (text, error = false) => {
+    note.textContent = text;
+    note.classList.toggle("is-error", !!error);
+  };
+
+  // 預け状態が変わったときに描き直す行たち
+  const credPainters = [];
 
   const keyInputs = {};
   const keyRows = Object.entries(PROVIDERS)
@@ -119,6 +129,9 @@ export function openOsintSettings(dialog) {
     ["cloudflareAccount", "Cloudflare アカウント ID", "Browser Gateway で使います"],
     ["cloudflareToken", "Cloudflare API トークン", "Browser Rendering - Edit 権限が必要です"],
   ];
+  // 設定項目 → 調査 API 側の provider（預けられるものだけ）
+  const CRED_BY_FIELD = new Map(CRED_PROVIDERS.map((c) => [c.field, c]));
+
   const viaRows = VIA_API.map(([field, label, hint]) => {
     const input = el("input", {
       type: "password", class: "modal-input", autocomplete: "off", spellcheck: "false",
@@ -133,7 +146,79 @@ export function openOsintSettings(dialog) {
         reveal.textContent = hidden ? "隠す" : "表示";
       },
     });
-    return el("div", { class: "modal-field" }, [
+
+    const row = el("div", { class: "modal-field" });
+    const cred = CRED_BY_FIELD.get(field);
+    // 預ける操作と状態を出す行。ログインしていないと出さない
+    const credRow = cred ? el("div", { class: "cred-row" }) : null;
+
+    /** 預け先の状態に合わせて行を描き直す。 */
+    function paintCred() {
+      if (!credRow) return;
+      const a = authState();
+      if (!a.loggedIn) {
+        credRow.replaceChildren(el("span", {
+          class: "modal-desc",
+          text: "調査 API にログインすると、このキーを預けて端末に残さないようにできます。",
+        }));
+        return;
+      }
+      const st = credentialState(cred.id);
+      if (st) {
+        credRow.replaceChildren(
+          el("span", { class: "chip is-ok", text: "調査 API に預け済み" }),
+          el("code", { class: "cred-hint", text: st.hint || "" }),
+          el("button", {
+            class: "btn", type: "button", text: "預けを取り消す",
+            onclick: async (ev) => {
+              ev.target.disabled = true;
+              try {
+                await deleteCredential(cred.id);
+                setNote(`${label} の預けを取り消しました。使うにはこの端末に入れ直してください。`);
+              } catch (e) {
+                setNote(e.message || String(e), true);
+              } finally {
+                ev.target.disabled = false;
+                paintCred();
+              }
+            },
+          }),
+        );
+        return;
+      }
+      credRow.replaceChildren(
+        el("button", {
+          class: "btn", type: "button", text: "調査 API に預ける",
+          onclick: async (ev) => {
+            const value = input.value.trim();
+            if (!value) {
+              setNote(`${label} を入力してから預けてください。`, true);
+              input.focus();
+              return;
+            }
+            ev.target.disabled = true;
+            try {
+              await saveCredential(cred.id, value);
+              // 預けたら端末側からは消す。残すと呼び出しのたびに
+              // ヘッダで送ってしまい、預けた側が使われない
+              input.value = "";
+              saveSettings({ keys: { ...getSettings().keys, [field]: "" } });
+              setNote(`${label} を調査 API に預けました。この端末からは消しています。`);
+            } catch (e) {
+              setNote(e.message || String(e), true);
+            } finally {
+              ev.target.disabled = false;
+              paintCred();
+            }
+          },
+        }),
+        el("span", { class: "modal-desc", text: cred.note || "預けると、この端末には残しません。" }),
+      );
+    }
+    paintCred();
+    credPainters.push(paintCred);
+
+    row.append(
       el("label", { for: `key-${field}` }, [
         label,
         el("span", {
@@ -143,7 +228,9 @@ export function openOsintSettings(dialog) {
       ]),
       el("div", { class: "modal-row" }, [input, reveal]),
       el("span", { class: "modal-desc", text: hint }),
-    ]);
+    );
+    if (credRow) row.append(credRow);
+    return row;
   });
 
   const storageSel = el("div", { class: "modal-choices" }, STORAGE_CHOICES.map(([value, label, desc]) =>
@@ -232,6 +319,11 @@ export function openOsintSettings(dialog) {
     footer,
   );
   dialog.showModal();
+
+  // 預け状態は開いたときに取りに行く。届いたら該当行だけ描き直す
+  loadCredentials().then(() => {
+    for (const paint of credPainters) paint();
+  });
 }
 
 /** ステータスバー用の短い要約。 */

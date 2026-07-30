@@ -450,6 +450,7 @@ a { color: inherit; }
 
 .chip.is-crit { color: var(--crit); border-color: color-mix(in srgb, var(--crit) 45%, transparent); }
 .chip.is-join { color: var(--focus); border-color: color-mix(in srgb, var(--focus) 45%, transparent); }
+.chip.is-ok { color: var(--src-mal); border-color: color-mix(in srgb, var(--src-mal) 45%, transparent); }
 
 .empty {
   display: grid;
@@ -1870,6 +1871,25 @@ button.lg:disabled { cursor: default; opacity: 0.45; }
 
 /* 保存ボタンはツール列の右端（ステータスの後ろ）。更新のときだけ強調する */
 .btn.is-save { font-weight: 600; }
+/* 取り消せない操作の確認中。押し間違いを止めるため一目で分かる色にする */
+.btn.is-warn {
+  border-color: var(--crit);
+  color: var(--crit);
+  background: color-mix(in srgb, var(--crit) 10%, var(--surface));
+}
+/* 今どの保存を編集しているか。ステータス行の文言は次の操作で消えるので別に出す */
+.wb-saved {
+  align-self: center;
+  max-width: 240px;
+  padding: 3px 8px;
+  font-size: 11px;
+  color: var(--ink-dim);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .btn.is-primary {
   border-color: var(--focus);
   color: var(--ink);
@@ -1886,9 +1906,22 @@ button.lg:disabled { cursor: default; opacity: 0.45; }
 .gv-tabs { display: flex; gap: 6px; }
 
 /* 絞り込みはサーバー側（?q=）。題・説明・STIX の name を横断する */
+.gv-search-box { position: relative; display: flex; flex: 0 1 280px; }
+.gv-search-icon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+.gv-search-icon svg { width: 13px; height: 13px; }
+.gv-search-box:focus-within .gv-search-icon { color: var(--focus); }
+
 .gv-search {
-  flex: 0 1 260px;
-  padding: 5px 9px;
+  flex: 1;
+  padding: 5px 9px 5px 27px;
   font: inherit;
   font-size: 12px;
   color: var(--ink);
@@ -1897,6 +1930,7 @@ button.lg:disabled { cursor: default; opacity: 0.45; }
   border-radius: 0;
 }
 .gv-search:focus { outline: 0; border-color: var(--focus); }
+.gv-empty .btn { margin-top: 10px; }
 
 /* 画像が届くまでは下地だけ。届いた瞬間に差し替わる */
 .gcard-shot.is-pending { background: var(--surface-2); }
@@ -2011,4 +2045,25 @@ button.lg:disabled { cursor: default; opacity: 0.45; }
   font-size: 11px;
   line-height: 1.7;
   color: var(--ink-dim);
+}
+
+/* ---------------- キーの預け先 ---------------- */
+
+/* 設定画面で、各キーを調査 API に預ける操作と状態を出す行 */
+.cred-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--line);
+}
+.cred-row .modal-desc { flex: 1 1 180px; }
+.cred-hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-dim);
+  padding: 1px 5px;
+  background: var(--surface-2);
 }

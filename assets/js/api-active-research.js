@@ -33,7 +33,51 @@ export const DEFAULT_BASE = "https://hellow-world.hiroshiba.chatgpt.site";
 const POLL_INTERVAL_MS = 1200;
 const POLL_TIMEOUT_MS = 5 * 60 * 1000;
 
+/**
+ * レート制限（HTTP 429）への対応。
+ *
+ * API は悪用防止のため機能ごとに間隔を設けている（実測: 匿名は 5 秒に 1 回、
+ * 認証済みは 1 秒に 1 回。Browser Gateway は分あたりの回数）。超えると
+ *   HTTP 429 / Retry-After: 4 / X-RateLimit-Interval: 5
+ *   {"ok":false,"retryAfterSeconds":4,"rateLimitTier":"anonymous","intervalSeconds":5}
+ * が返る。Retry-After と X-RateLimit-Interval は
+ * Access-Control-Expose-Headers に入っているのでブラウザから読める。
+ *
+ * 待てば必ず通るものなので、待って自動でやり直す。利用者に「失敗」と
+ * 見せる必要はないが、黙って止まって見えるのも困るので待機中は画面に出す。
+ */
+const RATE_LIMIT_RETRIES = 3;
+/** サーバーの時計とのずれで待ち足りないことがあるので少し足す。 */
+const RETRY_PAD_MS = 350;
+
+/**
+ * 機能ごとの最短間隔（秒）。429 や応答ヘッダから学ぶ。
+ * ジョブのポーリング間隔をこれ以上に広げて、こちらから 429 を誘発しないようにする。
+ */
+const intervalByTool = new Map();
+
+function noteInterval(toolId, res, json) {
+  const sec = Number(res.headers.get("x-ratelimit-interval")) || Number(json?.intervalSeconds) || 0;
+  if (sec > 0) intervalByTool.set(toolId, sec);
+}
+
+/** 429 のときに待つミリ秒。指定が無ければ間隔から、それも無ければ控えめな既定値。 */
+function retryDelayMs(res, json, toolId) {
+  const sec = Number(json?.retryAfterSeconds)
+    || Number(res.headers.get("retry-after"))
+    || intervalByTool.get(toolId)
+    || 5;
+  return Math.min(30_000, Math.max(500, sec * 1000)) + RETRY_PAD_MS;
+}
+
 /* ---------------- 通信 ---------------- */
+
+const sleep = (ms, signal) => new Promise((resolve, reject) => {
+  const t = setTimeout(resolve, ms);
+  signal?.addEventListener("abort", () => { clearTimeout(t); reject(new DOMException("aborted", "AbortError")); },
+    { once: true });
+});
+
 
 /**
  * API を 1 回叩く。
@@ -42,7 +86,7 @@ const POLL_TIMEOUT_MS = 5 * 60 * 1000;
  * 「そもそも繋がらなかった」ときの両方なので、その場で切り分けられない。
  * ブラウザは理由を JS に渡さない仕様なので、両方の可能性を書いて返す。
  */
-export async function call(base, tool, values, { signal, retried = false } = {}) {
+export async function call(base, tool, values, { signal, retried = false, onWait, rateTry = 0 } = {}) {
   const url = new URL(tool.path, base.replace(/\/+$/, "") + "/");
   const init = { method: tool.method || "GET", headers: {}, signal, credentials: "omit" };
 
@@ -79,36 +123,60 @@ export async function call(base, tool, values, { signal, retried = false } = {})
   const text = await res.text();
   let json = null;
   try { json = JSON.parse(text); } catch { /* JSON でないこともある */ }
+  noteInterval(tool.id, res, json);
+
+  // レート制限。待てば通るので、待ってからやり直す
+  if (res.status === 429 && rateTry < RATE_LIMIT_RETRIES) {
+    const wait = retryDelayMs(res, json, tool.id);
+    onWait?.({
+      seconds: Math.ceil(wait / 1000),
+      attempt: rateTry + 1,
+      of: RATE_LIMIT_RETRIES,
+      tier: json?.rateLimitTier || null,
+    });
+    await sleep(wait, signal);
+    return call(base, tool, values, { signal, retried, onWait, rateTry: rateTry + 1 });
+  }
 
   // セッションが切れていたら 1 回だけ取り直して同じ要求をやり直す。
   // 外部サービス側の 401（キーが違う）と混ざらないよう、
   // WWW-Authenticate が付いている＝この API が出した 401 のときだけ扱う。
   if (res.status === 401 && !retried && res.headers.get("www-authenticate")) {
     if (await recoverFromUnauthorized(json)) {
-      return call(base, tool, values, { signal, retried: true });
+      return call(base, tool, values, { signal, retried: true, onWait, rateTry });
     }
   }
 
   return { status: res.status, ms, url: url.href, text, json };
 }
 
-/** ジョブの状態を 1 回見る。 */
-async function fetchJob(base, tool, jobId, signal) {
+/**
+ * ジョブの状態を 1 回見る。
+ *
+ * status もレート制限の対象。**セッションを付けないと匿名扱い（5 秒に 1 回）**に
+ * なるので、ここでも Authorization を送る。429 のときは待ってやり直す。
+ */
+async function fetchJob(base, tool, jobId, signal, { onWait, rateTry = 0 } = {}) {
   const url = new URL(tool.path, base.replace(/\/+$/, "") + "/");
   url.searchParams.set("action", "status");
   url.searchParams.set("jobId", jobId);
-  const res = await fetch(url, { signal, credentials: "omit" });
+  const res = await fetch(url, {
+    signal, credentials: "omit", headers: { ...(await authHeaders()) },
+  });
   const text = await res.text();
   let json = null;
   try { json = JSON.parse(text); } catch { /* JSON でないこともある */ }
+  noteInterval(tool.id, res, json);
+
+  if (res.status === 429 && rateTry < RATE_LIMIT_RETRIES) {
+    const wait = retryDelayMs(res, json, tool.id);
+    onWait?.({ seconds: Math.ceil(wait / 1000), attempt: rateTry + 1, of: RATE_LIMIT_RETRIES,
+      tier: json?.rateLimitTier || null, polling: true });
+    await sleep(wait, signal);
+    return fetchJob(base, tool, jobId, signal, { onWait, rateTry: rateTry + 1 });
+  }
   return { status: res.status, text, json };
 }
-
-const sleep = (ms, signal) => new Promise((resolve, reject) => {
-  const t = setTimeout(resolve, ms);
-  signal?.addEventListener("abort", () => { clearTimeout(t); reject(new DOMException("aborted", "AbortError")); },
-    { once: true });
-});
 
 /**
  * ツールを 1 回実行する。非同期ジョブなら完了まで面倒を見る。
@@ -116,8 +184,8 @@ const sleep = (ms, signal) => new Promise((resolve, reject) => {
  * 返り値の data が「要約と値の抽出に渡すもの」。同期ツールなら応答そのもの、
  * 非同期ツールなら job.result。raw は画面に出す生の応答で、ジョブの封筒ごと残す。
  */
-export async function run(base, tool, values, { signal, onProgress } = {}) {
-  const first = await call(base, tool, values, { signal });
+export async function run(base, tool, values, { signal, onProgress, onWait } = {}) {
+  const first = await call(base, tool, values, { signal, onWait });
   if (!tool.async || !first.json?.job?.id) {
     return { ...first, data: first.json, job: null, raw: first.json };
   }
@@ -130,8 +198,10 @@ export async function run(base, tool, values, { signal, onProgress } = {}) {
     if (performance.now() - started > POLL_TIMEOUT_MS) {
       throw new Error(`ジョブが ${Math.round(POLL_TIMEOUT_MS / 60000)} 分で終わりませんでした（jobId: ${jobId}）`);
     }
-    await sleep(POLL_INTERVAL_MS, signal);
-    const st = await fetchJob(base, tool, jobId, signal);
+    // 学んだ最短間隔より短く叩かない。こちらから 429 を誘発しないため
+    const gap = Math.max(POLL_INTERVAL_MS, (intervalByTool.get(tool.id) || 0) * 1000);
+    await sleep(gap, signal);
+    const st = await fetchJob(base, tool, jobId, signal, { onWait });
     const job = st.json?.job;
     if (!job) throw new Error(st.json?.error || `ジョブの状態を取得できません (HTTP ${st.status})`);
     onProgress?.(job);
@@ -551,6 +621,7 @@ export const TOOLS = [
     ],
     query: (v) => ({ type: v.type, value: v.value, relationships: v.relationships || "" }),
     keyHeader: "X-VirusTotal-Key",
+    credProvider: "virustotal",
     summary: (d) => [
       ["判定", d.summary?.verdict],
       ["検知", d.summary?.analysisStats
@@ -592,6 +663,7 @@ export const TOOLS = [
     ],
     query: (v) => ({ ip: v.ip, maxAgeInDays: v.maxAgeInDays || "", verbose: v.verbose ? "true" : "" }),
     keyHeader: "X-AbuseIPDB-Key",
+    credProvider: "abuseipdb",
     summary: (d) => {
       const a = abuseRecord(d);
       return [
@@ -638,6 +710,7 @@ export const TOOLS = [
     ],
     query: (v) => ({ action: v.action || "search", q: v.q || "", scanId: v.scanId || "", size: v.size || "" }),
     keyHeader: "X-Urlscan-API-Key",
+    credProvider: "urlscan",
     summary: (d) => {
       const r = d.data || {};
       const top = (r.results || [])[0];
@@ -681,6 +754,7 @@ export const TOOLS = [
     ],
     query: (v) => ({ query: v.query, pageSize: v.pageSize || "", fields: v.fields || "" }),
     keyHeader: "X-Censys-Token",
+    credProvider: "censys",
     summary: (d) => {
       const hits = censysHits(d);
       return [
@@ -732,6 +806,7 @@ export const TOOLS = [
       scrollY: v.scrollY ? Number(v.scrollY) : undefined,
     }),
     keyHeader: "X-Cloudflare-API-Token",
+    credProvider: "cloudflare_browser",
     headers: (v) => ({ "X-Cloudflare-Account-Id": v.accountId }),
     summary: (d) => {
       const g = d.gateway || {};
@@ -808,6 +883,7 @@ export const TOOLS = [
       targetType: v.targetType || "", owner: v.owner || "",
     }),
     keyHeader: "X-GitHub-Token", keyField: "token",
+    credProvider: "github",
     summary: (d) => [
       ["動作", d.action],
       ["GitHub のクエリ", d.query?.githubQuery || d.query?.pattern],

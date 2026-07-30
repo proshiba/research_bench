@@ -11,7 +11,7 @@
 import { authState, onAuthChange } from "./auth-active-research.js";
 import { list, read, remove, thumbnailUrl } from "./stix-store.js";
 import { el, shorten } from "./util.js";
-import { openSavedGraph } from "./view-workbench.js";
+import { openSavedGraph, startNewGraph } from "./view-workbench.js";
 
 let root = null;
 let items = [];
@@ -243,8 +243,9 @@ let shell = null;      // { wrap, main, tabs }
 function buildShell() {
   const search = el("input", {
     class: "gv-search", type: "search", id: "gvSearch",
-    placeholder: "題・説明・STIX の名前で絞る",
-    "aria-label": "保存したグラフを絞り込む",
+    placeholder: "題や説明で検索",
+    "aria-label": "保存したグラフを題・説明で検索",
+    title: "サーバー側で絞り込みます（題・説明のほか、STIX の名前も見ます）",
     oninput: (ev) => {
       query = ev.target.value;
       // 1 文字ごとに投げない。打ち終わりを待つ
@@ -252,6 +253,15 @@ function buildShell() {
       searchTimer = setTimeout(load, 280);
     },
   });
+  // 検索欄だと分かるように虫眼鏡を添える
+  const searchBox = el("div", { class: "gv-search-box" }, [
+    el("span", {
+      class: "gv-search-icon", "aria-hidden": "true",
+      html: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" '
+        + 'stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.4 10.4 14 14"/></svg>',
+    }),
+    search,
+  ]);
 
   const tabs = [["me", "自分のグラフ"], ["public", "公開されているもの"]].map(([v, label]) =>
     el("button", {
@@ -266,9 +276,16 @@ function buildShell() {
         el("h2", { class: "gv-title", text: "保存したグラフ" }),
         el("p", { class: "gv-lead", text: "調査 API の STIX ストレージに置いたものです。押すとワークベンチに復元します。" }),
       ]),
-      search,
+      searchBox,
       el("div", { class: "gv-tabs" }, tabs),
       el("button", { class: "btn", type: "button", text: "再読み込み", onclick: () => load() }),
+      // 一覧からそのまま新しい調査を始められるようにする。
+      // 一覧と描画が別画面なので、ここに入口が無いと行き来が分かりにくい
+      el("button", {
+        class: "btn is-primary", type: "button", text: "新規調査",
+        title: "空のグラフでワークベンチを開く",
+        onclick: () => { startNewGraph(); location.hash = "#/workbench"; },
+      }),
     ]),
     main,
   ]);
@@ -305,6 +322,12 @@ function render() {
       query
         ? null
         : el("p", { class: "gv-hint", text: "ワークベンチでグラフを作り、右上の「保存」から保存できます。" }),
+      query
+        ? null
+        : el("button", {
+          class: "btn is-primary", type: "button", text: "新規調査を始める",
+          onclick: () => { startNewGraph(); location.hash = "#/workbench"; },
+        }),
     ]);
   } else {
     // 何件のうち何件を出しているかは常に断る（黙って打ち切らない）
