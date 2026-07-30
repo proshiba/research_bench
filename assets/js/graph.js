@@ -47,10 +47,22 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
 
   let W = 0, H = 0, dpr = 1;
   let alpha = 1, raf = null;
-  let selectedId = null, hoverId = null;
+  let hoverId = null;
   let dragNode = null, panning = null, moved = false;
   let linking = null;        // ドラッグ中の手動リンク { from, wx, wy, target }
   let pendingLink = null;    // ボタン起動の手動リンク（次にクリックしたノードへ張る）
+  let band = null;           // Shift ドラッグ中の選択範囲 { x0, y0, x1, y1, base }
+
+  /**
+   * 選択は「集合 + 主役」の 2 段で持つ。
+   *
+   * selectedIds が実際の選択で、一括操作はこれを見る。selectedId はそのうち
+   * サイドバーに詳細を出す 1 件。1 件だけ選んだときは両者が一致し、
+   * 複数選択を入れる前と同じ挙動になる。
+   * 不変条件: selectedId は null か、selectedIds の要素。
+   */
+  const selectedIds = new Set();
+  let selectedId = null;
   let theme = {};
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -163,7 +175,9 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
   /** ノードを 1 件足す。横串の相手が既にグラフ上にいれば同じノードに畳まれる。 */
   function addRoot(source, entity) {
     const node = addEntity(source, entity);
-    selectedId = node.id;
+    // 足したものを単一選択にする。selectedId だけ差し替えると
+    // 「主役は selectedIds の要素」が崩れて、印も一括操作も食い違う
+    setSelection([node.id], { primary: node.id });
     kick();
     notify();
     return node;
@@ -270,7 +284,8 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
   function remove(nodeId) {
     if (!nodes.delete(nodeId)) return;
     for (const [id, e] of edges) if (e.a === nodeId || e.b === nodeId) edges.delete(id);
-    if (selectedId === nodeId) selectedId = null;
+    selectedIds.delete(nodeId);
+    if (selectedId === nodeId) selectedId = [...selectedIds].at(-1) ?? null;
     recountDegrees();
     kick();
     notify();
@@ -279,6 +294,8 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
   function keepOnly(nodeId) {
     for (const id of [...nodes.keys()]) if (id !== nodeId) nodes.delete(id);
     edges.clear();
+    for (const id of [...selectedIds]) if (!nodes.has(id)) selectedIds.delete(id);
+    if (selectedId && !nodes.has(selectedId)) selectedId = [...selectedIds].at(-1) ?? null;
     recountDegrees();
     kick();
     notify();
@@ -296,6 +313,7 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
   function clear() {
     nodes.clear();
     edges.clear();
+    selectedIds.clear();
     selectedId = null;
     view.k = 1; view.tx = 0; view.ty = 0;
     draw();
@@ -303,14 +321,103 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
   }
 
   function notify() {
-    onSelect?.(selectedId ? nodes.get(selectedId) : null, { nodes: nodes.size, edges: edges.size });
+    onSelect?.(selectedId ? nodes.get(selectedId) : null, {
+      nodes: nodes.size, edges: edges.size, selected: selectedIds.size,
+    });
     onMutate?.();
   }
 
+  /* ---------------- 選択 ---------------- */
+
+  /** 選択を張り替える。主役は明示が無ければ最後の 1 件。 */
+  function setSelection(ids, { primary } = {}) {
+    selectedIds.clear();
+    for (const id of ids) if (nodes.has(id)) selectedIds.add(id);
+    selectedId = primary && selectedIds.has(primary)
+      ? primary
+      : ([...selectedIds].at(-1) ?? null);
+  }
+
   function select(nodeId) {
+    setSelection(nodeId ? [nodeId] : [], { primary: nodeId });
+    draw();
+    notify();
+  }
+
+  /**
+   * 複数選択。add で今の選択に足す。
+   * 主役は足した最後の 1 件にする（サイドバーが「何を最後に触ったか」を映すように）。
+   */
+  function selectMany(ids, { add = false } = {}) {
+    const next = add ? [...selectedIds, ...ids] : [...ids];
+    setSelection(next, { primary: [...ids].filter((id) => nodes.has(id)).at(-1) });
+    draw();
+    notify();
+  }
+
+  /** 述語に当たるノードを選ぶ。凡例クリックから使う。 */
+  function selectWhere(pred, { add = false } = {}) {
+    const hit = [...nodes.values()].filter(pred).map((n) => n.id);
+    selectMany(hit, { add });
+    return hit.length;
+  }
+
+  /** 1 件だけ入れ替える（Shift クリック）。 */
+  function toggleSelection(nodeId) {
+    if (!nodes.has(nodeId)) return false;
+    if (selectedIds.has(nodeId)) {
+      selectedIds.delete(nodeId);
+      if (selectedId === nodeId) selectedId = [...selectedIds].at(-1) ?? null;
+    } else {
+      selectedIds.add(nodeId);
+      selectedId = nodeId;
+    }
+    draw();
+    notify();
+    return selectedIds.has(nodeId);
+  }
+
+  function clearSelection() {
+    selectedIds.clear();
+    selectedId = null;
+    draw();
+    notify();
+  }
+
+  /** 選択は保ったまま、詳細を出す 1 件だけ変える。 */
+  function setPrimary(nodeId) {
+    if (!selectedIds.has(nodeId)) return false;
     selectedId = nodeId;
     draw();
     notify();
+    return true;
+  }
+
+  /** 選択したものをまとめて消す。1 件ずつ remove を呼ぶと辺の走査と保存が件数分走る。 */
+  function removeMany(ids) {
+    const gone = new Set([...ids].filter((id) => nodes.has(id)));
+    if (!gone.size) return 0;
+    for (const id of gone) nodes.delete(id);
+    for (const [id, e] of edges) if (gone.has(e.a) || gone.has(e.b)) edges.delete(id);
+    for (const id of gone) selectedIds.delete(id);
+    if (selectedId && gone.has(selectedId)) selectedId = [...selectedIds].at(-1) ?? null;
+    recountDegrees();
+    kick();
+    notify();
+    return gone.size;
+  }
+
+  function setPinned(ids, on) {
+    let changed = 0;
+    for (const id of ids) {
+      const n = nodes.get(id);
+      if (!n || n.pinned === on) continue;
+      n.pinned = on;
+      if (!on) { n.vx += (Math.random() - 0.5) * 8; n.vy += (Math.random() - 0.5) * 8; }
+      changed++;
+    }
+    if (changed) { alpha = Math.max(alpha, on ? 0.05 : 0.4); kick(); notify(); }
+    return changed;
   }
 
   /* ---------------- 物理 ---------------- */
@@ -481,11 +588,17 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
     ctx.scale(view.k, view.k);
 
     const labelledDegree = selectedId ? (nodes.get(selectedId)?.degree ?? 0) : 0;
+    // 複数選択のときは辺ラベルを出さない。数十件選ぶと重なって読めなくなる
+    const single = selectedIds.size <= 1;
 
     for (const e of edges.values()) {
       const a = nodes.get(e.a), b = nodes.get(e.b);
       if (!a || !b) continue;
-      const lit = selectedId && (e.a === selectedId || e.b === selectedId);
+      // 1 件選択のときは「その周り」を、複数選択のときは「選んだもの同士」を光らせる。
+      // 複数で片端一致にすると、選択が広いほど盤面が一様に明るくなって見分けが付かない
+      const lit = single
+        ? !!selectedId && (e.a === selectedId || e.b === selectedId)
+        : selectedIds.has(e.a) && selectedIds.has(e.b);
 
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
@@ -504,7 +617,7 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
         const to = from === a ? b : a;
         arrowHead(from.x, from.y, to.x, to.y, radius(to) + 2 / view.k, theme.focus);
         if (view.k > 0.5) edgeLabel([...e.rels][0] || "手動リンク", (a.x + b.x) / 2, (a.y + b.y) / 2);
-      } else if (lit && view.k > 0.55 && labelledDegree <= 8) {
+      } else if (lit && single && view.k > 0.55 && labelledDegree <= 8) {
         // 選択ノードの次数が多いとラベルが重なって読めなくなるので、少ないときだけ出す
         edgeLabel([...e.rels][0] || "", (a.x + b.x) / 2, (a.y + b.y) / 2);
       }
@@ -531,14 +644,17 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
       const color = nodeColor(n);
       const shape = nodeShape(n);
       const manualOnly = isManualOnly(n);
-      const isSel = n.id === selectedId;
+      const isSel = selectedIds.has(n.id);
+      // 主役はサイドバーに出ている 1 件。複数選んだとき「どれの詳細か」が分かるように
+      // 主役だけ強く、他は弱い輪で描く
+      const isPrimary = n.id === selectedId;
       const isHov = n.id === hoverId || n === linking?.target;
 
       if (isSel || n === linking?.target || n.id === pendingLink) {
         ctx.beginPath();
         ctx.arc(n.x, n.y, r + 8, 0, Math.PI * 2);
         ctx.fillStyle = theme.focus;
-        ctx.globalAlpha = 0.16;
+        ctx.globalAlpha = isSel && !isPrimary ? 0.09 : 0.16;
         ctx.fill();
         ctx.globalAlpha = 1;
       }
@@ -548,7 +664,7 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
       ctx.globalAlpha = manualOnly ? 0.09 : isSel || isHov ? 0.36 : 0.2;
       ctx.fill();
       ctx.globalAlpha = 1;
-      ctx.lineWidth = (isSel ? 2.4 : 1.6) / view.k;
+      ctx.lineWidth = (isPrimary ? 2.4 : isSel ? 2 : 1.6) / view.k;
       ctx.strokeStyle = color;
       // 索引に裏付けが無い手動ノードは破線にして、事実と仮説を見分けられるようにする
       if (manualOnly) ctx.setLineDash([3.5 / view.k, 2.5 / view.k]);
@@ -580,12 +696,27 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
 
       if (view.k > 0.4) {
         const label = n.label.length > 26 ? n.label.slice(0, 25) + "…" : n.label;
-        ctx.font = `${isSel ? "600 " : ""}${11 / view.k}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+        ctx.font = `${isPrimary ? "600 " : ""}${11 / view.k}px ui-monospace, SFMono-Regular, Menlo, monospace`;
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
         ctx.fillStyle = isSel || isHov ? theme.ink : theme.dim;
         ctx.fillText(label, n.x, n.y + r + 6 / view.k);
       }
+    }
+
+    // Shift ドラッグ中の選択範囲。ワールド座標系のまま描くので線幅は倍率で割る
+    if (band) {
+      const x = Math.min(band.x0, band.x1), y = Math.min(band.y0, band.y1);
+      const w = Math.abs(band.x1 - band.x0), h = Math.abs(band.y1 - band.y0);
+      ctx.fillStyle = theme.focus;
+      ctx.globalAlpha = 0.08;
+      ctx.fillRect(x, y, w, h);
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = theme.focus;
+      ctx.lineWidth = 1 / view.k;
+      ctx.setLineDash([4 / view.k, 3 / view.k]);
+      ctx.strokeRect(x, y, w, h);
+      ctx.setLineDash([]);
     }
 
     ctx.restore();
@@ -702,11 +833,30 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
     return best;
   }
 
+  /** 選択範囲に入っているノード。ノードの中心が矩形に入っていれば選ぶ。 */
+  function inBand(b) {
+    const x0 = Math.min(b.x0, b.x1), x1 = Math.max(b.x0, b.x1);
+    const y0 = Math.min(b.y0, b.y1), y1 = Math.max(b.y0, b.y1);
+    return [...nodes.values()]
+      .filter((n) => n.x >= x0 && n.x <= x1 && n.y >= y0 && n.y <= y1)
+      .map((n) => n.id);
+  }
+
   canvas.addEventListener("pointerdown", (ev) => {
     const [wx, wy] = pointer(ev);
     const n = pick(wx, wy);
     moved = false;
     canvas.setPointerCapture(ev.pointerId);
+
+    // Shift ドラッグは範囲選択。ノードの上から始めてもノードは動かさない
+    // （動かせてしまうと、囲みたいだけのときに配置が崩れる）
+    if (ev.shiftKey && !pendingLink) {
+      ev.preventDefault();
+      band = { x0: wx, y0: wy, x1: wx, y1: wy, base: new Set(selectedIds), origin: n };
+      canvas.style.cursor = "crosshair";
+      draw();
+      return;
+    }
 
     // ボタンでリンク待ちのときは、次のクリックが相手の指定になる
     if (pendingLink && n && n.id !== pendingLink) {
@@ -739,6 +889,16 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
   });
 
   canvas.addEventListener("pointermove", (ev) => {
+    if (band) {
+      const [wx, wy] = pointer(ev);
+      band.x1 = wx; band.y1 = wy;
+      moved = true;
+      // 離す前に何が入るか見えるようにしておく（囲み直しの手間を減らす）
+      setSelection([...band.base, ...inBand(band)]);
+      draw();
+      onStatus?.({ message: `${selectedIds.size} 件を囲んでいます — 離すと確定します` });
+      return;
+    }
     if (linking) {
       const [wx, wy] = pointer(ev);
       linking.wx = wx; linking.wy = wy;
@@ -774,6 +934,35 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
   });
 
   function endPointer() {
+    if (band) {
+      const b = band;
+      band = null;
+      canvas.style.cursor = "grab";
+      // ほぼ動いていない Shift クリックは「1 件の出し入れ」として扱う。
+      // 画面上の大きさで見る（倍率を変えても手の感覚が変わらないように）
+      const tiny = Math.max(Math.abs(b.x1 - b.x0), Math.abs(b.y1 - b.y0)) * view.k < 4;
+      if (tiny) {
+        setSelection([...b.base]);
+        if (b.origin) {
+          const on = toggleSelection(b.origin.id);
+          onStatus?.({
+            message: `${b.origin.label} を選択${on ? "に追加しました" : "から外しました"}（${selectedIds.size} 件）`,
+          });
+        } else {
+          draw();
+          notify();
+        }
+        return;
+      }
+      const hit = inBand(b);
+      setSelection([...b.base, ...hit], { primary: hit.at(-1) });
+      draw();
+      notify();
+      onStatus?.(hit.length
+        ? { message: `${hit.length} 件を選びました（合計 ${selectedIds.size} 件）` }
+        : { message: "範囲にノードがありませんでした" });
+      return;
+    }
     if (linking) {
       const { from, target } = linking;
       linking = null;
@@ -800,13 +989,22 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
   canvas.addEventListener("pointerleave", () => { hoverId = null; draw(); });
 
   window.addEventListener("keydown", (ev) => {
-    if (ev.key === "Escape" && (linking || pendingLink)) {
+    if (ev.key !== "Escape") return;
+    if (linking || pendingLink) {
       cancelLink();
       onStatus?.({ message: "リンクを取り消しました" });
+      return;
+    }
+    // 複数選択の抜け道。入力欄で打っている Esc は拾わない
+    if (selectedIds.size > 1 && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "")) {
+      clearSelection();
+      onStatus?.({ message: "選択を解除しました" });
     }
   });
 
   canvas.addEventListener("dblclick", (ev) => {
+    // Shift 中は選択の出し入れなので、勢いで 2 回押しても展開しない
+    if (ev.shiftKey) return;
     const [wx, wy] = pointer(ev);
     const n = pick(wx, wy);
     if (n) expand(n);
@@ -818,7 +1016,13 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
     const n = pick(wx, wy);
     if (!n) return;
     ev.preventDefault();
-    selectedId = n.id;
+    // 複数選択の中のノードを右クリックしたときは選択を壊さない。
+    // 外のノードなら、そこだけの選択に切り替える
+    if (selectedIds.has(n.id)) {
+      selectedId = n.id;
+    } else {
+      setSelection([n.id], { primary: n.id });
+    }
     draw();
     notify();
     onContext?.(n, { x: ev.clientX, y: ev.clientY });
@@ -882,6 +1086,7 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
       })),
       view: { k: view.k, tx: view.tx, ty: view.ty },
       selected: selectedId,
+      selectedIds: selectedIds.size > 1 ? [...selectedIds] : undefined,
     };
   }
 
@@ -890,6 +1095,7 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
     if (!snap || (snap.v !== 1 && snap.v !== 2)) return 0;
     nodes.clear();
     edges.clear();
+    selectedIds.clear();
     selectedId = null;
     let restored = 0;
 
@@ -925,7 +1131,8 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
     }
 
     if (snap.view) { view.k = snap.view.k ?? 1; view.tx = snap.view.tx ?? 0; view.ty = snap.view.ty ?? 0; }
-    if (snap.selected && nodes.has(snap.selected)) selectedId = snap.selected;
+    // 複数選択も戻す。位置やピンと同じで、リロードで消えると選び直しになる
+    setSelection(snap.selectedIds || (snap.selected ? [snap.selected] : []), { primary: snap.selected });
     recountDegrees();
     alpha = 0.05;                        // 位置は保存値を尊重し、揺らさない
     draw();
@@ -937,12 +1144,14 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
     addRoot, addEntity, addEdge, addManualEdge, removeEdge, setEdgeRel,
     beginLink, cancelLink, screenOf,
     expand, remove, keepOnly, clear, select, fit, relayout, resize,
+    selectMany, selectWhere, toggleSelection, clearSelection, setPrimary, removeMany, setPinned,
     linkExisting, whenSettled, serialize, restore,
     exportPng: () => canvas.toDataURL("image/png"),
     get nodes() { return nodes; },
     get edges() { return edges; },
     get selected() { return selectedId ? nodes.get(selectedId) : null; },
-    get counts() { return { nodes: nodes.size, edges: edges.size }; },
+    get selectedNodes() { return [...selectedIds].map((id) => nodes.get(id)).filter(Boolean); },
+    get counts() { return { nodes: nodes.size, edges: edges.size, selected: selectedIds.size }; },
     kick,
   };
 }

@@ -898,6 +898,47 @@ a { color: inherit; }
 .lg i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 .lg .glyph { flex: none; }
 
+/* 押せる凡例（その種別を全選択）。見た目は他の項目と揃えたままにする */
+button.lg {
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 1px 3px;
+  margin: -1px -3px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+button.lg:hover:not(:disabled) { background: color-mix(in srgb, currentColor 14%, transparent); }
+button.lg:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+button.lg:disabled { cursor: default; opacity: 0.45; }
+/* 件数。色は種別色を引き継がず、数字だと分かる控えめな色にする */
+.lg-n { color: var(--ink-faint); font-weight: 400; font-variant-numeric: tabular-nums; }
+
+/* 複数選択したときの内訳リスト */
+.side-picked { max-height: 190px; overflow-y: auto; }
+.side-pick {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  font: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 3px 4px;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.side-pick .glyph { flex: none; }
+.side-pick-t { color: var(--ink-dim); overflow-wrap: anywhere; }
+.side-pick:hover { background: var(--surface-2); }
+.side-pick:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.side-pick.is-on { background: color-mix(in srgb, var(--focus) 16%, transparent); }
+.side-pick.is-on .side-pick-t { color: var(--ink); font-weight: 600; }
+.side-sep { border: 0; border-top: 1px solid var(--line); margin: 14px 0 4px; }
+
 /* 索引に裏付けが無い手動ノード（破線の輪郭） */
 .lg.is-dashed i {
   width: 11px;

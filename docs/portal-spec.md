@@ -256,11 +256,18 @@ tech-memo は `capabilities` に `embed-mode` を宣言していて、iframe に
   `priority` が全 42,171 件 `INFO` のまま。`ransomware_use` は全件 `false`、
   `kev_lag_days` は全件空。KEV 688 件・悪用観測 1,173 件があるので、
   優先度の導出処理が動いていないと思われる。ポータル側では優先度フィルタが機能しない。
-- **アクター情報の CVE が 48 件**: `capabilities.vulnerabilities` が入っている
-  プロファイルが少ないため。脆弱性インテルとの横串はまだほとんど刺さらない。
+- **アクター情報の CVE**: `capabilities.vulnerabilities` が入っているプロファイルが
+  少なく、`cve` エンティティは 191 件（2026-07-30 実測）。当初 48 件だったので増えては
+  いるが、脆弱性インテル側の 42,171 件に対しては小さく、横串はまだ限定的。
 - **`ioc.sha512`**: 仕様の初版にこの型が無く、threatactor 側では SHA-512 を
   `ioc.sha256` として出している（18 件）。仕様に型を追加したので、
   次回の索引再生成で `ioc.sha512` に直してもらう。ハッシュ長が違うため誤結合は起きない。
+  → 依頼文: [`agent-prompts/threatactor-sha512-type.md`](agent-prompts/threatactor-sha512-type.md)
+- **ハッシュに見えるがハッシュでない値**: threatactor 側で、資料に載っていた
+  逆アセンブル結果・PE の DOS スタブ・PowerShell の断片・シェルコード・RLO による
+  ファイル名偽装が、長さだけの判定でファイルハッシュとして取り込まれている（34 件）。
+  上の 18 件のうち 2 件もこれに該当する。**両者は独立に直せる。**
+  → 依頼文: [`agent-prompts/threatactor-hash-false-positive.md`](agent-prompts/threatactor-hash-false-positive.md)
 
 ## 5.2 適合チェック
 

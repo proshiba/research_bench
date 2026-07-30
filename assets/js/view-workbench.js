@@ -150,15 +150,46 @@ export async function renderWorkbench(root, { onQuery } = {}) {
   ]);
 
   // 凡例は「エンティティ種別」で並べる。色と形はここで決まる（出典はサイドバー）
+  //
+  // 種別の項目は押せる。押すとその見た目に当たるノードを全部選ぶ。
+  // 形だけ変えて描いている 3 種別（Web ページ / AS / 地理）は自分の項目を持つので、
+  // グループ側の述語からは外す —— そうしないと「丸を押したのに雲まで選ばれる」ことになり、
+  // 凡例の項目と選ばれるものが食い違う。
+  const OWN_ENTRY = [["webpage", "host"], ["net.asn", "network"], ["geo", "context"]];
+  const ownTypes = new Set(OWN_ENTRY.map(([type]) => type));
+
+  // ノード 1 件がどの凡例項目に属するか。件数を 1 パスで数えるための鍵
+  const chipKey = (n) => (ownTypes.has(n.type) ? n.type : typeGroup(n.type));
+
+  // 件数を出すために、押せる項目を鍵で引けるようにしておく
+  const legendChips = new Map();
+
+  function typeChip({ key, color, glyph, label }) {
+    const num = el("b", { class: "lg-n" });
+    const chip = el("button", {
+      class: "lg is-pick", type: "button", style: `color:var(${color})`,
+      html: glyph, title: `${label} をすべて選ぶ（Shift を押しながらで今の選択に足す）`,
+      onclick: (ev) => {
+        const hit = ui.graph.selectWhere((n) => chipKey(n) === key, { add: ev.shiftKey });
+        setStatus(hit
+          ? `${label} を ${hit} 件選びました${ev.shiftKey ? `（合計 ${ui.graph.counts.selected} 件）` : ""}`
+          : `${label} のノードはありません`);
+      },
+    });
+    chip.append(document.createTextNode(label), num);
+    legendChips.set(key, { num, chip });
+    return chip;
+  }
+
   const legend = el("div", { class: "wb-legend" }, [
-    ...Object.entries(TYPE_GROUPS).map(([key, g]) =>
-      el("span", { class: "lg", style: `color:var(${g.color})`, html: shapeGlyph(g.shape) + escapeText(g.label) })),
+    ...Object.entries(TYPE_GROUPS).map(([key, g]) => typeChip({
+      key, color: g.color, glyph: shapeGlyph(g.shape), label: g.label,
+    })),
     // 調査で作る種別は、同じ色のまま形だけ変えて見分ける
-    ...[["webpage", "host"], ["net.asn", "network"], ["geo", "context"]].map(([type, group]) =>
-      el("span", {
-        class: "lg", style: `color:var(${TYPE_GROUPS[group].color})`,
-        html: shapeGlyph(typeShape(type)) + escapeText(typeLabel(type)),
-      })),
+    ...OWN_ENTRY.map(([type, group]) => typeChip({
+      key: type, color: TYPE_GROUPS[group].color,
+      glyph: shapeGlyph(typeShape(type)), label: typeLabel(type),
+    })),
     el("span", { class: "lg is-dashed", style: "color:var(--ink-dim)", html: '<i></i>手動追加（索引に無い）' }),
     el("span", { class: "lg is-ring", style: "color:var(--focus)", html: '<i></i>複数ソースに存在' }),
     el("span", { class: "lg is-arrow", style: "color:var(--focus)", html: '<i></i>手動リンク' }),
@@ -304,10 +335,28 @@ export async function renderWorkbench(root, { onQuery } = {}) {
   const wrap = el("div", { class: "wb" }, [trayEl, canvasWrap, side]);
   root.replaceChildren(wrap);
 
+  /** 凡例の件数。押しても何も選べない項目は灰色にして空振りを防ぐ。 */
+  function renderLegendCounts() {
+    const tally = new Map();
+    for (const n of graph.nodes.values()) {
+      const k = chipKey(n);
+      tally.set(k, (tally.get(k) || 0) + 1);
+    }
+    for (const [key, { num, chip }] of legendChips) {
+      const n = tally.get(key) || 0;
+      num.textContent = n ? ` ${n}` : "";
+      chip.disabled = n === 0;
+    }
+  }
+
   const graph = createGraph(canvas, {
     onSelect: (node, counts) => {
-      status.textContent = `ノード ${counts.nodes} / 辺 ${counts.edges}`;
+      // ui がまだ組み上がっていないうちにも来るので、閉じ込めた status を直接触る
+      status.textContent = counts.selected > 1
+        ? `ノード ${counts.nodes} / 辺 ${counts.edges} — ${counts.selected} 件選択中`
+        : `ノード ${counts.nodes} / 辺 ${counts.edges}`;
       status.classList.remove("is-error");
+      renderLegendCounts();
       renderSide(node);
       markTraySelection(node);
     },
@@ -326,6 +375,7 @@ export async function renderWorkbench(root, { onQuery } = {}) {
   if (new URLSearchParams(location.search).has("uitest")) window.__rbGraph = graph;
   renderTray();
   renderSide(null);
+  renderLegendCounts();
 
   // 索引が無いと展開も復元もできないので、読み込みを待ってから状態を戻す
   loadAllSources().then(() => {
@@ -749,9 +799,117 @@ function importGraph(parsed) {
 
 /* ---------------- 詳細タブ ---------------- */
 
+/**
+ * 複数選択したときの一括操作。
+ *
+ * 主役ノードの詳細は下にそのまま残す。選択中でも 1 件の中身を見たいことが多く、
+ * 詳細を隠すと確認のために選択を捨てることになるため。
+ */
+function selectionBlock(picked) {
+  const ids = picked.map((n) => n.id);
+  const frag = document.createDocumentFragment();
+
+  frag.append(
+    el("span", { class: "side-type", style: "color:var(--focus)", text: `選択中 ${picked.length} 件` }),
+    el("p", { class: "side-empty", text: "下の操作は選んだ全部に効きます。Esc で選択解除。" }),
+  );
+
+  const pinnedAll = picked.every((n) => n.pinned);
+  const run = (btn, fn) => async () => {
+    btn.disabled = true;
+    try { await fn(); } finally { btn.disabled = false; }
+  };
+
+  const expandBtn = el("button", { class: "btn", type: "button", text: `展開（${picked.length} 件）` });
+  expandBtn.onclick = run(expandBtn, async () => {
+    let added = 0, joined = 0, done = 0;
+    for (const n of picked) {
+      // 途中でノードが消えている（別の操作で削除された）ことがあるので毎回確かめる
+      if (!ui.graph.nodes.has(n.id)) continue;
+      const r = await ui.graph.expand(n);
+      added += r.added || 0;
+      joined += r.joined || 0;
+      ui.status.textContent = `展開中 ${++done}/${picked.length} — ${added} 件追加`;
+    }
+    ui.status.textContent = `${done} 件を展開しました — ${added} 件追加`
+      + (joined ? ` / ${joined} 件が別ソースと結合` : "");
+  });
+
+  // まとめ入れは addValues に任せる。重複の除去と件数の報告が既にそこにある
+  const trayBtn = el("button", {
+    class: "btn", type: "button", text: "トレイに入れる",
+    onclick: () => addValues(picked.map((n) => n.label)),
+  });
+
+  const pinBtn = el("button", {
+    class: "btn" + (pinnedAll ? " is-on" : ""), type: "button",
+    text: pinnedAll ? "ピン解除" : "ピン留め",
+    onclick: () => {
+      const n = ui.graph.setPinned(ids, !pinnedAll);
+      ui.status.textContent = `${n} 件を${pinnedAll ? "ピン解除" : "ピン留め"}しました`;
+      saveState();
+    },
+  });
+
+  const copyBtn = el("button", {
+    class: "btn", type: "button", text: "値をコピー",
+    onclick: async () => {
+      const text = picked.map((n) => n.label).join("\n");
+      try {
+        await navigator.clipboard.writeText(text);
+        ui.status.textContent = `${picked.length} 件の値をコピーしました`;
+      } catch {
+        ui.status.textContent = "コピーできませんでした（ブラウザに拒否されました）";
+      }
+    },
+  });
+
+  const delBtn = el("button", {
+    class: "btn", type: "button", text: `削除（${picked.length} 件）`,
+    onclick: () => {
+      const n = ui.graph.removeMany(ids);
+      ui.status.textContent = `${n} 件を削除しました`;
+    },
+  });
+
+  frag.append(el("div", { class: "tf-row", style: "margin-top:12px" }, [
+    expandBtn, pinBtn, trayBtn, copyBtn, delBtn,
+    el("button", {
+      class: "btn", type: "button", text: "選択解除",
+      onclick: () => ui.graph.clearSelection(),
+    }),
+  ]));
+
+  // 何を選んだのか一覧で見せる。押すと詳細をその 1 件に切り替える
+  const byType = new Map();
+  for (const n of picked) byType.set(n.type, (byType.get(n.type) || 0) + 1);
+  frag.append(el("p", {
+    class: "side-empty", style: "margin-top:8px",
+    text: [...byType.entries()].map(([t, c]) => `${typeLabel(t)} ${c}`).join(" / "),
+  }));
+
+  const list = el("ul", { class: "side-list side-picked" });
+  for (const n of picked) {
+    const btn = el("button", {
+      class: "side-pick" + (n === ui.graph.selected ? " is-on" : ""),
+      type: "button", title: `${n.label} の詳細を見る`,
+      html: shapeGlyph(typeShape(n.type)),
+      style: `color:var(${TYPE_GROUPS[typeGroup(n.type)].color})`,
+      onclick: () => ui.graph.setPrimary(n.id),
+    });
+    // 形は種別色、値は読みやすさを優先して通常色。色は形の裏づけとしてだけ使う
+    btn.append(el("span", { class: "side-pick-t", text: n.label }));
+    list.append(el("li", {}, [btn]));
+  }
+  frag.append(list);
+  frag.append(el("hr", { class: "side-sep" }));
+  return frag;
+}
+
 function renderSide(node) {
   if (!ui) return;
   const pane = ui.paneDetail;
+  const picked = ui.graph.selectedNodes;
 
   if (!node) {
     pane.replaceChildren(el("div", { class: "side-empty" }, [
@@ -765,6 +923,9 @@ function renderSide(node) {
   const group = TYPE_GROUPS[typeGroup(node.type)];
   const accent = `var(${group.color})`;
   const frag = document.createDocumentFragment();
+
+  // 複数選んでいるときは、一括操作を上に出してから主役の詳細を続ける
+  if (picked.length > 1) frag.append(selectionBlock(picked));
 
   frag.append(
     el("span", {
