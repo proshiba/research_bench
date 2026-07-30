@@ -218,9 +218,31 @@ Mermaid）でもラベルから種別を推定して読み込む。STIX の id �
 API 側は `Access-Control-Allow-Origin: *` を返すため、中継なしでブラウザから直接呼べる
 （`authorization` を許可し、プリフライトに 204 を返すところまで実測済み）。
 
-VirusTotal / AbuseIPDB / GitHub のツールは、利用者のトークンを `Authorization: Bearer` で
-この API サーバーに渡す。**トークンが端末の外に出る**ので、画面上でもその旨を明示している。
-ブラウザの中だけで済ませたい場合はワークベンチの OSINT タブ（Shodan）側を使う。
+### ログイン
+
+**`Authorization: Bearer` はこの API のセッション専用**で、外部サービスのキーは
+サービスごとの専用ヘッダ（`X-VirusTotal-Key` / `X-AbuseIPDB-Key` / `X-GitHub-Token` …）で渡す。
+以前は両方 `Authorization` を使っていたので衝突していた。
+
+セッションは **GitHub ログイン**で得る。OSINT 設定の「調査 API へのログイン」から始まり、
+OAuth 2.0 の認可コードフロー + PKCE で交換する。詳細は
+[`docs/auth-pkce.md`](docs/auth-pkce.md)。
+
+- **Cookie は使わない。**ポータル（`github.io`）と API（`chatgpt.site`）は別サイトなので、
+  セッション Cookie はサードパーティ Cookie になり Safari / Firefox では届かない
+- ポータルは静的配信でシークレットを隠せないため、**PKCE のパブリッククライアント**
+- 得られるのは**この API のセッションだけ**。GitHub のトークンは API サーバーに留まる
+- トークンの置き場所の既定は「このタブだけ」（`sessionStorage`）。
+  メモリだけだとリロードのたびにログインし直しになる
+- アクセストークンの期限が近ければ**呼び出しの前に取り直す**。
+  `401` + `WWW-Authenticate` を受けたときも 1 回だけ取り直して再試行する
+- ログイン状態はステータスバーに出る（`調査 API @<名前>`）。失敗時は警戒色
+
+**認証は今のところ強制されていない**（`/api/meta` の `enforcement_enabled` が `false`）。
+未ログインでも従来どおり使える。
+
+VirusTotal / AbuseIPDB / GitHub のキーは**トークンが端末の外に出る**ので、画面上でもその旨を
+明示している。ブラウザの中だけで済ませたい場合はワークベンチの OSINT タブ（Shodan）側を使う。
 
 ## OSINT 連携
 
@@ -348,6 +370,7 @@ assets/js/
   investigate.js      グラフの右クリックから引く調査（種別ごとの項目と結果の整形）
   summaries.js        見出しの要約（索引に無いソースだけ別ファイルを遅延取得）
   risk.js             危険度の尺度と段階（提供元ごとの境目はここだけ）
+  auth-active-research.js 調査 API のログイン（PKCE・トークン保管・自動リフレッシュ）
   view-*.js           各モードの描画
   util.js
 docs/portal-spec.md   連携仕様 v1

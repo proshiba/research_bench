@@ -1,20 +1,30 @@
 // Active Research API（https://hellow-world.hiroshiba.chatgpt.site）のクライアント。
 //
-// API 自体の認証は不要。ただし VirusTotal と GitHub のツールだけは
-// 利用者のトークンを Authorization: Bearer で渡す（API サーバーには保存されない）。
+// ヘッダの使い分け（2026-07 に API 側が分離した）:
+//   Authorization: Bearer … **この API のセッショントークン**（GitHub ログインで得る）
+//   X-VirusTotal-Key など … 各外部サービスの API キー（ツール定義の keyHeader）
+// 以前は Authorization を外部キーの受け渡しにも使っていたので衝突していた。
+//
+// セッションは auth-active-research.js が持つ。ログインしていなければ何も付けない
+// （API 側は enforcement_enabled が false のあいだ匿名でも動く）。
 // ベース URL は設定で変えられる（自前の別環境に向けられるように）。
 //
 // CORS の実測（2026-07）:
-//   Access-Control-Allow-Origin: *
-//   Access-Control-Allow-Headers: content-type, accept, authorization
+//   Access-Control-Allow-Origin: *（Cookie を使わないのでこれで足りる）
+//   Access-Control-Allow-Headers: content-type, accept, authorization,
+//     x-virustotal-key, x-github-token, x-abuseipdb-key, x-urlscan-api-key,
+//     x-censys-token, x-cloudflare-api-token …
+//   Access-Control-Expose-Headers: retry-after, x-ratelimit-interval, www-authenticate
 //   Access-Control-Allow-Methods: GET, POST, OPTIONS / プリフライトは 204 / max-age 86400
 //   → ブラウザから直接呼べる。中継は要らない。
+//   www-authenticate が読めるので、この API が出した 401 と外部サービスの 401 を区別できる。
 //   将来 Origin を絞ったときに気づけるよう、失敗時は CORS の可能性も併記して出す。
 //
 // port-scan と open-directory は非同期ジョブ。start が 202 で job.id を返し、
 // action=status&jobId=… を completed になるまで叩く。結果は job.result に入っていて、
 // 中身は同期だった頃と同じ形なので、要約と値の抽出はそのまま使える。
 
+import { authHeaders, recoverFromUnauthorized } from "./auth-active-research.js";
 import { detectType } from "./util.js";
 
 export const DEFAULT_BASE = "https://hellow-world.hiroshiba.chatgpt.site";
@@ -32,7 +42,7 @@ const POLL_TIMEOUT_MS = 5 * 60 * 1000;
  * 「そもそも繋がらなかった」ときの両方なので、その場で切り分けられない。
  * ブラウザは理由を JS に渡さない仕様なので、両方の可能性を書いて返す。
  */
-export async function call(base, tool, values, { signal } = {}) {
+export async function call(base, tool, values, { signal, retried = false } = {}) {
   const url = new URL(tool.path, base.replace(/\/+$/, "") + "/");
   const init = { method: tool.method || "GET", headers: {}, signal, credentials: "omit" };
 
@@ -43,6 +53,12 @@ export async function call(base, tool, values, { signal } = {}) {
     for (const [k, v] of Object.entries(tool.query(values))) {
       if (v !== "" && v != null) url.searchParams.set(k, v);
     }
+  }
+  // この API のセッション。ログインしていなければ何も付かない
+  Object.assign(init.headers, await authHeaders());
+  // 外部サービスのキーは、ツールごとの専用ヘッダで渡す
+  if (tool.keyHeader && values[tool.keyField || "apikey"]) {
+    init.headers[tool.keyHeader] = values[tool.keyField || "apikey"];
   }
   for (const [k, v] of Object.entries(tool.headers ? tool.headers(values) : {})) {
     if (v) init.headers[k] = v;
@@ -63,6 +79,15 @@ export async function call(base, tool, values, { signal } = {}) {
   const text = await res.text();
   let json = null;
   try { json = JSON.parse(text); } catch { /* JSON でないこともある */ }
+
+  // セッションが切れていたら 1 回だけ取り直して同じ要求をやり直す。
+  // 外部サービス側の 401（キーが違う）と混ざらないよう、
+  // WWW-Authenticate が付いている＝この API が出した 401 のときだけ扱う。
+  if (res.status === 401 && !retried && res.headers.get("www-authenticate")) {
+    if (await recoverFromUnauthorized(json)) {
+      return call(base, tool, values, { signal, retried: true });
+    }
+  }
 
   return { status: res.status, ms, url: url.href, text, json };
 }
@@ -488,10 +513,10 @@ export const TOOLS = [
       { name: "value", label: "値", placeholder: "8.8.8.8 / example.com / ハッシュ", required: true },
       { name: "relationships", label: "関連", placeholder: "（任意）", hint: "カンマ区切り・最大 8" },
       { name: "apikey", label: "VirusTotal API キー", type: "password", required: true,
-        hint: "Authorization: Bearer で API サーバーに渡します（ブラウザの外に出ます）" },
+        hint: "X-VirusTotal-Key で API サーバーに渡します（ブラウザの外に出ます）" },
     ],
     query: (v) => ({ type: v.type, value: v.value, relationships: v.relationships || "" }),
-    headers: (v) => ({ authorization: `Bearer ${v.apikey}` }),
+    keyHeader: "X-VirusTotal-Key",
     summary: (d) => [
       ["判定", d.summary?.verdict],
       ["検知", d.summary?.analysisStats
@@ -529,10 +554,10 @@ export const TOOLS = [
       { name: "maxAgeInDays", label: "遡る日数", placeholder: "90", type: "number", hint: "既定 90・最大 365" },
       { name: "verbose", label: "通報の明細も取る", type: "checkbox", hint: "何をして通報されたかの内訳が付く" },
       { name: "apikey", label: "AbuseIPDB API キー", type: "password", required: true,
-        hint: "Authorization: Bearer で API サーバーに渡します（ブラウザの外に出ます）" },
+        hint: "X-AbuseIPDB-Key で API サーバーに渡します（ブラウザの外に出ます）" },
     ],
     query: (v) => ({ ip: v.ip, maxAgeInDays: v.maxAgeInDays || "", verbose: v.verbose ? "true" : "" }),
-    headers: (v) => ({ authorization: `Bearer ${v.apikey}` }),
+    keyHeader: "X-AbuseIPDB-Key",
     summary: (d) => {
       const a = abuseRecord(d);
       return [
@@ -608,7 +633,7 @@ export const TOOLS = [
       seed: v.seed || "", username: v.username || "", repository: v.repository || "",
       targetType: v.targetType || "", owner: v.owner || "",
     }),
-    headers: (v) => ({ authorization: `Bearer ${v.token}` }),
+    keyHeader: "X-GitHub-Token", keyField: "token",
     summary: (d) => [
       ["動作", d.action],
       ["GitHub のクエリ", d.query?.githubQuery || d.query?.pattern],

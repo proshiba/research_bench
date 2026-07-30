@@ -1,5 +1,6 @@
 // ポータルの起動・ルーティング・クローム（上部バー / ステータスバー）。
 
+import { authState, finishLogin, loadAuth, onAuthChange } from "./auth-active-research.js";
 import { getModule, loadModuleSettings } from "./modules.js";
 import { loadSettings } from "./osint.js";
 import { deepLink, getSource, initStore, loadSource, onChange, store } from "./store.js";
@@ -232,6 +233,20 @@ function renderStatus() {
     onclick: () => openOsintSettings(dom.osintDialog),
   }));
 
+  // Active Research にログインしているか。エラーは警戒色で出す
+  const auth = authState();
+  const name = auth.user?.login || auth.user?.name;
+  bar.append(el("button", {
+    class: `st-link${auth.error ? " is-error" : ""}${auth.loggedIn ? " is-on" : ""}`,
+    type: "button",
+    text: auth.error ? "調査 API ログイン失敗"
+      : auth.loggedIn ? `調査 API ${name ? `@${name}` : "ログイン中"}` : "調査 API 未ログイン",
+    title: auth.error || (auth.loggedIn
+      ? `Active Research にログインしています${auth.scope ? `（scope: ${auth.scope}）` : ""}`
+      : "Active Research は未ログインでも一部使えます。押すと設定を開きます"),
+    onclick: () => openOsintSettings(dom.osintDialog),
+  }));
+
   const failed = store.sources.filter((s) => s.status === "error");
   if (failed.length) {
     bar.append(el("button", {
@@ -315,6 +330,11 @@ async function boot() {
   initTheme();
   loadSettings();         // 前回 session/local に置いた OSINT 設定があれば戻す
   loadModuleSettings();   // モジュールの設定（API のベース URL など）
+  loadAuth();             // 調査 API のセッション
+
+  // 認証から戻ってきた直後なら URL に code が載っている。索引の読み込みより先に
+  // 片付ける（URL から消すのを遅らせない。履歴とブックマークに残るため）
+  await finishLogin().catch((err) => console.warn("[research_bench] ログインの後処理", err));
 
   try {
     await initStore();
@@ -328,6 +348,7 @@ async function boot() {
   buildRepoMenu();
   renderStatus();
   onChange(() => { renderStatus(); buildAppMenu(); refreshTop(); });
+  onAuthChange(renderStatus);
   checkBuild();           // 配信側に新しい版が出ていないか（待たない）
 
   for (const btn of dom.rail) {
