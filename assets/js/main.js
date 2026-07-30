@@ -1,6 +1,7 @@
 // ポータルの起動・ルーティング・クローム（上部バー / ステータスバー）。
 
 import { authState, finishLogin, loadAuth, onAuthChange } from "./auth-active-research.js";
+import { loadCredentials, resetCredentials } from "./credentials.js";
 import { getModule, loadModuleSettings } from "./modules.js";
 import { loadSettings } from "./osint.js";
 import { deepLink, getSource, initStore, loadSource, onChange, store } from "./store.js";
@@ -358,7 +359,13 @@ async function boot() {
   buildRepoMenu();
   renderStatus();
   onChange(() => { renderStatus(); buildAppMenu(); refreshTop(); });
-  onAuthChange(renderStatus);
+  onAuthChange(() => {
+    renderStatus();
+    // ログインし直したら預けているキーの状態を取り直す
+    // （ログアウト時は空に戻す）
+    resetCredentials();
+    loadCredentials();
+  });
   checkBuild();           // 配信側に新しい版が出ていないか（待たない）
 
   for (const btn of dom.rail) {

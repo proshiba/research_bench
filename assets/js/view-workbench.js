@@ -8,7 +8,7 @@ import { deepLink, graphLink, loadAllSources, registerManual, resolveValue, stor
 import { parseAny, toMermaid, toStix } from "./exchange.js";
 import { openSaveDialog } from "./view-graph-save.js";
 import { create as stixCreate, stripReport, update as stixUpdate, wrapBundle } from "./stix-store.js";
-import { actionsFor, nodeValue } from "./investigate.js";
+import { actionsFor, nodeValue, onRateLimitWait } from "./investigate.js";
 import { lookup, providersFor } from "./osint.js";
 import { LEVEL_JA, riskOf } from "./risk.js";
 import { OPS, runChain } from "./transform.js";
@@ -1416,6 +1416,10 @@ async function runAction(node, action) {
   if (!ui) return;
   const label = `${shorten(nodeValue(node), 24)} を ${action.label}`;
   setStatus(`${label}…`);
+  // 待たされている理由は出す。黙って止まって見えると「壊れた」と思われる
+  const offWait = onRateLimitWait(({ seconds, attempt, of }) => {
+    setStatus(`${label}… API のレート制限で ${seconds} 秒待っています（${attempt}/${of}）`);
+  });
   try {
     const out = await action.run({
       onProgress: (job) => {
@@ -1429,6 +1433,8 @@ async function runAction(node, action) {
     setStatus(`${label}: ${out.note || "完了"}`, { error: !!out.error });
   } catch (err) {
     setStatus(`${label}: ${err.message}`, { error: true });
+  } finally {
+    offWait();
   }
 }
 

@@ -450,6 +450,7 @@ a { color: inherit; }
 
 .chip.is-crit { color: var(--crit); border-color: color-mix(in srgb, var(--crit) 45%, transparent); }
 .chip.is-join { color: var(--focus); border-color: color-mix(in srgb, var(--focus) 45%, transparent); }
+.chip.is-ok { color: var(--src-mal); border-color: color-mix(in srgb, var(--src-mal) 45%, transparent); }
 
 .empty {
   display: grid;
@@ -2011,4 +2012,25 @@ button.lg:disabled { cursor: default; opacity: 0.45; }
   font-size: 11px;
   line-height: 1.7;
   color: var(--ink-dim);
+}
+
+/* ---------------- キーの預け先 ---------------- */
+
+/* 設定画面で、各キーを調査 API に預ける操作と状態を出す行 */
+.cred-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--line);
+}
+.cred-row .modal-desc { flex: 1 1 180px; }
+.cred-hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-dim);
+  padding: 1px 5px;
+  background: var(--surface-2);
 }

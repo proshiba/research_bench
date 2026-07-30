@@ -14,6 +14,7 @@ import {
   abuseCategoryText, abuseRecord, censysHits, censysIp, censysNames, censysPorts,
   getTool, rdapRecord, run,
 } from "./api-active-research.js";
+import { isStoredByField } from "./credentials.js";
 import { getModuleSettings } from "./modules.js";
 import { getSettings, lookup as osintLookup } from "./osint.js";
 import { riskAttrs } from "./risk.js";
@@ -539,10 +540,38 @@ function pick(summary, key) {
 }
 
 /** Active Research のツールを 1 つ実行して、結果の中身だけ返す。 */
+/**
+ * レート制限で待っていることの通知。
+ *
+ * 待機はどの調査でも起きうる横断的な話なので、調査ごとに引き回さず
+ * ここで受けて画面へ流す。待てば通るものなので失敗にはしない。
+ */
+const waitListeners = new Set();
+
+export function onRateLimitWait(fn) {
+  waitListeners.add(fn);
+  return () => waitListeners.delete(fn);
+}
+
+function reportWait(tool, info) {
+  for (const fn of waitListeners) {
+    try { fn({ ...info, tool: tool.label }); } catch { /* 通知で落とさない */ }
+  }
+}
+
 async function callTool(id, values, { allowNotOk = false, onProgress } = {}) {
   const tool = getTool(id);
   if (!tool) throw new Error(`未知のツール: ${id}`);
-  const r = await run(getModuleSettings().activeResearchBase, tool, values, { onProgress });
+  const r = await run(getModuleSettings().activeResearchBase, tool, values, {
+    onProgress,
+    onWait: (info) => reportWait(tool, info),
+  });
+  // レート制限は待っても通らなかったということ。allowNotOk の調査でも
+  // 上流サービスのエラーと混ぜず、待てば直ると分かる文言にする
+  if (r.status === 429) {
+    throw new Error(`${tool.label} が混み合っています（API のレート制限）。少し時間をおいて試してください`);
+  }
+
   const d = r.data;
   if (!d) {
     // 5xx は API サーバー側が落ちている（応答が HTML のこともある）。
@@ -556,22 +585,33 @@ async function callTool(id, values, { allowNotOk = false, onProgress } = {}) {
   return d;
 }
 
-/** トークン/キーが要る調査は、設定済みかどうかを見て理由を添える。 */
+/**
+ * トークン/キーが要る調査は、設定済みかどうかを見て理由を添える。
+ *
+ * 「設定済み」は端末の中にあるか、調査 API に預けてあるかのどちらか。
+ * 預けてある場合はポータルが値を持っていないので、端末側は空のまま実行できる
+ * （空ならヘッダが落ち、API が預かっている鍵を使う）。
+ * Shodan だけは調査 API を通らないので、端末の中にしか無い。
+ */
 function tokenState(needs) {
   if (!needs) return { ready: true };
   const keys = getSettings().keys;
+  const has = (field) => !!keys[field] || isStoredByField(field);
   const map = {
-    shodan: [keys.shodan, "Shodan の API キーが未設定です"],
-    vt: [keys.virustotal, "VirusTotal のトークンが未設定です"],
-    github: [keys.github, "GitHub のトークンが未設定です"],
-    abuseipdb: [keys.abuseipdb, "AbuseIPDB のトークンが未設定です"],
-    urlscan: [keys.urlscan, "urlscan の API キーが未設定です"],
-    censys: [keys.censys, "Censys の Personal Access Token が未設定です"],
-    cloudflare: [keys.cloudflareAccount && keys.cloudflareToken,
-      "Cloudflare のアカウント ID と API トークンが未設定です"],
+    shodan: [!!keys.shodan, "Shodan の API キーが未設定です"],
+    vt: [has("virustotal"), "VirusTotal のトークンが未設定です"],
+    github: [has("github"), "GitHub のトークンが未設定です"],
+    abuseipdb: [has("abuseipdb"), "AbuseIPDB のトークンが未設定です"],
+    urlscan: [has("urlscan"), "urlscan の API キーが未設定です"],
+    censys: [has("censys"), "Censys の Personal Access Token が未設定です"],
+    // アカウント ID は預けられないので、こちらは端末の中に要る
+    cloudflare: [!!keys.cloudflareAccount && has("cloudflareToken"),
+      keys.cloudflareAccount
+        ? "Cloudflare の API トークンが未設定です"
+        : "Cloudflare のアカウント ID が未設定です"],
   };
-  const [value, why] = map[needs] || [];
-  return { ready: !!value, why };
+  const [ready, why] = map[needs] || [];
+  return { ready: !!ready, why };
 }
 
 /** そのノードで実行できる調査を、実行可否つきで返す。 */
