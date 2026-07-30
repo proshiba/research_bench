@@ -322,6 +322,9 @@ CORS の `Access-Control-Allow-Headers` にも `x-virustotal-key`, `x-github-tok
 - [ ] リフレッシュトークンは回転させ、再利用検知でファミリごと失効
 - [ ] アクセストークンは 1 時間程度
 - [ ] `authorize` にレート制限
+- [ ] ログにトークンや `Authorization` ヘッダの値が出ていない
+      （キー名だけ残して `[redacted]`。この手の実装でいちばん多い事故）
+- [ ] 秘密は全部環境変数。この文書にも実際の値・id は書かない
 - [ ] 全部 HTTPS
 
 ---

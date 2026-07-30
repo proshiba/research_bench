@@ -168,8 +168,9 @@ GitHub を 1 往復するあいだ、ポータルの要求（`redirect_uri` / `s
 この API は**ポートスキャンと任意 HTTP リクエスト**を実行できる。素通しにすると
 GitHub アカウントを持つ誰でもそれを使える状態になる。
 
-- 環境変数の許可リスト（例 `ALLOWED_GITHUB_USER_IDS=3589578`）と照合する
-- **ユーザー名（`login`）ではなく数値の `id` で照合する。**`login` は変更できる
+- 環境変数の許可リスト `ALLOWED_GITHUB_USER_IDS` と照合する
+- **ユーザー名（`login`）ではなく数値の `id` で照合する。**`login` は変更できる。
+  自分の id は `https://api.github.com/users/<ユーザー名>` の `id` で取れる
 - 外れていれば認可コードを発行せず、`redirect_uri?error=access_denied&state=…` へ戻す
 
 ### GitHub 側で気をつける点
@@ -379,11 +380,47 @@ token_type_hint=refresh_token
 ```
 GITHUB_OAUTH_CLIENT_ID
 GITHUB_OAUTH_CLIENT_SECRET
-ALLOWED_GITHUB_USER_IDS      # カンマ区切りの数値 id
+ALLOWED_GITHUB_USER_IDS      # カンマ区切りの数値 id。https://api.github.com/users/<名前> の id
 TOKEN_SIGNING_KEY            # JWT を使う場合
 ```
 
 **`ALLOWED_GITHUB_USER_IDS` が未設定のときは全員拒否**にする（空 = 全員許可にしない）。
+この文書に実際の id は書かない（フォークした人がそのまま使ってしまうため）。
+
+---
+
+## 秘密の扱い
+
+このリポジトリは公開されている。**設計は公開してよいが、値は絶対に入れないこと。**
+
+### コミットしてはいけないもの
+
+| | |
+| --- | --- |
+| `GITHUB_OAUTH_CLIENT_SECRET` | GitHub OAuth App のシークレット |
+| `TOKEN_SIGNING_KEY` | 自前トークンの署名鍵 |
+| 発行済みのアクセス/リフレッシュトークン | テスト用の実物も含めて |
+| 外部サービスの API キー | VirusTotal / AbuseIPDB / urlscan / GitHub PAT |
+| `ALLOWED_GITHUB_USER_IDS` の実際の値 | 設定例には書かない |
+
+すべて環境変数で渡す。`.env*` を `.gitignore` に入れる。
+テストコードにもキーを直書きせず、環境変数から読む。
+
+### ログに出してはいけないもの
+
+**`Authorization` ヘッダを丸ごと出さないこと。** この手の実装でいちばん多い事故。
+
+- リクエストのログを取るなら、`authorization` と `x-*-key` 系のヘッダは
+  **キー名だけ残して値は `[redacted]` に置き換える**
+- 例外を投げるとき、リクエストオブジェクトをそのまま `console.error` に渡さない
+  （ヘッダごと Vercel のログに残る）
+- `code` / `code_verifier` / `refresh_token` もログに出さない。
+  デバッグで追いたいときはハッシュの先頭 8 文字などに落とす
+- トークンの検証失敗時のエラーメッセージに、受け取った値を含めない
+
+外部サービスへの中継でも同じで、**上流のエラー応答をそのまま返すと
+キーが含まれていることがある**（URL にキーを載せる API の場合）。
+そちらの応答を転送するときは URL とヘッダを確認する。
 
 ---
 
@@ -403,6 +440,10 @@ TOKEN_SIGNING_KEY            # JWT を使う場合
 - [ ] GitHub のアクセストークンをポータルに返していない
 - [ ] セッショントークンを外部サービスへ転送していない（①の 3）
 - [ ] `authorize` にレート制限
+- [ ] ログに `Authorization` / `x-*-key` / `code` / `code_verifier` /
+      `refresh_token` の値が出ていない（キー名だけ残して `[redacted]`）
+- [ ] 上流サービスのエラー応答を転送するとき、キーが混ざっていない
+- [ ] 秘密が全部環境変数で、`.env*` が `.gitignore` に入っている
 - [ ] 全部 HTTPS
 
 ---
