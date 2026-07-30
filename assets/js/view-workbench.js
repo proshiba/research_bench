@@ -154,6 +154,39 @@ export async function renderWorkbench(root, { onQuery } = {}) {
     },
   });
 
+  // 今どの保存を編集しているか。何も開いていなければ出さない
+  const savedChip = el("span", { class: "wb-saved", hidden: true });
+
+  /**
+   * 新規調査。トレイもグラフも保存との紐づけも捨てる。
+   *
+   * 未保存の中身があるときは 1 回で消さない。取り消せないので、
+   * ボタン自体を確認に変えて 2 回目の押下で実行する。
+   */
+  let armed = null;
+  const newBtn = el("button", {
+    class: "btn", type: "button", text: "新規調査",
+    title: "トレイとグラフを空にして、新しい調査を始める",
+    onclick: () => {
+      const dirty = ui.graph.counts.nodes > 0 && !savedRef?.id;
+      if (dirty && !armed) {
+        newBtn.textContent = "未保存です。もう一度押すと消えます";
+        newBtn.classList.add("is-warn");
+        armed = setTimeout(() => {
+          armed = null;
+          newBtn.textContent = "新規調査";
+          newBtn.classList.remove("is-warn");
+        }, 4000);
+        return;
+      }
+      clearTimeout(armed);
+      armed = null;
+      newBtn.textContent = "新規調査";
+      newBtn.classList.remove("is-warn");
+      startNewGraph();
+    },
+  });
+
   // 保存/更新。ツール列の右端（ステータスの後ろ）に置く
   const saveBtn = el("button", {
     class: "btn is-save", type: "button", text: "保存",
@@ -169,20 +202,15 @@ export async function renderWorkbench(root, { onQuery } = {}) {
       title: "Mermaid / STIX 2.1 のファイルからグラフを復元する",
       onclick: () => importInput.click(),
     }),
-    el("button", {
-      class: "btn", type: "button", text: "クリア",
-      onclick: () => {
-        ui.graph.clear();
-        tray = [];
-        renderTray();
-        clearState();
-        savedRef = null;
-        renderSaveBtn();
-        renderSide(null);
-      },
-    }),
+    newBtn,
     status,
+    savedChip,
     saveBtn,
+    el("button", {
+      class: "btn", type: "button", text: "一覧へ",
+      title: "保存したグラフの一覧に戻る（今の状態は残ります）",
+      onclick: () => { location.hash = "#/graphs"; },
+    }),
   ]);
 
   // 凡例は「エンティティ種別」で並べる。色と形はここで決まる（出典はサイドバー）
@@ -406,7 +434,8 @@ export async function renderWorkbench(root, { onQuery } = {}) {
   graph.resize();
 
   ui = { wrap, graph, side, paneDetail, paneTransform, paneOsint, selectTab, status, onQuery,
-    trayEl, trayList, trayCount, saveBtn, saveDialog: document.getElementById("graphSaveDialog") };
+    trayEl, trayList, trayCount, saveBtn, savedChip,
+    saveDialog: document.getElementById("graphSaveDialog") };
   renderSaveBtn();
   // UI テストから座標を取るためのフック。?uitest=1 が無ければ生えない。
   if (new URLSearchParams(location.search).has("uitest")) window.__rbGraph = graph;
@@ -865,6 +894,36 @@ function renderSaveBtn() {
   ui.saveBtn.title = on
     ? `「${savedRef.title}」を上書きします（別のグラフとしても保存できます）`
     : "調査 API にこのグラフを保存します";
+
+  // 何を編集しているかを常に見えるようにする。
+  // ステータス行の文言は次の操作で消えてしまうため
+  if (ui.savedChip) {
+    ui.savedChip.hidden = !on;
+    if (on) {
+      ui.savedChip.textContent = shorten(savedRef.title || "無題のグラフ", 28);
+      ui.savedChip.title = `編集中: ${savedRef.title}`;
+    }
+  }
+}
+
+/**
+ * 新規調査。トレイ・グラフ・保存との紐づけを捨てて空にする。
+ *
+ * 一覧画面からも呼ぶので、ワークベンチが未構築でも動くようにする
+ * （保存済みの状態を消しておけば、次に開いたとき空で始まる）。
+ */
+export function startNewGraph() {
+  savedRef = null;
+  pendingOpen = null;
+  if (ui) {
+    ui.graph.clear();
+    tray = [];
+    renderTray();
+    renderSaveBtn();
+    renderSide(null);
+    setStatus("新しい調査を始めます。左のトレイに調べたい値を足してください。");
+  }
+  clearState();
 }
 
 function openSave() {
