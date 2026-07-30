@@ -1,0 +1,287 @@
+// 保存したグラフの一覧。
+//
+// 題・説明・サムネイルの在処はすべて API の一覧に載るので、一覧は 1 リクエストで作れる。
+// 絞り込みもサーバー側（?q=）に任せる。題・説明・STIX の name を横断してくれる。
+//
+// サムネイルだけは別。一覧に載るのは取得 URL とメタデータで、画像そのものは
+// もう 1 回取りに行く。me のものは画像の取得にも Authorization が要るため、
+// <img src="…"> では出せない（ヘッダを付けられない）。fetch してから
+// オブジェクト URL にして貼る。
+
+import { authState, onAuthChange } from "./auth-active-research.js";
+import { list, read, remove, thumbnailUrl } from "./stix-store.js";
+import { el, shorten } from "./util.js";
+import { openSavedGraph } from "./view-workbench.js";
+
+let root = null;
+let items = [];
+let visibility = "me";
+let query = "";
+let loading = false;
+let error = null;
+let bound = false;
+let reqSeq = 0;
+
+/** id → オブジェクト URL。取り直しを避けるための控え。消すときは revoke する。 */
+const thumbs = new Map();
+
+function dropThumbs(keep) {
+  for (const [id, url] of thumbs) {
+    if (keep && keep.has(id)) continue;
+    URL.revokeObjectURL(url);
+    thumbs.delete(id);
+  }
+}
+
+/* ---------------- 取得 ---------------- */
+
+async function load() {
+  const seq = ++reqSeq;
+  loading = true;
+  error = null;
+  render();
+  try {
+    const got = await list({ visibility, limit: 100, q: query });
+    // 打っている最中に前の結果が返ってくることがある。古いものは捨てる
+    if (seq !== reqSeq) return;
+    items = got;
+    dropThumbs(new Set(items.map((o) => o.id)));
+  } catch (e) {
+    if (seq !== reqSeq) return;
+    error = e.message || String(e);
+    items = [];
+  } finally {
+    if (seq === reqSeq) {
+      loading = false;
+      render();
+    }
+  }
+}
+
+/** 画像を取ってその img にだけ入れる。画面全体は描き直さない。 */
+async function fillThumb(id, img) {
+  if (thumbs.has(id)) { img.src = thumbs.get(id); return; }
+  try {
+    const url = await thumbnailUrl(id);
+    thumbs.set(id, url);
+    img.src = url;
+    img.classList.remove("is-pending");
+  } catch {
+    img.replaceWith(el("div", { class: "gcard-shot is-empty", text: "画面写真を取得できませんでした" }));
+  }
+}
+
+/* ---------------- 画面 ---------------- */
+
+function fmtDate(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(+d)) return "";
+  const p = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
+function fmtSize(n) {
+  if (!n) return "";
+  return n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.round(n / 1024)} KB`;
+}
+
+function closeMenus() {
+  for (const m of document.querySelectorAll(".gcard-menu[open]")) m.removeAttribute("open");
+}
+
+async function openItem(item) {
+  // 一覧には STIX 本体が載らない。開く直前に取る
+  let full = item;
+  try {
+    full = { ...item, ...(await read(item.id)) };
+  } catch (e) {
+    error = e.message || String(e);
+    render();
+    return;
+  }
+  if (openSavedGraph(full)) location.hash = "#/workbench";
+}
+
+async function deleteItem(item) {
+  closeMenus();
+  try {
+    await remove(item.id);
+    items = items.filter((o) => o.id !== item.id);
+    dropThumbs(new Set(items.map((o) => o.id)));
+    render();
+  } catch (e) {
+    error = e.message || String(e);
+    render();
+  }
+}
+
+/** ⋯ メニュー。details/summary で開閉するので JS の状態を持たない。 */
+function cardMenu(item) {
+  const menu = el("details", { class: "gcard-menu" }, [
+    el("summary", { class: "gcard-dots", title: "この保存の操作", "aria-label": "メニュー" }, ["⋯"]),
+    el("div", { class: "gcard-pop" }, [
+      el("button", {
+        class: "popover-item", type: "button", text: "開く",
+        onclick: (ev) => { ev.stopPropagation(); closeMenus(); openItem(item); },
+      }),
+      el("button", {
+        class: "popover-item is-danger", type: "button",
+        text: item.canWrite === false ? "削除（権限なし）" : "削除",
+        disabled: item.canWrite === false,
+        onclick: (ev) => { ev.stopPropagation(); confirmDelete(item, menu); },
+      }),
+    ]),
+  ]);
+  // カード全体のクリック（＝開く）に巻き込まれないようにする
+  menu.addEventListener("click", (ev) => ev.stopPropagation());
+  return menu;
+}
+
+/** 削除は取り消せないので、その場で一段挟む。 */
+function confirmDelete(item, menu) {
+  const pop = menu.querySelector(".gcard-pop");
+  pop.replaceChildren(
+    el("p", { class: "gcard-confirm", text: "削除すると STIX と画面写真は復元できません。" }),
+    el("button", {
+      class: "popover-item", type: "button", text: "やめる",
+      onclick: (ev) => { ev.stopPropagation(); closeMenus(); render(); },
+    }),
+    el("button", {
+      class: "popover-item is-danger", type: "button", text: "削除する",
+      onclick: (ev) => { ev.stopPropagation(); deleteItem(item); },
+    }),
+  );
+}
+
+function card(item) {
+  let thumb;
+  if (item.thumbnail) {
+    thumb = el("img", { class: "gcard-shot is-pending", alt: "", loading: "lazy" });
+    fillThumb(item.id, thumb);
+  } else {
+    thumb = el("div", { class: "gcard-shot is-empty", text: "画面写真なし" });
+  }
+
+  const meta = [
+    fmtDate(item.updatedAt),
+    item.objectCount != null ? `${item.objectCount} オブジェクト` : null,
+    fmtSize(item.sizeBytes),
+  ].filter(Boolean).join(" · ");
+
+  return el("article", {
+    class: "gcard", tabindex: "0", role: "button",
+    "aria-label": `${item.title || "無題"} を開く`,
+    onclick: () => openItem(item),
+    onkeydown: (ev) => {
+      if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); openItem(item); }
+    },
+  }, [
+    thumb,
+    el("div", { class: "gcard-body" }, [
+      el("div", { class: "gcard-head" }, [
+        el("h3", { class: "gcard-title", text: item.title || "無題のグラフ" }),
+        cardMenu(item),
+      ]),
+      item.description ? el("p", { class: "gcard-desc", text: shorten(item.description, 120) }) : null,
+      el("p", { class: "gcard-meta" }, [
+        el("span", { class: `gcard-vis is-${item.visibility}`, text: item.visibility === "public" ? "公開" : "自分だけ" }),
+        item.visibility === "public" && item.owner ? el("span", { text: `@${item.owner}` }) : null,
+        el("span", { text: meta }),
+      ]),
+    ]),
+  ]);
+}
+
+let searchTimer = null;
+let shell = null;      // { wrap, main, tabs }
+
+/**
+ * 外枠は 1 回だけ組んで使い回す。
+ * 絞り込みのたびに作り直すと、打っている最中に入力欄が入れ替わって
+ * focus とカーソル位置が飛ぶ。
+ */
+function buildShell() {
+  const search = el("input", {
+    class: "gv-search", type: "search", id: "gvSearch",
+    placeholder: "題・説明・STIX の名前で絞る",
+    "aria-label": "保存したグラフを絞り込む",
+    oninput: (ev) => {
+      query = ev.target.value;
+      // 1 文字ごとに投げない。打ち終わりを待つ
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(load, 280);
+    },
+  });
+
+  const tabs = [["me", "自分のグラフ"], ["public", "公開されているもの"]].map(([v, label]) =>
+    el("button", {
+      class: "btn", type: "button", text: label, dataset: { vis: v },
+      onclick: () => { if (visibility !== v) { visibility = v; load(); } },
+    }));
+
+  const main = el("div", { class: "gv-main" });
+  const wrap = el("div", { class: "gv" }, [
+    el("div", { class: "gv-head" }, [
+      el("div", { class: "gv-headings" }, [
+        el("h2", { class: "gv-title", text: "保存したグラフ" }),
+        el("p", { class: "gv-lead", text: "調査 API の STIX ストレージに置いたものです。押すとワークベンチに復元します。" }),
+      ]),
+      search,
+      el("div", { class: "gv-tabs" }, tabs),
+      el("button", { class: "btn", type: "button", text: "再読み込み", onclick: () => load() }),
+    ]),
+    main,
+  ]);
+  return { wrap, main, tabs };
+}
+
+function render() {
+  if (!root) return;
+  const a = authState();
+
+  if (!shell || !root.contains(shell.wrap)) {
+    shell = buildShell();
+    root.replaceChildren(shell.wrap);
+  }
+  for (const t of shell.tabs) t.classList.toggle("is-on", t.dataset.vis === visibility);
+
+  let main;
+  if (visibility === "me" && !a.loggedIn) {
+    main = el("div", { class: "gv-empty" }, [
+      el("p", { text: "自分のグラフを見るには調査 API へのログインが必要です。" }),
+      el("p", { class: "gv-hint", text: "左端の鍵アイコン（OSINT 設定）から GitHub でログインしてください。保存・更新・削除も同様です。" }),
+    ]);
+  } else if (error) {
+    main = el("div", { class: "gv-empty is-error" }, [el("p", { text: error })]);
+  } else if (loading && !items.length) {
+    main = el("div", { class: "gv-empty" }, [el("p", { text: "読み込み中…" })]);
+  } else if (!items.length) {
+    main = el("div", { class: "gv-empty" }, [
+      el("p", {
+        text: query
+          ? `「${query}」に当たるグラフはありません。`
+          : visibility === "me" ? "まだ保存したグラフがありません。" : "公開されているグラフはありません。",
+      }),
+      query
+        ? null
+        : el("p", { class: "gv-hint", text: "ワークベンチでグラフを作り、右上の「保存」から保存できます。" }),
+    ]);
+  } else {
+    main = el("div", { class: "gv-grid" }, items.map(card));
+  }
+
+  shell.main.replaceChildren(main);
+}
+
+export function renderGraphs(container) {
+  root = container;
+  if (!bound) {
+    bound = true;
+    // ログインし直したら一覧を取り直す（未ログインでは me が空のため）
+    onAuthChange(() => { if (root) load(); });
+    document.addEventListener("click", closeMenus);
+  }
+  render();
+  load();
+}

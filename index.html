@@ -39,6 +39,14 @@
       </svg>
     </button>
 
+    <button class="rail-btn" type="button" data-route="graphs" title="保存したグラフ" aria-label="保存したグラフ">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="4.5" width="18" height="13" rx="1.6" />
+        <path d="M3 14.2l4.6-4a1.4 1.4 0 0 1 1.9.06l3.3 3.2M13.6 12.1l2-1.8a1.4 1.4 0 0 1 1.9.05L21 13.6" />
+        <circle cx="15.6" cy="8.4" r="1.5" />
+        <path d="M7 20.5h10" stroke-linecap="round" />
+      </svg>
+    </button>
     <button class="rail-btn" type="button" data-route="modules" title="モジュール" aria-label="モジュール">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true">
         <rect x="3.2" y="3.2" width="7.4" height="7.4" rx="1.4" />
@@ -116,6 +124,7 @@
       <section class="view" data-route="search" aria-label="クロスサーチ"></section>
       <section class="view" data-route="workbench" aria-label="ワークベンチ"></section>
       <section class="view" data-route="modules" aria-label="モジュール"></section>
+      <section class="view" data-route="graphs" aria-label="保存したグラフ"></section>
     </div>
   </div>
 
@@ -125,6 +134,7 @@
 <div class="popover" id="repoMenu" hidden role="menu"></div>
 
 <dialog class="modal" id="osintDialog" aria-labelledby="osintTitle"></dialog>
+<dialog class="modal" id="graphSaveDialog" aria-labelledby="graphSaveTitle"></dialog>
 
 <noscript>
   <p style="padding:2rem">このポータルは JavaScript が必要です。</p>

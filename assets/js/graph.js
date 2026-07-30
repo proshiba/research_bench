@@ -1068,6 +1068,35 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
   });
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => draw());
 
+  /**
+   * 一覧に出す画面写真。API のサムネイル欄（{contentType, base64}）の形で返す。
+   *
+   * 等倍の PNG は 1 MB を超えることがあり、上限 512 KiB に収まらない。
+   * 縮小して WebP にすると数十 KB で済む。WebP を吐けないブラウザでは
+   * JPEG に落ちる（toDataURL は非対応の型を渡すと PNG を返すので、
+   * 返ってきた種別で判定する）。
+   *
+   * キャンバスは透過のまま描いているので、下地を塗ってから縮小する
+   * （塗らないと JPEG で透過部分が黒くなる）。
+   */
+  function exportThumb({ width = 640, quality = 0.8 } = {}) {
+    if (!W || !H) return null;
+    const scale = Math.min(1, width / W);
+    const off = document.createElement("canvas");
+    off.width = Math.max(1, Math.round(W * scale));
+    off.height = Math.max(1, Math.round(H * scale));
+    const c = off.getContext("2d");
+    readTheme();
+    c.fillStyle = theme.surface || "#ffffff";
+    c.fillRect(0, 0, off.width, off.height);
+    c.drawImage(canvas, 0, 0, off.width, off.height);
+
+    let url = off.toDataURL("image/webp", quality);
+    if (!url.startsWith("data:image/webp")) url = off.toDataURL("image/jpeg", quality);
+    const m = /^data:([^;]+);base64,(.*)$/.exec(url);
+    return m ? { contentType: m[1], base64: m[2] } : null;
+  }
+
   /** 別画面に移ったりリロードしても復元できるよう、グラフの状態を書き出す。 */
   function serialize() {
     return {
@@ -1147,6 +1176,7 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
     selectMany, selectWhere, toggleSelection, clearSelection, setPrimary, removeMany, setPinned,
     linkExisting, whenSettled, serialize, restore,
     exportPng: () => canvas.toDataURL("image/png"),
+    exportThumb,
     get nodes() { return nodes; },
     get edges() { return edges; },
     get selected() { return selectedId ? nodes.get(selectedId) : null; },
