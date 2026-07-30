@@ -11,7 +11,8 @@
       "dashboard_url": "https://proshiba.github.io/AI-security-analysis/ui/#/",
       "adapter": "spec-v1",
       "meta_url": "https://proshiba.github.io/AI-security-analysis/ui/api/v1/meta.json",
-      "approx_bytes": 880000
+      "approx_bytes": 880000,
+      "embed_css": "header.topbar > .brand, header.topbar > .global-search { display: none !important; }header.topbar { height: 38px; padding: 0 12px; background: transparent; }#app { padding-top: 0 !important; }"
     },
     {
       "app_id": "vuln-intel-agent",
@@ -36,7 +37,8 @@
       "adapter": "spec-v1",
       "meta_url": "https://proshiba.github.io/threatactor-intel-analysis/ui/api/v1/meta.json",
       "profiles_base": "https://proshiba.github.io/threatactor-intel-analysis/profiles",
-      "approx_bytes": 4050000
+      "approx_bytes": 4050000,
+      "embed_css": ".site-footer { display: none !important; }.site-header .brand { display: none !important; }.site-header .header-links a[target=\"_blank\"] { display: none !important; }.site-header { padding: 0 !important; background: transparent; }.site-header .header-inner { max-width: none; margin: 0; min-height: 34px; padding: 0 12px; justify-content: flex-start; }#app { padding-top: 12px; }.tab-bar { top: 0 !important; }"
     },
     {
       "app_id": "tech-memo-daily-news",
