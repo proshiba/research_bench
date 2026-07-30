@@ -114,6 +114,10 @@ export function openOsintSettings(dialog) {
     ["virustotal", "VirusTotal のトークン", "ワークベンチの右クリック調査で使います"],
     ["github", "GitHub のトークン", "コード検索で使います"],
     ["abuseipdb", "AbuseIPDB のトークン", "IP の通報状況と信頼度スコアを引きます"],
+    ["urlscan", "urlscan.io の API キー", "既存スキャンを検索します（新規スキャンは投げません）"],
+    ["censys", "Censys の Personal Access Token", "CenQL でホスト・証明書を検索します"],
+    ["cloudflareAccount", "Cloudflare アカウント ID", "Browser Gateway で使います"],
+    ["cloudflareToken", "Cloudflare API トークン", "Browser Rendering - Edit 権限が必要です"],
   ];
   const viaRows = VIA_API.map(([field, label, hint]) => {
     const input = el("input", {
@@ -246,6 +250,9 @@ export function osintTooltip() {
     `VirusTotal: ${s.keys.virustotal ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
     `GitHub: ${s.keys.github ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
     `AbuseIPDB: ${s.keys.abuseipdb ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
+    `urlscan: ${s.keys.urlscan ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
+    `Censys: ${s.keys.censys ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
+    `Cloudflare: ${s.keys.cloudflareToken ? "設定済み" : "未設定"}（API 経由・端末の外に出る）`,
   ];
   return rows.join("\n");
 }

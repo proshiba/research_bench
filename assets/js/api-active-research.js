@@ -260,6 +260,39 @@ export function abuseRecord(d) {
   };
 }
 
+/**
+ * Censys の応答から値を取り出す小道具。
+ *
+ * Platform API v3 のヒットは `data.result.hits[]` で、フィールド名は
+ * 契約プランと fields 指定で変わる。取れなければ空を返して落ちないようにする。
+ */
+export function censysHits(d) {
+  const hits = d?.data?.result?.hits ?? d?.data?.hits ?? d?.result?.hits;
+  return Array.isArray(hits) ? hits : [];
+}
+
+export function censysIp(hit) {
+  return hit?.host?.ip ?? hit?.ip ?? hit?.["host.ip"] ?? null;
+}
+
+export function censysPorts(hit) {
+  const svc = hit?.host?.services ?? hit?.services ?? [];
+  const ports = (Array.isArray(svc) ? svc : []).map((x) => x?.port).filter((p) => Number.isFinite(p));
+  const flat = hit?.["host.services.port"];
+  if (!ports.length && Array.isArray(flat)) return flat.filter((p) => Number.isFinite(p));
+  return [...new Set(ports)];
+}
+
+export function censysNames(hit) {
+  const out = new Set();
+  for (const n of hit?.host?.dns?.names ?? hit?.dns?.names ?? []) {
+    if (detectType(n) === "ioc.domain") out.add(n);
+  }
+  const web = hit?.web?.hostname ?? hit?.["web.hostname"];
+  if (web && detectType(web) === "ioc.domain") out.add(web);
+  return [...out];
+}
+
 function push(out, seen, type, value, rel) {
   const v = String(value ?? "").trim().replace(/\.$/, "");
   if (!v) return;
@@ -370,7 +403,8 @@ export const TOOLS = [
 
   {
     id: "web-analyze",
-    label: "Web 解析",
+    label: "Web 解析（旧）",
+    deprecated: "API 側で deprecated。/api/request の includeAnalyze に移行済み",
     desc: "使われている技術・Cookie 名・注目ヘッダ・リンクを取る",
     method: "GET",
     path: "api/tools/web-analyze",
@@ -587,6 +621,146 @@ export const TOOLS = [
   },
 
   {
+    id: "urlscan",
+    label: "urlscan",
+    desc: "urlscan.io の既存スキャンを検索する（新規スキャンは投げない）",
+    keyWarning: true,
+    method: "GET",
+    path: "api/tools/urlscan",
+    params: [
+      { name: "action", label: "動作", type: "select", options: ["search", "result"] },
+      { name: "q", label: "検索クエリ", placeholder: "domain:example.com AND date:>now-30d",
+        hint: "action=search で必須。ElasticSearch の query string 構文" },
+      { name: "scanId", label: "Scan ID", placeholder: "（action=result で必須）" },
+      { name: "size", label: "件数", placeholder: "25", type: "number", hint: "1〜100" },
+      { name: "apikey", label: "urlscan API キー", type: "password", required: true,
+        hint: "X-Urlscan-API-Key で API サーバーに渡します（ブラウザの外に出ます）" },
+    ],
+    query: (v) => ({ action: v.action || "search", q: v.q || "", scanId: v.scanId || "", size: v.size || "" }),
+    keyHeader: "X-Urlscan-API-Key",
+    summary: (d) => {
+      const r = d.data || {};
+      const top = (r.results || [])[0];
+      return [
+        ["件数", r.total != null ? `${(r.results || []).length} / ${r.total}` : null],
+        ["続きあり", r.has_more == null ? null : r.has_more ? "はい" : "いいえ"],
+        ["先頭の URL", top?.page?.url || top?.task?.url],
+        ["先頭の IP", top?.page?.ip],
+        ["先頭の AS", top?.page?.asnname || top?.page?.asn],
+        ["先頭の国", top?.page?.country],
+        ["スキャン日時", top?.task?.time],
+      ];
+    },
+    iocs: (d) => {
+      const out = [], seen = new Set();
+      for (const r of d.data?.results || []) {
+        const p = r.page || {};
+        if (p.ip) push(out, seen, detectType(p.ip) === "ioc.ipv6" ? "ioc.ipv6" : "ioc.ipv4", p.ip, "urlscan: 解決 IP");
+        if (p.domain) push(out, seen, "ioc.domain", p.domain, "urlscan: ドメイン");
+        const u = p.url || r.task?.url;
+        if (u) push(out, seen, "ioc.url", u, "urlscan: スキャンした URL");
+      }
+      return out;
+    },
+  },
+
+  {
+    id: "censys",
+    label: "Censys",
+    desc: "Censys Platform API v3 に CenQL 検索を送る",
+    keyWarning: true,
+    method: "GET",
+    path: "api/tools/censys",
+    params: [
+      { name: "query", label: "CenQL", placeholder: 'host.ip: 1.1.1.1', required: true,
+        hint: 'host.ip: … / web.hostname: "…" / host.services.software.product="GitLab"' },
+      { name: "pageSize", label: "件数", placeholder: "25", type: "number", hint: "1〜100" },
+      { name: "fields", label: "取得フィールド", placeholder: "（任意）", hint: "カンマ区切り・最大 50" },
+      { name: "apikey", label: "Censys Personal Access Token", type: "password", required: true,
+        hint: "X-Censys-Token で API サーバーに渡します（ブラウザの外に出ます）" },
+    ],
+    query: (v) => ({ query: v.query, pageSize: v.pageSize || "", fields: v.fields || "" }),
+    keyHeader: "X-Censys-Token",
+    summary: (d) => {
+      const hits = censysHits(d);
+      return [
+        ["ヒット", hits.length || null],
+        ["CenQL", d.query?.cenql],
+        ["HTTP", d.response?.status],
+        ["残りレート", d.response?.rateLimitRemaining],
+        ["先頭の IP", hits[0] && censysIp(hits[0])],
+        ["先頭のポート", hits[0] && censysPorts(hits[0]).join(", ")],
+      ];
+    },
+    iocs: (d) => {
+      const out = [], seen = new Set();
+      for (const h of censysHits(d)) {
+        const ip = censysIp(h);
+        if (ip) push(out, seen, detectType(ip) === "ioc.ipv6" ? "ioc.ipv6" : "ioc.ipv4", ip, "Censys: ホスト");
+        for (const name of censysNames(h)) push(out, seen, "ioc.domain", name, "Censys: 名前");
+        for (const port of censysPorts(h)) {
+          if (ip) push(out, seen, "ioc.endpoint", `${ip}:${port}`, "Censys: 開いているポート");
+        }
+      }
+      return out;
+    },
+  },
+
+  {
+    id: "browser-gateway",
+    label: "Browser Gateway",
+    desc: "Cloudflare 上の Chromium で開いて画面と HTML を取る（自分のブラウザには読み込ませない）",
+    keyWarning: true,
+    method: "POST",
+    path: "api/tools/browser-gateway",
+    params: [
+      { name: "url", label: "URL", placeholder: "https://example.com/", required: true },
+      { name: "device", label: "端末", type: "select", options: ["desktop", "mobile"] },
+      { name: "javascript", label: "JavaScript を実行する", type: "checkbox", hint: "既定は実行する" },
+      { name: "scrollY", label: "スクロール位置", placeholder: "0", type: "number",
+        hint: "JavaScript 無効時は 0 のみ" },
+      { name: "accountId", label: "Cloudflare アカウント ID", type: "password", required: true,
+        hint: "X-Cloudflare-Account-Id で渡します（ブラウザの外に出ます）" },
+      { name: "apikey", label: "Cloudflare API トークン", type: "password", required: true,
+        hint: "Browser Rendering - Edit 権限。X-Cloudflare-API-Token で渡します" },
+    ],
+    body: (v) => ({
+      url: v.url,
+      device: v.device || "desktop",
+      // 未指定は「実行する」が既定。チェックを外したときだけ false を送る
+      javascript: v.javascript === false ? false : undefined,
+      scrollY: v.scrollY ? Number(v.scrollY) : undefined,
+    }),
+    keyHeader: "X-Cloudflare-API-Token",
+    headers: (v) => ({ "X-Cloudflare-Account-Id": v.accountId }),
+    summary: (d) => {
+      const g = d.gateway || {};
+      return [
+        ["HTTP", d.response?.status],
+        ["題名", d.response?.title],
+        ["最終 URL", d.response?.finalUrl],
+        ["解決 IP", (d.request?.resolvedIps || []).join(", ")],
+        ["描画", d.response?.browserMs != null ? `${d.response.browserMs} ms` : null],
+        ["画面", g.screenshot ? `${g.screenshot.width}×${g.screenshot.height}` : null],
+        ["リンク", (g.links || []).length || null],
+        ["HTML", g.renderedHtml ? `${g.renderedHtml.length.toLocaleString()} 文字${g.renderedHtmlTruncated ? "（打ち切り）" : ""}` : null],
+        ["自分のブラウザに読み込んでいない", g.targetLoadedInUserBrowser === false ? "はい" : null],
+      ];
+    },
+    iocs: (d) => {
+      const out = [], seen = new Set();
+      for (const ip of d.request?.resolvedIps || []) {
+        push(out, seen, detectType(ip) === "ioc.ipv6" ? "ioc.ipv6" : "ioc.ipv4", ip, "Browser Gateway: 解決 IP");
+      }
+      if (d.response?.finalUrl) push(out, seen, "ioc.url", d.response.finalUrl, "Browser Gateway: 最終 URL");
+      for (const l of (d.gateway?.links || []).slice(0, 60)) {
+        if (l.url) push(out, seen, "ioc.url", l.url, "Browser Gateway: ページ内リンク");
+      }
+      return out;
+    },
+  },
+
+  {
     id: "github",
     label: "GitHub 調査",
     desc: "コード検索・利用者のリポジトリ・所有者・関係をたどる",
@@ -663,6 +837,8 @@ export const TOOLS = [
       { name: "url", label: "URL", placeholder: "https://example.com/", required: true },
       { name: "method", label: "メソッド", type: "select", options: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"] },
       { name: "followRedirects", label: "リダイレクトを追う", type: "checkbox", hint: "最大 10 回" },
+      { name: "includeAnalyze", label: "ページ解析も付ける", type: "checkbox",
+        hint: "技術・Cookie・リンク・内部パスを analysis に入れる（旧 Web 解析の後継）" },
       { name: "headers", label: "ヘッダ (JSON)", placeholder: '{"accept":"application/json"}' },
       { name: "body", label: "本文", placeholder: "（任意）" },
     ],
@@ -672,6 +848,8 @@ export const TOOLS = [
       return {
         url: v.url, method: v.method || "GET", headers, body: v.body || undefined,
         followRedirects: !!v.followRedirects,
+        // クエリでは効かない（実測）。必ず本文に載せる
+        ...(v.includeAnalyze ? { includeAnalyze: true } : {}),
       };
     },
     summary: (d) => {

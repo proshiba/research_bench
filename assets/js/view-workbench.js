@@ -27,6 +27,15 @@ let extras = new Map();
 
 const extraKey = (value, type) => `${type} ${String(value).toLowerCase()}`;
 
+/**
+ * localStorage に持ち越さない属性。
+ *
+ * スクリーンショットは base64 の PNG で数百 KB になり、数枚で localStorage の
+ * 上限（おおむね 5 MB）を食い潰す。画面では使いたいので、メモリ上には置いて
+ * 保存のときだけ落とす。消えても再取得すればよいものに限る。
+ */
+const VOLATILE_ATTRS = new Set(["_shot"]);
+
 function rememberExtra(value, type, { label, attrs } = {}) {
   if (!value || !type) return;
   const k = extraKey(value, type);
@@ -36,6 +45,15 @@ function rememberExtra(value, type, { label, attrs } = {}) {
     if (av != null && av !== "") cur.attrs[ak] = String(av);
   }
   extras.set(k, cur);
+}
+
+/** 保存用に、持ち越さない属性を落とした写しを作る。 */
+function extrasForSave() {
+  return [...extras.values()].map((e) => {
+    if (!Object.keys(e.attrs).some((k) => VOLATILE_ATTRS.has(k))) return e;
+    const attrs = Object.fromEntries(Object.entries(e.attrs).filter(([k]) => !VOLATILE_ATTRS.has(k)));
+    return { ...e, attrs };
+  });
 }
 
 /**
@@ -56,7 +74,7 @@ function saveState() {
     localStorage.setItem(STORE_KEY, JSON.stringify({
       v: 1,
       tray,
-      extras: [...extras.values()],
+      extras: extrasForSave(),
       collapsed: ui.trayEl.dataset.collapsed === "true",
       graph: ui.graph.serialize(),
     }));
@@ -815,6 +833,17 @@ function renderSide(node) {
     srcList.append(el("li", {}, [row]));
   }
   frag.append(srcList);
+
+  // 隔離ブラウザで撮った画面。保存されないので、取り直すまでのあいだだけ出る
+  const shot = node.members.map((m) => m.entity?.attrs?._shot).find(Boolean);
+  if (shot) {
+    frag.append(el("h3", { class: "side-h", text: "画面（隔離ブラウザ）" }));
+    frag.append(el("a", {
+      class: "side-shot", href: shot, target: "_blank", rel: "noopener",
+      title: "別タブで等倍表示（このポータルの中で対象ページは描画していません）",
+    }, [el("img", { src: shot, alt: "取得したページの画面", loading: "lazy" })]));
+    frag.append(el("p", { class: "side-empty", text: "画面はリロードすると消えます（保存していません）。" }));
+  }
 
   const risks = riskOf(node);
   if (risks.length) {
