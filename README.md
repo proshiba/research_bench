@@ -573,5 +573,23 @@ docs/auth-pkce.md     Active Research API の認証（OAuth 2.0 + PKCE）の取�
 docs/validate-index.py  各アプリが自分の索引を検査するためのチェッカー
 docs/agent-prompts/   各アプリへの依頼内容（spec v1 対応・認証・STIX ストレージ）
 docs/mock/            最初に起こした画面イメージ
+tools/ioc/            IOC の収集・分析スクリプト（ブラウザ外・Node のみ）
 cyberchef/            同梱の CyberChef（変換モジュールの引き渡し先）
 ```
+
+## IOC をまとめて集める（ブラウザの外）
+
+ポータルとは別に、4 索引から IOC を集めて**実体どうしの重なり**を出すスクリプトが
+[`tools/ioc/`](tools/ioc/README.md) にある。Node の標準機能だけで動き、外部 API も
+AI も要らない。同じ入力からは同じバイト列が出るので、週次で回して差分を追える。
+
+```bash
+node tools/ioc/collect.mjs      # 索引 → iocs / links / entities
+node tools/ioc/stats.mjs        # → overlaps / graph / stats
+node tools/ioc/validate.mjs     # 出来たものを検査する（error があれば終了コード 1）
+node tools/ioc/selftest.mjs     # validate 自体を検査する（既知の壊し方 31 通り）
+```
+
+いま 19,011 IOC が集まり、**別アクターが同居している /24 が 84 網**見つかっている。
+これは外部 API を 1 回も呼ばずに出せる。エンリッチとピボットは別工程にしてあるので、
+キーが無い環境でもここまでは通しで動く。
