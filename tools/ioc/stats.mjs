@@ -98,6 +98,7 @@ const vt = readJsonl(path.join(IN, "vt.jsonl"));
 const abuse = readJsonl(path.join(IN, "abuseipdb.jsonl"));
 const derivedLinks = readJsonl(path.join(IN, "derived-links.jsonl"));
 const derivedCerts = readJsonl(path.join(IN, "derived-certs.jsonl"));
+const derivedIocs = readJsonl(path.join(IN, "derived-iocs.jsonl"));
 const enrichMeta = readJson(path.join(IN, "enrich-meta.json"));
 const HAS_VT = vt.length > 0;
 const HAS_ABUSE = abuse.length > 0;
@@ -153,8 +154,14 @@ for (const l of derivedLinks) {
  */
 const resolvedIps = new Set();
 const cdnIps = new Set();
+/** 生えた IP にも bogon / noise の印は付いている。索引の IOC と同じ扱いにする。 */
+const markOf = new Map([...iocById, ...derivedIocs.map((r) => [r.key, r])]);
 for (const set of resolvesTo.values()) {
   for (const ip of set) {
+    // 127.0.0.1 に解決するドメイン同士は「同じ所に居る」ではなく、**どちらも
+    // シンクホールされている**。実測で APT28 ↔ STAC4749 を繋いでいた
+    const m = markOf.get(ip);
+    if (m && (m.malformed || m.bogon || (!INCLUDE_NOISE && m.noise))) { cdnIps.add(ip); continue; }
     const asn = asnOf.get(ip);
     const size = asn ? (asnInfo.get(asn)?.addresses ?? 0) : 0;
     if (size > ASN_MAX_ADDRESSES) { cdnIps.add(ip); continue; }
