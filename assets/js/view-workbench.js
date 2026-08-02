@@ -437,8 +437,11 @@ export async function renderWorkbench(root, { onQuery } = {}) {
     trayEl, trayList, trayCount, saveBtn, savedChip,
     saveDialog: document.getElementById("graphSaveDialog") };
   renderSaveBtn();
-  // UI テストから座標を取るためのフック。?uitest=1 が無ければ生えない。
-  if (new URLSearchParams(location.search).has("uitest")) window.__rbGraph = graph;
+  // UI テストから座標や索引の状態を取るためのフック。?uitest=1 が無ければ生えない。
+  if (new URLSearchParams(location.search).has("uitest")) {
+    window.__rbGraph = graph;
+    window.__rbStore = store;
+  }
   renderTray();
   renderSide(null);
   renderLegendCounts();
@@ -1004,17 +1007,19 @@ function selectionBlock(picked) {
 
   const expandBtn = el("button", { class: "btn", type: "button", text: `展開（${picked.length} 件）` });
   expandBtn.onclick = run(expandBtn, async () => {
-    let added = 0, joined = 0, done = 0;
+    let added = 0, joined = 0, broken = 0, done = 0;
     for (const n of picked) {
       // 途中でノードが消えている（別の操作で削除された）ことがあるので毎回確かめる
       if (!ui.graph.nodes.has(n.id)) continue;
       const r = await ui.graph.expand(n);
       added += r.added || 0;
       joined += r.joined || 0;
+      broken += r.broken || 0;
       ui.status.textContent = `展開中 ${++done}/${picked.length} — ${added} 件追加`;
     }
     ui.status.textContent = `${done} 件を展開しました — ${added} 件追加`
-      + (joined ? ` / ${joined} 件が別ソースと結合` : "");
+      + (joined ? ` / ${joined} 件が別ソースと結合` : "")
+      + (broken ? ` / ${broken} 件は索引の不備で除外` : "");
   });
 
   // まとめ入れは addValues に任せる。重複の除去と件数の報告が既にそこにある
@@ -1088,6 +1093,19 @@ function selectionBlock(picked) {
   return frag;
 }
 
+/**
+ * 展開の結果を 1 行にする。
+ * 索引の不備で辿らなかった辺は**黙って落とさず必ず出す**。黙って減らすと
+ * 「関連が無い」と読めてしまい、索引が壊れていることに気づけない。
+ */
+function expandSummary(r) {
+  const parts = [`${r.added} 件を追加`];
+  if (r.joined) parts.push(`${r.joined} 件が別ソースと結合`);
+  if (r.broken) parts.push(`${r.broken} 件は索引の不備で除外`);
+  if (r.skipped) parts.push(`${r.skipped} 件は上限で省略`);
+  return parts.join(" / ");
+}
+
 function renderSide(node) {
   if (!ui) return;
   const pane = ui.paneDetail;
@@ -1125,10 +1143,7 @@ function renderSide(node) {
       onclick: async (ev) => {
         ev.target.disabled = true;
         const r = await ui.graph.expand(node);
-        const parts = [`${r.added} 件を追加`];
-        if (r.joined) parts.push(`${r.joined} 件が別ソースと結合`);
-        if (r.skipped) parts.push(`${r.skipped} 件は上限で省略`);
-        ui.status.textContent = parts.join(" / ");
+        ui.status.textContent = expandSummary(r);
       },
     }),
     el("button", {

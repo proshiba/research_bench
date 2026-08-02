@@ -170,6 +170,7 @@ async function main() {
 
   const iocs = new Map();         // key → レコード
   const links = new Map();        // 重複を畳むための鍵 → レコード
+  let brokenSkipped = 0;          // 参照先が選ばれていないため辿らなかった辺
 
   const addLink = (iocKey, kind, name, { source, rel, id }) => {
     const n = String(name ?? "").trim();
@@ -231,6 +232,9 @@ async function main() {
 
       /* refs から実体への辺 */
       for (const r of e.refs || []) {
+        // 参照先が固定されている関係は辿らない（lib/refs.mjs）。
+        // 「収集元」がその日の 1 本目の記事に固定されている索引が実在する
+        if (r._broken) { brokenSkipped++; continue; }
         const target = String(r.target || "");
         const kind = target.split(":")[0];
         if (isIoc(kind) || target.includes("|")) {
@@ -338,6 +342,8 @@ async function main() {
       search_sha256: s.search_sha256 || null,
       entities: s.entities.length,
       error: s.error || null,
+      // 参照先が選ばれていない関係。索引側の不具合なので、直ったら消える
+      broken_rels: s.broken_rels || null,
     })).sort(byKeys("app_id")),
     counts: {
       iocs: iocRows.length,
@@ -355,6 +361,11 @@ async function main() {
   });
 
   console.log(`IOC ${iocRows.length} / 辺 ${linkRows.length} / 実体 ${entityRows.length}`);
+  const brokenRels = sources.flatMap((s) => Object.entries(s.broken_rels || {}));
+  if (brokenRels.length) {
+    console.log(`  ! 参照先が選ばれていない関係を辿りませんでした（索引側の不具合）:`);
+    for (const [rel, n] of brokenRels) console.log(`      「${rel}」 ${n} 件`);
+  }
   console.log(`  除外の印: bogon ${iocRows.filter((r) => r.bogon).length}`
     + ` / noise ${iocRows.filter((r) => r.noise).length}`
     + ` / 壊れ ${iocRows.filter((r) => r.malformed).length}`);
