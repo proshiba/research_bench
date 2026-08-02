@@ -1,0 +1,785 @@
+{
+  "compared_with": ".ioc-prev",
+  "coverage": {
+    "abuseipdb": {
+      "added": 0,
+      "by_stage": {
+        "1": {
+          "added": 0,
+          "done": 862,
+          "target": 862
+        },
+        "2": {
+          "added": 0,
+          "done": 137,
+          "target": 294
+        },
+        "5": {
+          "added": 0,
+          "done": 0,
+          "target": 2066
+        }
+      },
+      "done": 999,
+      "ratio": 0.31,
+      "target": 3222
+    },
+    "virustotal": {
+      "added": 954,
+      "by_stage": {
+        "1": {
+          "added": 954,
+          "done": 2438,
+          "target": 4790
+        },
+        "2": {
+          "added": 0,
+          "done": 0,
+          "target": 294
+        },
+        "3": {
+          "added": 0,
+          "done": 0,
+          "target": 4482
+        },
+        "4": {
+          "added": 0,
+          "done": 0,
+          "target": 6467
+        },
+        "5": {
+          "added": 0,
+          "done": 0,
+          "target": 2066
+        },
+        "6": {
+          "added": 0,
+          "done": 0,
+          "target": 490
+        }
+      },
+      "done": 2438,
+      "known": 2307,
+      "ratio": 0.131,
+      "target": 18589,
+      "unknown": 131
+    }
+  },
+  "grown": {
+    "aliases": [],
+    "entities": [],
+    "iocs": 901,
+    "shared_certs": [
+      {
+        "iocs": [
+          "ioc.domain|ww-fifa.com",
+          "ioc.domain|www.ww-fifa.com"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "ww-fifa.com",
+        "thumbprint": "0a60e7ea4bc63421dca4e71fd7510715593d51efa33b835f787998e437d1d3c8"
+      },
+      {
+        "iocs": [
+          "ioc.domain|princess-mens.click",
+          "ioc.domain|zoomconference.click"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "princess-mens.click",
+        "thumbprint": "0e6d73cb361596407bd0b197d251288d3551848bd66fa82caf705c5be6a248d3"
+      },
+      {
+        "iocs": [
+          "ioc.domain|backend.thedolphinx.top",
+          "ioc.domain|thedolphinx.top"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "thedolphinx.top",
+        "thumbprint": "116d9f03bc1a98360dc6c253a97807192184cd28bfab1862d1f9241b22396336"
+      },
+      {
+        "iocs": [
+          "ioc.domain|myboard.chickenkiller.com",
+          "ioc.domain|myboard.twilightparadox.com",
+          "ioc.domain|winupdate.ink",
+          "ioc.domain|winupdate.live"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "myboard.chickenkiller.com",
+        "thumbprint": "1bb648d1b9485cb60dc03d6029601b9e30760673e8547fbcd61d48157de79be1"
+      },
+      {
+        "iocs": [
+          "ioc.domain|7zip.cloud",
+          "ioc.domain|ha.7zip.cloud"
+        ],
+        "issuer": "Google Trust Services",
+        "subject": "7zip.cloud",
+        "thumbprint": "2f0603d8f37d1123e2a0c314ce4a1439d166f2f7373578d31ca8bbe51da2178e"
+      },
+      {
+        "iocs": [
+          "ioc.ipv4|130.0.233.178",
+          "ioc.ipv4|212.113.119.255"
+        ],
+        "issuer": "invalid2.invalid",
+        "subject": "invalid2.invalid",
+        "thumbprint": "312c95e5e2eea17971f239399345ff62b24f0ce0d4a922fb6cfe10697434c1ab"
+      },
+      {
+        "iocs": [
+          "ioc.domain|controller.rightwidth.dev",
+          "ioc.domain|file.rightwidth.dev",
+          "ioc.domain|ldb.rightwidth.dev",
+          "ioc.domain|rightwidth.dev",
+          "ioc.domain|upload.rightwidth.dev"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "rightwidth.dev",
+        "thumbprint": "33118c6eadff953970cdafdc254c6b8f44eef0993978234ab30c92667690c7ff"
+      },
+      {
+        "iocs": [
+          "ioc.domain|api.mywalletsss.store",
+          "ioc.domain|mywalletsss.store"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "mywalletsss.store",
+        "thumbprint": "4c6e3c0c00db127e3fe9aa8ae90f98c54ecf267d4f4af2350de01b0ce5a40783"
+      },
+      {
+        "iocs": [
+          "ioc.domain|fifa.cafe",
+          "ioc.domain|www.fifa.cafe"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "fifa.cafe",
+        "thumbprint": "55c1003cacb1b14d3bb82774abef81ebba672ad121ab9fdff8339eeafbc9414b"
+      },
+      {
+        "iocs": [
+          "ioc.domain|hero-sms.co",
+          "ioc.domain|soc.hero-sms.co"
+        ],
+        "issuer": "Google Trust Services",
+        "subject": "hero-sms.co",
+        "thumbprint": "5dc35755a424f60f030b2e692bebe63ecc9277be211bb505f6a3e1700ca0dd39"
+      },
+      {
+        "iocs": [
+          "ioc.domain|www.fifa.blue",
+          "ioc.domain|www.fifa.pink"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "fifa.city",
+        "thumbprint": "7a93ce0585ce3e566983736d774cd73c097b93d205514dc587a7600be624dd53"
+      },
+      {
+        "iocs": [
+          "ioc.domain|fifa.sale",
+          "ioc.domain|www.fifa.sale"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "fifa.sale",
+        "thumbprint": "7c89ccbf9199adb75bef9fa5a1cc991fdc4372926a80e014918f53956eaa01cd"
+      },
+      {
+        "iocs": [
+          "ioc.domain|api.isharkvpn.com",
+          "ioc.domain|isharkvpn.com"
+        ],
+        "issuer": "Google Trust Services",
+        "subject": "isharkvpn.com",
+        "thumbprint": "8412727766c526cca958f4461ced6b9287dd0801d5fefed185fd3c55c840d25a"
+      },
+      {
+        "iocs": [
+          "ioc.domain|softwareupdate.online",
+          "ioc.domain|support-mac.online",
+          "ioc.domain|teams-supports.online",
+          "ioc.domain|weekly-up.online",
+          "ioc.domain|zoom-support.online"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "weekly-up.online",
+        "thumbprint": "9414dc7275f25c96dd89935064b123f634aa6a83a794de5f66fdffd357aa2c06"
+      },
+      {
+        "iocs": [
+          "ioc.domain|api.kali365.xyz",
+          "ioc.domain|kali365.xyz",
+          "ioc.domain|v2.kali365.xyz"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "kali365.xyz",
+        "thumbprint": "9bb5f0821c725b76f06619ce4f282c21b1c3bcfea2d95cf1acfca9ad0ed02177"
+      },
+      {
+        "iocs": [
+          "ioc.domain|crwellfood.com",
+          "ioc.ipv4|121.254.222.80"
+        ],
+        "issuer": "Sectigo Limited",
+        "subject": "https.secuidc.com",
+        "thumbprint": "9c3ed7e0aede38c75a93fc4c0f9f949d82061c682f2a4e7cf233c1f9e623e392"
+      },
+      {
+        "iocs": [
+          "ioc.domain|fifa.kim",
+          "ioc.domain|www.fifa.kim"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "fifa.kim",
+        "thumbprint": "9d344f64fa34bd0be09215ce46bdf63604bbc3e69d274b7f456cd6595676402a"
+      },
+      {
+        "iocs": [
+          "ioc.domain|www.inodea.com",
+          "ioc.ipv4|114.108.128.157"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "inodea.com",
+        "thumbprint": "ac5121834546dc837a8ab3f128fdb0734a4b943bafa60508d62ce6755690e503"
+      },
+      {
+        "iocs": [
+          "ioc.domain|89.208.250.38.16clouds.com",
+          "ioc.domain|fifa.website"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "fifa.city",
+        "thumbprint": "ae0ae0626d5af9efd3816700af1bce4c434af2ae18e9b2435a1e30cf621515dd"
+      },
+      {
+        "iocs": [
+          "ioc.domain|fifa-com.services",
+          "ioc.domain|www.fifa-com.services"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "fifa-com.services",
+        "thumbprint": "cfee2a8695086f8f0ef49c5733bc4be818e17be3b67479a729c255f7360be1dd"
+      },
+      {
+        "iocs": [
+          "ioc.ipv4|134.122.200.153",
+          "ioc.ipv4|134.122.200.155"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "xwsme.poterw.com",
+        "thumbprint": "e90285b707e2e28d823cc3190c96c3da301a747e2e8425660b87f6c846d84014"
+      },
+      {
+        "iocs": [
+          "ioc.domain|104.225.235.49.16clouds.com",
+          "ioc.domain|fifa.center",
+          "ioc.domain|fifa.gold",
+          "ioc.ipv4|104.225.235.49"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "fifa.center",
+        "thumbprint": "f917c3291a7103a39e5b3083199a54ed9d32aed8ac1dc5059025788c2549e8f6"
+      }
+    ]
+  },
+  "overlaps": {
+    "grew": 26,
+    "new": 215,
+    "new_strong": 2,
+    "top_grew": [
+      {
+        "a": "APT28",
+        "b": "APT29",
+        "kind": "actor",
+        "shared": 19,
+        "strength": 37,
+        "via": [
+          "asn",
+          "certificate",
+          "ioc",
+          "jarm",
+          "registrable",
+          "resolution",
+          "subnet"
+        ],
+        "was": 30
+      },
+      {
+        "a": "Revil",
+        "b": "Wizard Spider",
+        "kind": "actor",
+        "shared": 8,
+        "strength": 23,
+        "via": [
+          "certificate",
+          "ioc",
+          "jarm",
+          "subnet"
+        ],
+        "was": 13
+      },
+      {
+        "a": "case:950b618c7f24e2b67d93bbf111c572978478622706eb7d288193fcea92145502",
+        "b": "case:b3fe0576f4e8a73f15d6cb8c0a614dd4340aea525605e2841311a2cb764eb6dc",
+        "kind": "case",
+        "shared": 7,
+        "strength": 22,
+        "via": [
+          "ioc",
+          "registrable",
+          "resolution",
+          "subnet"
+        ],
+        "was": 15
+      },
+      {
+        "a": "AMOS",
+        "b": "PHANTOMPULSE",
+        "kind": "malware",
+        "shared": 5,
+        "strength": 20,
+        "via": [
+          "certificate",
+          "ioc",
+          "jarm",
+          "registrable"
+        ],
+        "was": 19
+      },
+      {
+        "a": "Macsync",
+        "b": "PHANTOMPULSE",
+        "kind": "malware",
+        "shared": 5,
+        "strength": 20,
+        "via": [
+          "certificate",
+          "ioc",
+          "jarm",
+          "registrable"
+        ],
+        "was": 19
+      },
+      {
+        "a": "PHANTOMPULSE",
+        "b": "Shub Stealer",
+        "kind": "malware",
+        "shared": 5,
+        "strength": 20,
+        "via": [
+          "certificate",
+          "ioc",
+          "jarm",
+          "registrable"
+        ],
+        "was": 19
+      },
+      {
+        "a": "Anonymous",
+        "b": "Sandworm Team",
+        "kind": "actor",
+        "shared": 3,
+        "strength": 19,
+        "via": [
+          "certificate",
+          "ioc",
+          "registrable"
+        ],
+        "was": 10
+      },
+      {
+        "a": "APT41",
+        "b": "Higaisa",
+        "kind": "actor",
+        "shared": 7,
+        "strength": 16,
+        "via": [
+          "ioc",
+          "jarm",
+          "registrable",
+          "subnet"
+        ],
+        "was": 15
+      },
+      {
+        "a": "case:183def10cfe9473eb4ac24b08c39418253d770eef9a196e42115fef79072db9f",
+        "b": "case:4adf2ecf694884886667c15a1b86b5d937c35089a97afc585ad524660d85c1b5",
+        "kind": "case",
+        "shared": 5,
+        "strength": 11,
+        "via": [
+          "ioc",
+          "jarm",
+          "registrable"
+        ],
+        "was": 10
+      },
+      {
+        "a": "case:38450cf934121c9f92785beffb73602919014752310960768324029d9ba91e13",
+        "b": "case:fc4932314471c91434fde050e85967de31701e0b391440c1c5f9aa5d6fde615d",
+        "kind": "case",
+        "shared": 4,
+        "strength": 11,
+        "via": [
+          "ioc",
+          "jarm",
+          "registrable"
+        ],
+        "was": 10
+      },
+      {
+        "a": "APT37",
+        "b": "Inception",
+        "kind": "actor",
+        "shared": 3,
+        "strength": 9,
+        "via": [
+          "ioc",
+          "jarm"
+        ],
+        "was": 8
+      },
+      {
+        "a": "APT29",
+        "b": "Lazarus Group",
+        "kind": "actor",
+        "shared": 2,
+        "strength": 9,
+        "via": [
+          "ioc",
+          "jarm"
+        ],
+        "was": 8
+      },
+      {
+        "a": "APT29",
+        "b": "Gamaredon",
+        "kind": "actor",
+        "shared": 3,
+        "strength": 6,
+        "via": [
+          "jarm",
+          "subnet"
+        ],
+        "was": 5
+      },
+      {
+        "a": "APT29",
+        "b": "APT41",
+        "kind": "actor",
+        "shared": 2,
+        "strength": 6,
+        "via": [
+          "jarm",
+          "subnet"
+        ],
+        "was": 5
+      }
+    ],
+    "top_new": [
+      {
+        "a": "case:11f0f5b941e46c270da2705545255105008325a28dd26dac5669128c9651135a",
+        "b": "case:e8c73ce5eb660ea6570b5bf5f560eaf994394da02148f7df10aefac1fda8a756",
+        "kind": "case",
+        "shared": 9,
+        "strength": 10,
+        "via": [
+          "ioc",
+          "registrable"
+        ]
+      },
+      {
+        "a": "PowerShower",
+        "b": "RevSocks",
+        "kind": "malware",
+        "shared": 3,
+        "strength": 7,
+        "via": [
+          "resolution"
+        ]
+      }
+    ],
+    "total": 961
+  },
+  "schema": 1,
+  "to_check": {
+    "asn_differs": {
+      "samples": [],
+      "total": 0
+    },
+    "disagreement": {
+      "samples": [
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|fifa-careerhub.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|fifa-com.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|fifa-online.me",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|fifa.kim",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|file.wx2.qq.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|github-ci.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|grked.online",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|https-fifa.cn",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|intrawld.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|jobsatnetflix.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|m100.cloud",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|managewpbest.it.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|metricforge.digital",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|mononapfpcom.sharepoint.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|nwitassistnow.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        }
+      ],
+      "total": 32
+    },
+    "hosting_excluded": [
+      {
+        "actors": [
+          "APT1",
+          "APT28",
+          "APT29"
+        ],
+        "addresses": 512,
+        "asn": 207560,
+        "cc": "UA",
+        "hosting_ratio": 1,
+        "hosting_seen": 48,
+        "name": "Zubritska Valeriia Nikolaevna"
+      },
+      {
+        "actors": [
+          "APT34",
+          "APT37",
+          "Lamberts"
+        ],
+        "addresses": 2048,
+        "asn": 60140,
+        "cc": "AE",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "Buzinessware FZCO"
+      },
+      {
+        "actors": [
+          "DPRK IT Worker Schemes",
+          "Lazarus Group"
+        ],
+        "addresses": 3584,
+        "asn": 55639,
+        "cc": "HK",
+        "hosting_ratio": 1,
+        "hosting_seen": 4,
+        "name": "Asia Web Service Ltd"
+      },
+      {
+        "actors": [
+          "Famous Chollima",
+          "UNK_DeadDrop"
+        ],
+        "addresses": 3584,
+        "asn": 206216,
+        "cc": "US",
+        "hosting_ratio": 1,
+        "hosting_seen": 4,
+        "name": "Advin Services LLC"
+      }
+    ],
+    "top_abuse": [],
+    "top_malicious": [
+      {
+        "ioc": "ioc.domain|git-tanstack.com",
+        "malicious": 24
+      },
+      {
+        "ioc": "ioc.domain|nama-belakang.nebao.icu",
+        "malicious": 23
+      },
+      {
+        "ioc": "ioc.domain|license.claude-pro.com",
+        "malicious": 22
+      },
+      {
+        "ioc": "ioc.domain|mickeymousegamesdealer.alexavegas.icu",
+        "malicious": 22
+      },
+      {
+        "ioc": "ioc.domain|moonzonet.com",
+        "malicious": 22
+      },
+      {
+        "ioc": "ioc.domain|kommando.live",
+        "malicious": 21
+      },
+      {
+        "ioc": "ioc.domain|modedapk.net",
+        "malicious": 21
+      },
+      {
+        "ioc": "ioc.domain|mxtestacionamentos.com",
+        "malicious": 21
+      },
+      {
+        "ioc": "ioc.domain|newtdsone.shop",
+        "malicious": 21
+      },
+      {
+        "ioc": "ioc.domain|paysolutions.ink",
+        "malicious": 21
+      },
+      {
+        "ioc": "ioc.domain|rs2y15sungu.com",
+        "malicious": 21
+      },
+      {
+        "ioc": "ioc.domain|shinesafar.sardk.icu",
+        "malicious": 21
+      },
+      {
+        "ioc": "ioc.domain|thomphon.com",
+        "malicious": 21
+      },
+      {
+        "ioc": "ioc.domain|ukrvarta.online",
+        "malicious": 21
+      },
+      {
+        "ioc": "ioc.domain|uploadfiler.com",
+        "malicious": 21
+      }
+    ],
+    "unknown": {
+      "samples": [
+        "ioc.domain|kratusay.lat",
+        "ioc.domain|uscerebrovascular.net",
+        "ioc.domain|uscheth.lol",
+        "ioc.domain|uscrilts.cfd",
+        "ioc.domain|usdrimby.top",
+        "ioc.domain|ushoness.fun",
+        "ioc.domain|usibsq.co.kr",
+        "ioc.domain|uslabimy.ink",
+        "ioc.domain|usnobuay.ink",
+        "ioc.domain|usplifty.lat",
+        "ioc.domain|usppangz.mom",
+        "ioc.domain|ussgibn.cam",
+        "ioc.domain|usshoru.net",
+        "ioc.domain|xxe.pwxxe.pw"
+      ],
+      "total": 14
+    }
+  },
+  "tool": "tools/ioc/daily-report.mjs"
+}
