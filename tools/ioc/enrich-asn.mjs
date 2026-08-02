@@ -26,7 +26,17 @@ const IN = path.resolve(REPO_ROOT, args.in || "data/ioc/latest");
 const OUT = path.resolve(REPO_ROOT, args.out || args.in || "data/ioc/latest");
 const CACHE = path.resolve(REPO_ROOT, args.cache || "data/ioc/.cache/bgptools");
 
-const iocs = readJsonl(path.join(IN, "iocs.jsonl"));
+/**
+ * 索引の IOC と、エンリッチから生えた IOC の両方に AS を付ける。
+ *
+ * 生えた IP（ドメインの解決先）にこそ AS が要る。**Cloudflare の edge に解決する
+ * ドメイン同士を「同じ所に居る」と言ってはいけない**ので、大きさで判断できる
+ * 必要がある。判断の材料は索引の IP と同じ（enrich-intel.mjs のあとに走らせる）。
+ */
+const iocs = [
+  ...readJsonl(path.join(IN, "iocs.jsonl")),
+  ...readJsonl(path.join(IN, "derived-iocs.jsonl")),
+];
 if (!iocs.length) {
   console.error(`${IN} に iocs.jsonl がありません。先に collect.mjs を実行してください。`);
   process.exit(1);

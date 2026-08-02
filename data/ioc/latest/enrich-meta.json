@@ -1,0 +1,92 @@
+{
+  "asn_check": {
+    "agree": 181,
+    "differ": 0
+  },
+  "cache": {
+    "abuseipdb": {
+      "dir": "data/ioc/.cache/abuseipdb",
+      "records": 999,
+      "sha256": "51c244b33f1d73166ccc754c3688c1172e9834d2b3f0cd5699599d64ae548370"
+    },
+    "virustotal": {
+      "dir": "data/ioc/.cache/vt",
+      "projection": 1,
+      "records": 1484,
+      "sha256": "ff515039b91190582a06129dbbc455abe6bc444b860cb478588fe615f7cfd1b4"
+    }
+  },
+  "counts": {
+    "abuseipdb": 999,
+    "derived_aliases": 14,
+    "derived_certs": 532,
+    "derived_entities": 44,
+    "derived_iocs": 1125,
+    "derived_links": 1678,
+    "shared_certs": 26,
+    "vt": 1484
+  },
+  "coverage": {
+    "abuseipdb": {
+      "by_stage": {
+        "1": {
+          "done": 862,
+          "target": 862
+        },
+        "2": {
+          "done": 137,
+          "target": 294
+        },
+        "5": {
+          "done": 0,
+          "target": 2066
+        }
+      },
+      "done": 999,
+      "ratio": 0.31,
+      "target": 3222
+    },
+    "newest_fetch": "2026-08-02",
+    "oldest_fetch": "2026-08-02",
+    "virustotal": {
+      "by_stage": {
+        "1": {
+          "done": 1484,
+          "target": 4787
+        },
+        "2": {
+          "done": 0,
+          "target": 294
+        },
+        "3": {
+          "done": 0,
+          "target": 4482
+        },
+        "4": {
+          "done": 0,
+          "target": 6470
+        },
+        "5": {
+          "done": 0,
+          "target": 2066
+        },
+        "6": {
+          "done": 0,
+          "target": 490
+        }
+      },
+      "done": 1484,
+      "known": 1367,
+      "ratio": 0.08,
+      "target": 18589,
+      "unknown": 117
+    }
+  },
+  "options": {
+    "include_noise": false,
+    "name_cap": 8,
+    "san_cap": 100
+  },
+  "schema": 1,
+  "tool": "tools/ioc/enrich-intel.mjs"
+}
