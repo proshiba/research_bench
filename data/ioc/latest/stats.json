@@ -402,7 +402,7 @@
     ],
     "multi_actor": 180,
     "multi_actor_small": 8,
-    "small": 128,
+    "small": 138,
     "top": [
       {
         "actors": [
@@ -525,7 +525,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 809
+    "total": 851
   },
   "coverage": {
     "abuseipdb": {
@@ -552,7 +552,7 @@
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 427,
+          "done": 1484,
           "target": 4787
         },
         "2": {
@@ -576,11 +576,11 @@
           "target": 490
         }
       },
-      "done": 427,
-      "known": 419,
-      "ratio": 0.023,
+      "done": 1484,
+      "known": 1367,
+      "ratio": 0.08,
       "target": 18589,
-      "unknown": 8
+      "unknown": 117
     }
   },
   "entities": {
@@ -617,6 +617,7 @@
   },
   "options": {
     "asn_max_addresses": 4096,
+    "family_cap": 8,
     "filename_cap": 8,
     "hosting_min": 3,
     "hosting_ratio": 0.7,
@@ -629,85 +630,54 @@
     "actor": {
       "by_via": {
         "asn": 12,
-        "certificate": 37,
-        "family": 2,
-        "filename": 2,
+        "certificate": 44,
+        "family": 5,
+        "filename": 16,
         "ioc": 84,
-        "jarm": 51,
+        "jarm": 102,
         "registrable": 123,
-        "resolution": 37,
+        "resolution": 5,
         "subnet": 63
       },
-      "pairs": 221,
+      "pairs": 264,
       "top": [
         {
           "a": "SQLRCE0",
           "b": "Yx Technology",
-          "ratio": 2.64,
-          "shared": 66,
-          "strength": 44,
-          "via": [
-            "asn",
-            "certificate",
-            "family",
-            "filename",
-            "ioc",
-            "jarm",
-            "registrable",
-            "resolution",
-            "subnet"
-          ]
-        },
-        {
-          "a": "APT28",
-          "b": "APT29",
-          "ratio": 0.017,
-          "shared": 17,
+          "ratio": 2.28,
+          "shared": 57,
           "strength": 37,
           "via": [
             "asn",
             "certificate",
-            "ioc",
-            "jarm",
-            "registrable",
-            "resolution",
-            "subnet"
-          ]
-        },
-        {
-          "a": "Bohrium",
-          "b": "Screening Serpens",
-          "ratio": 2.162,
-          "shared": 80,
-          "strength": 33,
-          "via": [
-            "certificate",
             "family",
             "filename",
             "ioc",
+            "jarm",
             "registrable",
-            "resolution"
+            "subnet"
           ]
         },
         {
           "a": "Silver Fox",
           "b": "UTG-Q-1000",
-          "ratio": 2.313,
-          "shared": 37,
+          "ratio": 2.188,
+          "shared": 35,
           "strength": 32,
           "via": [
             "certificate",
+            "family",
+            "filename",
             "ioc",
             "jarm",
             "registrable",
-            "resolution",
             "subnet"
           ]
         },
         {
-          "a": "DPRK IT Worker Schemes",
-          "b": "UNC5342",
-          "ratio": 0.281,
+          "a": "APT28",
+          "b": "Gamaredon",
+          "ratio": 0.008,
           "shared": 9,
           "strength": 32,
           "via": [
@@ -720,17 +690,17 @@
           ]
         },
         {
-          "a": "BRONZE BUTLER",
-          "b": "Blue Termite",
-          "ratio": 3.5,
-          "shared": 7,
-          "strength": 32,
+          "a": "APT28",
+          "b": "APT29",
+          "ratio": 0.011,
+          "shared": 11,
+          "strength": 30,
           "via": [
+            "asn",
             "certificate",
             "ioc",
             "jarm",
             "registrable",
-            "resolution",
             "subnet"
           ]
         },
@@ -750,9 +720,40 @@
         },
         {
           "a": "APT37",
-          "b": "DPRK IT Worker Schemes",
-          "ratio": 0.111,
+          "b": "Lazarus Group",
+          "ratio": 0.016,
           "shared": 17,
+          "strength": 28,
+          "via": [
+            "asn",
+            "family",
+            "filename",
+            "ioc",
+            "jarm",
+            "registrable",
+            "subnet"
+          ]
+        },
+        {
+          "a": "Bohrium",
+          "b": "Screening Serpens",
+          "ratio": 1.568,
+          "shared": 58,
+          "strength": 27,
+          "via": [
+            "certificate",
+            "family",
+            "filename",
+            "ioc",
+            "jarm",
+            "registrable"
+          ]
+        },
+        {
+          "a": "Cellebrite",
+          "b": "Cytrox",
+          "ratio": 0.176,
+          "shared": 21,
           "strength": 27,
           "via": [
             "certificate",
@@ -763,10 +764,10 @@
           ]
         },
         {
-          "a": "Callisto Group",
-          "b": "Konni",
-          "ratio": 0.152,
-          "shared": 12,
+          "a": "APT37",
+          "b": "DPRK IT Worker Schemes",
+          "ratio": 0.092,
+          "shared": 14,
           "strength": 27,
           "via": [
             "certificate",
@@ -777,21 +778,21 @@
           ]
         },
         {
-          "a": "Callisto Group",
-          "b": "Void Balaur",
-          "ratio": 0.152,
-          "shared": 12,
-          "strength": 27,
+          "a": "APT1",
+          "b": "APT28",
+          "ratio": 0.842,
+          "shared": 16,
+          "strength": 25,
           "via": [
             "certificate",
             "ioc",
             "jarm",
             "registrable",
-            "resolution"
+            "subnet"
           ]
         }
       ],
-      "weak_only": 92
+      "weak_only": 134
     },
     "campaign": {
       "by_via": {
@@ -800,25 +801,24 @@
         "family": 0,
         "filename": 0,
         "ioc": 1,
-        "jarm": 2,
+        "jarm": 3,
         "registrable": 1,
-        "resolution": 1,
+        "resolution": 0,
         "subnet": 0
       },
-      "pairs": 2,
+      "pairs": 3,
       "top": [
         {
           "a": "Dream Job",
           "b": "ThreatNeedle",
-          "ratio": 0.119,
-          "shared": 7,
-          "strength": 27,
+          "ratio": 0.102,
+          "shared": 6,
+          "strength": 20,
           "via": [
             "certificate",
             "ioc",
             "jarm",
-            "registrable",
-            "resolution"
+            "registrable"
           ]
         },
         {
@@ -831,196 +831,197 @@
             "jarm"
           ],
           "weak_only": true
+        },
+        {
+          "a": "Operation Newton",
+          "b": "ThreatNeedle",
+          "ratio": 0.016,
+          "shared": 1,
+          "strength": 1,
+          "via": [
+            "jarm"
+          ],
+          "weak_only": true
         }
       ],
-      "weak_only": 1
+      "weak_only": 2
     },
     "case": {
       "by_via": {
         "asn": 33,
-        "certificate": 96,
+        "certificate": 91,
         "family": 15,
         "filename": 15,
         "ioc": 263,
-        "jarm": 63,
+        "jarm": 73,
         "registrable": 122,
-        "resolution": 67,
+        "resolution": 6,
         "subnet": 77
       },
-      "pairs": 297,
+      "pairs": 292,
       "top": [
         {
           "a": "case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
           "b": "case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
-          "ratio": 5,
-          "shared": 15,
-          "strength": 30,
+          "ratio": 4.667,
+          "shared": 14,
+          "strength": 29,
           "via": [
             "certificate",
             "family",
             "filename",
             "ioc",
-            "jarm",
             "subnet"
           ]
         },
         {
           "a": "case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
           "b": "case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515",
-          "ratio": 5,
-          "shared": 15,
-          "strength": 30,
+          "ratio": 4.667,
+          "shared": 14,
+          "strength": 29,
           "via": [
             "certificate",
             "family",
             "filename",
             "ioc",
-            "jarm",
             "subnet"
           ]
         },
         {
           "a": "case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
           "b": "case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6",
-          "ratio": 5,
-          "shared": 15,
-          "strength": 30,
+          "ratio": 4.667,
+          "shared": 14,
+          "strength": 29,
           "via": [
             "certificate",
             "family",
             "filename",
             "ioc",
-            "jarm",
             "subnet"
           ]
         },
         {
           "a": "case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
           "b": "case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b",
-          "ratio": 5,
-          "shared": 15,
-          "strength": 30,
+          "ratio": 4.667,
+          "shared": 14,
+          "strength": 29,
           "via": [
             "certificate",
             "family",
             "filename",
             "ioc",
-            "jarm",
             "subnet"
           ]
         },
         {
           "a": "case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
           "b": "case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10",
-          "ratio": 5,
-          "shared": 15,
-          "strength": 30,
+          "ratio": 4.667,
+          "shared": 14,
+          "strength": 29,
           "via": [
             "certificate",
             "family",
             "filename",
             "ioc",
-            "jarm",
             "subnet"
           ]
         },
         {
           "a": "case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
           "b": "case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515",
-          "ratio": 5,
-          "shared": 15,
-          "strength": 30,
+          "ratio": 4.667,
+          "shared": 14,
+          "strength": 29,
           "via": [
             "certificate",
             "family",
             "filename",
             "ioc",
-            "jarm",
             "subnet"
           ]
         },
         {
           "a": "case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
           "b": "case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6",
-          "ratio": 5,
-          "shared": 15,
-          "strength": 30,
+          "ratio": 4.667,
+          "shared": 14,
+          "strength": 29,
           "via": [
             "certificate",
             "family",
             "filename",
             "ioc",
-            "jarm",
             "subnet"
           ]
         },
         {
           "a": "case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
           "b": "case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b",
-          "ratio": 5,
-          "shared": 15,
-          "strength": 30,
+          "ratio": 4.667,
+          "shared": 14,
+          "strength": 29,
           "via": [
             "certificate",
             "family",
             "filename",
             "ioc",
-            "jarm",
             "subnet"
           ]
         },
         {
           "a": "case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
           "b": "case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10",
-          "ratio": 5,
-          "shared": 15,
-          "strength": 30,
+          "ratio": 4.667,
+          "shared": 14,
+          "strength": 29,
           "via": [
             "certificate",
             "family",
             "filename",
             "ioc",
-            "jarm",
             "subnet"
           ]
         },
         {
           "a": "case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515",
           "b": "case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6",
-          "ratio": 5,
-          "shared": 15,
-          "strength": 30,
+          "ratio": 4.667,
+          "shared": 14,
+          "strength": 29,
           "via": [
             "certificate",
             "family",
             "filename",
             "ioc",
-            "jarm",
             "subnet"
           ]
         }
       ],
-      "weak_only": 11
+      "weak_only": 27
     },
     "malware": {
       "by_via": {
         "asn": 13,
-        "certificate": 31,
-        "family": 4,
-        "filename": 5,
+        "certificate": 34,
+        "family": 11,
+        "filename": 26,
         "ioc": 46,
-        "jarm": 28,
+        "jarm": 83,
         "registrable": 103,
-        "resolution": 28,
+        "resolution": 11,
         "subnet": 39
       },
-      "pairs": 150,
+      "pairs": 203,
       "top": [
         {
-          "a": "Flying Eagle",
-          "b": "Night Dragon",
-          "ratio": 2.64,
-          "shared": 66,
+          "a": "A",
+          "b": "N",
+          "ratio": 2.19,
+          "shared": 1025,
           "strength": 44,
           "via": [
             "asn",
@@ -1035,14 +1036,15 @@
           ]
         },
         {
-          "a": "A",
-          "b": "N",
-          "ratio": 2.053,
-          "shared": 961,
-          "strength": 37,
+          "a": "AUDIOFIX",
+          "b": "MINIRAT",
+          "ratio": 1.977,
+          "shared": 174,
+          "strength": 39,
           "via": [
-            "asn",
             "certificate",
+            "family",
+            "filename",
             "ioc",
             "jarm",
             "registrable",
@@ -1053,24 +1055,42 @@
         {
           "a": "Backdoor.Turn",
           "b": "DragonForce ransomware",
-          "ratio": 2.097,
-          "shared": 65,
+          "ratio": 3.613,
+          "shared": 112,
           "strength": 37,
           "via": [
             "asn",
             "certificate",
+            "family",
+            "filename",
             "ioc",
             "jarm",
             "registrable",
-            "resolution",
             "subnet"
           ]
         },
         {
-          "a": "SilverHawk",
-          "b": "Unnamed Android family (Meta 2021)",
-          "ratio": 3.875,
-          "shared": 31,
+          "a": "Flying Eagle",
+          "b": "Night Dragon",
+          "ratio": 2.28,
+          "shared": 57,
+          "strength": 37,
+          "via": [
+            "asn",
+            "certificate",
+            "family",
+            "filename",
+            "ioc",
+            "jarm",
+            "registrable",
+            "subnet"
+          ]
+        },
+        {
+          "a": "AMOS",
+          "b": "Shub Stealer",
+          "ratio": 2.671,
+          "shared": 382,
           "strength": 34,
           "via": [
             "certificate",
@@ -1083,58 +1103,14 @@
           ]
         },
         {
-          "a": "MiniFast",
-          "b": "MiniJunk V2",
-          "ratio": 2.133,
-          "shared": 64,
-          "strength": 33,
-          "via": [
-            "certificate",
-            "family",
-            "filename",
-            "ioc",
-            "registrable",
-            "resolution"
-          ]
-        },
-        {
-          "a": "MiniFast",
-          "b": "MiniUpdate",
-          "ratio": 2,
-          "shared": 62,
-          "strength": 33,
-          "via": [
-            "certificate",
-            "family",
-            "filename",
-            "ioc",
-            "registrable",
-            "resolution"
-          ]
-        },
-        {
-          "a": "AMOS",
-          "b": "Shub Stealer",
-          "ratio": 5.343,
-          "shared": 764,
-          "strength": 32,
-          "via": [
-            "certificate",
-            "ioc",
-            "jarm",
-            "registrable",
-            "resolution",
-            "subnet"
-          ]
-        },
-        {
           "a": "Macsync",
           "b": "Shub Stealer",
-          "ratio": 5.343,
-          "shared": 764,
-          "strength": 32,
+          "ratio": 2.671,
+          "shared": 382,
+          "strength": 34,
           "via": [
             "certificate",
+            "filename",
             "ioc",
             "jarm",
             "registrable",
@@ -1145,8 +1121,24 @@
         {
           "a": "AMOS",
           "b": "Macsync",
-          "ratio": 4.961,
-          "shared": 764,
+          "ratio": 2.481,
+          "shared": 382,
+          "strength": 34,
+          "via": [
+            "certificate",
+            "filename",
+            "ioc",
+            "jarm",
+            "registrable",
+            "resolution",
+            "subnet"
+          ]
+        },
+        {
+          "a": "CloudSorcerer",
+          "b": "DeedRAT",
+          "ratio": 2.933,
+          "shared": 44,
           "strength": 32,
           "via": [
             "certificate",
@@ -1158,10 +1150,25 @@
           ]
         },
         {
-          "a": "AUDIOFIX",
-          "b": "MINIRAT",
-          "ratio": 1.909,
-          "shared": 168,
+          "a": "CloudSorcerer",
+          "b": "VSHELL",
+          "ratio": 2.933,
+          "shared": 44,
+          "strength": 32,
+          "via": [
+            "certificate",
+            "ioc",
+            "jarm",
+            "registrable",
+            "resolution",
+            "subnet"
+          ]
+        },
+        {
+          "a": "DeedRAT",
+          "b": "VSHELL",
+          "ratio": 2.933,
+          "shared": 44,
           "strength": 32,
           "via": [
             "certificate",
@@ -1173,7 +1180,7 @@
           ]
         }
       ],
-      "weak_only": 82
+      "weak_only": 133
     }
   },
   "schema": 1,
@@ -1460,6 +1467,54 @@
     "actors": {
       "longest": [
         {
+          "dated": 24,
+          "first": "2010-09-08",
+          "iocs": 1343,
+          "last": "2026-07-23",
+          "name": "APT37",
+          "span_days": 5797
+        },
+        {
+          "dated": 57,
+          "first": "2015-12-02",
+          "iocs": 1068,
+          "last": "2026-05-05",
+          "name": "Lazarus Group",
+          "span_days": 3807
+        },
+        {
+          "dated": 15,
+          "first": "2016-08-04",
+          "iocs": 32,
+          "last": "2026-07-21",
+          "name": "DragonForce",
+          "span_days": 3638
+        },
+        {
+          "dated": 8,
+          "first": "2016-06-08",
+          "iocs": 238,
+          "last": "2026-03-11",
+          "name": "MuddyWater",
+          "span_days": 3563
+        },
+        {
+          "dated": 4,
+          "first": "2019-05-23",
+          "iocs": 46,
+          "last": "2026-08-01",
+          "name": "JadeProx",
+          "span_days": 2627
+        },
+        {
+          "dated": 86,
+          "first": "2016-01-01",
+          "iocs": 1164,
+          "last": "2018-04-25",
+          "name": "APT28",
+          "span_days": 845
+        },
+        {
           "dated": 2,
           "first": "2024-11-20",
           "iocs": 44,
@@ -1476,112 +1531,124 @@
           "span_days": 591
         },
         {
-          "dated": 5,
-          "first": "2026-04-03",
-          "iocs": 25,
-          "last": "2026-07-25",
-          "name": "SQLRCE0",
-          "span_days": 113
-        },
-        {
-          "dated": 5,
-          "first": "2026-04-03",
-          "iocs": 25,
-          "last": "2026-07-25",
-          "name": "Yx Technology",
-          "span_days": 113
-        },
-        {
-          "dated": 12,
-          "first": "2026-02-17",
-          "iocs": 80,
-          "last": "2026-04-17",
-          "name": "Bohrium",
-          "span_days": 59
-        },
-        {
-          "dated": 12,
-          "first": "2026-02-17",
-          "iocs": 37,
-          "last": "2026-04-17",
-          "name": "Screening Serpens",
-          "span_days": 59
+          "dated": 22,
+          "first": "2026-02-04",
+          "iocs": 164,
+          "last": "2026-07-13",
+          "name": "Silver Fox",
+          "span_days": 159
         },
         {
           "dated": 2,
-          "first": "2021-09-03",
-          "iocs": 14,
-          "last": "2021-10-10",
-          "name": "APT-C-27",
-          "span_days": 37
-        },
-        {
-          "dated": 1,
-          "first": "2021-04-13",
-          "iocs": 8,
-          "last": "2021-04-13",
-          "name": "APT-C-37",
-          "span_days": 0
-        },
-        {
-          "dated": 1,
-          "first": "2026-04-03",
-          "iocs": 1068,
-          "last": "2026-04-03",
-          "name": "Lazarus Group",
-          "span_days": 0
-        },
-        {
-          "dated": 2,
-          "first": "2026-05-05",
-          "iocs": 18,
-          "last": "2026-05-05",
-          "name": "UAT-8302",
-          "span_days": 0
+          "first": "2026-03-11",
+          "iocs": 2,
+          "last": "2026-07-31",
+          "name": "knaithe",
+          "span_days": 142
         }
       ],
-      "with_dates": 10
+      "with_dates": 34
     },
     "campaigns": {
       "spans": [
+        {
+          "dated": 3,
+          "first": "2022-08-09",
+          "iocs": 9,
+          "last": "2022-10-28",
+          "name": "Browser Extension and Google Play Abuse"
+        },
         {
           "dated": 3,
           "first": "2021-04-13",
           "iocs": 10,
           "last": "2021-10-10",
           "name": "Meta Syrian network disruption (October 2021)"
+        },
+        {
+          "dated": 1,
+          "first": "2026-06-15",
+          "iocs": 32,
+          "last": "2026-06-15",
+          "name": "Mirage Kittenによる中東・アフリカの航空宇宙、防衛、通信分野へのサイバースパイ活動"
+        },
+        {
+          "dated": 18,
+          "first": "2010-09-08",
+          "iocs": 62,
+          "last": "2025-07-25",
+          "name": "Operation Newton"
+        },
+        {
+          "dated": 9,
+          "first": "2025-05-09",
+          "iocs": 32,
+          "last": "2025-05-29",
+          "name": "TOUGHPROGRESS Government Targeting Campaign"
+        },
+        {
+          "dated": 52,
+          "first": "2015-12-02",
+          "iocs": 115,
+          "last": "2021-02-26",
+          "name": "ThreatNeedle"
         }
       ],
-      "time_overlaps": [],
-      "with_dates": 1
+      "time_overlaps": [
+        {
+          "a": "Browser Extension and Google Play Abuse",
+          "b": "Operation Newton",
+          "from": "2022-08-09",
+          "to": "2022-10-28"
+        },
+        {
+          "a": "Meta Syrian network disruption (October 2021)",
+          "b": "Operation Newton",
+          "from": "2021-04-13",
+          "to": "2021-10-10"
+        },
+        {
+          "a": "Operation Newton",
+          "b": "TOUGHPROGRESS Government Targeting Campaign",
+          "from": "2025-05-09",
+          "to": "2025-05-29"
+        },
+        {
+          "a": "Operation Newton",
+          "b": "ThreatNeedle",
+          "from": "2015-12-02",
+          "to": "2021-02-26"
+        }
+      ],
+      "with_dates": 6
     },
-    "dated": 44,
+    "dated": 427,
     "index_lag": {
-      "ahead": 1,
-      "median_days": 56,
+      "ahead": 20,
+      "median_days": 75,
       "p25_days": 35,
-      "p75_days": 94,
-      "pairs": 22
+      "p75_days": 83,
+      "pairs": 227
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 52,
+      "checked": 97,
       "lowest": [
         {
-          "checked": 14,
+          "checked": 67,
           "iocs": 1343,
           "median_malicious": 0,
           "name": "APT37",
-          "unknown": 0
+          "unknown": 15
         },
         {
-          "checked": 5,
+          "checked": 7,
           "iocs": 153,
           "median_malicious": 0,
           "name": "DPRK IT Worker Schemes",
-          "unknown": 0
+          "unknown": 1
         },
         {
           "checked": 3,
@@ -1595,60 +1662,105 @@
           "iocs": 6,
           "median_malicious": 0,
           "name": "Hato Tsusin",
+          "unknown": 3
+        },
+        {
+          "checked": 17,
+          "iocs": 17,
+          "median_malicious": 0,
+          "name": "Storm-2755",
           "unknown": 0
         },
         {
           "checked": 3,
-          "iocs": 32,
+          "iocs": 174,
           "median_malicious": 0,
+          "name": "Void Balaur",
+          "unknown": 0
+        },
+        {
+          "checked": 10,
+          "iocs": 238,
+          "median_malicious": 0.5,
+          "name": "MuddyWater",
+          "unknown": 3
+        },
+        {
+          "checked": 4,
+          "iocs": 32,
+          "median_malicious": 1,
           "name": "UNC5342",
           "unknown": 2
         },
         {
-          "checked": 3,
-          "iocs": 44,
+          "checked": 5,
+          "iocs": 1590,
           "median_malicious": 2,
-          "name": "Famous Chollima",
-          "unknown": 2
-        },
-        {
-          "checked": 13,
-          "iocs": 1068,
-          "median_malicious": 2,
-          "name": "Lazarus Group",
+          "name": "Gamaredon",
           "unknown": 0
         },
         {
-          "checked": 7,
+          "checked": 9,
           "iocs": 9,
-          "median_malicious": 3,
+          "median_malicious": 2,
           "name": "Icarus",
           "unknown": 0
-        },
-        {
-          "checked": 4,
-          "iocs": 12,
-          "median_malicious": 3,
-          "name": "shinyhunters",
-          "unknown": 0
-        },
-        {
-          "checked": 20,
-          "iocs": 25,
-          "median_malicious": 4,
-          "name": "SQLRCE0",
-          "unknown": 5
         }
       ]
     },
-    "clean": 46,
+    "clean": 124,
     "disagreement": {
       "samples": [
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|104.225.235.49.16clouds.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|89.208.250.38.16clouds.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|actions-bot.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
         {
           "classes": [
             "c2"
           ],
           "ioc": "ioc.domain|aforvm.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|amazon-chat-gpt-bucket.s3.us-east-1.amazonaws.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|api.mywalletsss.store",
           "sources": [
             "tech-memo-daily-news"
           ]
@@ -1664,9 +1776,36 @@
         },
         {
           "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|cineotv.one",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|deepminds.me",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
             "c2"
           ],
           "ioc": "ioc.domain|digoprotergonde.org",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|dotlor.site",
           "sources": [
             "tech-memo-daily-news"
           ]
@@ -1706,57 +1845,11 @@
           "sources": [
             "tech-memo-daily-news"
           ]
-        },
-        {
-          "classes": [
-            "c2"
-          ],
-          "ioc": "ioc.domain|play67.cc",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
-        },
-        {
-          "classes": [
-            "c2"
-          ],
-          "ioc": "ioc.domain|privnote.com",
-          "sources": [
-            "tech-memo-daily-news",
-            "threatactor-intel-analysis"
-          ]
-        },
-        {
-          "classes": [
-            "c2"
-          ],
-          "ioc": "ioc.domain|swift-sh.com",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
-        },
-        {
-          "classes": [
-            "c2"
-          ],
-          "ioc": "ioc.domain|update-kaspersky.workers.dev",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
-        },
-        {
-          "classes": [
-            "malware"
-          ],
-          "ioc": "ioc.url|https://github.com/xpos587/git2md",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
         }
       ],
-      "total": 12
+      "total": 41
     },
-    "malicious": 367,
-    "unknown": 8
+    "malicious": 1227,
+    "unknown": 117
   }
 }
