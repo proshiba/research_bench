@@ -7,7 +7,7 @@
 #   0. 索引を取り直す（--collect のときだけ。既定は週次なので毎日はやらない）
 #   1. 経路表の写しを更新する（BGPTOOLS_CONTACT があるときだけ）
 #   2. VT と AbuseIPDB を、その日の枠を使い切るまで引く（並行）
-#   3. 写しから作り直す（enrich-intel → stats）
+#   3. 写しから作り直す（enrich-intel → enrich-asn → stats）
 #   4. 検査する。**通らなければここで止まる**
 #   5. 昨日から何が変わったかを出す（daily-report.mjs）
 #   6. コミットして push する（--commit / --push のときだけ）
@@ -54,9 +54,8 @@ if [ "$COLLECT" = 1 ]; then
 fi
 
 if [ -n "$BGPTOOLS_CONTACT" ]; then
-  say "経路表"
+  say "経路表の写し"
   node tools/ioc/fetch-asn.mjs
-  node tools/ioc/enrich-asn.mjs --in "$DIR"
 fi
 
 # 外に出るのはこの 2 つだけ。どちらも写しを残す。鍵も枠も別なので並行して走らせる
@@ -69,12 +68,15 @@ AB=$!
 FAILED=0
 wait $VT || FAILED=1
 wait $AB || FAILED=1
-[ "$FAILED" = 0 ] || echo "! 取得のどちらかが落ちました。写しはそのまま次回に続きます" >&2
+if [ "$FAILED" != 0 ]; then echo "! 取得のどちらかが落ちました。写しはそのまま次回に続きます" >&2; fi
 
 # ここから先は写ししか見ない。同じ写しからは何度でも同じ結果が出る
 say "作り直す"
 node tools/ioc/enrich-intel.mjs --in "$DIR"
-node tools/ioc/stats.mjs        --in "$DIR"
+# AS の付与は enrich-intel のあと。**生えた IP にも AS が要る**（Cloudflare の
+# edge に解決するドメイン同士を「同じ所に居る」と言わないため）
+if [ -n "$BGPTOOLS_CONTACT" ]; then node tools/ioc/enrich-asn.mjs --in "$DIR"; fi
+node tools/ioc/stats.mjs --in "$DIR"
 
 say "検査"
 node tools/ioc/validate.mjs --in "$DIR" --strict
@@ -97,6 +99,9 @@ if [ "$COMMIT" = 1 ]; then
     RATIO=$(node -e "const s=require('./$DIR/stats.json');console.log((s.coverage.virustotal.ratio*100).toFixed(1))")
     git commit -q -m "data: IOC のエンリッチ（VT ${RATIO}%）"
     echo "  $(git log --oneline -1)"
-    [ "$PUSH" = 1 ] && git push -q -u origin "$(git rev-parse --abbrev-ref HEAD)" && echo "  push しました"
+    if [ "$PUSH" = 1 ]; then
+      git push -q -u origin "$(git rev-parse --abbrev-ref HEAD)"
+      echo "  push しました"
+    fi
   fi
 fi

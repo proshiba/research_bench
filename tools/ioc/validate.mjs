@@ -575,6 +575,15 @@ if (meta) {
 /* ---- AS の付与（enrich-asn.mjs があるときだけ） ---- */
 
 const iocByKey = new Map(iocs.map((r) => [r.key, r]));
+/**
+ * 派生の IOC は AS の付与より先に読む。**生えた IP にも AS を付ける**ので、
+ * ip-asn.jsonl は索引の IOC と派生の IOC のどちらも指しうる。
+ */
+const derivedIocs = loadJsonl("derived-iocs.jsonl", { required: false });
+const derivedIocByKey = new Map((derivedIocs || []).map((r) => [r.key, r]));
+/** 判定や AS の指す先。索引が主張した IOC と、そこから導いた IOC のどちらでもよい。 */
+const anyIoc = (key) => iocByKey.has(key) || derivedIocByKey.has(key);
+
 const asnRows = loadJsonl("asns.jsonl", { required: false });
 const asnKnown = new Set((asnRows || []).map((a) => a.asn));
 const ipAsn = loadJsonl("ip-asn.jsonl", { required: false });
@@ -585,7 +594,7 @@ if (ipAsn) {
   for (let i = 0; i < ipAsn.length; i++) {
     const r = ipAsn[i];
     checkFields("ip-asn.jsonl", r, i, IPASN_FIELDS);
-    const ioc = iocByKey.get(r.ioc);
+    const ioc = iocByKey.get(r.ioc) || derivedIocByKey.get(r.ioc);
     if (!ioc) {
       err("ipasn.ioc", `存在しない IOC を指しています: ${r.ioc}`, at("ip-asn.jsonl", i));
       continue;
@@ -798,11 +807,6 @@ if (added) {
 }
 
 /* ---- エンリッチ（enrich-intel.mjs があるときだけ） ---- */
-
-const derivedIocs = loadJsonl("derived-iocs.jsonl", { required: false });
-const derivedIocByKey = new Map((derivedIocs || []).map((r) => [r.key, r]));
-/** 判定の指す先。索引が主張した IOC と、そこから導いた IOC のどちらでもよい。 */
-const anyIoc = (key) => iocByKey.has(key) || derivedIocByKey.has(key);
 
 if (derivedIocs) {
   checkOrder("derived-iocs.jsonl", derivedIocs, byKeys("type", "value"), (r) => r.key);

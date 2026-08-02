@@ -140,9 +140,25 @@ for (const l of derivedLinks) {
   }
 }
 
-/** 誰かの解決先になっている IP。ここに入っている IP だけを resolution の根拠に使う。 */
+/**
+ * 誰かの解決先になっている IP。ここに入っている IP だけを resolution の根拠に使う。
+ *
+ * ただし **大きい AS に居る解決先は外す**。実測すると Cloudflare（104.21.x /
+ * 172.67.x / 2606:4700::）や Vercel の edge に 6〜16 の実体が集まっていた。
+ * 「同じ AS に居る」が大きさ抜きでは何も言えないのと同じで、
+ * **「同じ IP に解決する」も、その IP が edge なら何も言えない**。
+ * AS が分からない解決先は判断できないので残す（enrich-asn.mjs が無い環境でも動く）。
+ */
 const resolvedIps = new Set();
-for (const set of resolvesTo.values()) for (const ip of set) resolvedIps.add(ip);
+const cdnIps = new Set();
+for (const set of resolvesTo.values()) {
+  for (const ip of set) {
+    const asn = asnOf.get(ip);
+    const size = asn ? (asnInfo.get(asn)?.addresses ?? 0) : 0;
+    if (size > ASN_MAX_ADDRESSES) { cdnIps.add(ip); continue; }
+    resolvedIps.add(ip);
+  }
+}
 
 /** 共用ホスティングの証明書は根拠にしない（SAN が多すぎるもの・基盤に出されたもの）。 */
 const weakCert = new Set(derivedCerts.filter((c) => c.weak).map((c) => c.thumbprint));
@@ -303,7 +319,7 @@ function groupsFor(kind) {
       // ただし自分の IP を無条件に入れると `ioc`（同じ IOC を指している）の写しに
       // なってしまうので、**誰かの解決先になっている IP のときだけ**数える
       if (resolvedIps.has(key)) put(byResolution, key);
-      for (const ip of resolvesTo.get(key) || []) put(byResolution, ip);
+      for (const ip of resolvesTo.get(key) || []) if (!cdnIps.has(ip)) put(byResolution, ip);
       for (const fam of familyOf.get(key) || []) put(byFamily, fam);
       const v = vtByIoc.get(key);
       for (const n of v?.names || []) if (!commonName.has(n)) put(byFilename, n);

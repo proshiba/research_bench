@@ -133,11 +133,13 @@ function buildAsnFixture(dir) {
   writeJsonl(path.join(dir, "ip-asn.jsonl"), [
     { asn: 64501, hits: 200, ioc: "ioc.ipv4|8.8.8.8", prefix: "8.8.8.0/24" },
     { asn: 64500, hits: 100, ioc: "ioc.ipv4|45.32.10.7", prefix: "45.32.8.0/21" },
+    // 生えた IP にも AS を付ける。付けないと「解決先が edge かどうか」が判断できない
+    { asn: 64500, hits: 50, ioc: "ioc.ipv4|45.32.11.9", prefix: "45.32.8.0/21" },
     { ioc: "ioc.ipv4|45.32.10.8", routed: false },
   ].sort((a, b) => (a.ioc < b.ioc ? -1 : 1)));
 
   writeJsonl(path.join(dir, "asns.jsonl"), [
-    { asn: 64500, cc: "US", iocs: 1, name: "検査用ホスティング", prefixes: 2, addresses: 2048 },
+    { asn: 64500, cc: "US", iocs: 2, name: "検査用ホスティング", prefixes: 2, addresses: 2048 },
     { asn: 64501, cc: "US", class: "Content", iocs: 1, name: "検査用 DNS", prefixes: 1, addresses: 256 },
   ]);
 
@@ -149,7 +151,7 @@ function buildAsnFixture(dir) {
       bytes: 1234, lines: 3, sha256: "f".repeat(64) },
     asn_names: null,
     table_prefixes: { v4: 3, v6: 0, skipped: 0 },
-    counts: { routed: 2, unrouted: 1, skipped: 1, asns: 2 },
+    counts: { routed: 3, unrouted: 1, skipped: 1, asns: 2 },
   });
 
 }
