@@ -277,9 +277,17 @@ for (const rec of vtRecords) {
      * **自分の名前が SAN に literal で入っているか**で見るのが正しい。
      * IP は名前を持たず、その IP 自身が出している証明書なので対象外。
      */
-    if (ioc.type === "ioc.domain" && sans.length && !sans.includes(ioc.value)) {
-      row.cert.wildcard = true;
-    }
+    const cn = String(c.subject?.CN || "").trim().toLowerCase();
+    /** 実在しうる host 名の形か。`localhost` `0.0.0.0` `Fireware web CA` は当たらない。 */
+    const isHostname = (v) => /^[a-z0-9*][a-z0-9.*-]*\.[a-z]{2,}$/.test(v);
+    // SAN が無い証明書は、名前を CN でしか主張していない
+    const namesHost = ioc.type === "ioc.domain"
+      ? (sans.length ? sans.includes(ioc.value) : cn === ioc.value)
+      // IP は名前を持たない。**何かの host 名を主張している証明書か**だけを見る。
+      // `localhost` `0.0.0.0` `Fireware web CA` `letsencrypt-nginx-proxy-companion` は
+      // どれも既定の自己署名で、同じ image や機器を使っている全員が同じものを出す
+      : (sans.some(isHostname) || isHostname(cn));
+    if (!namesHost) row.cert.wildcard = true;
     if (!certs.has(thumb)) {
       certs.set(thumb, {
         thumbprint: thumb,
