@@ -1,11 +1,10 @@
 {
-  "collected_at": "2026-08-02T04:43:26.873Z",
+  "collected_at": "2026-08-02T13:31:28.081Z",
   "counts": {
     "by_entity_kind": {
       "actor": 230,
-      "article": 77,
       "campaign": 13,
-      "case": 407,
+      "case": 412,
       "cve": 5,
       "malware": 306
     },
@@ -27,39 +26,44 @@
       "ioc.sha512": 16,
       "ioc.url": 2768
     },
-    "entities": 1038,
+    "entities": 966,
     "excluded": {
       "bogon": 2,
       "malformed": 0,
       "noise": 5
     },
     "iocs": 19026,
-    "links": 32454
+    "links": 26378
   },
   "schema": 1,
   "sources": [
     {
       "app_id": "ai-security-analysis",
-      "entities": 2393,
+      "broken_rels": null,
+      "entities": 2443,
       "error": null,
-      "generated_at": "2026-08-02T04:34:57Z",
-      "meta_sha256": "90a33978360ef1037323c073d813cb578d32667d6370c85f12890a9b37f9f14f",
+      "generated_at": "2026-08-02T08:58:41Z",
+      "meta_sha256": "4ebaeb88f02245080e0a18a8335f0655a0f97602f2fb60e0f2e88482d7ec2895",
       "name": "マルウェア解析",
-      "search_sha256": "2149b5c3d51fd45f563a4510efd933aaceeb5fc5b969abe3bd6d7698c898bb30",
+      "search_sha256": "d05597278aea6ee7fbe864fe87ebae22550f5588a9e5639a5f294b075e099367",
       "search_url": "https://proshiba.github.io/AI-security-analysis/ui/api/v1/search.json"
     },
     {
       "app_id": "tech-memo-daily-news",
+      "broken_rels": {
+        "収集元": 6106
+      },
       "entities": 15795,
       "error": null,
-      "generated_at": "2026-08-01T23:50:57Z",
-      "meta_sha256": "5c29f372a98c42881b17a35f230d72b510452e016acddc2b75a8fc915d38c542",
+      "generated_at": "2026-08-02T11:51:51Z",
+      "meta_sha256": "380281843a400a9cafba3516627c6a842fde83653a6627f3c4e543ab695669d3",
       "name": "デイリーニュース",
-      "search_sha256": "74c7a42fb291d6da48769c17465a2727d87e37146f12c6ceb90c195ced12edc3",
+      "search_sha256": "2b37a10c8a9e56e0b4c7b8e327b1619bbd6545eb6c5d24d0248f7de561885800",
       "search_url": "https://proshiba.github.io/tech-memo/daily-news/ui/api/v1/search.json"
     },
     {
       "app_id": "threatactor-intel-analysis",
+      "broken_rels": null,
       "entities": 15605,
       "error": null,
       "generated_at": "2026-08-01T23:19:06Z",
@@ -70,6 +74,7 @@
     },
     {
       "app_id": "vuln-intel-agent",
+      "broken_rels": null,
       "entities": 45547,
       "error": null,
       "generated_at": "2026-08-01T21:59:41+00:00",
