@@ -67,6 +67,12 @@ node tools/ioc/collect.mjs [--out data/ioc/latest]
   片方だけのものは区切りで切れた跡として落とす。
 - **但し書きを名前として数えない。** `"medium-to-high confidence"` や `"suspected"` が
   アクター欄に入っていることがある。放置すると、そういう名前のアクターが生まれる。
+- **区切りで切れた断片を名前として数えない。** `N/A` が `A` と `N` に分かれ、しかも
+  **索引側に `malware:a` / `malware:n` という実体として載っていた**。放置すると、
+  その 2 つが 468 IOC を持つ最大のマルウェアになり、重なりの 1 位を占める。
+
+判定は [`lib/names.mjs`](lib/names.mjs) に集めてある。集める側と検査する側が別々に
+持つと、片方だけ直したときに「検査は通るのに中身は壊れている」状態になる。
 
 ## fetch-asn.mjs / enrich-asn.mjs
 

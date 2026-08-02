@@ -861,6 +861,11 @@ function importGraph(parsed) {
   for (const n of parsed.nodes) {
     const res = resolveValue(n.value, { typeHint: n.type });
     if (!res) { skipped++; continue; }
+    // 索引に見つかれば表示名は索引のものが正しい。見つからなかったときだけ、
+    // 書き出しに入っていた表示名を戻す（`report` の見出しなど）
+    if (res.manual && n.label && n.label !== n.value) {
+      registerManual(n.value, n.type, { label: n.label, origin: "読み込み" });
+    }
     let node = null;
     for (const b of res.matches) node = ui.graph.addRoot(b.source, b.entity);
     if (!node) { skipped++; continue; }

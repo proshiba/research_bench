@@ -20,93 +20,10 @@ import { joinKey, refang } from "../../assets/js/util.js";
 import { byKeys, isoWeek, parseArgs, writeJson, writeJsonl } from "./lib/io.mjs";
 import { classifyIpv4, classifyIpv6, registrableDomain, subnet24 } from "./lib/net.mjs";
 import { REPO_ROOT, loadAll } from "./lib/sources.mjs";
+import { entityNames, nameKey, pickAliases, splitNames, usableName } from "./lib/names.mjs";
 
 const args = parseArgs(process.argv.slice(2));
 const OUT = path.resolve(REPO_ROOT, args.out || "data/ioc/latest");
-
-/** 名前を突き合わせるための鍵。表記ゆれ（記号・大小・空白）を落とす。 */
-const nameKey = (s) => String(s ?? "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "");
-
-/**
- * 名前ではなく確度の但し書きだったもの。実体として数えると
- * 「medium-to-high confidence」というアクターが生まれてしまう。
- */
-const QUALIFIER = new Set([
-  "suspected", "possible", "likely", "probable", "unknown", "unattributed",
-  "unclear", "na", "tbd", "none", "multipleactors", "multiple", "various",
-]);
-const isQualifier = (s) => {
-  const k = nameKey(s);
-  if (!k) return true;
-  if (QUALIFIER.has(k)) return true;
-  // 「high confidence」「low-medium confidence」など
-  return /confidence$/.test(k) || /^aka/.test(k);
-};
-
-/**
- * 値を複数入れられる欄（「A, B」「A、B」）を分ける。
- *
- * 元データに **閉じ括弧が落ちている**ものがある
- * （`"Qilin, TAG-195 (Golden Chickens, Venom Spider"` のように）。
- * 括弧の中身はたいてい別名か但し書きなので、対応する `)` が無ければ
- * `(` から後ろを捨てる。捨てた別名は別名表で同じ代表名に寄るので損はしない。
- */
-const count = (s, re) => (s.match(re) || []).length;
-
-/**
- * 分割で片方だけ残った括弧を整える。
- *
- * 対になっている括弧は名前の一部（`GRU GTsST (Main Center for Special Technology)`）
- * なので残す。片方だけ残ったものは区切りで切れた跡なので落とす。
- * ここを一律に「先頭と末尾の括弧を削る」でやると、対になっている名前を壊す。
- */
-function fixParens(v) {
-  let s = v.trim();
-  while (count(s, /\(/g) > count(s, /\)/g)) s = s.slice(0, s.lastIndexOf("(")).trim();
-  while (count(s, /\)/g) > count(s, /\(/g)) s = s.replace(")", "").trim();
-  if (/^\([^()]*\)$/.test(s)) s = s.slice(1, -1).trim();   // 全体がくくられているだけなら外す
-  return s;
-}
-
-function splitNames(s) {
-  let v = String(s ?? "");
-  if (count(v, /\(/g) > count(v, /\)/g)) v = v.slice(0, v.indexOf("("));
-  return v
-    .split(/[,、;／/]+/)
-    .map((x) => fixParens(x.replace(/^[\s"'「『]+|[\s"'」』]+$/g, "")))
-    .filter(Boolean);
-}
-
-/** 実体名として使えるものだけ返す。既知のアクター名なら但し書き判定より優先する。 */
-function entityNames(raw, known) {
-  const out = [];
-  for (const n of splitNames(raw)) {
-    if (known?.has(nameKey(n))) { out.push(n); continue; }
-    if (isQualifier(n)) continue;
-    if (nameKey(n).length < 2) continue;
-    out.push(n);
-  }
-  return out;
-}
-
-/**
- * 表示用の別名一覧を作る。
- *
- * 索引は同じ名前を id（小文字）と表示名の両方で載せていることが多く、そのまま並べると
- * 「APT1 の別名は apt1」のような中身の無い行が並ぶ。突き合わせは名前鍵で行うので、
- * 同じ鍵に潰れるものは 1 つに絞ってよい。大文字を含む表記のほうが情報が多いので残す。
- */
-function pickAliases(set, rep) {
-  const repKey = nameKey(rep);
-  const best = new Map();   // 名前鍵 → 表記
-  for (const a of [...set].sort()) {
-    const k = nameKey(a);
-    if (!k || k === repKey) continue;
-    const cur = best.get(k);
-    if (!cur || (/[A-Z]/.test(a) && !/[A-Z]/.test(cur))) best.set(k, a);
-  }
-  return [...best.values()].sort();
-}
 
 const isIoc = (t) => String(t || "").startsWith("ioc.");
 
@@ -126,9 +43,9 @@ async function main() {
       // 残りは別名として登録する。括弧が閉じていない表記もここで落ちる
       const parts = splitNames(e.label);
       const rep = parts[0] || "";
-      // 索引側にも但し書きが実体として載っていることがある
-      // （ニュースの「アクター」欄から起こされたもの）。代表名にしない
-      if (!rep || isQualifier(rep)) continue;
+      // 索引側にも但し書きや、区切りで切れた断片が実体として載っていることがある。
+      // 代表名にしない（`N/A` が `A` と `N` という実体になっていた索引が実在する）
+      if (!usableName(rep)) continue;
       // 別名欄にも「A, B, C」と 1 つにまとめて入っているものがある。分けておかないと
       // その並び全体が 1 個の別名になり、どの名前とも突き合わない
       const names = [...parts, ...splitNames(e.detail), ...(e.aliases || []).flatMap((a) => splitNames(a))];
@@ -151,7 +68,7 @@ async function main() {
     for (const e of s.entities) {
       if (e.type !== "malware" && e.type !== "tool") continue;
       const rep = String(e.label || "").trim();
-      if (!rep || isQualifier(rep)) continue;
+      if (!usableName(rep)) continue;
       const k = nameKey(rep);
       if (!canonMalware.has(k)) canonMalware.set(k, rep);
     }
@@ -243,10 +160,13 @@ async function main() {
           continue;
         }
         const label = labelById.get(`${s.app_id}\t${target}`) || target.slice(kind.length + 1);
-        if (kind === "actor") {
-          addLink(key, "actor", canonActor.get(nameKey(label)) || label, { source: s.app_id, rel: r.rel, id: target });
-        } else if (kind === "malware" || kind === "tool") {
-          addLink(key, "malware", canonMalware.get(nameKey(label)) || label, { source: s.app_id, rel: r.rel, id: target });
+        if (kind === "actor" || kind === "malware" || kind === "tool") {
+          // 索引に実体として載っていても、名前として成立していないものは辺にしない。
+          // ここを通さないと `malware:a` `malware:n` のようなものが最大の実体になる
+          const canon = kind === "actor" ? canonActor : canonMalware;
+          if (!usableName(label, canon)) continue;
+          addLink(key, kind === "actor" ? "actor" : "malware", canon.get(nameKey(label)) || label,
+            { source: s.app_id, rel: r.rel, id: target });
         } else if (kind === "campaign") {
           addLink(key, "campaign", label, { source: s.app_id, rel: r.rel, id: target });
         } else if (kind === "case") {

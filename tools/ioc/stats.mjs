@@ -46,6 +46,7 @@
 import path from "node:path";
 import { byKeys, parseArgs, readJson, readJsonl, writeJson, writeJsonl } from "./lib/io.mjs";
 import { coverageOf } from "./lib/enrich.mjs";
+import { strengthOf, weakOnly } from "./lib/overlap.mjs";
 import { REPO_ROOT } from "./lib/sources.mjs";
 
 const args = parseArgs(process.argv.slice(2));
@@ -293,7 +294,7 @@ function pairsFor(kind, groups) {
       via,
       // 根拠の種類による差を数字に出す。共有数だけでは弱い根拠が 10 個ある組が上位に来る
       strength: strengthOf(via),
-      ...(via.every((x) => WEAK_VIA.has(x)) ? { weak_only: true } : {}),
+      ...(weakOnly(via) ? { weak_only: true } : {}),
       a_iocs: sa,
       b_iocs: sb,
       // 小さいほうに対する割合。件数だけだと大きい実体が常に上位に来る
@@ -302,20 +303,6 @@ function pairsFor(kind, groups) {
   });
 }
 
-/**
- * 根拠の強さ（docs/ioc-enrich-plan.md §3.1）。
- * 同じ証明書を使っている > 同じ IOC > 同じ解決先 > ファミリ・/24・AS > 名前・登録者・JARM。
- * 出てきた根拠の点数を合算する。共有数を掛けないのは、
- * 弱い根拠を数で押した組が、強い根拠 1 つの組を追い越さないようにするため。
- */
-const VIA_WEIGHT = {
-  certificate: 9, ioc: 8, resolution: 7,
-  family: 5, subnet: 5, asn: 5,
-  filename: 2, registrable: 2, jarm: 1,
-};
-/** これだけで成立している組には印を付ける。除きはしない（bogon / noise と同じ扱い）。 */
-const WEAK_VIA = new Set(["filename", "registrable", "jarm"]);
-const strengthOf = (via) => via.reduce((n, v) => n + (VIA_WEIGHT[v] || 0), 0);
 
 /** 根拠ごとの「値 → その値を共有する実体名の集合」。 */
 function groupsFor(kind) {
