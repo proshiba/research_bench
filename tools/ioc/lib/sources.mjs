@@ -7,6 +7,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { readJson, sha256 } from "./io.mjs";
+import { markBrokenRefs } from "./refs.mjs";
 
 const REPO_ROOT = path.resolve(new URL("../../..", import.meta.url).pathname);
 
@@ -58,6 +59,9 @@ export async function loadSource(source, opts) {
 
   const searchText = await fetchText(searchUrl, opts);
   const search = JSON.parse(searchText);
+  const entities = search.entities || search.items || [];
+  // 参照先が選ばれていない関係に印を付ける。辿ると無関係なものが繋がる
+  const broken = markBrokenRefs(entities);
 
   return {
     app_id: source.app_id,
@@ -68,7 +72,8 @@ export async function loadSource(source, opts) {
     meta_sha256: sha256(metaText),
     search_sha256: sha256(searchText),
     generated_at: meta.generated_at || null,
-    entities: search.entities || search.items || [],
+    entities,
+    ...(broken.size ? { broken_rels: Object.fromEntries([...broken].sort()) } : {}),
   };
 }
 

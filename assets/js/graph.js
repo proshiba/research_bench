@@ -25,6 +25,8 @@ function reverseIndex(source) {
   idx = new Map();
   for (const e of source.entities) {
     for (const r of e.refs || []) {
+      // 参照先が固定されている関係は逆向きにも辿らない（store.js の detectBrokenRefs）
+      if (r._broken) continue;
       let bucket = idx.get(r.target);
       if (!bucket) idx.set(r.target, (bucket = []));
       bucket.push({ rel: r.rel, entity: e });
@@ -187,9 +189,12 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
   async function expand(node, { typeFilter = null } = {}) {
     if (!node) return { added: 0 };
     const candidates = [];
+    let broken = 0;
 
     for (const { source, entity } of node.members) {
       for (const r of entity.refs || []) {
+        // 索引の不備で参照先が固定されている関係は辿らない。誤った辺は無い辺より悪い
+        if (r._broken) { broken++; continue; }
         const target = source.byId.get(r.target);
         if (target) candidates.push({ source, entity: target, rel: r.rel });
       }
@@ -200,9 +205,13 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
 
     // 別ソースに同じ実体があれば、その周辺も展開対象に含める
     for (const { source, entity } of node.members) {
+      const group = typeGroup(entity.type);
       for (const k of entity._keys || []) {
         for (const b of store.joins.get(k) || []) {
           if (b.source === source) continue;
+          // 結合キーは型を持たないので、名前が同じだけの別種が混ざる
+          // （アクター "Conti" とランサムウェア "Conti" など）。種別の系統で分ける
+          if (typeGroup(b.entity.type) !== group) continue;
           candidates.push({ source: b.source, entity: b.entity, rel: "同一実体", cross: true });
         }
       }
@@ -228,7 +237,7 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
     alpha = Math.max(alpha, 0.75);
     kick();
     notify();
-    return { added, joined, skipped: Math.max(0, filtered.length - EXPAND_CAP) };
+    return { added, joined, broken, skipped: Math.max(0, filtered.length - EXPAND_CAP) };
   }
 
   /** アダプタが遅延取得に対応していれば、そこから追加の周辺実体を得る。 */

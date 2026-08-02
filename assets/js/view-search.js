@@ -99,7 +99,11 @@ function resultPanel(result, { onPivot, onRerender }) {
 function appendLimits(wrap) {
   const limited = store.sources.filter((s) => s.limits?.length);
   for (const s of limited) {
-    wrap.append(el("p", { class: "cs-note", html: `<strong>${esc(s.name)}</strong> — ${esc(s.limits[0])}` }));
+    // 制約は全部出す。索引の不備で辺を落としたことがここに載るので、
+    // 1 件目だけ出すと「何が起きたか」が読めなくなる
+    for (const line of s.limits) {
+      wrap.append(el("p", { class: "cs-note", html: `<strong>${esc(s.name)}</strong> — ${esc(line)}` }));
+    }
   }
   const failed = store.sources.filter((s) => s.status === "error");
   for (const s of failed) {

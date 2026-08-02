@@ -118,6 +118,7 @@ def check_entities(doc: dict, raw_bytes: int) -> None:
     ids: set[str] = set()
     by_type: collections.Counter = collections.Counter()
     ref_targets: list[tuple[str, str]] = []
+    rel_of_target: list[tuple[str, str]] = []
     joinable = 0
     dup_reported = 0
     defang_reported = 0
@@ -170,12 +171,15 @@ def check_entities(doc: dict, raw_bytes: int) -> None:
                 err(f"{where}: refs の要素に target がありません")
                 continue
             ref_targets.append((eid or where, r["target"]))
+            rel_of_target.append((str(r.get("rel") or ""), str(r["target"])))
 
     missing = [(src, tgt) for src, tgt in ref_targets if tgt not in ids]
     if missing:
         err(f"refs の参照先 {len(missing)} 件がこのファイル内に存在しません "
             f"（refs.target は同一ソース内の id を指す必要があります）。例: "
             + ", ".join(f"{s} → {t}" for s, t in missing[:3]))
+
+    check_ref_targets_vary(ids, rel_of_target)
 
     gz = len(gzip.compress(json.dumps(doc, ensure_ascii=False).encode("utf-8"), 6))
 
@@ -190,6 +194,64 @@ def check_entities(doc: dict, raw_bytes: int) -> None:
 
     if gz > 8 * 1048576:
         warn(f"gzip 後 {gz / 1048576:.1f} MB は大きすぎます。本文や長い説明を索引から外してください")
+
+
+SEQ_ID = re.compile(r"^(.+)#(\d+)$")
+#: これ未満の辺数では偶然そうなることがあるので判定しない
+BROKEN_MIN_EDGES = 20
+
+
+def check_ref_targets_vary(ids: set[str], rel_of_target: list[tuple[str, str]]) -> None:
+    """参照先が「兄弟の先頭」に固定されていないかを見る。
+
+    `article:20260728#3` のように id が `<家族>#<番号>` の形をしている索引で、
+    同じ家族に兄弟が複数いるのに参照が常に同じ番号を指しているなら、その関係は
+    参照先を**選んでいない**（生成側で既定値のまま出ている）。
+
+    参照切れにはならないので、他の検査は全部通ってしまう。それでいて、
+    ポータルの画面には**まったく無関係なものが関係あるものとして出る**。
+    実際に、IOC の「収集元」が常にその日の 1 本目の記事を指していて、
+    SparkKitty の IOC に Apple の訴訟記事がぶら下がっていた事例がある。
+    """
+    siblings: dict[str, set[str]] = collections.defaultdict(set)
+    for eid in ids:
+        m = SEQ_ID.match(eid)
+        if m:
+            siblings[m.group(1)].add(m.group(2))
+    if not siblings:
+        return
+
+    per_rel: dict[str, dict] = collections.defaultdict(
+        lambda: {"edges": 0, "seqs": set(), "with_siblings": 0, "zeros": 0, "expected": 0.0})
+    for rel, target in rel_of_target:
+        m = SEQ_ID.match(target)
+        if not m:
+            continue
+        st = per_rel[rel]
+        st["edges"] += 1
+        st["seqs"].add(m.group(2))
+        n = len(siblings.get(m.group(1), ()))
+        if n > 1:
+            st["with_siblings"] += 1
+        if m.group(2) == "0":
+            st["zeros"] += 1
+        # 参照先がきちんと選ばれていれば、`#0` に当たる確率は 1/兄弟数
+        st["expected"] += 1.0 / max(n, 1)
+
+    for rel, st in sorted(per_rel.items()):
+        if st["edges"] < BROKEN_MIN_EDGES:
+            continue
+        if len(st["seqs"]) == 1 and st["with_siblings"] == st["edges"]:
+            only = next(iter(st["seqs"]))
+            err(f"rel `{rel}` の参照先 {st['edges']:,} 件がすべて `#{only}` を指しています。"
+                f"同じ家族に兄弟が複数いるので、参照先が選ばれていません"
+                f"（生成側で既定値のまま出ている疑い）。"
+                f"ポータルはこの関係の辺を作りません")
+        elif st["zeros"] >= BROKEN_MIN_EDGES and st["zeros"] > st["expected"] * 3:
+            # 全部ではないが `#0` に偏りすぎている。一部だけ既定値のままの疑い
+            warn(f"rel `{rel}` の参照先のうち {st['zeros']:,} 件が `#0` です"
+                 f"（兄弟数から期待されるのは約 {st['expected']:.0f} 件）。"
+                 f"参照先の選び方を確かめてください")
 
 
 def main() -> int:
