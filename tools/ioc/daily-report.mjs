@@ -17,6 +17,8 @@
 //      AS が経路表と食い違った IP。どれも「機械では決められない」ものだけを残す
 //
 // --prev が無ければ差分は出さず、今の姿だけを出す（初回や写しが無い環境）。
+// --json を渡すと同じ中身をファイルにも残す。daily.sh は
+// data/ioc/reports/<日付>.json に置く（出すだけだと経過が追えないため）。
 
 import path from "node:path";
 import { byKeys, parseArgs, readJson, readJsonl, writeJson } from "./lib/io.mjs";

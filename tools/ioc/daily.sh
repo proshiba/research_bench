@@ -9,7 +9,7 @@
 #   2. VT と AbuseIPDB を、その日の枠を使い切るまで引く（並行）
 #   3. 写しから作り直す（enrich-intel → enrich-asn → stats）
 #   4. 検査する。**通らなければここで止まる**
-#   5. 昨日から何が変わったかを出す（daily-report.mjs）
+#   5. 昨日から何が変わったかを出し、data/ioc/reports/<日付>.json に残す
 #   6. コミットして push する（--commit / --push のときだけ）
 #
 # VT は無料枠だと 1 鍵 500 件/日なので、全件は一度に埋まらない。引く順は
@@ -23,6 +23,8 @@ set -e
 
 DIR=${IOC_DIR:-data/ioc/latest}
 PREV=${IOC_PREV:-.ioc-prev}
+# 日次レポートの置き場。1 日 1 ファイルで、これだけを追って経過が読める
+REPORTS=${IOC_REPORTS:-data/ioc/reports}
 COLLECT=0
 COMMIT=0
 PUSH=0
@@ -81,18 +83,20 @@ node tools/ioc/stats.mjs --in "$DIR"
 say "検査"
 node tools/ioc/validate.mjs --in "$DIR" --strict
 
+# 画面に出すだけだと、何日目に何が出たかが後から追えない。**日付ごとに残す**
 say "昨日から何が変わったか"
+REPORT="$REPORTS/$(date -u +%F).json"
 if [ -d "$PREV" ]; then
-  node tools/ioc/daily-report.mjs --in "$DIR" --prev "$PREV"
+  node tools/ioc/daily-report.mjs --in "$DIR" --prev "$PREV" --json "$REPORT"
 else
-  node tools/ioc/daily-report.mjs --in "$DIR"
+  node tools/ioc/daily-report.mjs --in "$DIR" --json "$REPORT"
 fi
 rm -rf "$PREV"
 
 if [ "$COMMIT" = 1 ]; then
   say "残す"
   # 検査が通ってからでないとコミットしない。壊れた一式が明日の基準になるのを防ぐ
-  git add "$DIR"
+  git add "$DIR" "$REPORTS"
   if git diff --cached --quiet; then
     echo "  変化がありません。コミットしません"
   else
