@@ -402,7 +402,7 @@
     ],
     "multi_actor": 180,
     "multi_actor_small": 8,
-    "small": 138,
+    "small": 141,
     "top": [
       {
         "actors": [
@@ -525,7 +525,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 851
+    "total": 878
   },
   "coverage": {
     "abuseipdb": {
@@ -552,7 +552,7 @@
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 1484,
+          "done": 2438,
           "target": 4787
         },
         "2": {
@@ -576,11 +576,11 @@
           "target": 490
         }
       },
-      "done": 1484,
-      "known": 1367,
-      "ratio": 0.08,
+      "done": 2438,
+      "known": 2307,
+      "ratio": 0.131,
       "target": 18589,
-      "unknown": 117
+      "unknown": 131
     }
   },
   "entities": {
@@ -630,22 +630,22 @@
     "actor": {
       "by_via": {
         "asn": 12,
-        "certificate": 44,
+        "certificate": 45,
         "family": 5,
         "filename": 16,
         "ioc": 84,
-        "jarm": 102,
+        "jarm": 195,
         "registrable": 123,
-        "resolution": 5,
+        "resolution": 6,
         "subnet": 63
       },
-      "pairs": 264,
+      "pairs": 350,
       "top": [
         {
           "a": "SQLRCE0",
           "b": "Yx Technology",
-          "ratio": 2.28,
-          "shared": 57,
+          "ratio": 2.2,
+          "shared": 55,
           "strength": 37,
           "via": [
             "asn",
@@ -659,10 +659,26 @@
           ]
         },
         {
+          "a": "APT28",
+          "b": "APT29",
+          "ratio": 0.019,
+          "shared": 19,
+          "strength": 37,
+          "via": [
+            "asn",
+            "certificate",
+            "ioc",
+            "jarm",
+            "registrable",
+            "resolution",
+            "subnet"
+          ]
+        },
+        {
           "a": "Silver Fox",
           "b": "UTG-Q-1000",
-          "ratio": 2.188,
-          "shared": 35,
+          "ratio": 2.125,
+          "shared": 34,
           "strength": 32,
           "via": [
             "certificate",
@@ -677,8 +693,8 @@
         {
           "a": "APT28",
           "b": "Gamaredon",
-          "ratio": 0.008,
-          "shared": 9,
+          "ratio": 0.01,
+          "shared": 12,
           "strength": 32,
           "via": [
             "certificate",
@@ -690,14 +706,15 @@
           ]
         },
         {
-          "a": "APT28",
-          "b": "APT29",
-          "ratio": 0.011,
-          "shared": 11,
-          "strength": 30,
+          "a": "APT37",
+          "b": "Lazarus Group",
+          "ratio": 0.018,
+          "shared": 19,
+          "strength": 28,
           "via": [
             "asn",
-            "certificate",
+            "family",
+            "filename",
             "ioc",
             "jarm",
             "registrable",
@@ -719,41 +736,10 @@
           ]
         },
         {
-          "a": "APT37",
-          "b": "Lazarus Group",
-          "ratio": 0.016,
-          "shared": 17,
-          "strength": 28,
-          "via": [
-            "asn",
-            "family",
-            "filename",
-            "ioc",
-            "jarm",
-            "registrable",
-            "subnet"
-          ]
-        },
-        {
-          "a": "Bohrium",
-          "b": "Screening Serpens",
-          "ratio": 1.568,
-          "shared": 58,
-          "strength": 27,
-          "via": [
-            "certificate",
-            "family",
-            "filename",
-            "ioc",
-            "jarm",
-            "registrable"
-          ]
-        },
-        {
           "a": "Cellebrite",
           "b": "Cytrox",
-          "ratio": 0.176,
-          "shared": 21,
+          "ratio": 0.218,
+          "shared": 26,
           "strength": 27,
           "via": [
             "certificate",
@@ -778,6 +764,20 @@
           ]
         },
         {
+          "a": "Bohrium",
+          "b": "Screening Serpens",
+          "ratio": 1.541,
+          "shared": 57,
+          "strength": 26,
+          "via": [
+            "certificate",
+            "family",
+            "filename",
+            "ioc",
+            "registrable"
+          ]
+        },
+        {
           "a": "APT1",
           "b": "APT28",
           "ratio": 0.842,
@@ -792,7 +792,7 @@
           ]
         }
       ],
-      "weak_only": 134
+      "weak_only": 220
     },
     "campaign": {
       "by_via": {
@@ -801,12 +801,12 @@
         "family": 0,
         "filename": 0,
         "ioc": 1,
-        "jarm": 3,
+        "jarm": 5,
         "registrable": 1,
         "resolution": 0,
         "subnet": 0
       },
-      "pairs": 3,
+      "pairs": 5,
       "top": [
         {
           "a": "Dream Job",
@@ -822,9 +822,31 @@
           ]
         },
         {
+          "a": "Browser Extension and Google Play Abuse",
+          "b": "Midnight Blizzard Signed RDP Spearphishing Campaign",
+          "ratio": 0.111,
+          "shared": 1,
+          "strength": 1,
+          "via": [
+            "jarm"
+          ],
+          "weak_only": true
+        },
+        {
           "a": "Meta Syrian network disruption (October 2021)",
           "b": "TOUGHPROGRESS Government Targeting Campaign",
           "ratio": 0.1,
+          "shared": 1,
+          "strength": 1,
+          "via": [
+            "jarm"
+          ],
+          "weak_only": true
+        },
+        {
+          "a": "Dream Job",
+          "b": "Operation DarkHorse",
+          "ratio": 0.019,
           "shared": 1,
           "strength": 1,
           "via": [
@@ -844,21 +866,21 @@
           "weak_only": true
         }
       ],
-      "weak_only": 2
+      "weak_only": 4
     },
     "case": {
       "by_via": {
         "asn": 33,
-        "certificate": 91,
+        "certificate": 88,
         "family": 15,
         "filename": 15,
         "ioc": 263,
-        "jarm": 73,
+        "jarm": 58,
         "registrable": 122,
-        "resolution": 6,
+        "resolution": 7,
         "subnet": 77
       },
-      "pairs": 292,
+      "pairs": 276,
       "top": [
         {
           "a": "case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
@@ -1001,27 +1023,27 @@
           ]
         }
       ],
-      "weak_only": 27
+      "weak_only": 11
     },
     "malware": {
       "by_via": {
         "asn": 13,
-        "certificate": 34,
+        "certificate": 30,
         "family": 11,
         "filename": 26,
         "ioc": 46,
-        "jarm": 83,
+        "jarm": 219,
         "registrable": 103,
-        "resolution": 11,
+        "resolution": 12,
         "subnet": 39
       },
-      "pairs": 203,
+      "pairs": 329,
       "top": [
         {
           "a": "A",
           "b": "N",
-          "ratio": 2.19,
-          "shared": 1025,
+          "ratio": 2.434,
+          "shared": 1139,
           "strength": 44,
           "via": [
             "asn",
@@ -1055,8 +1077,8 @@
         {
           "a": "Backdoor.Turn",
           "b": "DragonForce ransomware",
-          "ratio": 3.613,
-          "shared": 112,
+          "ratio": 3.581,
+          "shared": 111,
           "strength": 37,
           "via": [
             "asn",
@@ -1072,8 +1094,8 @@
         {
           "a": "Flying Eagle",
           "b": "Night Dragon",
-          "ratio": 2.28,
-          "shared": 57,
+          "ratio": 2.2,
+          "shared": 55,
           "strength": 37,
           "via": [
             "asn",
@@ -1089,8 +1111,8 @@
         {
           "a": "AMOS",
           "b": "Shub Stealer",
-          "ratio": 2.671,
-          "shared": 382,
+          "ratio": 2.678,
+          "shared": 383,
           "strength": 34,
           "via": [
             "certificate",
@@ -1105,8 +1127,8 @@
         {
           "a": "Macsync",
           "b": "Shub Stealer",
-          "ratio": 2.671,
-          "shared": 382,
+          "ratio": 2.678,
+          "shared": 383,
           "strength": 34,
           "via": [
             "certificate",
@@ -1121,8 +1143,8 @@
         {
           "a": "AMOS",
           "b": "Macsync",
-          "ratio": 2.481,
-          "shared": 382,
+          "ratio": 2.487,
+          "shared": 383,
           "strength": 34,
           "via": [
             "certificate",
@@ -1180,7 +1202,7 @@
           ]
         }
       ],
-      "weak_only": 133
+      "weak_only": 258
     }
   },
   "schema": 1,
@@ -1634,17 +1656,24 @@
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 97,
+      "checked": 110,
       "lowest": [
         {
-          "checked": 67,
+          "checked": 111,
           "iocs": 1343,
           "median_malicious": 0,
           "name": "APT37",
-          "unknown": 15
+          "unknown": 28
         },
         {
-          "checked": 7,
+          "checked": 3,
+          "iocs": 487,
+          "median_malicious": 0,
+          "name": "Anonymous",
+          "unknown": 0
+        },
+        {
+          "checked": 8,
           "iocs": 153,
           "median_malicious": 0,
           "name": "DPRK IT Worker Schemes",
@@ -1672,43 +1701,36 @@
           "unknown": 0
         },
         {
-          "checked": 3,
+          "checked": 4,
           "iocs": 174,
           "median_malicious": 0,
           "name": "Void Balaur",
           "unknown": 0
         },
         {
-          "checked": 10,
-          "iocs": 238,
-          "median_malicious": 0.5,
-          "name": "MuddyWater",
-          "unknown": 3
-        },
-        {
           "checked": 4,
-          "iocs": 32,
+          "iocs": 76,
           "median_malicious": 1,
-          "name": "UNC5342",
-          "unknown": 2
-        },
-        {
-          "checked": 5,
-          "iocs": 1590,
-          "median_malicious": 2,
-          "name": "Gamaredon",
+          "name": "Machete",
           "unknown": 0
         },
         {
-          "checked": 9,
-          "iocs": 9,
+          "checked": 30,
+          "iocs": 410,
+          "median_malicious": 1,
+          "name": "Sandworm Team",
+          "unknown": 0
+        },
+        {
+          "checked": 5,
+          "iocs": 93,
           "median_malicious": 2,
-          "name": "Icarus",
+          "name": "Darkhotel",
           "unknown": 0
         }
       ]
     },
-    "clean": 124,
+    "clean": 235,
     "disagreement": {
       "samples": [
         {
@@ -1812,18 +1834,9 @@
         },
         {
           "classes": [
-            "c2"
+            "phishing-site"
           ],
-          "ioc": "ioc.domain|heopldenticalderr.org",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
-        },
-        {
-          "classes": [
-            "c2"
-          ],
-          "ioc": "ioc.domain|joeyapple.com",
+          "ioc": "ioc.domain|fifa-careerhub.com",
           "sources": [
             "tech-memo-daily-news"
           ]
@@ -1832,7 +1845,7 @@
           "classes": [
             "phishing-site"
           ],
-          "ioc": "ioc.domain|live.us.org",
+          "ioc": "ioc.domain|fifa-com.com",
           "sources": [
             "tech-memo-daily-news"
           ]
@@ -1841,15 +1854,24 @@
           "classes": [
             "phishing-site"
           ],
-          "ioc": "ioc.domain|mail-alert.cc.cd",
+          "ioc": "ioc.domain|fifa-online.me",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "phishing-site"
+          ],
+          "ioc": "ioc.domain|fifa.kim",
           "sources": [
             "tech-memo-daily-news"
           ]
         }
       ],
-      "total": 41
+      "total": 73
     },
-    "malicious": 1227,
-    "unknown": 117
+    "malicious": 2045,
+    "unknown": 131
   }
 }
