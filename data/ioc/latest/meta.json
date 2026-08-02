@@ -1,12 +1,13 @@
 {
-  "collected_at": "2026-08-02T13:31:28.081Z",
+  "collected_at": "2026-08-02T14:01:11.026Z",
   "counts": {
     "by_entity_kind": {
       "actor": 230,
+      "article": 263,
       "campaign": 13,
       "case": 412,
       "cve": 5,
-      "malware": 306
+      "malware": 349
     },
     "by_source": {
       "ai-security-analysis": 657,
@@ -26,14 +27,14 @@
       "ioc.sha512": 16,
       "ioc.url": 2768
     },
-    "entities": 966,
+    "entities": 1272,
     "excluded": {
       "bogon": 2,
       "malformed": 0,
       "noise": 5
     },
     "iocs": 19026,
-    "links": 26378
+    "links": 31643
   },
   "schema": 1,
   "sources": [
@@ -50,15 +51,13 @@
     },
     {
       "app_id": "tech-memo-daily-news",
-      "broken_rels": {
-        "収集元": 6106
-      },
-      "entities": 15795,
+      "broken_rels": null,
+      "entities": 15819,
       "error": null,
-      "generated_at": "2026-08-02T11:51:51Z",
-      "meta_sha256": "380281843a400a9cafba3516627c6a842fde83653a6627f3c4e543ab695669d3",
+      "generated_at": "2026-08-02T13:53:22Z",
+      "meta_sha256": "c7011a38a7b226ae611f94cc9929e3b4d5d50de600f1d395774729f78526c311",
       "name": "デイリーニュース",
-      "search_sha256": "2b37a10c8a9e56e0b4c7b8e327b1619bbd6545eb6c5d24d0248f7de561885800",
+      "search_sha256": "d14e6c26814ce7bd3f92977a094fb79f241436c5172879fa10a62abe38014216",
       "search_url": "https://proshiba.github.io/tech-memo/daily-news/ui/api/v1/search.json"
     },
     {

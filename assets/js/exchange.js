@@ -74,8 +74,11 @@ export function toMermaid({ nodes, edges }, colorOf) {
     const manualOnly = node.members.length > 0
       && node.members.every((m) => m.source.app_id === "__manual");
 
+    // 値（実体を指すもの）と表示名は別に出す。同じなら label は省く
+    const value = node.value ?? node.label;
     lines.push("%% rb:node " + [
-      attr("id", id), attr("type", node.type), attr("value", node.label),
+      attr("id", id), attr("type", node.type), attr("value", value),
+      ...(node.label !== value ? [attr("label", node.label)] : []),
       attr("sources", [...node.sources].join(",")), attr("manual", manualOnly ? 1 : 0),
     ].join(" "));
     lines.push(`    ${id}${open}"${mmLabel(node.label)}"${close}`);
@@ -158,11 +161,14 @@ export function fromMermaid(text) {
   for (const id of seen) {
     const meta = nodeMeta.get(id) || {};
     const value = meta.value || declared.get(id) || id;
+    // 表示名は `rb:node` の label があればそれ、無ければ描画側のラベル
+    const label = meta.label || (declared.get(id) !== value ? declared.get(id) : null);
     nodes.push({
       key: id,
       value,
       type: meta.type || detectType(value) || "report",
       manual: meta.manual === "1",
+      ...(label ? { label } : {}),
     });
   }
 
@@ -224,6 +230,8 @@ export function toStix({ nodes, edges }) {
     const id = `${type}--${uuidFrom(node.id)}`;
     stixId.set(node.id, id);
 
+    // 値（実体を指すもの）と表示名は別。`report` は label が見出しで value が URL
+    const value = node.value ?? node.label;
     const obj = { type, spec_version: "2.1", id };
     // SDO には作成/更新時刻が要る。SCO には付けない。
     const isSdo = ["vulnerability", "intrusion-set", "malware", "tool", "campaign",
@@ -231,26 +239,27 @@ export function toStix({ nodes, edges }) {
     if (isSdo) { obj.created = now; obj.modified = now; }
 
     if (type === "file") {
-      obj.hashes = { [HASH_KEY[node.type] || "SHA-256"]: node.label };
+      obj.hashes = { [HASH_KEY[node.type] || "SHA-256"]: value };
     } else if (["ipv4-addr", "ipv6-addr", "domain-name", "url", "email-addr", "software",
       "x-rb-endpoint", "x-rb-observable"].includes(type)) {
-      obj.value = node.label;
+      obj.value = value;
       if (type === "software") { obj.name = node.label; delete obj.value; }
     } else {
       obj.name = node.label;
     }
     if (type === "malware") obj.is_family = true;
-    if (type === "vulnerability" && /^CVE-/i.test(node.label)) {
-      obj.external_references = [{ source_name: "cve", external_id: node.label.toUpperCase() }];
+    if (type === "vulnerability" && /^CVE-/i.test(value)) {
+      obj.external_references = [{ source_name: "cve", external_id: value.toUpperCase() }];
     }
-    if (type === "attack-pattern" && /^T\d{4}/i.test(node.label)) {
-      obj.external_references = [{ source_name: "mitre-attack", external_id: node.label.toUpperCase() }];
+    if (type === "attack-pattern" && /^T\d{4}/i.test(value)) {
+      obj.external_references = [{ source_name: "mitre-attack", external_id: value.toUpperCase() }];
     }
     if (type === "identity") obj.identity_class = "organization";
 
     // 読み込み直したときに元の種別へ戻せるようにする
     obj.x_rb_type = node.type;
-    obj.x_rb_value = node.label;
+    obj.x_rb_value = value;
+    if (node.label !== value) obj.x_rb_label = node.label;
     const sources = [...node.sources].filter((s) => s !== "__manual");
     if (sources.length) obj.x_rb_sources = sources;
     if (!sources.length) obj.x_rb_manual = true;
@@ -302,8 +311,9 @@ export function fromStix(doc) {
       || o.external_references?.find((r) => r.external_id)?.external_id;
     if (!value) continue;
     const type = o.x_rb_type || detectType(value) || stixTypeToPortal(o.type) || "report";
+    const label = o.x_rb_label || (o.name && o.name !== value ? o.name : null);
     byId.set(o.id, value);
-    nodes.push({ key: o.id, value, type, manual: !!o.x_rb_manual });
+    nodes.push({ key: o.id, value, type, manual: !!o.x_rb_manual, ...(label ? { label } : {}) });
   }
 
   const edges = [];
@@ -338,8 +348,15 @@ function stixTypeToPortal(stixType) {
 /** 拡張子や中身から形式を見分けて読み込む。 */
 export function parseAny(text, filename = "") {
   const trimmed = String(text).trim();
+  if (!trimmed) throw new Error("中身が空です");
   if (trimmed.startsWith("{") || /\.json$/i.test(filename)) {
-    const doc = JSON.parse(trimmed);
+    let doc;
+    try {
+      doc = JSON.parse(trimmed);
+    } catch (err) {
+      // JSON.parse の文言はそのままだと利用者に意味が通らない
+      throw new Error(`JSON として読めません（${err.message}）`);
+    }
     if (doc?.type === "bundle" || Array.isArray(doc?.objects)) return fromStix(doc);
     throw new Error("STIX の bundle ではありません（objects 配列が見つかりません）");
   }

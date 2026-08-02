@@ -86,6 +86,10 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
         id,
         type: entity.type,
         label: entity.label,
+        // 表示名とは別に、実体を指す値を持つ。`report` は label が見出しで value が URL、
+        // `ttp` は label が説明つきの表記というように、2 つが違う索引がある。
+        // 書き出しで label を値として出すと、読み込み直したときに索引と繋がらなくなる
+        value: entity.value ?? entity.label,
         members: [],
         sources: new Set(),
         x: x ?? (origin ? origin.x + (Math.random() - 0.5) * 90 : W / 2 + (Math.random() - 0.5) * 220),
