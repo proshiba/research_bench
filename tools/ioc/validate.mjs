@@ -29,7 +29,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { joinKey, refang } from "../../assets/js/util.js";
 import { byKeys, parseArgs, readJson, readJsonl, stableStringify, writeJson } from "./lib/io.mjs";
-import { classifyIpv4, registrableDomain, subnet24 } from "./lib/net.mjs";
+import { classifyIpv4, ipv4ToInt, registrableDomain, subnet24 } from "./lib/net.mjs";
+import { ipv6ToHex } from "./lib/asn.mjs";
 import { REPO_ROOT } from "./lib/sources.mjs";
 
 const args = parseArgs(process.argv.slice(2));
@@ -69,7 +70,34 @@ const HASH_LEN = { "ioc.md5": 32, "ioc.sha1": 40, "ioc.sha256": 64, "ioc.sha512"
 const LINK_KINDS = new Set(["actor", "malware", "campaign", "case", "article", "cve", "ioc"]);
 /** IOC として妥当な URL の scheme。これ以外は元表記の取り違えを疑う。 */
 const URL_SCHEMES = new Set(["http:", "https:", "ftp:", "ftps:", "ws:", "wss:", "smb:", "tcp:"]);
-const VIA = new Set(["ioc", "subnet", "registrable"]);
+const VIA = new Set(["ioc", "subnet", "registrable", "asn"]);
+const IPASN_FIELDS = { required: ["ioc"], optional: ["asn", "prefix", "hits", "routed"] };
+const ASN_FIELDS = { required: ["asn", "iocs", "prefixes", "addresses"], optional: ["name", "cc", "class"] };
+
+/**
+ * prefix が値を含むか。enrich-asn.mjs の最長一致が正しく効いたかを確かめる。
+ * 網の部分にホスト側のビットが残っていないかも見る（`1.2.3.4/24` のような書き方を弾く）。
+ */
+function prefixContains(prefix, value, type) {
+  const slash = String(prefix).lastIndexOf("/");
+  if (slash < 0) return false;
+  const base = prefix.slice(0, slash);
+  const len = Number(prefix.slice(slash + 1));
+  if (!Number.isInteger(len) || len < 0) return false;
+  if (type === "ioc.ipv4") {
+    if (len > 32) return false;
+    const b = ipv4ToInt(base), v = ipv4ToInt(value);
+    if (b === null || v === null) return false;
+    const mask = len === 0 ? 0 : (0xffffffff << (32 - len)) >>> 0;
+    return ((b & mask) >>> 0) === b && ((v & mask) >>> 0) === b;
+  }
+  if (len > 128) return false;
+  const b = ipv6ToHex(base), v = ipv6ToHex(value);
+  if (b === null || v === null) return false;
+  const bits = BigInt(128 - len);
+  const net = (BigInt("0x" + b) >> bits) << bits;
+  return BigInt("0x" + b) === net && ((BigInt("0x" + v) >> bits) << bits) === net;
+}
 
 /**
  * 名前ではなく確度の但し書きだったもの。collect 側と同じ判定を持つ。
@@ -192,7 +220,7 @@ function checkStringArray(name, i, field, v, { sorted = true } = {}) {
   }
   if (sorted) {
     const s = [...v].sort();
-    if (s.join(" ") !== v.join(" ")) err("field.order", `${field} が整列していません`, at(name, i));
+    if (s.join("	") !== v.join("	")) err("field.order", `${field} が整列していません`, at(name, i));
     if (new Set(v).size !== v.length) err("field.dup", `${field} に重複があります`, at(name, i));
   }
 }
@@ -495,6 +523,144 @@ if (meta) {
 }
 
 /* ---------------- 8. 派生物 ---------------- */
+
+/* ---- AS の付与（enrich-asn.mjs があるときだけ） ---- */
+
+const iocByKey = new Map(iocs.map((r) => [r.key, r]));
+const asnRows = loadJsonl("asns.jsonl", { required: false });
+const asnKnown = new Set((asnRows || []).map((a) => a.asn));
+const ipAsn = loadJsonl("ip-asn.jsonl", { required: false });
+
+if (ipAsn) {
+  checkOrder("ip-asn.jsonl", ipAsn, byKeys("ioc"), (r) => r.ioc);
+  const perAsn = new Map();
+  for (let i = 0; i < ipAsn.length; i++) {
+    const r = ipAsn[i];
+    checkFields("ip-asn.jsonl", r, i, IPASN_FIELDS);
+    const ioc = iocByKey.get(r.ioc);
+    if (!ioc) {
+      err("ipasn.ioc", `存在しない IOC を指しています: ${r.ioc}`, at("ip-asn.jsonl", i));
+      continue;
+    }
+    if (ioc.type !== "ioc.ipv4" && ioc.type !== "ioc.ipv6") {
+      err("ipasn.type", `IP ではない IOC に AS が付いています: ${ioc.type}`, at("ip-asn.jsonl", i));
+      continue;
+    }
+    if (r.routed === false) {
+      // 経路に無いものは印だけ。AS が付いていたら組み立てが崩れている
+      if (r.asn !== undefined || r.prefix !== undefined) {
+        err("ipasn.routed", "routed:false なのに AS が入っています", at("ip-asn.jsonl", i));
+      }
+      continue;
+    }
+    if (r.routed !== undefined) err("field.type", "routed は false のときだけ置いてください", at("ip-asn.jsonl", i));
+    if (!Number.isInteger(r.asn) || r.asn <= 0) {
+      err("ipasn.asn", `AS 番号が正の整数ではありません: ${r.asn}`, at("ip-asn.jsonl", i));
+      continue;
+    }
+    if (!Number.isInteger(r.hits) || r.hits < 0) {
+      err("ipasn.hits", `hits が 0 以上の整数ではありません: ${r.hits}`, at("ip-asn.jsonl", i));
+    }
+    if (!prefixContains(r.prefix, ioc.value, ioc.type)) {
+      err("ipasn.prefix", `prefix が値を含んでいません: ${r.prefix} ⊅ ${ioc.value}`, at("ip-asn.jsonl", i));
+    }
+    if (asnRows && !asnKnown.has(r.asn)) {
+      err("ipasn.unknown", `asns.jsonl に無い AS です: AS${r.asn}`, at("ip-asn.jsonl", i));
+    }
+    perAsn.set(r.asn, (perAsn.get(r.asn) || 0) + 1);
+  }
+
+  if (asnRows) {
+    checkOrder("asns.jsonl", asnRows, byKeys("asn"), (a) => a.asn);
+    for (let i = 0; i < asnRows.length; i++) {
+      const a = asnRows[i];
+      checkFields("asns.jsonl", a, i, ASN_FIELDS);
+      if (!Number.isInteger(a.asn) || a.asn <= 0) {
+        err("asn.number", `AS 番号が正の整数ではありません: ${a.asn}`, at("asns.jsonl", i));
+        continue;
+      }
+      // 数え直して合うこと。ここがずれると「大きさ」の判断が狂う
+      const n = perAsn.get(a.asn) || 0;
+      if (a.iocs !== n) err("asn.count", `iocs が ip-asn.jsonl の数え直し（${n}）と違います: ${a.iocs}`, at("asns.jsonl", i));
+      for (const f of ["prefixes", "addresses"]) {
+        if (!Number.isInteger(a[f]) || a[f] < 0) err("field.type", `${f} が 0 以上の整数ではありません: ${a[f]}`, at("asns.jsonl", i));
+      }
+      if ((a.prefixes > 0) !== (a.addresses > 0)) {
+        err("asn.size", `prefixes と addresses が食い違います: ${a.prefixes} / ${a.addresses}`, at("asns.jsonl", i));
+      }
+      if (a.cc !== undefined && !/^[A-Z]{2}$/.test(String(a.cc))) {
+        warn("asn.cc", `国コードの形ではありません: ${a.cc}`, at("asns.jsonl", i));
+      }
+    }
+  }
+
+  const asnMeta = readJson(path.join(IN, "asn-meta.json"));
+  if (!asnMeta) {
+    err("file.missing", "ip-asn.jsonl があるのに asn-meta.json がありません", { file: "asn-meta.json" });
+  } else {
+    // どの写しから出た結果かが残っていないと、再現も検証もできない
+    if (!/^[0-9a-f]{64}$/.test(String(asnMeta.table?.sha256))) {
+      err("asnmeta.sha", "経路表のハッシュがありません", { file: "asn-meta.json" });
+    }
+    const routed = ipAsn.filter((r) => r.routed !== false).length;
+    const unrouted = ipAsn.length - routed;
+    if (asnMeta.counts?.routed !== routed) {
+      err("asnmeta.count", `counts.routed が ${routed} と違います: ${asnMeta.counts?.routed}`, { file: "asn-meta.json" });
+    }
+    if (asnMeta.counts?.unrouted !== unrouted) {
+      err("asnmeta.count", `counts.unrouted が ${unrouted} と違います: ${asnMeta.counts?.unrouted}`, { file: "asn-meta.json" });
+    }
+    if (asnRows && asnMeta.counts?.asns !== asnRows.length) {
+      err("asnmeta.count", `counts.asns が ${asnRows.length} と違います: ${asnMeta.counts?.asns}`, { file: "asn-meta.json" });
+    }
+  }
+}
+
+/* ---- 同居 ---- */
+
+/** 同居の一覧。実体名は entities.jsonl に無ければならない。 */
+function checkCoTenancy(name, rows, keyField, cmp, spec) {
+  if (!rows) return;
+  checkOrder(name, rows, cmp, (r) => r[keyField]);
+  for (let i = 0; i < rows.length; i++) {
+    const r = rows[i];
+    checkFields(name, r, i, spec);
+    for (const f of ["actors", "malware"]) {
+      if (!Array.isArray(r[f])) { err("field.type", `${f} が配列ではありません`, at(name, i)); continue; }
+      if (r[f].length) checkStringArray(name, i, f, r[f]);
+      const kind = f === "actors" ? "actor" : "malware";
+      for (const n of r[f]) {
+        if (!entityKeys.has(`${kind}\t${n}`)) {
+          err("cotenancy.entity", `entities.jsonl に無い実体です: ${kind}/${n}`, at(name, i));
+        }
+      }
+    }
+    if (!Number.isInteger(r.ips) || r.ips < 1) err("cotenancy.ips", `ips が 1 以上の整数ではありません: ${r.ips}`, at(name, i));
+  }
+}
+
+const subnetRows = loadJsonl("subnets.jsonl", { required: false });
+checkCoTenancy("subnets.jsonl", subnetRows, "subnet", byKeys("subnet"),
+  { required: ["subnet", "ips", "actors", "malware"], optional: ["asns"] });
+for (let i = 0; subnetRows && i < subnetRows.length; i++) {
+  const s = subnetRows[i];
+  if (!/^(?:\d{1,3}\.){3}0\/24$/.test(String(s.subnet))) {
+    err("cotenancy.subnet", `/24 の形ではありません: ${s.subnet}`, at("subnets.jsonl", i));
+  }
+}
+
+const asnCoRows = loadJsonl("asn-cotenancy.jsonl", { required: false });
+checkCoTenancy("asn-cotenancy.jsonl", asnCoRows, "asn", byKeys("asn"),
+  { required: ["asn", "ips", "actors", "malware", "addresses", "shared_hosting"], optional: ["name", "cc"] });
+for (let i = 0; asnCoRows && i < asnCoRows.length; i++) {
+  const a = asnCoRows[i];
+  if (asnRows && !asnKnown.has(a.asn)) {
+    err("cotenancy.asn", `asns.jsonl に無い AS です: AS${a.asn}`, at("asn-cotenancy.jsonl", i));
+  }
+  if (typeof a.shared_hosting !== "boolean") {
+    err("field.type", `shared_hosting が真偽値ではありません: ${a.shared_hosting}`, at("asn-cotenancy.jsonl", i));
+  }
+}
 
 overlaps = loadJsonl("overlaps.jsonl", { required: false });
 if (overlaps) {

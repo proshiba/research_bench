@@ -35,6 +35,9 @@ const IOCS = [
     subnet: "203.0.113.0/24", bogon: true, sources: ["src-a"] },
   { key: "ioc.ipv4|45.32.10.7", type: "ioc.ipv4", value: "45.32.10.7",
     subnet: "45.32.10.0/24", sources: ["src-b"] },
+  // 経路に出ていない IP。AS の付与では routed:false の印だけが付く
+  { key: "ioc.ipv4|45.32.10.8", type: "ioc.ipv4", value: "45.32.10.8",
+    subnet: "45.32.10.0/24", sources: ["src-b"] },
   { key: "ioc.ipv4|8.8.8.8", type: "ioc.ipv4", value: "8.8.8.8",
     subnet: "8.8.8.0/24", noise: "Google DNS", sources: ["src-b"] },
   { key: "ioc.md5|" + "0".repeat(32), type: "ioc.md5", value: "0".repeat(32), sources: ["src-a"] },
@@ -48,6 +51,7 @@ const LINKS = [
   { ioc: "ioc.domain|evil.example.com", kind: "actor", name: "APT-Test", source: "src-a", rel: "c2" },
   { ioc: "ioc.ipv4|45.32.10.7", kind: "actor", name: "APT-Test", source: "src-b", rel: null },
   { ioc: "ioc.ipv4|45.32.10.7", kind: "actor", name: "Other Group", source: "src-b", rel: null },
+  { ioc: "ioc.ipv4|45.32.10.8", kind: "actor", name: "Other Group", source: "src-b", rel: null },
   { ioc: "ioc.md5|" + "0".repeat(32), kind: "malware", name: "TestRAT", source: "src-a", rel: "sample" },
   { ioc: "ioc.sha256|" + "1".repeat(64), kind: "malware", name: "TestRAT", source: "src-b", rel: "sample" },
   { ioc: "ioc.domain|c2.example.com", kind: "cve", name: "CVE-2026-0001", source: "src-a", rel: "attrs.関連CVE" },
@@ -88,6 +92,7 @@ function buildFixture(dir) {
   writeJsonl(path.join(dir, "iocs.jsonl"), iocs);
   writeJsonl(path.join(dir, "links.jsonl"), links);
   writeJsonl(path.join(dir, "entities.jsonl"), entities);
+  buildAsnFixture(dir);
   writeJson(path.join(dir, "meta.json"), {
     tool: "tools/ioc/selftest.mjs",
     schema: 1,
@@ -115,6 +120,45 @@ function buildFixture(dir) {
   });
 }
 
+/**
+ * AS の付与と同居の一式。enrich-asn.mjs / stats.mjs が出す形に合わせる。
+ * 経路表そのものは要らない（validate は写しを見ない）。
+ */
+function buildAsnFixture(dir) {
+  writeJsonl(path.join(dir, "ip-asn.jsonl"), [
+    { asn: 64501, hits: 200, ioc: "ioc.ipv4|8.8.8.8", prefix: "8.8.8.0/24" },
+    { asn: 64500, hits: 100, ioc: "ioc.ipv4|45.32.10.7", prefix: "45.32.8.0/21" },
+    { ioc: "ioc.ipv4|45.32.10.8", routed: false },
+  ].sort((a, b) => (a.ioc < b.ioc ? -1 : 1)));
+
+  writeJsonl(path.join(dir, "asns.jsonl"), [
+    { asn: 64500, cc: "US", iocs: 1, name: "検査用ホスティング", prefixes: 2, addresses: 2048 },
+    { asn: 64501, cc: "US", class: "Content", iocs: 1, name: "検査用 DNS", prefixes: 1, addresses: 256 },
+  ]);
+
+  writeJson(path.join(dir, "asn-meta.json"), {
+    tool: "tools/ioc/enrich-asn.mjs",
+    schema: 1,
+    source: "bgp.tools",
+    table: { url: "https://bgp.tools/table.jsonl", fetched_at: "2026-02-15T00:00:00.000Z",
+      bytes: 1234, lines: 3, sha256: "f".repeat(64) },
+    asn_names: null,
+    table_prefixes: { v4: 3, v6: 0, skipped: 0 },
+    counts: { routed: 2, unrouted: 1, skipped: 1, asns: 2 },
+  });
+
+  writeJsonl(path.join(dir, "subnets.jsonl"), [{
+    subnet: "45.32.10.0/24", ips: 2,
+    actors: ["APT-Test", "Other Group"], malware: [],
+    asns: [{ asn: 64500, name: "検査用ホスティング", addresses: 2048 }],
+  }]);
+
+  writeJsonl(path.join(dir, "asn-cotenancy.jsonl"), [{
+    asn: 64500, name: "検査用ホスティング", cc: "US", addresses: 2048, ips: 1,
+    actors: ["APT-Test", "Other Group"], malware: [], shared_hosting: false,
+  }]);
+}
+
 /* ---------------- 壊し方 ---------------- */
 
 const lines = (d, f) => fs.readFileSync(path.join(d, f), "utf8").split("\n");
@@ -134,6 +178,18 @@ const editMeta = (d, fn) => {
 };
 /** 行を書き戻す。validate は正準形も見るのでキー順を保って書く。 */
 const putRow = (row) => JSON.stringify(Object.fromEntries(Object.keys(row).sort().map((k) => [k, row[k]])));
+
+/**
+ * 実体名を全ファイルで付け替える。名前の壊れ方を試すとき、辺と実体だけ直しても
+ * 同居の一覧が古い名前を指したままになり、狙いと別の規則が鳴ってしまう。
+ */
+const renameEntity = (d, from, to) => {
+  for (const f of ["links.jsonl", "entities.jsonl", "subnets.jsonl", "asn-cotenancy.jsonl"]) {
+    const file = path.join(d, f);
+    if (!fs.existsSync(file)) continue;
+    fs.writeFileSync(file, fs.readFileSync(file, "utf8").split(`"${from}"`).join(`"${to}"`));
+  }
+};
 
 const CASES = [
   ["hash.length", "SHA-512 を ioc.sha256 として載せる", (d) => {
@@ -234,12 +290,10 @@ const CASES = [
     editLine(d, "entities.jsonl", "APT-Test", (l) => l.replace(/"aliases":\[[^\]]*\]/, '"aliases":["Test Panda, Test Bear"]'));
   }, "warn"],
   ["entity.qualifier", "但し書きが実体として残っている", (d) => {
-    editLine(d, "links.jsonl", "Other Group", (l) => l.replace(/"name":"Other Group"/, '"name":"medium-to-high confidence"'));
-    editLine(d, "entities.jsonl", "Other Group", (l) => l.replace(/"name":"Other Group"/, '"name":"medium-to-high confidence"'));
+    renameEntity(d, "Other Group", "medium-to-high confidence");
   }, "warn"],
   ["entity.parens", "括弧が閉じていない名前", (d) => {
-    editLine(d, "links.jsonl", "Other Group", (l) => l.replace(/"name":"Other Group"/, '"name":"Other Group (OG"'));
-    editLine(d, "entities.jsonl", "Other Group", (l) => l.replace(/"name":"Other Group"/, '"name":"Other Group (OG"'));
+    renameEntity(d, "Other Group", "Other Group (OG");
   }, "warn"],
   ["meta.count", "meta の件数が実データとずれる", (d) => {
     editMeta(d, (m) => { m.counts.iocs = 1; });
@@ -253,8 +307,60 @@ const CASES = [
   ["meta.source_missing", "IOC の出典が meta に無い", (d) => {
     editMeta(d, (m) => { m.sources = m.sources.filter((s) => s.app_id !== "src-b"); });
   }],
+  ["ipasn.prefix", "prefix が値を含んでいない", (d) => {
+    editLine(d, "ip-asn.jsonl", "45.32.10.7", (l) => l.replace(/"prefix":"[^"]*"/, '"prefix":"10.0.0.0/8"'));
+  }],
+  ["ipasn.prefix", "prefix に網以外のビットが残っている", (d) => {
+    editLine(d, "ip-asn.jsonl", "45.32.10.7", (l) => l.replace(/"prefix":"[^"]*"/, '"prefix":"45.32.10.7/21"'));
+  }],
+  ["ipasn.ioc", "AS が存在しない IOC に付いている", (d) => {
+    editLine(d, "ip-asn.jsonl", "8.8.8.8", (l) => l.replace(/"ioc":"[^"]*"/, '"ioc":"ioc.ipv4|1.2.3.4"'));
+  }],
+  ["ipasn.type", "IP でない IOC に AS が付いている", (d) => {
+    editLine(d, "ip-asn.jsonl", "8.8.8.8", (l) => l.replace(/"ioc":"[^"]*"/, '"ioc":"ioc.domain|c2.example.com"'));
+  }],
+  ["ipasn.routed", "routed:false なのに AS が入っている", (d) => {
+    editLine(d, "ip-asn.jsonl", "routed", (l) => {
+      const r = JSON.parse(l);
+      r.asn = 64500;
+      return putRow(r);
+    });
+  }],
+  ["ipasn.unknown", "asns.jsonl に無い AS を指している", (d) => {
+    editLine(d, "ip-asn.jsonl", "8.8.8.8", (l) => l.replace(/"asn":\d+/, '"asn":64999'));
+  }],
+  ["asn.count", "AS ごとの IOC 数が合わない", (d) => {
+    editLine(d, "asns.jsonl", "64500", (l) => l.replace(/"iocs":\d+/, '"iocs":7'));
+  }],
+  ["asn.size", "prefixes と addresses が食い違う", (d) => {
+    editLine(d, "asns.jsonl", "64500", (l) => l.replace(/"addresses":\d+/, '"addresses":0'));
+  }],
+  ["asnmeta.sha", "経路表のハッシュが無い", (d) => {
+    const f = path.join(d, "asn-meta.json");
+    const m = JSON.parse(fs.readFileSync(f, "utf8"));
+    delete m.table.sha256;
+    fs.writeFileSync(f, JSON.stringify(m, null, 2) + "\n");
+  }],
+  ["asnmeta.count", "経路ありの件数がずれる", (d) => {
+    const f = path.join(d, "asn-meta.json");
+    const m = JSON.parse(fs.readFileSync(f, "utf8"));
+    m.counts.routed = 99;
+    fs.writeFileSync(f, JSON.stringify(m, null, 2) + "\n");
+  }],
+  ["cotenancy.entity", "同居に知らない実体が入っている", (d) => {
+    editLine(d, "subnets.jsonl", "45.32.10.0/24", (l) => l.replace(/"APT-Test"/, '"Ghost Actor"'));
+  }],
+  ["cotenancy.subnet", "/24 の形をしていない", (d) => {
+    editLine(d, "subnets.jsonl", "45.32.10.0/24", (l) => l.replace("45.32.10.0/24", "45.32.10.7/24"));
+  }],
+  ["cotenancy.asn", "同居が asns.jsonl に無い AS を指す", (d) => {
+    editLine(d, "asn-cotenancy.jsonl", "64500", (l) => l.replace(/"asn":\d+/, '"asn":64999'));
+  }],
   ["file.missing", "ファイルが欠けている", (d) => {
     fs.rmSync(path.join(d, "entities.jsonl"));
+  }],
+  ["file.missing", "AS はあるのに asn-meta.json が無い", (d) => {
+    fs.rmSync(path.join(d, "asn-meta.json"));
   }],
   ["json.parse", "JSON として壊れている", (d) => {
     editLine(d, "iocs.jsonl", "evil.example.com", (l) => l.slice(0, -3));

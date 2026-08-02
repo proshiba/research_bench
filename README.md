@@ -585,11 +585,18 @@ AI も要らない。同じ入力からは同じバイト列が出るので、�
 
 ```bash
 node tools/ioc/collect.mjs      # 索引 → iocs / links / entities
-node tools/ioc/stats.mjs        # → overlaps / graph / stats
+node tools/ioc/fetch-asn.mjs    # 経路表の写しを取る（外に出るのはここだけ・キー不要）
+node tools/ioc/enrich-asn.mjs   # IP に AS 番号と「その AS の大きさ」を付ける
+node tools/ioc/stats.mjs        # → overlaps / graph / 同居の一覧 / stats
 node tools/ioc/validate.mjs     # 出来たものを検査する（error があれば終了コード 1）
-node tools/ioc/selftest.mjs     # validate 自体を検査する（既知の壊し方 31 通り）
+node tools/ioc/selftest.mjs     # validate 自体を検査する（既知の壊し方 45 通り）
 ```
 
-いま 19,011 IOC が集まり、**別アクターが同居している /24 が 84 網**見つかっている。
-これは外部 API を 1 回も呼ばずに出せる。エンリッチとピボットは別工程にしてあるので、
+いま 19,011 IOC が集まり、**別アクターが同居している /24 が 83 網**。IP に AS を
+付けると、**1,024 アドレスしか持たない北朝鮮の AS131279 に APT37 と Lazarus**、
+**AS60602 に APT28 と Sandworm** といった組が出る。AS は大きさとアクター数で絞らないと
+VPS 事業者の相乗りに埋もれるので、両方で絞ったうえで、除いたほうも
+「多くのアクターが借りている事業者」として残している。
+
+API キーは 1 つも要らない。キーの要るエンリッチとピボットは別工程にしてあるので、
 キーが無い環境でもここまでは通しで動く。
