@@ -5,7 +5,7 @@
 //                            [--since <前回のスナップショット>] [--include-noise]
 //                            [--ubiquity-cap 8] [--min-shared 1]
 //                            [--asn-max-addresses 4096] [--asn-max-actors 8]
-//                            [--jarm-cap 0.01] [--filename-cap 8]
+//                            [--jarm-cap 0.01] [--filename-cap 8] [--family-cap 8]
 //                            [--hosting-ratio 0.7] [--hosting-min 3]
 //
 // 重なりの見方を 9 つ出す。どれも「共有している IOC の数」を根拠にする。
@@ -69,6 +69,8 @@ const ASN_MAX_ACTORS = Number(args["asn-max-actors"] || args["ubiquity-cap"] || 
 const JARM_CAP = Number(args["jarm-cap"] || 0.01);
 /** ファイル名も同じ考え方。これより多くの IOC に付いている名前は根拠にしない。 */
 const FILENAME_CAP = Number(args["filename-cap"] || args["ubiquity-cap"] || 8);
+/** ファミリ名も同じ。これより多くの実体にぶら下がるラベルは、ファミリではなく手口。 */
+const FAMILY_CAP = Number(args["family-cap"] || args["ubiquity-cap"] || 8);
 /**
  * AbuseIPDB が「事業者の網」と言う IP の割合がこれを超えたら相乗りとみなす（§3.2）。
  * ただし判定の付いた IP が --hosting-min 未満の AS では割合が当てにならないので使わない。
@@ -184,6 +186,27 @@ const commonJarm = new Set([...jarmCount].filter(([, n]) => n > jarmTotal * JARM
 const nameCount = new Map();
 for (const r of vt) for (const n of r.names || []) nameCount.set(n, (nameCount.get(n) || 0) + 1);
 const commonName = new Set([...nameCount].filter(([, n]) => n > FILENAME_CAP).map(([n]) => n));
+
+/**
+ * ありふれたファミリ名も外す。
+ *
+ * VT のラベルには `tedy` のように、手口や検出器の都合で付いた**ファミリではない名前**が
+ * 混じる。実測すると `tedy` が 61 検体・12 実体、`dllhijack` が 10 実体に付いていて、
+ * APT28 ↔ APT41 のような無関係な組を生んでいた。名前で弾くのは一般化しないので、
+ * **何実体にぶら下がっているかで測る**（ありふれた IOC を外すのと同じ考え方）。
+ * kind をまたいで数えるのが要点で、kind ごとに数えると 12 実体でも
+ * 「アクターは 5 つだけ」として通ってしまう。
+ */
+const entitiesPerFamily = new Map();
+for (const l of derivedLinks) {
+  if (l.kind !== "malware" || l.rel !== "suggested_threat_label") continue;
+  if (!entitiesPerFamily.has(l.name)) entitiesPerFamily.set(l.name, new Set());
+  for (const e of links) {
+    if (e.ioc !== l.ioc || !KINDS.includes(e.kind)) continue;
+    entitiesPerFamily.get(l.name).add(`${e.kind}\t${e.name}`);
+  }
+}
+const commonFamily = new Set([...entitiesPerFamily].filter(([, s]) => s.size > FAMILY_CAP).map(([f]) => f));
 
 /**
  * AS ごとの「事業者の網の割合」（§3.2 の 3 つ目の観点）。
@@ -320,7 +343,7 @@ function groupsFor(kind) {
       // なってしまうので、**誰かの解決先になっている IP のときだけ**数える
       if (resolvedIps.has(key)) put(byResolution, key);
       for (const ip of resolvesTo.get(key) || []) if (!cdnIps.has(ip)) put(byResolution, ip);
-      for (const fam of familyOf.get(key) || []) put(byFamily, fam);
+      for (const fam of familyOf.get(key) || []) if (!commonFamily.has(fam)) put(byFamily, fam);
       const v = vtByIoc.get(key);
       for (const n of v?.names || []) if (!commonName.has(n)) put(byFilename, n);
       if (v?.jarm && !commonJarm.has(v.jarm)) put(byJarm, v.jarm);
@@ -600,7 +623,7 @@ const stats = {
     ubiquity_cap: UBIQUITY_CAP,
     min_shared: MIN_SHARED,
     ...(HAS_ASN ? { asn_max_addresses: ASN_MAX_ADDRESSES } : {}),
-    ...(HAS_VT ? { jarm_cap: JARM_CAP, filename_cap: FILENAME_CAP } : {}),
+    ...(HAS_VT ? { jarm_cap: JARM_CAP, filename_cap: FILENAME_CAP, family_cap: FAMILY_CAP } : {}),
     ...(HAS_ABUSE ? { hosting_ratio: HOSTING_RATIO, hosting_min: HOSTING_MIN } : {}),
   },
   iocs: {

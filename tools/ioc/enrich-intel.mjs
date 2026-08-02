@@ -87,7 +87,31 @@ const GENERIC = new Set([
   "exploit", "script", "hacktool", "pua", "pup", "unwanted", "test", "eicar",
   "none", "undefined", "misc", "other", "variant", "trojandownloader", "trojandropper",
   "msil", "win32", "win64", "html", "vbs", "js", "ps1", "office", "macro", "encoded",
+  // 手口や種別であって、ファミリ名ではないもの。実測で根拠に紛れ込んでいた
+  "stealer", "shellcode", "dllhijack", "loader", "miner", "coinminer", "cryptominer",
+  "banker", "clipbanker", "rootkit", "rat", "proxy", "tool", "patched", "fake",
+  "fakeapp", "install", "installer", "bundler", "runner", "inject", "autorun",
+  "phishing", "spam", "toolbar", "startpage", "webtoolbar", "abapplication",
+  // 提供元ごとの「よく分からないが悪い」ラベル。ファミリのふりをするので厄介。
+  // astraea は Kaspersky の機械学習エンジンの名前で、**検出器の名前**であって
+  // ファミリではない。実測で Bohrium ↔ DragonForce を繋いでいた
+  "astraea", "graftor", "gencirc", "convagent", "kryptik", "genkryptik", "zusy",
+  "razy", "barys", "symmi", "midie", "wacatac", "occamy", "presenoker", "fugrafa",
+  "bsymem", "ulise", "noon", "tedy", "strictor", "sivis", "malgent", "multi",
 ]);
+
+/**
+ * 提供元の「連番の変種」。`agent` + 1〜2 文字は Kaspersky の Agent.a / Agent.b で、
+ * 中身は何でもよい。実測で `agentb` が 6 実体に付き、Lazarus Group と Silver Fox を
+ * 繋いでいた。**AgentTesla のような実在のファミリは残す**（後ろが 2 文字より長い）。
+ */
+const looksVariant = (name) =>
+  /^agent[a-z]{0,2}$/.test(name) ||
+  /^gen[a-z]{0,2}$/.test(name) ||
+  // `generickdq` のような「generic + 検出器の連番」
+  /^generic/.test(name) ||
+  // `grhh` `kqil` `vsnw09g25` のような、母音の無い機械生成の札。人が付けた名前ではない
+  !/[aeiou]/.test(name);
 
 /** `trojan.emotet/heur` → `emotet`。畳めなければ null。 */
 function familyOf(label) {
@@ -95,7 +119,8 @@ function familyOf(label) {
   if (!head) return null;
   const dot = head.indexOf(".");
   const name = (dot >= 0 ? head.slice(dot + 1) : head).replace(/[^a-z0-9._-]/g, "");
-  if (!name || GENERIC.has(name.replace(/[^a-z0-9]/g, ""))) return null;
+  const k = name.replace(/[^a-z0-9]/g, "");
+  if (!k || GENERIC.has(k) || looksVariant(k)) return null;
   return name;
 }
 

@@ -229,7 +229,7 @@ node tools/ioc/stats.mjs [--in data/ioc/latest] [--out <同じ場所>]
 | `certificate` | 同じ証明書（thumbprint 一致）。**最も強いインフラ共有の証拠** | 9 |
 | `ioc` | 同じ IOC を指している | 8 |
 | `resolution` | 同じ IP に解決するドメインを持っている | 7 |
-| `family` | VT が同じ脅威ラベルを付けている | 5 |
+| `family` | VT が同じ脅威ラベルを付けている。**ありふれたラベルは外す** | 5 |
 | `subnet` | 同じ /24 に IP がある。**API を 1 回も呼ばずに見える** | 5 |
 | `asn` | 同じ AS に IP がある。**小さい AS に限る** | 5 |
 | `filename` | 珍しいファイル名の共有 | 2 |
@@ -242,9 +242,20 @@ node tools/ioc/stats.mjs [--in data/ioc/latest] [--out <同じ場所>]
 弱い根拠（`filename` / `registrable` / `jarm`）だけの組には `weak_only` の印を付ける。
 **除くのではなく印を付ける**（`bogon` / `noise` と同じ扱い）。
 
-`jarm` と `filename` は**ありふれた値を外す**。既定の nginx で一致する JARM や
-`invoice.doc` を根拠にすると、無関係な実体が総当たりで繋がる。JARM は全体の
+`jarm` と `filename` と `family` は**ありふれた値を外す**。既定の nginx で一致する
+JARM や `invoice.doc` を根拠にすると、無関係な実体が総当たりで繋がる。JARM は全体の
 `--jarm-cap`（既定 1%）を超えたら、ファイル名は `--filename-cap` 件を超えたら外す。
+
+ファミリ名は **何実体にぶら下がっているか**で測り、`--family-cap`（既定 8）を超えたら
+外す。VT のラベルには `tedy` のように、手口や検出器の都合で付いた**ファミリではない
+名前**が混じる。実測では `tedy` が 61 検体・12 実体、`dllhijack` が 10 実体に付いていて、
+`APT28 ↔ APT41` のような組を生んでいた。kind をまたいで数えるのが要点で、kind ごとに
+数えると 12 実体でも「アクターは 5 つだけ」として通ってしまう。
+
+`enrich-intel.mjs` 側でも、畳む前に一般名を落とす。列挙（`trojan` `stealer` `astraea` など）に
+加えて、**人が付けた名前に見えないもの**を落とす。`agent` + 1〜2 文字（Kaspersky の
+Agent.a / Agent.b。AgentTesla のような実在のファミリは残る）、`generic` で始まるもの、
+そして**母音を含まないもの**（`grhh` `kqil` `vsnw09g25` のような機械生成の札）。
 
 `resolution` は**誰かの解決先になっている IP だけ**を数える。自分の IP を無条件に
 入れると `ioc`（同じ IOC を指している）の写しになってしまう。
