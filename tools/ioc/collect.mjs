@@ -67,7 +67,9 @@ async function main() {
   for (const s of sources) {
     for (const e of s.entities) {
       if (e.type !== "malware" && e.type !== "tool") continue;
-      const rep = String(e.label || "").trim();
+      // アクターと同じ扱い。表示名に但し書きや別名が同じ欄で入っていることがある
+      // （`BlazeTrack（暫定クラスタ）` `Atomic macOS Stealer（AMOS、…）`）
+      const rep = splitNames(e.label)[0] || "";
       if (!usableName(rep)) continue;
       const k = nameKey(rep);
       if (!canonMalware.has(k)) canonMalware.set(k, rep);
@@ -77,9 +79,12 @@ async function main() {
   /* ---- 2. 実体の表示名。refs の target（actor:xxx）から名前を引くため ---- */
 
   const labelById = new Map();    // "app_id\tid" → label
+  const entityById = new Map();   // "app_id\tid" → 実体（1 段先を辿るため）
   for (const s of sources) {
     for (const e of s.entities) {
-      if (e.id) labelById.set(`${s.app_id}\t${e.id}`, e.label || e.id);
+      if (!e.id) continue;
+      labelById.set(`${s.app_id}\t${e.id}`, e.label || e.id);
+      entityById.set(`${s.app_id}\t${e.id}`, e);
     }
   }
 
@@ -97,6 +102,38 @@ async function main() {
       links.set(k, { ioc: iocKey, kind, name: n, source, rel: rel || null, ...(id ? { id } : {}) });
     }
   };
+
+  /**
+   * ケースの先にあるアクター・マルウェアを IOC に繋ぐ。
+   *
+   * マルウェア解析の索引は**ファミリ名を IOC ではなくケースに付けている**。
+   *   `ioc.domain|… ─[Winos control channel]→ case:ee0ef… ─[ファミリ]→ malware ValleyRAT`
+   * IOC の refs だけを見ていると、この 1 段先に届かずファミリ名を取りこぼす
+   * （実測で 647 組）。**1 段だけ**辿る。再帰させると、ケースを介して無関係な
+   * IOC 同士が繋がる。
+   */
+  function hopThrough(iocKey, targetId, source) {
+    const via = entityById.get(`${source.app_id}\t${targetId}`);
+    if (!via) return;
+    for (const r of via.refs || []) {
+      if (r._broken) { brokenSkipped++; continue; }
+      const t = String(r.target || "");
+      const k = t.split(":")[0];
+      if (k !== "actor" && k !== "malware" && k !== "tool" && k !== "family") continue;
+      const next = entityById.get(`${source.app_id}\t${t}`);
+      const raw = next?.label || labelById.get(`${source.app_id}\t${t}`) || t.slice(k.length + 1);
+      // ファミリ名にも但し書きや別名が同じ欄に入っている
+      // （`Atomic macOS Stealer（AMOS、アトミックmacOSスティーラー）`）。他と同じ処理を通す
+      const label = splitNames(raw)[0] || "";
+      // 参照先の型を見る。`family:` の id でも中身は malware というつくりがある
+      const isActor = (next?.type || k) === "actor";
+      const canon = isActor ? canonActor : canonMalware;
+      if (!usableName(label, canon)) continue;
+      // どこを経由したかを rel に残す。直接の辺と見分けが付くように
+      addLink(iocKey, isActor ? "actor" : "malware", canon.get(nameKey(label)) || label,
+        { source: source.app_id, rel: `${via.type}.${r.rel}`, id: t });
+    }
+  }
 
   for (const s of sources) {
     for (const e of s.entities) {
@@ -171,6 +208,7 @@ async function main() {
           addLink(key, "campaign", label, { source: s.app_id, rel: r.rel, id: target });
         } else if (kind === "case") {
           addLink(key, "case", target, { source: s.app_id, rel: r.rel, id: target });
+          hopThrough(key, target, s);
         } else if (kind === "article" || kind === "report") {
           addLink(key, "article", target, { source: s.app_id, rel: r.rel, id: target });
         }

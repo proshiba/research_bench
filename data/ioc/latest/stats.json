@@ -430,10 +430,7 @@
         "asn": 214961,
         "cc": "FR",
         "ips": 3,
-        "malware": [
-          "A",
-          "N"
-        ],
+        "malware": [],
         "name": "Stellar Group SAS",
         "shared_hosting": false
       },
@@ -531,16 +528,16 @@
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 862,
-          "target": 862
+          "done": 726,
+          "target": 770
         },
         "2": {
-          "done": 137,
-          "target": 294
+          "done": 149,
+          "target": 304
         },
         "5": {
-          "done": 0,
-          "target": 2066
+          "done": 124,
+          "target": 2148
         }
       },
       "done": 999,
@@ -552,28 +549,28 @@
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 2438,
-          "target": 4790
+          "done": 2083,
+          "target": 4642
         },
         "2": {
-          "done": 0,
-          "target": 294
+          "done": 8,
+          "target": 304
         },
         "3": {
-          "done": 0,
-          "target": 4482
+          "done": 28,
+          "target": 4425
         },
         "4": {
-          "done": 0,
-          "target": 6467
+          "done": 80,
+          "target": 6375
         },
         "5": {
-          "done": 0,
-          "target": 2066
+          "done": 86,
+          "target": 2148
         },
         "6": {
-          "done": 0,
-          "target": 490
+          "done": 153,
+          "target": 695
         }
       },
       "done": 2438,
@@ -587,10 +584,10 @@
     "actor": 230,
     "campaign": 13,
     "case": 412,
-    "malware": 306
+    "malware": 349
   },
   "from": {
-    "collected_at": "2026-08-02T13:31:28.081Z",
+    "collected_at": "2026-08-02T14:01:11.026Z",
     "week": "2026-W31"
   },
   "iocs": {
@@ -1027,36 +1024,18 @@
     },
     "malware": {
       "by_via": {
-        "asn": 13,
+        "asn": 16,
         "certificate": 30,
-        "family": 11,
-        "filename": 26,
-        "ioc": 46,
-        "jarm": 219,
-        "registrable": 103,
-        "resolution": 12,
-        "subnet": 39
+        "family": 10,
+        "filename": 19,
+        "ioc": 55,
+        "jarm": 188,
+        "registrable": 70,
+        "resolution": 9,
+        "subnet": 43
       },
-      "pairs": 329,
+      "pairs": 288,
       "top": [
-        {
-          "a": "A",
-          "b": "N",
-          "ratio": 2.434,
-          "shared": 1139,
-          "strength": 44,
-          "via": [
-            "asn",
-            "certificate",
-            "family",
-            "filename",
-            "ioc",
-            "jarm",
-            "registrable",
-            "resolution",
-            "subnet"
-          ]
-        },
         {
           "a": "AUDIOFIX",
           "b": "MINIRAT",
@@ -1159,8 +1138,8 @@
         {
           "a": "CloudSorcerer",
           "b": "DeedRAT",
-          "ratio": 2.933,
-          "shared": 44,
+          "ratio": 2.867,
+          "shared": 43,
           "strength": 32,
           "via": [
             "certificate",
@@ -1174,8 +1153,8 @@
         {
           "a": "CloudSorcerer",
           "b": "VSHELL",
-          "ratio": 2.933,
-          "shared": 44,
+          "ratio": 2.867,
+          "shared": 43,
           "strength": 32,
           "via": [
             "certificate",
@@ -1189,8 +1168,8 @@
         {
           "a": "DeedRAT",
           "b": "VSHELL",
-          "ratio": 2.933,
-          "shared": 44,
+          "ratio": 2.867,
+          "shared": 43,
           "strength": 32,
           "via": [
             "certificate",
@@ -1200,9 +1179,24 @@
             "resolution",
             "subnet"
           ]
+        },
+        {
+          "a": "Sednit",
+          "b": "Zebrocy",
+          "ratio": 3.149,
+          "shared": 359,
+          "strength": 30,
+          "via": [
+            "certificate",
+            "family",
+            "filename",
+            "ioc",
+            "jarm",
+            "subnet"
+          ]
         }
       ],
-      "weak_only": 258
+      "weak_only": 205
     }
   },
   "schema": 1,

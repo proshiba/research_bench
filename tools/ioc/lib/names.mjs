@@ -54,7 +54,20 @@ export function usableName(s, known) {
   return !isQualifier(s);
 }
 
+/**
+ * 括弧は全角と半角を同じものとして数える。日本語の名前は全角で書かれることがあり、
+ * 半角だけ見ていると `Atomic macOS Stealer（AMOS、…）` の対応を見落として、
+ * 区切りで割れたままの名前が残る。**書き換えはしない**（元の表記は元データのもの）。
+ */
+const OPEN = /[(（]/g;
+const CLOSE = /[)）]/g;
 const count = (s, re) => (s.match(re) || []).length;
+/** 最後の開き括弧の位置。全角と半角のどちらでも探す。 */
+const lastOpen = (s) => Math.max(s.lastIndexOf("("), s.lastIndexOf("（"));
+const firstOpen = (s) => {
+  const i = s.indexOf("("), j = s.indexOf("（");
+  return i < 0 ? j : j < 0 ? i : Math.min(i, j);
+};
 
 /**
  * 分割で片方だけ残った括弧を整える。
@@ -65,9 +78,10 @@ const count = (s, re) => (s.match(re) || []).length;
  */
 export function fixParens(v) {
   let s = String(v).trim();
-  while (count(s, /\(/g) > count(s, /\)/g)) s = s.slice(0, s.lastIndexOf("(")).trim();
-  while (count(s, /\)/g) > count(s, /\(/g)) s = s.replace(")", "").trim();
-  if (/^\([^()]*\)$/.test(s)) s = s.slice(1, -1).trim();   // 全体がくくられているだけなら外す
+  while (count(s, OPEN) > count(s, CLOSE)) s = s.slice(0, lastOpen(s)).trim();
+  while (count(s, CLOSE) > count(s, OPEN)) s = s.replace(CLOSE, "").trim();
+  // 全体がくくられているだけなら外す
+  if (/^[(（][^()（）]*[)）]$/.test(s)) s = s.slice(1, -1).trim();
   return s;
 }
 
@@ -79,11 +93,24 @@ export function fixParens(v) {
  * 括弧の中身はたいてい別名か但し書きなので、対応する `)` が無ければ `(` から後ろを捨てる。
  * 捨てた別名は別名表で同じ代表名に寄るので損はしない。
  */
+/**
+ * 欄の区切り。
+ *
+ * 読点とセミコロンは常に区切り。**半角スラッシュは前後に空白があるときだけ**にする。
+ * 空白の無いスラッシュは名前の一部であることが多く（`PNG/registry cache loader`
+ * `Mirai派生ENS/DoH Bot`）、切ると名前が壊れる。一方で空白つきは並びの区切り
+ * （`Luna Moth / Chatty Spider / UNC3753`）。全角スラッシュは常に区切り
+ * （`UNC5342／Contagious Interview`）。
+ *
+ * `N/A` は切らないほうがよい。切らなければ名前鍵が `na` になり但し書きとして落ちる。
+ */
+const SEPARATORS = /\s*[,、;；／]\s*|\s+\/\s+/;
+
 export function splitNames(s) {
   let v = String(s ?? "");
-  if (count(v, /\(/g) > count(v, /\)/g)) v = v.slice(0, v.indexOf("("));
+  if (count(v, OPEN) > count(v, CLOSE)) v = v.slice(0, firstOpen(v));
   return v
-    .split(/[,、;／/]+/)
+    .split(SEPARATORS)
     .map((x) => fixParens(x.replace(/^[\s"'「『]+|[\s"'」』]+$/g, "")))
     .filter(Boolean);
 }
