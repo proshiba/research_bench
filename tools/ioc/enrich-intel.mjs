@@ -31,7 +31,7 @@
 
 import path from "node:path";
 import { byKeys, parseArgs, readJsonl, writeJson, writeJsonl } from "./lib/io.mjs";
-import { classifyIpv4, classifyIpv6, registrableDomain, subnet24 } from "./lib/net.mjs";
+import { classifyIpv4, classifyIpv6, subnet24 } from "./lib/net.mjs";
 import { PROJECTION, coverageOf, digestRecords, readAllRecords } from "./lib/enrich.mjs";
 import { REPO_ROOT } from "./lib/sources.mjs";
 

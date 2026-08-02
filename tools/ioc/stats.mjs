@@ -626,6 +626,25 @@ const stats = {
         .slice(0, 15),
       // 除いたほうも捨てない。「多くのアクターが買っている事業者」は
       // 結び付きの根拠にはならないが、それ自体が知りたいことになる
+      // **3 つ目の観点だけで外れたもの。** 大きさとアクター数では根拠に使える AS
+      // なのに、AbuseIPDB が「事業者の網」と言ったせいで外れた。攻撃側の基盤は
+      // ほとんどが事業者の網なので、ここは効きすぎることがある。**外したものを
+      // 見えるようにしておかないと、外れたこと自体に気づけない**
+      ...(HAS_ABUSE ? {
+        hosting_excluded: asnCoTenancy
+          .filter((a) => {
+            if (!a.shared_hosting || a.actors.length < 2) return false;
+            const info = asnInfo.get(a.asn);
+            if (!info || !(info.addresses > 0) || info.addresses > ASN_MAX_ADDRESSES) return false;
+            return (actorsPerAsn.get(a.asn)?.size ?? 0) <= ASN_MAX_ACTORS;
+          })
+          .sort((a, b) => b.actors.length - a.actors.length || a.addresses - b.addresses)
+          .map((a) => ({
+            asn: a.asn, name: a.name, cc: a.cc, addresses: a.addresses,
+            hosting_ratio: a.hosting_ratio ?? null, hosting_seen: a.hosting_seen ?? 0,
+            actors: a.actors,
+          })),
+      } : {}),
       hosting_like: asnCoTenancy
         .filter((a) => a.shared_hosting && a.actors.length >= 3)
         .sort((a, b) => b.actors.length - a.actors.length || a.asn - b.asn)
@@ -707,6 +726,14 @@ if (HAS_ASN) {
   for (const a of stats.asns.top.slice(0, 6)) {
     console.log(`    AS${String(a.asn).padEnd(7)} ${String(a.addresses).padStart(6)} ${(a.cc || "?").padEnd(3)} `
       + `${(a.name || "?").slice(0, 26).padEnd(26)} ${a.actors.join(" / ")}`);
+  }
+  for (const a of stats.asns.hosting_excluded || []) {
+    console.log(`    ! AS${String(a.asn).padEnd(7)} ${String(a.addresses).padStart(6)} ${(a.cc || "?").padEnd(3)} `
+      + `${(a.name || "?").slice(0, 26).padEnd(26)} ${a.actors.join(" / ")}`);
+  }
+  if (stats.asns.hosting_excluded?.length) {
+    console.log(`      ↑ 大きさとアクター数では根拠になるが、AbuseIPDB が事業者の網と言うので外した`
+      + `（--hosting-ratio ${HOSTING_RATIO} / 最低 ${HOSTING_MIN} 件）`);
   }
   if (stats.asns.hosting_like.length) {
     const h = stats.asns.hosting_like[0];
