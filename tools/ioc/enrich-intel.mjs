@@ -243,6 +243,18 @@ for (const rec of vtRecords) {
     row.cert = { thumbprint: thumb, san_count: sans.length };
     const issuer = c.issuer?.O || c.issuer?.CN;
     if (issuer) row.cert.issuer = String(issuer);
+    /**
+     * **その名前で出された証明書か、ワイルドカードで拾っただけか。**
+     *
+     * 実測すると `*.squarespace.com` の証明書（SAN 14・ワイルドカードと実名が混在）が
+     * 無関係な 2 つのテナントを結んでいた。証明書ごとの印（weak_why:"wildcard"）は
+     * 全部がワイルドカードのときしか立たないので、これは素通りする。
+     * **自分の名前が SAN に literal で入っているか**で見るのが正しい。
+     * IP は名前を持たず、その IP 自身が出している証明書なので対象外。
+     */
+    if (ioc.type === "ioc.domain" && sans.length && !sans.includes(ioc.value)) {
+      row.cert.wildcard = true;
+    }
     if (!certs.has(thumb)) {
       certs.set(thumb, {
         thumbprint: thumb,
@@ -254,9 +266,12 @@ for (const rec of vtRecords) {
         // SAN が多いものは全部持っても読めない。数は san_count に残る
         sans: sans.slice(0, SAN_CAP),
         iocs: new Set(),
+        // SAN に名前が載っている IOC の数。0 なら基盤に出された証明書
+        literal: 0,
       });
     }
     certs.get(thumb).iocs.add(rec.ioc);
+    if (!row.cert.wildcard) certs.get(thumb).literal++;
   }
 
   vtRows.push(row);
@@ -317,23 +332,27 @@ const derivedAliases = [...aliasSupport.entries()]
 /**
  * 根拠に使えない証明書を見分ける。**捨てずに印を付ける**。
  *
- *   san    … SAN が多すぎる。共用ホスティング（/24 や AS と同じ考え方）
- *   wildcard … SAN が全部ワイルドカード。その host に出された証明書ではなく、
- *              基盤に出された証明書。実測すると `*.azurewebsites.net` が
- *              無関係な 2 つのドメインを結んでいた。SAN 数は 11 と 30 で
- *              上限には遠く、数だけでは見分けられない
+ *   san      … SAN が多すぎる。共用ホスティング（/24 や AS と同じ考え方）
+ *   wildcard … **どの IOC も SAN に名前が載っていない**。その host に出された
+ *              証明書ではなく、基盤に出された証明書。
+ *
+ * wildcard は実測で 2 度見つかった。`*.azurewebsites.net`（SAN 11 と 30）と
+ * `*.squarespace.com`（SAN 14・ワイルドカードと実名が混在）が、どちらも
+ * 無関係なテナント同士を結んでいた。**SAN の数でも「全部ワイルドカードか」でも
+ * 見分けられない**ので、自分の名前が載っているかで見る。
  */
 const certWeakness = (c) => {
   if (c.san_count > SAN_CAP) return "san";
-  if (c.sans.length && c.sans.every((s) => s.startsWith("*."))) return "wildcard";
+  if (c.literal === 0) return "wildcard";
   return null;
 };
 
 const certRows = [...certs.values()]
   .map((c) => {
     const why = certWeakness(c);
+    const { literal, ...rest } = c;
     return {
-      ...c,
+      ...rest,
       iocs: [...c.iocs].sort(),
       shared: c.iocs.size > 1,
       ...(why ? { weak: true, weak_why: why } : {}),

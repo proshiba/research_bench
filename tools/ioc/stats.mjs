@@ -148,7 +148,11 @@ for (const set of resolvesTo.values()) for (const ip of set) resolvedIps.add(ip)
 const weakCert = new Set(derivedCerts.filter((c) => c.weak).map((c) => c.thumbprint));
 const certOf = new Map();
 for (const r of vt) {
-  if (r.cert?.thumbprint && !weakCert.has(r.cert.thumbprint)) certOf.set(r.ioc, r.cert.thumbprint);
+  if (!r.cert?.thumbprint) continue;
+  if (weakCert.has(r.cert.thumbprint)) continue;
+  // 自分の名前が SAN に無く、ワイルドカードで拾っただけの組み合わせは根拠にしない
+  if (r.cert.wildcard) continue;
+  certOf.set(r.ioc, r.cert.thumbprint);
 }
 
 /**

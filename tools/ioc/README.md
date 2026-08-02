@@ -15,6 +15,9 @@ node tools/ioc/enrich-intel.mjs    # 判定を付け、そこから実体と辺�
 node tools/ioc/stats.mjs           # → overlaps / graph / subnets / asn-cotenancy / stats
 node tools/ioc/validate.mjs        # 出来たものを検査する
 node tools/ioc/selftest.mjs        # validate 自体を検査する
+node tools/ioc/daily-report.mjs    # 昨日から何が変わったかを出す
+
+sh tools/ioc/daily.sh --push       # 日次はこれ 1 本（上を通しでやる）
 ```
 
 キーが要るのは `fetch-vt` と `fetch-abuseipdb` の 2 つだけ。**無くても他は全部通しで動く。**
