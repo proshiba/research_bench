@@ -1,0 +1,286 @@
+# IOC エンリッチとピボットの計画（VirusTotal / AbuseIPDB）
+
+`tools/ioc/` が集めた 19,011 件の IOC に、VirusTotal と AbuseIPDB の判定を付け、
+そこから**新しい実体と辺を起こす（ピボット）**。最終的な目的は
+「マルウェア間・アクター間・キャンペーン間の重なり」の精度を上げること。
+
+この文書は**何を取り、そこから何を起こし、どう数えるか**だけを決める。
+キーは各 1 つを前提にする。
+
+---
+
+## 0. 前提となる今のデータ
+
+| ファイル | 中身 |
+| --- | --- |
+| `iocs.jsonl` | 19,011 件。`key` は `<type>\|<正規化した値>` |
+| `links.jsonl` | 32,187 辺。`{ioc, kind, name, source, rel}`。kind は actor / malware / campaign / case / article / cve / ioc |
+| `entities.jsonl` | 999 件。アクター 230・マルウェア 306・キャンペーン 13・ケース 368 |
+| `ip-asn.jsonl` `asns.jsonl` | IP → AS と、AS の大きさ |
+
+**守ること。** 外に出る工程は応答の写しを残し、分析する工程は写ししか見ない
+（`fetch-asn.mjs` / `enrich-asn.mjs` と同じ分け方）。エンリッチの応答は時刻で変わるので、
+写しが無いと同じ結果を二度と作れない。出力は決定的にする（キーは名前順・行は整列・
+中身に取得時刻を混ぜない。取得時刻とハッシュは meta にだけ置く）。
+
+**元のファイルは汚さない。** 派生したものは `derived-*.jsonl` に分ける。
+索引由来と外部由来を混ぜると、後から「これはどこの主張か」が追えなくなる。
+
+---
+
+## 1. 何を取るか
+
+### 1.1 VirusTotal（対象 18,537 件）
+
+1 IOC につき **object を 1 回**取るだけにする。関係（relationships）は別呼び出しで
+枠を倍消費するので、既定では取らない（§4）。object の応答だけでも下の情報が入る。
+
+**ファイル（ハッシュ 6,354 件）** — `GET /api/v3/files/{hash}`
+
+| 取る | 使い道 |
+| --- | --- |
+| `last_analysis_stats` | 検知ベンダー数。危険度の段階（ポータルと同じ尺度） |
+| `popular_threat_classification.suggested_threat_label` | **マルウェア名の正規化**。最重要 |
+| `popular_threat_classification.popular_threat_name[]` | 別名の候補 |
+| `first_submission_date` | **世に出た日**。索引が持っていない時間軸 |
+| `meaningful_name` / `names[]` | ファイル名の共有 |
+| `type_description` / `size` | 種別の絞り込み |
+| `signature_info` | 署名者。正規署名の悪用を見る |
+
+**ドメイン（6,249 件）** — `GET /api/v3/domains/{domain}`
+
+| 取る | 使い道 |
+| --- | --- |
+| `last_analysis_stats` / `reputation` | 危険度 |
+| `last_dns_records[]` | **A / AAAA から domain → IP の辺**。ピボットの本命 |
+| `last_https_certificate` | **証明書の thumbprint と SAN**。最も強いインフラ共有の証拠 |
+| `jarm` | TLS スタックの指紋 |
+| `creation_date` / `registrar` | 登録の時期と業者 |
+| `categories` | 分類（提供元ごとに違うので参考） |
+
+**IP（3,166 件）** — `GET /api/v3/ip_addresses/{ip}`
+
+`last_analysis_stats` / `reputation` / `as_owner` / `asn` / `network` / `country` /
+`last_https_certificate` / `jarm`。AS は `enrich-asn.mjs` の結果と**突き合わせる**
+（食い違ったら経路表の時点差なので、両方残して差を数える）。
+
+**URL（2,768 件）** — `GET /api/v3/urls/{base64url}`
+
+`last_analysis_stats` / `last_final_url` / `title` / `categories` / `redirection_chain`。
+
+### 1.2 AbuseIPDB（対象 3,159 IP）
+
+`GET /api/v2/check?ipAddress=&maxAgeInDays=365&verbose=`
+
+| 取る | 使い道 |
+| --- | --- |
+| `abuseConfidenceScore` | 危険度。**通報数ではなくこれで判断する**（通報 97 件でスコア 0 の IP が実在する） |
+| `totalReports` / `numDistinctUsers` | スコアの裏付け。通報者が 1 人ならスコアが低い理由になる |
+| `lastReportedAt` | 最後に観測された時期 |
+| `usageType` / `isp` / `domain` | **Data Center / Web Hosting か ISP か**。相乗り判定の補強（§3.2） |
+| `reports[].categories` | 何をして通報されたか（`ポートスキャン 50 / 総当たり 32` のような分布） |
+| `isTor` | Tor 出口は別扱い |
+
+bogon と公開 DNS（`bogon` / `noise` の印が付いているもの）は引かない。
+
+---
+
+## 2. ピボット — そこから何を起こすか
+
+エンリッチの価値は判定そのものより、**知らなかった実体と辺が生えること**にある。
+以下を優先順に。括弧内は今の規模との比較。
+
+### 2.1 マルウェア名の正規化（最優先）
+
+VT の `suggested_threat_label`（例 `trojan.emotet/heur`）から**ファミリ名**を取り出し、
+`derived-links.jsonl` に `{ioc, kind:"malware", name:<ファミリ>, source:"virustotal"}` として足す。
+`popular_threat_name[]` は別名として `derived-aliases.jsonl` に置き、既存の
+`canonMalware` に流し込む。
+
+**なぜ最優先か。** 今のマルウェア実体 306 件は索引の表記そのままで、同じものが
+別名で分かれている。VT ラベルで畳めば「マルウェア間の重なり」の分母がまず正しくなる。
+ハッシュ 6,354 件のほとんどにラベルが付くので、効きが大きい。
+
+### 2.2 ドメイン → IP の解決（passive DNS 相当）
+
+`last_dns_records` の A / AAAA から `derived-iocs.jsonl`（新しい IP）と
+`derived-links.jsonl` の `{kind:"ioc", rel:"resolves_to"}` を起こす。
+
+**なぜ効くか。** 今の IOC ↔ IOC の辺は **310 件しかない**。ドメイン 6,249 件に
+A レコードが付けば、ここが桁で増える。ドメインしか持っていなかったアクターと、
+IP しか持っていなかったアクターが繋がる。
+
+新しく出てきた IP は `derived-iocs.jsonl` に入れ、`origin:"vt.dns"` を付ける。
+**`iocs.jsonl` には混ぜない。** 索引が主張した IOC と、そこから導いたものは別物。
+
+### 2.3 証明書の共有（最も強い証拠）
+
+`last_https_certificate.thumbprint_sha256` を鍵にして、同じ証明書を出している
+ドメイン・IP をまとめる。`derived-certs.jsonl` に
+`{thumbprint, serial, issuer, subject, sans[], iocs[]}` として残す。
+
+自己署名や Let's Encrypt の使い回しもあるので、**発行者と SAN 数で重みを変える**。
+SAN が 100 を超えるものは共用ホスティングなので根拠にしない（/24 や AS と同じ考え方）。
+
+### 2.4 JARM の一致
+
+`jarm` が同じ = 同じ TLS スタック = 同じ C2 フレームワークの可能性。
+ただし既定の nginx / Apache でも一致するので、**JARM 値ごとの出現数を数え、
+ありふれたものは外す**（`--jarm-cap`、既定は全体の 1% を超えたら外す）。
+単独では弱い根拠なので、他の根拠と重なったときだけ意味を持たせる。
+
+### 2.5 ホスティング種別（相乗り判定の補強）
+
+AbuseIPDB の `usageType` が `Data Center/Web Hosting/Transit` の IP は、
+AS の大きさに関わらず**相乗りの疑いを上げる**。今は AS のアドレス数と
+アクター数の 2 つで判定しているが、ここに 3 つ目の観点が入る。
+
+### 2.6 ファイル名の共有
+
+`names[]` の共有。ただし `invoice.doc` `setup.exe` のような一般名が大量にあるので、
+**全体での出現回数が閾値以下の名前だけ**を根拠にする（`ioc` の ubiquity cap と同じ考え方）。
+
+### 2.7 取らないもの（枠を食うわりに効かない）
+
+- VT の relationships（`/resolutions`, `/contacted_ips`, `/behaviours`）— 1 IOC あたり
+  さらに 1〜3 回。18,537 件では成立しない。**§4 の第 2 段階に回す**
+- VT の `categories` を根拠に使うこと — 提供元ごとに語彙が違い、突き合わない
+- AbuseIPDB の `hostnames` — 逆引きなので当てにならない
+
+---
+
+## 3. 統計をどう作るか
+
+### 3.1 重なりの根拠を増やす
+
+今の `overlaps.jsonl` は `via` に `ioc` / `subnet` / `registrable` / `asn` を持つ。
+ここに 4 つ足す。
+
+| via | 意味 | 強さ |
+| --- | --- | --- |
+| `certificate` | 同じ証明書（thumbprint 一致） | **最強** |
+| `ioc` | 同じ IOC を指している | 強 |
+| `resolution` | 同じ IP に解決するドメイン | 強 |
+| `family` | VT が同じ脅威ラベルを付けている | 中 |
+| `subnet` | 同じ /24 | 中 |
+| `asn` | 同じ小さい AS | 中 |
+| `filename` | 珍しいファイル名の共有 | 弱 |
+| `registrable` | 同じ eTLD+1 | 弱 |
+| `jarm` | 同じ TLS 指紋 | 弱（単独では使わない） |
+
+**`overlaps.jsonl` に `strength` を足す。** 今は `shared`（共有数）と `ratio` しか
+無く、根拠の種類による差が数字に出ない。上の順位を点数にして合算し、
+`strength` として持たせる。並べ替えの既定を `strength` にする。
+
+弱い根拠だけで成立している組には `weak_only: true` を付ける。
+除くのではなく印を付ける（`bogon` / `noise` と同じ扱い）。
+
+### 3.2 相乗り判定を 3 つの観点にする
+
+今: AS のアドレス数 ≤ 4,096 かつ アクター数 ≤ 8。
+追加: その AS の IP のうち AbuseIPDB が `Data Center/Web Hosting` と言う割合。
+**7 割を超えたら相乗り**とする。`asn-cotenancy.jsonl` に `hosting_ratio` を足す。
+
+### 3.3 時間軸を入れる
+
+VT の `first_submission_date` は、索引が持っていない「世に出た日」。これで
+`stats.json` に新しい節を作る。
+
+- **実体ごとの活動期間** — その実体に繋がる IOC の `first_submission_date` の最小と最大
+- **キャンペーン間の時間的重なり** — 期間が重なっている組。IOC を共有していなくても
+  「同じ時期に動いていた」は手掛かりになる
+- **索引の遅れ** — 索引の `観測日` と VT の `first_submission_date` の差の分布。
+  自分たちの索引がどれだけ遅れて拾っているかが分かる
+
+### 3.4 判定そのものの統計
+
+- **アクターごとの悪性度の分布** — 検知ベンダー数の中央値。極端に低い実体は、
+  索引の誤りか、まだ知られていないかのどちらか。どちらでも見る価値がある
+- **VT が知らない IOC の数** — `404` が返ったもの。**これは失敗ではなく結果**なので
+  `vt.jsonl` に `known: false` として残す。索引の独自性の指標になる
+- **索引の主張と VT の判定の食い違い** — 索引が「C2」と言っているのに検知 0、など
+
+### 3.5 カバレッジを必ず出す（重要）
+
+1 キーでは全件が埋まるまで日数がかかる。その途中の統計は**一部しか見ていない**。
+
+`stats.json` の先頭に必ず入れる。
+
+```json
+"coverage": {
+  "virustotal": { "target": 18537, "done": 4200, "known": 3980, "unknown": 220, "ratio": 0.227 },
+  "abuseipdb":  { "target": 3159,  "done": 3159, "ratio": 1.0 },
+  "oldest_fetch": "2026-08-02", "newest_fetch": "2026-08-20"
+}
+```
+
+**エンリッチ済みだけを母数にした割合を出さない。** 「検知されたのは 12%」と
+「調べた範囲の 12%」は別物で、後者を前者として読むと必ず間違える。
+未エンリッチは「陰性」ではなく「未知」として数える。
+
+---
+
+## 4. どの順で埋めるか
+
+VT は 1 キーで 500 件/日。全 18,537 件で 38 日かかるので、**順番が結果を決める**。
+実測した内訳で分けると次のようになる。
+
+| 段階 | 対象 | 件数 | 日数 | ここで何が分かるか |
+| --- | --- | --- | --- | --- |
+| 0 | AbuseIPDB 全件 | 3,159 | 4 | IP の危険度と相乗り判定。VT と並行して走る |
+| 1 | **複数の実体に繋がる IOC** | 4,789 | 10 | 重なりの根拠そのもの。**ここが終われば主目的はほぼ達成** |
+| 2 | 注目 IP（小さい AS / 別アクター同居の /24） | 164 | 1 | 既に怪しいと分かっている IP の裏取り |
+| 3 | ハッシュ（実体 1 つ） | 4,652 | 10 | マルウェア名の正規化（§2.1） |
+| 4 | ドメイン・URL（実体 1 つ） | 6,797 | 14 | 解決先と証明書（§2.2 §2.3） |
+| 5 | 残りの IP | 2,135 | 5 | 埋め合わせ |
+
+**新しく入ってくる分（週 440 件）を常に最優先**にする。1 日 63 件を新規に回し、
+残り 437 件を上の順で消化する（全体で 43 日）。
+
+段階 1 が終わる **10 日目に一度、重なりの再計算をする**。ここで
+「VT を入れたことで重なりがどう変わったか」が分かるので、以降の優先順を見直す。
+
+---
+
+## 5. 出力するファイル
+
+| ファイル | 中身 |
+| --- | --- |
+| `vt.jsonl` | `{ioc, known, malicious, suspicious, harmless, undetected, reputation, label?, families?, first_submission?, jarm?, cert?, dns?, analyzed_at}` |
+| `abuseipdb.jsonl` | `{ioc, score, reports, reporters, last_reported_at?, usage_type?, isp?, categories?}` |
+| `derived-iocs.jsonl` | エンリッチから生えた IOC。`origin` にどこから来たかを持つ |
+| `derived-links.jsonl` | 生えた辺。`source` は `virustotal` / `abuseipdb` |
+| `derived-certs.jsonl` | 証明書ごとの IOC のまとまり |
+| `enrich-meta.json` | 使った枠・件数・写しのハッシュ・取得の期間 |
+
+`vt.jsonl` の `analyzed_at` は**応答に入っている解析時刻**であって取得時刻ではない。
+取得時刻は `enrich-meta.json` にだけ置く（決定性のため）。
+
+---
+
+## 6. 検査に足すこと
+
+`validate.mjs` に以下を足す。既存の 45 通りの自己検査（`selftest.mjs`）にも
+壊し方を足して、鳴ることを確かめる。
+
+- `vt.jsonl` / `abuseipdb.jsonl` の `ioc` が `iocs.jsonl` か `derived-iocs.jsonl` に実在するか
+- スコアの範囲（AbuseIPDB は 0–100、検知数は 0 以上）
+- `known:false` の行に判定が入っていないか（`routed:false` と同じ扱い）
+- `derived-iocs.jsonl` が `iocs.jsonl` と**重複していないか**（重複したら索引側を優先）
+- `derived-links.jsonl` の実体が `entities.jsonl` か派生の実体に実在するか
+- `coverage` の分母と分子が実データと合っているか
+- 写しのハッシュが `enrich-meta.json` にあるか
+
+---
+
+## 7. キーの扱い
+
+環境変数からのみ読む。リポジトリには一切書かない。
+
+```
+VT_API_KEY          # カンマ区切りで複数入れれば順に回す（1 つでも動く）
+ABUSEIPDB_API_KEY
+```
+
+応答の写しは `data/ioc/.cache/` の下に置き、`.gitignore` 済み。
+**写しに API キーが混ざらないよう、リクエストヘッダは保存しない。**

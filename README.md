@@ -571,7 +571,33 @@ assets/js/
 docs/portal-spec.md   連携仕様 v1
 docs/auth-pkce.md     Active Research API の認証（OAuth 2.0 + PKCE）の取り決め
 docs/validate-index.py  各アプリが自分の索引を検査するためのチェッカー
+docs/ioc-enrich-plan.md  IOC のエンリッチとピボットの計画（VirusTotal / AbuseIPDB）
 docs/agent-prompts/   各アプリへの依頼内容（spec v1 対応・認証・STIX ストレージ）
 docs/mock/            最初に起こした画面イメージ
+tools/ioc/            IOC の収集・分析スクリプト（ブラウザ外・Node のみ）
 cyberchef/            同梱の CyberChef（変換モジュールの引き渡し先）
 ```
+
+## IOC をまとめて集める（ブラウザの外）
+
+ポータルとは別に、4 索引から IOC を集めて**実体どうしの重なり**を出すスクリプトが
+[`tools/ioc/`](tools/ioc/README.md) にある。Node の標準機能だけで動き、外部 API も
+AI も要らない。同じ入力からは同じバイト列が出るので、週次で回して差分を追える。
+
+```bash
+node tools/ioc/collect.mjs      # 索引 → iocs / links / entities
+node tools/ioc/fetch-asn.mjs    # 経路表の写しを取る（外に出るのはここだけ・キー不要）
+node tools/ioc/enrich-asn.mjs   # IP に AS 番号と「その AS の大きさ」を付ける
+node tools/ioc/stats.mjs        # → overlaps / graph / 同居の一覧 / stats
+node tools/ioc/validate.mjs     # 出来たものを検査する（error があれば終了コード 1）
+node tools/ioc/selftest.mjs     # validate 自体を検査する（既知の壊し方 45 通り）
+```
+
+いま 19,011 IOC が集まり、**別アクターが同居している /24 が 83 網**。IP に AS を
+付けると、**1,024 アドレスしか持たない北朝鮮の AS131279 に APT37 と Lazarus**、
+**AS60602 に APT28 と Sandworm** といった組が出る。AS は大きさとアクター数で絞らないと
+VPS 事業者の相乗りに埋もれるので、両方で絞ったうえで、除いたほうも
+「多くのアクターが借りている事業者」として残している。
+
+API キーは 1 つも要らない。キーの要るエンリッチとピボットは別工程にしてあるので、
+キーが無い環境でもここまでは通しで動く。
