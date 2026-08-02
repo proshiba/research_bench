@@ -17,7 +17,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
-import { writeJson, writeJsonl } from "./lib/io.mjs";
+import { readJsonl, writeJson, writeJsonl } from "./lib/io.mjs";
+import { coverageOf } from "./lib/enrich.mjs";
 import { REPO_ROOT } from "./lib/sources.mjs";
 
 const KEEP = process.argv.includes("--keep");
@@ -42,6 +43,8 @@ const IOCS = [
     subnet: "8.8.8.0/24", noise: "Google DNS", sources: ["src-b"] },
   { key: "ioc.md5|" + "0".repeat(32), type: "ioc.md5", value: "0".repeat(32), sources: ["src-a"] },
   { key: "ioc.sha256|" + "1".repeat(64), type: "ioc.sha256", value: "1".repeat(64), sources: ["src-b"] },
+  // VT が索引に無いファミリ名を付ける検体。生えた実体の道筋を通す
+  { key: "ioc.sha1|" + "2".repeat(40), type: "ioc.sha1", value: "2".repeat(40), sources: ["src-a"] },
   { key: "ioc.url|https://evil.example.com/a", type: "ioc.url", value: "https://evil.example.com/a",
     sources: ["src-a"] },
 ];
@@ -54,6 +57,7 @@ const LINKS = [
   { ioc: "ioc.ipv4|45.32.10.8", kind: "actor", name: "Other Group", source: "src-b", rel: null },
   { ioc: "ioc.md5|" + "0".repeat(32), kind: "malware", name: "TestRAT", source: "src-a", rel: "sample" },
   { ioc: "ioc.sha256|" + "1".repeat(64), kind: "malware", name: "TestRAT", source: "src-b", rel: "sample" },
+  { ioc: "ioc.sha1|" + "2".repeat(40), kind: "malware", name: "TestRAT", source: "src-a", rel: "sample" },
   { ioc: "ioc.domain|c2.example.com", kind: "cve", name: "CVE-2026-0001", source: "src-a", rel: "attrs.関連CVE" },
 ];
 const ALIASES = { "APT-Test": ["Test Panda"] };
@@ -93,6 +97,7 @@ function buildFixture(dir) {
   writeJsonl(path.join(dir, "links.jsonl"), links);
   writeJsonl(path.join(dir, "entities.jsonl"), entities);
   buildAsnFixture(dir);
+  buildEnrichFixture(dir, iocs, links);
   writeJson(path.join(dir, "meta.json"), {
     tool: "tools/ioc/selftest.mjs",
     schema: 1,
@@ -147,16 +152,114 @@ function buildAsnFixture(dir) {
     counts: { routed: 2, unrouted: 1, skipped: 1, asns: 2 },
   });
 
-  writeJsonl(path.join(dir, "subnets.jsonl"), [{
-    subnet: "45.32.10.0/24", ips: 2,
-    actors: ["APT-Test", "Other Group"], malware: [],
-    asns: [{ asn: 64500, name: "検査用ホスティング", addresses: 2048 }],
-  }]);
+}
 
-  writeJsonl(path.join(dir, "asn-cotenancy.jsonl"), [{
-    asn: 64500, name: "検査用ホスティング", cc: "US", addresses: 2048, ips: 1,
-    actors: ["APT-Test", "Other Group"], malware: [], shared_hosting: false,
-  }]);
+/**
+ * エンリッチの一式。enrich-intel.mjs が出す形に合わせる。
+ * 写しそのものは要らない（validate は写しを見ない）。
+ *
+ * **カバレッジだけは手で書かない。** 分母を手書きすると、分母がずれる壊れ方を
+ * 検査できなくなる。本番と同じ coverageOf で起こす。
+ */
+const CERT = "a".repeat(64);
+function buildEnrichFixture(dir, iocs, links) {
+  const vt = [
+    { ioc: "ioc.domain|c2.example.com", known: true,
+      malicious: 5, suspicious: 1, harmless: 60, undetected: 20, reputation: -12,
+      analyzed_at: "2026-02-10", created: "2025-12-01", registrar: "検査用レジストラ",
+      jarm: "0".repeat(62),
+      dns: [{ type: "A", value: "45.32.10.7" }, { type: "A", value: "45.32.11.9" }],
+      cert: { thumbprint: CERT, issuer: "検査用 CA", sans: 2 } },
+    { ioc: "ioc.domain|evil.example.com", known: true,
+      malicious: 3, suspicious: 0, harmless: 62, undetected: 21,
+      cert: { thumbprint: CERT, issuer: "検査用 CA", sans: 2 } },
+    { ioc: "ioc.ipv4|45.32.10.7", known: true,
+      malicious: 2, suspicious: 0, harmless: 63, undetected: 21,
+      asn: 64500, as_owner: "検査用ホスティング", country: "US", network: "45.32.8.0/21" },
+    { ioc: "ioc.md5|" + "0".repeat(32), known: true,
+      malicious: 55, suspicious: 2, harmless: 0, undetected: 12,
+      label: "trojan.testrat/heur", families: ["testrat"],
+      first_submission: "2026-01-02", names: ["invoice.doc"], size: 4096,
+      type_description: "Microsoft Word" },
+    // VT が知らない＝失敗ではなく結果。判定を入れてはいけない
+    { ioc: "ioc.sha1|" + "2".repeat(40), known: true,
+      malicious: 40, suspicious: 0, harmless: 0, undetected: 30,
+      label: "trojan.newfam/x", families: ["newfam", "othername"],
+      first_submission: "2026-01-20" },
+    { ioc: "ioc.sha256|" + "1".repeat(64), known: false },
+  ].sort((a, b) => (a.ioc < b.ioc ? -1 : 1));
+
+  const abuse = [{
+    ioc: "ioc.ipv4|45.32.10.7", score: 84, reports: 12, reporters: 5,
+    last_reported_at: "2026-02-12", usage_type: "Data Center/Web Hosting/Transit",
+    hosting: true, isp: "検査用ホスティング", country: "US",
+    categories: { "ポートスキャン": 8, "総当たり": 4 },
+  }];
+
+  // c2.example.com の解決先のうち、索引に無かったほうだけが生える
+  const derivedIocs = [{
+    key: "ioc.ipv4|45.32.11.9", type: "ioc.ipv4", value: "45.32.11.9",
+    origin: "vt.dns", from: ["ioc.domain|c2.example.com"], subnet: "45.32.11.0/24",
+  }];
+  // testrat は索引の TestRAT に畳まれ、newfam だけが実体として生える
+  const derivedEntities = [{ kind: "malware", name: "newfam", ioc_count: 1, sources: ["virustotal"] }];
+  const derivedLinks = [
+    { ioc: "ioc.domain|c2.example.com", kind: "ioc", name: "ioc.ipv4|45.32.10.7", rel: "resolves_to", source: "virustotal" },
+    { ioc: "ioc.domain|c2.example.com", kind: "ioc", name: "ioc.ipv4|45.32.11.9", rel: "resolves_to", source: "virustotal" },
+    { ioc: "ioc.md5|" + "0".repeat(32), kind: "malware", name: "TestRAT", rel: "suggested_threat_label", source: "virustotal" },
+    { ioc: "ioc.sha1|" + "2".repeat(40), kind: "malware", name: "newfam", rel: "suggested_threat_label", source: "virustotal" },
+  ].sort((a, b) => {
+    const k = (l) => `${l.ioc}\t${l.kind}\t${l.name}\t${l.rel}\t${l.source}`;
+    return k(a) < k(b) ? -1 : 1;
+  });
+  const derivedAliases = [{ name: "newfam", aliases: ["othername"], samples: 1, source: "virustotal" }];
+  const derivedCerts = [{
+    thumbprint: CERT, issuer: "検査用 CA", subject: "evil.example.com",
+    san_count: 2, sans: ["c2.example.com", "evil.example.com"],
+    iocs: ["ioc.domain|c2.example.com", "ioc.domain|evil.example.com"], shared: true,
+  }];
+
+  writeJsonl(path.join(dir, "vt.jsonl"), vt);
+  writeJsonl(path.join(dir, "abuseipdb.jsonl"), abuse);
+  writeJsonl(path.join(dir, "derived-iocs.jsonl"), derivedIocs);
+  writeJsonl(path.join(dir, "derived-entities.jsonl"), derivedEntities);
+  writeJsonl(path.join(dir, "derived-links.jsonl"), derivedLinks);
+  writeJsonl(path.join(dir, "derived-aliases.jsonl"), derivedAliases);
+  writeJsonl(path.join(dir, "derived-certs.jsonl"), derivedCerts);
+
+  const asnOf = new Map();
+  for (const r of readJsonl(path.join(dir, "ip-asn.jsonl"))) if (r.asn) asnOf.set(r.ioc, r.asn);
+  writeJson(path.join(dir, "enrich-meta.json"), {
+    tool: "tools/ioc/enrich-intel.mjs",
+    schema: 1,
+    coverage: coverageOf({
+      iocs, links, asnOf,
+      asnInfo: new Map(readJsonl(path.join(dir, "asns.jsonl")).map((a) => [a.asn, a])),
+      vtRows: vt, abuseRows: abuse,
+      fetchDays: ["2026-02-14", "2026-02-15"],
+    }),
+    cache: {
+      virustotal: { dir: "data/ioc/.cache/vt", records: vt.length, sha256: "1".repeat(64), projection: 1 },
+      abuseipdb: { dir: "data/ioc/.cache/abuseipdb", records: abuse.length, sha256: "2".repeat(64) },
+    },
+    counts: {
+      vt: vt.length, abuseipdb: abuse.length,
+      derived_iocs: derivedIocs.length, derived_links: derivedLinks.length,
+      derived_entities: derivedEntities.length, derived_aliases: derivedAliases.length,
+      derived_certs: derivedCerts.length, shared_certs: 1,
+    },
+    asn_check: { agree: 1, differ: 0 },
+    options: { san_cap: 100, name_cap: 8, include_noise: false },
+  });
+}
+
+/**
+ * 重なり・同居・グラフ・要約は **stats.mjs に作らせる**。
+ * 手で書くと、stats.mjs の出し方が変わったときに検査が付いてこない。
+ */
+function buildStats(dir) {
+  execFileSync("node", [path.join(REPO_ROOT, "tools/ioc/stats.mjs"), "--in", dir],
+    { encoding: "utf8", stdio: ["ignore", "ignore", "pipe"], cwd: REPO_ROOT });
 }
 
 /* ---------------- 壊し方 ---------------- */
@@ -184,10 +287,15 @@ const putRow = (row) => JSON.stringify(Object.fromEntries(Object.keys(row).sort(
  * 同居の一覧が古い名前を指したままになり、狙いと別の規則が鳴ってしまう。
  */
 const renameEntity = (d, from, to) => {
-  for (const f of ["links.jsonl", "entities.jsonl", "subnets.jsonl", "asn-cotenancy.jsonl"]) {
+  for (const f of ["links.jsonl", "entities.jsonl", "subnets.jsonl", "asn-cotenancy.jsonl",
+    "overlaps.jsonl", "derived-links.jsonl", "derived-entities.jsonl", "graph.json", "stats.json"]) {
     const file = path.join(d, f);
     if (!fs.existsSync(file)) continue;
-    fs.writeFileSync(file, fs.readFileSync(file, "utf8").split(`"${from}"`).join(`"${to}"`));
+    fs.writeFileSync(file, fs.readFileSync(file, "utf8")
+      .split(`"${from}"`).join(`"${to}"`)
+      // graph.json の節点は `kind:name` の形で名前を持つ。ここを直さないと
+      // 名前の壊れ方ではなく「id が kind:name と違う」で鳴ってしまう
+      .split(`:${from}"`).join(`:${to}"`));
   }
 };
 
@@ -365,6 +473,114 @@ const CASES = [
   ["json.parse", "JSON として壊れている", (d) => {
     editLine(d, "iocs.jsonl", "evil.example.com", (l) => l.slice(0, -3));
   }],
+
+  /* ---- エンリッチ（VirusTotal / AbuseIPDB） ---- */
+
+  ["vt.unknown", "VT が知らない IOC に判定が入っている", (d) => {
+    // known:false は「調べたが無かった」。判定が入っていたら組み立てが崩れている
+    editLine(d, "vt.jsonl", '"known":false', (l) => {
+      const r = JSON.parse(l);
+      r.malicious = 12;
+      return putRow(r);
+    });
+  }],
+  ["vt.ioc", "判定が存在しない IOC を指す", (d) => {
+    editLine(d, "vt.jsonl", "ioc.domain|c2.example.com", (l) => l.replace("c2.example.com", "ghost.example.com"));
+  }],
+  ["vt.stats", "検知数が負になっている", (d) => {
+    editLine(d, "vt.jsonl", "ioc.md5", (l) => l.replace(/"malicious":\d+/, '"malicious":-1'));
+  }],
+  ["vt.cert", "判定が derived-certs.jsonl に無い証明書を指す", (d) => {
+    editLine(d, "vt.jsonl", "ioc.domain|evil.example.com", (l) => l.replace(CERT, "b".repeat(64)));
+  }],
+  ["field.missing", "検知の内訳が欠けている", (d) => {
+    editLine(d, "vt.jsonl", "ioc.ipv4|45.32.10.7", (l) => {
+      const r = JSON.parse(l);
+      delete r.undetected;
+      return putRow(r);
+    });
+  }],
+  ["abuse.score", "スコアが 0〜100 の外に出る", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace(/"score":\d+/, '"score":101'));
+  }],
+  ["abuse.count", "通報者が通報数を上回る", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace(/"reporters":\d+/, '"reporters":99'));
+  }],
+  ["abuse.type", "IP でない IOC に通報状況が付く", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace("ioc.ipv4|45.32.10.7", "ioc.domain|c2.example.com"));
+  }],
+  ["derived.duplicate", "生えた IOC が索引の IOC と重複する", (d) => {
+    // 重複したら索引側を優先する。混ざると「これはどこの主張か」が追えなくなる
+    editLine(d, "derived-iocs.jsonl", "45.32.11.9", (l) =>
+      l.replace(/45\.32\.11\.9/g, "45.32.10.8").replace("45.32.11.0/24", "45.32.10.0/24"));
+  }],
+  ["derived.from", "生えた IOC の出どころが存在しない", (d) => {
+    editLine(d, "derived-iocs.jsonl", "45.32.11.9", (l) => l.replace("c2.example.com", "ghost.example.com"));
+  }],
+  ["derived.origin", "生えた IOC の出どころが知らない値", (d) => {
+    editLine(d, "derived-iocs.jsonl", "45.32.11.9", (l) => l.replace('"vt.dns"', '"guess"'));
+  }],
+  ["derived.link_entity", "生えた辺が知らない実体を指す", (d) => {
+    editLine(d, "derived-links.jsonl", "suggested_threat_label", (l) => l.replace('"TestRAT"', '"GhostFam"'));
+  }],
+  ["derived.link_target", "生えた辺の相手が存在しない", (d) => {
+    editLine(d, "derived-links.jsonl", "resolves_to", (l) => l.replace("ioc.ipv4|45.32.10.7", "ioc.ipv4|45.32.99.99"));
+  }],
+  ["derived.entity_count", "生えた実体の ioc_count がずれる", (d) => {
+    editLine(d, "derived-entities.jsonl", "newfam", (l) => l.replace(/"ioc_count":\d+/, '"ioc_count":7'));
+  }],
+  ["derived.entity_dup", "畳めるはずの実体が生えている", (d) => {
+    // 索引に同じ名前があるのに生やしたら、正規化した意味が無くなる
+    editLine(d, "derived-entities.jsonl", "newfam", (l) => l.replace('"newfam"', '"TestRAT"'));
+    editLine(d, "derived-links.jsonl", '"newfam"', (l) => l.replace('"newfam"', '"TestRAT"'));
+  }],
+  ["derived.alias_self", "別名に自分自身が入っている", (d) => {
+    editLine(d, "derived-aliases.jsonl", "newfam", (l) => l.replace('["othername"]', '["newfam"]'));
+  }],
+  ["cert.shared", "shared が IOC の数と食い違う", (d) => {
+    editLine(d, "derived-certs.jsonl", CERT, (l) => l.replace('"shared":true', '"shared":false'));
+  }],
+  ["cert.ioc", "証明書が存在しない IOC を指す", (d) => {
+    editLine(d, "derived-certs.jsonl", CERT, (l) => l.replace("ioc.domain|c2.example.com", "ioc.domain|ghost.example.com"));
+  }],
+  ["overlap.strength", "根拠の強さがずれる", (d) => {
+    editLine(d, "overlaps.jsonl", '"kind":"actor"', (l) => l.replace(/"strength":\d+/, '"strength":99'));
+  }],
+  ["overlap.weak", "強い根拠があるのに weak_only が付く", (d) => {
+    editLine(d, "overlaps.jsonl", '"kind":"actor"', (l) => {
+      const r = JSON.parse(l);
+      r.weak_only = true;
+      return putRow(r);
+    });
+  }],
+  ["enrichmeta.sha", "写しのハッシュが無い", (d) => {
+    const f = path.join(d, "enrich-meta.json");
+    const m = JSON.parse(fs.readFileSync(f, "utf8"));
+    delete m.cache.virustotal.sha256;
+    fs.writeFileSync(f, JSON.stringify(m, null, 2) + "\n");
+  }],
+  ["coverage.count", "カバレッジの分母がずれる", (d) => {
+    // 「調べた範囲の 12%」を「検知されたのは 12%」として読ませないための検査
+    const f = path.join(d, "enrich-meta.json");
+    const m = JSON.parse(fs.readFileSync(f, "utf8"));
+    m.coverage.virustotal.target = 3;
+    fs.writeFileSync(f, JSON.stringify(m, null, 2) + "\n");
+  }],
+  ["coverage.count", "カバレッジの分子がずれる", (d) => {
+    const f = path.join(d, "stats.json");
+    const m = JSON.parse(fs.readFileSync(f, "utf8"));
+    m.coverage.abuseipdb.done = 99;
+    fs.writeFileSync(f, JSON.stringify(m, null, 2) + "\n");
+  }],
+  ["coverage.missing", "統計に分母が入っていない", (d) => {
+    const f = path.join(d, "stats.json");
+    const m = JSON.parse(fs.readFileSync(f, "utf8"));
+    delete m.coverage;
+    fs.writeFileSync(f, JSON.stringify(m, null, 2) + "\n");
+  }],
+  ["file.missing", "判定はあるのに enrich-meta.json が無い", (d) => {
+    fs.rmSync(path.join(d, "enrich-meta.json"));
+  }],
 ];
 
 /* ---------------- 実行 ---------------- */
@@ -390,6 +606,7 @@ try {
   /* 1. 正しい一式は素通りすること。これが落ちると以降の判定が意味を持たない */
   const base = path.join(root, "base");
   buildFixture(base);
+  buildStats(base);
   const clean = run(base, ["--strict"]);
   check(clean.code === 0, "正しい一式が素通りする", clean.code === 0 ? "" : clean.out.split("\n").slice(0, 4).join(" / "));
 

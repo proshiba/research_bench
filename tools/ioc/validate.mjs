@@ -24,6 +24,13 @@
 //   6. 参照      辺の指す IOC と実体が実在するか
 //   7. 集計      entities の ioc_count・meta の counts が実データと一致するか
 //   8. 派生物    overlaps / graph / stats / new があれば、元データと突き合わせる
+//   9. エンリッチ vt / abuseipdb / derived-* があれば、指す先とスコアの範囲を見る
+//
+// 9 で特に見るもの
+//   ・known:false の行に判定が入っていないか（routed:false と同じ扱い）
+//   ・derived-iocs.jsonl が iocs.jsonl と重複していないか（重複したら索引側を優先）
+//   ・**coverage の分母と分子が実データと合っているか**。分母がずれていると
+//     「調べた範囲の 12%」を「検知されたのは 12%」として読むことになる
 
 import fs from "node:fs";
 import path from "node:path";
@@ -31,6 +38,7 @@ import { joinKey, refang } from "../../assets/js/util.js";
 import { byKeys, parseArgs, readJson, readJsonl, stableStringify, writeJson } from "./lib/io.mjs";
 import { classifyIpv4, ipv4ToInt, registrableDomain, subnet24 } from "./lib/net.mjs";
 import { ipv6ToHex } from "./lib/asn.mjs";
+import { coverageOf } from "./lib/enrich.mjs";
 import { REPO_ROOT } from "./lib/sources.mjs";
 
 const args = parseArgs(process.argv.slice(2));
@@ -70,9 +78,49 @@ const HASH_LEN = { "ioc.md5": 32, "ioc.sha1": 40, "ioc.sha256": 64, "ioc.sha512"
 const LINK_KINDS = new Set(["actor", "malware", "campaign", "case", "article", "cve", "ioc"]);
 /** IOC として妥当な URL の scheme。これ以外は元表記の取り違えを疑う。 */
 const URL_SCHEMES = new Set(["http:", "https:", "ftp:", "ftps:", "ws:", "wss:", "smb:", "tcp:"]);
-const VIA = new Set(["ioc", "subnet", "registrable", "asn"]);
+const VIA = new Set([
+  "ioc", "subnet", "registrable", "asn",
+  "certificate", "resolution", "family", "filename", "jarm",
+]);
+/** 重なりの強さ。stats.mjs の VIA_WEIGHT と同じ表を持ち、数え直して突き合わせる。 */
+const VIA_WEIGHT = {
+  certificate: 9, ioc: 8, resolution: 7,
+  family: 5, subnet: 5, asn: 5,
+  filename: 2, registrable: 2, jarm: 1,
+};
+const WEAK_VIA = new Set(["filename", "registrable", "jarm"]);
 const IPASN_FIELDS = { required: ["ioc"], optional: ["asn", "prefix", "hits", "routed"] };
 const ASN_FIELDS = { required: ["asn", "iocs", "prefixes", "addresses"], optional: ["name", "cc", "class"] };
+
+/* エンリッチ（enrich-intel.mjs）の出力。欄を列挙で持つのは、
+   検査していない情報が黙って載るのを防ぐため（既存の欄と同じ扱い） */
+const VT_FIELDS = {
+  required: ["ioc", "known"],
+  optional: [
+    "malicious", "suspicious", "harmless", "undetected", "timeout", "reputation",
+    "analyzed_at", "label", "families", "first_submission", "type_description", "size",
+    "signer", "names", "created", "registrar", "jarm", "dns", "cert",
+    "asn", "as_owner", "country", "network", "asn_differs", "final_url", "title",
+  ],
+};
+const ABUSE_FIELDS = {
+  required: ["ioc", "score", "reports", "reporters"],
+  optional: ["last_reported_at", "usage_type", "hosting", "isp", "domain", "country",
+    "tor", "whitelisted", "categories"],
+};
+const DERIVED_IOC_FIELDS = {
+  required: ["key", "type", "value", "origin", "from"],
+  optional: ["subnet", "registrable", "bogon", "noise"],
+};
+const DERIVED_ENTITY_FIELDS = { required: ["kind", "name", "ioc_count", "sources"], optional: ["aliases"] };
+const DERIVED_ALIAS_FIELDS = { required: ["name", "aliases", "source"], optional: ["samples"] };
+const DERIVED_CERT_FIELDS = {
+  required: ["thumbprint", "san_count", "sans", "iocs", "shared"],
+  optional: ["issuer", "subject", "serial", "not_after", "weak", "weak_why"],
+};
+/** 生えた IOC がどこから来たか。増えたら気づけるように列挙で持つ。 */
+const ORIGINS = new Set(["vt.dns"]);
+const DNS_TYPES = new Set(["A", "AAAA", "CNAME"]);
 
 /**
  * prefix が値を含むか。enrich-asn.mjs の最長一致が正しく効いたかを確かめる。
@@ -227,7 +275,7 @@ function checkStringArray(name, i, field, v, { sorted = true } = {}) {
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const today = new Date().toISOString().slice(0, 10);
-function checkDate(name, i, field, v) {
+function checkDate(name, i, field, v, { oldest = "2000-01-01" } = {}) {
   if (typeof v !== "string" || !DATE.test(v)) {
     err("date.format", `${field} が YYYY-MM-DD ではありません: ${v}`, at(name, i));
     return false;
@@ -238,7 +286,7 @@ function checkDate(name, i, field, v) {
     return false;
   }
   if (v > today) warn("date.future", `${field} が未来です: ${v}`, at(name, i));
-  if (v < "2000-01-01") warn("date.old", `${field} が古すぎます: ${v}`, at(name, i));
+  if (v < oldest) warn("date.old", `${field} が古すぎます: ${v}`, at(name, i));
   return true;
 }
 
@@ -651,7 +699,8 @@ for (let i = 0; subnetRows && i < subnetRows.length; i++) {
 
 const asnCoRows = loadJsonl("asn-cotenancy.jsonl", { required: false });
 checkCoTenancy("asn-cotenancy.jsonl", asnCoRows, "asn", byKeys("asn"),
-  { required: ["asn", "ips", "actors", "malware", "addresses", "shared_hosting"], optional: ["name", "cc"] });
+  { required: ["asn", "ips", "actors", "malware", "addresses", "shared_hosting"],
+    optional: ["name", "cc", "hosting_ratio", "hosting_seen"] });
 for (let i = 0; asnCoRows && i < asnCoRows.length; i++) {
   const a = asnCoRows[i];
   if (asnRows && !asnKnown.has(a.asn)) {
@@ -679,6 +728,16 @@ if (overlaps) {
     }
     if (!Array.isArray(o.via) || !o.via.length || o.via.some((v) => !VIA.has(v))) {
       err("overlap.via", `via が不正です: ${JSON.stringify(o.via)}`, at("overlaps.jsonl", i));
+    } else {
+      // 根拠の強さは数え直して突き合わせる。ここがずれると並べ替えの意味が無くなる
+      const expect = o.via.reduce((n, v) => n + VIA_WEIGHT[v], 0);
+      if (o.strength !== expect) {
+        err("overlap.strength", `strength が ${expect} と違います: ${o.strength}`, at("overlaps.jsonl", i));
+      }
+      const weak = o.via.every((v) => WEAK_VIA.has(v));
+      if (weak !== (o.weak_only === true)) {
+        err("overlap.weak", `weak_only が ${weak} であるべきです: ${o.weak_only}`, at("overlaps.jsonl", i));
+      }
     }
     // 割合は「小さいほうの IOC 数」に対する共有数。件数だけで並べないための値
     const expect = Math.round((o.shared / Math.max(1, Math.min(o.a_iocs, o.b_iocs))) * 1000) / 1000;
@@ -734,6 +793,267 @@ if (added) {
     if (!line) err("new.missing", `iocs.jsonl にありません: ${added[i].key}`, at("new.jsonl", i));
     else if (line !== stableStringify(added[i], 0)) {
       err("new.mismatch", `iocs.jsonl の内容と違います: ${added[i].key}`, at("new.jsonl", i));
+    }
+  }
+}
+
+/* ---- エンリッチ（enrich-intel.mjs があるときだけ） ---- */
+
+const derivedIocs = loadJsonl("derived-iocs.jsonl", { required: false });
+const derivedIocByKey = new Map((derivedIocs || []).map((r) => [r.key, r]));
+/** 判定の指す先。索引が主張した IOC と、そこから導いた IOC のどちらでもよい。 */
+const anyIoc = (key) => iocByKey.has(key) || derivedIocByKey.has(key);
+
+if (derivedIocs) {
+  checkOrder("derived-iocs.jsonl", derivedIocs, byKeys("type", "value"), (r) => r.key);
+  for (let i = 0; i < derivedIocs.length; i++) {
+    const r = derivedIocs[i];
+    checkFields("derived-iocs.jsonl", r, i, DERIVED_IOC_FIELDS);
+    // **索引側を優先する。** 混ざると「これはどこの主張か」が追えなくなる
+    if (iocByKey.has(r.key)) {
+      err("derived.duplicate", `iocs.jsonl と重複しています: ${r.key}`, at("derived-iocs.jsonl", i));
+    }
+    if (!IOC_TYPES.has(r.type)) err("derived.type", `知らない型です: ${r.type}`, at("derived-iocs.jsonl", i));
+    if (r.key !== `${r.type}|${joinKey(r.type, r.value)}`) {
+      err("derived.key", `key が type|value と食い違います: ${r.key}`, at("derived-iocs.jsonl", i));
+    }
+    if (!ORIGINS.has(r.origin)) err("derived.origin", `知らない出どころです: ${r.origin}`, at("derived-iocs.jsonl", i));
+    checkStringArray("derived-iocs.jsonl", i, "from", r.from);
+    for (const src of r.from || []) {
+      if (!iocByKey.has(src)) {
+        err("derived.from", `from が存在しない IOC を指しています: ${src}`, at("derived-iocs.jsonl", i));
+      }
+    }
+  }
+}
+
+const derivedEntities = loadJsonl("derived-entities.jsonl", { required: false });
+const derivedEntityKeys = new Set((derivedEntities || []).map((e) => `${e.kind}\t${e.name}`));
+if (derivedEntities) {
+  checkOrder("derived-entities.jsonl", derivedEntities, byKeys("kind", "name"), (e) => `${e.kind}\t${e.name}`);
+  for (let i = 0; i < derivedEntities.length; i++) {
+    const e = derivedEntities[i];
+    checkFields("derived-entities.jsonl", e, i, DERIVED_ENTITY_FIELDS);
+    // 索引に同じ名前があるなら畳めていない。畳まないと正規化した意味が無くなる
+    if (entityKeys.has(`${e.kind}\t${e.name}`)) {
+      err("derived.entity_dup", `entities.jsonl と重複しています: ${e.kind}/${e.name}`, at("derived-entities.jsonl", i));
+    }
+    if (!Number.isInteger(e.ioc_count) || e.ioc_count < 1) {
+      err("derived.entity_count", `ioc_count が 1 以上の整数ではありません: ${e.ioc_count}`, at("derived-entities.jsonl", i));
+    }
+  }
+}
+
+const derivedLinks = loadJsonl("derived-links.jsonl", { required: false });
+if (derivedLinks) {
+  const cmp = byKeys("ioc", "kind", "name", "rel", "source");
+  checkOrder("derived-links.jsonl", derivedLinks, cmp, (l) => `${l.ioc}\t${l.kind}\t${l.name}\t${l.rel ?? ""}\t${l.source}`);
+  const perEntity = new Map();
+  for (let i = 0; i < derivedLinks.length; i++) {
+    const l = derivedLinks[i];
+    checkFields("derived-links.jsonl", l, i, LINK_FIELDS);
+    if (!anyIoc(l.ioc)) {
+      err("derived.link_ioc", `存在しない IOC を指しています: ${l.ioc}`, at("derived-links.jsonl", i));
+    }
+    if (!LINK_KINDS.has(l.kind)) {
+      err("derived.link_kind", `知らない kind です: ${l.kind}`, at("derived-links.jsonl", i));
+      continue;
+    }
+    if (l.kind === "ioc") {
+      // IOC 同士の辺。相手も実在しないと、辿った先で行き止まりになる
+      if (!anyIoc(l.name)) {
+        err("derived.link_target", `辺の相手が存在しません: ${l.name}`, at("derived-links.jsonl", i));
+      }
+    } else if (["actor", "malware", "campaign", "case"].includes(l.kind)) {
+      const k = `${l.kind}\t${l.name}`;
+      if (!entityKeys.has(k) && !derivedEntityKeys.has(k)) {
+        err("derived.link_entity", `実体がありません: ${l.kind}/${l.name}`, at("derived-links.jsonl", i));
+      }
+      if (derivedEntityKeys.has(k)) {
+        if (!perEntity.has(k)) perEntity.set(k, new Set());
+        perEntity.get(k).add(l.ioc);
+      }
+    }
+  }
+  // 生えた実体の ioc_count は辺から数え直して合うこと
+  for (let i = 0; derivedEntities && i < derivedEntities.length; i++) {
+    const e = derivedEntities[i];
+    const n = perEntity.get(`${e.kind}\t${e.name}`)?.size ?? 0;
+    if (e.ioc_count !== n) {
+      err("derived.entity_count", `ioc_count が辺の数え直し（${n}）と違います: ${e.ioc_count}`, at("derived-entities.jsonl", i));
+    }
+  }
+}
+
+const derivedAliases = loadJsonl("derived-aliases.jsonl", { required: false });
+if (derivedAliases) {
+  checkOrder("derived-aliases.jsonl", derivedAliases, byKeys("name"), (a) => a.name);
+  for (let i = 0; i < derivedAliases.length; i++) {
+    const a = derivedAliases[i];
+    checkFields("derived-aliases.jsonl", a, i, DERIVED_ALIAS_FIELDS);
+    checkStringArray("derived-aliases.jsonl", i, "aliases", a.aliases);
+    // 自分自身を別名に持つと、畳んだときに元の名前が消える
+    if ((a.aliases || []).includes(a.name)) {
+      err("derived.alias_self", `自分自身を別名に持っています: ${a.name}`, at("derived-aliases.jsonl", i));
+    }
+  }
+}
+
+const derivedCerts = loadJsonl("derived-certs.jsonl", { required: false });
+if (derivedCerts) {
+  checkOrder("derived-certs.jsonl", derivedCerts, byKeys("thumbprint"), (c) => c.thumbprint);
+  for (let i = 0; i < derivedCerts.length; i++) {
+    const c = derivedCerts[i];
+    checkFields("derived-certs.jsonl", c, i, DERIVED_CERT_FIELDS);
+    if (!/^[0-9a-f]{64}$/.test(String(c.thumbprint))) {
+      err("cert.thumbprint", `SHA-256 の thumbprint ではありません: ${c.thumbprint}`, at("derived-certs.jsonl", i));
+    }
+    checkStringArray("derived-certs.jsonl", i, "iocs", c.iocs);
+    for (const k of c.iocs || []) {
+      if (!anyIoc(k)) err("cert.ioc", `存在しない IOC を指しています: ${k}`, at("derived-certs.jsonl", i));
+    }
+    if (c.shared !== (Array.isArray(c.iocs) && c.iocs.length > 1)) {
+      err("cert.shared", `shared が IOC 数と食い違います: ${c.shared}`, at("derived-certs.jsonl", i));
+    }
+    // sans は上限まで、san_count は本当の数。逆転していたら数え方が崩れている
+    if (!Number.isInteger(c.san_count) || c.san_count < (c.sans?.length ?? 0)) {
+      err("cert.san_count", `san_count が sans の数を下回っています: ${c.san_count}`, at("derived-certs.jsonl", i));
+    }
+    if ((c.weak === true) !== (c.weak_why !== undefined)) {
+      err("cert.weak", "weak と weak_why は揃っている必要があります", at("derived-certs.jsonl", i));
+    }
+  }
+}
+
+const vtRows = loadJsonl("vt.jsonl", { required: false });
+if (vtRows) {
+  checkOrder("vt.jsonl", vtRows, byKeys("ioc"), (r) => r.ioc);
+  for (let i = 0; i < vtRows.length; i++) {
+    const r = vtRows[i];
+    checkFields("vt.jsonl", r, i, VT_FIELDS);
+    if (!anyIoc(r.ioc)) err("vt.ioc", `存在しない IOC を指しています: ${r.ioc}`, at("vt.jsonl", i));
+    if (typeof r.known !== "boolean") {
+      err("field.type", `known が真偽値ではありません: ${r.known}`, at("vt.jsonl", i));
+      continue;
+    }
+    if (!r.known) {
+      // VT が知らないものに判定が入っていたら組み立てが崩れている（routed:false と同じ扱い）
+      const extra = Object.keys(r).filter((k) => k !== "ioc" && k !== "known");
+      if (extra.length) {
+        err("vt.unknown", `known:false なのに判定が入っています: ${extra.join(", ")}`, at("vt.jsonl", i));
+      }
+      continue;
+    }
+    for (const f of ["malicious", "suspicious", "harmless", "undetected", "timeout"]) {
+      if (r[f] === undefined) continue;
+      if (!Number.isInteger(r[f]) || r[f] < 0) {
+        err("vt.stats", `${f} が 0 以上の整数ではありません: ${r[f]}`, at("vt.jsonl", i));
+      }
+    }
+    for (const f of ["malicious", "suspicious", "harmless", "undetected"]) {
+      if (r[f] === undefined) err("field.missing", `${f} がありません`, at("vt.jsonl", i));
+    }
+    for (const f of ["analyzed_at", "first_submission", "created"]) {
+      // ドメインの登録日は 1990 年代のものが普通にある。ここだけ下限を下げる
+      if (r[f] !== undefined) checkDate("vt.jsonl", i, f, r[f], f === "created" ? { oldest: "1985-01-01" } : {});
+    }
+    if (r.families !== undefined) checkStringArray("vt.jsonl", i, "families", r.families);
+    if (r.names !== undefined) checkStringArray("vt.jsonl", i, "names", r.names);
+    if (r.cert !== undefined) {
+      if (!/^[0-9a-f]{64}$/.test(String(r.cert.thumbprint))) {
+        err("vt.cert", `cert.thumbprint が SHA-256 ではありません: ${r.cert.thumbprint}`, at("vt.jsonl", i));
+      } else if (derivedCerts && !derivedCerts.some((c) => c.thumbprint === r.cert.thumbprint)) {
+        err("vt.cert", `derived-certs.jsonl に無い証明書です: ${r.cert.thumbprint}`, at("vt.jsonl", i));
+      }
+    }
+    for (const d of r.dns || []) {
+      if (!DNS_TYPES.has(d.type)) err("vt.dns", `知らないレコード型です: ${d.type}`, at("vt.jsonl", i));
+    }
+    if (r.jarm !== undefined && !/^[0-9a-f]{62}$/.test(String(r.jarm))) {
+      warn("vt.jarm", `JARM の形ではありません: ${r.jarm}`, at("vt.jsonl", i));
+    }
+  }
+}
+
+const abuseRows = loadJsonl("abuseipdb.jsonl", { required: false });
+if (abuseRows) {
+  checkOrder("abuseipdb.jsonl", abuseRows, byKeys("ioc"), (r) => r.ioc);
+  for (let i = 0; i < abuseRows.length; i++) {
+    const r = abuseRows[i];
+    checkFields("abuseipdb.jsonl", r, i, ABUSE_FIELDS);
+    const ioc = iocByKey.get(r.ioc) || derivedIocByKey.get(r.ioc);
+    if (!ioc) {
+      err("abuse.ioc", `存在しない IOC を指しています: ${r.ioc}`, at("abuseipdb.jsonl", i));
+    } else if (ioc.type !== "ioc.ipv4" && ioc.type !== "ioc.ipv6") {
+      err("abuse.type", `IP ではない IOC に通報状況が付いています: ${ioc.type}`, at("abuseipdb.jsonl", i));
+    }
+    // **通報数ではなくスコアで判断する**ので、スコアの範囲は必ず見る
+    if (!Number.isInteger(r.score) || r.score < 0 || r.score > 100) {
+      err("abuse.score", `score が 0〜100 の整数ではありません: ${r.score}`, at("abuseipdb.jsonl", i));
+    }
+    for (const f of ["reports", "reporters"]) {
+      if (!Number.isInteger(r[f]) || r[f] < 0) {
+        err("abuse.count", `${f} が 0 以上の整数ではありません: ${r[f]}`, at("abuseipdb.jsonl", i));
+      }
+    }
+    if (Number.isInteger(r.reports) && Number.isInteger(r.reporters) && r.reporters > r.reports) {
+      err("abuse.count", `通報者が通報数を上回っています: ${r.reporters} > ${r.reports}`, at("abuseipdb.jsonl", i));
+    }
+    if (r.last_reported_at !== undefined) checkDate("abuseipdb.jsonl", i, "last_reported_at", r.last_reported_at);
+    for (const [k, v] of Object.entries(r.categories || {})) {
+      if (!Number.isInteger(v) || v < 1) {
+        err("abuse.categories", `${k} の件数が 1 以上の整数ではありません: ${v}`, at("abuseipdb.jsonl", i));
+      }
+    }
+  }
+}
+
+/* ---- カバレッジ。分母と分子が実データと合っているか ---- */
+
+const enrichMeta = readJson(path.join(IN, "enrich-meta.json"));
+if ((vtRows || abuseRows) && !enrichMeta) {
+  err("file.missing", "エンリッチの結果があるのに enrich-meta.json がありません", { file: "enrich-meta.json" });
+}
+if (enrichMeta) {
+  // どの写しから出た結果かが残っていないと、再現も検証もできない
+  for (const svc of ["virustotal", "abuseipdb"]) {
+    if (!/^[0-9a-f]{64}$/.test(String(enrichMeta.cache?.[svc]?.sha256))) {
+      err("enrichmeta.sha", `${svc} の写しのハッシュがありません`, { file: "enrich-meta.json" });
+    }
+  }
+  const asnOf = new Map();
+  for (const r of ipAsn || []) if (r.asn) asnOf.set(r.ioc, r.asn);
+  const expect = coverageOf({
+    iocs, links,
+    fresh: new Set((added || []).map((r) => r.key)),
+    asnOf,
+    asnInfo: new Map((asnRows || []).map((a) => [a.asn, a])),
+    vtRows: vtRows || [],
+    abuseRows: abuseRows || [],
+    includeNoise: !!readJson(path.join(IN, "stats.json"))?.options?.include_noise,
+  });
+  /**
+   * 「検知されたのは 12%」と「調べた範囲の 12%」は別物。
+   * 分母がずれていると、後者を前者として読むことになる。
+   */
+  const compare = (where, got) => {
+    for (const svc of ["virustotal", "abuseipdb"]) {
+      for (const f of ["target", "done", "known", "unknown", "ratio"]) {
+        if (expect[svc][f] === undefined) continue;
+        if (got?.[svc]?.[f] !== expect[svc][f]) {
+          err("coverage.count", `${svc}.${f} が ${expect[svc][f]} と違います: ${got?.[svc]?.[f]}`, { file: where });
+        }
+      }
+    }
+  };
+  compare("enrich-meta.json", enrichMeta.coverage);
+  const statsJson = readJson(path.join(IN, "stats.json"));
+  if (statsJson) {
+    if (!statsJson.coverage) {
+      // 途中の統計は一部しか見ていない。分母が無い統計は読み違えのもとになる
+      err("coverage.missing", "stats.json に coverage がありません", { file: "stats.json" });
+    } else {
+      compare("stats.json", statsJson.coverage);
     }
   }
 }

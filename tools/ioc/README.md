@@ -6,13 +6,18 @@
 すべて Node の標準機能だけで動く。依存も、ビルドも、AI も要らない。
 
 ```
-node tools/ioc/collect.mjs      # 索引 → iocs / links / entities
-node tools/ioc/fetch-asn.mjs    # 経路表の写しを取る（ここだけ外に出る。キーは不要）
-node tools/ioc/enrich-asn.mjs   # IP に AS を付ける（写しだけを見る）
-node tools/ioc/stats.mjs        # → overlaps / graph / subnets / asn-cotenancy / stats
-node tools/ioc/validate.mjs     # 出来たものを検査する
-node tools/ioc/selftest.mjs     # validate 自体を検査する
+node tools/ioc/collect.mjs         # 索引 → iocs / links / entities
+node tools/ioc/fetch-asn.mjs       # 経路表の写しを取る（外に出る。キーは不要）
+node tools/ioc/enrich-asn.mjs      # IP に AS を付ける（写しだけを見る）
+node tools/ioc/fetch-vt.mjs        # VirusTotal の写しを取る（外に出る。キーが要る）
+node tools/ioc/fetch-abuseipdb.mjs # AbuseIPDB の写しを取る（外に出る。キーが要る）
+node tools/ioc/enrich-intel.mjs    # 判定を付け、そこから実体と辺を生やす（写しだけを見る）
+node tools/ioc/stats.mjs           # → overlaps / graph / subnets / asn-cotenancy / stats
+node tools/ioc/validate.mjs        # 出来たものを検査する
+node tools/ioc/selftest.mjs        # validate 自体を検査する
 ```
+
+キーが要るのは `fetch-vt` と `fetch-abuseipdb` の 2 つだけ。**無くても他は全部通しで動く。**
 
 ## 設計上の約束
 
@@ -20,9 +25,9 @@ node tools/ioc/selftest.mjs     # validate 自体を検査する
 中身に時刻を混ぜない。だから `git diff` に出るのは実際の変化だけになる。
 実行時刻と取得元のハッシュは `meta.json` にだけ置く（唯一、毎回変わるファイル）。
 
-**外部に出る工程を 1 つに絞る。** 外へ行くのは `fetch-asn.mjs`（と索引の取得）だけで、
-どちらも**写しを残す**。以降の工程は写ししか見ないので、同じ写しからは何度でも同じ結果が
-出る。API キーは 1 つも要らない。
+**外部に出る工程を分ける。** 外へ行くのは `fetch-*.mjs`（と索引の取得）だけで、
+どれも**写しを残す**。分析する工程は写ししか見ないので、同じ写しからは何度でも同じ結果が
+出る。工程が分かれているので、キーが無い環境でも `stats` まで通しで動く。
 
 **除きたいものは捨てずに印を付ける。** bogon や公開 DNS は `bogon` / `noise` の印を
 付けて残し、統計側が既定で除く。捨ててしまうと「なぜ消えたか」が後から分からず、
@@ -90,6 +95,111 @@ AS 名（12 万件）を写しとして落とす。IP ごとに問い合わせ�
 400 万アドレスを持つ事業者に 2 つの実体が居るのは偶然だが、1,024 アドレスしか
 持たない AS なら同じ相手から借りているとみてよい。実測 7 秒（経路表の読み込み込み）。
 
+## fetch-vt.mjs / fetch-abuseipdb.mjs
+
+VirusTotal と AbuseIPDB の判定を写しに取る。**外に出るのはここだけ。**
+
+```
+VT_API_KEYS="k1,k2,k3" node tools/ioc/fetch-vt.mjs
+                       [--in data/ioc/latest] [--cache data/ioc/.cache/vt]
+                       [--limit 1500] [--stage 1] [--plan]
+                       [--rpm 4] [--daily 500] [--hourly 240] [--max-age 2592000] [--full]
+
+ABUSEIPDB_API_KEY="k"  node tools/ioc/fetch-abuseipdb.mjs [--limit 1000] [--plan]
+```
+
+**1 IOC につき object を 1 回だけ**引く。関係（`/resolutions` など）は引かない。
+1 IOC あたり呼び出しが 1〜3 回増え、18,589 件では成立しないため。object の応答だけでも
+DNS レコード・証明書・JARM・脅威ラベルは入っている。
+
+### 順番が結果を決める
+
+VT の無料枠は 1 鍵 500 件/日。鍵 3 本でも全件に 13 日かかる。だから
+**どれから引くか**を決める（[計画 §4](../../docs/ioc-enrich-plan.md)）。`--plan` で引かずに内訳だけ出せる。
+
+| 段階 | 対象 | 実測 |
+| --- | --- | --- |
+| new | 前回に無かった IOC。常に最優先 | — |
+| 1 | **複数の実体に繋がる IOC**。重なりの根拠そのもの | 4,787 |
+| 2 | 注目 IP（小さい AS / 別アクター同居の /24） | 294 |
+| 3 | ハッシュ（実体 1 つ） | 4,482 |
+| 4 | ドメイン・URL（実体 1 つ） | 6,470 |
+| 5 | 残りの IP | 2,066 |
+| 6 | 実体に繋がっていない IOC | 490 |
+
+**段階 1 が終われば主目的はほぼ達成する。** 途中で止めても、止まった所までは
+意味のある順で埋まっている。
+
+### 枠は取得元に聞く
+
+始める前に `GET /users/{key}` で「今日もう何件使ったか」を鍵ごとに聞く（この呼び出しは
+枠を消費しない）。手元で数えるより確かで、別の用途で使った分も反映される。
+1 分あたりの間隔は鍵ごとに持つ。まとめて数えると、鍵 3 本でも 1 本ぶんしか出せない。
+1 時間の上限は**待てば戻るもの**なので日の上限と区別する。区別しないと 1 時間ぶんを
+使った所で走行が終わる。使い切った鍵は自然に外れ、残った鍵で続く。
+
+### 写しは「射影」であって応答そのものではない
+
+VT のファイル応答は 1 件 50〜200 KB あり、その大半をベンダーごとの判定文字列
+（`last_analysis_results`）が占める。18,589 件では 1 GB を超え、写しとして持ち歩ける
+大きさでなくなる。そこで**計画が使うと決めた欄だけ**を残し、**版を写しに書く**
+（`projection`）。使う欄を増やしたら版を上げれば、版の古い写しだけが取り直される。
+全欄が要るときは `--full`。
+
+`404` は失敗ではなく**結果**として残す（`known: false`）。索引の独自性の指標になる。
+リクエストヘッダは保存しない（写しにキーを混ぜないため）。
+
+## enrich-intel.mjs
+
+```
+node tools/ioc/enrich-intel.mjs [--in data/ioc/latest] [--out <同じ場所>]
+                                [--vt-cache <写し>] [--abuse-cache <写し>]
+                                [--san-cap 100] [--name-cap 8]
+```
+
+写しから判定を起こし、そこから**知らなかった実体と辺を生やす**。外部呼び出しなし。
+
+| 出力 | 中身 |
+| --- | --- |
+| `vt.jsonl` | IOC ごとの判定。VT が知らないものは `known:false` |
+| `abuseipdb.jsonl` | IP ごとの通報状況。**通報数ではなくスコアで判断する** |
+| `derived-iocs.jsonl` | 写しから生えた IOC（DNS の解決先）。`origin` で出どころが分かる |
+| `derived-links.jsonl` | 生えた辺（解決先・ファミリ） |
+| `derived-entities.jsonl` | 生えた実体（索引に無かった VT のファミリ名） |
+| `derived-aliases.jsonl` | ファミリの別名候補 |
+| `derived-certs.jsonl` | 証明書ごとの IOC のまとまり |
+| `enrich-meta.json` | **カバレッジ**・写しのハッシュ・取得の期間 |
+
+**元のファイルは汚さない。** 生えたものは `derived-*.jsonl` に分ける。索引が主張した
+IOC と、そこから導いた IOC を混ぜると「これはどこの主張か」が追えなくなる。
+索引と重複したものは索引側を優先し、派生には入れない。
+
+### 生やすものが 3 つある
+
+**マルウェア名の正規化。** `suggested_threat_label`（`trojan.emotet/heur`）から
+ファミリを取り出す。索引に同じ名前があれば**索引の表記に寄せる**。寄せないと
+`emotet` と `Emotet` が別の実体として並び、正規化した意味が無くなる。
+`trojan.generic` のような一般名は畳まない。無関係な検体が 1 つの塊になってしまう。
+
+**ドメイン → IP の辺。** `last_dns_records` の A / AAAA から起こす。索引が持っていた
+IOC ↔ IOC の辺は **315 本しかない**。ここが増えると、ドメインしか持たないアクターと
+IP しか持たないアクターが繋がる。
+
+**証明書の共有。** `thumbprint_sha256` が一致するものをまとめる。最も強いインフラ共有の
+証拠だが、**根拠に使えないものがある**ので印を付ける（捨てはしない）。
+
+- `san` … SAN が `--san-cap`（既定 100）を超える。共用ホスティング
+- `wildcard` … SAN が全部ワイルドカード。その host ではなく**基盤に出された証明書**
+
+2 つ目は実測で見つかったもの。`*.azurewebsites.net` の証明書が無関係な 2 つのドメインを
+結んでいた。SAN 数は 11 と 30 で上限には遠く、**数だけでは見分けられない**。
+
+### AS は経路表と突き合わせる
+
+VT が言う AS 番号と `enrich-asn.mjs` の結果を照合し、食い違ったら `asn_differs` の印を
+付けて**両方残す**。経路表の時点差なので、どちらかが誤りとは言えない。食い違いの数は
+`enrich-meta.json` の `asn_check` に出る。
+
 ## stats.mjs
 
 ```
@@ -97,16 +207,37 @@ node tools/ioc/stats.mjs [--in data/ioc/latest] [--out <同じ場所>]
                          [--since <前回のスナップショット>] [--include-noise]
                          [--ubiquity-cap 8] [--min-shared 1]
                          [--asn-max-addresses 4096] [--asn-max-actors 8]
+                         [--jarm-cap 0.01] [--filename-cap 8]
+                         [--hosting-ratio 0.7] [--hosting-min 3]
 ```
 
-重なりの根拠を 4 つ出す。どれも「共有している IOC の数」で測る。
+重なりの根拠を 9 つ出す。どれも「共有している IOC の数」で測る。
+後半 5 つは `enrich-intel.mjs` があるときだけ出る。
 
-| 根拠 | 意味 |
-| --- | --- |
-| `ioc` | 同じ IOC を指している（最も強い） |
-| `subnet` | 同じ /24 に IP がある。**API を 1 回も呼ばずにインフラの共有が見える** |
-| `registrable` | 同じ登録可能ドメイン（eTLD+1）を使っている |
-| `asn` | 同じ AS に IP がある。**小さい AS に限る**（`enrich-asn.mjs` があるときだけ） |
+| 根拠 | 意味 | 点 |
+| --- | --- | --- |
+| `certificate` | 同じ証明書（thumbprint 一致）。**最も強いインフラ共有の証拠** | 9 |
+| `ioc` | 同じ IOC を指している | 8 |
+| `resolution` | 同じ IP に解決するドメインを持っている | 7 |
+| `family` | VT が同じ脅威ラベルを付けている | 5 |
+| `subnet` | 同じ /24 に IP がある。**API を 1 回も呼ばずに見える** | 5 |
+| `asn` | 同じ AS に IP がある。**小さい AS に限る** | 5 |
+| `filename` | 珍しいファイル名の共有 | 2 |
+| `registrable` | 同じ登録可能ドメイン（eTLD+1）を使っている | 2 |
+| `jarm` | 同じ TLS 指紋。**単独では根拠にしない** | 1 |
+
+**強さを数字にする。** 共有数と割合だけだと、根拠の種類による差が出ない。出てきた
+根拠の点を合算して `strength` に持たせ、要約の並べ替えをこれにする。共有数を掛けないのは、
+弱い根拠を数で押した組が強い根拠 1 つの組を追い越さないようにするため。
+弱い根拠（`filename` / `registrable` / `jarm`）だけの組には `weak_only` の印を付ける。
+**除くのではなく印を付ける**（`bogon` / `noise` と同じ扱い）。
+
+`jarm` と `filename` は**ありふれた値を外す**。既定の nginx で一致する JARM や
+`invoice.doc` を根拠にすると、無関係な実体が総当たりで繋がる。JARM は全体の
+`--jarm-cap`（既定 1%）を超えたら、ファイル名は `--filename-cap` 件を超えたら外す。
+
+`resolution` は**誰かの解決先になっている IP だけ**を数える。自分の IP を無条件に
+入れると `ioc`（同じ IOC を指している）の写しになってしまう。
 
 総当たりではなく IOC 側から引くので実体数の 2 乗にならない。多数の実体に付く
 ありふれた IOC は根拠として弱く組も大量に生むので、`--ubiquity-cap` を超えたら数えない。
@@ -114,6 +245,46 @@ node tools/ioc/stats.mjs [--in data/ioc/latest] [--out <同じ場所>]
 
 出力は `stats.json`（要約）、`overlaps.jsonl`（組ごとの根拠）、`graph.json`（そのまま
 描ける形）、`subnets.jsonl` と `asn-cotenancy.jsonl`（同居の全件）。
+`overlaps.jsonl` の行の並びは `kind, a, b` のまま（決定性のため）で、
+強さで並べ替えるのは要約側。
+
+### カバレッジを必ず先頭に出す
+
+`stats.json` の先頭は `coverage`。1 キーでは全件が埋まるまで日数がかかり、
+その途中の統計は**一部しか見ていない**。
+
+```json
+"coverage": {
+  "virustotal": { "target": 18589, "done": 1428, "known": 1301, "unknown": 127, "ratio": 0.077,
+                  "by_stage": { "1": { "done": 1428, "target": 4787 } } },
+  "abuseipdb":  { "target": 3222, "done": 996, "ratio": 0.309 },
+  "oldest_fetch": "2026-08-02", "newest_fetch": "2026-08-02"
+}
+```
+
+「検知されたのは 12%」と「調べた範囲の 12%」は別物で、後者を前者として読むと必ず
+間違える。**未エンリッチは陰性ではなく未知**として数える。分母の数え方は
+`fetch-*` と `enrich-intel` と同じ関数（`lib/enrich.mjs` の `coverageOf`）を使う。
+別々に数えると分母が食い違い、どちらが正しいのか誰にも分からなくなる。
+
+### 時間軸と判定の分布
+
+VT の `first_submission_date` は索引が持っていない「世に出た日」。ここから 3 つ出す。
+
+- **実体ごとの活動期間** — その実体に繋がる IOC が世に出た日の最小と最大
+- **キャンペーン間の時間的重なり** — IOC を共有していなくても「同じ時期に動いていた」
+- **索引の遅れ** — 索引の観測日と `first_submission_date` の差の分布
+
+判定そのものからは、アクターごとの検知数の中央値、VT が知らない IOC の数、そして
+**索引が「C2」と言っているのに検知 0** の件数を出す。どれも索引側の誤りか、
+まだ知られていないかのどちらかで、どちらでも見る価値がある。
+
+### 相乗り判定に 3 つ目の観点が入る
+
+`asn-cotenancy.jsonl` に `hosting_ratio` が付く。その AS の IP のうち AbuseIPDB が
+`Data Center / Web Hosting / Transit` と言う割合で、`--hosting-ratio`（既定 0.7）を
+超えたら相乗りとみなす。ただし判定の付いた IP が `--hosting-min`（既定 3）未満の AS では
+割合が当てにならないので使わない。**カバレッジが低い間に効きすぎないための歯止め。**
 
 ### AS を根拠に使う条件は 2 つある
 
@@ -150,6 +321,8 @@ node tools/ioc/validate.mjs [--in data/ioc/latest] [--json <報告の書き出�
 7. **集計** — `entities.ioc_count` と `meta.counts` を辺から数え直して突き合わせる
 8. **AS** — **prefix が本当にその値を含むか**、AS ごとの IOC 数、写しのハッシュの有無
 9. **派生物** — `overlaps` / `graph` / `stats` / `new` / 同居の一覧を元データと突き合わせる
+10. **エンリッチ** — `vt` / `abuseipdb` / `derived-*` の指す先、スコアの範囲、
+    `known:false` に判定が入っていないか、**`coverage` の分母と分子が実データと合うか**
 
 8 の prefix 包含は最長一致が効いたかを直接確かめるもので、`45.32.10.7/21` のように
 網以外のビットが残った書き方も弾く。
@@ -160,6 +333,11 @@ error にしているのは、**欠けた一式を揃ったものとして週次
 ハッシュの桁数検査は実際に見つかった誤りへの対応で、SHA-512 を `ioc.sha256` として
 載せている索引があった。型が違うと照合が静かに外れるので、検出できる形にしてある。
 
+10 のカバレッジ検査は、**分母をもう一度データから数え直して突き合わせる**もの。
+分母がずれていると「調べた範囲の 12%」を「検知されたのは 12%」として読むことになる。
+`known:false` に判定が入っていないかは `routed:false` と同じ扱いで、
+「調べたが無かった」を「調べていない」と混ぜないための検査。
+
 ## selftest.mjs
 
 ```
@@ -168,7 +346,11 @@ node tools/ioc/selftest.mjs [--keep]
 
 検査scriptは「通る」だけでは意味がない。通ってしまう壊れ方があるなら、検査していない
 のと同じ。ここでは小さな正しい一式を作り、**既知の壊し方を 1 つずつ加えて狙った規則が
-鳴ることを確かめる**（45 通り）。既存のデータもネットワークも要らない。
+鳴ることを確かめる**（68 通り）。既存のデータもネットワークも要らない。
+
+一式のうち `entities` `meta` `coverage` と、重なり・同居・グラフは**手で書かない**。
+実体は辺から数え直し、カバレッジは本番と同じ `coverageOf` で起こし、重なりは
+`stats.mjs` を実際に走らせて作る。手で書くと、数え方がずれる壊れ方を検査できなくなる。
 
 ## 週次で回す
 
@@ -185,6 +367,21 @@ rm -rf data/ioc/latest && cp -r data/ioc/$WEEK data/ioc/latest
 `validate` が通ってから `latest` を差し替える。壊れた一式が次回の `--since` の基準に
 なることを防ぐ。
 
+## 日次でエンリッチする
+
+VT の無料枠は 1 鍵 500 件/日。索引の取り込みは週次のままで、**判定を足すのは日次**にする。
+
+```sh
+VT_API_KEYS="k1,k2,k3" ABUSEIPDB_API_KEY="k" sh tools/ioc/daily.sh
+```
+
+その日の枠を使い切るまで引き、写しから作り直して検査するところまでやる。
+引く順は段階分けに従うので、**何日目で止めても意味のある所まで進んでいる**。
+写しは IOC ごとに 1 ファイルなので、途中で落ちても次回がそのまま続きから引く。
+
+進み具合は `stats.json` の `coverage` を見る。全部が埋まるまでの目安は、
+鍵 3 本（1,500 件/日）で **13 日**。段階 1（重なりの根拠そのもの）だけなら 4 日。
+
 ### 何を残すか
 
 `iocs.jsonl` と `links.jsonl` は合わせて 10 MB あり、毎週そのまま置くと 1 年で 500 MB を
@@ -193,10 +390,11 @@ rm -rf data/ioc/latest && cp -r data/ioc/$WEEK data/ioc/latest
 
 | 残す | 大きさ | |
 | --- | --- | --- |
-| `stats.json` `overlaps.jsonl` `graph.json` `new.jsonl` `meta.json` `asn-meta.json` `subnets.jsonl` `asn-cotenancy.jsonl` `asns.jsonl` | 約 850 KB | 週ごとに残す |
-| `iocs.jsonl` `links.jsonl` `entities.jsonl` `ip-asn.jsonl` | 約 10 MB | `latest` だけ |
+| `stats.json` `overlaps.jsonl` `graph.json` `new.jsonl` `meta.json` `asn-meta.json` `subnets.jsonl` `asn-cotenancy.jsonl` `asns.jsonl` `enrich-meta.json` `derived-*.jsonl` | 約 1 MB | 週ごとに残す |
+| `iocs.jsonl` `links.jsonl` `entities.jsonl` `ip-asn.jsonl` `vt.jsonl` `abuseipdb.jsonl` | 約 10 MB | `latest` だけ |
 
-`data/ioc/.cache/` は索引の写しなので追跡しない（`.gitignore` 済み）。
+`data/ioc/.cache/` は取得元の写しなので追跡しない（`.gitignore` 済み）。
+VT の写しは 18,589 件ぶんで約 100 MB（射影後）。**キーは写しにも出力にも入らない。**
 
 ## いま出ているもの（19,011 IOC）
 
