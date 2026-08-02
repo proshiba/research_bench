@@ -240,7 +240,7 @@ for (const rec of vtRecords) {
   if (thumb) {
     const sans = [...new Set((c.extensions?.subject_alternative_name || [])
       .map((x) => String(x).trim().toLowerCase()).filter(Boolean))].sort();
-    row.cert = { thumbprint: thumb, sans: sans.length };
+    row.cert = { thumbprint: thumb, san_count: sans.length };
     const issuer = c.issuer?.O || c.issuer?.CN;
     if (issuer) row.cert.issuer = String(issuer);
     if (!certs.has(thumb)) {
@@ -284,9 +284,16 @@ for (const [key, from] of resolveTargets) {
 derivedIocs.sort(byKeys("type", "value"));
 
 const derivedKeys = new Set(derivedIocs.map((r) => r.key));
-/* 解決先が索引側にも派生側にも無い（壊れた値）辺は残さない */
-const usableDerivedLinks = derivedLinks.filter((l) =>
-  l.kind !== "ioc" || iocByKey.has(l.name) || derivedKeys.has(l.name));
+/* 解決先が索引側にも派生側にも無い（壊れた値）辺は残さない。
+   同じ辺が 2 度出ることもあるので、ここで 1 本にまとめる */
+const seenLink = new Set();
+const usableDerivedLinks = derivedLinks.filter((l) => {
+  if (l.kind === "ioc" && !iocByKey.has(l.name) && !derivedKeys.has(l.name)) return false;
+  const k = `${l.ioc}\t${l.kind}\t${l.name}\t${l.rel}\t${l.source}`;
+  if (seenLink.has(k)) return false;
+  seenLink.add(k);
+  return true;
+});
 
 /* ---------------- 3. 生えた実体と別名 ---------------- */
 

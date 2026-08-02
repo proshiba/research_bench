@@ -3,8 +3,10 @@
 //
 //   node tools/ioc/stats.mjs [--in data/ioc/latest] [--out <同じ場所>]
 //                            [--since <前回のスナップショット>] [--include-noise]
-//
-//                            [--jarm-cap 0.01] [--hosting-ratio 0.7] [--hosting-min 3]
+//                            [--ubiquity-cap 8] [--min-shared 1]
+//                            [--asn-max-addresses 4096] [--asn-max-actors 8]
+//                            [--jarm-cap 0.01] [--filename-cap 8]
+//                            [--hosting-ratio 0.7] [--hosting-min 3]
 //
 // 重なりの見方を 9 つ出す。どれも「共有している IOC の数」を根拠にする。
 // 後半 5 つは enrich-intel.mjs があるときだけ出る。
@@ -639,7 +641,7 @@ const stats = {
         with_dates: actorSpans.length,
         // 長く続いている順。活動期間そのものが手掛かりになる
         longest: [...actorSpans]
-          .sort((a, b) => days(a.first, a.last) - days(b.first, b.last) || (a.name < b.name ? 1 : -1))
+          .sort((a, b) => days(b.first, b.last) - days(a.first, a.last) || (a.name < b.name ? -1 : 1))
           .slice(0, 10)
           .map((s) => ({ ...s, span_days: days(s.first, s.last) })),
       },
