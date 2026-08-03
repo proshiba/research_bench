@@ -342,6 +342,21 @@ AS が分からない解決先は判断できないので残す。実測では�
 ありふれた IOC は根拠として弱く組も大量に生むので、`--ubiquity-cap` を超えたら数えない。
 `--since` に前回の場所を渡すと `new.jsonl`（今回増えた IOC）も出す。実測 0.5 秒。
 
+### 根拠は値まで残す
+
+`overlaps.jsonl` の各行に `evidence` を持たせ、**どの証明書・どの IP・どの vhash で
+繋がったか**を値のまま残す。「証明書で繋がっている」と言われても、どの証明書かが
+分からなければ検算できない。`--evidence-cap`（既定 5）で 1 種類あたりの件数を切るが、
+切っても総数は `shared` に残る。
+
+```json
+"evidence": {
+  "certificate": ["015f8941a37ebc14…", "5105aefc79e5b960…"],
+  "ioc": ["ioc.domain|fusu.us.ci", "ioc.domain|110gongan.com"],
+  "subnet": ["108.187.7.0/24"], "asn": ["AS215428"], "family": ["spynote"]
+}
+```
+
 出力は `stats.json`（要約）、`overlaps.jsonl`（組ごとの根拠）、`graph.json`（そのまま
 描ける形）、`subnets.jsonl` と `asn-cotenancy.jsonl`（同居の全件）。
 `overlaps.jsonl` の行の並びは `kind, a, b` のまま（決定性のため）で、

@@ -748,6 +748,20 @@ if (overlaps) {
       if (weak !== (o.weak_only === true)) {
         err("overlap.weak", `weak_only が ${weak} であるべきです: ${o.weak_only}`, at("overlaps.jsonl", i));
       }
+      // **根拠は検算できないと意味がない。** via のそれぞれに値が付いていること
+      const ev = o.evidence;
+      if (!ev || typeof ev !== "object" || Array.isArray(ev)) {
+        err("overlap.evidence", "evidence がありません", at("overlaps.jsonl", i));
+      } else {
+        for (const v of o.via) {
+          if (!Array.isArray(ev[v]) || !ev[v].length) {
+            err("overlap.evidence", `${v} の根拠になった値がありません`, at("overlaps.jsonl", i));
+          }
+        }
+        for (const k of Object.keys(ev)) {
+          if (!o.via.includes(k)) err("overlap.evidence", `via に無い根拠が入っています: ${k}`, at("overlaps.jsonl", i));
+        }
+      }
     }
     // 割合は「小さいほうの IOC 数」に対する共有数。件数だけで並べないための値
     const expect = Math.round((o.shared / Math.max(1, Math.min(o.a_iocs, o.b_iocs))) * 1000) / 1000;

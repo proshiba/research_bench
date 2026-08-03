@@ -7,6 +7,7 @@
 //                            [--asn-max-addresses 4096] [--asn-max-actors 8]
 //                            [--jarm-cap 0.01] [--filename-cap 8] [--filename-min 2]
 //                            [--family-cap 8] [--vhash-cap 8] [--imphash-cap 8]
+//                            [--evidence-cap 5]
 //                            [--hosting-ratio 0.7] [--hosting-min 3]
 //
 // 重なりの見方を 9 つ出す。どれも「共有している IOC の数」を根拠にする。
@@ -38,7 +39,7 @@
 //
 // 出力
 //   stats.json      **カバレッジ**・件数・種別内訳・重なりの要約・時間軸・判定の分布
-//   overlaps.jsonl  実体の組ごとの重なり（根拠と強さつき）
+//   overlaps.jsonl  実体の組ごとの重なり（根拠・強さ・**根拠になった値**つき）
 //   graph.json      実体と重なりのグラフ（そのまま描ける形）
 //   new.jsonl       --since を渡したときだけ。前回に無かった IOC
 //
@@ -76,6 +77,8 @@ const FILENAME_CAP = Number(args["filename-cap"] || args["ubiquity-cap"] || 8);
 const FAMILY_CAP = Number(args["family-cap"] || args["ubiquity-cap"] || 8);
 /** ファイル名を根拠に数えるのに要る、一致した名前の数。1 つだけの一致は偶然が多い。 */
 const FILENAME_MIN = Number(args["filename-min"] || 2);
+/** 根拠の値を 1 種類あたり何件まで残すか。全部だと overlaps.jsonl が膨らむ。 */
+const EVIDENCE_CAP = Number(args["evidence-cap"] || 5);
 /** ファジーハッシュも同じ考え方。これより多くの実体に付く値は、作りが共通なだけ。 */
 const VHASH_CAP = Number(args["vhash-cap"] || args["ubiquity-cap"] || 8);
 const IMPHASH_CAP = Number(args["imphash-cap"] || args["ubiquity-cap"] || 8);
@@ -304,9 +307,13 @@ const asnUsable = (asn) => {
  * 根拠として弱いうえに組を大量に生むので、上限を超えたら数えない。
  */
 function pairsFor(kind, groups) {
-  const pairCount = new Map();  // "a\tb" → { byVia: Map(via → 共有数) }
+  // "a\tb" → { byVia: Map(via → 共有した値の集合) }
+  //
+  // **共有した値そのものを持つ。** 数だけだと「証明書で繋がっている」と言われても
+  // どの証明書かを確かめられない。根拠は後から検算できないと意味がない。
+  const pairCount = new Map();
   for (const [via, byValue] of groups) {
-    for (const [, names] of byValue) {
+    for (const [value, names] of byValue) {
       const list = [...names].sort();
       if (list.length < 2 || list.length > UBIQUITY_CAP) continue;
       for (let i = 0; i < list.length; i++) {
@@ -314,7 +321,8 @@ function pairsFor(kind, groups) {
           const k = `${list[i]}\t${list[j]}`;
           if (!pairCount.has(k)) pairCount.set(k, { byVia: new Map() });
           const m = pairCount.get(k).byVia;
-          m.set(via, (m.get(via) || 0) + 1);
+          if (!m.has(via)) m.set(via, new Set());
+          m.get(via).add(value);
         }
       }
     }
@@ -326,10 +334,11 @@ function pairsFor(kind, groups) {
     const sb = sizes.get(b)?.size || 0;
     // **ファイル名は 1 つだけの一致では数えない。** 置き名や自動命名を落としても
     // 「たまたま同じ名前」は残る。2 つ以上揃って初めて手掛かりになる
-    const via = [...v.byVia.keys()].filter((x) => !(x === "filename" && v.byVia.get(x) < FILENAME_MIN)).sort();
-    const shared = via.reduce((t, x) => t + v.byVia.get(x), 0);
+    const via = [...v.byVia.keys()].filter((x) => !(x === "filename" && v.byVia.get(x).size < FILENAME_MIN)).sort();
+    const shared = via.reduce((t, x) => t + v.byVia.get(x).size, 0);
     if (!via.length) return null;
-    v.n = shared;
+    // 根拠の値そのもの。多いものは切るが、切ったことが分かるように件数は shared に残る
+    const evidence = Object.fromEntries(via.map((x) => [x, [...v.byVia.get(x)].sort().slice(0, EVIDENCE_CAP)]));
     return {
       kind,
       a,
@@ -338,6 +347,7 @@ function pairsFor(kind, groups) {
       via,
       // 根拠の種類による差を数字に出す。共有数だけでは弱い根拠が 10 個ある組が上位に来る
       strength: strengthOf(via),
+      evidence,
       ...(via.every((x) => WEAK_VIA.has(x)) ? { weak_only: true } : {}),
       a_iocs: sa,
       b_iocs: sb,
@@ -654,6 +664,7 @@ const top = (kind, n = 10) => overlaps
   .slice(0, n)
   .map((o) => ({
     a: o.a, b: o.b, shared: o.shared, strength: o.strength, ratio: o.ratio, via: o.via,
+    evidence: o.evidence,
     ...(o.weak_only ? { weak_only: true } : {}),
   }));
 

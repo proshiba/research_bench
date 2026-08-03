@@ -548,6 +548,21 @@ const CASES = [
   ["overlap.strength", "根拠の強さがずれる", (d) => {
     editLine(d, "overlaps.jsonl", '"kind":"actor"', (l) => l.replace(/"strength":\d+/, '"strength":99'));
   }],
+  ["overlap.evidence", "根拠の値が残っていない", (d) => {
+    // 「証明書で繋がっている」と言われても、どの証明書かが無ければ検算できない
+    editLine(d, "overlaps.jsonl", '"kind":"actor"', (l) => {
+      const r = JSON.parse(l);
+      delete r.evidence;
+      return putRow(r);
+    });
+  }],
+  ["overlap.evidence", "via に無い根拠が混じる", (d) => {
+    editLine(d, "overlaps.jsonl", '"kind":"actor"', (l) => {
+      const r = JSON.parse(l);
+      r.evidence = { ...r.evidence, certificate: ["a".repeat(64)] };
+      return putRow(r);
+    });
+  }],
   ["overlap.weak", "強い根拠があるのに weak_only が付く", (d) => {
     editLine(d, "overlaps.jsonl", '"kind":"actor"', (l) => {
       const r = JSON.parse(l);
