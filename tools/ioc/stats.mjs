@@ -36,6 +36,8 @@
 //
 // 既定では bogon と noise（公開 DNS など）を除く。これらは誰にでも現れるので、
 // 入れると重なりの上位が意味の無いもので埋まる。--include-noise で戻せる。
+// enrich-intel.mjs が付けた sample の印（通報の中身が空ばかりの見本アドレス）も同じ扱い。
+// net.mjs の帯の一覧は手で足すしかないので、そこから漏れたものをこちらで拾う。
 //
 // 出力
 //   stats.json      **カバレッジ**・件数・種別内訳・重なりの要約・時間軸・判定の分布
@@ -115,11 +117,17 @@ const HAS_VT = vt.length > 0;
 const HAS_ABUSE = abuse.length > 0;
 
 const iocById = new Map(iocs.map((r) => [r.key, r]));
+/**
+ * 通報の中身から見本アドレスと判定された IP（enrich-intel.mjs が印を付ける）。
+ * net.mjs の帯の一覧は手で足すしかないので、そこから漏れたものをここで拾う。
+ */
+const sampleIps = new Set(abuse.filter((r) => r.sample).map((r) => r.ioc));
+const dropped = (r) => r.bogon || r.noise || sampleIps.has(r.key);
 const usable = (key) => {
   const r = iocById.get(key);
   if (!r) return false;
   if (r.malformed) return false;
-  if (!INCLUDE_NOISE && (r.bogon || r.noise)) return false;
+  if (!INCLUDE_NOISE && dropped(r)) return false;
   return true;
 };
 
@@ -172,7 +180,7 @@ for (const set of resolvesTo.values()) {
     // 127.0.0.1 に解決するドメイン同士は「同じ所に居る」ではなく、**どちらも
     // シンクホールされている**。実測で APT28 ↔ STAC4749 を繋いでいた
     const m = markOf.get(ip);
-    if (m && (m.malformed || m.bogon || (!INCLUDE_NOISE && m.noise))) { cdnIps.add(ip); continue; }
+    if (m && (m.malformed || m.bogon || (!INCLUDE_NOISE && (m.noise || sampleIps.has(m.key))))) { cdnIps.add(ip); continue; }
     const asn = asnOf.get(ip);
     const size = asn ? (asnInfo.get(asn)?.addresses ?? 0) : 0;
     if (size > ASN_MAX_ADDRESSES) { cdnIps.add(ip); continue; }
@@ -453,7 +461,7 @@ function coTenancy(binOf) {
   const bins = new Map();   // 鍵 → { ips:Set, actors:Set, malware:Set }
   for (const r of iocs) {
     if (r.type !== "ioc.ipv4" && r.type !== "ioc.ipv6") continue;
-    if (!INCLUDE_NOISE && (r.bogon || r.noise)) continue;
+    if (!INCLUDE_NOISE && dropped(r)) continue;
     const bin = binOf(r);
     if (bin === null || bin === undefined) continue;
     if (!bins.has(bin)) bins.set(bin, { ips: new Set(), actors: new Set(), malware: new Set() });
@@ -712,6 +720,8 @@ const stats = {
     excluded: {
       bogon: iocs.filter((r) => r.bogon).length,
       noise: iocs.filter((r) => r.noise).length,
+      // 通報の中身が空ばかりで、見本アドレスと判断したもの
+      sample_reported: iocs.filter((r) => sampleIps.has(r.key)).length,
       malformed: iocs.filter((r) => r.malformed).length,
     },
     dated: iocs.filter((r) => r.observed_first).length,

@@ -89,6 +89,9 @@ const VIA_WEIGHT = {
   family: 2, registrable: 2, filename: 1, jarm: 1,
 };
 const WEAK_VIA = new Set(["family", "filename", "registrable", "jarm"]);
+/** 見本アドレスの境目。enrich-intel.mjs の既定と同じ表を持ち、突き合わせる。 */
+const SAMPLE_MIN = 20;
+const SAMPLE_RATIO = 0.3;
 const IPASN_FIELDS = { required: ["ioc"], optional: ["asn", "prefix", "hits", "routed"] };
 const ASN_FIELDS = { required: ["asn", "iocs", "prefixes", "addresses"], optional: ["name", "cc", "class"] };
 
@@ -107,7 +110,7 @@ const VT_FIELDS = {
 const ABUSE_FIELDS = {
   required: ["ioc", "score", "reports", "reporters"],
   optional: ["last_reported_at", "usage_type", "hosting", "isp", "domain", "country",
-    "tor", "whitelisted", "categories"],
+    "tor", "whitelisted", "categories", "comments", "hollow", "sample"],
 };
 const DERIVED_IOC_FIELDS = {
   required: ["key", "type", "value", "origin", "from"],
@@ -1019,6 +1022,21 @@ if (abuseRows) {
       err("abuse.count", `通報者が通報数を上回っています: ${r.reporters} > ${r.reports}`, at("abuseipdb.jsonl", i));
     }
     if (r.last_reported_at !== undefined) checkDate("abuseipdb.jsonl", i, "last_reported_at", r.last_reported_at);
+    // 見本アドレスの印。**判定に使った分母と分子が row に残っていること**を見る。
+    // 残っていなければ、あとから境目を動かしたときに何を根拠に外したのかが分からない。
+    if (r.hollow !== undefined || r.comments !== undefined) {
+      if (!Number.isInteger(r.comments) || r.comments < 1) {
+        err("abuse.hollow", `comments が 1 以上の整数ではありません: ${r.comments}`, at("abuseipdb.jsonl", i));
+      } else if (!Number.isInteger(r.hollow) || r.hollow < 1 || r.hollow > r.comments) {
+        err("abuse.hollow", `hollow が 1〜comments の整数ではありません: ${r.hollow} / ${r.comments}`, at("abuseipdb.jsonl", i));
+      }
+    }
+    if (r.sample && !(r.comments >= SAMPLE_MIN && r.hollow / r.comments >= SAMPLE_RATIO)) {
+      err("abuse.sample", `見本アドレスの印が境目と合いません: ${r.hollow}/${r.comments}`, at("abuseipdb.jsonl", i));
+    }
+    if (!r.sample && r.comments >= SAMPLE_MIN && r.hollow / r.comments >= SAMPLE_RATIO) {
+      err("abuse.sample", `境目を超えているのに見本アドレスの印がありません: ${r.hollow}/${r.comments}`, at("abuseipdb.jsonl", i));
+    }
     for (const [k, v] of Object.entries(r.categories || {})) {
       if (!Number.isInteger(v) || v < 1) {
         err("abuse.categories", `${k} の件数が 1 以上の整数ではありません: ${v}`, at("abuseipdb.jsonl", i));

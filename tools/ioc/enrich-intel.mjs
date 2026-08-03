@@ -23,6 +23,8 @@
 // 出力
 //   vt.jsonl            IOC ごとの VT 判定。VT が知らないものは known:false（結果として残す）
 //   abuseipdb.jsonl     IP ごとの通報状況。**通報数ではなく信頼度スコアで判断する**
+//                       ただしスコアも万能ではない。中身の無い通報が積み上がって
+//                       高スコアになる見本アドレスがあるので sample の印を付ける
 //   derived-iocs.jsonl  写しから生えた IOC（今は DNS の解決先）
 //   derived-links.jsonl 生えた辺（ファミリ・解決先）
 //   derived-entities.jsonl 生えた実体（VT のファミリ名のうち索引に無かったもの）
@@ -46,6 +48,14 @@ const INCLUDE_NOISE = !!args["include-noise"];
 const SAN_CAP = Number(args["san-cap"] || 100);
 /** ファイル名を残す上限。1 件が何百も名前を持つことがある */
 const NAME_CAP = Number(args["name-cap"] || 8);
+/**
+ * 「見本アドレス」を通報の中身から見つけるための境目（§2.8）。
+ * 大勢が通報しているのに中身の無いコメントばかり、という組み合わせだけを見る。
+ * 通報が 1〜2 件しか無い IP は中身無し率が 100% でも珍しくないので、
+ * 件数の下限を置かないと大量に誤って印が付く。
+ */
+const SAMPLE_MIN = Number(args["sample-min"] || 20);
+const SAMPLE_RATIO = Number(args["sample-ratio"] || 0.3);
 
 const iocs = readJsonl(path.join(IN, "iocs.jsonl"));
 if (!iocs.length) {
@@ -492,18 +502,34 @@ const CATEGORY = {
 /** 相乗り判定の 3 つ目の観点（§2.5）。事業者の網かどうか。 */
 const HOSTING = /data center|web hosting|transit|content delivery|reserved/i;
 
+/**
+ * 中身の無い通報コメント。**通報したという事実だけが残っていて、何をされたかが書いていない。**
+ * 見本アドレス（1.2.3.4 など）は「適当な IP」として書かれ続けるので、
+ * 動作確認や無言の通報がここに溜まり、信頼度スコアだけが上がる。
+ */
+const HOLLOW = /^(|\.{2,}|-+|_+|\?+|x+|test(ing|ed)?|n\/?a|none|null|nil|abuse|spam|bad|blocked|report(ed)?|sample|example|dummy|placeholder|foo|bar|asdf?)$/i;
+
 const abuseRows = [];
 for (const rec of abuseRecords) {
   if (!iocByKey.has(rec.ioc)) continue;
   const b = rec.body || {};
   const cats = new Map();
-  for (const r of b.reports || []) {
+  const reports = b.reports || [];
+  for (const r of reports) {
     for (const c of r?.categories || []) {
       const name = CATEGORY[c] || `分類 ${c}`;
       cats.set(name, (cats.get(name) || 0) + 1);
     }
   }
+  // 中身無しの数は常に残す。印が付かなかったものも、あとから境目を動かして見直せるように。
+  // 分母は totalReports ではなく **実際にコメントを読めた件数**。API が返す通報は
+  // 上限で切られるので、この 2 つは一致しない。判定に使った方を残さないと検算できない。
+  const hollow = reports.filter((r) => HOLLOW.test(String(r?.comment ?? "").trim())).length;
+  const sample = reports.length >= SAMPLE_MIN && hollow / reports.length >= SAMPLE_RATIO;
   abuseRows.push({
+    ...(hollow ? { comments: reports.length, hollow } : {}),
+    // **消さずに印を付ける。**stats 側でこの印の付いた IP を根拠から外す。
+    ...(sample ? { sample: true } : {}),
     ioc: rec.ioc,
     // **通報数ではなくこれで判断する**（通報 97 件でスコア 0 の IP が実在する）
     score: int(b.abuseConfidenceScore) ?? 0,

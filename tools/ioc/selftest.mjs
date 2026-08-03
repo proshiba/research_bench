@@ -196,6 +196,8 @@ function buildEnrichFixture(dir, iocs, links) {
     last_reported_at: "2026-02-12", usage_type: "Data Center/Web Hosting/Transit",
     hosting: true, isp: "検査用ホスティング", country: "US",
     categories: { "ポートスキャン": 8, "総当たり": 4 },
+    // 中身無しはあるが、境目（20 件 / 30%）には届かないので印は付かない
+    comments: 12, hollow: 2,
   }];
 
   // c2.example.com の解決先のうち、索引に無かったほうだけが生える
@@ -510,6 +512,20 @@ const CASES = [
   }],
   ["abuse.type", "IP でない IOC に通報状況が付く", (d) => {
     editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace("ioc.ipv4|45.32.10.7", "ioc.domain|c2.example.com"));
+  }],
+  ["abuse.hollow", "中身無しの数が分母を超える", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace('"hollow":2', '"hollow":13'));
+  }],
+  ["abuse.hollow", "判定に使った分母が残っていない", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace('"comments":12,', ""));
+  }],
+  ["abuse.sample", "境目を超えているのに見本アドレスの印が無い", (d) => {
+    // 鍵は並べ替えて書いているので、この 2 つは隣り合っていない
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7",
+      (l) => l.replace('"comments":12', '"comments":40').replace('"hollow":2', '"hollow":30'));
+  }],
+  ["abuse.sample", "境目に届いていないのに見本アドレスの印が付く", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace('"hollow":2', '"hollow":2,"sample":true'));
   }],
   ["derived.duplicate", "生えた IOC が索引の IOC と重複する", (d) => {
     // 重複したら索引側を優先する。混ざると「これはどこの主張か」が追えなくなる
