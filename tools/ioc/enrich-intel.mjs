@@ -99,6 +99,9 @@ const GENERIC = new Set([
   "astraea", "graftor", "gencirc", "convagent", "kryptik", "genkryptik", "zusy",
   "razy", "barys", "symmi", "midie", "wacatac", "occamy", "presenoker", "fugrafa",
   "bsymem", "ulise", "noon", "tedy", "strictor", "sivis", "malgent", "multi",
+  // mikey は 4 検体に付いていたが、変種が dynamer / etset / pswdump と全部違い、
+  // JS・DLL・OCX と種別も違った。APT28 ↔ Silver Fox を繋いでいたが根拠にならない
+  "mikey",
 ]);
 
 /**
@@ -126,6 +129,31 @@ function familyOf(label) {
   if (!k || GENERIC.has(k) || looksVariant(k)) return null;
   return name;
 }
+
+/**
+ * 中身と関係のないファイル名。**置き名と自動命名**は結び付きの根拠にならない。
+ *
+ * 実測で `payload.bin` が APT28（Sednit）と Silver Fox（Atlas RAT）を繋いでいた。
+ * 解析者やサンドボックスが付ける名前で、同じ名前でも同じ物とは限らない。
+ * ハッシュそのものを名前にしているものも同じ（`6922b319….exe` は VT の自動命名）。
+ */
+const PLACEHOLDER = new Set([
+  "payload.bin", "payload.exe", "payload.dll", "payload", "stage1.bin", "stage2.bin",
+  "sample.exe", "sample.bin", "sample", "malware.exe", "malware.bin", "virus.exe",
+  "file.exe", "file.bin", "file", "test.exe", "tmp.exe", "temp.exe", "output.exe",
+  "a.exe", "b.exe", "1.exe", "2.exe", "x.exe", "new.exe", "dropped.exe", "binary.bin",
+  "setup.exe", "install.exe", "installer.exe", "update.exe", "updater.exe", "main.exe",
+  "app.exe", "program.exe", "document.doc", "invoice.doc", "unknown", "noname",
+  "svchost.exe", "explorer.exe", "rundll32.exe", "cmd.exe", "powershell.exe",
+  "regsvr32.exe", "msiexec.exe", "wscript.exe", "cscript.exe", "mshta.exe",
+]);
+const placeholderName = (v) => {
+  const k = v.toLowerCase();
+  if (PLACEHOLDER.has(k)) return true;
+  // ハッシュそのもの（拡張子の有無は問わない）
+  if (/^[0-9a-f]{16,}(\.[a-z0-9]{1,5})?$/.test(k)) return true;
+  return false;
+};
 
 /** 実体名の突き合わせ鍵。collect.mjs の canonMalware と同じ潰し方にする。 */
 const nameKey = (s) => String(s ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "");
@@ -192,8 +220,19 @@ for (const rec of vtRecords) {
     if (Number.isFinite(b.size)) row.size = int(b.size);
     const signer = b.signature_info?.signers || b.signature_info?.["signers details"]?.[0]?.name;
     if (typeof signer === "string" && signer.trim()) row.signer = signer.trim();
+
+    /**
+     * ファジーハッシュ。**提供元の判断が入らず、論理が明示的**なので、
+     * 検知名より根拠として素直（`vhash` と `imphash` は完全一致で使える）。
+     * `ssdeep` と `tlsh` は距離を測る必要があるので、いまは残すだけ。
+     */
+    for (const f of ["vhash", "imphash", "rich_header", "ssdeep", "tlsh"]) {
+      if (typeof b[f] === "string" && b[f].trim()) row[f] = b[f].trim();
+    }
     const names = [b.meaningful_name, ...(b.names || [])]
-      .filter((x) => typeof x === "string" && x.trim());
+      .filter((x) => typeof x === "string" && x.trim())
+      .map((x) => x.trim())
+      .filter((x) => !placeholderName(x));
     if (names.length) row.names = [...new Set(names)].sort().slice(0, NAME_CAP);
 
     /* §2.1 マルウェア名の正規化。索引に同じものがあれば索引の表記に寄せる */

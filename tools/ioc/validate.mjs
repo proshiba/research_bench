@@ -80,15 +80,15 @@ const LINK_KINDS = new Set(["actor", "malware", "campaign", "case", "article", "
 const URL_SCHEMES = new Set(["http:", "https:", "ftp:", "ftps:", "ws:", "wss:", "smb:", "tcp:"]);
 const VIA = new Set([
   "ioc", "subnet", "registrable", "asn",
-  "certificate", "resolution", "family", "filename", "jarm",
+  "certificate", "resolution", "vhash", "imphash", "family", "filename", "jarm",
 ]);
 /** 重なりの強さ。stats.mjs の VIA_WEIGHT と同じ表を持ち、数え直して突き合わせる。 */
 const VIA_WEIGHT = {
-  certificate: 9, ioc: 8, resolution: 7,
-  family: 5, subnet: 5, asn: 5,
-  filename: 2, registrable: 2, jarm: 1,
+  certificate: 9, ioc: 8, resolution: 7, vhash: 6,
+  subnet: 5, asn: 5, imphash: 4,
+  family: 2, registrable: 2, filename: 1, jarm: 1,
 };
-const WEAK_VIA = new Set(["filename", "registrable", "jarm"]);
+const WEAK_VIA = new Set(["family", "filename", "registrable", "jarm"]);
 const IPASN_FIELDS = { required: ["ioc"], optional: ["asn", "prefix", "hits", "routed"] };
 const ASN_FIELDS = { required: ["asn", "iocs", "prefixes", "addresses"], optional: ["name", "cc", "class"] };
 
@@ -100,6 +100,7 @@ const VT_FIELDS = {
     "malicious", "suspicious", "harmless", "undetected", "timeout", "reputation",
     "analyzed_at", "label", "families", "first_submission", "type_description", "size",
     "signer", "names", "created", "registrar", "jarm", "dns", "cert",
+    "vhash", "imphash", "rich_header", "ssdeep", "tlsh",
     "asn", "as_owner", "country", "network", "asn_differs", "final_url", "title",
   ],
 };

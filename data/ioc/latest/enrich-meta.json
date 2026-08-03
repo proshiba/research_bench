@@ -11,7 +11,12 @@
     },
     "virustotal": {
       "dir": "data/ioc/.cache/vt",
-      "projection": 1,
+      "projection": {
+        "domains": 1,
+        "files": 2,
+        "ip_addresses": 1,
+        "urls": 1
+      },
       "records": 5433,
       "sha256": "068d214570182d1e7d9bdb3eb8b3d5413781b8a4929adc960a858c7decadcdb7"
     }
@@ -20,9 +25,9 @@
     "abuseipdb": 1998,
     "derived_aliases": 90,
     "derived_certs": 1379,
-    "derived_entities": 203,
+    "derived_entities": 202,
     "derived_iocs": 2051,
-    "derived_links": 3732,
+    "derived_links": 3728,
     "shared_certs": 43,
     "vt": 5433
   },

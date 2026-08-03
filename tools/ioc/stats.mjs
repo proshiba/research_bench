@@ -5,7 +5,8 @@
 //                            [--since <前回のスナップショット>] [--include-noise]
 //                            [--ubiquity-cap 8] [--min-shared 1]
 //                            [--asn-max-addresses 4096] [--asn-max-actors 8]
-//                            [--jarm-cap 0.01] [--filename-cap 8] [--family-cap 8]
+//                            [--jarm-cap 0.01] [--filename-cap 8] [--filename-min 2]
+//                            [--family-cap 8] [--vhash-cap 8] [--imphash-cap 8]
 //                            [--hosting-ratio 0.7] [--hosting-min 3]
 //
 // 重なりの見方を 9 つ出す。どれも「共有している IOC の数」を根拠にする。
@@ -13,16 +14,18 @@
 //   certificate … 同じ証明書（thumbprint 一致）。**最も強いインフラ共有の証拠**
 //   ioc         … 同じ IOC を指している
 //   resolution  … 同じ IP に解決するドメインを持っている
-//   family      … VT が同じ脅威ラベルを付けている
+//   vhash       … VT の構造ハッシュが一致。**提供元の判断が入らない**
+//   imphash     … PE のインポート表が一致。パッカーで衝突するので中くらい
 //   subnet      … 同じ /24 に IP がある（インフラの共有。API 不要で出せる）
 //   asn         … 同じ AS に IP がある。**小さい AS に限る**（enrich-asn.mjs が要る）
-//   filename    … 珍しいファイル名の共有
-//   registrable … 同じ登録可能ドメインを使っている
-//   jarm        … 同じ TLS 指紋。**単独では根拠にしない**
+//   family      … VT が同じ脅威ラベルを付けている。**弱い**（提供元の札は広く付く）
+//   registrable … 同じ登録可能ドメインを使っている。弱い
+//   filename    … 珍しいファイル名の共有。**弱い**（2 つ以上揃って初めて数える）
+//   jarm        … 同じ TLS 指紋。弱い（単独では根拠にしない）
 //
 // **根拠に強さの順を入れる。** 共有数と割合だけだと、根拠の種類による差が数字に出ない。
 // 上の順を点数にして合算した `strength` を持たせ、要約の並べ替えをこれにする。
-// 弱い根拠（filename / registrable / jarm）だけで成立している組には weak_only の印を
+// 弱い根拠（family / filename / registrable / jarm）だけで成立している組には weak_only の印を
 // 付ける。**除くのではなく印を付ける**（bogon / noise と同じ扱い）。
 //
 // asn を大きさで絞るのは、絞らないと意味を持たないため。400 万アドレスを持つ事業者に
@@ -71,6 +74,11 @@ const JARM_CAP = Number(args["jarm-cap"] || 0.01);
 const FILENAME_CAP = Number(args["filename-cap"] || args["ubiquity-cap"] || 8);
 /** ファミリ名も同じ。これより多くの実体にぶら下がるラベルは、ファミリではなく手口。 */
 const FAMILY_CAP = Number(args["family-cap"] || args["ubiquity-cap"] || 8);
+/** ファイル名を根拠に数えるのに要る、一致した名前の数。1 つだけの一致は偶然が多い。 */
+const FILENAME_MIN = Number(args["filename-min"] || 2);
+/** ファジーハッシュも同じ考え方。これより多くの実体に付く値は、作りが共通なだけ。 */
+const VHASH_CAP = Number(args["vhash-cap"] || args["ubiquity-cap"] || 8);
+const IMPHASH_CAP = Number(args["imphash-cap"] || args["ubiquity-cap"] || 8);
 /**
  * AbuseIPDB が「事業者の網」と言う IP の割合がこれを超えたら相乗りとみなす（§3.2）。
  * ただし判定の付いた IP が --hosting-min 未満の AS では割合が当てにならないので使わない。
@@ -195,6 +203,39 @@ for (const r of vt) for (const n of r.names || []) nameCount.set(n, (nameCount.g
 const commonName = new Set([...nameCount].filter(([, n]) => n > FILENAME_CAP).map(([n]) => n));
 
 /**
+ * ファジーハッシュ。**提供元の判断が入らないぶん、検知名より素直な根拠**。
+ *
+ *   vhash   … VT の構造ハッシュ。一致すれば作りが同じ
+ *   imphash … PE のインポート表。一致すれば同じ取り込み方だが、**パッカーでよく衝突する**
+ *
+ * どちらも「みんなが同じ値になる」ことがあるので、ありふれた値は外す。
+ * 数え方は他と揃えて **何実体にぶら下がっているか**で測る。
+ */
+const DEGENERATE_HASH = new Set([
+  "d41d8cd98f00b204e9800998ecf8427e",   // 空（インポートが無い PE の imphash）
+  "0000000000000000000000000000000000000000000000000000000000000000",
+]);
+const hashOwners = (field) => {
+  const m = new Map();
+  for (const l of links) {
+    if (!KINDS.includes(l.kind)) continue;
+    const v = vtByIoc.get(l.ioc)?.[field];
+    if (!v || DEGENERATE_HASH.has(v)) continue;
+    if (!m.has(v)) m.set(v, new Set());
+    m.get(v).add(`${l.kind}\t${l.name}`);
+  }
+  return m;
+};
+const commonVhash = new Set([...hashOwners("vhash")].filter(([, e]) => e.size > VHASH_CAP).map(([v]) => v));
+const commonImphash = new Set([...hashOwners("imphash")].filter(([, e]) => e.size > IMPHASH_CAP).map(([v]) => v));
+const usableHash = (field, v) => {
+  if (!v || DEGENERATE_HASH.has(v)) return null;
+  if (field === "vhash" && commonVhash.has(v)) return null;
+  if (field === "imphash" && commonImphash.has(v)) return null;
+  return v;
+};
+
+/**
  * ありふれたファミリ名も外す。
  *
  * VT のラベルには `tedy` のように、手口や検出器の都合で付いた**ファミリではない名前**が
@@ -263,7 +304,7 @@ const asnUsable = (asn) => {
  * 根拠として弱いうえに組を大量に生むので、上限を超えたら数えない。
  */
 function pairsFor(kind, groups) {
-  const pairCount = new Map();  // "a\tb" → { n, via:Set }
+  const pairCount = new Map();  // "a\tb" → { byVia: Map(via → 共有数) }
   for (const [via, byValue] of groups) {
     for (const [, names] of byValue) {
       const list = [...names].sort();
@@ -271,10 +312,9 @@ function pairsFor(kind, groups) {
       for (let i = 0; i < list.length; i++) {
         for (let j = i + 1; j < list.length; j++) {
           const k = `${list[i]}\t${list[j]}`;
-          if (!pairCount.has(k)) pairCount.set(k, { n: 0, via: new Set() });
-          const p = pairCount.get(k);
-          p.n++;
-          p.via.add(via);
+          if (!pairCount.has(k)) pairCount.set(k, { byVia: new Map() });
+          const m = pairCount.get(k).byVia;
+          m.set(via, (m.get(via) || 0) + 1);
         }
       }
     }
@@ -284,12 +324,17 @@ function pairsFor(kind, groups) {
     const [a, b] = k.split("\t");
     const sa = sizes.get(a)?.size || 0;
     const sb = sizes.get(b)?.size || 0;
-    const via = [...v.via].sort();
+    // **ファイル名は 1 つだけの一致では数えない。** 置き名や自動命名を落としても
+    // 「たまたま同じ名前」は残る。2 つ以上揃って初めて手掛かりになる
+    const via = [...v.byVia.keys()].filter((x) => !(x === "filename" && v.byVia.get(x) < FILENAME_MIN)).sort();
+    const shared = via.reduce((t, x) => t + v.byVia.get(x), 0);
+    if (!via.length) return null;
+    v.n = shared;
     return {
       kind,
       a,
       b,
-      shared: v.n,
+      shared: shared,
       via,
       // 根拠の種類による差を数字に出す。共有数だけでは弱い根拠が 10 個ある組が上位に来る
       strength: strengthOf(via),
@@ -297,9 +342,9 @@ function pairsFor(kind, groups) {
       a_iocs: sa,
       b_iocs: sb,
       // 小さいほうに対する割合。件数だけだと大きい実体が常に上位に来る
-      ratio: Math.round((v.n / Math.max(1, Math.min(sa, sb))) * 1000) / 1000,
+      ratio: Math.round((shared / Math.max(1, Math.min(sa, sb))) * 1000) / 1000,
     };
-  });
+  }).filter(Boolean);
 }
 
 /**
@@ -309,12 +354,22 @@ function pairsFor(kind, groups) {
  * 弱い根拠を数で押した組が、強い根拠 1 つの組を追い越さないようにするため。
  */
 const VIA_WEIGHT = {
-  certificate: 9, ioc: 8, resolution: 7,
-  family: 5, subnet: 5, asn: 5,
-  filename: 2, registrable: 2, jarm: 1,
+  certificate: 9, ioc: 8, resolution: 7, vhash: 6,
+  subnet: 5, asn: 5, imphash: 4,
+  family: 2, registrable: 2, filename: 1, jarm: 1,
 };
-/** これだけで成立している組には印を付ける。除きはしない（bogon / noise と同じ扱い）。 */
-const WEAK_VIA = new Set(["filename", "registrable", "jarm"]);
+/**
+ * これだけで成立している組には印を付ける。除きはしない（bogon / noise と同じ扱い）。
+ *
+ * **VT の検知名（family）は弱い根拠**に置く。VT が集約した 1 つのラベルしか見て
+ * いなくても、提供元の都合で広く付く札が混じる。実測で `mikey` が APT28 と
+ * Silver Fox を、`tedy` が APT28 と APT41 を繋いでいた。同じラベルが付くことは
+ * 「同じ物」を意味しない。
+ *
+ * **ファイル名も弱い根拠**。置き名（`payload.bin`）と自動命名は enrich 側で
+ * 落としているが、残ったものも「同じ名前 = 同じ物」ではない。
+ */
+const WEAK_VIA = new Set(["family", "filename", "registrable", "jarm"]);
 const strengthOf = (via) => via.reduce((n, v) => n + (VIA_WEIGHT[v] || 0), 0);
 
 /** 根拠ごとの「値 → その値を共有する実体名の集合」。 */
@@ -328,6 +383,8 @@ function groupsFor(kind) {
   const byFamily = new Map();
   const byFilename = new Map();
   const byJarm = new Map();
+  const byVhash = new Map();
+  const byImphash = new Map();
   const m = owned.get(kind);
   for (const [name, keys] of m) {
     for (const key of keys) {
@@ -354,6 +411,8 @@ function groupsFor(kind) {
       const v = vtByIoc.get(key);
       for (const n of v?.names || []) if (!commonName.has(n)) put(byFilename, n);
       if (v?.jarm && !commonJarm.has(v.jarm)) put(byJarm, v.jarm);
+      put(byVhash, usableHash("vhash", v?.vhash));
+      put(byImphash, usableHash("imphash", v?.imphash));
     }
   }
   return [
@@ -361,6 +420,7 @@ function groupsFor(kind) {
     ...(HAS_ASN ? [["asn", byAsn]] : []),
     ...(HAS_VT ? [
       ["certificate", byCert], ["resolution", byResolution],
+      ["vhash", byVhash], ["imphash", byImphash],
       ["family", byFamily], ["filename", byFilename], ["jarm", byJarm],
     ] : []),
   ];
@@ -603,7 +663,7 @@ for (const r of iocs) byType[r.type] = (byType[r.type] || 0) + 1;
 const VIA = [
   "ioc", "subnet", "registrable",
   ...(HAS_ASN ? ["asn"] : []),
-  ...(HAS_VT ? ["certificate", "resolution", "family", "filename", "jarm"] : []),
+  ...(HAS_VT ? ["certificate", "resolution", "vhash", "imphash", "family", "filename", "jarm"] : []),
 ];
 
 /**
@@ -630,7 +690,8 @@ const stats = {
     ubiquity_cap: UBIQUITY_CAP,
     min_shared: MIN_SHARED,
     ...(HAS_ASN ? { asn_max_addresses: ASN_MAX_ADDRESSES } : {}),
-    ...(HAS_VT ? { jarm_cap: JARM_CAP, filename_cap: FILENAME_CAP, family_cap: FAMILY_CAP } : {}),
+    ...(HAS_VT ? { jarm_cap: JARM_CAP, filename_cap: FILENAME_CAP, filename_min: FILENAME_MIN,
+      family_cap: FAMILY_CAP, vhash_cap: VHASH_CAP, imphash_cap: IMPHASH_CAP } : {}),
     ...(HAS_ABUSE ? { hosting_ratio: HOSTING_RATIO, hosting_min: HOSTING_MIN } : {}),
   },
   iocs: {

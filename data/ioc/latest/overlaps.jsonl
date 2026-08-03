@@ -4,9 +4,9 @@
 {"a":"APT-C-27","a_iocs":14,"b":"Famous Chollima","b_iocs":44,"kind":"actor","ratio":0.071,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT-C-27","a_iocs":14,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.071,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT-C-27","a_iocs":14,"b":"UNK_DeadDrop","b_iocs":81,"kind":"actor","ratio":0.071,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT-C-37","a_iocs":8,"b":"APT37","b_iocs":1343,"kind":"actor","ratio":0.125,"shared":1,"strength":5,"via":["family"]}
-{"a":"APT-C-37","a_iocs":8,"b":"BITTER","b_iocs":422,"kind":"actor","ratio":0.125,"shared":1,"strength":5,"via":["family"]}
-{"a":"APT-C-37","a_iocs":8,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.125,"shared":1,"strength":5,"via":["family"]}
+{"a":"APT-C-37","a_iocs":8,"b":"APT37","b_iocs":1343,"kind":"actor","ratio":0.125,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"APT-C-37","a_iocs":8,"b":"BITTER","b_iocs":422,"kind":"actor","ratio":0.125,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"APT-C-37","a_iocs":8,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.125,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"APT1","a_iocs":19,"b":"APT28","b_iocs":1164,"kind":"actor","ratio":0.737,"shared":14,"strength":16,"via":["ioc","jarm","registrable","subnet"]}
 {"a":"APT1","a_iocs":19,"b":"APT29","b_iocs":989,"kind":"actor","ratio":0.053,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT1","a_iocs":19,"b":"APT37","b_iocs":1343,"kind":"actor","ratio":0.053,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -20,21 +20,19 @@
 {"a":"APT17","a_iocs":2,"b":"BackdoorDiplomacy","b_iocs":2,"kind":"actor","ratio":0.5,"shared":1,"strength":8,"via":["ioc"]}
 {"a":"APT17","a_iocs":2,"b":"BlackByte","b_iocs":6,"kind":"actor","ratio":0.5,"shared":1,"strength":8,"via":["ioc"]}
 {"a":"APT28","a_iocs":1164,"b":"APT29","b_iocs":989,"kind":"actor","ratio":0.022,"shared":22,"strength":32,"via":["certificate","ioc","jarm","registrable","resolution","subnet"]}
-{"a":"APT28","a_iocs":1164,"b":"APT37","b_iocs":1343,"kind":"actor","ratio":0.009,"shared":11,"strength":8,"via":["family","filename","jarm"]}
-{"a":"APT28","a_iocs":1164,"b":"APT41","b_iocs":95,"kind":"actor","ratio":0.042,"shared":4,"strength":3,"via":["filename","jarm"],"weak_only":true}
+{"a":"APT28","a_iocs":1164,"b":"APT37","b_iocs":1343,"kind":"actor","ratio":0.007,"shared":8,"strength":3,"via":["family","jarm"],"weak_only":true}
+{"a":"APT28","a_iocs":1164,"b":"APT41","b_iocs":95,"kind":"actor","ratio":0.032,"shared":3,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"APT42","b_iocs":11,"kind":"actor","ratio":0.091,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Anonymous","b_iocs":487,"kind":"actor","ratio":0.004,"shared":2,"strength":13,"via":["ioc","subnet"]}
-{"a":"APT28","a_iocs":1164,"b":"Arid Viper","b_iocs":141,"kind":"actor","ratio":0.007,"shared":1,"strength":5,"via":["family"]}
+{"a":"APT28","a_iocs":1164,"b":"Arid Viper","b_iocs":141,"kind":"actor","ratio":0.007,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"BITTER","b_iocs":422,"kind":"actor","ratio":0.024,"shared":10,"strength":25,"via":["certificate","ioc","jarm","registrable","subnet"]}
-{"a":"APT28","a_iocs":1164,"b":"BRONZE BUTLER","b_iocs":84,"kind":"actor","ratio":0.012,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"APT28","a_iocs":1164,"b":"Blind Eagle","b_iocs":102,"kind":"actor","ratio":0.01,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Callisto Group","b_iocs":79,"kind":"actor","ratio":0.051,"shared":4,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"APT28","a_iocs":1164,"b":"Cellebrite","b_iocs":119,"kind":"actor","ratio":0.008,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Chatty Spider","b_iocs":56,"kind":"actor","ratio":0.018,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Confucius","b_iocs":97,"kind":"actor","ratio":0.01,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Cytrox","b_iocs":223,"kind":"actor","ratio":0.004,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"DEV-0861","b_iocs":3,"kind":"actor","ratio":0.333,"shared":1,"strength":5,"via":["subnet"]}
-{"a":"APT28","a_iocs":1164,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.022,"shared":2,"strength":7,"via":["family","filename"]}
+{"a":"APT28","a_iocs":1164,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Donot Team","b_iocs":24,"kind":"actor","ratio":0.042,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Equation Group","b_iocs":324,"kind":"actor","ratio":0.003,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Famous Chollima","b_iocs":44,"kind":"actor","ratio":0.023,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -42,33 +40,29 @@
 {"a":"APT28","a_iocs":1164,"b":"Gamaredon","b_iocs":1590,"kind":"actor","ratio":0.011,"shared":13,"strength":32,"via":["certificate","ioc","jarm","registrable","resolution","subnet"]}
 {"a":"APT28","a_iocs":1164,"b":"Ghostwriter","b_iocs":159,"kind":"actor","ratio":0.063,"shared":10,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"APT28","a_iocs":1164,"b":"Icarus","b_iocs":9,"kind":"actor","ratio":0.111,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT28","a_iocs":1164,"b":"Inception","b_iocs":115,"kind":"actor","ratio":0.052,"shared":6,"strength":5,"via":["filename","jarm","registrable"],"weak_only":true}
+{"a":"APT28","a_iocs":1164,"b":"Inception","b_iocs":115,"kind":"actor","ratio":0.043,"shared":5,"strength":3,"via":["jarm","registrable"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"JADEPUFFER","b_iocs":4,"kind":"actor","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Konni","b_iocs":167,"kind":"actor","ratio":0.03,"shared":5,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
-{"a":"APT28","a_iocs":1164,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.007,"shared":8,"strength":15,"via":["family","filename","jarm","registrable","subnet"]}
+{"a":"APT28","a_iocs":1164,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.005,"shared":5,"strength":10,"via":["family","jarm","registrable","subnet"]}
 {"a":"APT28","a_iocs":1164,"b":"Machete","b_iocs":76,"kind":"actor","ratio":0.039,"shared":3,"strength":19,"via":["certificate","ioc","registrable"]}
 {"a":"APT28","a_iocs":1164,"b":"MuddyWater","b_iocs":238,"kind":"actor","ratio":0.004,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Nomadic Octopus","b_iocs":30,"kind":"actor","ratio":0.067,"shared":2,"strength":6,"via":["jarm","subnet"]}
-{"a":"APT28","a_iocs":1164,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.031,"shared":11,"strength":12,"via":["family","filename","subnet"]}
+{"a":"APT28","a_iocs":1164,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.031,"shared":11,"strength":8,"via":["family","filename","subnet"]}
 {"a":"APT28","a_iocs":1164,"b":"PCPJack","b_iocs":7,"kind":"actor","ratio":0.143,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.015,"shared":6,"strength":19,"via":["asn","ioc","jarm","subnet"]}
-{"a":"APT28","a_iocs":1164,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.018,"shared":3,"strength":8,"via":["family","filename","jarm"]}
+{"a":"APT28","a_iocs":1164,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.006,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Storm-2949","b_iocs":3,"kind":"actor","ratio":0.333,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT28","a_iocs":1164,"b":"TA4922","b_iocs":43,"kind":"actor","ratio":0.047,"shared":2,"strength":7,"via":["family","filename"]}
-{"a":"APT28","a_iocs":1164,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.026,"shared":1,"strength":5,"via":["family"]}
 {"a":"APT28","a_iocs":1164,"b":"TAG-83","b_iocs":7,"kind":"actor","ratio":0.143,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT28","a_iocs":1164,"b":"Transparent Tribe","b_iocs":422,"kind":"actor","ratio":0.019,"shared":8,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"APT28","a_iocs":1164,"b":"Turla","b_iocs":121,"kind":"actor","ratio":0.017,"shared":2,"strength":2,"via":["filename"],"weak_only":true}
+{"a":"APT28","a_iocs":1164,"b":"Transparent Tribe","b_iocs":422,"kind":"actor","ratio":0.014,"shared":6,"strength":1,"via":["filename"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"UAT-8302","b_iocs":18,"kind":"actor","ratio":0.056,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"UNC5342","b_iocs":32,"kind":"actor","ratio":0.031,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Void Balaur","b_iocs":174,"kind":"actor","ratio":0.04,"shared":7,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"APT28","a_iocs":1164,"b":"Webworm","b_iocs":20,"kind":"actor","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Winter Vivern","b_iocs":5,"kind":"actor","ratio":0.2,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"Wizard Spider","b_iocs":94,"kind":"actor","ratio":0.011,"shared":1,"strength":5,"via":["subnet"]}
-{"a":"APT28","a_iocs":1164,"b":"X3D MINER","b_iocs":105,"kind":"actor","ratio":0.01,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"shinyenigma","b_iocs":24,"kind":"actor","ratio":0.042,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT28","a_iocs":1164,"b":"shinyhunters","b_iocs":12,"kind":"actor","ratio":0.25,"shared":3,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT29","a_iocs":989,"b":"APT37","b_iocs":1343,"kind":"actor","ratio":0.005,"shared":5,"strength":6,"via":["family","jarm"]}
+{"a":"APT29","a_iocs":989,"b":"APT37","b_iocs":1343,"kind":"actor","ratio":0.005,"shared":5,"strength":3,"via":["family","jarm"],"weak_only":true}
 {"a":"APT29","a_iocs":989,"b":"APT41","b_iocs":95,"kind":"actor","ratio":0.021,"shared":2,"strength":6,"via":["jarm","subnet"]}
 {"a":"APT29","a_iocs":989,"b":"APT42","b_iocs":11,"kind":"actor","ratio":0.091,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT29","a_iocs":989,"b":"BITTER","b_iocs":422,"kind":"actor","ratio":0.005,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
@@ -91,7 +85,7 @@
 {"a":"APT29","a_iocs":989,"b":"JINX-0164","b_iocs":92,"kind":"actor","ratio":0.011,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT29","a_iocs":989,"b":"KongTuke","b_iocs":60,"kind":"actor","ratio":0.017,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT29","a_iocs":989,"b":"Konni","b_iocs":167,"kind":"actor","ratio":0.024,"shared":4,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
-{"a":"APT29","a_iocs":989,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.012,"shared":12,"strength":11,"via":["filename","ioc","jarm"]}
+{"a":"APT29","a_iocs":989,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.012,"shared":12,"strength":10,"via":["filename","ioc","jarm"]}
 {"a":"APT29","a_iocs":989,"b":"Lurking Lizard","b_iocs":20,"kind":"actor","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT29","a_iocs":989,"b":"NSO Group","b_iocs":48,"kind":"actor","ratio":0.021,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT29","a_iocs":989,"b":"Nomadic Octopus","b_iocs":30,"kind":"actor","ratio":0.067,"shared":2,"strength":6,"via":["jarm","subnet"]}
@@ -116,45 +110,44 @@
 {"a":"APT34","a_iocs":55,"b":"Gorgon Group","b_iocs":372,"kind":"actor","ratio":0.018,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"APT34","a_iocs":55,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.018,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"APT34","a_iocs":55,"b":"Wizard Spider","b_iocs":94,"kind":"actor","ratio":0.018,"shared":1,"strength":5,"via":["subnet"]}
-{"a":"APT37","a_iocs":1343,"b":"APT41","b_iocs":95,"kind":"actor","ratio":0.074,"shared":7,"strength":8,"via":["family","filename","jarm"]}
-{"a":"APT37","a_iocs":1343,"b":"Anonymous","b_iocs":487,"kind":"actor","ratio":0.002,"shared":1,"strength":5,"via":["family"]}
-{"a":"APT37","a_iocs":1343,"b":"Armored Likho","b_iocs":40,"kind":"actor","ratio":0.05,"shared":2,"strength":7,"via":["family","registrable"]}
-{"a":"APT37","a_iocs":1343,"b":"BITTER","b_iocs":422,"kind":"actor","ratio":0.005,"shared":2,"strength":10,"via":["family","subnet"]}
+{"a":"APT37","a_iocs":1343,"b":"APT41","b_iocs":95,"kind":"actor","ratio":0.063,"shared":6,"strength":3,"via":["family","jarm"],"weak_only":true}
+{"a":"APT37","a_iocs":1343,"b":"Anonymous","b_iocs":487,"kind":"actor","ratio":0.002,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"APT37","a_iocs":1343,"b":"Armored Likho","b_iocs":40,"kind":"actor","ratio":0.05,"shared":2,"strength":4,"via":["family","registrable"],"weak_only":true}
+{"a":"APT37","a_iocs":1343,"b":"BITTER","b_iocs":422,"kind":"actor","ratio":0.005,"shared":2,"strength":7,"via":["family","subnet"]}
 {"a":"APT37","a_iocs":1343,"b":"CopyKittens","b_iocs":16,"kind":"actor","ratio":0.063,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"APT37","a_iocs":1343,"b":"DPRK IT Worker Schemes","b_iocs":153,"kind":"actor","ratio":0.092,"shared":14,"strength":27,"via":["certificate","ioc","jarm","registrable","resolution"]}
-{"a":"APT37","a_iocs":1343,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.043,"shared":4,"strength":5,"via":["family"]}
-{"a":"APT37","a_iocs":1343,"b":"DragonForce","b_iocs":32,"kind":"actor","ratio":0.031,"shared":1,"strength":5,"via":["family"]}
+{"a":"APT37","a_iocs":1343,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.043,"shared":4,"strength":2,"via":["family"],"weak_only":true}
+{"a":"APT37","a_iocs":1343,"b":"DragonForce","b_iocs":32,"kind":"actor","ratio":0.031,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"DriveSurge","b_iocs":33,"kind":"actor","ratio":0.03,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"Ember Bear","b_iocs":14,"kind":"actor","ratio":0.071,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"Fox Tempest","b_iocs":4,"kind":"actor","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"Ghostwriter","b_iocs":159,"kind":"actor","ratio":0.006,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"Gorgon Group","b_iocs":372,"kind":"actor","ratio":0.003,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"Icarus","b_iocs":9,"kind":"actor","ratio":0.111,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT37","a_iocs":1343,"b":"Inception","b_iocs":115,"kind":"actor","ratio":0.052,"shared":6,"strength":16,"via":["family","filename","ioc","jarm"]}
+{"a":"APT37","a_iocs":1343,"b":"Inception","b_iocs":115,"kind":"actor","ratio":0.043,"shared":5,"strength":11,"via":["family","ioc","jarm"]}
 {"a":"APT37","a_iocs":1343,"b":"JINX-0164","b_iocs":92,"kind":"actor","ratio":0.022,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT37","a_iocs":1343,"b":"JadeProx","b_iocs":46,"kind":"actor","ratio":0.043,"shared":2,"strength":6,"via":["family","jarm"]}
+{"a":"APT37","a_iocs":1343,"b":"JadeProx","b_iocs":46,"kind":"actor","ratio":0.043,"shared":2,"strength":3,"via":["family","jarm"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"KongTuke","b_iocs":60,"kind":"actor","ratio":0.017,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"APT37","a_iocs":1343,"b":"Konni","b_iocs":167,"kind":"actor","ratio":0.03,"shared":5,"strength":11,"via":["ioc","jarm","registrable"]}
-{"a":"APT37","a_iocs":1343,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.022,"shared":23,"strength":28,"via":["asn","family","filename","ioc","jarm","registrable","subnet"]}
+{"a":"APT37","a_iocs":1343,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.018,"shared":19,"strength":24,"via":["asn","family","filename","ioc","jarm","registrable","subnet"]}
 {"a":"APT37","a_iocs":1343,"b":"Lurking Lizard","b_iocs":20,"kind":"actor","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"MuddyWater","b_iocs":238,"kind":"actor","ratio":0.004,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"NSO Group","b_iocs":48,"kind":"actor","ratio":0.042,"shared":2,"strength":10,"via":["ioc","registrable"]}
-{"a":"APT37","a_iocs":1343,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.003,"shared":1,"strength":5,"via":["family"]}
+{"a":"APT37","a_iocs":1343,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.003,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.01,"shared":4,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT37","a_iocs":1343,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.018,"shared":3,"strength":6,"via":["family","jarm"]}
+{"a":"APT37","a_iocs":1343,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.018,"shared":3,"strength":3,"via":["family","jarm"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"Storm-2949","b_iocs":3,"kind":"actor","ratio":0.333,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"TA575","b_iocs":2,"kind":"actor","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT37","a_iocs":1343,"b":"Transparent Tribe","b_iocs":422,"kind":"actor","ratio":0.007,"shared":3,"strength":7,"via":["family","filename"]}
+{"a":"APT37","a_iocs":1343,"b":"Transparent Tribe","b_iocs":422,"kind":"actor","ratio":0.002,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"Void Balaur","b_iocs":174,"kind":"actor","ratio":0.029,"shared":5,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"APT37","a_iocs":1343,"b":"Webworm","b_iocs":20,"kind":"actor","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT37","a_iocs":1343,"b":"X3D MINER","b_iocs":105,"kind":"actor","ratio":0.01,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"APT37","a_iocs":1343,"b":"shinyhunters","b_iocs":12,"kind":"actor","ratio":0.167,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT38","a_iocs":172,"b":"BlackByte","b_iocs":6,"kind":"actor","ratio":0.333,"shared":2,"strength":8,"via":["ioc"]}
 {"a":"APT38","a_iocs":172,"b":"Famous Chollima","b_iocs":44,"kind":"actor","ratio":0.023,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT38","a_iocs":172,"b":"GreyVibe","b_iocs":146,"kind":"actor","ratio":0.021,"shared":3,"strength":6,"via":["family","jarm"]}
+{"a":"APT38","a_iocs":172,"b":"GreyVibe","b_iocs":146,"kind":"actor","ratio":0.021,"shared":3,"strength":3,"via":["family","jarm"],"weak_only":true}
 {"a":"APT38","a_iocs":172,"b":"Inception","b_iocs":115,"kind":"actor","ratio":0.017,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT38","a_iocs":172,"b":"JINX-0164","b_iocs":92,"kind":"actor","ratio":0.011,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT38","a_iocs":172,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.006,"shared":1,"strength":5,"via":["family"]}
+{"a":"APT38","a_iocs":172,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.006,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"APT38","a_iocs":172,"b":"REF3076","b_iocs":13,"kind":"actor","ratio":0.077,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT38","a_iocs":172,"b":"STAC4749","b_iocs":22,"kind":"actor","ratio":0.045,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT38","a_iocs":172,"b":"TA444","b_iocs":1,"kind":"actor","ratio":1,"shared":1,"strength":8,"via":["ioc"]}
@@ -162,13 +155,13 @@
 {"a":"APT41","a_iocs":95,"b":"BITTER","b_iocs":422,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"BackdoorDiplomacy","b_iocs":2,"kind":"actor","ratio":0.5,"shared":1,"strength":8,"via":["ioc"]}
 {"a":"APT41","a_iocs":95,"b":"Chaos","b_iocs":2,"kind":"actor","ratio":0.5,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"APT41","a_iocs":95,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.011,"shared":1,"strength":5,"via":["family"]}
+{"a":"APT41","a_iocs":95,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"EvilTokens","b_iocs":15,"kind":"actor","ratio":0.067,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"Fox Tempest","b_iocs":4,"kind":"actor","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"Gamaredon","b_iocs":1590,"kind":"actor","ratio":0.021,"shared":2,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"Gorgon Group","b_iocs":372,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"Higaisa","b_iocs":7,"kind":"actor","ratio":1.143,"shared":8,"strength":16,"via":["ioc","jarm","registrable","subnet"]}
-{"a":"APT41","a_iocs":95,"b":"Inception","b_iocs":115,"kind":"actor","ratio":0.021,"shared":2,"strength":3,"via":["filename","jarm"],"weak_only":true}
+{"a":"APT41","a_iocs":95,"b":"Inception","b_iocs":115,"kind":"actor","ratio":0.011,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"Konni","b_iocs":167,"kind":"actor","ratio":0.011,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"Lamberts","b_iocs":216,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
@@ -177,9 +170,7 @@
 {"a":"APT41","a_iocs":95,"b":"REF3076","b_iocs":13,"kind":"actor","ratio":0.077,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"Storm-2949","b_iocs":3,"kind":"actor","ratio":0.333,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"APT41","a_iocs":95,"b":"Transparent Tribe","b_iocs":422,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"UAT-8302","b_iocs":18,"kind":"actor","ratio":0.056,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"APT41","a_iocs":95,"b":"X3D MINER","b_iocs":105,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"APT41","a_iocs":95,"b":"shinyhunters","b_iocs":12,"kind":"actor","ratio":0.083,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT42","a_iocs":11,"b":"BITTER","b_iocs":422,"kind":"actor","ratio":0.091,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT42","a_iocs":11,"b":"Gamaredon","b_iocs":1590,"kind":"actor","ratio":0.091,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -189,9 +180,9 @@
 {"a":"APT42","a_iocs":11,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.091,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT42","a_iocs":11,"b":"TAG-83","b_iocs":7,"kind":"actor","ratio":2.286,"shared":16,"strength":14,"via":["ioc","jarm","subnet"]}
 {"a":"APT42","a_iocs":11,"b":"shinyhunters","b_iocs":12,"kind":"actor","ratio":0.091,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Agrius","a_iocs":84,"b":"UNC6508","b_iocs":8,"kind":"actor","ratio":0.125,"shared":1,"strength":5,"via":["family"]}
+{"a":"Agrius","a_iocs":84,"b":"UNC6508","b_iocs":8,"kind":"actor","ratio":0.125,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Ajax Security Team","a_iocs":1,"b":"CopyKittens","b_iocs":16,"kind":"actor","ratio":3,"shared":3,"strength":19,"via":["certificate","ioc","registrable"]}
-{"a":"Anonymous","a_iocs":487,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.011,"shared":1,"strength":5,"via":["family"]}
+{"a":"Anonymous","a_iocs":487,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Anonymous","a_iocs":487,"b":"JINX-0164","b_iocs":92,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"Anonymous","a_iocs":487,"b":"Konni","b_iocs":167,"kind":"actor","ratio":0.012,"shared":2,"strength":10,"via":["ioc","registrable"]}
 {"a":"Anonymous","a_iocs":487,"b":"MuddyWater","b_iocs":238,"kind":"actor","ratio":0.008,"shared":2,"strength":10,"via":["ioc","registrable"]}
@@ -199,12 +190,12 @@
 {"a":"Anonymous","a_iocs":487,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.007,"shared":3,"strength":19,"via":["certificate","ioc","registrable"]}
 {"a":"Anonymous","a_iocs":487,"b":"SilverFox APT","b_iocs":6,"kind":"actor","ratio":0.167,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Anonymous","a_iocs":487,"b":"SourTrade","b_iocs":101,"kind":"actor","ratio":0.01,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Arid Viper","a_iocs":141,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.011,"shared":1,"strength":5,"via":["family"]}
-{"a":"Arid Viper","a_iocs":141,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.007,"shared":1,"strength":5,"via":["family"]}
+{"a":"Arid Viper","a_iocs":141,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"Arid Viper","a_iocs":141,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.007,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Armored Likho","a_iocs":40,"b":"Gamaredon","b_iocs":1590,"kind":"actor","ratio":0.025,"shared":1,"strength":5,"via":["subnet"]}
-{"a":"Armored Likho","a_iocs":40,"b":"JadeProx","b_iocs":46,"kind":"actor","ratio":0.025,"shared":1,"strength":5,"via":["family"]}
+{"a":"Armored Likho","a_iocs":40,"b":"JadeProx","b_iocs":46,"kind":"actor","ratio":0.025,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Armored Likho","a_iocs":40,"b":"KongTuke","b_iocs":60,"kind":"actor","ratio":0.025,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Armored Likho","a_iocs":40,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.05,"shared":2,"strength":6,"via":["family","jarm"]}
+{"a":"Armored Likho","a_iocs":40,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.05,"shared":2,"strength":3,"via":["family","jarm"],"weak_only":true}
 {"a":"BITTER","a_iocs":422,"b":"Bohrium","b_iocs":80,"kind":"actor","ratio":0.013,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"BITTER","a_iocs":422,"b":"CL-STA-1114","b_iocs":18,"kind":"actor","ratio":0.056,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"BITTER","a_iocs":422,"b":"Gamaredon","b_iocs":1590,"kind":"actor","ratio":0.007,"shared":3,"strength":3,"via":["jarm","registrable"],"weak_only":true}
@@ -216,9 +207,8 @@
 {"a":"BITTER","a_iocs":422,"b":"Lamberts","b_iocs":216,"kind":"actor","ratio":0.005,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"BITTER","a_iocs":422,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.002,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"BITTER","a_iocs":422,"b":"MuddyWater","b_iocs":238,"kind":"actor","ratio":0.004,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"BITTER","a_iocs":422,"b":"Mustang Panda","b_iocs":12,"kind":"actor","ratio":0.083,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"BITTER","a_iocs":422,"b":"Nomadic Octopus","b_iocs":30,"kind":"actor","ratio":0.033,"shared":1,"strength":5,"via":["subnet"]}
-{"a":"BITTER","a_iocs":422,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.006,"shared":2,"strength":7,"via":["family","filename"]}
+{"a":"BITTER","a_iocs":422,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.003,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"BITTER","a_iocs":422,"b":"PCPJack","b_iocs":7,"kind":"actor","ratio":0.143,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"BITTER","a_iocs":422,"b":"Qilin","b_iocs":16,"kind":"actor","ratio":0.063,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"BITTER","a_iocs":422,"b":"STAC4749","b_iocs":22,"kind":"actor","ratio":0.045,"shared":1,"strength":5,"via":["subnet"]}
@@ -229,24 +219,20 @@
 {"a":"BITTER","a_iocs":422,"b":"Transparent Tribe","b_iocs":422,"kind":"actor","ratio":0.002,"shared":1,"strength":5,"via":["asn"]}
 {"a":"BITTER","a_iocs":422,"b":"shinyhunters","b_iocs":12,"kind":"actor","ratio":0.167,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"BRONZE BUTLER","a_iocs":84,"b":"Blue Termite","b_iocs":2,"kind":"actor","ratio":3,"shared":6,"strength":25,"via":["certificate","ioc","jarm","registrable","subnet"]}
-{"a":"BRONZE BUTLER","a_iocs":84,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.012,"shared":1,"strength":5,"via":["family"]}
+{"a":"BRONZE BUTLER","a_iocs":84,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.012,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"BRONZE BUTLER","a_iocs":84,"b":"GreyVibe","b_iocs":146,"kind":"actor","ratio":0.012,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"BRONZE BUTLER","a_iocs":84,"b":"Machete","b_iocs":76,"kind":"actor","ratio":0.013,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"BRONZE BUTLER","a_iocs":84,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.026,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"BRONZE BUTLER","a_iocs":84,"b":"Turla","b_iocs":121,"kind":"actor","ratio":0.012,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"BRONZE BUTLER","a_iocs":84,"b":"X3D MINER","b_iocs":105,"kind":"actor","ratio":0.012,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"BadMagic","a_iocs":325,"b":"Gamaredon","b_iocs":1590,"kind":"actor","ratio":0.003,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"BadMagic","a_iocs":325,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.003,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"BlackByte","a_iocs":6,"b":"Cellebrite","b_iocs":119,"kind":"actor","ratio":0.167,"shared":1,"strength":8,"via":["ioc"]}
 {"a":"BlackFile","a_iocs":1,"b":"Helix","b_iocs":2,"kind":"actor","ratio":1,"shared":1,"strength":5,"via":["subnet"]}
-{"a":"Blind Eagle","a_iocs":102,"b":"Darkhotel","b_iocs":93,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"Blue Termite","a_iocs":2,"b":"GreyVibe","b_iocs":146,"kind":"actor","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Blue Termite","a_iocs":2,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Bohrium","a_iocs":80,"b":"KongTuke","b_iocs":60,"kind":"actor","ratio":0.017,"shared":1,"strength":5,"via":["family"]}
-{"a":"Bohrium","a_iocs":80,"b":"Screening Serpens","b_iocs":37,"kind":"actor","ratio":1.514,"shared":56,"strength":27,"via":["certificate","family","filename","ioc","jarm","registrable"]}
-{"a":"Bohrium","a_iocs":80,"b":"UAC-0099","b_iocs":51,"kind":"actor","ratio":0.02,"shared":1,"strength":5,"via":["family"]}
+{"a":"Bohrium","a_iocs":80,"b":"KongTuke","b_iocs":60,"kind":"actor","ratio":0.017,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"Bohrium","a_iocs":80,"b":"Screening Serpens","b_iocs":37,"kind":"actor","ratio":1.486,"shared":55,"strength":23,"via":["certificate","family","filename","ioc","jarm","registrable"]}
+{"a":"Bohrium","a_iocs":80,"b":"UAC-0099","b_iocs":51,"kind":"actor","ratio":0.02,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"CL-STA-1062","a_iocs":17,"b":"JINX-0164","b_iocs":92,"kind":"actor","ratio":0.059,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"CL-STA-1062","a_iocs":17,"b":"JadeProx","b_iocs":46,"kind":"actor","ratio":0.059,"shared":1,"strength":5,"via":["family"]}
+{"a":"CL-STA-1062","a_iocs":17,"b":"JadeProx","b_iocs":46,"kind":"actor","ratio":0.059,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"CL-STA-1062","a_iocs":17,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.059,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"CL-STA-1062","a_iocs":17,"b":"UAT-8302","b_iocs":18,"kind":"actor","ratio":0.059,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"CL-STA-1114","a_iocs":18,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.056,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -261,8 +247,8 @@
 {"a":"Candiru","a_iocs":133,"b":"Lamberts","b_iocs":216,"kind":"actor","ratio":0.008,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"Candiru","a_iocs":133,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.008,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Candiru","a_iocs":133,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.077,"shared":3,"strength":14,"via":["ioc","jarm","subnet"]}
-{"a":"Cavern Manticore","a_iocs":21,"b":"DragonForce","b_iocs":32,"kind":"actor","ratio":0.095,"shared":2,"strength":6,"via":["family","jarm"]}
-{"a":"Cavern Manticore","a_iocs":21,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.048,"shared":1,"strength":5,"via":["family"]}
+{"a":"Cavern Manticore","a_iocs":21,"b":"DragonForce","b_iocs":32,"kind":"actor","ratio":0.095,"shared":2,"strength":3,"via":["family","jarm"],"weak_only":true}
+{"a":"Cavern Manticore","a_iocs":21,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.048,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Cellebrite","a_iocs":119,"b":"Cinnamon Tempest","b_iocs":8,"kind":"actor","ratio":0.125,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Cellebrite","a_iocs":119,"b":"Cytrox","b_iocs":223,"kind":"actor","ratio":0.218,"shared":26,"strength":27,"via":["certificate","ioc","jarm","registrable","resolution"]}
 {"a":"Cellebrite","a_iocs":119,"b":"Donot Team","b_iocs":24,"kind":"actor","ratio":0.042,"shared":1,"strength":8,"via":["ioc"]}
@@ -290,8 +276,8 @@
 {"a":"Cytrox","a_iocs":223,"b":"Gamaredon","b_iocs":1590,"kind":"actor","ratio":0.004,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Cytrox","a_iocs":223,"b":"Poisson","b_iocs":6,"kind":"actor","ratio":0.167,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Cytrox","a_iocs":223,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.004,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"DEV-0270","a_iocs":3,"b":"Fox Kitten","b_iocs":5,"kind":"actor","ratio":1.667,"shared":5,"strength":10,"via":["filename","ioc"]}
-{"a":"DEV-0270","a_iocs":3,"b":"UNC2448","b_iocs":1,"kind":"actor","ratio":5,"shared":5,"strength":10,"via":["filename","ioc"]}
+{"a":"DEV-0270","a_iocs":3,"b":"Fox Kitten","b_iocs":5,"kind":"actor","ratio":1.667,"shared":5,"strength":9,"via":["filename","ioc"]}
+{"a":"DEV-0270","a_iocs":3,"b":"UNC2448","b_iocs":1,"kind":"actor","ratio":5,"shared":5,"strength":9,"via":["filename","ioc"]}
 {"a":"DEV-0861","a_iocs":3,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.333,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"DPRK IT Worker Schemes","a_iocs":153,"b":"DragonForce","b_iocs":32,"kind":"actor","ratio":0.031,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DPRK IT Worker Schemes","a_iocs":153,"b":"Famous Chollima","b_iocs":44,"kind":"actor","ratio":0.023,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
@@ -303,21 +289,19 @@
 {"a":"DPRK IT Worker Schemes","a_iocs":153,"b":"UNC5342","b_iocs":32,"kind":"actor","ratio":0.219,"shared":7,"strength":25,"via":["certificate","ioc","jarm","registrable","subnet"]}
 {"a":"DPRK IT Worker Schemes","a_iocs":153,"b":"Void Dokkaebi","b_iocs":47,"kind":"actor","ratio":0.021,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"DPRK IT Worker Schemes","a_iocs":153,"b":"shinyenigma","b_iocs":24,"kind":"actor","ratio":0.042,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Darkhotel","a_iocs":93,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"Darkhotel","a_iocs":93,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.011,"shared":1,"strength":5,"via":["family"]}
-{"a":"Darkhotel","a_iocs":93,"b":"X3D MINER","b_iocs":105,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
+{"a":"Darkhotel","a_iocs":93,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Denim Tsunami","a_iocs":2,"b":"POLONIUM","b_iocs":1,"kind":"actor","ratio":1,"shared":1,"strength":8,"via":["ioc"]}
 {"a":"Donot Team","a_iocs":24,"b":"Intellexa","b_iocs":140,"kind":"actor","ratio":0.042,"shared":1,"strength":8,"via":["ioc"]}
 {"a":"DragonForce","a_iocs":32,"b":"Gamaredon","b_iocs":1590,"kind":"actor","ratio":0.031,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"DragonForce","a_iocs":32,"b":"Gentlemen RaaS","b_iocs":27,"kind":"actor","ratio":0.074,"shared":2,"strength":2,"via":["filename"],"weak_only":true}
+{"a":"DragonForce","a_iocs":32,"b":"Gentlemen RaaS","b_iocs":27,"kind":"actor","ratio":0.111,"shared":3,"strength":1,"via":["filename"],"weak_only":true}
 {"a":"DragonForce","a_iocs":32,"b":"GreyVibe","b_iocs":146,"kind":"actor","ratio":0.031,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DragonForce","a_iocs":32,"b":"Ice Fog","b_iocs":2,"kind":"actor","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DragonForce","a_iocs":32,"b":"Inception","b_iocs":115,"kind":"actor","ratio":0.063,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DragonForce","a_iocs":32,"b":"Nomad Panda","b_iocs":1,"kind":"actor","ratio":1,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DragonForce","a_iocs":32,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.031,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DragonForce","a_iocs":32,"b":"SourTrade","b_iocs":101,"kind":"actor","ratio":0.031,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"DragonForce","a_iocs":32,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.031,"shared":1,"strength":5,"via":["family"]}
-{"a":"DragonForce","a_iocs":32,"b":"UAC-0099","b_iocs":51,"kind":"actor","ratio":0.031,"shared":1,"strength":5,"via":["family"]}
+{"a":"DragonForce","a_iocs":32,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.031,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"DragonForce","a_iocs":32,"b":"UAC-0099","b_iocs":51,"kind":"actor","ratio":0.031,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"DragonForce","a_iocs":32,"b":"UNC5342","b_iocs":32,"kind":"actor","ratio":0.031,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DriveSurge","a_iocs":33,"b":"KongTuke","b_iocs":60,"kind":"actor","ratio":0.03,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DriveSurge","a_iocs":33,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.03,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -333,7 +317,7 @@
 {"a":"Famous Chollima","a_iocs":44,"b":"UAT-11795","b_iocs":7,"kind":"actor","ratio":0.571,"shared":4,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"Famous Chollima","a_iocs":44,"b":"UNC5342","b_iocs":32,"kind":"actor","ratio":0.125,"shared":4,"strength":8,"via":["ioc"]}
 {"a":"Famous Chollima","a_iocs":44,"b":"shinyenigma","b_iocs":24,"kind":"actor","ratio":0.042,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Fox Kitten","a_iocs":5,"b":"UNC2448","b_iocs":1,"kind":"actor","ratio":5,"shared":5,"strength":10,"via":["filename","ioc"]}
+{"a":"Fox Kitten","a_iocs":5,"b":"UNC2448","b_iocs":1,"kind":"actor","ratio":5,"shared":5,"strength":9,"via":["filename","ioc"]}
 {"a":"Fox Tempest","a_iocs":4,"b":"Inception","b_iocs":115,"kind":"actor","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Fox Tempest","a_iocs":4,"b":"Konni","b_iocs":167,"kind":"actor","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Fox Tempest","a_iocs":4,"b":"Storm-2949","b_iocs":3,"kind":"actor","ratio":0.333,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -367,13 +351,13 @@
 {"a":"GreyVibe","a_iocs":146,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.021,"shared":3,"strength":3,"via":["jarm","registrable"],"weak_only":true}
 {"a":"GreyVibe","a_iocs":146,"b":"Mustang Panda","b_iocs":12,"kind":"actor","ratio":0.083,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"GreyVibe","a_iocs":146,"b":"REF3076","b_iocs":13,"kind":"actor","ratio":0.077,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"GreyVibe","a_iocs":146,"b":"REF8372","b_iocs":16,"kind":"actor","ratio":0.063,"shared":1,"strength":5,"via":["family"]}
+{"a":"GreyVibe","a_iocs":146,"b":"REF8372","b_iocs":16,"kind":"actor","ratio":0.063,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"GreyVibe","a_iocs":146,"b":"STAC4749","b_iocs":22,"kind":"actor","ratio":0.045,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"GreyVibe","a_iocs":146,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.007,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"GreyVibe","a_iocs":146,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.026,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"GreyVibe","a_iocs":146,"b":"UAT-8302","b_iocs":18,"kind":"actor","ratio":0.056,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"GreyVibe","a_iocs":146,"b":"UNC5342","b_iocs":32,"kind":"actor","ratio":0.031,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"GreyVibe","a_iocs":146,"b":"UNK_DeadDrop","b_iocs":81,"kind":"actor","ratio":0.012,"shared":1,"strength":5,"via":["family"]}
+{"a":"GreyVibe","a_iocs":146,"b":"UNK_DeadDrop","b_iocs":81,"kind":"actor","ratio":0.012,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"GreyVibe","a_iocs":146,"b":"shinyenigma","b_iocs":24,"kind":"actor","ratio":0.042,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"GreyVibe","a_iocs":146,"b":"shinyhunters","b_iocs":12,"kind":"actor","ratio":0.083,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Higaisa","a_iocs":7,"b":"Qilin","b_iocs":16,"kind":"actor","ratio":0.143,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -391,28 +375,26 @@
 {"a":"Inception","a_iocs":115,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.009,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Inception","a_iocs":115,"b":"SourTrade","b_iocs":101,"kind":"actor","ratio":0.01,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Inception","a_iocs":115,"b":"Storm-2949","b_iocs":3,"kind":"actor","ratio":0.333,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Inception","a_iocs":115,"b":"Transparent Tribe","b_iocs":422,"kind":"actor","ratio":0.009,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"Inception","a_iocs":115,"b":"UNK_DeadDrop","b_iocs":81,"kind":"actor","ratio":0.012,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Inception","a_iocs":115,"b":"Webworm","b_iocs":20,"kind":"actor","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Inception","a_iocs":115,"b":"X3D MINER","b_iocs":105,"kind":"actor","ratio":0.01,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"Inception","a_iocs":115,"b":"shinyenigma","b_iocs":24,"kind":"actor","ratio":0.042,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Inception","a_iocs":115,"b":"shinyhunters","b_iocs":12,"kind":"actor","ratio":0.083,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Intellexa","a_iocs":140,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.014,"shared":2,"strength":6,"via":["jarm","subnet"]}
 {"a":"JADEPUFFER","a_iocs":4,"b":"TAG-83","b_iocs":7,"kind":"actor","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"JADEPUFFER","a_iocs":4,"b":"shinyhunters","b_iocs":12,"kind":"actor","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"JINX-0164","a_iocs":92,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.011,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"JINX-0164","a_iocs":92,"b":"UAT-7810","b_iocs":89,"kind":"actor","ratio":0.011,"shared":1,"strength":5,"via":["family"]}
+{"a":"JINX-0164","a_iocs":92,"b":"UAT-7810","b_iocs":89,"kind":"actor","ratio":0.011,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"JINX-0164","a_iocs":92,"b":"UAT-8302","b_iocs":18,"kind":"actor","ratio":0.056,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"JadeProx","a_iocs":46,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.043,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"JadeProx","a_iocs":46,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.022,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"JadeProx","a_iocs":46,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.065,"shared":3,"strength":8,"via":["family","jarm","registrable"]}
+{"a":"JadeProx","a_iocs":46,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.065,"shared":3,"strength":5,"via":["family","jarm","registrable"],"weak_only":true}
 {"a":"JadeProx","a_iocs":46,"b":"UTG-Q-1000","b_iocs":16,"kind":"actor","ratio":0.063,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"KongTuke","a_iocs":60,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.017,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"KongTuke","a_iocs":60,"b":"Qilin","b_iocs":16,"kind":"actor","ratio":0.063,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"KongTuke","a_iocs":60,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.033,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"KongTuke","a_iocs":60,"b":"UAC-0099","b_iocs":51,"kind":"actor","ratio":0.02,"shared":1,"strength":5,"via":["family"]}
+{"a":"KongTuke","a_iocs":60,"b":"UAC-0099","b_iocs":51,"kind":"actor","ratio":0.02,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"KongTuke","a_iocs":60,"b":"Webworm","b_iocs":20,"kind":"actor","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Konni","a_iocs":167,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.006,"shared":1,"strength":5,"via":["family"]}
+{"a":"Konni","a_iocs":167,"b":"Lazarus Group","b_iocs":1068,"kind":"actor","ratio":0.006,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Konni","a_iocs":167,"b":"MuddyWater","b_iocs":238,"kind":"actor","ratio":0.012,"shared":2,"strength":10,"via":["ioc","registrable"]}
 {"a":"Konni","a_iocs":167,"b":"Storm-2949","b_iocs":3,"kind":"actor","ratio":0.333,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Konni","a_iocs":167,"b":"Void Balaur","b_iocs":174,"kind":"actor","ratio":0.048,"shared":8,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
@@ -422,14 +404,13 @@
 {"a":"Lamberts","a_iocs":216,"b":"Poisson","b_iocs":6,"kind":"actor","ratio":0.167,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"Lamberts","a_iocs":216,"b":"ROOTBOY","b_iocs":10,"kind":"actor","ratio":0.1,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"Lamberts","a_iocs":216,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.009,"shared":2,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"Laundry Bear","a_iocs":5,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.2,"shared":1,"strength":5,"via":["family"]}
-{"a":"Laundry Bear","a_iocs":5,"b":"UAC-0099","b_iocs":51,"kind":"actor","ratio":0.2,"shared":1,"strength":5,"via":["family"]}
+{"a":"Laundry Bear","a_iocs":5,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.2,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"Laundry Bear","a_iocs":5,"b":"UAC-0099","b_iocs":51,"kind":"actor","ratio":0.2,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Lazarus Group","a_iocs":1068,"b":"MuddyWater","b_iocs":238,"kind":"actor","ratio":0.004,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Lazarus Group","a_iocs":1068,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.006,"shared":2,"strength":7,"via":["family","filename"]}
+{"a":"Lazarus Group","a_iocs":1068,"b":"OceanLotus","b_iocs":353,"kind":"actor","ratio":0.003,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Lazarus Group","a_iocs":1068,"b":"Sandworm Team","b_iocs":410,"kind":"actor","ratio":0.01,"shared":4,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Lazarus Group","a_iocs":1068,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.006,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Lazarus Group","a_iocs":1068,"b":"TAG-83","b_iocs":7,"kind":"actor","ratio":0.143,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Lazarus Group","a_iocs":1068,"b":"Turla","b_iocs":121,"kind":"actor","ratio":0.008,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"Lazarus Group","a_iocs":1068,"b":"UNC5174","b_iocs":51,"kind":"actor","ratio":0.02,"shared":1,"strength":8,"via":["ioc"]}
 {"a":"Machete","a_iocs":76,"b":"MuddyWater","b_iocs":238,"kind":"actor","ratio":0.013,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"MuddyWater","a_iocs":238,"b":"PCPJack","b_iocs":7,"kind":"actor","ratio":0.143,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -447,42 +428,40 @@
 {"a":"Putter Panda","a_iocs":2,"b":"Scarab","b_iocs":2,"kind":"actor","ratio":0.5,"shared":1,"strength":8,"via":["ioc"]}
 {"a":"Qilin","a_iocs":16,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.188,"shared":3,"strength":22,"via":["certificate","ioc","subnet"]}
 {"a":"REF3076","a_iocs":13,"b":"UAT-8302","b_iocs":18,"kind":"actor","ratio":0.077,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"REF8372","a_iocs":16,"b":"UNK_DeadDrop","b_iocs":81,"kind":"actor","ratio":0.063,"shared":1,"strength":5,"via":["family"]}
+{"a":"REF8372","a_iocs":16,"b":"UNK_DeadDrop","b_iocs":81,"kind":"actor","ratio":0.063,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Revil","a_iocs":8,"b":"Wizard Spider","b_iocs":94,"kind":"actor","ratio":0.875,"shared":7,"strength":14,"via":["ioc","jarm","subnet"]}
 {"a":"SQLRCE0","a_iocs":25,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.04,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"SQLRCE0","a_iocs":25,"b":"TA4922","b_iocs":43,"kind":"actor","ratio":0.04,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"SQLRCE0","a_iocs":25,"b":"Yx Technology","b_iocs":25,"kind":"actor","ratio":2.16,"shared":54,"strength":37,"via":["asn","certificate","family","filename","ioc","jarm","registrable","subnet"]}
+{"a":"SQLRCE0","a_iocs":25,"b":"Yx Technology","b_iocs":25,"kind":"actor","ratio":2.16,"shared":54,"strength":33,"via":["asn","certificate","family","filename","ioc","jarm","registrable","subnet"]}
 {"a":"Sandworm Team","a_iocs":410,"b":"Silver Fox","b_iocs":164,"kind":"actor","ratio":0.012,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Sandworm Team","a_iocs":410,"b":"TAG-83","b_iocs":7,"kind":"actor","ratio":0.143,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Sandworm Team","a_iocs":410,"b":"UAT-8302","b_iocs":18,"kind":"actor","ratio":0.056,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Sandworm Team","a_iocs":410,"b":"UNC5342","b_iocs":32,"kind":"actor","ratio":0.125,"shared":4,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
-{"a":"Silver Fox","a_iocs":164,"b":"TA4922","b_iocs":43,"kind":"actor","ratio":1.326,"shared":57,"strength":23,"via":["family","filename","ioc","jarm","registrable","subnet"]}
-{"a":"Silver Fox","a_iocs":164,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.051,"shared":2,"strength":5,"via":["family"]}
-{"a":"Silver Fox","a_iocs":164,"b":"UTG-Q-1000","b_iocs":16,"kind":"actor","ratio":2.125,"shared":34,"strength":32,"via":["certificate","family","filename","ioc","jarm","registrable","subnet"]}
+{"a":"Silver Fox","a_iocs":164,"b":"TA4922","b_iocs":43,"kind":"actor","ratio":1.233,"shared":53,"strength":19,"via":["family","filename","ioc","jarm","registrable","subnet"]}
+{"a":"Silver Fox","a_iocs":164,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.026,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"Silver Fox","a_iocs":164,"b":"UTG-Q-1000","b_iocs":16,"kind":"actor","ratio":2.125,"shared":34,"strength":28,"via":["certificate","family","filename","ioc","jarm","registrable","subnet"]}
 {"a":"Silver Fox","a_iocs":164,"b":"Webworm","b_iocs":20,"kind":"actor","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Silver Fox","a_iocs":164,"b":"Yx Technology","b_iocs":25,"kind":"actor","ratio":0.04,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Silver Fox","a_iocs":164,"b":"unknown Chinese-speaking APT","b_iocs":11,"kind":"actor","ratio":0.091,"shared":1,"strength":5,"via":["family"]}
+{"a":"Silver Fox","a_iocs":164,"b":"unknown Chinese-speaking APT","b_iocs":11,"kind":"actor","ratio":0.091,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"SilverFox APT","a_iocs":6,"b":"SourTrade","b_iocs":101,"kind":"actor","ratio":0.167,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Storm-2949","a_iocs":3,"b":"shinyhunters","b_iocs":12,"kind":"actor","ratio":0.333,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"TA4922","a_iocs":43,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.051,"shared":2,"strength":5,"via":["family"]}
+{"a":"TA4922","a_iocs":43,"b":"TAG-195","b_iocs":39,"kind":"actor","ratio":0.026,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"TA4922","a_iocs":43,"b":"Yx Technology","b_iocs":25,"kind":"actor","ratio":0.04,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"TAG-195","a_iocs":39,"b":"UAC-0099","b_iocs":51,"kind":"actor","ratio":0.026,"shared":1,"strength":5,"via":["family"]}
+{"a":"TAG-195","a_iocs":39,"b":"UAC-0099","b_iocs":51,"kind":"actor","ratio":0.026,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"TAG-56","a_iocs":4,"b":"TAG-82","b_iocs":4,"kind":"actor","ratio":2.5,"shared":10,"strength":14,"via":["ioc","jarm","subnet"]}
 {"a":"TAG-56","a_iocs":4,"b":"TAG-83","b_iocs":7,"kind":"actor","ratio":0.75,"shared":3,"strength":14,"via":["ioc","jarm","subnet"]}
 {"a":"TAG-56","a_iocs":4,"b":"UNK_DeadDrop","b_iocs":81,"kind":"actor","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"TAG-82","a_iocs":4,"b":"TAG-83","b_iocs":7,"kind":"actor","ratio":0.75,"shared":3,"strength":14,"via":["ioc","jarm","subnet"]}
 {"a":"TAG-82","a_iocs":4,"b":"UNK_DeadDrop","b_iocs":81,"kind":"actor","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"TAG-83","a_iocs":7,"b":"shinyhunters","b_iocs":12,"kind":"actor","ratio":0.143,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"TeamPCP","a_iocs":57,"b":"UAT-7810","b_iocs":89,"kind":"actor","ratio":0.018,"shared":1,"strength":5,"via":["family"]}
+{"a":"TeamPCP","a_iocs":57,"b":"UAT-7810","b_iocs":89,"kind":"actor","ratio":0.018,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"TeamPCP","a_iocs":57,"b":"UNK_DeadDrop","b_iocs":81,"kind":"actor","ratio":0.018,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"TeamPCP","a_iocs":57,"b":"X3D MINER","b_iocs":105,"kind":"actor","ratio":0.018,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Transparent Tribe","a_iocs":422,"b":"X3D MINER","b_iocs":105,"kind":"actor","ratio":0.01,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"UAT-11795","a_iocs":7,"b":"shinyhunters","b_iocs":12,"kind":"actor","ratio":0.143,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"UTG-Q-1000","a_iocs":16,"b":"unknown Chinese-speaking APT","b_iocs":11,"kind":"actor","ratio":0.091,"shared":1,"strength":5,"via":["family"]}
-{"a":"Browser Extension and Google Play Abuse","a_iocs":9,"b":"Dream Job","b_iocs":59,"kind":"campaign","ratio":0.111,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
+{"a":"UTG-Q-1000","a_iocs":16,"b":"unknown Chinese-speaking APT","b_iocs":11,"kind":"actor","ratio":0.091,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Browser Extension and Google Play Abuse","a_iocs":9,"b":"Midnight Blizzard Signed RDP Spearphishing Campaign","b_iocs":281,"kind":"campaign","ratio":0.111,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Dream Job","a_iocs":59,"b":"Operation DarkHorse","b_iocs":53,"kind":"campaign","ratio":0.019,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Dream Job","a_iocs":59,"b":"ThreatNeedle","b_iocs":115,"kind":"campaign","ratio":0.119,"shared":7,"strength":22,"via":["certificate","filename","ioc","jarm","registrable"]}
+{"a":"Dream Job","a_iocs":59,"b":"ThreatNeedle","b_iocs":115,"kind":"campaign","ratio":0.102,"shared":6,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"Meta Syrian network disruption (October 2021)","a_iocs":10,"b":"TOUGHPROGRESS Government Targeting Campaign","b_iocs":32,"kind":"campaign","ratio":0.1,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Operation DarkHorse","a_iocs":53,"b":"Operation Newton","b_iocs":62,"kind":"campaign","ratio":0.019,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Operation DarkHorse","a_iocs":53,"b":"ThreatNeedle","b_iocs":115,"kind":"campaign","ratio":0.019,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -561,11 +540,11 @@
 {"a":"case:281d4d60fc99cf7f54819defb1c7c14b9202d46890936c4c6b9ebe3ddc75dd2f","a_iocs":2,"b":"case:f101fda6093f12758efae630bc265d6bad71479249685b7503c05e707424a276","b_iocs":3,"kind":"case","ratio":1,"shared":2,"strength":10,"via":["ioc","registrable"]}
 {"a":"case:284851633769226e2a9ea85d6421b1be15f155f6ecf4ba9c729659c32ff922fc","a_iocs":2,"b":"case:65b8743fc32646c20d09b6a6a8e907a963b09d2de02fe5c886753833c6601ce6","b_iocs":2,"kind":"case","ratio":1.5,"shared":3,"strength":19,"via":["certificate","ioc","registrable"]}
 {"a":"case:28db05fffe5f32ee8df60a400c97d19270d23327ebb49ae86e455ea14d59f113","a_iocs":7,"b":"case:5ef1aa40084a122011be62539f8d67aebcf7f9a0b1a31e6a057cbd1726a2b575","b_iocs":3,"kind":"case","ratio":1.333,"shared":4,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
-{"a":"case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806","a_iocs":3,"b":"case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
-{"a":"case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806","a_iocs":3,"b":"case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
-{"a":"case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806","a_iocs":3,"b":"case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
-{"a":"case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806","a_iocs":3,"b":"case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
-{"a":"case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806","a_iocs":3,"b":"case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
+{"a":"case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806","a_iocs":3,"b":"case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
+{"a":"case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806","a_iocs":3,"b":"case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
+{"a":"case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806","a_iocs":3,"b":"case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
+{"a":"case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806","a_iocs":3,"b":"case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
+{"a":"case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806","a_iocs":3,"b":"case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
 {"a":"case:2d0ae80f9689433e7b84ee280e11ce5263f918f6f23288c3d9bfe6ea187408b2","a_iocs":4,"b":"case:3ee8b4e38efa5f872f5f1f4fac720d80eb7c079fc538ef75f2d8a8dc7068ef9f","b_iocs":4,"kind":"case","ratio":0.5,"shared":2,"strength":8,"via":["ioc"]}
 {"a":"case:2d0ae80f9689433e7b84ee280e11ce5263f918f6f23288c3d9bfe6ea187408b2","a_iocs":4,"b":"case:726ca85760e035489a885da5b01dbe62c7a1e0b52e1735b656adbc899090a572","b_iocs":4,"kind":"case","ratio":0.5,"shared":2,"strength":8,"via":["ioc"]}
 {"a":"case:2d0ae80f9689433e7b84ee280e11ce5263f918f6f23288c3d9bfe6ea187408b2","a_iocs":4,"b":"case:b32f71c40fffc53327ca712d82ad9349d2a4f396826fac9940824f48c878461f","b_iocs":4,"kind":"case","ratio":0.5,"shared":2,"strength":8,"via":["ioc"]}
@@ -606,10 +585,10 @@
 {"a":"case:401b70e0313d7f6dd1fd444a8d61e25ae433a5944a2607405fe5ddbc9b8f7afc","a_iocs":2,"b":"case:b6b9753bf156d5eb5dcbad43de9ab651146a819da27fe9d2c031097ca10619d3","b_iocs":8,"kind":"case","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"case:4049128f0308d05dcb8d24b668f69238d720199de32ba0d8304cd3c3b3bde1b9","a_iocs":3,"b":"case:746c06f05b8e3bc93d6495a6c447c3c1874bd77011c33b0bcfe74ae27addbfaf","b_iocs":3,"kind":"case","ratio":1.667,"shared":5,"strength":14,"via":["ioc","jarm","subnet"]}
 {"a":"case:4049128f0308d05dcb8d24b668f69238d720199de32ba0d8304cd3c3b3bde1b9","a_iocs":3,"b":"case:ffa78f3d4b1dafb9723e6a68456e42a57c0a109b9b8246196e1a8a6d6d2d6f5a","b_iocs":3,"kind":"case","ratio":1.333,"shared":4,"strength":14,"via":["ioc","jarm","subnet"]}
-{"a":"case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf","a_iocs":3,"b":"case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
-{"a":"case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf","a_iocs":3,"b":"case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
-{"a":"case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf","a_iocs":3,"b":"case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
-{"a":"case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf","a_iocs":3,"b":"case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
+{"a":"case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf","a_iocs":3,"b":"case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
+{"a":"case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf","a_iocs":3,"b":"case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
+{"a":"case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf","a_iocs":3,"b":"case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
+{"a":"case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf","a_iocs":3,"b":"case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
 {"a":"case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7","a_iocs":4,"b":"case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da","b_iocs":5,"kind":"case","ratio":2.5,"shared":10,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7","a_iocs":4,"b":"case:9645a12079edffd20560d4631160a6052ae5728d6f73b7366588166ad281c534","b_iocs":4,"kind":"case","ratio":2.5,"shared":10,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7","a_iocs":4,"b":"case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0","b_iocs":5,"kind":"case","ratio":2.5,"shared":10,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
@@ -624,9 +603,9 @@
 {"a":"case:49d9e5fda3eb3064f04e6d2ac0e4876b509392cc65ad2445f0806339c6a1a356","a_iocs":1,"b":"case:e88bf785ff3ee84df31a16ce5b6f9ecfc38cce7e5c01bdfb2dcdca21f33dbbf0","b_iocs":1,"kind":"case","ratio":1,"shared":1,"strength":8,"via":["ioc"]}
 {"a":"case:49d9e5fda3eb3064f04e6d2ac0e4876b509392cc65ad2445f0806339c6a1a356","a_iocs":1,"b":"case:f0506419d1f60d7180e72fdcca97d5446d3cc3218d61b11dcd39b49086553683","b_iocs":1,"kind":"case","ratio":1,"shared":1,"strength":8,"via":["ioc"]}
 {"a":"case:49d9e5fda3eb3064f04e6d2ac0e4876b509392cc65ad2445f0806339c6a1a356","a_iocs":1,"b":"case:ff5a682bad6c911fd08c90622b7fa13ab22a608e501eed511a40fe43a9b53a1e","b_iocs":1,"kind":"case","ratio":1,"shared":1,"strength":8,"via":["ioc"]}
-{"a":"case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515","a_iocs":3,"b":"case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
-{"a":"case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515","a_iocs":3,"b":"case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
-{"a":"case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515","a_iocs":3,"b":"case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
+{"a":"case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515","a_iocs":3,"b":"case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
+{"a":"case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515","a_iocs":3,"b":"case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
+{"a":"case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515","a_iocs":3,"b":"case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
 {"a":"case:4d033b83aec65390c6d90f9d87224fddd3bcd568cf490d9dc02bbb0f7db0d58f","a_iocs":1,"b":"case:b393bd767c142e171dd1b2928bae16fff2f63b3d319b2c1acb37129d8d538cc9","b_iocs":1,"kind":"case","ratio":1,"shared":1,"strength":8,"via":["ioc"]}
 {"a":"case:52bd61ba2153572260fc9b8f7eac34b613272c428e715fe6b3505f96e4eacf5d","a_iocs":4,"b":"case:b3d07e47793a40bf3d99133b7a58feffe5bf8d27ea42a8e45eba322bc02cf8fb","b_iocs":4,"kind":"case","ratio":1.25,"shared":5,"strength":13,"via":["ioc","subnet"]}
 {"a":"case:52bd61ba2153572260fc9b8f7eac34b613272c428e715fe6b3505f96e4eacf5d","a_iocs":4,"b":"case:c4fc9162227b35c631fbe623ee30fa7f660ed015915ed66c76942b1583ac3f77","b_iocs":1,"kind":"case","ratio":2,"shared":2,"strength":13,"via":["ioc","subnet"]}
@@ -669,8 +648,8 @@
 {"a":"case:70005bbb6db8afaf30661df0311395fb3cf7bf1ece51d511841d4f4def908a29","a_iocs":2,"b":"case:f0ea2d0017a88323d730042c2b571a4d06cd8dbe169c3cef2e457bd0c5d676ff","b_iocs":2,"kind":"case","ratio":2,"shared":4,"strength":18,"via":["asn","ioc","subnet"]}
 {"a":"case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da","a_iocs":5,"b":"case:9645a12079edffd20560d4631160a6052ae5728d6f73b7366588166ad281c534","b_iocs":4,"kind":"case","ratio":2.5,"shared":10,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da","a_iocs":5,"b":"case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0","b_iocs":5,"kind":"case","ratio":2,"shared":10,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
-{"a":"case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6","a_iocs":3,"b":"case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
-{"a":"case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6","a_iocs":3,"b":"case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
+{"a":"case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6","a_iocs":3,"b":"case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
+{"a":"case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6","a_iocs":3,"b":"case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
 {"a":"case:7135a3a2239145504e6fdc81bcdef7bcbd69a06727b638a59ba1f3e76130eb1d","a_iocs":2,"b":"case:9580aefa4e99bac7914a988a79688ef6173ee0e0175b993cdfcfea72cc40703b","b_iocs":2,"kind":"case","ratio":1,"shared":2,"strength":10,"via":["ioc","registrable"]}
 {"a":"case:7135a3a2239145504e6fdc81bcdef7bcbd69a06727b638a59ba1f3e76130eb1d","a_iocs":2,"b":"case:f0d032c835744156d134ff521c8bc2996f0d7922c7c0c8c31f12fb27d7dddc99","b_iocs":2,"kind":"case","ratio":1,"shared":2,"strength":10,"via":["ioc","registrable"]}
 {"a":"case:7135a3a2239145504e6fdc81bcdef7bcbd69a06727b638a59ba1f3e76130eb1d","a_iocs":2,"b":"case:f101fda6093f12758efae630bc265d6bad71479249685b7503c05e707424a276","b_iocs":3,"kind":"case","ratio":1,"shared":2,"strength":10,"via":["ioc","registrable"]}
@@ -759,7 +738,7 @@
 {"a":"case:ce05cafc84ca9fa75f97cc1c857170870252ef286c4940189a3c8499ae00a148","a_iocs":2,"b":"case:f77256eb64c144a1f433705087bcefffbf59c79f6953a39d7c0d745ceab31573","b_iocs":2,"kind":"case","ratio":2,"shared":4,"strength":19,"via":["certificate","ioc","registrable"]}
 {"a":"case:d08cf8c8f95b4df31198be8583cdbcf5f8e5beda95487e4aaed26cd2529e255d","a_iocs":3,"b":"case:eda99519f7e5ef015a4450927bc96f26f837f07e54eb692eaa4ad12ed2a837a1","b_iocs":3,"kind":"case","ratio":0.667,"shared":2,"strength":8,"via":["ioc"]}
 {"a":"case:d38643133189bc880af537a371087e2e34fa36e0f96fd19a42969d3bc72fe95b","a_iocs":4,"b":"case:d8b902568386f588fb2d42a77cd39062ada13c9a3fed0adf20ab6510f3b4a681","b_iocs":4,"kind":"case","ratio":2,"shared":8,"strength":19,"via":["certificate","ioc","registrable"]}
-{"a":"case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b","a_iocs":3,"b":"case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":20,"via":["family","filename","ioc","subnet"]}
+{"a":"case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b","a_iocs":3,"b":"case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10","b_iocs":3,"kind":"case","ratio":4.333,"shared":13,"strength":16,"via":["family","filename","ioc","subnet"]}
 {"a":"case:e8263e35b92634d20e61a78c12bc95aab476381b5f03364d9fbb5d74b8fb2eb8","a_iocs":4,"b":"case:ef5db8b473e279620207777c42ef9ad14adf8b100ceb20dc4f7e1bd5271ecd3c","b_iocs":4,"kind":"case","ratio":1.75,"shared":7,"strength":11,"via":["ioc","jarm","registrable"]}
 {"a":"case:e88bf785ff3ee84df31a16ce5b6f9ecfc38cce7e5c01bdfb2dcdca21f33dbbf0","a_iocs":1,"b":"case:f0506419d1f60d7180e72fdcca97d5446d3cc3218d61b11dcd39b49086553683","b_iocs":1,"kind":"case","ratio":1,"shared":1,"strength":8,"via":["ioc"]}
 {"a":"case:e88bf785ff3ee84df31a16ce5b6f9ecfc38cce7e5c01bdfb2dcdca21f33dbbf0","a_iocs":1,"b":"case:ff5a682bad6c911fd08c90622b7fa13ab22a608e501eed511a40fe43a9b53a1e","b_iocs":1,"kind":"case","ratio":1,"shared":1,"strength":8,"via":["ioc"]}
@@ -785,10 +764,9 @@
 {"a":"10FXRAT","a_iocs":21,"b":"Webworm","b_iocs":14,"kind":"malware","ratio":0.071,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"@deadcode09284814","a_iocs":1,"b":"axios-util","b_iocs":1,"kind":"malware","ratio":2,"shared":2,"strength":13,"via":["ioc","subnet"]}
 {"a":"A","a_iocs":468,"b":"ABCDoor","b_iocs":52,"kind":"malware","ratio":0.038,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"A","a_iocs":468,"b":"AMOS","b_iocs":154,"kind":"malware","ratio":0.019,"shared":3,"strength":5,"via":["filename","jarm","registrable"],"weak_only":true}
+{"a":"A","a_iocs":468,"b":"AMOS","b_iocs":154,"kind":"malware","ratio":0.013,"shared":2,"strength":3,"via":["jarm","registrable"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"AUDIOFIX","b_iocs":88,"kind":"malware","ratio":0.011,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"AdaptixC2","b_iocs":41,"kind":"malware","ratio":0.024,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"A","a_iocs":468,"b":"BabyShark","b_iocs":70,"kind":"malware","ratio":0.014,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"Backdoor.Turn","b_iocs":31,"kind":"malware","ratio":0.032,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"Beagle","b_iocs":39,"kind":"malware","ratio":0.154,"shared":6,"strength":25,"via":["certificate","ioc","jarm","registrable","subnet"]}
 {"a":"A","a_iocs":468,"b":"BoryptGrab","b_iocs":5,"kind":"malware","ratio":0.4,"shared":2,"strength":6,"via":["asn","jarm"]}
@@ -812,12 +790,12 @@
 {"a":"A","a_iocs":468,"b":"Kapeka","b_iocs":23,"kind":"malware","ratio":0.043,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"Lucid Stealer","b_iocs":8,"kind":"malware","ratio":0.125,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"MINIRAT","b_iocs":88,"kind":"malware","ratio":0.011,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"A","a_iocs":468,"b":"Macsync","b_iocs":154,"kind":"malware","ratio":0.019,"shared":3,"strength":5,"via":["filename","jarm","registrable"],"weak_only":true}
+{"a":"A","a_iocs":468,"b":"Macsync","b_iocs":154,"kind":"malware","ratio":0.013,"shared":2,"strength":3,"via":["jarm","registrable"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"Millenium RAT","b_iocs":24,"kind":"malware","ratio":0.042,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"MiniJunk V2","b_iocs":30,"kind":"malware","ratio":0.033,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"MiniUpdate","b_iocs":31,"kind":"malware","ratio":0.032,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"Mistic","b_iocs":47,"kind":"malware","ratio":0.021,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"A","a_iocs":468,"b":"N","b_iocs":468,"kind":"malware","ratio":2.551,"shared":1194,"strength":44,"via":["asn","certificate","family","filename","ioc","jarm","registrable","resolution","subnet"]}
+{"a":"A","a_iocs":468,"b":"N","b_iocs":468,"kind":"malware","ratio":2.543,"shared":1190,"strength":40,"via":["asn","certificate","family","filename","ioc","jarm","registrable","resolution","subnet"]}
 {"a":"A","a_iocs":468,"b":"NukeSped","b_iocs":90,"kind":"malware","ratio":0.011,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"OTTERCOOKIE","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"Octopus","b_iocs":29,"kind":"malware","ratio":0.034,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -831,20 +809,20 @@
 {"a":"A","a_iocs":468,"b":"RevSocks","b_iocs":13,"kind":"malware","ratio":0.154,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"Rokarolla","b_iocs":50,"kind":"malware","ratio":0.02,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"SUNBURST","b_iocs":136,"kind":"malware","ratio":0.029,"shared":4,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"A","a_iocs":468,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.02,"shared":7,"strength":3,"via":["filename","jarm"],"weak_only":true}
+{"a":"A","a_iocs":468,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.017,"shared":6,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"Shai-Hulud","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"A","a_iocs":468,"b":"Shub Stealer","b_iocs":143,"kind":"malware","ratio":0.021,"shared":3,"strength":5,"via":["filename","jarm","registrable"],"weak_only":true}
+{"a":"A","a_iocs":468,"b":"Shub Stealer","b_iocs":143,"kind":"malware","ratio":0.014,"shared":2,"strength":3,"via":["jarm","registrable"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"Sliver","b_iocs":11,"kind":"malware","ratio":0.182,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"SourTrade","b_iocs":101,"kind":"malware","ratio":0.01,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"Starland RAT","b_iocs":7,"kind":"malware","ratio":0.286,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"StealC","b_iocs":14,"kind":"malware","ratio":0.071,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"TencShell","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"A","a_iocs":468,"b":"TinyRCT","b_iocs":17,"kind":"malware","ratio":0.059,"shared":1,"strength":5,"via":["family"]}
+{"a":"A","a_iocs":468,"b":"TinyRCT","b_iocs":17,"kind":"malware","ratio":0.059,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"VBCloud","b_iocs":56,"kind":"malware","ratio":0.071,"shared":4,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"ValleyRAT","b_iocs":58,"kind":"malware","ratio":0.017,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"Webworm","b_iocs":14,"kind":"malware","ratio":0.214,"shared":3,"strength":3,"via":["jarm","registrable"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"XCSSET","b_iocs":76,"kind":"malware","ratio":0.013,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"A","a_iocs":468,"b":"Zebrocy","b_iocs":114,"kind":"malware","ratio":0.044,"shared":5,"strength":3,"via":["filename","jarm"],"weak_only":true}
+{"a":"A","a_iocs":468,"b":"Zebrocy","b_iocs":114,"kind":"malware","ratio":0.035,"shared":4,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"A","a_iocs":468,"b":"proxyware","b_iocs":20,"kind":"malware","ratio":0.4,"shared":8,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"A","a_iocs":468,"b":"typo-crypto","b_iocs":4,"kind":"malware","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"ABCDoor","a_iocs":52,"b":"Atlas RAT","b_iocs":26,"kind":"malware","ratio":0.038,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -860,12 +838,12 @@
 {"a":"ABCDoor","a_iocs":52,"b":"VenomRAT","b_iocs":5,"kind":"malware","ratio":0.2,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"AMOS","a_iocs":154,"b":"FakeUpdates","b_iocs":19,"kind":"malware","ratio":0.053,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"AMOS","a_iocs":154,"b":"Infostealer","b_iocs":72,"kind":"malware","ratio":0.014,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"AMOS","a_iocs":154,"b":"Macsync","b_iocs":154,"kind":"malware","ratio":2.481,"shared":382,"strength":34,"via":["certificate","filename","ioc","jarm","registrable","resolution","subnet"]}
+{"a":"AMOS","a_iocs":154,"b":"Macsync","b_iocs":154,"kind":"malware","ratio":2.474,"shared":381,"strength":33,"via":["certificate","filename","ioc","jarm","registrable","resolution","subnet"]}
 {"a":"AMOS","a_iocs":154,"b":"Mistic","b_iocs":47,"kind":"malware","ratio":0.021,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"AMOS","a_iocs":154,"b":"N","b_iocs":468,"kind":"malware","ratio":0.019,"shared":3,"strength":5,"via":["filename","jarm","registrable"],"weak_only":true}
+{"a":"AMOS","a_iocs":154,"b":"N","b_iocs":468,"kind":"malware","ratio":0.013,"shared":2,"strength":3,"via":["jarm","registrable"],"weak_only":true}
 {"a":"AMOS","a_iocs":154,"b":"PHANTOMPULSE","b_iocs":8,"kind":"malware","ratio":0.625,"shared":5,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"AMOS","a_iocs":154,"b":"Qilin","b_iocs":27,"kind":"malware","ratio":0.037,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"AMOS","a_iocs":154,"b":"Shub Stealer","b_iocs":143,"kind":"malware","ratio":2.671,"shared":382,"strength":34,"via":["certificate","filename","ioc","jarm","registrable","resolution","subnet"]}
+{"a":"AMOS","a_iocs":154,"b":"Shub Stealer","b_iocs":143,"kind":"malware","ratio":2.664,"shared":381,"strength":33,"via":["certificate","filename","ioc","jarm","registrable","resolution","subnet"]}
 {"a":"AMOS","a_iocs":154,"b":"StealC","b_iocs":14,"kind":"malware","ratio":0.071,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"ARToken","a_iocs":15,"b":"CloudSorcerer","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"ARToken","a_iocs":15,"b":"CloudZ RAT","b_iocs":17,"kind":"malware","ratio":0.067,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
@@ -878,9 +856,9 @@
 {"a":"AUDIOFIX","a_iocs":88,"b":"CloudSorcerer","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"AUDIOFIX","a_iocs":88,"b":"DeedRAT","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"AUDIOFIX","a_iocs":88,"b":"Infostealer","b_iocs":72,"kind":"malware","ratio":0.014,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"AUDIOFIX","a_iocs":88,"b":"JARLEASH","b_iocs":4,"kind":"malware","ratio":0.25,"shared":1,"strength":5,"via":["family"]}
+{"a":"AUDIOFIX","a_iocs":88,"b":"JARLEASH","b_iocs":4,"kind":"malware","ratio":0.25,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"AUDIOFIX","a_iocs":88,"b":"Kapeka","b_iocs":23,"kind":"malware","ratio":0.043,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"AUDIOFIX","a_iocs":88,"b":"MINIRAT","b_iocs":88,"kind":"malware","ratio":1.92,"shared":169,"strength":39,"via":["certificate","family","filename","ioc","jarm","registrable","resolution","subnet"]}
+{"a":"AUDIOFIX","a_iocs":88,"b":"MINIRAT","b_iocs":88,"kind":"malware","ratio":1.909,"shared":168,"strength":35,"via":["certificate","family","filename","ioc","jarm","registrable","resolution","subnet"]}
 {"a":"AUDIOFIX","a_iocs":88,"b":"N","b_iocs":468,"kind":"malware","ratio":0.011,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"AUDIOFIX","a_iocs":88,"b":"NukeSped","b_iocs":90,"kind":"malware","ratio":0.011,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"AUDIOFIX","a_iocs":88,"b":"OTTERCOOKIE","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -892,8 +870,8 @@
 {"a":"AdaptixC2","a_iocs":41,"b":"DroneLink","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"AdaptixC2","a_iocs":41,"b":"N","b_iocs":468,"kind":"malware","ratio":0.024,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"AdaptixC2","a_iocs":41,"b":"Qilin","b_iocs":27,"kind":"malware","ratio":0.037,"shared":1,"strength":5,"via":["subnet"]}
-{"a":"Agent Tesla","a_iocs":10,"b":"DonutLoader","b_iocs":15,"kind":"malware","ratio":1,"shared":10,"strength":15,"via":["family","filename","ioc"]}
-{"a":"Agent Tesla","a_iocs":10,"b":"SprySOCKS","b_iocs":13,"kind":"malware","ratio":0.1,"shared":1,"strength":5,"via":["family"]}
+{"a":"Agent Tesla","a_iocs":10,"b":"DonutLoader","b_iocs":15,"kind":"malware","ratio":1,"shared":10,"strength":11,"via":["family","filename","ioc"]}
+{"a":"Agent Tesla","a_iocs":10,"b":"SprySOCKS","b_iocs":13,"kind":"malware","ratio":0.1,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Amadey","a_iocs":41,"b":"BusySnake","b_iocs":23,"kind":"malware","ratio":0.043,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Amadey","a_iocs":41,"b":"Millenium RAT","b_iocs":24,"kind":"malware","ratio":0.042,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"Amadey","a_iocs":41,"b":"ModeloRAT","b_iocs":13,"kind":"malware","ratio":0.077,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -901,48 +879,41 @@
 {"a":"AppleSeed","a_iocs":62,"b":"Gshell","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"AppleSeed","a_iocs":62,"b":"TencShell","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"AppleSeed","a_iocs":62,"b":"ThreatNeedle","b_iocs":115,"kind":"malware","ratio":0.016,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Atlas RAT","a_iocs":26,"b":"ChonkyChicken","b_iocs":19,"kind":"malware","ratio":0.053,"shared":1,"strength":5,"via":["family"]}
-{"a":"Atlas RAT","a_iocs":26,"b":"ChromEggscalator","b_iocs":4,"kind":"malware","ratio":0.25,"shared":1,"strength":5,"via":["family"]}
+{"a":"Atlas RAT","a_iocs":26,"b":"ChonkyChicken","b_iocs":19,"kind":"malware","ratio":0.053,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Atlas RAT","a_iocs":26,"b":"Flying Eagle","b_iocs":25,"kind":"malware","ratio":0.04,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Atlas RAT","a_iocs":26,"b":"Night Dragon","b_iocs":25,"kind":"malware","ratio":0.04,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Atlas RAT","a_iocs":26,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.077,"shared":2,"strength":7,"via":["family","filename"]}
-{"a":"Atlas RAT","a_iocs":26,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":5,"via":["family"]}
+{"a":"Atlas RAT","a_iocs":26,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"BTMOB","a_iocs":50,"b":"Cyclops Blink","b_iocs":195,"kind":"malware","ratio":0.02,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"BTMOB","a_iocs":50,"b":"TCLBanker","b_iocs":13,"kind":"malware","ratio":0.077,"shared":1,"strength":5,"via":["subnet"]}
-{"a":"BURNYBEAR","a_iocs":8,"b":"Backdoor.Turn","b_iocs":31,"kind":"malware","ratio":0.125,"shared":1,"strength":5,"via":["family"]}
-{"a":"BURNYBEAR","a_iocs":8,"b":"DragonForce ransomware","b_iocs":32,"kind":"malware","ratio":0.125,"shared":1,"strength":5,"via":["family"]}
-{"a":"BabyShark","a_iocs":70,"b":"FastViewer Android Malware","b_iocs":9,"kind":"malware","ratio":0.111,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"BabyShark","a_iocs":70,"b":"GOLDBACKDOOR","b_iocs":17,"kind":"malware","ratio":0.059,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"BabyShark","a_iocs":70,"b":"Higaisa","b_iocs":93,"kind":"malware","ratio":0.014,"shared":1,"strength":5,"via":["family"]}
-{"a":"BabyShark","a_iocs":70,"b":"N","b_iocs":468,"kind":"malware","ratio":0.014,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"BabyShark","a_iocs":70,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.029,"shared":2,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"BabyShark","a_iocs":70,"b":"Zebrocy","b_iocs":114,"kind":"malware","ratio":0.014,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"Backdoor.Turn","a_iocs":31,"b":"Cavern","b_iocs":10,"kind":"malware","ratio":0.2,"shared":2,"strength":6,"via":["family","jarm"]}
-{"a":"Backdoor.Turn","a_iocs":31,"b":"DragonForce ransomware","b_iocs":32,"kind":"malware","ratio":3.548,"shared":110,"strength":37,"via":["asn","certificate","family","filename","ioc","jarm","registrable","subnet"]}
-{"a":"Backdoor.Turn","a_iocs":31,"b":"GentleKiller","b_iocs":17,"kind":"malware","ratio":0.118,"shared":2,"strength":2,"via":["filename"],"weak_only":true}
+{"a":"BURNYBEAR","a_iocs":8,"b":"Backdoor.Turn","b_iocs":31,"kind":"malware","ratio":0.125,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"BURNYBEAR","a_iocs":8,"b":"DragonForce ransomware","b_iocs":32,"kind":"malware","ratio":0.125,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"BabyShark","a_iocs":70,"b":"Higaisa","b_iocs":93,"kind":"malware","ratio":0.014,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"Backdoor.Turn","a_iocs":31,"b":"Cavern","b_iocs":10,"kind":"malware","ratio":0.2,"shared":2,"strength":3,"via":["family","jarm"],"weak_only":true}
+{"a":"Backdoor.Turn","a_iocs":31,"b":"DragonForce ransomware","b_iocs":32,"kind":"malware","ratio":3.258,"shared":101,"strength":33,"via":["asn","certificate","family","filename","ioc","jarm","registrable","subnet"]}
+{"a":"Backdoor.Turn","a_iocs":31,"b":"GentleKiller","b_iocs":17,"kind":"malware","ratio":0.176,"shared":3,"strength":1,"via":["filename"],"weak_only":true}
 {"a":"Backdoor.Turn","a_iocs":31,"b":"IceFog","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Backdoor.Turn","a_iocs":31,"b":"N","b_iocs":468,"kind":"malware","ratio":0.032,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Backdoor.Turn","a_iocs":31,"b":"PrincessClub","b_iocs":16,"kind":"malware","ratio":0.063,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Backdoor.Turn","a_iocs":31,"b":"SourTrade","b_iocs":101,"kind":"malware","ratio":0.032,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Backdoor.Turn","a_iocs":31,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":5,"via":["family"]}
+{"a":"Backdoor.Turn","a_iocs":31,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Backdoor.Turn","a_iocs":31,"b":"VBCloud","b_iocs":56,"kind":"malware","ratio":0.065,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Beagle","a_iocs":39,"b":"FakeUpdates","b_iocs":19,"kind":"malware","ratio":0.053,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Beagle","a_iocs":39,"b":"Gshell","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Beagle","a_iocs":39,"b":"N","b_iocs":468,"kind":"malware","ratio":0.154,"shared":6,"strength":25,"via":["certificate","ioc","jarm","registrable","subnet"]}
-{"a":"Beagle","a_iocs":39,"b":"PoisonX","b_iocs":7,"kind":"malware","ratio":0.143,"shared":1,"strength":5,"via":["family"]}
+{"a":"Beagle","a_iocs":39,"b":"PoisonX","b_iocs":7,"kind":"malware","ratio":0.143,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Beagle","a_iocs":39,"b":"TencShell","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Beagle","a_iocs":39,"b":"ThreatNeedle","b_iocs":115,"kind":"malware","ratio":0.026,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Beagle","a_iocs":39,"b":"TriBack Loader","b_iocs":9,"kind":"malware","ratio":0.111,"shared":1,"strength":5,"via":["family"]}
+{"a":"Beagle","a_iocs":39,"b":"TriBack Loader","b_iocs":9,"kind":"malware","ratio":0.111,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"BeaverTail","a_iocs":4,"b":"InvisibleFerret","b_iocs":51,"kind":"malware","ratio":1.25,"shared":5,"strength":10,"via":["ioc","registrable"]}
 {"a":"BeaverTail","a_iocs":4,"b":"PromptMink","b_iocs":26,"kind":"malware","ratio":0.25,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"BeaverTail","a_iocs":4,"b":"SilverHawk","b_iocs":8,"kind":"malware","ratio":0.25,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"BeaverTail","a_iocs":4,"b":"Unnamed Android family (Meta 2021)","b_iocs":8,"kind":"malware","ratio":0.25,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"BirdCall","a_iocs":65,"b":"Cyclops Blink","b_iocs":195,"kind":"malware","ratio":0.046,"shared":3,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"BirdCall","a_iocs":65,"b":"GOLDBACKDOOR","b_iocs":17,"kind":"malware","ratio":0.059,"shared":1,"strength":5,"via":["family"]}
+{"a":"BirdCall","a_iocs":65,"b":"GOLDBACKDOOR","b_iocs":17,"kind":"malware","ratio":0.059,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"BirdCall","a_iocs":65,"b":"MINIRAT","b_iocs":88,"kind":"malware","ratio":0.015,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"BirdCall","a_iocs":65,"b":"NarwhalRAT","b_iocs":17,"kind":"malware","ratio":0.059,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"BirdCall","a_iocs":65,"b":"SSLove","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":5,"via":["family"]}
-{"a":"BirdCall","a_iocs":65,"b":"SandroRAT","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":5,"via":["family"]}
+{"a":"BirdCall","a_iocs":65,"b":"SSLove","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"BirdCall","a_iocs":65,"b":"SandroRAT","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"BirdCall","a_iocs":65,"b":"Sliver","b_iocs":11,"kind":"malware","ratio":0.091,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"BoryptGrab","a_iocs":5,"b":"Lucid Stealer","b_iocs":8,"kind":"malware","ratio":0.2,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"BoryptGrab","a_iocs":5,"b":"N","b_iocs":468,"kind":"malware","ratio":0.4,"shared":2,"strength":6,"via":["asn","jarm"]}
@@ -955,21 +926,19 @@
 {"a":"CASTLESTEALER","a_iocs":4,"b":"PhantomRelay","b_iocs":26,"kind":"malware","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"CASTLESTEALER","a_iocs":4,"b":"PowerShower","b_iocs":23,"kind":"malware","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"CASTLESTEALER","a_iocs":4,"b":"Webworm","b_iocs":14,"kind":"malware","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Cav3rn","a_iocs":8,"b":"Cavern","b_iocs":10,"kind":"malware","ratio":0.125,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"Cavern","a_iocs":10,"b":"DragonForce ransomware","b_iocs":32,"kind":"malware","ratio":0.2,"shared":2,"strength":6,"via":["family","jarm"]}
-{"a":"Cavern","a_iocs":10,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.1,"shared":1,"strength":5,"via":["family"]}
+{"a":"Cavern","a_iocs":10,"b":"DragonForce ransomware","b_iocs":32,"kind":"malware","ratio":0.2,"shared":2,"strength":3,"via":["family","jarm"],"weak_only":true}
+{"a":"Cavern","a_iocs":10,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.1,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Chaos","a_iocs":23,"b":"N","b_iocs":468,"kind":"malware","ratio":0.043,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Chaos","a_iocs":23,"b":"Octopus","b_iocs":29,"kind":"malware","ratio":0.043,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"Chaos","a_iocs":23,"b":"PhantomRelayLite","b_iocs":22,"kind":"malware","ratio":0.045,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Chaos","a_iocs":23,"b":"RevSocks","b_iocs":13,"kind":"malware","ratio":0.077,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Chaos","a_iocs":23,"b":"typo-crypto","b_iocs":4,"kind":"malware","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Chisel","a_iocs":2,"b":"PCPJack","b_iocs":26,"kind":"malware","ratio":1.5,"shared":3,"strength":14,"via":["ioc","jarm","subnet"]}
-{"a":"ChonkyChicken","a_iocs":19,"b":"Modular ChonkyChicken","b_iocs":2,"kind":"malware","ratio":2.5,"shared":5,"strength":15,"via":["family","filename","ioc"]}
+{"a":"ChonkyChicken","a_iocs":19,"b":"Modular ChonkyChicken","b_iocs":2,"kind":"malware","ratio":2,"shared":4,"strength":11,"via":["family","filename","ioc"]}
 {"a":"ChonkyChicken","a_iocs":19,"b":"N","b_iocs":468,"kind":"malware","ratio":0.053,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"ChonkyChicken","a_iocs":19,"b":"OWAReaperの概要","b_iocs":5,"kind":"malware","ratio":0.2,"shared":1,"strength":5,"via":["family"]}
+{"a":"ChonkyChicken","a_iocs":19,"b":"OWAReaperの概要","b_iocs":5,"kind":"malware","ratio":0.2,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"ChonkyChicken","a_iocs":19,"b":"PrincessClub","b_iocs":16,"kind":"malware","ratio":0.063,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"ChonkyChicken","a_iocs":19,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.267,"shared":4,"strength":7,"via":["family","filename"]}
-{"a":"ChromEggscalator","a_iocs":4,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.25,"shared":1,"strength":5,"via":["family"]}
+{"a":"ChonkyChicken","a_iocs":19,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.267,"shared":4,"strength":3,"via":["family","filename"],"weak_only":true}
 {"a":"ClickFix","a_iocs":3,"b":"ErrTraffic","b_iocs":80,"kind":"malware","ratio":2,"shared":6,"strength":19,"via":["certificate","ioc","registrable"]}
 {"a":"ClickFix","a_iocs":3,"b":"TELEPUZ","b_iocs":59,"kind":"malware","ratio":1,"shared":3,"strength":19,"via":["certificate","ioc","registrable"]}
 {"a":"CloudSorcerer","a_iocs":15,"b":"CloudZ RAT","b_iocs":17,"kind":"malware","ratio":0.067,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
@@ -995,10 +964,10 @@
 {"a":"Cyclops Blink","a_iocs":195,"b":"XCSSET","b_iocs":76,"kind":"malware","ratio":0.013,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DCRat","a_iocs":45,"b":"ValleyRAT","b_iocs":58,"kind":"malware","ratio":0.022,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"DEV#POPPER","a_iocs":4,"b":"OmniStealer","b_iocs":4,"kind":"malware","ratio":1,"shared":4,"strength":8,"via":["ioc"]}
-{"a":"DIDS.exe","a_iocs":1,"b":"Game.exe","b_iocs":5,"kind":"malware","ratio":1,"shared":1,"strength":5,"via":["family"]}
-{"a":"DIDS.exe","a_iocs":1,"b":"WebView2.exe","b_iocs":1,"kind":"malware","ratio":1,"shared":1,"strength":5,"via":["family"]}
-{"a":"DIDS.exe","a_iocs":1,"b":"ms_upd.exe","b_iocs":4,"kind":"malware","ratio":3,"shared":3,"strength":7,"via":["family","filename"]}
-{"a":"DOGLEASH","a_iocs":70,"b":"LONGLEASH","b_iocs":1,"kind":"malware","ratio":1,"shared":1,"strength":5,"via":["family"]}
+{"a":"DIDS.exe","a_iocs":1,"b":"Game.exe","b_iocs":5,"kind":"malware","ratio":1,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"DIDS.exe","a_iocs":1,"b":"WebView2.exe","b_iocs":1,"kind":"malware","ratio":1,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"DIDS.exe","a_iocs":1,"b":"ms_upd.exe","b_iocs":4,"kind":"malware","ratio":3,"shared":3,"strength":3,"via":["family","filename"],"weak_only":true}
+{"a":"DOGLEASH","a_iocs":70,"b":"LONGLEASH","b_iocs":1,"kind":"malware","ratio":1,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"DeedRAT","a_iocs":15,"b":"DroneLink","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DeedRAT","a_iocs":15,"b":"GammaWorm","b_iocs":11,"kind":"malware","ratio":0.091,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"DeedRAT","a_iocs":15,"b":"Kapeka","b_iocs":23,"kind":"malware","ratio":0.067,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -1009,15 +978,14 @@
 {"a":"DeedRAT","a_iocs":15,"b":"VSHELL","b_iocs":22,"kind":"malware","ratio":2.467,"shared":37,"strength":32,"via":["certificate","ioc","jarm","registrable","resolution","subnet"]}
 {"a":"DeedRAT","a_iocs":15,"b":"msaRAT","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"DesckVB","a_iocs":12,"b":"KEYPLUG","b_iocs":34,"kind":"malware","ratio":0.083,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"DonutLoader","a_iocs":15,"b":"Higaisa","b_iocs":93,"kind":"malware","ratio":0.067,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"DonutLoader","a_iocs":15,"b":"N","b_iocs":468,"kind":"malware","ratio":0.067,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"DonutLoader","a_iocs":15,"b":"PhantomRelay","b_iocs":26,"kind":"malware","ratio":0.067,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"DragonForce ransomware","a_iocs":32,"b":"GentleKiller","b_iocs":17,"kind":"malware","ratio":0.118,"shared":2,"strength":2,"via":["filename"],"weak_only":true}
+{"a":"DragonForce ransomware","a_iocs":32,"b":"GentleKiller","b_iocs":17,"kind":"malware","ratio":0.176,"shared":3,"strength":1,"via":["filename"],"weak_only":true}
 {"a":"DragonForce ransomware","a_iocs":32,"b":"IceFog","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DragonForce ransomware","a_iocs":32,"b":"N","b_iocs":468,"kind":"malware","ratio":0.031,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DragonForce ransomware","a_iocs":32,"b":"PrincessClub","b_iocs":16,"kind":"malware","ratio":0.063,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DragonForce ransomware","a_iocs":32,"b":"SourTrade","b_iocs":101,"kind":"malware","ratio":0.031,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"DragonForce ransomware","a_iocs":32,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":5,"via":["family"]}
+{"a":"DragonForce ransomware","a_iocs":32,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"DragonForce ransomware","a_iocs":32,"b":"VBCloud","b_iocs":56,"kind":"malware","ratio":0.063,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DroneLink","a_iocs":15,"b":"N","b_iocs":468,"kind":"malware","ratio":0.067,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"DroneLink","a_iocs":15,"b":"Nebo","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -1045,48 +1013,44 @@
 {"a":"FakeUpdates","a_iocs":19,"b":"N","b_iocs":468,"kind":"malware","ratio":0.053,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"FakeUpdates","a_iocs":19,"b":"PHANTOMPULSE","b_iocs":8,"kind":"malware","ratio":0.125,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"FakeUpdates","a_iocs":19,"b":"Shub Stealer","b_iocs":143,"kind":"malware","ratio":0.053,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"FastViewer Android Malware","a_iocs":9,"b":"GOLDBACKDOOR","b_iocs":17,"kind":"malware","ratio":0.111,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"FastViewer Android Malware","a_iocs":9,"b":"KEYPLUG","b_iocs":34,"kind":"malware","ratio":0.111,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"FastViewer Android Malware","a_iocs":9,"b":"KGH Spyware","b_iocs":13,"kind":"malware","ratio":0.111,"shared":1,"strength":5,"via":["family"]}
+{"a":"FastViewer Android Malware","a_iocs":9,"b":"KGH Spyware","b_iocs":13,"kind":"malware","ratio":0.111,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"FastViewer Android Malware","a_iocs":9,"b":"PureHVNC","b_iocs":6,"kind":"malware","ratio":0.167,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"FastViewer Android Malware","a_iocs":9,"b":"SUNBURST","b_iocs":136,"kind":"malware","ratio":0.111,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"FastViewer Android Malware","a_iocs":9,"b":"VBCloud","b_iocs":56,"kind":"malware","ratio":0.111,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Flying Eagle","a_iocs":25,"b":"Night Dragon","b_iocs":25,"kind":"malware","ratio":2.16,"shared":54,"strength":37,"via":["asn","certificate","family","filename","ioc","jarm","registrable","subnet"]}
+{"a":"Flying Eagle","a_iocs":25,"b":"Night Dragon","b_iocs":25,"kind":"malware","ratio":2.16,"shared":54,"strength":33,"via":["asn","certificate","family","filename","ioc","jarm","registrable","subnet"]}
 {"a":"Forg365","a_iocs":13,"b":"N","b_iocs":468,"kind":"malware","ratio":0.077,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"GOLDBACKDOOR","a_iocs":17,"b":"Higaisa","b_iocs":93,"kind":"malware","ratio":0.059,"shared":1,"strength":5,"via":["family"]}
-{"a":"GOLDBACKDOOR","a_iocs":17,"b":"PowerCloud","b_iocs":21,"kind":"malware","ratio":0.059,"shared":1,"strength":5,"via":["family"]}
-{"a":"GOLDBACKDOOR","a_iocs":17,"b":"PowerShell RAT","b_iocs":14,"kind":"malware","ratio":0.071,"shared":1,"strength":5,"via":["family"]}
+{"a":"GOLDBACKDOOR","a_iocs":17,"b":"Higaisa","b_iocs":93,"kind":"malware","ratio":0.059,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"GOLDBACKDOOR","a_iocs":17,"b":"PowerCloud","b_iocs":21,"kind":"malware","ratio":0.059,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"GOLDBACKDOOR","a_iocs":17,"b":"PowerShell RAT","b_iocs":14,"kind":"malware","ratio":0.071,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Game.exe","a_iocs":5,"b":"N","b_iocs":468,"kind":"malware","ratio":0.2,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Game.exe","a_iocs":5,"b":"PCPJack","b_iocs":26,"kind":"malware","ratio":0.2,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Game.exe","a_iocs":5,"b":"WebView2.exe","b_iocs":1,"kind":"malware","ratio":2,"shared":2,"strength":7,"via":["family","filename"]}
-{"a":"Game.exe","a_iocs":5,"b":"ms_upd.exe","b_iocs":4,"kind":"malware","ratio":0.25,"shared":1,"strength":5,"via":["family"]}
+{"a":"Game.exe","a_iocs":5,"b":"WebView2.exe","b_iocs":1,"kind":"malware","ratio":1,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"Game.exe","a_iocs":5,"b":"ms_upd.exe","b_iocs":4,"kind":"malware","ratio":0.25,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"GammaWorm","a_iocs":11,"b":"N","b_iocs":468,"kind":"malware","ratio":0.091,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"GammaWorm","a_iocs":11,"b":"TCLBanker","b_iocs":13,"kind":"malware","ratio":0.091,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"GammaWorm","a_iocs":11,"b":"VSHELL","b_iocs":22,"kind":"malware","ratio":0.091,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"GammaWorm","a_iocs":11,"b":"msaRAT","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"GentleKiller","a_iocs":17,"b":"HavocKiller","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":5,"via":["family"]}
-{"a":"GentleKiller","a_iocs":17,"b":"ThrottleBlood","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":5,"via":["family"]}
-{"a":"GraphWorm","a_iocs":1,"b":"Webworm","b_iocs":14,"kind":"malware","ratio":3,"shared":3,"strength":2,"via":["filename"],"weak_only":true}
+{"a":"GentleKiller","a_iocs":17,"b":"HavocKiller","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"GentleKiller","a_iocs":17,"b":"ThrottleBlood","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"GraphWorm","a_iocs":1,"b":"Webworm","b_iocs":14,"kind":"malware","ratio":2,"shared":2,"strength":1,"via":["filename"],"weak_only":true}
 {"a":"Gshell","a_iocs":20,"b":"N","b_iocs":468,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Gshell","a_iocs":20,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Gshell","a_iocs":20,"b":"TencShell","b_iocs":20,"kind":"malware","ratio":1.5,"shared":30,"strength":14,"via":["ioc","jarm","subnet"]}
 {"a":"Gshell","a_iocs":20,"b":"ThreatNeedle","b_iocs":115,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Gshell","a_iocs":20,"b":"Zebrocy","b_iocs":114,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Hades","a_iocs":6,"b":"Shai-Hulud","b_iocs":20,"kind":"malware","ratio":2.167,"shared":13,"strength":15,"via":["family","filename","ioc"]}
+{"a":"Hades","a_iocs":6,"b":"Shai-Hulud","b_iocs":20,"kind":"malware","ratio":2.167,"shared":13,"strength":11,"via":["family","filename","ioc"]}
 {"a":"Hades","a_iocs":6,"b":"VSHELL","b_iocs":22,"kind":"malware","ratio":0.333,"shared":2,"strength":13,"via":["ioc","subnet"]}
 {"a":"Havoc","a_iocs":6,"b":"Prinz Eugen","b_iocs":10,"kind":"malware","ratio":0.167,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"HavocKiller","a_iocs":2,"b":"OxideHarvest","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"HavocKiller","a_iocs":2,"b":"ThrottleBlood","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":5,"via":["family"]}
-{"a":"HelloBackdoor","a_iocs":7,"b":"MODBEACON","b_iocs":8,"kind":"malware","ratio":0.143,"shared":1,"strength":5,"via":["family"]}
-{"a":"Higaisa","a_iocs":93,"b":"KEYPLUG","b_iocs":34,"kind":"malware","ratio":0.029,"shared":1,"strength":5,"via":["family"]}
-{"a":"Higaisa","a_iocs":93,"b":"KGH Spyware","b_iocs":13,"kind":"malware","ratio":0.077,"shared":1,"strength":5,"via":["family"]}
-{"a":"Higaisa","a_iocs":93,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.011,"shared":1,"strength":5,"via":["family"]}
-{"a":"Higaisa","a_iocs":93,"b":"Vidar Stealer","b_iocs":104,"kind":"malware","ratio":0.011,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"Higaisa","a_iocs":93,"b":"XMRig","b_iocs":106,"kind":"malware","ratio":0.011,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"Higaisa","a_iocs":93,"b":"Zebrocy","b_iocs":114,"kind":"malware","ratio":0.011,"shared":1,"strength":5,"via":["family"]}
+{"a":"HavocKiller","a_iocs":2,"b":"ThrottleBlood","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"HelloBackdoor","a_iocs":7,"b":"MODBEACON","b_iocs":8,"kind":"malware","ratio":0.143,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"Higaisa","a_iocs":93,"b":"KEYPLUG","b_iocs":34,"kind":"malware","ratio":0.029,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"Higaisa","a_iocs":93,"b":"KGH Spyware","b_iocs":13,"kind":"malware","ratio":0.077,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"Higaisa","a_iocs":93,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.011,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"Higaisa","a_iocs":93,"b":"Zebrocy","b_iocs":114,"kind":"malware","ratio":0.011,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"IceFog","a_iocs":2,"b":"SourTrade","b_iocs":101,"kind":"malware","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"IceFog","a_iocs":2,"b":"VBCloud","b_iocs":56,"kind":"malware","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Infostealer","a_iocs":72,"b":"JARLEASH","b_iocs":4,"kind":"malware","ratio":0.25,"shared":1,"strength":5,"via":["family"]}
+{"a":"Infostealer","a_iocs":72,"b":"JARLEASH","b_iocs":4,"kind":"malware","ratio":0.25,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Infostealer","a_iocs":72,"b":"MINIRAT","b_iocs":88,"kind":"malware","ratio":0.014,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"Infostealer","a_iocs":72,"b":"Macsync","b_iocs":154,"kind":"malware","ratio":0.014,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"Infostealer","a_iocs":72,"b":"N","b_iocs":468,"kind":"malware","ratio":0.014,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
@@ -1097,26 +1061,23 @@
 {"a":"InvisibleFerret","a_iocs":51,"b":"Unnamed Android family (Meta 2021)","b_iocs":8,"kind":"malware","ratio":0.125,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"JADEPUFFER","a_iocs":4,"b":"N","b_iocs":468,"kind":"malware","ratio":0.5,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"JADEPUFFER","a_iocs":4,"b":"PowerShower","b_iocs":23,"kind":"malware","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"JARLEASH","a_iocs":4,"b":"MINIRAT","b_iocs":88,"kind":"malware","ratio":0.25,"shared":1,"strength":5,"via":["family"]}
+{"a":"JARLEASH","a_iocs":4,"b":"MINIRAT","b_iocs":88,"kind":"malware","ratio":0.25,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"JFMBackdoor","a_iocs":3,"b":"Showboat","b_iocs":15,"kind":"malware","ratio":0.333,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"KEYPLUG","a_iocs":34,"b":"KGH Spyware","b_iocs":13,"kind":"malware","ratio":0.077,"shared":1,"strength":5,"via":["family"]}
+{"a":"KEYPLUG","a_iocs":34,"b":"KGH Spyware","b_iocs":13,"kind":"malware","ratio":0.077,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"KEYPLUG","a_iocs":34,"b":"N","b_iocs":468,"kind":"malware","ratio":0.088,"shared":3,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"KEYPLUG","a_iocs":34,"b":"PowerCloud","b_iocs":21,"kind":"malware","ratio":0.048,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"KEYPLUG","a_iocs":34,"b":"RevSocks","b_iocs":13,"kind":"malware","ratio":0.077,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"KEYPLUG","a_iocs":34,"b":"SUNBURST","b_iocs":136,"kind":"malware","ratio":0.029,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"KEYPLUG","a_iocs":34,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.088,"shared":3,"strength":3,"via":["filename","jarm"],"weak_only":true}
+{"a":"KEYPLUG","a_iocs":34,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.059,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"KEYPLUG","a_iocs":34,"b":"StealC","b_iocs":14,"kind":"malware","ratio":0.071,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"KEYPLUG","a_iocs":34,"b":"Vidar Stealer","b_iocs":104,"kind":"malware","ratio":0.029,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"KEYPLUG","a_iocs":34,"b":"XMRig","b_iocs":106,"kind":"malware","ratio":0.029,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"KEYPLUG","a_iocs":34,"b":"Zebrocy","b_iocs":114,"kind":"malware","ratio":0.029,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"KGH Spyware","a_iocs":13,"b":"N","b_iocs":468,"kind":"malware","ratio":0.077,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Kapeka","a_iocs":23,"b":"MINIRAT","b_iocs":88,"kind":"malware","ratio":0.043,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Kapeka","a_iocs":23,"b":"N","b_iocs":468,"kind":"malware","ratio":0.043,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Kapeka","a_iocs":23,"b":"TinyRCT","b_iocs":17,"kind":"malware","ratio":0.059,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Kapeka","a_iocs":23,"b":"VSHELL","b_iocs":22,"kind":"malware","ratio":0.045,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Kazuar","a_iocs":4,"b":"Penquin","b_iocs":68,"kind":"malware","ratio":0.25,"shared":1,"strength":5,"via":["family"]}
-{"a":"LUNCHPOKE","a_iocs":8,"b":"Mistic","b_iocs":47,"kind":"malware","ratio":0.125,"shared":1,"strength":5,"via":["family"]}
-{"a":"LUNCHPOKE","a_iocs":8,"b":"NightLedger","b_iocs":3,"kind":"malware","ratio":0.333,"shared":1,"strength":5,"via":["family"]}
+{"a":"Kazuar","a_iocs":4,"b":"Penquin","b_iocs":68,"kind":"malware","ratio":0.25,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"LUNCHPOKE","a_iocs":8,"b":"Mistic","b_iocs":47,"kind":"malware","ratio":0.125,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"LUNCHPOKE","a_iocs":8,"b":"NightLedger","b_iocs":3,"kind":"malware","ratio":0.333,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"LegionRelay","a_iocs":8,"b":"Nebo","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"LegionRelay","a_iocs":8,"b":"PrincessClub","b_iocs":16,"kind":"malware","ratio":0.125,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"LegionRelay","a_iocs":8,"b":"Showboat","b_iocs":15,"kind":"malware","ratio":0.125,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -1130,10 +1091,10 @@
 {"a":"MINIRAT","a_iocs":88,"b":"VSHELL","b_iocs":22,"kind":"malware","ratio":0.045,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"MINIRECON","a_iocs":2,"b":"PUBLOAD","b_iocs":1,"kind":"malware","ratio":1,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"Macsync","a_iocs":154,"b":"Mistic","b_iocs":47,"kind":"malware","ratio":0.021,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Macsync","a_iocs":154,"b":"N","b_iocs":468,"kind":"malware","ratio":0.019,"shared":3,"strength":5,"via":["filename","jarm","registrable"],"weak_only":true}
+{"a":"Macsync","a_iocs":154,"b":"N","b_iocs":468,"kind":"malware","ratio":0.013,"shared":2,"strength":3,"via":["jarm","registrable"],"weak_only":true}
 {"a":"Macsync","a_iocs":154,"b":"PHANTOMPULSE","b_iocs":8,"kind":"malware","ratio":0.625,"shared":5,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"Macsync","a_iocs":154,"b":"Qilin","b_iocs":27,"kind":"malware","ratio":0.037,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Macsync","a_iocs":154,"b":"Shub Stealer","b_iocs":143,"kind":"malware","ratio":2.671,"shared":382,"strength":34,"via":["certificate","filename","ioc","jarm","registrable","resolution","subnet"]}
+{"a":"Macsync","a_iocs":154,"b":"Shub Stealer","b_iocs":143,"kind":"malware","ratio":2.664,"shared":381,"strength":33,"via":["certificate","filename","ioc","jarm","registrable","resolution","subnet"]}
 {"a":"Miasma","a_iocs":19,"b":"Shai-Hulud","b_iocs":20,"kind":"malware","ratio":0.263,"shared":5,"strength":27,"via":["certificate","ioc","jarm","registrable","resolution"]}
 {"a":"Miasma","a_iocs":19,"b":"Vidar Stealer","b_iocs":104,"kind":"malware","ratio":0.053,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Miasma","a_iocs":19,"b":"XMRig","b_iocs":106,"kind":"malware","ratio":0.053,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -1144,19 +1105,19 @@
 {"a":"Millenium RAT","a_iocs":24,"b":"SUNBURST","b_iocs":136,"kind":"malware","ratio":0.042,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Millenium RAT","a_iocs":24,"b":"Showboat","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Millenium RAT","a_iocs":24,"b":"VBCloud","b_iocs":56,"kind":"malware","ratio":0.042,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"MiniFast","a_iocs":51,"b":"MiniJunk V2","b_iocs":30,"kind":"malware","ratio":1.333,"shared":40,"strength":22,"via":["certificate","filename","ioc","jarm","registrable"]}
-{"a":"MiniFast","a_iocs":51,"b":"MiniUpdate","b_iocs":31,"kind":"malware","ratio":1.355,"shared":42,"strength":27,"via":["certificate","family","filename","ioc","jarm","registrable"]}
+{"a":"MiniFast","a_iocs":51,"b":"MiniJunk V2","b_iocs":30,"kind":"malware","ratio":1.3,"shared":39,"strength":21,"via":["certificate","filename","ioc","jarm","registrable"]}
+{"a":"MiniFast","a_iocs":51,"b":"MiniUpdate","b_iocs":31,"kind":"malware","ratio":1.355,"shared":42,"strength":23,"via":["certificate","family","filename","ioc","jarm","registrable"]}
 {"a":"MiniJunk V2","a_iocs":30,"b":"MiniUpdate","b_iocs":31,"kind":"malware","ratio":1.2,"shared":36,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"MiniJunk V2","a_iocs":30,"b":"N","b_iocs":468,"kind":"malware","ratio":0.033,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"MiniUpdate","a_iocs":31,"b":"N","b_iocs":468,"kind":"malware","ratio":0.032,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Mistic","a_iocs":47,"b":"N","b_iocs":468,"kind":"malware","ratio":0.021,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Mistic","a_iocs":47,"b":"NightLedger","b_iocs":3,"kind":"malware","ratio":0.333,"shared":1,"strength":5,"via":["family"]}
+{"a":"Mistic","a_iocs":47,"b":"NightLedger","b_iocs":3,"kind":"malware","ratio":0.333,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Mistic","a_iocs":47,"b":"PHANTOMPULSE","b_iocs":8,"kind":"malware","ratio":0.125,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Mistic","a_iocs":47,"b":"Shub Stealer","b_iocs":143,"kind":"malware","ratio":0.021,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Mistic","a_iocs":47,"b":"Webworm","b_iocs":14,"kind":"malware","ratio":0.071,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"ModeloRAT","a_iocs":13,"b":"Qilin","b_iocs":27,"kind":"malware","ratio":0.077,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"ModeloRAT","a_iocs":13,"b":"SUNBURST","b_iocs":136,"kind":"malware","ratio":0.077,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Modular ChonkyChicken","a_iocs":2,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.5,"shared":1,"strength":5,"via":["family"]}
+{"a":"Modular ChonkyChicken","a_iocs":2,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.5,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"NukeSped","b_iocs":90,"kind":"malware","ratio":0.011,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"OTTERCOOKIE","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"Octopus","b_iocs":29,"kind":"malware","ratio":0.034,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -1170,20 +1131,20 @@
 {"a":"N","a_iocs":468,"b":"RevSocks","b_iocs":13,"kind":"malware","ratio":0.154,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"Rokarolla","b_iocs":50,"kind":"malware","ratio":0.02,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"SUNBURST","b_iocs":136,"kind":"malware","ratio":0.029,"shared":4,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"N","a_iocs":468,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.02,"shared":7,"strength":3,"via":["filename","jarm"],"weak_only":true}
+{"a":"N","a_iocs":468,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.017,"shared":6,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"Shai-Hulud","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"N","a_iocs":468,"b":"Shub Stealer","b_iocs":143,"kind":"malware","ratio":0.021,"shared":3,"strength":5,"via":["filename","jarm","registrable"],"weak_only":true}
+{"a":"N","a_iocs":468,"b":"Shub Stealer","b_iocs":143,"kind":"malware","ratio":0.014,"shared":2,"strength":3,"via":["jarm","registrable"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"Sliver","b_iocs":11,"kind":"malware","ratio":0.182,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"SourTrade","b_iocs":101,"kind":"malware","ratio":0.01,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"Starland RAT","b_iocs":7,"kind":"malware","ratio":0.286,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"StealC","b_iocs":14,"kind":"malware","ratio":0.071,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"TencShell","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"N","a_iocs":468,"b":"TinyRCT","b_iocs":17,"kind":"malware","ratio":0.059,"shared":1,"strength":5,"via":["family"]}
+{"a":"N","a_iocs":468,"b":"TinyRCT","b_iocs":17,"kind":"malware","ratio":0.059,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"VBCloud","b_iocs":56,"kind":"malware","ratio":0.071,"shared":4,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"ValleyRAT","b_iocs":58,"kind":"malware","ratio":0.017,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"Webworm","b_iocs":14,"kind":"malware","ratio":0.214,"shared":3,"strength":3,"via":["jarm","registrable"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"XCSSET","b_iocs":76,"kind":"malware","ratio":0.013,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"N","a_iocs":468,"b":"Zebrocy","b_iocs":114,"kind":"malware","ratio":0.044,"shared":5,"strength":3,"via":["filename","jarm"],"weak_only":true}
+{"a":"N","a_iocs":468,"b":"Zebrocy","b_iocs":114,"kind":"malware","ratio":0.035,"shared":4,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"N","a_iocs":468,"b":"proxyware","b_iocs":20,"kind":"malware","ratio":0.4,"shared":8,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"N","a_iocs":468,"b":"typo-crypto","b_iocs":4,"kind":"malware","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"NarwhalRAT","a_iocs":17,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.059,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -1192,20 +1153,20 @@
 {"a":"Nebo","a_iocs":2,"b":"PrincessClub","b_iocs":16,"kind":"malware","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Nebo","a_iocs":2,"b":"SUNBURST","b_iocs":136,"kind":"malware","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Nebo","a_iocs":2,"b":"Showboat","b_iocs":15,"kind":"malware","ratio":0.5,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Neteller SDK","a_iocs":56,"b":"Skrill","b_iocs":56,"kind":"malware","ratio":1.018,"shared":57,"strength":10,"via":["filename","ioc"]}
+{"a":"Neteller SDK","a_iocs":56,"b":"Skrill","b_iocs":56,"kind":"malware","ratio":1,"shared":56,"strength":8,"via":["ioc"]}
 {"a":"NukeSped","a_iocs":90,"b":"OTTERCOOKIE","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"NukeSped","a_iocs":90,"b":"PhantomClick","b_iocs":11,"kind":"malware","ratio":0.091,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"NukeSped","a_iocs":90,"b":"PhantomMail","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":5,"via":["family"]}
+{"a":"NukeSped","a_iocs":90,"b":"PhantomMail","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"NukeSped","a_iocs":90,"b":"PhantomRelay","b_iocs":26,"kind":"malware","ratio":0.038,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"NukeSped","a_iocs":90,"b":"PhantomRelayLite","b_iocs":22,"kind":"malware","ratio":0.045,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"NukeSped","a_iocs":90,"b":"TCLBanker","b_iocs":13,"kind":"malware","ratio":0.077,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"OXLOADER","a_iocs":12,"b":"Overlord","b_iocs":81,"kind":"malware","ratio":0.083,"shared":1,"strength":5,"via":["family"]}
-{"a":"OXLOADER","a_iocs":12,"b":"PhantomMail","b_iocs":20,"kind":"malware","ratio":0.083,"shared":1,"strength":5,"via":["family"]}
+{"a":"OXLOADER","a_iocs":12,"b":"Overlord","b_iocs":81,"kind":"malware","ratio":0.083,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"OXLOADER","a_iocs":12,"b":"PhantomMail","b_iocs":20,"kind":"malware","ratio":0.083,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Octopus","a_iocs":29,"b":"SUNBURST","b_iocs":136,"kind":"malware","ratio":0.034,"shared":1,"strength":5,"via":["subnet"]}
 {"a":"Octopus","a_iocs":29,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.034,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Octopus","a_iocs":29,"b":"SourTrade","b_iocs":101,"kind":"malware","ratio":0.034,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Octopus","a_iocs":29,"b":"ValleyRAT","b_iocs":58,"kind":"malware","ratio":0.034,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Overlord","a_iocs":81,"b":"PhantomMail","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":5,"via":["family"]}
+{"a":"Overlord","a_iocs":81,"b":"PhantomMail","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"Overlord","a_iocs":81,"b":"PowerShower","b_iocs":23,"kind":"malware","ratio":0.043,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Overlord","a_iocs":81,"b":"Shai-Hulud","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Overlord","a_iocs":81,"b":"SilverHawk","b_iocs":8,"kind":"malware","ratio":0.125,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -1213,12 +1174,9 @@
 {"a":"PCPJack","a_iocs":26,"b":"PhantomRelay","b_iocs":26,"kind":"malware","ratio":0.038,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"PCPJack","a_iocs":26,"b":"PowerShower","b_iocs":23,"kind":"malware","ratio":0.043,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"PCPJack","a_iocs":26,"b":"Webworm","b_iocs":14,"kind":"malware","ratio":0.143,"shared":2,"strength":3,"via":["jarm","registrable"],"weak_only":true}
-{"a":"PHANTOMPULL","a_iocs":1,"b":"PHANTOMPULSE","b_iocs":8,"kind":"malware","ratio":2,"shared":2,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"PHANTOMPULSE","a_iocs":8,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.125,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
+{"a":"PHANTOMPULL","a_iocs":1,"b":"PHANTOMPULSE","b_iocs":8,"kind":"malware","ratio":2,"shared":2,"strength":1,"via":["filename"],"weak_only":true}
 {"a":"PHANTOMPULSE","a_iocs":8,"b":"Shub Stealer","b_iocs":143,"kind":"malware","ratio":0.625,"shared":5,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"PHANTOMPULSE","a_iocs":8,"b":"SparkKitty","b_iocs":29,"kind":"malware","ratio":0.125,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Penquin","a_iocs":68,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.029,"shared":2,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"Penquin","a_iocs":68,"b":"ThreatNeedle","b_iocs":115,"kind":"malware","ratio":0.015,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"PhantomClick","a_iocs":11,"b":"PhantomRelay","b_iocs":26,"kind":"malware","ratio":0.091,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"PhantomClick","a_iocs":11,"b":"PhantomRelayLite","b_iocs":22,"kind":"malware","ratio":0.091,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"PhantomClick","a_iocs":11,"b":"PrincessClub","b_iocs":16,"kind":"malware","ratio":0.091,"shared":1,"strength":9,"via":["certificate"]}
@@ -1234,11 +1192,8 @@
 {"a":"PhantomRelayLite","a_iocs":22,"b":"VBCloud","b_iocs":56,"kind":"malware","ratio":0.045,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"PhantomRelayLite","a_iocs":22,"b":"typo-crypto","b_iocs":4,"kind":"malware","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"PlugX","a_iocs":4,"b":"SilkLurk","b_iocs":14,"kind":"malware","ratio":0.25,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"PoisonX","a_iocs":7,"b":"TriBack Loader","b_iocs":9,"kind":"malware","ratio":0.143,"shared":1,"strength":5,"via":["family"]}
-{"a":"PowerCloud","a_iocs":21,"b":"PowerShell RAT","b_iocs":14,"kind":"malware","ratio":0.071,"shared":1,"strength":5,"via":["family"]}
-{"a":"PowerCloud","a_iocs":21,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.048,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"PowerCloud","a_iocs":21,"b":"Vidar Stealer","b_iocs":104,"kind":"malware","ratio":0.048,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"PowerCloud","a_iocs":21,"b":"XMRig","b_iocs":106,"kind":"malware","ratio":0.048,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
+{"a":"PoisonX","a_iocs":7,"b":"TriBack Loader","b_iocs":9,"kind":"malware","ratio":0.143,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"PowerCloud","a_iocs":21,"b":"PowerShell RAT","b_iocs":14,"kind":"malware","ratio":0.071,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"PowerShower","a_iocs":23,"b":"Remus Stealer","b_iocs":23,"kind":"malware","ratio":0.043,"shared":1,"strength":5,"via":["asn"]}
 {"a":"PowerShower","a_iocs":23,"b":"RevSocks","b_iocs":13,"kind":"malware","ratio":0.231,"shared":3,"strength":7,"via":["resolution"]}
 {"a":"PowerShower","a_iocs":23,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.043,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -1249,14 +1204,14 @@
 {"a":"PromptMink","a_iocs":26,"b":"SilverHawk","b_iocs":8,"kind":"malware","ratio":0.125,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"PromptMink","a_iocs":26,"b":"Starland RAT","b_iocs":7,"kind":"malware","ratio":0.571,"shared":4,"strength":20,"via":["certificate","ioc","jarm","registrable"]}
 {"a":"PromptMink","a_iocs":26,"b":"Unnamed Android family (Meta 2021)","b_iocs":8,"kind":"malware","ratio":0.125,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"PureHVNC","a_iocs":6,"b":"PureRAT","b_iocs":6,"kind":"malware","ratio":1.5,"shared":9,"strength":10,"via":["filename","ioc"]}
+{"a":"PureHVNC","a_iocs":6,"b":"PureRAT","b_iocs":6,"kind":"malware","ratio":1.5,"shared":9,"strength":9,"via":["filename","ioc"]}
 {"a":"PureHVNC","a_iocs":6,"b":"VBCloud","b_iocs":56,"kind":"malware","ratio":0.167,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Qilin","a_iocs":27,"b":"Shub Stealer","b_iocs":143,"kind":"malware","ratio":0.037,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Qilin","a_iocs":27,"b":"TinyEgg","b_iocs":15,"kind":"malware","ratio":0.2,"shared":3,"strength":22,"via":["certificate","ioc","subnet"]}
 {"a":"RevSocks","a_iocs":13,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.077,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"RevSocks","a_iocs":13,"b":"StealC","b_iocs":14,"kind":"malware","ratio":0.077,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"RevSocks","a_iocs":13,"b":"typo-crypto","b_iocs":4,"kind":"malware","ratio":0.25,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"SSLove","a_iocs":2,"b":"SandroRAT","b_iocs":2,"kind":"malware","ratio":2.5,"shared":5,"strength":20,"via":["family","filename","ioc","subnet"]}
+{"a":"SSLove","a_iocs":2,"b":"SandroRAT","b_iocs":2,"kind":"malware","ratio":2,"shared":4,"strength":15,"via":["family","ioc","subnet"]}
 {"a":"SUNBURST","a_iocs":136,"b":"Sednit","b_iocs":347,"kind":"malware","ratio":0.022,"shared":3,"strength":6,"via":["jarm","subnet"]}
 {"a":"SUNBURST","a_iocs":136,"b":"Showboat","b_iocs":15,"kind":"malware","ratio":0.067,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"SUNBURST","a_iocs":136,"b":"VBCloud","b_iocs":56,"kind":"malware","ratio":0.018,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -1267,19 +1222,16 @@
 {"a":"Sednit","a_iocs":347,"b":"StealC","b_iocs":14,"kind":"malware","ratio":0.071,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Sednit","a_iocs":347,"b":"TOUGHPROGRESS","b_iocs":3,"kind":"malware","ratio":0.333,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Sednit","a_iocs":347,"b":"TencShell","b_iocs":20,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Sednit","a_iocs":347,"b":"ThreatNeedle","b_iocs":115,"kind":"malware","ratio":0.009,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"Sednit","a_iocs":347,"b":"Unnamed Android family (Meta 2021)","b_iocs":8,"kind":"malware","ratio":0.125,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Sednit","a_iocs":347,"b":"VBCloud","b_iocs":56,"kind":"malware","ratio":0.018,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Sednit","a_iocs":347,"b":"Vidar Stealer","b_iocs":104,"kind":"malware","ratio":0.01,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
 {"a":"Sednit","a_iocs":347,"b":"Webworm","b_iocs":14,"kind":"malware","ratio":0.071,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"Sednit","a_iocs":347,"b":"XMRig","b_iocs":106,"kind":"malware","ratio":0.009,"shared":1,"strength":2,"via":["filename"],"weak_only":true}
-{"a":"Sednit","a_iocs":347,"b":"Zebrocy","b_iocs":114,"kind":"malware","ratio":3.044,"shared":347,"strength":21,"via":["family","filename","ioc","jarm","subnet"]}
+{"a":"Sednit","a_iocs":347,"b":"Zebrocy","b_iocs":114,"kind":"malware","ratio":2.026,"shared":231,"strength":17,"via":["family","filename","ioc","jarm","subnet"]}
 {"a":"Shai-Hulud","a_iocs":20,"b":"Vidar Stealer","b_iocs":104,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Shai-Hulud","a_iocs":20,"b":"XMRig","b_iocs":106,"kind":"malware","ratio":0.05,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"Shai-Hulud clone","a_iocs":1,"b":"chalk-tempalte","b_iocs":1,"kind":"malware","ratio":1,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"Shai-Hulud clone","a_iocs":1,"b":"color-style-utils","b_iocs":1,"kind":"malware","ratio":1,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"SilverHawk","a_iocs":8,"b":"TOUGHPROGRESS","b_iocs":3,"kind":"malware","ratio":0.333,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
-{"a":"SilverHawk","a_iocs":8,"b":"Unnamed Android family (Meta 2021)","b_iocs":8,"kind":"malware","ratio":2.5,"shared":20,"strength":18,"via":["filename","ioc","jarm","registrable","subnet"]}
+{"a":"SilverHawk","a_iocs":8,"b":"Unnamed Android family (Meta 2021)","b_iocs":8,"kind":"malware","ratio":2.25,"shared":18,"strength":17,"via":["filename","ioc","jarm","registrable","subnet"]}
 {"a":"SourTrade","a_iocs":101,"b":"VBCloud","b_iocs":56,"kind":"malware","ratio":0.018,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"SourTrade","a_iocs":101,"b":"ValleyRAT","b_iocs":58,"kind":"malware","ratio":0.017,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"TCLBanker","a_iocs":13,"b":"VSHELL","b_iocs":22,"kind":"malware","ratio":0.077,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
@@ -1291,9 +1243,9 @@
 {"a":"TinyRCT","a_iocs":17,"b":"VSHELL","b_iocs":22,"kind":"malware","ratio":0.059,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"VBCloud","a_iocs":56,"b":"easy-day-js","b_iocs":11,"kind":"malware","ratio":0.091,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"VSHELL","a_iocs":22,"b":"msaRAT","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
-{"a":"Vidar Stealer","a_iocs":104,"b":"XMRig","b_iocs":106,"kind":"malware","ratio":3.087,"shared":321,"strength":21,"via":["family","filename","ioc","jarm","subnet"]}
-{"a":"WebView2.exe","a_iocs":1,"b":"ms_upd.exe","b_iocs":4,"kind":"malware","ratio":1,"shared":1,"strength":5,"via":["family"]}
-{"a":"Webworm","a_iocs":14,"b":"WormFrp","b_iocs":1,"kind":"malware","ratio":4,"shared":4,"strength":7,"via":["family","filename"]}
-{"a":"Webworm","a_iocs":14,"b":"WormHole","b_iocs":1,"kind":"malware","ratio":4,"shared":4,"strength":2,"via":["filename"],"weak_only":true}
+{"a":"Vidar Stealer","a_iocs":104,"b":"XMRig","b_iocs":106,"kind":"malware","ratio":2.894,"shared":301,"strength":17,"via":["family","filename","ioc","jarm","subnet"]}
+{"a":"WebView2.exe","a_iocs":1,"b":"ms_upd.exe","b_iocs":4,"kind":"malware","ratio":1,"shared":1,"strength":2,"via":["family"],"weak_only":true}
+{"a":"Webworm","a_iocs":14,"b":"WormFrp","b_iocs":1,"kind":"malware","ratio":3,"shared":3,"strength":3,"via":["family","filename"],"weak_only":true}
+{"a":"Webworm","a_iocs":14,"b":"WormHole","b_iocs":1,"kind":"malware","ratio":3,"shared":3,"strength":1,"via":["filename"],"weak_only":true}
 {"a":"chalk-tempalte","a_iocs":1,"b":"color-style-utils","b_iocs":1,"kind":"malware","ratio":1,"shared":1,"strength":2,"via":["registrable"],"weak_only":true}
 {"a":"ms_upd.exe","a_iocs":4,"b":"msaRAT","b_iocs":2,"kind":"malware","ratio":0.5,"shared":1,"strength":5,"via":["subnet"]}

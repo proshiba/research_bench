@@ -161,11 +161,13 @@ AS の大きさに関わらず**相乗りの疑いを上げる**。今は AS の
 | `certificate` | 同じ証明書（thumbprint 一致） | **最強** |
 | `ioc` | 同じ IOC を指している | 強 |
 | `resolution` | 同じ IP に解決するドメイン | 強 |
-| `family` | VT が同じ脅威ラベルを付けている | 中 |
+| `vhash` | VT の構造ハッシュが一致 | 強（§8 で足した） |
 | `subnet` | 同じ /24 | 中 |
 | `asn` | 同じ小さい AS | 中 |
-| `filename` | 珍しいファイル名の共有 | 弱 |
+| `imphash` | PE のインポート表が一致 | 中（§8 で足した） |
+| `family` | VT が同じ脅威ラベルを付けている | 弱（§8 で中から下げた） |
 | `registrable` | 同じ eTLD+1 | 弱 |
+| `filename` | 珍しいファイル名の共有 | 弱（§8 で下げた） |
 | `jarm` | 同じ TLS 指紋 | 弱（単独では使わない） |
 
 **`overlaps.jsonl` に `strength` を足す。** 今は `shared`（共有数）と `ratio` しか
@@ -301,6 +303,10 @@ ABUSEIPDB_API_KEY
 | 証明書の弱い根拠に `wildcard` を足した | SAN 数だけでは足りなかった。`*.azurewebsites.net` の証明書（SAN 11 と 30）が無関係な 2 つのドメインを結んでいた。**SAN が全部ワイルドカードなら、その host ではなく基盤に出された証明書** |
 | `resolution` は「誰かの解決先になっている IP」だけ数える | 実体の IP を無条件に入れると `ioc`（同じ IOC を指している）の写しになり、根拠が二重に数えられる |
 | `resolution` から **bogon / noise の解決先を外した** | `127.0.0.1` に解決するドメイン同士は「同じ所に居る」ではなく、**どちらもシンクホールされている**。実測で `APT28 ↔ STAC4749` `APT37 ↔ STAC4749` を繋いでいた |
+| **ファジーハッシュを根拠に足した**（`vhash` 6 / `imphash` 4） | 検知名と違って**論理が明示的で提供元の判断が入らない**。どちらも完全一致で使えるので、比較の実装も要らない。`ssdeep` と `tlsh` は距離を測る必要があるので写しに残すだけにした |
+| 射影の版を**引き先ごと**にした | ファジーハッシュを足したときに取り直すのが 2,058 件（ファイルのみ）で済む。まとめて 1 つの版だと 5,433 件（ドメインも IP も）になっていた |
+| **`family` を弱い根拠に落とした**（5 → 2） | 使っているのは VT が集約した `popular_threat_classification` だけで、提供元ごとの検知名は写しにも落としていない。それでも「同じラベル = 同じ物」ではない。実測で `mikey` が APT28（Sednit）と Silver Fox（Atlas RAT）を繋いでいたが、変種は `dynamer` / `etset` / `pswdump` と全部違い、検体も JS・DLL・OCX だった |
+| **`filename` を弱い根拠に落とし**、置き名を先に除いた（2 → 1） | `payload.bin` `stage2.bin` のような置き名とハッシュそのものの自動命名を落とす。残ったものも 2 つ以上揃わないと数えない（`--filename-min`）。1 つだけの一致は偶然が多い |
 | 証明書に `unanchored` を足した | 名前が当たったドメインが群に 1 つも居ないとき。`invalid2.invalid`（Cloudflare の既定）・`*.hstgr.io`・`cloudflare-dns.com`・Fastly の既定が、無関係なアクター同士を strength 9〜10 で繋いでいた。**IP だけの群では運用者の証明書か基盤の既定かを見分けられない**。外したほうは `to_check.cert_excluded` で毎日人に渡す |
 | ファミリから **提供元の連番**を落とした | `boiq` `boir` `boiv` … のように頭 2 文字と長さが同じ札が並ぶのは連番。実測で 13 本の `bo` + 4 文字が実体として生えていた。並びの数で測る（`--serial-min`、既定 3） |
 | 証明書の `wildcard` を **「名前が載っているか」**に広げた | SAN が無い自己署名（`localhost` `0.0.0.0` `Fireware web CA` `letsencrypt-nginx-proxy-companion`）は、同じ image や機器を使っている全員が同じものを出す。SAN 数でもワイルドカードかでも見分けられない |
