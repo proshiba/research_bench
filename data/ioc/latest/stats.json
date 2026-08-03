@@ -520,8 +520,8 @@
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 862,
-          "target": 862
+          "done": 861,
+          "target": 861
         },
         "2": {
           "done": 294,
@@ -529,20 +529,20 @@
         },
         "5": {
           "done": 842,
-          "target": 2066
+          "target": 2071
         }
       },
       "done": 1998,
-      "ratio": 0.62,
-      "target": 3222
+      "ratio": 0.619,
+      "target": 3226
     },
     "newest_fetch": "2026-08-03",
     "oldest_fetch": "2026-08-02",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 4785,
-          "target": 4790
+          "done": 4784,
+          "target": 4789
         },
         "2": {
           "done": 294,
@@ -558,51 +558,51 @@
         },
         "5": {
           "done": 0,
-          "target": 2066
+          "target": 2071
         },
         "6": {
           "done": 0,
-          "target": 490
+          "target": 501
         }
       },
       "done": 5433,
       "known": 4655,
       "ratio": 0.292,
-      "target": 18589,
+      "target": 18604,
       "unknown": 778
     }
   },
   "entities": {
     "actor": 230,
     "campaign": 13,
-    "case": 412,
+    "case": 417,
     "malware": 306
   },
   "from": {
-    "collected_at": "2026-08-02T13:31:28.081Z",
-    "week": "2026-W31"
+    "collected_at": "2026-08-03T12:45:43.198Z",
+    "week": "2026-W32"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 6250,
+      "ioc.domain": 6252,
       "ioc.email": 263,
       "ioc.endpoint": 151,
-      "ioc.ipv4": 3166,
+      "ioc.ipv4": 3171,
       "ioc.ipv6": 63,
-      "ioc.md5": 2278,
+      "ioc.md5": 2280,
       "ioc.sha1": 1416,
-      "ioc.sha256": 2655,
+      "ioc.sha256": 2661,
       "ioc.sha512": 16,
-      "ioc.url": 2768
+      "ioc.url": 2769
     },
-    "dated": 5943,
+    "dated": 5946,
     "excluded": {
       "bogon": 2,
       "malformed": 0,
-      "noise": 5
+      "noise": 6
     },
-    "total": 19026,
-    "usable": 19019
+    "total": 19042,
+    "usable": 19034
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -626,7 +626,7 @@
         "family": 60,
         "filename": 12,
         "imphash": 0,
-        "ioc": 84,
+        "ioc": 83,
         "jarm": 282,
         "registrable": 123,
         "resolution": 6,
@@ -2219,7 +2219,7 @@
   },
   "schema": 1,
   "subnets": {
-    "multi_actor": 83,
+    "multi_actor": 82,
     "top": [
       {
         "actors": [
@@ -2495,7 +2495,7 @@
         "subnet": "195.133.88.0/24"
       }
     ],
-    "total": 356
+    "total": 355
   },
   "timeline": {
     "actors": {
@@ -2511,7 +2511,7 @@
         {
           "dated": 235,
           "first": "2010-09-27",
-          "iocs": 1164,
+          "iocs": 1163,
           "last": "2025-11-07",
           "name": "APT28",
           "span_days": 5520
