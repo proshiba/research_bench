@@ -16,6 +16,32 @@
       },
       {
         "actors": [
+          "APT28",
+          "APT29",
+          "OceanLotus"
+        ],
+        "addresses": 1280,
+        "asn": 214431,
+        "cc": "IR",
+        "hosting_ratio": 1,
+        "hosting_seen": 8,
+        "name": "Mizban Gostar Dade Alvand Ltd"
+      },
+      {
+        "actors": [
+          "Icarus",
+          "PhantomEnigma",
+          "shinyhunters"
+        ],
+        "addresses": 1280,
+        "asn": 214961,
+        "cc": "FR",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "Stellar Group SAS"
+      },
+      {
+        "actors": [
           "APT34",
           "APT37",
           "Lamberts"
@@ -29,6 +55,18 @@
       },
       {
         "actors": [
+          "APT34",
+          "BITTER"
+        ],
+        "addresses": 1536,
+        "asn": 206383,
+        "cc": "BG",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "VOXLAN LTD."
+      },
+      {
+        "actors": [
           "DPRK IT Worker Schemes",
           "Lazarus Group"
         ],
@@ -36,7 +74,7 @@
         "asn": 55639,
         "cc": "HK",
         "hosting_ratio": 1,
-        "hosting_seen": 4,
+        "hosting_seen": 6,
         "name": "Asia Web Service Ltd"
       },
       {
@@ -50,6 +88,18 @@
         "hosting_ratio": 1,
         "hosting_seen": 4,
         "name": "Advin Services LLC"
+      },
+      {
+        "actors": [
+          "APT29",
+          "MuddyWater"
+        ],
+        "addresses": 4096,
+        "asn": 201206,
+        "cc": "DE",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "Droptop GmbH"
       }
     ],
     "hosting_like": [
@@ -401,42 +451,9 @@
       }
     ],
     "multi_actor": 180,
-    "multi_actor_small": 8,
+    "multi_actor_small": 4,
     "small": 141,
     "top": [
-      {
-        "actors": [
-          "APT28",
-          "APT29",
-          "OceanLotus"
-        ],
-        "addresses": 1280,
-        "asn": 214431,
-        "cc": "IR",
-        "ips": 8,
-        "malware": [
-          "SUNBURST"
-        ],
-        "name": "Mizban Gostar Dade Alvand Ltd",
-        "shared_hosting": false
-      },
-      {
-        "actors": [
-          "Icarus",
-          "PhantomEnigma",
-          "shinyhunters"
-        ],
-        "addresses": 1280,
-        "asn": 214961,
-        "cc": "FR",
-        "ips": 3,
-        "malware": [
-          "A",
-          "N"
-        ],
-        "name": "Stellar Group SAS",
-        "shared_hosting": false
-      },
       {
         "actors": [
           "APT37",
@@ -470,19 +487,6 @@
       },
       {
         "actors": [
-          "APT34",
-          "BITTER"
-        ],
-        "addresses": 1536,
-        "asn": 206383,
-        "cc": "BG",
-        "ips": 3,
-        "malware": [],
-        "name": "VOXLAN LTD.",
-        "shared_hosting": false
-      },
-      {
-        "actors": [
           "BITTER",
           "Transparent Tribe"
         ],
@@ -508,24 +512,9 @@
         ],
         "name": "Inovare-Prim SRL",
         "shared_hosting": false
-      },
-      {
-        "actors": [
-          "APT29",
-          "MuddyWater"
-        ],
-        "addresses": 4096,
-        "asn": 201206,
-        "cc": "DE",
-        "ips": 3,
-        "malware": [
-          "SUNBURST"
-        ],
-        "name": "Droptop GmbH",
-        "shared_hosting": false
       }
     ],
-    "total": 878
+    "total": 879
   },
   "coverage": {
     "abuseipdb": {
@@ -535,32 +524,32 @@
           "target": 862
         },
         "2": {
-          "done": 137,
+          "done": 294,
           "target": 294
         },
         "5": {
-          "done": 0,
+          "done": 842,
           "target": 2066
         }
       },
-      "done": 999,
-      "ratio": 0.31,
+      "done": 1998,
+      "ratio": 0.62,
       "target": 3222
     },
-    "newest_fetch": "2026-08-02",
+    "newest_fetch": "2026-08-03",
     "oldest_fetch": "2026-08-02",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 2438,
+          "done": 4785,
           "target": 4790
         },
         "2": {
-          "done": 0,
+          "done": 294,
           "target": 294
         },
         "3": {
-          "done": 0,
+          "done": 354,
           "target": 4482
         },
         "4": {
@@ -576,11 +565,11 @@
           "target": 490
         }
       },
-      "done": 2438,
-      "known": 2307,
-      "ratio": 0.131,
+      "done": 5433,
+      "known": 4655,
+      "ratio": 0.292,
       "target": 18589,
-      "unknown": 131
+      "unknown": 778
     }
   },
   "entities": {
@@ -629,23 +618,23 @@
   "overlaps": {
     "actor": {
       "by_via": {
-        "asn": 12,
-        "certificate": 45,
-        "family": 5,
-        "filename": 16,
+        "asn": 4,
+        "certificate": 37,
+        "family": 63,
+        "filename": 43,
         "ioc": 84,
-        "jarm": 195,
+        "jarm": 282,
         "registrable": 123,
         "resolution": 6,
         "subnet": 63
       },
-      "pairs": 350,
+      "pairs": 481,
       "top": [
         {
           "a": "SQLRCE0",
           "b": "Yx Technology",
-          "ratio": 2.2,
-          "shared": 55,
+          "ratio": 2.16,
+          "shared": 54,
           "strength": 37,
           "via": [
             "asn",
@@ -655,22 +644,6 @@
             "ioc",
             "jarm",
             "registrable",
-            "subnet"
-          ]
-        },
-        {
-          "a": "APT28",
-          "b": "APT29",
-          "ratio": 0.019,
-          "shared": 19,
-          "strength": 37,
-          "via": [
-            "asn",
-            "certificate",
-            "ioc",
-            "jarm",
-            "registrable",
-            "resolution",
             "subnet"
           ]
         },
@@ -692,9 +665,24 @@
         },
         {
           "a": "APT28",
+          "b": "APT29",
+          "ratio": 0.022,
+          "shared": 22,
+          "strength": 32,
+          "via": [
+            "certificate",
+            "ioc",
+            "jarm",
+            "registrable",
+            "resolution",
+            "subnet"
+          ]
+        },
+        {
+          "a": "APT28",
           "b": "Gamaredon",
-          "ratio": 0.01,
-          "shared": 12,
+          "ratio": 0.011,
+          "shared": 13,
           "strength": 32,
           "via": [
             "certificate",
@@ -708,8 +696,8 @@
         {
           "a": "APT37",
           "b": "Lazarus Group",
-          "ratio": 0.018,
-          "shared": 19,
+          "ratio": 0.022,
+          "shared": 23,
           "strength": 28,
           "via": [
             "asn",
@@ -722,17 +710,18 @@
           ]
         },
         {
-          "a": "Icarus",
-          "b": "shinyhunters",
-          "ratio": 1.889,
-          "shared": 17,
-          "strength": 28,
+          "a": "Bohrium",
+          "b": "Screening Serpens",
+          "ratio": 1.514,
+          "shared": 56,
+          "strength": 27,
           "via": [
-            "asn",
             "certificate",
+            "family",
+            "filename",
             "ioc",
             "jarm",
-            "subnet"
+            "registrable"
           ]
         },
         {
@@ -764,24 +753,24 @@
           ]
         },
         {
-          "a": "Bohrium",
-          "b": "Screening Serpens",
-          "ratio": 1.541,
-          "shared": 57,
-          "strength": 26,
+          "a": "APT28",
+          "b": "BITTER",
+          "ratio": 0.024,
+          "shared": 10,
+          "strength": 25,
           "via": [
             "certificate",
-            "family",
-            "filename",
             "ioc",
-            "registrable"
+            "jarm",
+            "registrable",
+            "subnet"
           ]
         },
         {
-          "a": "APT1",
-          "b": "APT28",
-          "ratio": 0.842,
-          "shared": 16,
+          "a": "DPRK IT Worker Schemes",
+          "b": "UNC5342",
+          "ratio": 0.219,
+          "shared": 7,
           "strength": 25,
           "via": [
             "certificate",
@@ -792,34 +781,46 @@
           ]
         }
       ],
-      "weak_only": 220
+      "weak_only": 300
     },
     "campaign": {
       "by_via": {
         "asn": 0,
         "certificate": 1,
         "family": 0,
-        "filename": 0,
+        "filename": 2,
         "ioc": 1,
-        "jarm": 5,
+        "jarm": 7,
         "registrable": 1,
         "resolution": 0,
         "subnet": 0
       },
-      "pairs": 5,
+      "pairs": 8,
       "top": [
         {
           "a": "Dream Job",
           "b": "ThreatNeedle",
-          "ratio": 0.102,
-          "shared": 6,
-          "strength": 20,
+          "ratio": 0.119,
+          "shared": 7,
+          "strength": 22,
           "via": [
             "certificate",
+            "filename",
             "ioc",
             "jarm",
             "registrable"
           ]
+        },
+        {
+          "a": "Browser Extension and Google Play Abuse",
+          "b": "Dream Job",
+          "ratio": 0.111,
+          "shared": 1,
+          "strength": 2,
+          "via": [
+            "filename"
+          ],
+          "weak_only": true
         },
         {
           "a": "Browser Extension and Google Play Abuse",
@@ -855,6 +856,28 @@
           "weak_only": true
         },
         {
+          "a": "Operation DarkHorse",
+          "b": "Operation Newton",
+          "ratio": 0.019,
+          "shared": 1,
+          "strength": 1,
+          "via": [
+            "jarm"
+          ],
+          "weak_only": true
+        },
+        {
+          "a": "Operation DarkHorse",
+          "b": "ThreatNeedle",
+          "ratio": 0.019,
+          "shared": 1,
+          "strength": 1,
+          "via": [
+            "jarm"
+          ],
+          "weak_only": true
+        },
+        {
           "a": "Operation Newton",
           "b": "ThreatNeedle",
           "ratio": 0.016,
@@ -866,30 +889,43 @@
           "weak_only": true
         }
       ],
-      "weak_only": 4
+      "weak_only": 7
     },
     "case": {
       "by_via": {
-        "asn": 33,
-        "certificate": 88,
+        "asn": 32,
+        "certificate": 52,
         "family": 15,
         "filename": 15,
         "ioc": 264,
-        "jarm": 58,
+        "jarm": 64,
         "registrable": 123,
         "resolution": 7,
         "subnet": 77
       },
-      "pairs": 277,
+      "pairs": 281,
       "top": [
+        {
+          "a": "case:950b618c7f24e2b67d93bbf111c572978478622706eb7d288193fcea92145502",
+          "b": "case:b3fe0576f4e8a73f15d6cb8c0a614dd4340aea525605e2841311a2cb764eb6dc",
+          "ratio": 2,
+          "shared": 8,
+          "strength": 23,
+          "via": [
+            "ioc",
+            "jarm",
+            "registrable",
+            "resolution",
+            "subnet"
+          ]
+        },
         {
           "a": "case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
           "b": "case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
-          "ratio": 4.667,
-          "shared": 14,
-          "strength": 29,
+          "ratio": 4.333,
+          "shared": 13,
+          "strength": 20,
           "via": [
-            "certificate",
             "family",
             "filename",
             "ioc",
@@ -899,11 +935,10 @@
         {
           "a": "case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
           "b": "case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515",
-          "ratio": 4.667,
-          "shared": 14,
-          "strength": 29,
+          "ratio": 4.333,
+          "shared": 13,
+          "strength": 20,
           "via": [
-            "certificate",
             "family",
             "filename",
             "ioc",
@@ -913,11 +948,10 @@
         {
           "a": "case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
           "b": "case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6",
-          "ratio": 4.667,
-          "shared": 14,
-          "strength": 29,
+          "ratio": 4.333,
+          "shared": 13,
+          "strength": 20,
           "via": [
-            "certificate",
             "family",
             "filename",
             "ioc",
@@ -927,11 +961,10 @@
         {
           "a": "case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
           "b": "case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b",
-          "ratio": 4.667,
-          "shared": 14,
-          "strength": 29,
+          "ratio": 4.333,
+          "shared": 13,
+          "strength": 20,
           "via": [
-            "certificate",
             "family",
             "filename",
             "ioc",
@@ -941,11 +974,10 @@
         {
           "a": "case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
           "b": "case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10",
-          "ratio": 4.667,
-          "shared": 14,
-          "strength": 29,
+          "ratio": 4.333,
+          "shared": 13,
+          "strength": 20,
           "via": [
-            "certificate",
             "family",
             "filename",
             "ioc",
@@ -955,11 +987,10 @@
         {
           "a": "case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
           "b": "case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515",
-          "ratio": 4.667,
-          "shared": 14,
-          "strength": 29,
+          "ratio": 4.333,
+          "shared": 13,
+          "strength": 20,
           "via": [
-            "certificate",
             "family",
             "filename",
             "ioc",
@@ -969,11 +1000,10 @@
         {
           "a": "case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
           "b": "case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6",
-          "ratio": 4.667,
-          "shared": 14,
-          "strength": 29,
+          "ratio": 4.333,
+          "shared": 13,
+          "strength": 20,
           "via": [
-            "certificate",
             "family",
             "filename",
             "ioc",
@@ -983,11 +1013,10 @@
         {
           "a": "case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
           "b": "case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b",
-          "ratio": 4.667,
-          "shared": 14,
-          "strength": 29,
+          "ratio": 4.333,
+          "shared": 13,
+          "strength": 20,
           "via": [
-            "certificate",
             "family",
             "filename",
             "ioc",
@@ -997,25 +1026,10 @@
         {
           "a": "case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
           "b": "case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10",
-          "ratio": 4.667,
-          "shared": 14,
-          "strength": 29,
+          "ratio": 4.333,
+          "shared": 13,
+          "strength": 20,
           "via": [
-            "certificate",
-            "family",
-            "filename",
-            "ioc",
-            "subnet"
-          ]
-        },
-        {
-          "a": "case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515",
-          "b": "case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6",
-          "ratio": 4.667,
-          "shared": 14,
-          "strength": 29,
-          "via": [
-            "certificate",
             "family",
             "filename",
             "ioc",
@@ -1023,27 +1037,27 @@
           ]
         }
       ],
-      "weak_only": 11
+      "weak_only": 16
     },
     "malware": {
       "by_via": {
-        "asn": 13,
-        "certificate": 30,
-        "family": 11,
-        "filename": 26,
+        "asn": 6,
+        "certificate": 28,
+        "family": 69,
+        "filename": 63,
         "ioc": 46,
-        "jarm": 219,
+        "jarm": 350,
         "registrable": 103,
         "resolution": 12,
         "subnet": 39
       },
-      "pairs": 329,
+      "pairs": 529,
       "top": [
         {
           "a": "A",
           "b": "N",
-          "ratio": 2.434,
-          "shared": 1139,
+          "ratio": 2.551,
+          "shared": 1194,
           "strength": 44,
           "via": [
             "asn",
@@ -1060,8 +1074,8 @@
         {
           "a": "AUDIOFIX",
           "b": "MINIRAT",
-          "ratio": 1.977,
-          "shared": 174,
+          "ratio": 1.92,
+          "shared": 169,
           "strength": 39,
           "via": [
             "certificate",
@@ -1077,8 +1091,8 @@
         {
           "a": "Backdoor.Turn",
           "b": "DragonForce ransomware",
-          "ratio": 3.581,
-          "shared": 111,
+          "ratio": 3.548,
+          "shared": 110,
           "strength": 37,
           "via": [
             "asn",
@@ -1094,8 +1108,8 @@
         {
           "a": "Flying Eagle",
           "b": "Night Dragon",
-          "ratio": 2.2,
-          "shared": 55,
+          "ratio": 2.16,
+          "shared": 54,
           "strength": 37,
           "via": [
             "asn",
@@ -1111,8 +1125,8 @@
         {
           "a": "AMOS",
           "b": "Shub Stealer",
-          "ratio": 2.678,
-          "shared": 383,
+          "ratio": 2.671,
+          "shared": 382,
           "strength": 34,
           "via": [
             "certificate",
@@ -1127,8 +1141,8 @@
         {
           "a": "Macsync",
           "b": "Shub Stealer",
-          "ratio": 2.678,
-          "shared": 383,
+          "ratio": 2.671,
+          "shared": 382,
           "strength": 34,
           "via": [
             "certificate",
@@ -1143,8 +1157,8 @@
         {
           "a": "AMOS",
           "b": "Macsync",
-          "ratio": 2.487,
-          "shared": 383,
+          "ratio": 2.481,
+          "shared": 382,
           "strength": 34,
           "via": [
             "certificate",
@@ -1159,8 +1173,8 @@
         {
           "a": "CloudSorcerer",
           "b": "DeedRAT",
-          "ratio": 2.933,
-          "shared": 44,
+          "ratio": 2.467,
+          "shared": 37,
           "strength": 32,
           "via": [
             "certificate",
@@ -1174,8 +1188,8 @@
         {
           "a": "CloudSorcerer",
           "b": "VSHELL",
-          "ratio": 2.933,
-          "shared": 44,
+          "ratio": 2.467,
+          "shared": 37,
           "strength": 32,
           "via": [
             "certificate",
@@ -1189,8 +1203,8 @@
         {
           "a": "DeedRAT",
           "b": "VSHELL",
-          "ratio": 2.933,
-          "shared": 44,
+          "ratio": 2.467,
+          "shared": 37,
           "strength": 32,
           "via": [
             "certificate",
@@ -1202,7 +1216,7 @@
           ]
         }
       ],
-      "weak_only": 258
+      "weak_only": 403
     }
   },
   "schema": 1,
@@ -1489,23 +1503,63 @@
     "actors": {
       "longest": [
         {
-          "dated": 24,
-          "first": "2010-09-08",
+          "dated": 261,
+          "first": "2010-05-08",
           "iocs": 1343,
-          "last": "2026-07-23",
+          "last": "2026-07-24",
           "name": "APT37",
-          "span_days": 5797
+          "span_days": 5921
         },
         {
-          "dated": 57,
-          "first": "2015-12-02",
+          "dated": 235,
+          "first": "2010-09-27",
+          "iocs": 1164,
+          "last": "2025-11-07",
+          "name": "APT28",
+          "span_days": 5520
+        },
+        {
+          "dated": 94,
+          "first": "2012-10-17",
           "iocs": 1068,
           "last": "2026-05-05",
           "name": "Lazarus Group",
-          "span_days": 3807
+          "span_days": 4948
         },
         {
-          "dated": 15,
+          "dated": 27,
+          "first": "2012-10-17",
+          "iocs": 989,
+          "last": "2025-07-02",
+          "name": "APT29",
+          "span_days": 4641
+        },
+        {
+          "dated": 43,
+          "first": "2014-11-19",
+          "iocs": 121,
+          "last": "2026-05-12",
+          "name": "Turla",
+          "span_days": 4192
+        },
+        {
+          "dated": 18,
+          "first": "2015-05-08",
+          "iocs": 27,
+          "last": "2026-06-22",
+          "name": "Gentlemen RaaS",
+          "span_days": 4063
+        },
+        {
+          "dated": 11,
+          "first": "2012-07-20",
+          "iocs": 30,
+          "last": "2023-08-02",
+          "name": "Nomadic Octopus",
+          "span_days": 4030
+        },
+        {
+          "dated": 16,
           "first": "2016-08-04",
           "iocs": 32,
           "last": "2026-07-21",
@@ -1513,7 +1567,7 @@
           "span_days": 3638
         },
         {
-          "dated": 8,
+          "dated": 15,
           "first": "2016-06-08",
           "iocs": 238,
           "last": "2026-03-11",
@@ -1521,55 +1575,15 @@
           "span_days": 3563
         },
         {
-          "dated": 4,
-          "first": "2019-05-23",
-          "iocs": 46,
-          "last": "2026-08-01",
-          "name": "JadeProx",
-          "span_days": 2627
-        },
-        {
-          "dated": 86,
-          "first": "2016-01-01",
-          "iocs": 1164,
-          "last": "2018-04-25",
-          "name": "APT28",
-          "span_days": 845
-        },
-        {
-          "dated": 2,
-          "first": "2024-11-20",
-          "iocs": 44,
-          "last": "2026-07-04",
-          "name": "Famous Chollima",
-          "span_days": 591
-        },
-        {
-          "dated": 2,
-          "first": "2024-11-20",
-          "iocs": 32,
-          "last": "2026-07-04",
-          "name": "UNC5342",
-          "span_days": 591
-        },
-        {
-          "dated": 22,
-          "first": "2026-02-04",
-          "iocs": 164,
-          "last": "2026-07-13",
-          "name": "Silver Fox",
-          "span_days": 159
-        },
-        {
-          "dated": 2,
-          "first": "2026-03-11",
-          "iocs": 2,
-          "last": "2026-07-31",
-          "name": "knaithe",
-          "span_days": 142
+          "dated": 37,
+          "first": "2015-10-20",
+          "iocs": 353,
+          "last": "2025-07-22",
+          "name": "OceanLotus",
+          "span_days": 3563
         }
       ],
-      "with_dates": 34
+      "with_dates": 95
     },
     "campaigns": {
       "spans": [
@@ -1579,6 +1593,13 @@
           "iocs": 9,
           "last": "2022-10-28",
           "name": "Browser Extension and Google Play Abuse"
+        },
+        {
+          "dated": 19,
+          "first": "2019-05-22",
+          "iocs": 59,
+          "last": "2020-11-19",
+          "name": "Dream Job"
         },
         {
           "dated": 3,
@@ -1595,6 +1616,13 @@
           "name": "Mirage Kittenによる中東・アフリカの航空宇宙、防衛、通信分野へのサイバースパイ活動"
         },
         {
+          "dated": 1,
+          "first": "2024-06-08",
+          "iocs": 1,
+          "last": "2024-06-08",
+          "name": "Molerats"
+        },
+        {
           "dated": 18,
           "first": "2010-09-08",
           "iocs": 62,
@@ -1602,7 +1630,21 @@
           "name": "Operation Newton"
         },
         {
-          "dated": 9,
+          "dated": 1,
+          "first": "2024-01-04",
+          "iocs": 2,
+          "last": "2024-01-04",
+          "name": "Sea Turtle"
+        },
+        {
+          "dated": 88,
+          "first": "2015-02-26",
+          "iocs": 102,
+          "last": "2025-07-19",
+          "name": "Smoke Screen / Stealth Power"
+        },
+        {
+          "dated": 24,
           "first": "2025-05-09",
           "iocs": 32,
           "last": "2025-05-29",
@@ -1624,10 +1666,64 @@
           "to": "2022-10-28"
         },
         {
+          "a": "Browser Extension and Google Play Abuse",
+          "b": "Smoke Screen / Stealth Power",
+          "from": "2022-08-09",
+          "to": "2022-10-28"
+        },
+        {
+          "a": "Dream Job",
+          "b": "Operation Newton",
+          "from": "2019-05-22",
+          "to": "2020-11-19"
+        },
+        {
+          "a": "Dream Job",
+          "b": "Smoke Screen / Stealth Power",
+          "from": "2019-05-22",
+          "to": "2020-11-19"
+        },
+        {
+          "a": "Dream Job",
+          "b": "ThreatNeedle",
+          "from": "2019-05-22",
+          "to": "2020-11-19"
+        },
+        {
           "a": "Meta Syrian network disruption (October 2021)",
           "b": "Operation Newton",
           "from": "2021-04-13",
           "to": "2021-10-10"
+        },
+        {
+          "a": "Meta Syrian network disruption (October 2021)",
+          "b": "Smoke Screen / Stealth Power",
+          "from": "2021-04-13",
+          "to": "2021-10-10"
+        },
+        {
+          "a": "Molerats",
+          "b": "Operation Newton",
+          "from": "2024-06-08",
+          "to": "2024-06-08"
+        },
+        {
+          "a": "Molerats",
+          "b": "Smoke Screen / Stealth Power",
+          "from": "2024-06-08",
+          "to": "2024-06-08"
+        },
+        {
+          "a": "Operation Newton",
+          "b": "Sea Turtle",
+          "from": "2024-01-04",
+          "to": "2024-01-04"
+        },
+        {
+          "a": "Operation Newton",
+          "b": "Smoke Screen / Stealth Power",
+          "from": "2015-02-26",
+          "to": "2025-07-19"
         },
         {
           "a": "Operation Newton",
@@ -1640,44 +1736,69 @@
           "b": "ThreatNeedle",
           "from": "2015-12-02",
           "to": "2021-02-26"
+        },
+        {
+          "a": "Sea Turtle",
+          "b": "Smoke Screen / Stealth Power",
+          "from": "2024-01-04",
+          "to": "2024-01-04"
+        },
+        {
+          "a": "Smoke Screen / Stealth Power",
+          "b": "TOUGHPROGRESS Government Targeting Campaign",
+          "from": "2025-05-09",
+          "to": "2025-05-29"
+        },
+        {
+          "a": "Smoke Screen / Stealth Power",
+          "b": "ThreatNeedle",
+          "from": "2015-12-02",
+          "to": "2021-02-26"
         }
       ],
-      "with_dates": 6
+      "with_dates": 10
     },
-    "dated": 427,
+    "dated": 1912,
     "index_lag": {
-      "ahead": 20,
-      "median_days": 75,
-      "p25_days": 35,
-      "p75_days": 83,
-      "pairs": 227
+      "ahead": 94,
+      "median_days": 63,
+      "p25_days": 6,
+      "p75_days": 120,
+      "pairs": 949
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 110,
+      "checked": 149,
       "lowest": [
         {
-          "checked": 111,
-          "iocs": 1343,
+          "checked": 6,
+          "iocs": 55,
           "median_malicious": 0,
-          "name": "APT37",
-          "unknown": 28
-        },
-        {
-          "checked": 3,
-          "iocs": 487,
-          "median_malicious": 0,
-          "name": "Anonymous",
+          "name": "APT34",
           "unknown": 0
         },
         {
-          "checked": 8,
-          "iocs": 153,
+          "checked": 3,
+          "iocs": 18,
           "median_malicious": 0,
-          "name": "DPRK IT Worker Schemes",
+          "name": "Akira",
           "unknown": 1
+        },
+        {
+          "checked": 3,
+          "iocs": 6,
+          "median_malicious": 0,
+          "name": "BlackByte",
+          "unknown": 1
+        },
+        {
+          "checked": 4,
+          "iocs": 324,
+          "median_malicious": 0,
+          "name": "Equation Group",
+          "unknown": 0
         },
         {
           "checked": 3,
@@ -1694,6 +1815,13 @@
           "unknown": 3
         },
         {
+          "checked": 4,
+          "iocs": 216,
+          "median_malicious": 0,
+          "name": "Lamberts",
+          "unknown": 1
+        },
+        {
           "checked": 17,
           "iocs": 17,
           "median_malicious": 0,
@@ -1701,36 +1829,22 @@
           "unknown": 0
         },
         {
-          "checked": 4,
+          "checked": 5,
           "iocs": 174,
           "median_malicious": 0,
           "name": "Void Balaur",
           "unknown": 0
         },
         {
-          "checked": 4,
-          "iocs": 76,
+          "checked": 6,
+          "iocs": 11,
           "median_malicious": 1,
-          "name": "Machete",
-          "unknown": 0
-        },
-        {
-          "checked": 30,
-          "iocs": 410,
-          "median_malicious": 1,
-          "name": "Sandworm Team",
-          "unknown": 0
-        },
-        {
-          "checked": 5,
-          "iocs": 93,
-          "median_malicious": 2,
-          "name": "Darkhotel",
-          "unknown": 0
+          "name": "APT42",
+          "unknown": 2
         }
       ]
     },
-    "clean": 235,
+    "clean": 425,
     "disagreement": {
       "samples": [
         {
@@ -1869,9 +1983,9 @@
           ]
         }
       ],
-      "total": 73
+      "total": 86
     },
-    "malicious": 2045,
-    "unknown": 131
+    "malicious": 4179,
+    "unknown": 778
   }
 }

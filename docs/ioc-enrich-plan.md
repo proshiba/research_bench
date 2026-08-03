@@ -301,6 +301,8 @@ ABUSEIPDB_API_KEY
 | 証明書の弱い根拠に `wildcard` を足した | SAN 数だけでは足りなかった。`*.azurewebsites.net` の証明書（SAN 11 と 30）が無関係な 2 つのドメインを結んでいた。**SAN が全部ワイルドカードなら、その host ではなく基盤に出された証明書** |
 | `resolution` は「誰かの解決先になっている IP」だけ数える | 実体の IP を無条件に入れると `ioc`（同じ IOC を指している）の写しになり、根拠が二重に数えられる |
 | `resolution` から **bogon / noise の解決先を外した** | `127.0.0.1` に解決するドメイン同士は「同じ所に居る」ではなく、**どちらもシンクホールされている**。実測で `APT28 ↔ STAC4749` `APT37 ↔ STAC4749` を繋いでいた |
+| 証明書に `unanchored` を足した | 名前が当たったドメインが群に 1 つも居ないとき。`invalid2.invalid`（Cloudflare の既定）・`*.hstgr.io`・`cloudflare-dns.com`・Fastly の既定が、無関係なアクター同士を strength 9〜10 で繋いでいた。**IP だけの群では運用者の証明書か基盤の既定かを見分けられない**。外したほうは `to_check.cert_excluded` で毎日人に渡す |
+| ファミリから **提供元の連番**を落とした | `boiq` `boir` `boiv` … のように頭 2 文字と長さが同じ札が並ぶのは連番。実測で 13 本の `bo` + 4 文字が実体として生えていた。並びの数で測る（`--serial-min`、既定 3） |
 | 証明書の `wildcard` を **「名前が載っているか」**に広げた | SAN が無い自己署名（`localhost` `0.0.0.0` `Fireware web CA` `letsencrypt-nginx-proxy-companion`）は、同じ image や機器を使っている全員が同じものを出す。SAN 数でもワイルドカードかでも見分けられない |
 | `resolution` から **大きい AS の解決先を外した** | Cloudflare（`104.21.x` / `172.67.x` / `2606:4700::`）や Vercel の edge に 6〜16 の実体が集まっていて、`APT29 ↔ JINX-0164` のような無関係な組が出た。「同じ AS に居る」と同じで、**edge に解決するのは何の根拠にもならない**。156 組 → 22 組に絞られた |
 | `enrich-asn.mjs` が **生えた IP にも AS を付ける**ようにした | 上の判断に要る。走らせる順は `enrich-intel` → `enrich-asn` → `stats` |

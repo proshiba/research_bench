@@ -5,7 +5,8 @@
 //   node tools/ioc/enrich-intel.mjs [--in data/ioc/latest] [--out <同じ場所>]
 //                                   [--vt-cache data/ioc/.cache/vt]
 //                                   [--abuse-cache data/ioc/.cache/abuseipdb]
-//                                   [--san-cap 100] [--name-cap 8] [--include-noise]
+//                                   [--san-cap 100] [--name-cap 8] [--serial-min 3]
+//                                   [--include-noise]
 //
 // 先に fetch-vt.mjs / fetch-abuseipdb.mjs で写しを作っておくこと。
 // **同じ写しからは何度でも同じ結果が出る**（fetch-asn / enrich-asn と同じ分け方）。
@@ -106,8 +107,10 @@ const GENERIC = new Set([
  * 繋いでいた。**AgentTesla のような実在のファミリは残す**（後ろが 2 文字より長い）。
  */
 const looksVariant = (name) =>
-  /^agent[a-z]{0,2}$/.test(name) ||
-  /^gen[a-z]{0,2}$/.test(name) ||
+  /^agent[a-z0-9]{0,2}$/.test(name) ||
+  /^gen[a-z0-9]{0,2}$/.test(name) ||
+  // `ag1536201` `cve20151641` のような、短い頭文字＋長い数字。人が付けた名前ではない
+  /^[a-z]{1,3}\d{3,}$/.test(name) ||
   // `generickdq` のような「generic + 検出器の連番」
   /^generic/.test(name) ||
   // `grhh` `kqil` `vsnw09g25` のような、母音の無い機械生成の札。人が付けた名前ではない
@@ -301,10 +304,15 @@ for (const rec of vtRecords) {
         iocs: new Set(),
         // SAN に名前が載っている IOC の数。0 なら基盤に出された証明書
         literal: 0,
+        // そのうちドメイン。**IP だけの群はどちらとも言えない**（下の anchor を見よ）
+        anchors: 0,
       });
     }
     certs.get(thumb).iocs.add(rec.ioc);
-    if (!row.cert.wildcard) certs.get(thumb).literal++;
+    if (!row.cert.wildcard) {
+      certs.get(thumb).literal++;
+      if (ioc.type === "ioc.domain") certs.get(thumb).anchors++;
+    }
   }
 
   vtRows.push(row);
@@ -331,12 +339,44 @@ for (const [key, from] of resolveTargets) {
 }
 derivedIocs.sort(byKeys("type", "value"));
 
+/** 索引が既に知っている名前。連番の判定でも、生えた実体の判定でも使う。 */
+const knownNames = new Set(entities.filter((e) => e.kind === "malware").map((e) => e.name));
+
+/* ---------------- 1b. 提供元の連番ファミリを落とす ---------------- */
+
+/**
+ * `boiq` `boir` `boiv` `boja` `bokf` … のように、**頭 2 文字と長さが同じ札が
+ * 何本も並ぶ**のは提供元の連番であって、ファミリ名ではない。
+ * 実測で 13 本の `bo` + 4 文字、3 本の `ag` + 7 桁が実体として生えていた。
+ * 名前を列挙して弾くのは一般化しないので、**並びの数で測る**。
+ *
+ * 実在のファミリは頭 2 文字と長さが揃って何本も出てくることがない
+ * （`turla` `tiny` は長さが違い、`data` `dump` は頭 2 文字が違う）。
+ */
+// 3 で実測すると提供元の連番だけが落ちる。2 まで下げると datper / rokrat /
+// muddywater のような実在のファミリまで巻き込む
+const SERIAL_MIN = Number(args["serial-min"] || 3);
+const shapeCount = new Map();
+for (const fam of familySamples.keys()) {
+  const k = `${fam.slice(0, 2)}\t${fam.length}`;
+  shapeCount.set(k, (shapeCount.get(k) || 0) + 1);
+}
+const serialFamilies = new Set([...familySamples.keys()]
+  .filter((f) => (shapeCount.get(`${f.slice(0, 2)}\t${f.length}`) || 0) >= SERIAL_MIN)
+  // 索引が既に知っている名前は、並びが揃っていても落とさない
+  .filter((f) => !knownNames.has(f)));
+for (const f of serialFamilies) {
+  familySamples.delete(f);
+  aliasSupport.delete(f);
+}
+
 const derivedKeys = new Set(derivedIocs.map((r) => r.key));
 /* 解決先が索引側にも派生側にも無い（壊れた値）辺は残さない。
    同じ辺が 2 度出ることもあるので、ここで 1 本にまとめる */
 const seenLink = new Set();
 const usableDerivedLinks = derivedLinks.filter((l) => {
   if (l.kind === "ioc" && !iocByKey.has(l.name) && !derivedKeys.has(l.name)) return false;
+  if (l.rel === "suggested_threat_label" && serialFamilies.has(l.name)) return false;
   const k = `${l.ioc}\t${l.kind}\t${l.name}\t${l.rel}\t${l.source}`;
   if (seenLink.has(k)) return false;
   seenLink.add(k);
@@ -345,7 +385,6 @@ const usableDerivedLinks = derivedLinks.filter((l) => {
 
 /* ---------------- 3. 生えた実体と別名 ---------------- */
 
-const knownNames = new Set(entities.filter((e) => e.kind === "malware").map((e) => e.name));
 const derivedEntities = [...familySamples.entries()]
   .filter(([name]) => !knownNames.has(name))
   .map(([name, set]) => ({ kind: "malware", name, ioc_count: set.size, sources: ["virustotal"] }))
@@ -377,13 +416,21 @@ const derivedAliases = [...aliasSupport.entries()]
 const certWeakness = (c) => {
   if (c.san_count > SAN_CAP) return "san";
   if (c.literal === 0) return "wildcard";
+  // **IP だけの群は、運用者の証明書か基盤の既定かを見分けられない。**
+  // 実測で `invalid2.invalid`（Cloudflare の既定）・`*.hstgr.io`（Hostinger の共用）・
+  // `cloudflare-dns.com`・`n.sni-347-default.ssl.fastly.net` が、
+  // 無関係なアクター同士を strength 9〜10 で繋いでいた。
+  // 名前が当たったドメインが 1 つでも居れば「その運用者のもの」と言えるので、
+  // それを錨（anchor）にする。錨が無い群は**捨てずに印を付け**、
+  // daily-report が cert_excluded として人に渡す。
+  if (c.anchors === 0) return "unanchored";
   return null;
 };
 
 const certRows = [...certs.values()]
   .map((c) => {
     const why = certWeakness(c);
-    const { literal, ...rest } = c;
+    const { literal, anchors, ...rest } = c;
     return {
       ...rest,
       iocs: [...c.iocs].sort(),
