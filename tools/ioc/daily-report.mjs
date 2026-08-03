@@ -89,8 +89,10 @@ const grew = prev ? now.overlaps.filter((o) => {
 }).map((o) => ({ ...o, was: prevPairs.get(pairKey(o)).strength })) : [];
 
 const strong = (list) => list.filter((o) => !o.weak_only).sort((a, b) => b.strength - a.strength || b.shared - a.shared);
+/** 根拠の値も一緒に渡す。**どの証明書かが分からなければ検算できない。** */
 const slim = (o) => ({
   kind: o.kind, a: o.a, b: o.b, shared: o.shared, strength: o.strength, via: o.via,
+  evidence: o.evidence,
   ...(o.was !== undefined ? { was: o.was } : {}),
 });
 
