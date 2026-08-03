@@ -410,6 +410,7 @@ for (let i = 0; i < iocs.length; i++) {
 /* ---------------- 5. links.jsonl ---------------- */
 
 const entityKeys = new Set(entities.map((e) => `${e.kind}\t${e.name}`));
+const entityByKey = new Map(entities.map((e) => [`${e.kind}\t${e.name}`, e]));
 /** 参照の再計算。entities の集計と突き合わせるために作る。 */
 const linkIocs = new Map();     // "kind\tname" → IOC 鍵の集合
 const linkSources = new Map();  // "kind\tname" → 出典の集合
@@ -770,6 +771,42 @@ if (overlaps) {
     const expect = Math.round((o.shared / Math.max(1, Math.min(o.a_iocs, o.b_iocs))) * 1000) / 1000;
     if (Math.abs(expect - o.ratio) > 1e-9) {
       err("overlap.ratio", `ratio が ${expect} と違います: ${o.ratio}`, at("overlaps.jsonl", i));
+    }
+  }
+}
+
+/**
+ * IOC 集合が完全に一致した組。**overlaps.jsonl と両方に出ていてはいけない。**
+ * 片方に出したつもりで両方に残ると、外したはずの組が上位に戻る。
+ */
+const identicalSets = loadJsonl("identical-sets.jsonl", { required: false });
+if (identicalSets) {
+  checkOrder("identical-sets.jsonl", identicalSets, byKeys("kind", "a", "b"), (o) => `${o.kind}\t${o.a}\t${o.b}`);
+  const inOverlaps = new Set((overlaps || []).map((o) => `${o.kind}\t${o.a}\t${o.b}`));
+  for (let i = 0; i < identicalSets.length; i++) {
+    const o = identicalSets[i];
+    checkFields("identical-sets.jsonl", o, i, { required: ["kind", "a", "b", "iocs"], optional: [] });
+    for (const side of ["a", "b"]) {
+      if (!entityKeys.has(`${o.kind}\t${o[side]}`)) {
+        err("identical.entity", `${side} が entities.jsonl にありません: ${o.kind}/${o[side]}`, at("identical-sets.jsonl", i));
+      }
+    }
+    if (o.a === o.b) err("identical.self", "自分自身との組です", at("identical-sets.jsonl", i));
+    if (!(o.a < o.b)) err("identical.order", `組が a < b になっていません: ${o.a} / ${o.b}`, at("identical-sets.jsonl", i));
+    if (!Number.isInteger(o.iocs) || o.iocs < 1) {
+      err("identical.iocs", `iocs が 1 以上の整数ではありません: ${o.iocs}`, at("identical-sets.jsonl", i));
+    } else {
+      // 数え直しはしない。stats 側は bogon / noise / sample を除いた集合で数えるので
+      // entities.jsonl の ioc_count とは一致しない。**上回ることだけは無い**のでそこを見る
+      for (const side of ["a", "b"]) {
+        const e = entityByKey.get(`${o.kind}\t${o[side]}`);
+        if (e && Number.isInteger(e.ioc_count) && o.iocs > e.ioc_count) {
+          err("identical.iocs", `iocs が ${side} の ioc_count を上回っています: ${o.iocs} > ${e.ioc_count}`, at("identical-sets.jsonl", i));
+        }
+      }
+    }
+    if (inOverlaps.has(`${o.kind}\t${o.a}\t${o.b}`)) {
+      err("identical.both", `overlaps.jsonl にも出ています: ${o.kind}/${o.a} ↔ ${o.b}`, at("identical-sets.jsonl", i));
     }
   }
 }

@@ -5272,24 +5272,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 2.16,
-      "shared": 54,
-      "source": "actor:SQLRCE0",
-      "strength": 33,
-      "target": "actor:Yx Technology",
-      "via": [
-        "asn",
-        "certificate",
-        "family",
-        "filename",
-        "ioc",
-        "jarm",
-        "registrable",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "actor",
       "ratio": 0.012,
       "shared": 2,
       "source": "actor:Sandworm Team",
@@ -5478,19 +5460,6 @@
         "family"
       ],
       "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 2.5,
-      "shared": 10,
-      "source": "actor:TAG-56",
-      "strength": 14,
-      "target": "actor:TAG-82",
-      "via": [
-        "ioc",
-        "jarm",
-        "subnet"
-      ]
     },
     {
       "kind": "actor",
@@ -5702,45 +5671,6 @@
     },
     {
       "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:01d63fac83c1e47461c08f5abfe29db0ddfe6b448b1abd7c21cfb8b06c4ad386",
-      "strength": 14,
-      "target": "case:case:54b18666cff2721220a2aab4aaaef419b3fc22aa263edbbc43d7b3164f562f7d",
-      "via": [
-        "ioc",
-        "jarm",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:01d63fac83c1e47461c08f5abfe29db0ddfe6b448b1abd7c21cfb8b06c4ad386",
-      "strength": 14,
-      "target": "case:case:5cdb8b20bab0ef77f5889729c7c8664326607ecf19ae48d2e1b1398df6b40083",
-      "via": [
-        "ioc",
-        "jarm",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:01d63fac83c1e47461c08f5abfe29db0ddfe6b448b1abd7c21cfb8b06c4ad386",
-      "strength": 14,
-      "target": "case:case:f6ff5df0da5c7fb540390937fa063e709e0e6a42792fbf5123234e85863dd14d",
-      "via": [
-        "ioc",
-        "jarm",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 1.25,
       "shared": 5,
       "source": "case:case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2",
@@ -5771,20 +5701,6 @@
       "source": "case:case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2",
       "strength": 16,
       "target": "case:case:6afda92c73f89ddce818f752d2d3fb7f39cef34c53478ecd993cd42936a12efc",
-      "via": [
-        "ioc",
-        "jarm",
-        "registrable",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 8,
-      "source": "case:case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2",
-      "strength": 16,
-      "target": "case:case:875257991745c0557dd2fb00cd40934de6281ded379289c26d900bca2628f25f",
       "via": [
         "ioc",
         "jarm",
@@ -5827,106 +5743,6 @@
       "via": [
         "ioc",
         "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2.5,
-      "shared": 10,
-      "source": "case:case:03e0ca10cbf06f45fefd102dc8e42665729d8891e047348dea7dcceb9b5559cc",
-      "strength": 20,
-      "target": "case:case:72db19a5ccc7e378e72bd3cf8339280fc47f05b5ff65b1fb3893be6369a5c8bf",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2.5,
-      "shared": 10,
-      "source": "case:case:03e0ca10cbf06f45fefd102dc8e42665729d8891e047348dea7dcceb9b5559cc",
-      "strength": 20,
-      "target": "case:case:9e7fdc17150409d594eeed12705788fbc74b5c7f482a64d121395df781820f46",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.667,
-      "shared": 10,
-      "source": "case:case:05a0ca0ac2527c0faddc2a8ec456e69fc1f0e0c9fff9d2d396327faf3f876c30",
-      "strength": 11,
-      "target": "case:case:d5d41bf6ec3d3bfe82546234a095654cfa4200fefec12889689ac4d609076a95",
-      "via": [
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:07e2eca37d83df539f2f000955008c37e91c4734bc6091cdfb1ea6188cd929f8",
-      "strength": 18,
-      "target": "case:case:8ec3a5eeb2249aad19b85e78e23d799109654cd56c7e1caff3881a0d3f97f208",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:07e2eca37d83df539f2f000955008c37e91c4734bc6091cdfb1ea6188cd929f8",
-      "strength": 18,
-      "target": "case:case:ebb529ad09a2a23b9327e0e2482f597ca94ea4867fe42a6e70a38184340bbc8f",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.375,
-      "shared": 3,
-      "source": "case:case:0d059ffb15664c6b5411ec5c646cff16b27c92a8582bee8eb551311d75077a4e",
-      "strength": 8,
-      "target": "case:case:366000d889c91ca66b3c0f55b6b2f5670a610c764ea516cf31f2aafad67f4171",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.375,
-      "shared": 3,
-      "source": "case:case:0d059ffb15664c6b5411ec5c646cff16b27c92a8582bee8eb551311d75077a4e",
-      "strength": 8,
-      "target": "case:case:9731b02a6cee4d3db1a29285bae92962617dfcad8055c28e5b25417b1ac93786",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.375,
-      "shared": 3,
-      "source": "case:case:0d059ffb15664c6b5411ec5c646cff16b27c92a8582bee8eb551311d75077a4e",
-      "strength": 8,
-      "target": "case:case:fb8c3315722d0d2d78d08278774e0b03d334b35cfd59fa2d2a6dd21fbf99b347",
-      "via": [
-        "ioc"
       ]
     },
     {
@@ -6019,17 +5835,6 @@
     },
     {
       "kind": "case",
-      "ratio": 0.375,
-      "shared": 3,
-      "source": "case:case:112b937fa19a366ea8c7a404d6ed21a3814410fb210358c907e1fd580616cd76",
-      "strength": 8,
-      "target": "case:case:c29da327855142577dbb802096148c8c805595809bb3f8a89ed96b785fa45ac5",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 0.5,
       "shared": 2,
       "source": "case:case:112b937fa19a366ea8c7a404d6ed21a3814410fb210358c907e1fd580616cd76",
@@ -6048,240 +5853,6 @@
       "target": "case:case:eb4dda22e709b7da15aaebddec842067e97d85cdc99d753dc6335c0ae63d1e42",
       "via": [
         "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:11ce110d1a9b0b3aeb13e1827fb66fce905504a8ec4239c32dfabd66cf34bdb4",
-      "strength": 18,
-      "target": "case:case:195fe7c703d6fef572f1a6d7441898488c5483db820a7feb0c2d622d1c4e4b2c",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:11ce110d1a9b0b3aeb13e1827fb66fce905504a8ec4239c32dfabd66cf34bdb4",
-      "strength": 18,
-      "target": "case:case:70005bbb6db8afaf30661df0311395fb3cf7bf1ece51d511841d4f4def908a29",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:11ce110d1a9b0b3aeb13e1827fb66fce905504a8ec4239c32dfabd66cf34bdb4",
-      "strength": 18,
-      "target": "case:case:73ad9a7105eb9c7b548e8e9299e7446623c3286f878d7f0abd0c4aef20a88caf",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:11ce110d1a9b0b3aeb13e1827fb66fce905504a8ec4239c32dfabd66cf34bdb4",
-      "strength": 18,
-      "target": "case:case:9175a9708efa0242a02ad042a9d235a73cd4f691cb90258cc78d24a58e5f235e",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:11ce110d1a9b0b3aeb13e1827fb66fce905504a8ec4239c32dfabd66cf34bdb4",
-      "strength": 18,
-      "target": "case:case:e8ba80f829b67d3a0fcad9a7d554b6a686876dd09125c3b1a2e3230712490e89",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:11ce110d1a9b0b3aeb13e1827fb66fce905504a8ec4239c32dfabd66cf34bdb4",
-      "strength": 18,
-      "target": "case:case:ee2ac2bdd780e82866f0135effc08c748895c42541d368e34b6214dbc9a6d190",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:11ce110d1a9b0b3aeb13e1827fb66fce905504a8ec4239c32dfabd66cf34bdb4",
-      "strength": 18,
-      "target": "case:case:f0ea2d0017a88323d730042c2b571a4d06cd8dbe169c3cef2e457bd0c5d676ff",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 12,
-      "source": "case:case:11f0f5b941e46c270da2705545255105008325a28dd26dac5669128c9651135a",
-      "strength": 19,
-      "target": "case:case:e8c73ce5eb660ea6570b5bf5f560eaf994394da02148f7df10aefac1fda8a756",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.667,
-      "shared": 5,
-      "source": "case:case:183def10cfe9473eb4ac24b08c39418253d770eef9a196e42115fef79072db9f",
-      "strength": 11,
-      "target": "case:case:4adf2ecf694884886667c15a1b86b5d937c35089a97afc585ad524660d85c1b5",
-      "via": [
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:18cbee63748bff047d7d51ebc934409f8cb3ba1ea814daae638122272de1a314",
-      "strength": 17,
-      "target": "case:case:61eb8e47031b9c5ac19f887926f3a03604ae1dec521dad76db3136a1469be7b6",
-      "via": [
-        "ioc",
-        "registrable",
-        "resolution"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:18cbee63748bff047d7d51ebc934409f8cb3ba1ea814daae638122272de1a314",
-      "strength": 17,
-      "target": "case:case:7243738e2b27922cd5daed7bb1e9382e87196583976c7a54372f2f149eec3596",
-      "via": [
-        "ioc",
-        "registrable",
-        "resolution"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:18cbee63748bff047d7d51ebc934409f8cb3ba1ea814daae638122272de1a314",
-      "strength": 17,
-      "target": "case:case:c1dd7a5673962d108ec8d1b12b50604a134cc52cc95de6c3bbf680198e8f9cb6",
-      "via": [
-        "ioc",
-        "registrable",
-        "resolution"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:195fe7c703d6fef572f1a6d7441898488c5483db820a7feb0c2d622d1c4e4b2c",
-      "strength": 18,
-      "target": "case:case:70005bbb6db8afaf30661df0311395fb3cf7bf1ece51d511841d4f4def908a29",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:195fe7c703d6fef572f1a6d7441898488c5483db820a7feb0c2d622d1c4e4b2c",
-      "strength": 18,
-      "target": "case:case:73ad9a7105eb9c7b548e8e9299e7446623c3286f878d7f0abd0c4aef20a88caf",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:195fe7c703d6fef572f1a6d7441898488c5483db820a7feb0c2d622d1c4e4b2c",
-      "strength": 18,
-      "target": "case:case:9175a9708efa0242a02ad042a9d235a73cd4f691cb90258cc78d24a58e5f235e",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:195fe7c703d6fef572f1a6d7441898488c5483db820a7feb0c2d622d1c4e4b2c",
-      "strength": 18,
-      "target": "case:case:e8ba80f829b67d3a0fcad9a7d554b6a686876dd09125c3b1a2e3230712490e89",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:195fe7c703d6fef572f1a6d7441898488c5483db820a7feb0c2d622d1c4e4b2c",
-      "strength": 18,
-      "target": "case:case:ee2ac2bdd780e82866f0135effc08c748895c42541d368e34b6214dbc9a6d190",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:195fe7c703d6fef572f1a6d7441898488c5483db820a7feb0c2d622d1c4e4b2c",
-      "strength": 18,
-      "target": "case:case:f0ea2d0017a88323d730042c2b571a4d06cd8dbe169c3cef2e457bd0c5d676ff",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
       ]
     },
     {
@@ -6338,20 +5909,6 @@
     {
       "kind": "case",
       "ratio": 1.75,
-      "shared": 14,
-      "source": "case:case:1de6220fc4c3502a55fa5cc220b9a91cead25fc34bc7d3610edf1914f83bc379",
-      "strength": 16,
-      "target": "case:case:b6b9753bf156d5eb5dcbad43de9ab651146a819da27fe9d2c031097ca10619d3",
-      "via": [
-        "ioc",
-        "jarm",
-        "registrable",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.75,
       "shared": 7,
       "source": "case:case:1de6220fc4c3502a55fa5cc220b9a91cead25fc34bc7d3610edf1914f83bc379",
       "strength": 10,
@@ -6398,18 +5955,6 @@
     },
     {
       "kind": "case",
-      "ratio": 1.25,
-      "shared": 5,
-      "source": "case:case:23315993c5c7df358f6d9082d74d72774b613310ebafd0272f5efdf04d3ce9a6",
-      "strength": 10,
-      "target": "case:case:7607a6631a90eb57ad892bb0cca2bd6618940822daed745392676f6aec4a33f4",
-      "via": [
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 0.25,
       "shared": 1,
       "source": "case:case:23315993c5c7df358f6d9082d74d72774b613310ebafd0272f5efdf04d3ce9a6",
@@ -6431,18 +5976,6 @@
         "registrable"
       ],
       "weak_only": true
-    },
-    {
-      "kind": "case",
-      "ratio": 1.25,
-      "shared": 5,
-      "source": "case:case:23315993c5c7df358f6d9082d74d72774b613310ebafd0272f5efdf04d3ce9a6",
-      "strength": 10,
-      "target": "case:case:c1c9c2e2936bf0492c896647531f6212d9271f1881c8b95d692d4aee48b4d472",
-      "via": [
-        "ioc",
-        "registrable"
-      ]
     },
     {
       "kind": "case",
@@ -6614,125 +6147,11 @@
     },
     {
       "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
-      "strength": 16,
-      "target": "case:case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
-      "strength": 16,
-      "target": "case:case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
-      "strength": 16,
-      "target": "case:case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
-      "strength": 16,
-      "target": "case:case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
-      "strength": 16,
-      "target": "case:case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "case:case:2d0ae80f9689433e7b84ee280e11ce5263f918f6f23288c3d9bfe6ea187408b2",
-      "strength": 8,
-      "target": "case:case:3ee8b4e38efa5f872f5f1f4fac720d80eb7c079fc538ef75f2d8a8dc7068ef9f",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "case:case:2d0ae80f9689433e7b84ee280e11ce5263f918f6f23288c3d9bfe6ea187408b2",
-      "strength": 8,
-      "target": "case:case:726ca85760e035489a885da5b01dbe62c7a1e0b52e1735b656adbc899090a572",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "case:case:2d0ae80f9689433e7b84ee280e11ce5263f918f6f23288c3d9bfe6ea187408b2",
-      "strength": 8,
-      "target": "case:case:b32f71c40fffc53327ca712d82ad9349d2a4f396826fac9940824f48c878461f",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 0.5,
       "shared": 2,
       "source": "case:case:2d0ae80f9689433e7b84ee280e11ce5263f918f6f23288c3d9bfe6ea187408b2",
       "strength": 8,
       "target": "case:case:c29da327855142577dbb802096148c8c805595809bb3f8a89ed96b785fa45ac5",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "case:case:2d0ae80f9689433e7b84ee280e11ce5263f918f6f23288c3d9bfe6ea187408b2",
-      "strength": 8,
-      "target": "case:case:da49d5a6abbb96438cd2daecd2643fb5f38122ce4d9cda6d072704e54c17d3ed",
       "via": [
         "ioc"
       ]
@@ -6756,18 +6175,6 @@
       "source": "case:case:2d8d12f404151317ff562585b5d2e5ba728b7e8aba60d950835a1a80e6462c3f",
       "strength": 10,
       "target": "case:case:9580aefa4e99bac7914a988a79688ef6173ee0e0175b993cdfcfea72cc40703b",
-      "via": [
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.5,
-      "shared": 3,
-      "source": "case:case:2d8d12f404151317ff562585b5d2e5ba728b7e8aba60d950835a1a80e6462c3f",
-      "strength": 10,
-      "target": "case:case:f0d032c835744156d134ff521c8bc2996f0d7922c7c0c8c31f12fb27d7dddc99",
       "via": [
         "ioc",
         "registrable"
@@ -6807,45 +6214,6 @@
       "via": [
         "ioc",
         "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.75,
-      "shared": 7,
-      "source": "case:case:326d297b441a40bb3f53bb55cb727e0fbed422470977ca167b1c919029be746b",
-      "strength": 19,
-      "target": "case:case:a547cff9991a713535e5c128a0711ca68acf9298cc2220c4ea0685d580f36811",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.75,
-      "shared": 7,
-      "source": "case:case:326d297b441a40bb3f53bb55cb727e0fbed422470977ca167b1c919029be746b",
-      "strength": 19,
-      "target": "case:case:ac096895773aab31910cee9d9611fbf3fcf7b2ba76678237ecd676d350c91c9c",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.75,
-      "shared": 7,
-      "source": "case:case:326d297b441a40bb3f53bb55cb727e0fbed422470977ca167b1c919029be746b",
-      "strength": 19,
-      "target": "case:case:e5aed4e2fdda9242d6a723ece8c6d7b2b2a3f1f82abcac66e1480b6794c23bfc",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
       ]
     },
     {
@@ -6918,48 +6286,12 @@
     },
     {
       "kind": "case",
-      "ratio": 0.375,
-      "shared": 3,
-      "source": "case:case:366000d889c91ca66b3c0f55b6b2f5670a610c764ea516cf31f2aafad67f4171",
-      "strength": 8,
-      "target": "case:case:9731b02a6cee4d3db1a29285bae92962617dfcad8055c28e5b25417b1ac93786",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.375,
-      "shared": 3,
-      "source": "case:case:366000d889c91ca66b3c0f55b6b2f5670a610c764ea516cf31f2aafad67f4171",
-      "strength": 8,
-      "target": "case:case:fb8c3315722d0d2d78d08278774e0b03d334b35cfd59fa2d2a6dd21fbf99b347",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 1,
       "shared": 4,
       "source": "case:case:38450cf934121c9f92785beffb73602919014752310960768324029d9ba91e13",
       "strength": 11,
       "target": "case:case:fc4932314471c91434fde050e85967de31701e0b391440c1c5f9aa5d6fde615d",
       "via": [
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2.25,
-      "shared": 9,
-      "source": "case:case:388021747b85453adff2680c8a0e13e230f4eeada1a1055e3fb8e09800d4fb79",
-      "strength": 20,
-      "target": "case:case:5edc39cbd89d3ba70a4737f823933af93f3c182134af8e34e0af9a316afaaca8",
-      "via": [
-        "certificate",
         "ioc",
         "jarm",
         "registrable"
@@ -6995,59 +6327,6 @@
     },
     {
       "kind": "case",
-      "ratio": 2.25,
-      "shared": 9,
-      "source": "case:case:388021747b85453adff2680c8a0e13e230f4eeada1a1055e3fb8e09800d4fb79",
-      "strength": 20,
-      "target": "case:case:d458a1459e865ba6faeca30447fba1f7813cf8e3e5e4c454c4d93d1a2b345805",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:388a9e43f9baec112abc28f1e058072e5ee847b0331388896f71517b832aff0d",
-      "strength": 19,
-      "target": "case:case:8c689ba49385129e4f8df15b11f315f1b31f3fc3ee1a610a186d948490f5cd14",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:388a9e43f9baec112abc28f1e058072e5ee847b0331388896f71517b832aff0d",
-      "strength": 19,
-      "target": "case:case:ce05cafc84ca9fa75f97cc1c857170870252ef286c4940189a3c8499ae00a148",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:388a9e43f9baec112abc28f1e058072e5ee847b0331388896f71517b832aff0d",
-      "strength": 19,
-      "target": "case:case:f77256eb64c144a1f433705087bcefffbf59c79f6953a39d7c0d745ceab31573",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 0.333,
       "shared": 1,
       "source": "case:case:3dfe67edf7c21e9c73e8e0368d3afcbb6fd50ccf25cc93dab9c2775e03d97ab3",
@@ -7074,40 +6353,7 @@
       "shared": 2,
       "source": "case:case:3ee8b4e38efa5f872f5f1f4fac720d80eb7c079fc538ef75f2d8a8dc7068ef9f",
       "strength": 8,
-      "target": "case:case:726ca85760e035489a885da5b01dbe62c7a1e0b52e1735b656adbc899090a572",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "case:case:3ee8b4e38efa5f872f5f1f4fac720d80eb7c079fc538ef75f2d8a8dc7068ef9f",
-      "strength": 8,
-      "target": "case:case:b32f71c40fffc53327ca712d82ad9349d2a4f396826fac9940824f48c878461f",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "case:case:3ee8b4e38efa5f872f5f1f4fac720d80eb7c079fc538ef75f2d8a8dc7068ef9f",
-      "strength": 8,
       "target": "case:case:c29da327855142577dbb802096148c8c805595809bb3f8a89ed96b785fa45ac5",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "case:case:3ee8b4e38efa5f872f5f1f4fac720d80eb7c079fc538ef75f2d8a8dc7068ef9f",
-      "strength": 8,
-      "target": "case:case:da49d5a6abbb96438cd2daecd2643fb5f38122ce4d9cda6d072704e54c17d3ed",
       "via": [
         "ioc"
       ]
@@ -7150,19 +6396,6 @@
     },
     {
       "kind": "case",
-      "ratio": 1.667,
-      "shared": 5,
-      "source": "case:case:4049128f0308d05dcb8d24b668f69238d720199de32ba0d8304cd3c3b3bde1b9",
-      "strength": 14,
-      "target": "case:case:746c06f05b8e3bc93d6495a6c447c3c1874bd77011c33b0bcfe74ae27addbfaf",
-      "via": [
-        "ioc",
-        "jarm",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 1.333,
       "shared": 4,
       "source": "case:case:4049128f0308d05dcb8d24b668f69238d720199de32ba0d8304cd3c3b3bde1b9",
@@ -7176,81 +6409,11 @@
     },
     {
       "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
-      "strength": 16,
-      "target": "case:case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
-      "strength": 16,
-      "target": "case:case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
-      "strength": 16,
-      "target": "case:case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
-      "strength": 16,
-      "target": "case:case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 2.5,
       "shared": 10,
       "source": "case:case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7",
       "strength": 20,
       "target": "case:case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2.5,
-      "shared": 10,
-      "source": "case:case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7",
-      "strength": 20,
-      "target": "case:case:9645a12079edffd20560d4631160a6052ae5728d6f73b7366588166ad281c534",
       "via": [
         "certificate",
         "ioc",
@@ -7334,137 +6497,6 @@
     },
     {
       "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:49d9e5fda3eb3064f04e6d2ac0e4876b509392cc65ad2445f0806339c6a1a356",
-      "strength": 8,
-      "target": "case:case:714f761f1994d2c647aa8feeee06272f5ede71dc704842d9bee2141fa94c22a8",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:49d9e5fda3eb3064f04e6d2ac0e4876b509392cc65ad2445f0806339c6a1a356",
-      "strength": 8,
-      "target": "case:case:aee705055f820ed7147ce7ecd39f293ee56e71a2118d5bd0ca21584bfb89124f",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:49d9e5fda3eb3064f04e6d2ac0e4876b509392cc65ad2445f0806339c6a1a356",
-      "strength": 8,
-      "target": "case:case:afaf5a58dd6e9586701b97b9e5b454846f3ce0053a0aa44b196626d7f4a4e5d4",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:49d9e5fda3eb3064f04e6d2ac0e4876b509392cc65ad2445f0806339c6a1a356",
-      "strength": 8,
-      "target": "case:case:e88bf785ff3ee84df31a16ce5b6f9ecfc38cce7e5c01bdfb2dcdca21f33dbbf0",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:49d9e5fda3eb3064f04e6d2ac0e4876b509392cc65ad2445f0806339c6a1a356",
-      "strength": 8,
-      "target": "case:case:f0506419d1f60d7180e72fdcca97d5446d3cc3218d61b11dcd39b49086553683",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:49d9e5fda3eb3064f04e6d2ac0e4876b509392cc65ad2445f0806339c6a1a356",
-      "strength": 8,
-      "target": "case:case:ff5a682bad6c911fd08c90622b7fa13ab22a608e501eed511a40fe43a9b53a1e",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515",
-      "strength": 16,
-      "target": "case:case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515",
-      "strength": 16,
-      "target": "case:case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515",
-      "strength": 16,
-      "target": "case:case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:4d033b83aec65390c6d90f9d87224fddd3bcd568cf490d9dc02bbb0f7db0d58f",
-      "strength": 8,
-      "target": "case:case:b393bd767c142e171dd1b2928bae16fff2f63b3d319b2c1acb37129d8d538cc9",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.25,
-      "shared": 5,
-      "source": "case:case:52bd61ba2153572260fc9b8f7eac34b613272c428e715fe6b3505f96e4eacf5d",
-      "strength": 13,
-      "target": "case:case:b3d07e47793a40bf3d99133b7a58feffe5bf8d27ea42a8e45eba322bc02cf8fb",
-      "via": [
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 2,
       "shared": 2,
       "source": "case:case:52bd61ba2153572260fc9b8f7eac34b613272c428e715fe6b3505f96e4eacf5d",
@@ -7477,70 +6509,11 @@
     },
     {
       "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:54b18666cff2721220a2aab4aaaef419b3fc22aa263edbbc43d7b3164f562f7d",
-      "strength": 14,
-      "target": "case:case:5cdb8b20bab0ef77f5889729c7c8664326607ecf19ae48d2e1b1398df6b40083",
-      "via": [
-        "ioc",
-        "jarm",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:54b18666cff2721220a2aab4aaaef419b3fc22aa263edbbc43d7b3164f562f7d",
-      "strength": 14,
-      "target": "case:case:f6ff5df0da5c7fb540390937fa063e709e0e6a42792fbf5123234e85863dd14d",
-      "via": [
-        "ioc",
-        "jarm",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 0.143,
       "shared": 1,
       "source": "case:case:54cb86f9c1832999fcb4fb78bc5254c69de12cae15c60934b798858e1b27b934",
       "strength": 8,
       "target": "case:case:830418fab925fb6b34c1e819f7e099ee92d6b5205bf4c73586f0bf7430e72080",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.143,
-      "shared": 1,
-      "source": "case:case:54cb86f9c1832999fcb4fb78bc5254c69de12cae15c60934b798858e1b27b934",
-      "strength": 8,
-      "target": "case:case:bec299c617dfa95b0b9ccb083ee9d2510b4b1c8f5785d1d6d9f389a1b9e4f9b9",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.143,
-      "shared": 1,
-      "source": "case:case:54cb86f9c1832999fcb4fb78bc5254c69de12cae15c60934b798858e1b27b934",
-      "strength": 8,
-      "target": "case:case:c125bbd2333186b24a2dc74b99c7f3db4fca9fbe86af42e68cc4999252453a2a",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.143,
-      "shared": 1,
-      "source": "case:case:54cb86f9c1832999fcb4fb78bc5254c69de12cae15c60934b798858e1b27b934",
-      "strength": 8,
-      "target": "case:case:fa1e42eccf2edbaa7306cd40636bf579a6588e3d0fa61584e1ccb92a00d01ecf",
       "via": [
         "ioc"
       ]
@@ -7586,32 +6559,6 @@
     },
     {
       "kind": "case",
-      "ratio": 2,
-      "shared": 8,
-      "source": "case:case:5562c6ad5765792def276e009395a57a6bf841c87cddefb6f8e8d75b74076e83",
-      "strength": 19,
-      "target": "case:case:d8a5afdf8311eb92eae60c9774fc1b0b138f436affe99b2c64dbe93d8c07fcce",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:5cdb8b20bab0ef77f5889729c7c8664326607ecf19ae48d2e1b1398df6b40083",
-      "strength": 14,
-      "target": "case:case:f6ff5df0da5c7fb540390937fa063e709e0e6a42792fbf5123234e85863dd14d",
-      "via": [
-        "ioc",
-        "jarm",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 1.25,
       "shared": 5,
       "source": "case:case:5edc39cbd89d3ba70a4737f823933af93f3c182134af8e34e0af9a316afaaca8",
@@ -7642,37 +6589,9 @@
       "kind": "case",
       "ratio": 2.25,
       "shared": 9,
-      "source": "case:case:5edc39cbd89d3ba70a4737f823933af93f3c182134af8e34e0af9a316afaaca8",
-      "strength": 20,
-      "target": "case:case:d458a1459e865ba6faeca30447fba1f7813cf8e3e5e4c454c4d93d1a2b345805",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2.25,
-      "shared": 9,
       "source": "case:case:6091f2589fef42e0ab3d7975806cd8a0da012b519637c03b73f702f7586b21ef",
       "strength": 20,
       "target": "case:case:65da6d9f781ff5fc2865b8850cfa64993b36f00151387fdce25859781c1eb711",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2.25,
-      "shared": 9,
-      "source": "case:case:6091f2589fef42e0ab3d7975806cd8a0da012b519637c03b73f702f7586b21ef",
-      "strength": 20,
-      "target": "case:case:805b59e48af90504024f70124d850870a69b822b8e34d1ee551353c42a338bf7",
       "via": [
         "certificate",
         "ioc",
@@ -7691,32 +6610,6 @@
         "certificate",
         "ioc",
         "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:61eb8e47031b9c5ac19f887926f3a03604ae1dec521dad76db3136a1469be7b6",
-      "strength": 17,
-      "target": "case:case:7243738e2b27922cd5daed7bb1e9382e87196583976c7a54372f2f149eec3596",
-      "via": [
-        "ioc",
-        "registrable",
-        "resolution"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:61eb8e47031b9c5ac19f887926f3a03604ae1dec521dad76db3136a1469be7b6",
-      "strength": 17,
-      "target": "case:case:c1dd7a5673962d108ec8d1b12b50604a134cc52cc95de6c3bbf680198e8f9cb6",
-      "via": [
-        "ioc",
-        "registrable",
-        "resolution"
       ]
     },
     {
@@ -7847,17 +6740,6 @@
     },
     {
       "kind": "case",
-      "ratio": 0.286,
-      "shared": 2,
-      "source": "case:case:6d9ada5925ac865f4e390ea613c151b4f597c2753dcd00c925bb8fd89ba8eba9",
-      "strength": 8,
-      "target": "case:case:bf70cfa5cd5fc2b5c4f8ebb4d8dfba9451e113a21ad3b32cce20566f7eebedb8",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 0.143,
       "shared": 1,
       "source": "case:case:6d9ada5925ac865f4e390ea613c151b4f597c2753dcd00c925bb8fd89ba8eba9",
@@ -7876,71 +6758,6 @@
       "target": "case:case:eb4dda22e709b7da15aaebddec842067e97d85cdc99d753dc6335c0ae63d1e42",
       "via": [
         "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:70005bbb6db8afaf30661df0311395fb3cf7bf1ece51d511841d4f4def908a29",
-      "strength": 18,
-      "target": "case:case:73ad9a7105eb9c7b548e8e9299e7446623c3286f878d7f0abd0c4aef20a88caf",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:70005bbb6db8afaf30661df0311395fb3cf7bf1ece51d511841d4f4def908a29",
-      "strength": 18,
-      "target": "case:case:9175a9708efa0242a02ad042a9d235a73cd4f691cb90258cc78d24a58e5f235e",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:70005bbb6db8afaf30661df0311395fb3cf7bf1ece51d511841d4f4def908a29",
-      "strength": 18,
-      "target": "case:case:e8ba80f829b67d3a0fcad9a7d554b6a686876dd09125c3b1a2e3230712490e89",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:70005bbb6db8afaf30661df0311395fb3cf7bf1ece51d511841d4f4def908a29",
-      "strength": 18,
-      "target": "case:case:ee2ac2bdd780e82866f0135effc08c748895c42541d368e34b6214dbc9a6d190",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:70005bbb6db8afaf30661df0311395fb3cf7bf1ece51d511841d4f4def908a29",
-      "strength": 18,
-      "target": "case:case:f0ea2d0017a88323d730042c2b571a4d06cd8dbe169c3cef2e457bd0c5d676ff",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
       ]
     },
     {
@@ -7969,34 +6786,6 @@
         "ioc",
         "jarm",
         "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6",
-      "strength": 16,
-      "target": "case:case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6",
-      "strength": 16,
-      "target": "case:case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
       ]
     },
     {
@@ -8037,85 +6826,6 @@
     },
     {
       "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:714f761f1994d2c647aa8feeee06272f5ede71dc704842d9bee2141fa94c22a8",
-      "strength": 8,
-      "target": "case:case:aee705055f820ed7147ce7ecd39f293ee56e71a2118d5bd0ca21584bfb89124f",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:714f761f1994d2c647aa8feeee06272f5ede71dc704842d9bee2141fa94c22a8",
-      "strength": 8,
-      "target": "case:case:afaf5a58dd6e9586701b97b9e5b454846f3ce0053a0aa44b196626d7f4a4e5d4",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:714f761f1994d2c647aa8feeee06272f5ede71dc704842d9bee2141fa94c22a8",
-      "strength": 8,
-      "target": "case:case:e88bf785ff3ee84df31a16ce5b6f9ecfc38cce7e5c01bdfb2dcdca21f33dbbf0",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:714f761f1994d2c647aa8feeee06272f5ede71dc704842d9bee2141fa94c22a8",
-      "strength": 8,
-      "target": "case:case:f0506419d1f60d7180e72fdcca97d5446d3cc3218d61b11dcd39b49086553683",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:714f761f1994d2c647aa8feeee06272f5ede71dc704842d9bee2141fa94c22a8",
-      "strength": 8,
-      "target": "case:case:ff5a682bad6c911fd08c90622b7fa13ab22a608e501eed511a40fe43a9b53a1e",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:7243738e2b27922cd5daed7bb1e9382e87196583976c7a54372f2f149eec3596",
-      "strength": 17,
-      "target": "case:case:c1dd7a5673962d108ec8d1b12b50604a134cc52cc95de6c3bbf680198e8f9cb6",
-      "via": [
-        "ioc",
-        "registrable",
-        "resolution"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "case:case:726ca85760e035489a885da5b01dbe62c7a1e0b52e1735b656adbc899090a572",
-      "strength": 8,
-      "target": "case:case:b32f71c40fffc53327ca712d82ad9349d2a4f396826fac9940824f48c878461f",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 0.5,
       "shared": 2,
       "source": "case:case:726ca85760e035489a885da5b01dbe62c7a1e0b52e1735b656adbc899090a572",
@@ -8123,95 +6833,6 @@
       "target": "case:case:c29da327855142577dbb802096148c8c805595809bb3f8a89ed96b785fa45ac5",
       "via": [
         "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "case:case:726ca85760e035489a885da5b01dbe62c7a1e0b52e1735b656adbc899090a572",
-      "strength": 8,
-      "target": "case:case:da49d5a6abbb96438cd2daecd2643fb5f38122ce4d9cda6d072704e54c17d3ed",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2.5,
-      "shared": 10,
-      "source": "case:case:72db19a5ccc7e378e72bd3cf8339280fc47f05b5ff65b1fb3893be6369a5c8bf",
-      "strength": 20,
-      "target": "case:case:9e7fdc17150409d594eeed12705788fbc74b5c7f482a64d121395df781820f46",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.167,
-      "shared": 7,
-      "source": "case:case:7323bcc98fb1b23e201b6a775ab791634601dc5110ad1557b6dac94ceda14545",
-      "strength": 13,
-      "target": "case:case:dd2fce7dad57958a7dec2c781a26c8fe8f7597696ba80dae921cd7744886972f",
-      "via": [
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:73ad9a7105eb9c7b548e8e9299e7446623c3286f878d7f0abd0c4aef20a88caf",
-      "strength": 18,
-      "target": "case:case:9175a9708efa0242a02ad042a9d235a73cd4f691cb90258cc78d24a58e5f235e",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:73ad9a7105eb9c7b548e8e9299e7446623c3286f878d7f0abd0c4aef20a88caf",
-      "strength": 18,
-      "target": "case:case:e8ba80f829b67d3a0fcad9a7d554b6a686876dd09125c3b1a2e3230712490e89",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:73ad9a7105eb9c7b548e8e9299e7446623c3286f878d7f0abd0c4aef20a88caf",
-      "strength": 18,
-      "target": "case:case:ee2ac2bdd780e82866f0135effc08c748895c42541d368e34b6214dbc9a6d190",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:73ad9a7105eb9c7b548e8e9299e7446623c3286f878d7f0abd0c4aef20a88caf",
-      "strength": 18,
-      "target": "case:case:f0ea2d0017a88323d730042c2b571a4d06cd8dbe169c3cef2e457bd0c5d676ff",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
       ]
     },
     {
@@ -8250,30 +6871,6 @@
         "registrable"
       ],
       "weak_only": true
-    },
-    {
-      "kind": "case",
-      "ratio": 1.25,
-      "shared": 5,
-      "source": "case:case:7607a6631a90eb57ad892bb0cca2bd6618940822daed745392676f6aec4a33f4",
-      "strength": 10,
-      "target": "case:case:c1c9c2e2936bf0492c896647531f6212d9271f1881c8b95d692d4aee48b4d472",
-      "via": [
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.5,
-      "shared": 3,
-      "source": "case:case:7f31b2c417af903470a865c011854acb2d0ce9ef3e497973d54e97fb68db74d8",
-      "strength": 10,
-      "target": "case:case:e059c100a917af58168b1e63ebe75cb4558ec144efd91f1ecb145bd9ad79529e",
-      "via": [
-        "ioc",
-        "registrable"
-      ]
     },
     {
       "kind": "case",
@@ -8360,125 +6957,6 @@
     },
     {
       "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:8c689ba49385129e4f8df15b11f315f1b31f3fc3ee1a610a186d948490f5cd14",
-      "strength": 19,
-      "target": "case:case:ce05cafc84ca9fa75f97cc1c857170870252ef286c4940189a3c8499ae00a148",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:8c689ba49385129e4f8df15b11f315f1b31f3fc3ee1a610a186d948490f5cd14",
-      "strength": 19,
-      "target": "case:case:f77256eb64c144a1f433705087bcefffbf59c79f6953a39d7c0d745ceab31573",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:8ec3a5eeb2249aad19b85e78e23d799109654cd56c7e1caff3881a0d3f97f208",
-      "strength": 18,
-      "target": "case:case:ebb529ad09a2a23b9327e0e2482f597ca94ea4867fe42a6e70a38184340bbc8f",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:9175a9708efa0242a02ad042a9d235a73cd4f691cb90258cc78d24a58e5f235e",
-      "strength": 18,
-      "target": "case:case:e8ba80f829b67d3a0fcad9a7d554b6a686876dd09125c3b1a2e3230712490e89",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:9175a9708efa0242a02ad042a9d235a73cd4f691cb90258cc78d24a58e5f235e",
-      "strength": 18,
-      "target": "case:case:ee2ac2bdd780e82866f0135effc08c748895c42541d368e34b6214dbc9a6d190",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:9175a9708efa0242a02ad042a9d235a73cd4f691cb90258cc78d24a58e5f235e",
-      "strength": 18,
-      "target": "case:case:f0ea2d0017a88323d730042c2b571a4d06cd8dbe169c3cef2e457bd0c5d676ff",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 3,
-      "shared": 3,
-      "source": "case:case:9394627e9c44cf2226ddf50012e5cf47ccf7d3bd8afa2395c635a93637e23502",
-      "strength": 14,
-      "target": "case:case:add013bf7ffc8a89789a7fd0ae0ff799c620af9b2755b214880b6a56768fd48c",
-      "via": [
-        "ioc",
-        "jarm",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 3,
-      "shared": 3,
-      "source": "case:case:9394627e9c44cf2226ddf50012e5cf47ccf7d3bd8afa2395c635a93637e23502",
-      "strength": 14,
-      "target": "case:case:c86f319f64d25f23ac29d9b53c9764f06a150634ee8e2d836424d460e5a99b52",
-      "via": [
-        "ioc",
-        "jarm",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 8,
-      "source": "case:case:950b618c7f24e2b67d93bbf111c572978478622706eb7d288193fcea92145502",
-      "strength": 23,
-      "target": "case:case:b3fe0576f4e8a73f15d6cb8c0a614dd4340aea525605e2841311a2cb764eb6dc",
-      "via": [
-        "ioc",
-        "jarm",
-        "registrable",
-        "resolution",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 0.25,
       "shared": 1,
       "source": "case:case:950b618c7f24e2b67d93bbf111c572978478622706eb7d288193fcea92145502",
@@ -8529,17 +7007,6 @@
     },
     {
       "kind": "case",
-      "ratio": 0.375,
-      "shared": 3,
-      "source": "case:case:9731b02a6cee4d3db1a29285bae92962617dfcad8055c28e5b25417b1ac93786",
-      "strength": 8,
-      "target": "case:case:fb8c3315722d0d2d78d08278774e0b03d334b35cfd59fa2d2a6dd21fbf99b347",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 0.167,
       "shared": 1,
       "source": "case:case:9d930798d115b6862313e3616d3ed02a7a5c4c673390fe5fed4d85472cf906f5",
@@ -8562,99 +7029,11 @@
     },
     {
       "kind": "case",
-      "ratio": 0.167,
-      "shared": 1,
-      "source": "case:case:9d930798d115b6862313e3616d3ed02a7a5c4c673390fe5fed4d85472cf906f5",
-      "strength": 8,
-      "target": "case:case:eb4dda22e709b7da15aaebddec842067e97d85cdc99d753dc6335c0ae63d1e42",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:a01716c2c7ea5cb234ee8b5b3b831b63274fbee0b76d8ee5d86a788c6caa26e7",
-      "strength": 11,
-      "target": "case:case:a74a948afc694949bf99f9bee9215cc759c082cded0ab1b8f6be345630bfd81e",
-      "via": [
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:a01716c2c7ea5cb234ee8b5b3b831b63274fbee0b76d8ee5d86a788c6caa26e7",
-      "strength": 11,
-      "target": "case:case:d5a5eb1de67b57a59ac715ee92541ac6570191844b315d0b408f86d3e56ea2c5",
-      "via": [
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.75,
-      "shared": 7,
-      "source": "case:case:a547cff9991a713535e5c128a0711ca68acf9298cc2220c4ea0685d580f36811",
-      "strength": 19,
-      "target": "case:case:ac096895773aab31910cee9d9611fbf3fcf7b2ba76678237ecd676d350c91c9c",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.75,
-      "shared": 7,
-      "source": "case:case:a547cff9991a713535e5c128a0711ca68acf9298cc2220c4ea0685d580f36811",
-      "strength": 19,
-      "target": "case:case:e5aed4e2fdda9242d6a723ece8c6d7b2b2a3f1f82abcac66e1480b6794c23bfc",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:a74a948afc694949bf99f9bee9215cc759c082cded0ab1b8f6be345630bfd81e",
-      "strength": 11,
-      "target": "case:case:d5a5eb1de67b57a59ac715ee92541ac6570191844b315d0b408f86d3e56ea2c5",
-      "via": [
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 1.75,
       "shared": 7,
       "source": "case:case:aa91037d96973b8a145864fe4784cf74e3869ca4afdd51aea0dddc0a587c1aa3",
       "strength": 10,
       "target": "case:case:b6b9753bf156d5eb5dcbad43de9ab651146a819da27fe9d2c031097ca10619d3",
-      "via": [
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.75,
-      "shared": 7,
-      "source": "case:case:aa91037d96973b8a145864fe4784cf74e3869ca4afdd51aea0dddc0a587c1aa3",
-      "strength": 10,
-      "target": "case:case:be45e9deed6d9f3fae1a875937880ab8e4350058f2af6df9237dda8777c7cf57",
       "via": [
         "ioc",
         "registrable"
@@ -8674,125 +7053,11 @@
     },
     {
       "kind": "case",
-      "ratio": 1.75,
-      "shared": 7,
-      "source": "case:case:ac096895773aab31910cee9d9611fbf3fcf7b2ba76678237ecd676d350c91c9c",
-      "strength": 19,
-      "target": "case:case:e5aed4e2fdda9242d6a723ece8c6d7b2b2a3f1f82abcac66e1480b6794c23bfc",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 3,
-      "shared": 3,
-      "source": "case:case:add013bf7ffc8a89789a7fd0ae0ff799c620af9b2755b214880b6a56768fd48c",
-      "strength": 14,
-      "target": "case:case:c86f319f64d25f23ac29d9b53c9764f06a150634ee8e2d836424d460e5a99b52",
-      "via": [
-        "ioc",
-        "jarm",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:aee705055f820ed7147ce7ecd39f293ee56e71a2118d5bd0ca21584bfb89124f",
-      "strength": 8,
-      "target": "case:case:afaf5a58dd6e9586701b97b9e5b454846f3ce0053a0aa44b196626d7f4a4e5d4",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:aee705055f820ed7147ce7ecd39f293ee56e71a2118d5bd0ca21584bfb89124f",
-      "strength": 8,
-      "target": "case:case:e88bf785ff3ee84df31a16ce5b6f9ecfc38cce7e5c01bdfb2dcdca21f33dbbf0",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:aee705055f820ed7147ce7ecd39f293ee56e71a2118d5bd0ca21584bfb89124f",
-      "strength": 8,
-      "target": "case:case:f0506419d1f60d7180e72fdcca97d5446d3cc3218d61b11dcd39b49086553683",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:aee705055f820ed7147ce7ecd39f293ee56e71a2118d5bd0ca21584bfb89124f",
-      "strength": 8,
-      "target": "case:case:ff5a682bad6c911fd08c90622b7fa13ab22a608e501eed511a40fe43a9b53a1e",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:afaf5a58dd6e9586701b97b9e5b454846f3ce0053a0aa44b196626d7f4a4e5d4",
-      "strength": 8,
-      "target": "case:case:e88bf785ff3ee84df31a16ce5b6f9ecfc38cce7e5c01bdfb2dcdca21f33dbbf0",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:afaf5a58dd6e9586701b97b9e5b454846f3ce0053a0aa44b196626d7f4a4e5d4",
-      "strength": 8,
-      "target": "case:case:f0506419d1f60d7180e72fdcca97d5446d3cc3218d61b11dcd39b49086553683",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:afaf5a58dd6e9586701b97b9e5b454846f3ce0053a0aa44b196626d7f4a4e5d4",
-      "strength": 8,
-      "target": "case:case:ff5a682bad6c911fd08c90622b7fa13ab22a608e501eed511a40fe43a9b53a1e",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 0.5,
       "shared": 2,
       "source": "case:case:b32f71c40fffc53327ca712d82ad9349d2a4f396826fac9940824f48c878461f",
       "strength": 8,
       "target": "case:case:c29da327855142577dbb802096148c8c805595809bb3f8a89ed96b785fa45ac5",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "case:case:b32f71c40fffc53327ca712d82ad9349d2a4f396826fac9940824f48c878461f",
-      "strength": 8,
-      "target": "case:case:da49d5a6abbb96438cd2daecd2643fb5f38122ce4d9cda6d072704e54c17d3ed",
       "via": [
         "ioc"
       ]
@@ -8842,20 +7107,6 @@
       "target": "case:case:c3ba74fb10475f9e9db534ad484bbcfaa7ee1fd571639b35f57906e1fca1d716",
       "via": [
         "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 8,
-      "source": "case:case:b740a321546671ad7ebdf540189cbea05a2307b0033f2e17535c23bb38217a91",
-      "strength": 20,
-      "target": "case:case:bb7cb5aea4192a035376d380682716235fdb4809d06b63b63d6d6d1061a5c231",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
         "registrable"
       ]
     },
@@ -8916,28 +7167,6 @@
       "kind": "case",
       "ratio": 0.143,
       "shared": 1,
-      "source": "case:case:bec299c617dfa95b0b9ccb083ee9d2510b4b1c8f5785d1d6d9f389a1b9e4f9b9",
-      "strength": 8,
-      "target": "case:case:c125bbd2333186b24a2dc74b99c7f3db4fca9fbe86af42e68cc4999252453a2a",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.143,
-      "shared": 1,
-      "source": "case:case:bec299c617dfa95b0b9ccb083ee9d2510b4b1c8f5785d1d6d9f389a1b9e4f9b9",
-      "strength": 8,
-      "target": "case:case:fa1e42eccf2edbaa7306cd40636bf579a6588e3d0fa61584e1ccb92a00d01ecf",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.143,
-      "shared": 1,
       "source": "case:case:bf70cfa5cd5fc2b5c4f8ebb4d8dfba9451e113a21ad3b32cce20566f7eebedb8",
       "strength": 8,
       "target": "case:case:c29da327855142577dbb802096148c8c805595809bb3f8a89ed96b785fa45ac5",
@@ -8952,17 +7181,6 @@
       "source": "case:case:bf70cfa5cd5fc2b5c4f8ebb4d8dfba9451e113a21ad3b32cce20566f7eebedb8",
       "strength": 8,
       "target": "case:case:eb4dda22e709b7da15aaebddec842067e97d85cdc99d753dc6335c0ae63d1e42",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.143,
-      "shared": 1,
-      "source": "case:case:c125bbd2333186b24a2dc74b99c7f3db4fca9fbe86af42e68cc4999252453a2a",
-      "strength": 8,
-      "target": "case:case:fa1e42eccf2edbaa7306cd40636bf579a6588e3d0fa61584e1ccb92a00d01ecf",
       "via": [
         "ioc"
       ]
@@ -9003,168 +7221,6 @@
     },
     {
       "kind": "case",
-      "ratio": 1.75,
-      "shared": 7,
-      "source": "case:case:ca15d149f53a51592c80c57e64de73e090777749422525d22b3b096a1ae75a4a",
-      "strength": 11,
-      "target": "case:case:e8263e35b92634d20e61a78c12bc95aab476381b5f03364d9fbb5d74b8fb2eb8",
-      "via": [
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.75,
-      "shared": 7,
-      "source": "case:case:ca15d149f53a51592c80c57e64de73e090777749422525d22b3b096a1ae75a4a",
-      "strength": 11,
-      "target": "case:case:ef5db8b473e279620207777c42ef9ad14adf8b100ceb20dc4f7e1bd5271ecd3c",
-      "via": [
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:ce05cafc84ca9fa75f97cc1c857170870252ef286c4940189a3c8499ae00a148",
-      "strength": 19,
-      "target": "case:case:f77256eb64c144a1f433705087bcefffbf59c79f6953a39d7c0d745ceab31573",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 0.667,
-      "shared": 2,
-      "source": "case:case:d08cf8c8f95b4df31198be8583cdbcf5f8e5beda95487e4aaed26cd2529e255d",
-      "strength": 8,
-      "target": "case:case:eda99519f7e5ef015a4450927bc96f26f837f07e54eb692eaa4ad12ed2a837a1",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 8,
-      "source": "case:case:d38643133189bc880af537a371087e2e34fa36e0f96fd19a42969d3bc72fe95b",
-      "strength": 19,
-      "target": "case:case:d8b902568386f588fb2d42a77cd39062ada13c9a3fed0adf20ab6510f3b4a681",
-      "via": [
-        "certificate",
-        "ioc",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 4.333,
-      "shared": 13,
-      "source": "case:case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b",
-      "strength": 16,
-      "target": "case:case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10",
-      "via": [
-        "family",
-        "filename",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1.75,
-      "shared": 7,
-      "source": "case:case:e8263e35b92634d20e61a78c12bc95aab476381b5f03364d9fbb5d74b8fb2eb8",
-      "strength": 11,
-      "target": "case:case:ef5db8b473e279620207777c42ef9ad14adf8b100ceb20dc4f7e1bd5271ecd3c",
-      "via": [
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:e88bf785ff3ee84df31a16ce5b6f9ecfc38cce7e5c01bdfb2dcdca21f33dbbf0",
-      "strength": 8,
-      "target": "case:case:f0506419d1f60d7180e72fdcca97d5446d3cc3218d61b11dcd39b49086553683",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:e88bf785ff3ee84df31a16ce5b6f9ecfc38cce7e5c01bdfb2dcdca21f33dbbf0",
-      "strength": 8,
-      "target": "case:case:ff5a682bad6c911fd08c90622b7fa13ab22a608e501eed511a40fe43a9b53a1e",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:e8ba80f829b67d3a0fcad9a7d554b6a686876dd09125c3b1a2e3230712490e89",
-      "strength": 18,
-      "target": "case:case:ee2ac2bdd780e82866f0135effc08c748895c42541d368e34b6214dbc9a6d190",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:e8ba80f829b67d3a0fcad9a7d554b6a686876dd09125c3b1a2e3230712490e89",
-      "strength": 18,
-      "target": "case:case:f0ea2d0017a88323d730042c2b571a4d06cd8dbe169c3cef2e457bd0c5d676ff",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 2,
-      "shared": 4,
-      "source": "case:case:ee2ac2bdd780e82866f0135effc08c748895c42541d368e34b6214dbc9a6d190",
-      "strength": 18,
-      "target": "case:case:f0ea2d0017a88323d730042c2b571a4d06cd8dbe169c3cef2e457bd0c5d676ff",
-      "via": [
-        "asn",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "case",
-      "ratio": 1,
-      "shared": 1,
-      "source": "case:case:f0506419d1f60d7180e72fdcca97d5446d3cc3218d61b11dcd39b49086553683",
-      "strength": 8,
-      "target": "case:case:ff5a682bad6c911fd08c90622b7fa13ab22a608e501eed511a40fe43a9b53a1e",
-      "via": [
-        "ioc"
-      ]
-    },
-    {
-      "kind": "case",
       "ratio": 1,
       "shared": 2,
       "source": "case:case:f0d032c835744156d134ff521c8bc2996f0d7922c7c0c8c31f12fb27d7dddc99",
@@ -9174,18 +7230,6 @@
         "ioc",
         "registrable"
       ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.048,
-      "shared": 1,
-      "source": "malware:10FXRAT",
-      "strength": 1,
-      "target": "malware:A",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
     },
     {
       "kind": "malware",
@@ -9295,18 +7339,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
-      "shared": 1,
-      "source": "malware:10FXRAT",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.05,
       "shared": 1,
       "source": "malware:10FXRAT",
@@ -9347,779 +7379,6 @@
       "source": "malware:10FXRAT",
       "strength": 1,
       "target": "malware:Webworm",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 2,
-      "shared": 2,
-      "source": "malware:@deadcode09284814",
-      "strength": 13,
-      "target": "malware:axios-util",
-      "via": [
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.038,
-      "shared": 2,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:ABCDoor",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.013,
-      "shared": 2,
-      "source": "malware:A",
-      "strength": 3,
-      "target": "malware:AMOS",
-      "via": [
-        "jarm",
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.011,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:AUDIOFIX",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.024,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:AdaptixC2",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.032,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Backdoor.Turn",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.154,
-      "shared": 6,
-      "source": "malware:A",
-      "strength": 25,
-      "target": "malware:Beagle",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
-        "registrable",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.4,
-      "shared": 2,
-      "source": "malware:A",
-      "strength": 6,
-      "target": "malware:BoryptGrab",
-      "via": [
-        "asn",
-        "jarm"
-      ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.043,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Chaos",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.053,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:ChonkyChicken",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.005,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Cyclops Blink",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.067,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 2,
-      "target": "malware:DonutLoader",
-      "via": [
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.031,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:DragonForce ransomware",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.067,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:DroneLink",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.006,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:EtherRAT",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.083,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 2,
-      "target": "malware:FDMTP",
-      "via": [
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.053,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:FakeUpdates",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.077,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 2,
-      "target": "malware:Forg365",
-      "via": [
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.2,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Game.exe",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.091,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:GammaWorm",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.05,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Gshell",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.014,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 2,
-      "target": "malware:Infostealer",
-      "via": [
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:JADEPUFFER",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.088,
-      "shared": 3,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:KEYPLUG",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.077,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:KGH Spyware",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.043,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Kapeka",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.125,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Lucid Stealer",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.011,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:MINIRAT",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.013,
-      "shared": 2,
-      "source": "malware:A",
-      "strength": 3,
-      "target": "malware:Macsync",
-      "via": [
-        "jarm",
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.042,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Millenium RAT",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.033,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:MiniJunk V2",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.032,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:MiniUpdate",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.021,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Mistic",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 2.543,
-      "shared": 1190,
-      "source": "malware:A",
-      "strength": 40,
-      "target": "malware:N",
-      "via": [
-        "asn",
-        "certificate",
-        "family",
-        "filename",
-        "ioc",
-        "jarm",
-        "registrable",
-        "resolution",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.011,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:NukeSped",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.05,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:OTTERCOOKIE",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.034,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Octopus",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.012,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Overlord",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.077,
-      "shared": 2,
-      "source": "malware:A",
-      "strength": 3,
-      "target": "malware:PCPJack",
-      "via": [
-        "jarm",
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.077,
-      "shared": 2,
-      "source": "malware:A",
-      "strength": 9,
-      "target": "malware:PhantomRelay",
-      "via": [
-        "registrable",
-        "resolution"
-      ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.136,
-      "shared": 3,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:PhantomRelayLite",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.087,
-      "shared": 2,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:PowerShower",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.038,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:PromptMink",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.037,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Qilin",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.154,
-      "shared": 2,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:RevSocks",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.02,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 2,
-      "target": "malware:Rokarolla",
-      "via": [
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.029,
-      "shared": 4,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:SUNBURST",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.017,
-      "shared": 6,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Sednit",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.05,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Shai-Hulud",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.014,
-      "shared": 2,
-      "source": "malware:A",
-      "strength": 3,
-      "target": "malware:Shub Stealer",
-      "via": [
-        "jarm",
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.182,
-      "shared": 2,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Sliver",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.01,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:SourTrade",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.286,
-      "shared": 2,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Starland RAT",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.071,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:StealC",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.05,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:TencShell",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.059,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 2,
-      "target": "malware:TinyRCT",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.071,
-      "shared": 4,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:VBCloud",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.017,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:ValleyRAT",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.214,
-      "shared": 3,
-      "source": "malware:A",
-      "strength": 3,
-      "target": "malware:Webworm",
-      "via": [
-        "jarm",
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.013,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:XCSSET",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.035,
-      "shared": 4,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:Zebrocy",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.4,
-      "shared": 8,
-      "source": "malware:A",
-      "strength": 20,
-      "target": "malware:proxyware",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.25,
-      "shared": 1,
-      "source": "malware:A",
-      "strength": 1,
-      "target": "malware:typo-crypto",
       "via": [
         "jarm"
       ],
@@ -10181,18 +7440,6 @@
       "source": "malware:ABCDoor",
       "strength": 1,
       "target": "malware:KGH Spyware",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.038,
-      "shared": 2,
-      "source": "malware:ABCDoor",
-      "strength": 1,
-      "target": "malware:N",
       "via": [
         "jarm"
       ],
@@ -10308,19 +7555,6 @@
       "target": "malware:Mistic",
       "via": [
         "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.013,
-      "shared": 2,
-      "source": "malware:AMOS",
-      "strength": 3,
-      "target": "malware:N",
-      "via": [
-        "jarm",
-        "registrable"
       ],
       "weak_only": true
     },
@@ -10558,18 +7792,6 @@
       "shared": 1,
       "source": "malware:AUDIOFIX",
       "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.011,
-      "shared": 1,
-      "source": "malware:AUDIOFIX",
-      "strength": 1,
       "target": "malware:NukeSped",
       "via": [
         "jarm"
@@ -10655,18 +7877,6 @@
       "source": "malware:AdaptixC2",
       "strength": 1,
       "target": "malware:DroneLink",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.024,
-      "shared": 1,
-      "source": "malware:AdaptixC2",
-      "strength": 1,
-      "target": "malware:N",
       "via": [
         "jarm"
       ],
@@ -10955,18 +8165,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
-      "shared": 1,
-      "source": "malware:Backdoor.Turn",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.063,
       "shared": 1,
       "source": "malware:Backdoor.Turn",
@@ -11036,21 +8234,6 @@
         "jarm"
       ],
       "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.154,
-      "shared": 6,
-      "source": "malware:Beagle",
-      "strength": 25,
-      "target": "malware:N",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
-        "registrable",
-        "subnet"
-      ]
     },
     {
       "kind": "malware",
@@ -11246,18 +8429,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.4,
-      "shared": 2,
-      "source": "malware:BoryptGrab",
-      "strength": 6,
-      "target": "malware:N",
-      "via": [
-        "asn",
-        "jarm"
-      ]
-    },
-    {
-      "kind": "malware",
       "ratio": 0.333,
       "shared": 1,
       "source": "malware:BoryptGrab",
@@ -11394,18 +8565,6 @@
       "ratio": 0.043,
       "shared": 1,
       "source": "malware:Chaos",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.043,
-      "shared": 1,
-      "source": "malware:Chaos",
       "strength": 5,
       "target": "malware:Octopus",
       "via": [
@@ -11473,18 +8632,6 @@
         "filename",
         "ioc"
       ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.053,
-      "shared": 1,
-      "source": "malware:ChonkyChicken",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
     },
     {
       "kind": "malware",
@@ -11560,22 +8707,6 @@
         "registrable"
       ],
       "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 2.467,
-      "shared": 37,
-      "source": "malware:CloudSorcerer",
-      "strength": 32,
-      "target": "malware:DeedRAT",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
-        "registrable",
-        "resolution",
-        "subnet"
-      ]
     },
     {
       "kind": "malware",
@@ -11763,18 +8894,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.005,
-      "shared": 1,
-      "source": "malware:Cyclops Blink",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.007,
       "shared": 1,
       "source": "malware:Cyclops Blink",
@@ -11818,17 +8937,6 @@
       "target": "malware:ValleyRAT",
       "via": [
         "subnet"
-      ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 1,
-      "shared": 4,
-      "source": "malware:DEV#POPPER",
-      "strength": 8,
-      "target": "malware:OmniStealer",
-      "via": [
-        "ioc"
       ]
     },
     {
@@ -12009,18 +9117,6 @@
       "ratio": 0.067,
       "shared": 1,
       "source": "malware:DonutLoader",
-      "strength": 2,
-      "target": "malware:N",
-      "via": [
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.067,
-      "shared": 1,
-      "source": "malware:DonutLoader",
       "strength": 1,
       "target": "malware:PhantomRelay",
       "via": [
@@ -12047,18 +9143,6 @@
       "source": "malware:DragonForce ransomware",
       "strength": 1,
       "target": "malware:IceFog",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.031,
-      "shared": 1,
-      "source": "malware:DragonForce ransomware",
-      "strength": 1,
-      "target": "malware:N",
       "via": [
         "jarm"
       ],
@@ -12107,18 +9191,6 @@
       "source": "malware:DragonForce ransomware",
       "strength": 1,
       "target": "malware:VBCloud",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.067,
-      "shared": 1,
-      "source": "malware:DroneLink",
-      "strength": 1,
-      "target": "malware:N",
       "via": [
         "jarm"
       ],
@@ -12199,18 +9271,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.006,
-      "shared": 1,
-      "source": "malware:EtherRAT",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.25,
       "shared": 1,
       "source": "malware:EtherRAT",
@@ -12279,18 +9339,6 @@
       "target": "malware:Webworm",
       "via": [
         "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.083,
-      "shared": 1,
-      "source": "malware:FDMTP",
-      "strength": 2,
-      "target": "malware:N",
-      "via": [
-        "registrable"
       ],
       "weak_only": true
     },
@@ -12393,18 +9441,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.053,
-      "shared": 1,
-      "source": "malware:FakeUpdates",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.125,
       "shared": 1,
       "source": "malware:FakeUpdates",
@@ -12489,36 +9525,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.16,
-      "shared": 54,
-      "source": "malware:Flying Eagle",
-      "strength": 33,
-      "target": "malware:Night Dragon",
-      "via": [
-        "asn",
-        "certificate",
-        "family",
-        "filename",
-        "ioc",
-        "jarm",
-        "registrable",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.077,
-      "shared": 1,
-      "source": "malware:Forg365",
-      "strength": 2,
-      "target": "malware:N",
-      "via": [
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.059,
       "shared": 1,
       "source": "malware:GOLDBACKDOOR",
@@ -12559,18 +9565,6 @@
       "shared": 1,
       "source": "malware:Game.exe",
       "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.2,
-      "shared": 1,
-      "source": "malware:Game.exe",
-      "strength": 1,
       "target": "malware:PCPJack",
       "via": [
         "jarm"
@@ -12598,18 +9592,6 @@
       "target": "malware:ms_upd.exe",
       "via": [
         "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.091,
-      "shared": 1,
-      "source": "malware:GammaWorm",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
       ],
       "weak_only": true
     },
@@ -12691,36 +9673,11 @@
       "shared": 1,
       "source": "malware:Gshell",
       "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.05,
-      "shared": 1,
-      "source": "malware:Gshell",
-      "strength": 1,
       "target": "malware:Sednit",
       "via": [
         "jarm"
       ],
       "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 1.5,
-      "shared": 30,
-      "source": "malware:Gshell",
-      "strength": 14,
-      "target": "malware:TencShell",
-      "via": [
-        "ioc",
-        "jarm",
-        "subnet"
-      ]
     },
     {
       "kind": "malware",
@@ -12917,18 +9874,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.014,
-      "shared": 1,
-      "source": "malware:Infostealer",
-      "strength": 2,
-      "target": "malware:N",
-      "via": [
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.111,
       "shared": 1,
       "source": "malware:Infostealer",
@@ -12989,18 +9934,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "malware:JADEPUFFER",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.25,
       "shared": 1,
       "source": "malware:JADEPUFFER",
@@ -13044,18 +9977,6 @@
       "target": "malware:KGH Spyware",
       "via": [
         "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.088,
-      "shared": 3,
-      "source": "malware:KEYPLUG",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
       ],
       "weak_only": true
     },
@@ -13121,35 +10042,11 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.077,
-      "shared": 1,
-      "source": "malware:KGH Spyware",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.043,
       "shared": 1,
       "source": "malware:Kapeka",
       "strength": 1,
       "target": "malware:MINIRAT",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.043,
-      "shared": 1,
-      "source": "malware:Kapeka",
-      "strength": 1,
-      "target": "malware:N",
       "via": [
         "jarm"
       ],
@@ -13253,30 +10150,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.125,
-      "shared": 1,
-      "source": "malware:Lucid Stealer",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.011,
-      "shared": 1,
-      "source": "malware:MINIRAT",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.011,
       "shared": 1,
       "source": "malware:MINIRAT",
@@ -13367,19 +10240,6 @@
       "target": "malware:Mistic",
       "via": [
         "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.013,
-      "shared": 2,
-      "source": "malware:Macsync",
-      "strength": 3,
-      "target": "malware:N",
-      "via": [
-        "jarm",
-        "registrable"
       ],
       "weak_only": true
     },
@@ -13478,18 +10338,6 @@
         "jarm",
         "registrable"
       ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.042,
-      "shared": 1,
-      "source": "malware:Millenium RAT",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
     },
     {
       "kind": "malware",
@@ -13598,42 +10446,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.033,
-      "shared": 1,
-      "source": "malware:MiniJunk V2",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.032,
-      "shared": 1,
-      "source": "malware:MiniUpdate",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.021,
-      "shared": 1,
-      "source": "malware:Mistic",
-      "strength": 1,
-      "target": "malware:N",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.333,
       "shared": 1,
       "source": "malware:Mistic",
@@ -13717,359 +10529,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.011,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:NukeSped",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.05,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:OTTERCOOKIE",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.034,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:Octopus",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.012,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:Overlord",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.077,
-      "shared": 2,
-      "source": "malware:N",
-      "strength": 3,
-      "target": "malware:PCPJack",
-      "via": [
-        "jarm",
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.077,
-      "shared": 2,
-      "source": "malware:N",
-      "strength": 9,
-      "target": "malware:PhantomRelay",
-      "via": [
-        "registrable",
-        "resolution"
-      ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.136,
-      "shared": 3,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:PhantomRelayLite",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.087,
-      "shared": 2,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:PowerShower",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.038,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:PromptMink",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.037,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:Qilin",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.154,
-      "shared": 2,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:RevSocks",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.02,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 2,
-      "target": "malware:Rokarolla",
-      "via": [
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.029,
-      "shared": 4,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:SUNBURST",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.017,
-      "shared": 6,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:Sednit",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.05,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:Shai-Hulud",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.014,
-      "shared": 2,
-      "source": "malware:N",
-      "strength": 3,
-      "target": "malware:Shub Stealer",
-      "via": [
-        "jarm",
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.182,
-      "shared": 2,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:Sliver",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.01,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:SourTrade",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.286,
-      "shared": 2,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:Starland RAT",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.071,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:StealC",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.05,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:TencShell",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.059,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 2,
-      "target": "malware:TinyRCT",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.071,
-      "shared": 4,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:VBCloud",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.017,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:ValleyRAT",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.214,
-      "shared": 3,
-      "source": "malware:N",
-      "strength": 3,
-      "target": "malware:Webworm",
-      "via": [
-        "jarm",
-        "registrable"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.013,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:XCSSET",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.035,
-      "shared": 4,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:Zebrocy",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.4,
-      "shared": 8,
-      "source": "malware:N",
-      "strength": 20,
-      "target": "malware:proxyware",
-      "via": [
-        "certificate",
-        "ioc",
-        "jarm",
-        "registrable"
-      ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.25,
-      "shared": 1,
-      "source": "malware:N",
-      "strength": 1,
-      "target": "malware:typo-crypto",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.059,
       "shared": 1,
       "source": "malware:NarwhalRAT",
@@ -14139,17 +10598,6 @@
         "jarm"
       ],
       "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 1,
-      "shared": 56,
-      "source": "malware:Neteller SDK",
-      "strength": 8,
-      "target": "malware:Skrill",
-      "via": [
-        "ioc"
-      ]
     },
     {
       "kind": "malware",
@@ -14839,19 +11287,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 2,
-      "shared": 4,
-      "source": "malware:SSLove",
-      "strength": 15,
-      "target": "malware:SandroRAT",
-      "via": [
-        "family",
-        "ioc",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "malware",
       "ratio": 0.022,
       "shared": 3,
       "source": "malware:SUNBURST",
@@ -15083,21 +11518,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.25,
-      "shared": 18,
-      "source": "malware:SilverHawk",
-      "strength": 17,
-      "target": "malware:Unnamed Android family (Meta 2021)",
-      "via": [
-        "filename",
-        "ioc",
-        "jarm",
-        "registrable",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "malware",
       "ratio": 0.018,
       "shared": 1,
       "source": "malware:SourTrade",
@@ -15304,7 +11724,7 @@
       ]
     }
   ],
-  "generated_from": "2026-08-03T12:45:43.198Z",
+  "generated_from": "2026-08-03T20:40:43.151Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -16135,76 +12555,16 @@
       "name": "ThreatNeedle"
     },
     {
-      "id": "case:case:01d63fac83c1e47461c08f5abfe29db0ddfe6b448b1abd7c21cfb8b06c4ad386",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:01d63fac83c1e47461c08f5abfe29db0ddfe6b448b1abd7c21cfb8b06c4ad386"
-    },
-    {
       "id": "case:case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2",
       "ioc_count": 4,
       "kind": "case",
       "name": "case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2"
     },
     {
-      "id": "case:case:03e0ca10cbf06f45fefd102dc8e42665729d8891e047348dea7dcceb9b5559cc",
-      "ioc_count": 4,
-      "kind": "case",
-      "name": "case:03e0ca10cbf06f45fefd102dc8e42665729d8891e047348dea7dcceb9b5559cc"
-    },
-    {
-      "id": "case:case:05a0ca0ac2527c0faddc2a8ec456e69fc1f0e0c9fff9d2d396327faf3f876c30",
-      "ioc_count": 6,
-      "kind": "case",
-      "name": "case:05a0ca0ac2527c0faddc2a8ec456e69fc1f0e0c9fff9d2d396327faf3f876c30"
-    },
-    {
-      "id": "case:case:07e2eca37d83df539f2f000955008c37e91c4734bc6091cdfb1ea6188cd929f8",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:07e2eca37d83df539f2f000955008c37e91c4734bc6091cdfb1ea6188cd929f8"
-    },
-    {
-      "id": "case:case:0d059ffb15664c6b5411ec5c646cff16b27c92a8582bee8eb551311d75077a4e",
-      "ioc_count": 8,
-      "kind": "case",
-      "name": "case:0d059ffb15664c6b5411ec5c646cff16b27c92a8582bee8eb551311d75077a4e"
-    },
-    {
       "id": "case:case:112b937fa19a366ea8c7a404d6ed21a3814410fb210358c907e1fd580616cd76",
       "ioc_count": 8,
       "kind": "case",
       "name": "case:112b937fa19a366ea8c7a404d6ed21a3814410fb210358c907e1fd580616cd76"
-    },
-    {
-      "id": "case:case:11ce110d1a9b0b3aeb13e1827fb66fce905504a8ec4239c32dfabd66cf34bdb4",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:11ce110d1a9b0b3aeb13e1827fb66fce905504a8ec4239c32dfabd66cf34bdb4"
-    },
-    {
-      "id": "case:case:11f0f5b941e46c270da2705545255105008325a28dd26dac5669128c9651135a",
-      "ioc_count": 6,
-      "kind": "case",
-      "name": "case:11f0f5b941e46c270da2705545255105008325a28dd26dac5669128c9651135a"
-    },
-    {
-      "id": "case:case:183def10cfe9473eb4ac24b08c39418253d770eef9a196e42115fef79072db9f",
-      "ioc_count": 3,
-      "kind": "case",
-      "name": "case:183def10cfe9473eb4ac24b08c39418253d770eef9a196e42115fef79072db9f"
-    },
-    {
-      "id": "case:case:18cbee63748bff047d7d51ebc934409f8cb3ba1ea814daae638122272de1a314",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:18cbee63748bff047d7d51ebc934409f8cb3ba1ea814daae638122272de1a314"
-    },
-    {
-      "id": "case:case:195fe7c703d6fef572f1a6d7441898488c5483db820a7feb0c2d622d1c4e4b2c",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:195fe7c703d6fef572f1a6d7441898488c5483db820a7feb0c2d622d1c4e4b2c"
     },
     {
       "id": "case:case:1de6220fc4c3502a55fa5cc220b9a91cead25fc34bc7d3610edf1914f83bc379",
@@ -16255,12 +12615,6 @@
       "name": "case:28db05fffe5f32ee8df60a400c97d19270d23327ebb49ae86e455ea14d59f113"
     },
     {
-      "id": "case:case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806",
-      "ioc_count": 3,
-      "kind": "case",
-      "name": "case:2b46fc922a0e16552f09f9b2d1a9cbedfada367fa985e2c0a15b815acc03f806"
-    },
-    {
       "id": "case:case:2d0ae80f9689433e7b84ee280e11ce5263f918f6f23288c3d9bfe6ea187408b2",
       "ioc_count": 4,
       "kind": "case",
@@ -16279,22 +12633,10 @@
       "name": "case:2e44d415d83aaf79514ba2398d43095cea216fd048fbd4c3cb7111fa1d1663ec"
     },
     {
-      "id": "case:case:326d297b441a40bb3f53bb55cb727e0fbed422470977ca167b1c919029be746b",
-      "ioc_count": 4,
-      "kind": "case",
-      "name": "case:326d297b441a40bb3f53bb55cb727e0fbed422470977ca167b1c919029be746b"
-    },
-    {
       "id": "case:case:34aff1767909ff582d15949922549fddb5849f163260ad3efdc32d4f869fdf09",
       "ioc_count": 5,
       "kind": "case",
       "name": "case:34aff1767909ff582d15949922549fddb5849f163260ad3efdc32d4f869fdf09"
-    },
-    {
-      "id": "case:case:366000d889c91ca66b3c0f55b6b2f5670a610c764ea516cf31f2aafad67f4171",
-      "ioc_count": 8,
-      "kind": "case",
-      "name": "case:366000d889c91ca66b3c0f55b6b2f5670a610c764ea516cf31f2aafad67f4171"
     },
     {
       "id": "case:case:38450cf934121c9f92785beffb73602919014752310960768324029d9ba91e13",
@@ -16307,12 +12649,6 @@
       "ioc_count": 4,
       "kind": "case",
       "name": "case:388021747b85453adff2680c8a0e13e230f4eeada1a1055e3fb8e09800d4fb79"
-    },
-    {
-      "id": "case:case:388a9e43f9baec112abc28f1e058072e5ee847b0331388896f71517b832aff0d",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:388a9e43f9baec112abc28f1e058072e5ee847b0331388896f71517b832aff0d"
     },
     {
       "id": "case:case:3dfe67edf7c21e9c73e8e0368d3afcbb6fd50ccf25cc93dab9c2775e03d97ab3",
@@ -16339,12 +12675,6 @@
       "name": "case:4049128f0308d05dcb8d24b668f69238d720199de32ba0d8304cd3c3b3bde1b9"
     },
     {
-      "id": "case:case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf",
-      "ioc_count": 3,
-      "kind": "case",
-      "name": "case:4506917f5cd8be78ec581d74085c21b75b17c2ede56f0af2dc38bc3f09e96caf"
-    },
-    {
       "id": "case:case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7",
       "ioc_count": 4,
       "kind": "case",
@@ -16363,40 +12693,10 @@
       "name": "case:488385cd54d14790b03fa7c7dc997ebea3f7b2a8499e5927eb437a3791102a77"
     },
     {
-      "id": "case:case:49d9e5fda3eb3064f04e6d2ac0e4876b509392cc65ad2445f0806339c6a1a356",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:49d9e5fda3eb3064f04e6d2ac0e4876b509392cc65ad2445f0806339c6a1a356"
-    },
-    {
-      "id": "case:case:4adf2ecf694884886667c15a1b86b5d937c35089a97afc585ad524660d85c1b5",
-      "ioc_count": 3,
-      "kind": "case",
-      "name": "case:4adf2ecf694884886667c15a1b86b5d937c35089a97afc585ad524660d85c1b5"
-    },
-    {
-      "id": "case:case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515",
-      "ioc_count": 3,
-      "kind": "case",
-      "name": "case:4c8f8899d02737d9c1c00f8848f73298a2749ff7a1a75a0ca2acd68117d2b515"
-    },
-    {
-      "id": "case:case:4d033b83aec65390c6d90f9d87224fddd3bcd568cf490d9dc02bbb0f7db0d58f",
-      "ioc_count": 1,
-      "kind": "case",
-      "name": "case:4d033b83aec65390c6d90f9d87224fddd3bcd568cf490d9dc02bbb0f7db0d58f"
-    },
-    {
       "id": "case:case:52bd61ba2153572260fc9b8f7eac34b613272c428e715fe6b3505f96e4eacf5d",
       "ioc_count": 4,
       "kind": "case",
       "name": "case:52bd61ba2153572260fc9b8f7eac34b613272c428e715fe6b3505f96e4eacf5d"
-    },
-    {
-      "id": "case:case:54b18666cff2721220a2aab4aaaef419b3fc22aa263edbbc43d7b3164f562f7d",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:54b18666cff2721220a2aab4aaaef419b3fc22aa263edbbc43d7b3164f562f7d"
     },
     {
       "id": "case:case:54cb86f9c1832999fcb4fb78bc5254c69de12cae15c60934b798858e1b27b934",
@@ -16409,12 +12709,6 @@
       "ioc_count": 4,
       "kind": "case",
       "name": "case:5562c6ad5765792def276e009395a57a6bf841c87cddefb6f8e8d75b74076e83"
-    },
-    {
-      "id": "case:case:5cdb8b20bab0ef77f5889729c7c8664326607ecf19ae48d2e1b1398df6b40083",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:5cdb8b20bab0ef77f5889729c7c8664326607ecf19ae48d2e1b1398df6b40083"
     },
     {
       "id": "case:case:5edc39cbd89d3ba70a4737f823933af93f3c182134af8e34e0af9a316afaaca8",
@@ -16433,12 +12727,6 @@
       "ioc_count": 4,
       "kind": "case",
       "name": "case:6091f2589fef42e0ab3d7975806cd8a0da012b519637c03b73f702f7586b21ef"
-    },
-    {
-      "id": "case:case:61eb8e47031b9c5ac19f887926f3a03604ae1dec521dad76db3136a1469be7b6",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:61eb8e47031b9c5ac19f887926f3a03604ae1dec521dad76db3136a1469be7b6"
     },
     {
       "id": "case:case:628492c45cbb8e26f573675db32cb5687a40b2b4dd6d5e1c73a37c14558bb9a6",
@@ -16471,22 +12759,10 @@
       "name": "case:6d9ada5925ac865f4e390ea613c151b4f597c2753dcd00c925bb8fd89ba8eba9"
     },
     {
-      "id": "case:case:70005bbb6db8afaf30661df0311395fb3cf7bf1ece51d511841d4f4def908a29",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:70005bbb6db8afaf30661df0311395fb3cf7bf1ece51d511841d4f4def908a29"
-    },
-    {
       "id": "case:case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da",
       "ioc_count": 5,
       "kind": "case",
       "name": "case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da"
-    },
-    {
-      "id": "case:case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6",
-      "ioc_count": 3,
-      "kind": "case",
-      "name": "case:707fc73f8e6494959b1b33c9f7c582335cda88397a0e7e3822f56ad0354996c6"
     },
     {
       "id": "case:case:7135a3a2239145504e6fdc81bcdef7bcbd69a06727b638a59ba1f3e76130eb1d",
@@ -16495,40 +12771,16 @@
       "name": "case:7135a3a2239145504e6fdc81bcdef7bcbd69a06727b638a59ba1f3e76130eb1d"
     },
     {
-      "id": "case:case:714f761f1994d2c647aa8feeee06272f5ede71dc704842d9bee2141fa94c22a8",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:714f761f1994d2c647aa8feeee06272f5ede71dc704842d9bee2141fa94c22a8"
-    },
-    {
-      "id": "case:case:7243738e2b27922cd5daed7bb1e9382e87196583976c7a54372f2f149eec3596",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:7243738e2b27922cd5daed7bb1e9382e87196583976c7a54372f2f149eec3596"
-    },
-    {
       "id": "case:case:726ca85760e035489a885da5b01dbe62c7a1e0b52e1735b656adbc899090a572",
       "ioc_count": 4,
       "kind": "case",
       "name": "case:726ca85760e035489a885da5b01dbe62c7a1e0b52e1735b656adbc899090a572"
     },
     {
-      "id": "case:case:72db19a5ccc7e378e72bd3cf8339280fc47f05b5ff65b1fb3893be6369a5c8bf",
-      "ioc_count": 4,
-      "kind": "case",
-      "name": "case:72db19a5ccc7e378e72bd3cf8339280fc47f05b5ff65b1fb3893be6369a5c8bf"
-    },
-    {
       "id": "case:case:7323bcc98fb1b23e201b6a775ab791634601dc5110ad1557b6dac94ceda14545",
       "ioc_count": 6,
       "kind": "case",
       "name": "case:7323bcc98fb1b23e201b6a775ab791634601dc5110ad1557b6dac94ceda14545"
-    },
-    {
-      "id": "case:case:73ad9a7105eb9c7b548e8e9299e7446623c3286f878d7f0abd0c4aef20a88caf",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:73ad9a7105eb9c7b548e8e9299e7446623c3286f878d7f0abd0c4aef20a88caf"
     },
     {
       "id": "case:case:746c06f05b8e3bc93d6495a6c447c3c1874bd77011c33b0bcfe74ae27addbfaf",
@@ -16541,12 +12793,6 @@
       "ioc_count": 4,
       "kind": "case",
       "name": "case:7607a6631a90eb57ad892bb0cca2bd6618940822daed745392676f6aec4a33f4"
-    },
-    {
-      "id": "case:case:7f31b2c417af903470a865c011854acb2d0ce9ef3e497973d54e97fb68db74d8",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:7f31b2c417af903470a865c011854acb2d0ce9ef3e497973d54e97fb68db74d8"
     },
     {
       "id": "case:case:805b59e48af90504024f70124d850870a69b822b8e34d1ee551353c42a338bf7",
@@ -16573,34 +12819,10 @@
       "name": "case:8be4b164cca3f97f85398cc7f0cdd140bcd013b865b28546618f162cf474e0f0"
     },
     {
-      "id": "case:case:8c689ba49385129e4f8df15b11f315f1b31f3fc3ee1a610a186d948490f5cd14",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:8c689ba49385129e4f8df15b11f315f1b31f3fc3ee1a610a186d948490f5cd14"
-    },
-    {
-      "id": "case:case:8ec3a5eeb2249aad19b85e78e23d799109654cd56c7e1caff3881a0d3f97f208",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:8ec3a5eeb2249aad19b85e78e23d799109654cd56c7e1caff3881a0d3f97f208"
-    },
-    {
-      "id": "case:case:9175a9708efa0242a02ad042a9d235a73cd4f691cb90258cc78d24a58e5f235e",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:9175a9708efa0242a02ad042a9d235a73cd4f691cb90258cc78d24a58e5f235e"
-    },
-    {
       "id": "case:case:919ae827ff59fcbe3dbaea9e62855a4d27690818189f696cfb5916a88c823226",
       "ioc_count": 2,
       "kind": "case",
       "name": "case:919ae827ff59fcbe3dbaea9e62855a4d27690818189f696cfb5916a88c823226"
-    },
-    {
-      "id": "case:case:9394627e9c44cf2226ddf50012e5cf47ccf7d3bd8afa2395c635a93637e23502",
-      "ioc_count": 1,
-      "kind": "case",
-      "name": "case:9394627e9c44cf2226ddf50012e5cf47ccf7d3bd8afa2395c635a93637e23502"
     },
     {
       "id": "case:case:950b618c7f24e2b67d93bbf111c572978478622706eb7d288193fcea92145502",
@@ -16621,40 +12843,10 @@
       "name": "case:9645a12079edffd20560d4631160a6052ae5728d6f73b7366588166ad281c534"
     },
     {
-      "id": "case:case:9731b02a6cee4d3db1a29285bae92962617dfcad8055c28e5b25417b1ac93786",
-      "ioc_count": 8,
-      "kind": "case",
-      "name": "case:9731b02a6cee4d3db1a29285bae92962617dfcad8055c28e5b25417b1ac93786"
-    },
-    {
       "id": "case:case:9d930798d115b6862313e3616d3ed02a7a5c4c673390fe5fed4d85472cf906f5",
       "ioc_count": 6,
       "kind": "case",
       "name": "case:9d930798d115b6862313e3616d3ed02a7a5c4c673390fe5fed4d85472cf906f5"
-    },
-    {
-      "id": "case:case:9e7fdc17150409d594eeed12705788fbc74b5c7f482a64d121395df781820f46",
-      "ioc_count": 4,
-      "kind": "case",
-      "name": "case:9e7fdc17150409d594eeed12705788fbc74b5c7f482a64d121395df781820f46"
-    },
-    {
-      "id": "case:case:a01716c2c7ea5cb234ee8b5b3b831b63274fbee0b76d8ee5d86a788c6caa26e7",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:a01716c2c7ea5cb234ee8b5b3b831b63274fbee0b76d8ee5d86a788c6caa26e7"
-    },
-    {
-      "id": "case:case:a547cff9991a713535e5c128a0711ca68acf9298cc2220c4ea0685d580f36811",
-      "ioc_count": 4,
-      "kind": "case",
-      "name": "case:a547cff9991a713535e5c128a0711ca68acf9298cc2220c4ea0685d580f36811"
-    },
-    {
-      "id": "case:case:a74a948afc694949bf99f9bee9215cc759c082cded0ab1b8f6be345630bfd81e",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:a74a948afc694949bf99f9bee9215cc759c082cded0ab1b8f6be345630bfd81e"
     },
     {
       "id": "case:case:aa91037d96973b8a145864fe4784cf74e3869ca4afdd51aea0dddc0a587c1aa3",
@@ -16663,40 +12855,10 @@
       "name": "case:aa91037d96973b8a145864fe4784cf74e3869ca4afdd51aea0dddc0a587c1aa3"
     },
     {
-      "id": "case:case:ac096895773aab31910cee9d9611fbf3fcf7b2ba76678237ecd676d350c91c9c",
-      "ioc_count": 4,
-      "kind": "case",
-      "name": "case:ac096895773aab31910cee9d9611fbf3fcf7b2ba76678237ecd676d350c91c9c"
-    },
-    {
-      "id": "case:case:add013bf7ffc8a89789a7fd0ae0ff799c620af9b2755b214880b6a56768fd48c",
-      "ioc_count": 1,
-      "kind": "case",
-      "name": "case:add013bf7ffc8a89789a7fd0ae0ff799c620af9b2755b214880b6a56768fd48c"
-    },
-    {
-      "id": "case:case:aee705055f820ed7147ce7ecd39f293ee56e71a2118d5bd0ca21584bfb89124f",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:aee705055f820ed7147ce7ecd39f293ee56e71a2118d5bd0ca21584bfb89124f"
-    },
-    {
-      "id": "case:case:afaf5a58dd6e9586701b97b9e5b454846f3ce0053a0aa44b196626d7f4a4e5d4",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:afaf5a58dd6e9586701b97b9e5b454846f3ce0053a0aa44b196626d7f4a4e5d4"
-    },
-    {
       "id": "case:case:b32f71c40fffc53327ca712d82ad9349d2a4f396826fac9940824f48c878461f",
       "ioc_count": 4,
       "kind": "case",
       "name": "case:b32f71c40fffc53327ca712d82ad9349d2a4f396826fac9940824f48c878461f"
-    },
-    {
-      "id": "case:case:b393bd767c142e171dd1b2928bae16fff2f63b3d319b2c1acb37129d8d538cc9",
-      "ioc_count": 1,
-      "kind": "case",
-      "name": "case:b393bd767c142e171dd1b2928bae16fff2f63b3d319b2c1acb37129d8d538cc9"
     },
     {
       "id": "case:case:b3d07e47793a40bf3d99133b7a58feffe5bf8d27ea42a8e45eba322bc02cf8fb",
@@ -16765,12 +12927,6 @@
       "name": "case:c1c9c2e2936bf0492c896647531f6212d9271f1881c8b95d692d4aee48b4d472"
     },
     {
-      "id": "case:case:c1dd7a5673962d108ec8d1b12b50604a134cc52cc95de6c3bbf680198e8f9cb6",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:c1dd7a5673962d108ec8d1b12b50604a134cc52cc95de6c3bbf680198e8f9cb6"
-    },
-    {
       "id": "case:case:c29da327855142577dbb802096148c8c805595809bb3f8a89ed96b785fa45ac5",
       "ioc_count": 8,
       "kind": "case",
@@ -16789,24 +12945,6 @@
       "name": "case:c4fc9162227b35c631fbe623ee30fa7f660ed015915ed66c76942b1583ac3f77"
     },
     {
-      "id": "case:case:c86f319f64d25f23ac29d9b53c9764f06a150634ee8e2d836424d460e5a99b52",
-      "ioc_count": 1,
-      "kind": "case",
-      "name": "case:c86f319f64d25f23ac29d9b53c9764f06a150634ee8e2d836424d460e5a99b52"
-    },
-    {
-      "id": "case:case:ca15d149f53a51592c80c57e64de73e090777749422525d22b3b096a1ae75a4a",
-      "ioc_count": 4,
-      "kind": "case",
-      "name": "case:ca15d149f53a51592c80c57e64de73e090777749422525d22b3b096a1ae75a4a"
-    },
-    {
-      "id": "case:case:ce05cafc84ca9fa75f97cc1c857170870252ef286c4940189a3c8499ae00a148",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:ce05cafc84ca9fa75f97cc1c857170870252ef286c4940189a3c8499ae00a148"
-    },
-    {
       "id": "case:case:d08cf8c8f95b4df31198be8583cdbcf5f8e5beda95487e4aaed26cd2529e255d",
       "ioc_count": 3,
       "kind": "case",
@@ -16819,46 +12957,16 @@
       "name": "case:d1e7bb3d3a56b3fa0810838df4885c5c3c794519502f3bc7ae335c9720099215"
     },
     {
-      "id": "case:case:d38643133189bc880af537a371087e2e34fa36e0f96fd19a42969d3bc72fe95b",
-      "ioc_count": 4,
-      "kind": "case",
-      "name": "case:d38643133189bc880af537a371087e2e34fa36e0f96fd19a42969d3bc72fe95b"
-    },
-    {
       "id": "case:case:d458a1459e865ba6faeca30447fba1f7813cf8e3e5e4c454c4d93d1a2b345805",
       "ioc_count": 4,
       "kind": "case",
       "name": "case:d458a1459e865ba6faeca30447fba1f7813cf8e3e5e4c454c4d93d1a2b345805"
     },
     {
-      "id": "case:case:d5a5eb1de67b57a59ac715ee92541ac6570191844b315d0b408f86d3e56ea2c5",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:d5a5eb1de67b57a59ac715ee92541ac6570191844b315d0b408f86d3e56ea2c5"
-    },
-    {
-      "id": "case:case:d5d41bf6ec3d3bfe82546234a095654cfa4200fefec12889689ac4d609076a95",
-      "ioc_count": 6,
-      "kind": "case",
-      "name": "case:d5d41bf6ec3d3bfe82546234a095654cfa4200fefec12889689ac4d609076a95"
-    },
-    {
       "id": "case:case:d8a5afdf8311eb92eae60c9774fc1b0b138f436affe99b2c64dbe93d8c07fcce",
       "ioc_count": 4,
       "kind": "case",
       "name": "case:d8a5afdf8311eb92eae60c9774fc1b0b138f436affe99b2c64dbe93d8c07fcce"
-    },
-    {
-      "id": "case:case:d8b902568386f588fb2d42a77cd39062ada13c9a3fed0adf20ab6510f3b4a681",
-      "ioc_count": 4,
-      "kind": "case",
-      "name": "case:d8b902568386f588fb2d42a77cd39062ada13c9a3fed0adf20ab6510f3b4a681"
-    },
-    {
-      "id": "case:case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b",
-      "ioc_count": 3,
-      "kind": "case",
-      "name": "case:d96239eb6f4f3af1613dbb8513d97b895dccf7b986adb6d2a94a3bd3064b471b"
     },
     {
       "id": "case:case:da49d5a6abbb96438cd2daecd2643fb5f38122ce4d9cda6d072704e54c17d3ed",
@@ -16873,58 +12981,10 @@
       "name": "case:dd2fce7dad57958a7dec2c781a26c8fe8f7597696ba80dae921cd7744886972f"
     },
     {
-      "id": "case:case:e059c100a917af58168b1e63ebe75cb4558ec144efd91f1ecb145bd9ad79529e",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:e059c100a917af58168b1e63ebe75cb4558ec144efd91f1ecb145bd9ad79529e"
-    },
-    {
-      "id": "case:case:e5aed4e2fdda9242d6a723ece8c6d7b2b2a3f1f82abcac66e1480b6794c23bfc",
-      "ioc_count": 4,
-      "kind": "case",
-      "name": "case:e5aed4e2fdda9242d6a723ece8c6d7b2b2a3f1f82abcac66e1480b6794c23bfc"
-    },
-    {
-      "id": "case:case:e8263e35b92634d20e61a78c12bc95aab476381b5f03364d9fbb5d74b8fb2eb8",
-      "ioc_count": 4,
-      "kind": "case",
-      "name": "case:e8263e35b92634d20e61a78c12bc95aab476381b5f03364d9fbb5d74b8fb2eb8"
-    },
-    {
-      "id": "case:case:e88bf785ff3ee84df31a16ce5b6f9ecfc38cce7e5c01bdfb2dcdca21f33dbbf0",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:e88bf785ff3ee84df31a16ce5b6f9ecfc38cce7e5c01bdfb2dcdca21f33dbbf0"
-    },
-    {
-      "id": "case:case:e8ba80f829b67d3a0fcad9a7d554b6a686876dd09125c3b1a2e3230712490e89",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:e8ba80f829b67d3a0fcad9a7d554b6a686876dd09125c3b1a2e3230712490e89"
-    },
-    {
-      "id": "case:case:e8c73ce5eb660ea6570b5bf5f560eaf994394da02148f7df10aefac1fda8a756",
-      "ioc_count": 6,
-      "kind": "case",
-      "name": "case:e8c73ce5eb660ea6570b5bf5f560eaf994394da02148f7df10aefac1fda8a756"
-    },
-    {
-      "id": "case:case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10",
-      "ioc_count": 3,
-      "kind": "case",
-      "name": "case:ea07b2d53fa8793d39a63f4f787e3951cf3eb9fab05cc5a2b5cd3e303c241c10"
-    },
-    {
       "id": "case:case:eb4dda22e709b7da15aaebddec842067e97d85cdc99d753dc6335c0ae63d1e42",
       "ioc_count": 6,
       "kind": "case",
       "name": "case:eb4dda22e709b7da15aaebddec842067e97d85cdc99d753dc6335c0ae63d1e42"
-    },
-    {
-      "id": "case:case:ebb529ad09a2a23b9327e0e2482f597ca94ea4867fe42a6e70a38184340bbc8f",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:ebb529ad09a2a23b9327e0e2482f597ca94ea4867fe42a6e70a38184340bbc8f"
     },
     {
       "id": "case:case:eda99519f7e5ef015a4450927bc96f26f837f07e54eb692eaa4ad12ed2a837a1",
@@ -16933,28 +12993,10 @@
       "name": "case:eda99519f7e5ef015a4450927bc96f26f837f07e54eb692eaa4ad12ed2a837a1"
     },
     {
-      "id": "case:case:ee2ac2bdd780e82866f0135effc08c748895c42541d368e34b6214dbc9a6d190",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:ee2ac2bdd780e82866f0135effc08c748895c42541d368e34b6214dbc9a6d190"
-    },
-    {
-      "id": "case:case:ef5db8b473e279620207777c42ef9ad14adf8b100ceb20dc4f7e1bd5271ecd3c",
-      "ioc_count": 4,
-      "kind": "case",
-      "name": "case:ef5db8b473e279620207777c42ef9ad14adf8b100ceb20dc4f7e1bd5271ecd3c"
-    },
-    {
       "id": "case:case:efc1cb535085a1c44e423c0fd3fbd736d5b55514013093ad25313b42f0b3d296",
       "ioc_count": 4,
       "kind": "case",
       "name": "case:efc1cb535085a1c44e423c0fd3fbd736d5b55514013093ad25313b42f0b3d296"
-    },
-    {
-      "id": "case:case:f0506419d1f60d7180e72fdcca97d5446d3cc3218d61b11dcd39b49086553683",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:f0506419d1f60d7180e72fdcca97d5446d3cc3218d61b11dcd39b49086553683"
     },
     {
       "id": "case:case:f0d032c835744156d134ff521c8bc2996f0d7922c7c0c8c31f12fb27d7dddc99",
@@ -16963,40 +13005,16 @@
       "name": "case:f0d032c835744156d134ff521c8bc2996f0d7922c7c0c8c31f12fb27d7dddc99"
     },
     {
-      "id": "case:case:f0ea2d0017a88323d730042c2b571a4d06cd8dbe169c3cef2e457bd0c5d676ff",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:f0ea2d0017a88323d730042c2b571a4d06cd8dbe169c3cef2e457bd0c5d676ff"
-    },
-    {
       "id": "case:case:f101fda6093f12758efae630bc265d6bad71479249685b7503c05e707424a276",
       "ioc_count": 3,
       "kind": "case",
       "name": "case:f101fda6093f12758efae630bc265d6bad71479249685b7503c05e707424a276"
     },
     {
-      "id": "case:case:f6ff5df0da5c7fb540390937fa063e709e0e6a42792fbf5123234e85863dd14d",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:f6ff5df0da5c7fb540390937fa063e709e0e6a42792fbf5123234e85863dd14d"
-    },
-    {
-      "id": "case:case:f77256eb64c144a1f433705087bcefffbf59c79f6953a39d7c0d745ceab31573",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:f77256eb64c144a1f433705087bcefffbf59c79f6953a39d7c0d745ceab31573"
-    },
-    {
       "id": "case:case:fa1e42eccf2edbaa7306cd40636bf579a6588e3d0fa61584e1ccb92a00d01ecf",
       "ioc_count": 8,
       "kind": "case",
       "name": "case:fa1e42eccf2edbaa7306cd40636bf579a6588e3d0fa61584e1ccb92a00d01ecf"
-    },
-    {
-      "id": "case:case:fb8c3315722d0d2d78d08278774e0b03d334b35cfd59fa2d2a6dd21fbf99b347",
-      "ioc_count": 8,
-      "kind": "case",
-      "name": "case:fb8c3315722d0d2d78d08278774e0b03d334b35cfd59fa2d2a6dd21fbf99b347"
     },
     {
       "id": "case:case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0",
@@ -17017,12 +13035,6 @@
       "name": "case:fe1b0a1cc8090e6394d778530d7536588247e9de6c9996e175ce509847ad0d96"
     },
     {
-      "id": "case:case:ff5a682bad6c911fd08c90622b7fa13ab22a608e501eed511a40fe43a9b53a1e",
-      "ioc_count": 2,
-      "kind": "case",
-      "name": "case:ff5a682bad6c911fd08c90622b7fa13ab22a608e501eed511a40fe43a9b53a1e"
-    },
-    {
       "id": "case:case:ffa78f3d4b1dafb9723e6a68456e42a57c0a109b9b8246196e1a8a6d6d2d6f5a",
       "ioc_count": 3,
       "kind": "case",
@@ -17033,18 +13045,6 @@
       "ioc_count": 21,
       "kind": "malware",
       "name": "10FXRAT"
-    },
-    {
-      "id": "malware:@deadcode09284814",
-      "ioc_count": 1,
-      "kind": "malware",
-      "name": "@deadcode09284814"
-    },
-    {
-      "id": "malware:A",
-      "ioc_count": 468,
-      "kind": "malware",
-      "name": "A"
     },
     {
       "id": "malware:ABCDoor",
@@ -17215,12 +13215,6 @@
       "name": "DCRat"
     },
     {
-      "id": "malware:DEV#POPPER",
-      "ioc_count": 4,
-      "kind": "malware",
-      "name": "DEV#POPPER"
-    },
-    {
       "id": "malware:DIDS.exe",
       "ioc_count": 1,
       "kind": "malware",
@@ -17303,12 +13297,6 @@
       "ioc_count": 25,
       "kind": "malware",
       "name": "Flying Eagle"
-    },
-    {
-      "id": "malware:Forg365",
-      "ioc_count": 13,
-      "kind": "malware",
-      "name": "Forg365"
     },
     {
       "id": "malware:GOLDBACKDOOR",
@@ -17539,12 +13527,6 @@
       "name": "Modular ChonkyChicken"
     },
     {
-      "id": "malware:N",
-      "ioc_count": 468,
-      "kind": "malware",
-      "name": "N"
-    },
-    {
       "id": "malware:NarwhalRAT",
       "ioc_count": 17,
       "kind": "malware",
@@ -17555,12 +13537,6 @@
       "ioc_count": 2,
       "kind": "malware",
       "name": "Nebo"
-    },
-    {
-      "id": "malware:Neteller SDK",
-      "ioc_count": 56,
-      "kind": "malware",
-      "name": "Neteller SDK"
     },
     {
       "id": "malware:Night Dragon",
@@ -17603,12 +13579,6 @@
       "ioc_count": 29,
       "kind": "malware",
       "name": "Octopus"
-    },
-    {
-      "id": "malware:OmniStealer",
-      "ioc_count": 4,
-      "kind": "malware",
-      "name": "OmniStealer"
     },
     {
       "id": "malware:Overlord",
@@ -17821,12 +13791,6 @@
       "name": "SilverHawk"
     },
     {
-      "id": "malware:Skrill",
-      "ioc_count": 56,
-      "kind": "malware",
-      "name": "Skrill"
-    },
-    {
       "id": "malware:Sliver",
       "ioc_count": 11,
       "kind": "malware",
@@ -17999,12 +13963,6 @@
       "ioc_count": 114,
       "kind": "malware",
       "name": "Zebrocy"
-    },
-    {
-      "id": "malware:axios-util",
-      "ioc_count": 1,
-      "kind": "malware",
-      "name": "axios-util"
     },
     {
       "id": "malware:chalk-tempalte",

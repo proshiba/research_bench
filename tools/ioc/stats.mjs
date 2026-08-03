@@ -42,6 +42,8 @@
 // 出力
 //   stats.json      **カバレッジ**・件数・種別内訳・重なりの要約・時間軸・判定の分布
 //   overlaps.jsonl  実体の組ごとの重なり（根拠・強さ・**根拠になった値**つき）
+//   identical-sets.jsonl  IOC 集合が完全に一致した組。**共有率 100% は構造上そう
+//                   なるだけで根拠にならない**ので overlaps からは外す。捨てはしない
 //   graph.json      実体と重なりのグラフ（そのまま描ける形）
 //   new.jsonl       --since を渡したときだけ。前回に無かった IOC
 //
@@ -345,6 +347,11 @@ function pairsFor(kind, groups) {
     const via = [...v.byVia.keys()].filter((x) => !(x === "filename" && v.byVia.get(x).size < FILENAME_MIN)).sort();
     const shared = via.reduce((t, x) => t + v.byVia.get(x).size, 0);
     if (!via.length) return null;
+    // **IOC 集合が完全に一致する組は「重なり」ではない。**同じものが 2 つの名前で
+    // 立っているだけで、自分自身と比べている。実測で `"マルウェア": "A, N"` が
+    // 区切りで割れ、468 IOC を共有する 2 実体の間に shared 1190 の組が立っていた。
+    // 元を断ったあとも、上流の別名が畳めていなければ同じことが起きる。
+    if (sameSet(sizes.get(a), sizes.get(b))) return { kind, a, b, iocs: sa, same_set: true };
     // 根拠の値そのもの。多いものは切るが、切ったことが分かるように件数は shared に残る
     const evidence = Object.fromEntries(via.map((x) => [x, [...v.byVia.get(x)].sort().slice(0, EVIDENCE_CAP)]));
     return {
@@ -389,6 +396,9 @@ const VIA_WEIGHT = {
  */
 const WEAK_VIA = new Set(["family", "filename", "registrable", "jarm"]);
 const strengthOf = (via) => via.reduce((n, v) => n + (VIA_WEIGHT[v] || 0), 0);
+
+/** 2 つの実体が同じ IOC 集合を持つか。空同士は「一致」と見なさない。 */
+const sameSet = (a, b) => !!a && !!b && a.size > 0 && a.size === b.size && [...a].every((k) => b.has(k));
 
 /** 根拠ごとの「値 → その値を共有する実体名の集合」。 */
 function groupsFor(kind) {
@@ -445,11 +455,24 @@ function groupsFor(kind) {
 }
 
 const overlaps = [];
+/**
+ * IOC 集合が完全に一致した組。重なりとしては出さず、別の出口に回す。
+ *
+ * 実体の種類で意味が変わる。malware / actor なら **同じものが 2 つの名前で
+ * 立っている**疑い（実測で CloudSorcerer ↔ DeedRAT、Gshell ↔ TencShell など、
+ * 既知の別名が並んだ）。case は 1 つの記事から起こすので集合が一致しやすく、
+ * 別名ではなく単に同じ括り。どちらにしても「共有率 100%」は構造上そうなるだけで
+ * 重なりの根拠にならないので、overlaps.jsonl からは外して数と中身を別に出す。
+ */
+const identicalSets = [];
 for (const kind of KINDS) {
   if (!owned.get(kind).size) continue;
-  overlaps.push(...pairsFor(kind, groupsFor(kind)));
+  for (const o of pairsFor(kind, groupsFor(kind))) {
+    (o.same_set ? identicalSets : overlaps).push(o);
+  }
 }
 overlaps.sort(byKeys("kind", "a", "b"));
+identicalSets.sort(byKeys("kind", "a", "b"));
 
 /* ---------------- /24 の同居 ---------------- */
 
@@ -659,6 +682,7 @@ writeJson(path.join(OUT, "graph.json"), {
 });
 
 writeJsonl(path.join(OUT, "overlaps.jsonl"), overlaps);
+writeJsonl(path.join(OUT, "identical-sets.jsonl"), identicalSets.map((o) => ({ kind: o.kind, a: o.a, b: o.b, iocs: o.iocs })));
 // 要約には上位しか載らないので、同居は全件を別に残す
 writeJsonl(path.join(OUT, "subnets.jsonl"), subnets);
 if (HAS_ASN) writeJsonl(path.join(OUT, "asn-cotenancy.jsonl"), asnCoTenancy);
@@ -731,6 +755,8 @@ const stats = {
     pairs: overlaps.filter((o) => o.kind === k).length,
     // 弱い根拠だけで成立している組。除かずに数える
     weak_only: overlaps.filter((o) => o.kind === k && o.weak_only).length,
+    // IOC 集合が一致したので重なりから外した組。中身は identical-sets.jsonl
+    identical_sets: identicalSets.filter((o) => o.kind === k).length,
     by_via: VIA.reduce((acc, v) => {
       acc[v] = overlaps.filter((o) => o.kind === k && o.via.includes(v)).length;
       return acc;

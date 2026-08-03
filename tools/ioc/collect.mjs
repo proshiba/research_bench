@@ -77,13 +77,27 @@ function splitNames(s) {
     .filter(Boolean);
 }
 
-/** 実体名として使えるものだけ返す。既知のアクター名なら但し書き判定より優先する。 */
+/**
+ * 実体名として短すぎるもの。**索引が実体として載せていても信用しない。**
+ *
+ * 実測で `"マルウェア": "A, N"` という属性があり、区切りで割れて `A` と `N` という
+ * 実体が立っていた。上流にも `malware:a` / `malware:n` が居るので既知名の抜け道を
+ * 通ってしまい、468 IOC が両方にぶら下がった。**同じ IOC 集合を持つ実体が 2 つ**
+ * できるので、その間に shared 1190 の重なりが立つ。1 文字のファミリ名は実在しない。
+ */
+const tooShortName = (n) => nameKey(n).length < 2;
+
+/**
+ * 実体名として使えるものだけ返す。既知のアクター名なら但し書き判定より優先する。
+ * ただし**長さの判定は既知名でも飛ばさない**。優先させたいのは但し書きの判定だけで、
+ * 索引が 1 文字の実体を載せているのは索引側の壊れ方だから。
+ */
 function entityNames(raw, known) {
   const out = [];
   for (const n of splitNames(raw)) {
+    if (tooShortName(n)) continue;
     if (known?.has(nameKey(n))) { out.push(n); continue; }
     if (isQualifier(n)) continue;
-    if (nameKey(n).length < 2) continue;
     out.push(n);
   }
   return out;
@@ -244,8 +258,11 @@ async function main() {
         }
         const label = labelById.get(`${s.app_id}\t${target}`) || target.slice(kind.length + 1);
         if (kind === "actor") {
+          if (tooShortName(label)) continue;
           addLink(key, "actor", canonActor.get(nameKey(label)) || label, { source: s.app_id, rel: r.rel, id: target });
         } else if (kind === "malware" || kind === "tool") {
+          // refs 経由でも同じ。索引が載せている実体そのものが壊れていることがある
+          if (tooShortName(label)) continue;
           addLink(key, "malware", canonMalware.get(nameKey(label)) || label, { source: s.app_id, rel: r.rel, id: target });
         } else if (kind === "campaign") {
           addLink(key, "campaign", label, { source: s.app_id, rel: r.rel, id: target });

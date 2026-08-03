@@ -586,6 +586,20 @@ const CASES = [
       return putRow(r);
     });
   }],
+  // IOC 集合が一致した組。**片方に出したつもりで両方に残ると、外したはずの組が上位に戻る**
+  ["identical.both", "重なりと集合一致の両方に出ている", (d) => {
+    const o = JSON.parse(fs.readFileSync(path.join(d, "overlaps.jsonl"), "utf8").trim().split("\n")[0]);
+    fs.writeFileSync(path.join(d, "identical-sets.jsonl"),
+      `${putRow({ kind: o.kind, a: o.a, b: o.b, iocs: 1 })}\n`);
+  }],
+  ["identical.entity", "集合一致の相手が実体一覧に無い", (d) => {
+    fs.writeFileSync(path.join(d, "identical-sets.jsonl"),
+      `${putRow({ kind: "actor", a: "APT-Test", b: "Ghost Group", iocs: 1 })}\n`);
+  }],
+  ["identical.iocs", "集合一致の数が実体の IOC 数を上回る", (d) => {
+    fs.writeFileSync(path.join(d, "identical-sets.jsonl"),
+      `${putRow({ kind: "actor", a: "APT-Test", b: "Other Group", iocs: 999 })}\n`);
+  }],
   ["enrichmeta.sha", "写しのハッシュが無い", (d) => {
     const f = path.join(d, "enrich-meta.json");
     const m = JSON.parse(fs.readFileSync(f, "utf8"));

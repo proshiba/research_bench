@@ -297,6 +297,13 @@ Silver Fox（Atlas RAT）を繋いでいたが、変種は `dynamer` / `etset` /
 弱い根拠（`family` / `filename` / `registrable` / `jarm`）だけの組には `weak_only` の印を付ける。
 **除くのではなく印を付ける**（`bogon` / `noise` と同じ扱い）。
 
+**IOC 集合が完全に一致する組だけは `overlaps.jsonl` に出さない。** 共有率 100% は
+構造上そうなるだけで、根拠にならないため。実測で上流の `"マルウェア": "A, N"` が
+区切りで割れ、468 IOC を共有する 2 実体の間に shared 1190 / strength 40 の組が
+最上位に立っていた。捨てはせず `identical-sets.jsonl` に回す。malware / actor では
+**別名の候補**として読める（`CloudSorcerer ↔ DeedRAT` `Gshell ↔ TencShell` が並んだ）。
+`case` は 1 つの記事から起こすので集合が一致しやすく、別名ではなく単に同じ括り。
+
 `jarm` と `filename` と `family` は**ありふれた値を外す**。既定の nginx で一致する
 JARM や `invoice.doc` を根拠にすると、無関係な実体が総当たりで繋がる。JARM は全体の
 `--jarm-cap`（既定 1%）を超えたら、ファイル名は `--filename-cap` 件を超えたら外す。
