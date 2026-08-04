@@ -103,7 +103,9 @@ const VT_FIELDS = {
     "malicious", "suspicious", "harmless", "undetected", "timeout", "reputation",
     "analyzed_at", "label", "families", "first_submission", "type_description", "size",
     "signer", "names", "created", "registrar", "jarm", "dns", "cert",
-    "vhash", "imphash", "rich_header", "ssdeep", "tlsh",
+    // ssdeep / tlsh はここに出さない（enrich-intel.mjs の理由を参照）。
+    // 許す欄から外しておくと、うっかり戻したときに検査で落ちる
+    "vhash", "imphash", "rich_header",
     "asn", "as_owner", "country", "network", "asn_differs", "final_url", "title",
   ],
 };

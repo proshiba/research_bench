@@ -233,10 +233,16 @@ for (const rec of vtRecords) {
 
     /**
      * ファジーハッシュ。**提供元の判断が入らず、論理が明示的**なので、
-     * 検知名より根拠として素直（`vhash` と `imphash` は完全一致で使える）。
-     * `ssdeep` と `tlsh` は距離を測る必要があるので、いまは残すだけ。
+     * 検知名より根拠として素直。`vhash` と `imphash` は完全一致で使える。
+     *
+     * **`ssdeep` と `tlsh` はここには出さない。** 距離を測らないと使えないので
+     * まだ根拠になっておらず、そのうえ GitHub の secret scanning が
+     * `49152:bPE+OIaSlC05Alg0PBnQ…` のような base64 風の並びを AWS の鍵と
+     * 誤検知して push を止める。毎日新しい検体で当たるので運用にならない。
+     * 写し（`.cache`）には射影として残っているので、距離を実装するときは
+     * 引き直さずに作れる。そのとき出すべきなのは生の値ではなく**組ごとの距離**。
      */
-    for (const f of ["vhash", "imphash", "rich_header", "ssdeep", "tlsh"]) {
+    for (const f of ["vhash", "imphash", "rich_header"]) {
       if (typeof b[f] === "string" && b[f].trim()) row[f] = b[f].trim();
     }
     const names = [b.meaningful_name, ...(b.names || [])]

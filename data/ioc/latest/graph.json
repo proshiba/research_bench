@@ -268,16 +268,16 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.007,
-      "shared": 8,
+      "ratio": 0.008,
+      "shared": 9,
       "source": "actor:APT28",
-      "strength": 3,
+      "strength": 9,
       "target": "actor:APT37",
       "via": [
         "family",
-        "jarm"
-      ],
-      "weak_only": true
+        "jarm",
+        "vhash"
+      ]
     },
     {
       "kind": "actor",
@@ -683,8 +683,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.014,
-      "shared": 6,
+      "ratio": 0.019,
+      "shared": 8,
       "source": "actor:APT28",
       "strength": 1,
       "target": "actor:Transparent Tribe",
@@ -1074,15 +1074,17 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.012,
-      "shared": 12,
+      "ratio": 0.014,
+      "shared": 14,
       "source": "actor:APT29",
-      "strength": 10,
+      "strength": 20,
       "target": "actor:Lazarus Group",
       "via": [
         "filename",
+        "imphash",
         "ioc",
-        "jarm"
+        "jarm",
+        "vhash"
       ]
     },
     {
@@ -1372,16 +1374,16 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.063,
-      "shared": 6,
+      "ratio": 0.074,
+      "shared": 7,
       "source": "actor:APT37",
-      "strength": 3,
+      "strength": 9,
       "target": "actor:APT41",
       "via": [
         "family",
-        "jarm"
-      ],
-      "weak_only": true
+        "jarm",
+        "vhash"
+      ]
     },
     {
       "kind": "actor",
@@ -1593,12 +1595,13 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.03,
-      "shared": 5,
+      "ratio": 0.036,
+      "shared": 6,
       "source": "actor:APT37",
-      "strength": 11,
+      "strength": 13,
       "target": "actor:Konni",
       "via": [
+        "family",
         "ioc",
         "jarm",
         "registrable"
@@ -1606,19 +1609,21 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.018,
-      "shared": 19,
+      "ratio": 0.02,
+      "shared": 21,
       "source": "actor:APT37",
-      "strength": 24,
+      "strength": 34,
       "target": "actor:Lazarus Group",
       "via": [
         "asn",
         "family",
         "filename",
+        "imphash",
         "ioc",
         "jarm",
         "registrable",
-        "subnet"
+        "subnet",
+        "vhash"
       ]
     },
     {
@@ -1907,6 +1912,17 @@
       "target": "actor:BackdoorDiplomacy",
       "via": [
         "ioc"
+      ]
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.059,
+      "shared": 1,
+      "source": "actor:APT41",
+      "strength": 6,
+      "target": "actor:CL-STA-1062",
+      "via": [
+        "vhash"
       ]
     },
     {
@@ -2407,6 +2423,30 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.025,
+      "shared": 1,
+      "source": "actor:Armored Likho",
+      "strength": 2,
+      "target": "actor:Konni",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.025,
+      "shared": 1,
+      "source": "actor:Armored Likho",
+      "strength": 2,
+      "target": "actor:Lazarus Group",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.05,
       "shared": 2,
       "source": "actor:Armored Likho",
@@ -2815,18 +2855,20 @@
     },
     {
       "kind": "actor",
-      "ratio": 1.486,
-      "shared": 55,
+      "ratio": 1.865,
+      "shared": 69,
       "source": "actor:Bohrium",
-      "strength": 23,
+      "strength": 33,
       "target": "actor:Screening Serpens",
       "via": [
         "certificate",
         "family",
         "filename",
+        "imphash",
         "ioc",
         "jarm",
-        "registrable"
+        "registrable",
+        "vhash"
       ]
     },
     {
@@ -3385,26 +3427,28 @@
     },
     {
       "kind": "actor",
-      "ratio": 1.667,
-      "shared": 5,
+      "ratio": 2,
+      "shared": 6,
       "source": "actor:DEV-0270",
-      "strength": 9,
+      "strength": 15,
       "target": "actor:Fox Kitten",
       "via": [
         "filename",
-        "ioc"
+        "ioc",
+        "vhash"
       ]
     },
     {
       "kind": "actor",
-      "ratio": 5,
-      "shared": 5,
+      "ratio": 6,
+      "shared": 6,
       "source": "actor:DEV-0270",
-      "strength": 9,
+      "strength": 15,
       "target": "actor:UNC2448",
       "via": [
         "filename",
-        "ioc"
+        "ioc",
+        "vhash"
       ]
     },
     {
@@ -3592,15 +3636,15 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.111,
-      "shared": 3,
+      "ratio": 0.148,
+      "shared": 4,
       "source": "actor:DragonForce",
-      "strength": 1,
+      "strength": 5,
       "target": "actor:Gentlemen RaaS",
       "via": [
-        "filename"
-      ],
-      "weak_only": true
+        "filename",
+        "imphash"
+      ]
     },
     {
       "kind": "actor",
@@ -3881,14 +3925,15 @@
     },
     {
       "kind": "actor",
-      "ratio": 5,
-      "shared": 5,
+      "ratio": 6,
+      "shared": 6,
       "source": "actor:Fox Kitten",
-      "strength": 9,
+      "strength": 15,
       "target": "actor:UNC2448",
       "via": [
         "filename",
-        "ioc"
+        "ioc",
+        "vhash"
       ]
     },
     {
@@ -4707,6 +4752,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.022,
+      "shared": 1,
+      "source": "actor:JadeProx",
+      "strength": 2,
+      "target": "actor:Konni",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.043,
       "shared": 2,
       "source": "actor:JadeProx",
@@ -4840,6 +4897,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.006,
+      "shared": 1,
+      "source": "actor:Konni",
+      "strength": 2,
+      "target": "actor:Silver Fox",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.333,
       "shared": 1,
       "source": "actor:Konni",
@@ -4942,18 +5011,6 @@
       "shared": 1,
       "source": "actor:Laundry Bear",
       "strength": 2,
-      "target": "actor:TAG-195",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.2,
-      "shared": 1,
-      "source": "actor:Laundry Bear",
-      "strength": 2,
       "target": "actor:UAC-0099",
       "via": [
         "family"
@@ -4983,6 +5040,17 @@
         "family"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.1,
+      "shared": 1,
+      "source": "actor:Lazarus Group",
+      "strength": 4,
+      "target": "actor:ROOTBOY",
+      "via": [
+        "imphash"
+      ]
     },
     {
       "kind": "actor",
@@ -5322,18 +5390,31 @@
     },
     {
       "kind": "actor",
-      "ratio": 1.233,
-      "shared": 53,
+      "ratio": 0.167,
+      "shared": 1,
       "source": "actor:Silver Fox",
-      "strength": 19,
+      "strength": 6,
+      "target": "actor:SilverFox APT",
+      "via": [
+        "vhash"
+      ]
+    },
+    {
+      "kind": "actor",
+      "ratio": 1.628,
+      "shared": 70,
+      "source": "actor:Silver Fox",
+      "strength": 29,
       "target": "actor:TA4922",
       "via": [
         "family",
         "filename",
+        "imphash",
         "ioc",
         "jarm",
         "registrable",
-        "subnet"
+        "subnet",
+        "vhash"
       ]
     },
     {
@@ -5350,19 +5431,21 @@
     },
     {
       "kind": "actor",
-      "ratio": 2.125,
-      "shared": 34,
+      "ratio": 2.25,
+      "shared": 36,
       "source": "actor:Silver Fox",
-      "strength": 28,
+      "strength": 38,
       "target": "actor:UTG-Q-1000",
       "via": [
         "certificate",
         "family",
         "filename",
+        "imphash",
         "ioc",
         "jarm",
         "registrable",
-        "subnet"
+        "subnet",
+        "vhash"
       ]
     },
     {
@@ -5446,18 +5529,6 @@
       "target": "actor:Yx Technology",
       "via": [
         "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.026,
-      "shared": 1,
-      "source": "actor:TAG-195",
-      "strength": 2,
-      "target": "actor:UAC-0099",
-      "via": [
-        "family"
       ],
       "weak_only": true
     },
@@ -5561,6 +5632,17 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.061,
+      "shared": 2,
+      "source": "actor:The Gentlemen",
+      "strength": 4,
+      "target": "actor:X3D MINER",
+      "via": [
+        "imphash"
+      ]
+    },
+    {
+      "kind": "actor",
       "ratio": 0.143,
       "shared": 1,
       "source": "actor:UAT-11795",
@@ -5609,16 +5691,17 @@
     },
     {
       "kind": "campaign",
-      "ratio": 0.102,
-      "shared": 6,
+      "ratio": 0.119,
+      "shared": 7,
       "source": "campaign:Dream Job",
-      "strength": 20,
+      "strength": 26,
       "target": "campaign:ThreatNeedle",
       "via": [
         "certificate",
         "ioc",
         "jarm",
-        "registrable"
+        "registrable",
+        "vhash"
       ]
     },
     {
@@ -7531,10 +7614,10 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.474,
-      "shared": 381,
+      "ratio": 2.481,
+      "shared": 382,
       "source": "malware:AMOS",
-      "strength": 33,
+      "strength": 39,
       "target": "malware:Macsync",
       "via": [
         "certificate",
@@ -7543,7 +7626,8 @@
         "jarm",
         "registrable",
         "resolution",
-        "subnet"
+        "subnet",
+        "vhash"
       ]
     },
     {
@@ -7586,10 +7670,10 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.664,
-      "shared": 381,
+      "ratio": 2.671,
+      "shared": 382,
       "source": "malware:AMOS",
-      "strength": 33,
+      "strength": 39,
       "target": "malware:Shub Stealer",
       "via": [
         "certificate",
@@ -7598,7 +7682,8 @@
         "jarm",
         "registrable",
         "resolution",
-        "subnet"
+        "subnet",
+        "vhash"
       ]
     },
     {
@@ -7895,15 +7980,17 @@
     },
     {
       "kind": "malware",
-      "ratio": 1,
-      "shared": 10,
+      "ratio": 1.2,
+      "shared": 12,
       "source": "malware:Agent Tesla",
-      "strength": 11,
+      "strength": 21,
       "target": "malware:DonutLoader",
       "via": [
         "family",
         "filename",
-        "ioc"
+        "imphash",
+        "ioc",
+        "vhash"
       ]
     },
     {
@@ -8123,33 +8210,35 @@
     },
     {
       "kind": "malware",
-      "ratio": 3.258,
-      "shared": 101,
+      "ratio": 3.968,
+      "shared": 123,
       "source": "malware:Backdoor.Turn",
-      "strength": 33,
+      "strength": 43,
       "target": "malware:DragonForce ransomware",
       "via": [
         "asn",
         "certificate",
         "family",
         "filename",
+        "imphash",
         "ioc",
         "jarm",
         "registrable",
-        "subnet"
+        "subnet",
+        "vhash"
       ]
     },
     {
       "kind": "malware",
-      "ratio": 0.176,
-      "shared": 3,
+      "ratio": 0.235,
+      "shared": 4,
       "source": "malware:Backdoor.Turn",
-      "strength": 1,
+      "strength": 5,
       "target": "malware:GentleKiller",
       "via": [
-        "filename"
-      ],
-      "weak_only": true
+        "filename",
+        "imphash"
+      ]
     },
     {
       "kind": "malware",
@@ -8622,28 +8711,18 @@
     },
     {
       "kind": "malware",
-      "ratio": 2,
-      "shared": 4,
+      "ratio": 3,
+      "shared": 6,
       "source": "malware:ChonkyChicken",
-      "strength": 11,
+      "strength": 21,
       "target": "malware:Modular ChonkyChicken",
       "via": [
         "family",
         "filename",
-        "ioc"
+        "imphash",
+        "ioc",
+        "vhash"
       ]
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.2,
-      "shared": 1,
-      "source": "malware:ChonkyChicken",
-      "strength": 2,
-      "target": "malware:OWAReaperの概要",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
     },
     {
       "kind": "malware",
@@ -8659,16 +8738,17 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.267,
-      "shared": 4,
+      "ratio": 0.4,
+      "shared": 6,
       "source": "malware:ChonkyChicken",
-      "strength": 3,
+      "strength": 13,
       "target": "malware:TinyEgg",
       "via": [
         "family",
-        "filename"
-      ],
-      "weak_only": true
+        "filename",
+        "imphash",
+        "vhash"
+      ]
     },
     {
       "kind": "malware",
@@ -8965,16 +9045,17 @@
     },
     {
       "kind": "malware",
-      "ratio": 3,
-      "shared": 3,
+      "ratio": 5,
+      "shared": 5,
       "source": "malware:DIDS.exe",
-      "strength": 3,
+      "strength": 13,
       "target": "malware:ms_upd.exe",
       "via": [
         "family",
-        "filename"
-      ],
-      "weak_only": true
+        "filename",
+        "imphash",
+        "vhash"
+      ]
     },
     {
       "kind": "malware",
@@ -9126,15 +9207,15 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.176,
-      "shared": 3,
+      "ratio": 0.235,
+      "shared": 4,
       "source": "malware:DragonForce ransomware",
-      "strength": 1,
+      "strength": 5,
       "target": "malware:GentleKiller",
       "via": [
-        "filename"
-      ],
-      "weak_only": true
+        "filename",
+        "imphash"
+      ]
     },
     {
       "kind": "malware",
@@ -9657,15 +9738,16 @@
     },
     {
       "kind": "malware",
-      "ratio": 2,
-      "shared": 2,
+      "ratio": 4,
+      "shared": 4,
       "source": "malware:GraphWorm",
-      "strength": 1,
+      "strength": 11,
       "target": "malware:Webworm",
       "via": [
-        "filename"
-      ],
-      "weak_only": true
+        "filename",
+        "imphash",
+        "vhash"
+      ]
     },
     {
       "kind": "malware",
@@ -9705,15 +9787,16 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.167,
-      "shared": 13,
+      "ratio": 2.333,
+      "shared": 14,
       "source": "malware:Hades",
-      "strength": 11,
+      "strength": 17,
       "target": "malware:Shai-Hulud",
       "via": [
         "family",
         "filename",
-        "ioc"
+        "ioc",
+        "vhash"
       ]
     },
     {
@@ -10030,6 +10113,17 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.059,
+      "shared": 1,
+      "source": "malware:KEYPLUG",
+      "strength": 6,
+      "target": "malware:TinyRCT",
+      "via": [
+        "vhash"
+      ]
+    },
+    {
+      "kind": "malware",
       "ratio": 0.029,
       "shared": 1,
       "source": "malware:KEYPLUG",
@@ -10087,6 +10181,17 @@
         "family"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 1,
+      "shared": 1,
+      "source": "malware:LEASHTEST",
+      "strength": 6,
+      "target": "malware:LONGLEASH",
+      "via": [
+        "vhash"
+      ]
     },
     {
       "kind": "malware",
@@ -10271,10 +10376,10 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.664,
-      "shared": 381,
+      "ratio": 2.671,
+      "shared": 382,
       "source": "malware:Macsync",
-      "strength": 33,
+      "strength": 39,
       "target": "malware:Shub Stealer",
       "via": [
         "certificate",
@@ -10283,7 +10388,8 @@
         "jarm",
         "registrable",
         "resolution",
-        "subnet"
+        "subnet",
+        "vhash"
       ]
     },
     {
@@ -10401,33 +10507,37 @@
     },
     {
       "kind": "malware",
-      "ratio": 1.3,
-      "shared": 39,
+      "ratio": 1.567,
+      "shared": 47,
       "source": "malware:MiniFast",
-      "strength": 21,
+      "strength": 31,
       "target": "malware:MiniJunk V2",
       "via": [
         "certificate",
         "filename",
+        "imphash",
         "ioc",
         "jarm",
-        "registrable"
+        "registrable",
+        "vhash"
       ]
     },
     {
       "kind": "malware",
-      "ratio": 1.355,
-      "shared": 42,
+      "ratio": 1.548,
+      "shared": 48,
       "source": "malware:MiniFast",
-      "strength": 23,
+      "strength": 33,
       "target": "malware:MiniUpdate",
       "via": [
         "certificate",
         "family",
         "filename",
+        "imphash",
         "ioc",
         "jarm",
-        "registrable"
+        "registrable",
+        "vhash"
       ]
     },
     {
@@ -10853,6 +10963,17 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.125,
+      "shared": 1,
+      "source": "malware:PHANTOMPULSE",
+      "strength": 4,
+      "target": "malware:Prinz Eugen",
+      "via": [
+        "imphash"
+      ]
+    },
+    {
+      "kind": "malware",
       "ratio": 0.625,
       "shared": 5,
       "source": "malware:PHANTOMPULSE",
@@ -11070,6 +11191,17 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.143,
+      "shared": 1,
+      "source": "malware:PoisonX",
+      "strength": 6,
+      "target": "malware:ValleyRAT",
+      "via": [
+        "vhash"
+      ]
+    },
+    {
+      "kind": "malware",
       "ratio": 0.071,
       "shared": 1,
       "source": "malware:PowerCloud",
@@ -11202,14 +11334,16 @@
     },
     {
       "kind": "malware",
-      "ratio": 1.5,
-      "shared": 9,
+      "ratio": 1.833,
+      "shared": 11,
       "source": "malware:PureHVNC",
-      "strength": 9,
+      "strength": 19,
       "target": "malware:PureRAT",
       "via": [
         "filename",
-        "ioc"
+        "imphash",
+        "ioc",
+        "vhash"
       ]
     },
     {
@@ -11443,17 +11577,19 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.026,
-      "shared": 231,
+      "ratio": 2.535,
+      "shared": 289,
       "source": "malware:Sednit",
-      "strength": 17,
+      "strength": 27,
       "target": "malware:Zebrocy",
       "via": [
         "family",
         "filename",
+        "imphash",
         "ioc",
         "jarm",
-        "subnet"
+        "subnet",
+        "vhash"
       ]
     },
     {
@@ -11602,6 +11738,28 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.061,
+      "shared": 2,
+      "source": "malware:The Gentlemen Ransomware",
+      "strength": 4,
+      "target": "malware:Vidar Stealer",
+      "via": [
+        "imphash"
+      ]
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.061,
+      "shared": 2,
+      "source": "malware:The Gentlemen Ransomware",
+      "strength": 4,
+      "target": "malware:XMRig",
+      "via": [
+        "imphash"
+      ]
+    },
+    {
+      "kind": "malware",
       "ratio": 0.018,
       "shared": 1,
       "source": "malware:ThreatNeedle",
@@ -11650,17 +11808,19 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.894,
-      "shared": 301,
+      "ratio": 3.192,
+      "shared": 332,
       "source": "malware:Vidar Stealer",
-      "strength": 17,
+      "strength": 27,
       "target": "malware:XMRig",
       "via": [
         "family",
         "filename",
+        "imphash",
         "ioc",
         "jarm",
-        "subnet"
+        "subnet",
+        "vhash"
       ]
     },
     {
@@ -11677,28 +11837,29 @@
     },
     {
       "kind": "malware",
-      "ratio": 3,
-      "shared": 3,
+      "ratio": 5,
+      "shared": 5,
       "source": "malware:Webworm",
-      "strength": 3,
+      "strength": 13,
       "target": "malware:WormFrp",
       "via": [
         "family",
-        "filename"
-      ],
-      "weak_only": true
+        "filename",
+        "imphash",
+        "vhash"
+      ]
     },
     {
       "kind": "malware",
-      "ratio": 3,
-      "shared": 3,
+      "ratio": 4,
+      "shared": 4,
       "source": "malware:Webworm",
-      "strength": 1,
+      "strength": 7,
       "target": "malware:WormHole",
       "via": [
-        "filename"
-      ],
-      "weak_only": true
+        "filename",
+        "vhash"
+      ]
     },
     {
       "kind": "malware",
@@ -12373,6 +12534,12 @@
       "ioc_count": 57,
       "kind": "actor",
       "name": "TeamPCP"
+    },
+    {
+      "id": "actor:The Gentlemen",
+      "ioc_count": 33,
+      "kind": "actor",
+      "name": "The Gentlemen"
     },
     {
       "id": "actor:Transparent Tribe",
@@ -13431,6 +13598,12 @@
       "name": "Kazuar"
     },
     {
+      "id": "malware:LEASHTEST",
+      "ioc_count": 1,
+      "kind": "malware",
+      "name": "LEASHTEST"
+    },
+    {
       "id": "malware:LONGLEASH",
       "ioc_count": 1,
       "kind": "malware",
@@ -13561,12 +13734,6 @@
       "ioc_count": 20,
       "kind": "malware",
       "name": "OTTERCOOKIE"
-    },
-    {
-      "id": "malware:OWAReaperの概要",
-      "ioc_count": 5,
-      "kind": "malware",
-      "name": "OWAReaperの概要"
     },
     {
       "id": "malware:OXLOADER",
@@ -13849,6 +14016,12 @@
       "ioc_count": 20,
       "kind": "malware",
       "name": "TencShell"
+    },
+    {
+      "id": "malware:The Gentlemen Ransomware",
+      "ioc_count": 33,
+      "kind": "malware",
+      "name": "The Gentlemen Ransomware"
     },
     {
       "id": "malware:ThreatNeedle",
