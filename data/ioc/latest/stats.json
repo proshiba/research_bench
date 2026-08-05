@@ -536,7 +536,7 @@
       "ratio": 1,
       "target": 3226
     },
-    "newest_fetch": "2026-08-04",
+    "newest_fetch": "2026-08-05",
     "oldest_fetch": "2026-08-02",
     "virustotal": {
       "by_stage": {
@@ -549,7 +549,7 @@
           "target": 311
         },
         "3": {
-          "done": 511,
+          "done": 1317,
           "target": 4514
         },
         "4": {
@@ -565,11 +565,11 @@
           "target": 706
         }
       },
-      "done": 5558,
-      "known": 4734,
-      "ratio": 0.299,
+      "done": 6364,
+      "known": 5268,
+      "ratio": 0.342,
       "target": 18604,
-      "unknown": 824
+      "unknown": 1096
     }
   },
   "entities": {
@@ -624,7 +624,7 @@
       "by_via": {
         "asn": 3,
         "certificate": 36,
-        "family": 62,
+        "family": 86,
         "filename": 11,
         "imphash": 8,
         "ioc": 81,
@@ -632,10 +632,10 @@
         "registrable": 122,
         "resolution": 6,
         "subnet": 61,
-        "vhash": 12
+        "vhash": 15
       },
       "identical_sets": 2,
-      "pairs": 465,
+      "pairs": 487,
       "top": [
         {
           "a": "Silver Fox",
@@ -706,14 +706,17 @@
             ],
             "family": [
               "BabyShark",
-              "onlinegames"
+              "fragtor",
+              "o97m",
+              "onlinegames",
+              "valyria"
             ],
             "filename": [
               "455721986.exe",
               "6f76a8e16908ba2d576cf0e8cdb70114dcb70e0f7223be10aab3a728dc65c41c_unpacked",
               "BabyShark.exe",
               "HEUR-Trojan.Win32.BabyShark.gen-6f76a8e16908ba2d576cf0e8cdb70114dcb70e0f7223be10aab3a728dc65c41c",
-              "umgii1el.exe"
+              "payload_1.exe"
             ],
             "imphash": [
               "57b6d88707d9cd1c87169076c24f962e"
@@ -738,11 +741,12 @@
               "211.239.157.0/24"
             ],
             "vhash": [
-              "034036651d1az29!z"
+              "034036651d1az29!z",
+              "fe43cc098163d8fb4f1b2b088de0949b"
             ]
           },
-          "ratio": 0.02,
-          "shared": 21,
+          "ratio": 0.025,
+          "shared": 27,
           "strength": 34,
           "via": [
             "asn",
@@ -1129,7 +1133,7 @@
           ]
         }
       ],
-      "weak_only": 333
+      "weak_only": 353
     },
     "campaign": {
       "by_via": {
@@ -1629,7 +1633,7 @@
       "by_via": {
         "asn": 2,
         "certificate": 21,
-        "family": 60,
+        "family": 59,
         "filename": 21,
         "imphash": 17,
         "ioc": 33,
@@ -1640,7 +1644,7 @@
         "vhash": 20
       },
       "identical_sets": 8,
-      "pairs": 374,
+      "pairs": 373,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -1659,9 +1663,9 @@
             "family": [
               "kqil",
               "lazy",
-              "malisher",
               "netscan",
-              "qwexlafiba"
+              "qwexlafiba",
+              "zapchast"
             ],
             "filename": [
               "$RJ52J97.sys",
@@ -1709,8 +1713,8 @@
               "0260a6050d0506060d1779z17z1xz"
             ]
           },
-          "ratio": 3.968,
-          "shared": 123,
+          "ratio": 3.935,
+          "shared": 122,
           "strength": 43,
           "via": [
             "asn",
@@ -2280,7 +2284,7 @@
           ]
         }
       ],
-      "weak_only": 310
+      "weak_only": 309
     }
   },
   "schema": 1,
@@ -2567,15 +2571,23 @@
     "actors": {
       "longest": [
         {
-          "dated": 262,
-          "first": "2010-05-08",
+          "dated": 318,
+          "first": "2009-03-30",
           "iocs": 1343,
           "last": "2026-07-24",
           "name": "APT37",
-          "span_days": 5921
+          "span_days": 6325
         },
         {
-          "dated": 241,
+          "dated": 21,
+          "first": "2008-04-19",
+          "iocs": 167,
+          "last": "2023-08-31",
+          "name": "Konni",
+          "span_days": 5612
+        },
+        {
+          "dated": 264,
           "first": "2010-09-27",
           "iocs": 1163,
           "last": "2025-11-07",
@@ -2583,7 +2595,7 @@
           "span_days": 5520
         },
         {
-          "dated": 99,
+          "dated": 134,
           "first": "2012-10-17",
           "iocs": 1068,
           "last": "2026-05-05",
@@ -2597,6 +2609,14 @@
           "last": "2025-07-02",
           "name": "APT29",
           "span_days": 4641
+        },
+        {
+          "dated": 103,
+          "first": "2013-12-17",
+          "iocs": 353,
+          "last": "2025-07-22",
+          "name": "OceanLotus",
+          "span_days": 4235
         },
         {
           "dated": 43,
@@ -2629,25 +2649,9 @@
           "last": "2026-07-21",
           "name": "DragonForce",
           "span_days": 3638
-        },
-        {
-          "dated": 15,
-          "first": "2016-06-08",
-          "iocs": 238,
-          "last": "2026-03-11",
-          "name": "MuddyWater",
-          "span_days": 3563
-        },
-        {
-          "dated": 47,
-          "first": "2015-10-20",
-          "iocs": 353,
-          "last": "2025-07-22",
-          "name": "OceanLotus",
-          "span_days": 3563
         }
       ],
-      "with_dates": 97
+      "with_dates": 101
     },
     "campaigns": {
       "spans": [
@@ -2822,19 +2826,19 @@
       ],
       "with_dates": 10
     },
-    "dated": 1991,
+    "dated": 2525,
     "index_lag": {
-      "ahead": 94,
-      "median_days": 63,
-      "p25_days": 7,
+      "ahead": 97,
+      "median_days": 62,
+      "p25_days": 8,
       "p75_days": 120,
-      "pairs": 952
+      "pairs": 980
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 149,
+      "checked": 151,
       "lowest": [
         {
           "checked": 6,
@@ -2858,7 +2862,7 @@
           "unknown": 1
         },
         {
-          "checked": 4,
+          "checked": 5,
           "iocs": 324,
           "median_malicious": 0,
           "name": "Equation Group",
@@ -2879,11 +2883,11 @@
           "unknown": 3
         },
         {
-          "checked": 5,
+          "checked": 6,
           "iocs": 216,
           "median_malicious": 0,
           "name": "Lamberts",
-          "unknown": 1
+          "unknown": 6
         },
         {
           "checked": 17,
@@ -2897,7 +2901,7 @@
           "iocs": 174,
           "median_malicious": 0,
           "name": "Void Balaur",
-          "unknown": 0
+          "unknown": 1
         },
         {
           "checked": 6,
@@ -2908,7 +2912,7 @@
         }
       ]
     },
-    "clean": 425,
+    "clean": 435,
     "disagreement": {
       "samples": [
         {
@@ -3047,9 +3051,9 @@
           ]
         }
       ],
-      "total": 86
+      "total": 87
     },
-    "malicious": 4258,
-    "unknown": 824
+    "malicious": 4782,
+    "unknown": 1096
   }
 }
