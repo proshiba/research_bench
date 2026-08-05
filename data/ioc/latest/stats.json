@@ -549,7 +549,7 @@
           "target": 311
         },
         "3": {
-          "done": 1317,
+          "done": 3263,
           "target": 4514
         },
         "4": {
@@ -565,11 +565,11 @@
           "target": 706
         }
       },
-      "done": 6364,
-      "known": 5268,
-      "ratio": 0.342,
+      "done": 8310,
+      "known": 6591,
+      "ratio": 0.447,
       "target": 18604,
-      "unknown": 1096
+      "unknown": 1719
     }
   },
   "entities": {
@@ -624,19 +624,84 @@
       "by_via": {
         "asn": 3,
         "certificate": 36,
-        "family": 86,
-        "filename": 11,
-        "imphash": 8,
+        "family": 129,
+        "filename": 32,
+        "imphash": 13,
         "ioc": 81,
         "jarm": 280,
         "registrable": 122,
         "resolution": 6,
         "subnet": 61,
-        "vhash": 15
+        "vhash": 26
       },
       "identical_sets": 2,
-      "pairs": 487,
+      "pairs": 526,
       "top": [
+        {
+          "a": "APT28",
+          "b": "APT29",
+          "evidence": {
+            "certificate": [
+              "88d59882cd60cff3e7f56dafc2adfb80cea2f66681c75536434202a3abac435b",
+              "929a5da9df4b1bfc1362dcc0f8fa4f0fd04e442629d63e74caf307efc2c1ec9c"
+            ],
+            "family": [
+              "bulz",
+              "jaik"
+            ],
+            "filename": [
+              "dev.bin",
+              "drprov.dll",
+              "localfile~",
+              "main.dll",
+              "payload.js"
+            ],
+            "ioc": [
+              "ioc.domain|mail.ru",
+              "ioc.domain|seznam.cz"
+            ],
+            "jarm": [
+              "15d3fd16d29d29d00042d43d000000eed8083ffe0365e3dd86aa60eff5d3bb",
+              "20d08b20d21d20d20c42d08b20b41d494e0df9532e75299f15ba73156cee38",
+              "29d29d15d29d29d00041d41d000000df133019600a83abfb096ff3e86cd79d",
+              "29d29d15d29d29d00042d42d000000038eaaf490bec8dc33757f165ce01762",
+              "29d3fd00029d29d00042d43d00041d598ac0c1012db967bb1ad0ff2491b3ae"
+            ],
+            "registrable": [
+              "mail.ru",
+              "seznam.cz"
+            ],
+            "resolution": [
+              "ioc.ipv4|77.75.77.222",
+              "ioc.ipv4|77.75.79.222",
+              "ioc.ipv6|2a02:598:2::1222",
+              "ioc.ipv6|2a02:598:a::79:222"
+            ],
+            "subnet": [
+              "188.241.68.0/24",
+              "220.158.216.0/24",
+              "79.143.87.0/24",
+              "81.17.30.0/24"
+            ],
+            "vhash": [
+              "02603e0f7d1bz4tz1017z"
+            ]
+          },
+          "ratio": 0.065,
+          "shared": 64,
+          "strength": 41,
+          "via": [
+            "certificate",
+            "family",
+            "filename",
+            "ioc",
+            "jarm",
+            "registrable",
+            "resolution",
+            "subnet",
+            "vhash"
+          ]
+        },
         {
           "a": "Silver Fox",
           "b": "UTG-Q-1000",
@@ -698,6 +763,60 @@
           ]
         },
         {
+          "a": "APT28",
+          "b": "Gamaredon",
+          "evidence": {
+            "certificate": [
+              "5a3c105aa7f6d8ee8b0282a12d951128a922d798a84bfa9823179e18cba83ab4",
+              "f29681d6e4ad64673d561247b8d8b055e92b61133ee49d1fb0c997bcd038d36a"
+            ],
+            "family": [
+              "jaik"
+            ],
+            "filename": [
+              "localfile~",
+              "main.js",
+              "prod.js",
+              "release.exe",
+              "runner.exe"
+            ],
+            "ioc": [
+              "ioc.domain|email.cz",
+              "ioc.domain|paste.ee"
+            ],
+            "jarm": [
+              "2ad2ad0002ad2ad00042d42d000000b906c61c02c1194a121d828bc93b5bd3",
+              "2ad2ad16d00000022c2ad2ad2ad2ad46ff59a659b30fd8aeaa6755c67691b4",
+              "2ad2ad16d2ad2ad0002ad2ad2ad2ad367956b0f7c241e0ae292cd63faf3f5e"
+            ],
+            "registrable": [
+              "email.cz",
+              "paste.ee"
+            ],
+            "resolution": [
+              "ioc.ipv4|23.186.113.60",
+              "ioc.ipv4|77.75.78.196",
+              "ioc.ipv6|2a02:598:a::78:196"
+            ],
+            "subnet": [
+              "195.133.88.0/24"
+            ]
+          },
+          "ratio": 0.02,
+          "shared": 23,
+          "strength": 35,
+          "via": [
+            "certificate",
+            "family",
+            "filename",
+            "ioc",
+            "jarm",
+            "registrable",
+            "resolution",
+            "subnet"
+          ]
+        },
+        {
           "a": "APT37",
           "b": "Lazarus Group",
           "evidence": {
@@ -714,9 +833,9 @@
             "filename": [
               "455721986.exe",
               "6f76a8e16908ba2d576cf0e8cdb70114dcb70e0f7223be10aab3a728dc65c41c_unpacked",
-              "BabyShark.exe",
-              "HEUR-Trojan.Win32.BabyShark.gen-6f76a8e16908ba2d576cf0e8cdb70114dcb70e0f7223be10aab3a728dc65c41c",
-              "payload_1.exe"
+              "7f9bec87-ee4c-4bc1-aea8-d6af6db8c7a5.exe",
+              "Ant_3.5.exe",
+              "BabyShark.exe"
             ],
             "imphash": [
               "57b6d88707d9cd1c87169076c24f962e"
@@ -742,11 +861,12 @@
             ],
             "vhash": [
               "034036651d1az29!z",
+              "2170361515151z240020",
               "fe43cc098163d8fb4f1b2b088de0949b"
             ]
           },
-          "ratio": 0.025,
-          "shared": 27,
+          "ratio": 0.029,
+          "shared": 31,
           "strength": 34,
           "via": [
             "asn",
@@ -824,96 +944,6 @@
             "jarm",
             "registrable",
             "vhash"
-          ]
-        },
-        {
-          "a": "APT28",
-          "b": "APT29",
-          "evidence": {
-            "certificate": [
-              "88d59882cd60cff3e7f56dafc2adfb80cea2f66681c75536434202a3abac435b",
-              "929a5da9df4b1bfc1362dcc0f8fa4f0fd04e442629d63e74caf307efc2c1ec9c"
-            ],
-            "ioc": [
-              "ioc.domain|mail.ru",
-              "ioc.domain|seznam.cz"
-            ],
-            "jarm": [
-              "15d3fd16d29d29d00042d43d000000eed8083ffe0365e3dd86aa60eff5d3bb",
-              "20d08b20d21d20d20c42d08b20b41d494e0df9532e75299f15ba73156cee38",
-              "29d29d15d29d29d00041d41d000000df133019600a83abfb096ff3e86cd79d",
-              "29d29d15d29d29d00042d42d000000038eaaf490bec8dc33757f165ce01762",
-              "29d3fd00029d29d00042d43d00041d598ac0c1012db967bb1ad0ff2491b3ae"
-            ],
-            "registrable": [
-              "mail.ru",
-              "seznam.cz"
-            ],
-            "resolution": [
-              "ioc.ipv4|77.75.77.222",
-              "ioc.ipv4|77.75.79.222",
-              "ioc.ipv6|2a02:598:2::1222",
-              "ioc.ipv6|2a02:598:a::79:222"
-            ],
-            "subnet": [
-              "188.241.68.0/24",
-              "220.158.216.0/24",
-              "79.143.87.0/24",
-              "81.17.30.0/24"
-            ]
-          },
-          "ratio": 0.022,
-          "shared": 22,
-          "strength": 32,
-          "via": [
-            "certificate",
-            "ioc",
-            "jarm",
-            "registrable",
-            "resolution",
-            "subnet"
-          ]
-        },
-        {
-          "a": "APT28",
-          "b": "Gamaredon",
-          "evidence": {
-            "certificate": [
-              "5a3c105aa7f6d8ee8b0282a12d951128a922d798a84bfa9823179e18cba83ab4",
-              "f29681d6e4ad64673d561247b8d8b055e92b61133ee49d1fb0c997bcd038d36a"
-            ],
-            "ioc": [
-              "ioc.domain|email.cz",
-              "ioc.domain|paste.ee"
-            ],
-            "jarm": [
-              "2ad2ad0002ad2ad00042d42d000000b906c61c02c1194a121d828bc93b5bd3",
-              "2ad2ad16d00000022c2ad2ad2ad2ad46ff59a659b30fd8aeaa6755c67691b4",
-              "2ad2ad16d2ad2ad0002ad2ad2ad2ad367956b0f7c241e0ae292cd63faf3f5e"
-            ],
-            "registrable": [
-              "email.cz",
-              "paste.ee"
-            ],
-            "resolution": [
-              "ioc.ipv4|23.186.113.60",
-              "ioc.ipv4|77.75.78.196",
-              "ioc.ipv6|2a02:598:a::78:196"
-            ],
-            "subnet": [
-              "195.133.88.0/24"
-            ]
-          },
-          "ratio": 0.011,
-          "shared": 13,
-          "strength": 32,
-          "via": [
-            "certificate",
-            "ioc",
-            "jarm",
-            "registrable",
-            "resolution",
-            "subnet"
           ]
         },
         {
@@ -1071,6 +1101,10 @@
               "215fb5532f37933abcce28371a9a2a499aacc50b07f6faa656629a977a5a86f6",
               "7dd479843b7a08650c0365ea101fa69bc4926e0ad8ac799d7eb0117e8675f8a6"
             ],
+            "filename": [
+              "localfile~",
+              "生產.bat"
+            ],
             "ioc": [
               "ioc.domain|camdvr.org",
               "ioc.domain|rf.gd"
@@ -1088,11 +1122,12 @@
               "185.27.134.0/24"
             ]
           },
-          "ratio": 0.024,
-          "shared": 10,
-          "strength": 25,
+          "ratio": 0.028,
+          "shared": 12,
+          "strength": 26,
           "via": [
             "certificate",
+            "filename",
             "ioc",
             "jarm",
             "registrable",
@@ -1133,7 +1168,7 @@
           ]
         }
       ],
-      "weak_only": 353
+      "weak_only": 379
     },
     "campaign": {
       "by_via": {
@@ -1633,18 +1668,18 @@
       "by_via": {
         "asn": 2,
         "certificate": 21,
-        "family": 59,
-        "filename": 21,
-        "imphash": 17,
+        "family": 65,
+        "filename": 22,
+        "imphash": 18,
         "ioc": 33,
         "jarm": 235,
         "registrable": 73,
         "resolution": 8,
         "subnet": 30,
-        "vhash": 20
+        "vhash": 26
       },
       "identical_sets": 8,
-      "pairs": 373,
+      "pairs": 384,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -1664,7 +1699,6 @@
               "kqil",
               "lazy",
               "netscan",
-              "qwexlafiba",
               "zapchast"
             ],
             "filename": [
@@ -1713,8 +1747,8 @@
               "0260a6050d0506060d1779z17z1xz"
             ]
           },
-          "ratio": 3.935,
-          "shared": 122,
+          "ratio": 3.903,
+          "shared": 121,
           "strength": 43,
           "via": [
             "asn",
@@ -2270,8 +2304,8 @@
               "017086656d15551d15545az2e!z"
             ]
           },
-          "ratio": 3.192,
-          "shared": 332,
+          "ratio": 3.183,
+          "shared": 331,
           "strength": 27,
           "via": [
             "family",
@@ -2284,7 +2318,7 @@
           ]
         }
       ],
-      "weak_only": 309
+      "weak_only": 314
     }
   },
   "schema": 1,
@@ -2571,7 +2605,7 @@
     "actors": {
       "longest": [
         {
-          "dated": 318,
+          "dated": 353,
           "first": "2009-03-30",
           "iocs": 1343,
           "last": "2026-07-24",
@@ -2579,7 +2613,39 @@
           "span_days": 6325
         },
         {
+          "dated": 242,
+          "first": "2009-12-15",
+          "iocs": 1068,
+          "last": "2026-05-05",
+          "name": "Lazarus Group",
+          "span_days": 5985
+        },
+        {
+          "dated": 326,
+          "first": "2009-03-10",
+          "iocs": 989,
+          "last": "2025-07-02",
+          "name": "APT29",
+          "span_days": 5958
+        },
+        {
           "dated": 21,
+          "first": "2010-08-18",
+          "iocs": 1590,
+          "last": "2026-06-08",
+          "name": "Gamaredon",
+          "span_days": 5773
+        },
+        {
+          "dated": 291,
+          "first": "2010-09-27",
+          "iocs": 1163,
+          "last": "2026-02-12",
+          "name": "APT28",
+          "span_days": 5617
+        },
+        {
+          "dated": 28,
           "first": "2008-04-19",
           "iocs": 167,
           "last": "2023-08-31",
@@ -2587,31 +2653,15 @@
           "span_days": 5612
         },
         {
-          "dated": 264,
-          "first": "2010-09-27",
-          "iocs": 1163,
-          "last": "2025-11-07",
-          "name": "APT28",
-          "span_days": 5520
+          "dated": 160,
+          "first": "2011-03-02",
+          "iocs": 325,
+          "last": "2023-09-29",
+          "name": "BadMagic",
+          "span_days": 4594
         },
         {
-          "dated": 134,
-          "first": "2012-10-17",
-          "iocs": 1068,
-          "last": "2026-05-05",
-          "name": "Lazarus Group",
-          "span_days": 4948
-        },
-        {
-          "dated": 27,
-          "first": "2012-10-17",
-          "iocs": 989,
-          "last": "2025-07-02",
-          "name": "APT29",
-          "span_days": 4641
-        },
-        {
-          "dated": 103,
+          "dated": 146,
           "first": "2013-12-17",
           "iocs": 353,
           "last": "2025-07-22",
@@ -2619,7 +2669,7 @@
           "span_days": 4235
         },
         {
-          "dated": 43,
+          "dated": 45,
           "first": "2014-11-19",
           "iocs": 121,
           "last": "2026-05-12",
@@ -2627,31 +2677,15 @@
           "span_days": 4192
         },
         {
-          "dated": 18,
+          "dated": 19,
           "first": "2015-05-08",
           "iocs": 27,
           "last": "2026-06-22",
           "name": "Gentlemen RaaS",
           "span_days": 4063
-        },
-        {
-          "dated": 11,
-          "first": "2012-07-20",
-          "iocs": 30,
-          "last": "2023-08-02",
-          "name": "Nomadic Octopus",
-          "span_days": 4030
-        },
-        {
-          "dated": 16,
-          "first": "2016-08-04",
-          "iocs": 32,
-          "last": "2026-07-21",
-          "name": "DragonForce",
-          "span_days": 3638
         }
       ],
-      "with_dates": 101
+      "with_dates": 115
     },
     "campaigns": {
       "spans": [
@@ -2826,19 +2860,19 @@
       ],
       "with_dates": 10
     },
-    "dated": 2525,
+    "dated": 3848,
     "index_lag": {
-      "ahead": 97,
-      "median_days": 62,
-      "p25_days": 8,
-      "p75_days": 120,
-      "pairs": 980
+      "ahead": 126,
+      "median_days": 52,
+      "p25_days": 12,
+      "p75_days": 117,
+      "pairs": 1293
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 151,
+      "checked": 159,
       "lowest": [
         {
           "checked": 6,
@@ -2862,6 +2896,13 @@
           "unknown": 1
         },
         {
+          "checked": 3,
+          "iocs": 79,
+          "median_malicious": 0,
+          "name": "Callisto Group",
+          "unknown": 3
+        },
+        {
           "checked": 5,
           "iocs": 324,
           "median_malicious": 0,
@@ -2883,13 +2924,6 @@
           "unknown": 3
         },
         {
-          "checked": 6,
-          "iocs": 216,
-          "median_malicious": 0,
-          "name": "Lamberts",
-          "unknown": 6
-        },
-        {
           "checked": 17,
           "iocs": 17,
           "median_malicious": 0,
@@ -2897,22 +2931,22 @@
           "unknown": 0
         },
         {
+          "checked": 4,
+          "iocs": 51,
+          "median_malicious": 0,
+          "name": "UNC5174",
+          "unknown": 0
+        },
+        {
           "checked": 5,
           "iocs": 174,
           "median_malicious": 0,
           "name": "Void Balaur",
-          "unknown": 1
-        },
-        {
-          "checked": 6,
-          "iocs": 11,
-          "median_malicious": 1,
-          "name": "APT42",
           "unknown": 2
         }
       ]
     },
-    "clean": 435,
+    "clean": 471,
     "disagreement": {
       "samples": [
         {
@@ -3051,9 +3085,9 @@
           ]
         }
       ],
-      "total": 87
+      "total": 90
     },
-    "malicious": 4782,
-    "unknown": 1096
+    "malicious": 6069,
+    "unknown": 1719
   }
 }
