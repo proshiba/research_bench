@@ -291,10 +291,29 @@ const DEGENERATE_HASH = new Set([
   "d41d8cd98f00b204e9800998ecf8427e",   // 空（インポートが無い PE の imphash）
   "0000000000000000000000000000000000000000000000000000000000000000",
 ]);
+/**
+ * **vhash は PE のときだけ使う。**
+ *
+ * 実測で、PE 以外の vhash は**中身ではなく入れ物の形式**しか見ていなかった。
+ *   `fe43cc09…`  18 検体 / 4 アクター  Hangul 文書 + Outlook + MS Word（12KB〜800KB）
+ *   `7596fdd0…`   5 検体 / 3 アクター  JavaScript + シェルスクリプト（**105B〜1.5MB**）
+ *   `9f0d05f0…`   4 検体 / 3 アクター  PDF
+ *   `2a85fbef…`   9 検体 / 4 アクター  ELF（1.4MB〜6.2MB）
+ * 105 バイトのシェルスクリプトと 1.5MB の JavaScript が同じ値になる時点で、
+ * これは「同じ物」の証拠にならない。APT29 ↔ APT41 のような組が立っていた。
+ *
+ * PE では 1,679 群が安定していて、同じ問題は出ていない。種別で切るほうが、
+ * 上限を下げて PE ごと巻き添えにするより損が小さい（上限 2 だと 77 組 → 16 組、
+ * 種別で切ると 77 組 → 58 組で、誤検知はどちらも 0 になる）。
+ * `imphash` は PE のインポート表なので、そもそも PE にしか付かない。
+ */
+const PE_TYPE = /^Win(32|64) (EXE|DLL)/;
+const isPe = (ioc) => PE_TYPE.test(vtByIoc.get(ioc)?.type_description || "");
 const hashOwners = (field) => {
   const m = new Map();
   for (const l of links) {
     if (!KINDS.includes(l.kind)) continue;
+    if (field === "vhash" && !isPe(l.ioc)) continue;
     const v = vtByIoc.get(l.ioc)?.[field];
     if (!v || DEGENERATE_HASH.has(v)) continue;
     if (!m.has(v)) m.set(v, new Set());
@@ -478,7 +497,7 @@ function groupsFor(kind) {
       const v = vtByIoc.get(key);
       for (const n of v?.names || []) if (!commonName.has(n)) put(byFilename, n);
       if (v?.jarm && !commonJarm.has(v.jarm)) put(byJarm, v.jarm);
-      put(byVhash, usableHash("vhash", v?.vhash));
+      if (isPe(key)) put(byVhash, usableHash("vhash", v?.vhash));
       put(byImphash, usableHash("imphash", v?.imphash));
     }
   }

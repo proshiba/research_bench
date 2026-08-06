@@ -670,10 +670,10 @@
         "registrable": 132,
         "resolution": 2,
         "subnet": 64,
-        "vhash": 34
+        "vhash": 9
       },
       "identical_sets": 3,
-      "pairs": 706,
+      "pairs": 695,
       "top": [
         {
           "a": "Silver Fox",
@@ -895,12 +895,11 @@
               "034036651d1az29!z",
               "035056656d15551az437z27z23za1z4bz",
               "21603655151ff040fffff10e66ff",
-              "2170361515151z240020",
-              "fe43cc098163d8fb4f1b2b088de0949b"
+              "2170361515151z240020"
             ]
           },
-          "ratio": 0.04,
-          "shared": 43,
+          "ratio": 0.039,
+          "shared": 42,
           "strength": 34,
           "via": [
             "asn",
@@ -966,8 +965,8 @@
               "126076655d155d05555az5b&za40"
             ]
           },
-          "ratio": 1.865,
-          "shared": 69,
+          "ratio": 1.784,
+          "shared": 66,
           "strength": 33,
           "via": [
             "certificate",
@@ -1028,8 +1027,8 @@
               "125066655d15551550c8z857z7031z81z1011za1z40217z1"
             ]
           },
-          "ratio": 1.628,
-          "shared": 70,
+          "ratio": 1.558,
+          "shared": 67,
           "strength": 29,
           "via": [
             "family",
@@ -1219,7 +1218,7 @@
           ]
         }
       ],
-      "weak_only": 546
+      "weak_only": 557
     },
     "campaign": {
       "by_via": {
@@ -1233,7 +1232,7 @@
         "registrable": 1,
         "resolution": 0,
         "subnet": 0,
-        "vhash": 1
+        "vhash": 0
       },
       "identical_sets": 0,
       "pairs": 6,
@@ -1255,20 +1254,16 @@
             "registrable": [
               "au-pair.org",
               "co.cr"
-            ],
-            "vhash": [
-              "1e6f88518876090960c9c1a37180d410"
             ]
           },
-          "ratio": 0.119,
-          "shared": 7,
-          "strength": 26,
+          "ratio": 0.102,
+          "shared": 6,
+          "strength": 20,
           "via": [
             "certificate",
             "ioc",
             "jarm",
-            "registrable",
-            "vhash"
+            "registrable"
           ]
         },
         {
@@ -1711,10 +1706,10 @@
         "registrable": 69,
         "resolution": 1,
         "subnet": 40,
-        "vhash": 39
+        "vhash": 22
       },
       "identical_sets": 8,
-      "pairs": 551,
+      "pairs": 542,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -1780,8 +1775,8 @@
               "0260a6050d0506060d1779z17z1xz"
             ]
           },
-          "ratio": 3.839,
-          "shared": 119,
+          "ratio": 3.806,
+          "shared": 118,
           "strength": 43,
           "via": [
             "asn",
@@ -1839,13 +1834,11 @@
             ],
             "vhash": [
               "125066655d155d055az49nz1ez1",
-              "125066655d155d055az51nz1ez1",
-              "3cd990bb3b15831b074569eab4179de1",
-              "a180547f1880edc6f59363a3a8e90d22"
+              "125066655d155d055az51nz1ez1"
             ]
           },
-          "ratio": 1.548,
-          "shared": 48,
+          "ratio": 1.484,
+          "shared": 46,
           "strength": 33,
           "via": [
             "certificate",
@@ -1855,183 +1848,6 @@
             "ioc",
             "jarm",
             "registrable",
-            "vhash"
-          ]
-        },
-        {
-          "a": "AMOS",
-          "b": "Shub Stealer",
-          "evidence": {
-            "certificate": [
-              "00afda128fa451d0b82d8b5162daba1e001bf3233f874b503c5dac0feea776d0",
-              "03c01db9837cc0cfefa957250f0c41a5d8f9760e639e0300298559ef0e87e714",
-              "062aba7f448606a5cc8e46197bf79aaa921db22d4dbb1435c85ad42e58c92b06",
-              "0ab1ce1fdb1267516e5c77326453ef75032dfed5472305b34960a744ecf22bf4",
-              "0cc645dffc2a676d52d9e1cd45caaa60d3e2ec92469871c01fc821d5d9613547"
-            ],
-            "filename": [
-              ".mainhelper",
-              "123",
-              "123a",
-              "7wsawlcvm.exe",
-              "kito"
-            ],
-            "ioc": [
-              "ioc.domain|0x666.info",
-              "ioc.domain|aforvm.com",
-              "ioc.domain|apple-mac-fix-hidden.medium.com",
-              "ioc.domain|arkypc.com",
-              "ioc.domain|avafex.com"
-            ],
-            "jarm": [
-              "00000000000000000000043d00041d1798d6156df422564fb9b667b7418e4c",
-              "27d27d27d00027d1dc42d42d000000f7be33a964d0daa97a97a8068db17dd3",
-              "27d40d40d00040d1dc27d40d27d40d5fb4c89fe3813d172ffb53f84a68f750",
-              "29d3fd00029d29d00041d41d00041d6b5eefa2404a56c2ced79a0d16afe36c"
-            ],
-            "registrable": [
-              "0x666.info",
-              "aforvm.com",
-              "arkypc.com",
-              "avafex.com",
-              "bankafolder.com"
-            ],
-            "subnet": [
-              "45.94.47.0/24",
-              "95.85.251.0/24"
-            ],
-            "vhash": [
-              "2a581c7f46b2e4fe65c191a172dc2260"
-            ]
-          },
-          "ratio": 2.643,
-          "shared": 378,
-          "strength": 32,
-          "via": [
-            "certificate",
-            "filename",
-            "ioc",
-            "jarm",
-            "registrable",
-            "subnet",
-            "vhash"
-          ]
-        },
-        {
-          "a": "Macsync",
-          "b": "Shub Stealer",
-          "evidence": {
-            "certificate": [
-              "00afda128fa451d0b82d8b5162daba1e001bf3233f874b503c5dac0feea776d0",
-              "03c01db9837cc0cfefa957250f0c41a5d8f9760e639e0300298559ef0e87e714",
-              "062aba7f448606a5cc8e46197bf79aaa921db22d4dbb1435c85ad42e58c92b06",
-              "0ab1ce1fdb1267516e5c77326453ef75032dfed5472305b34960a744ecf22bf4",
-              "0cc645dffc2a676d52d9e1cd45caaa60d3e2ec92469871c01fc821d5d9613547"
-            ],
-            "filename": [
-              ".mainhelper",
-              "123",
-              "123a",
-              "7wsawlcvm.exe",
-              "kito"
-            ],
-            "ioc": [
-              "ioc.domain|0x666.info",
-              "ioc.domain|aforvm.com",
-              "ioc.domain|apple-mac-fix-hidden.medium.com",
-              "ioc.domain|arkypc.com",
-              "ioc.domain|avafex.com"
-            ],
-            "jarm": [
-              "00000000000000000000043d00041d1798d6156df422564fb9b667b7418e4c",
-              "27d27d27d00027d1dc42d42d000000f7be33a964d0daa97a97a8068db17dd3",
-              "27d40d40d00040d1dc27d40d27d40d5fb4c89fe3813d172ffb53f84a68f750",
-              "29d3fd00029d29d00041d41d00041d6b5eefa2404a56c2ced79a0d16afe36c"
-            ],
-            "registrable": [
-              "0x666.info",
-              "aforvm.com",
-              "arkypc.com",
-              "avafex.com",
-              "bankafolder.com"
-            ],
-            "subnet": [
-              "45.94.47.0/24",
-              "95.85.251.0/24"
-            ],
-            "vhash": [
-              "2a581c7f46b2e4fe65c191a172dc2260"
-            ]
-          },
-          "ratio": 2.643,
-          "shared": 378,
-          "strength": 32,
-          "via": [
-            "certificate",
-            "filename",
-            "ioc",
-            "jarm",
-            "registrable",
-            "subnet",
-            "vhash"
-          ]
-        },
-        {
-          "a": "AMOS",
-          "b": "Macsync",
-          "evidence": {
-            "certificate": [
-              "00afda128fa451d0b82d8b5162daba1e001bf3233f874b503c5dac0feea776d0",
-              "03c01db9837cc0cfefa957250f0c41a5d8f9760e639e0300298559ef0e87e714",
-              "062aba7f448606a5cc8e46197bf79aaa921db22d4dbb1435c85ad42e58c92b06",
-              "0ab1ce1fdb1267516e5c77326453ef75032dfed5472305b34960a744ecf22bf4",
-              "0cc645dffc2a676d52d9e1cd45caaa60d3e2ec92469871c01fc821d5d9613547"
-            ],
-            "filename": [
-              ".mainhelper",
-              "123",
-              "123a",
-              "7wsawlcvm.exe",
-              "kito"
-            ],
-            "ioc": [
-              "ioc.domain|0x666.info",
-              "ioc.domain|aforvm.com",
-              "ioc.domain|apple-mac-fix-hidden.medium.com",
-              "ioc.domain|arkypc.com",
-              "ioc.domain|avafex.com"
-            ],
-            "jarm": [
-              "00000000000000000000043d00041d1798d6156df422564fb9b667b7418e4c",
-              "27d27d27d00027d1dc42d42d000000f7be33a964d0daa97a97a8068db17dd3",
-              "27d40d40d00040d1dc27d40d27d40d5fb4c89fe3813d172ffb53f84a68f750",
-              "29d3fd00029d29d00041d41d00041d6b5eefa2404a56c2ced79a0d16afe36c"
-            ],
-            "registrable": [
-              "0x666.info",
-              "aforvm.com",
-              "arkypc.com",
-              "avafex.com",
-              "bankafolder.com"
-            ],
-            "subnet": [
-              "45.94.47.0/24",
-              "95.85.251.0/24"
-            ],
-            "vhash": [
-              "2a581c7f46b2e4fe65c191a172dc2260"
-            ]
-          },
-          "ratio": 2.455,
-          "shared": 378,
-          "strength": 32,
-          "via": [
-            "certificate",
-            "filename",
-            "ioc",
-            "jarm",
-            "registrable",
-            "subnet",
             "vhash"
           ]
         },
@@ -2078,12 +1894,11 @@
               "117026751\"z",
               "117066655d755d055az5c&za40",
               "126076655d155d05555az5b&za40",
-              "185076655d155d055551z13z60051mz1acza40",
-              "9c2cae4bfc7e8fbe0a7647323dbf0d1c"
+              "185076655d155d055551z13z60051mz1acza40"
             ]
           },
-          "ratio": 1.567,
-          "shared": 47,
+          "ratio": 1.533,
+          "shared": 46,
           "strength": 31,
           "via": [
             "certificate",
@@ -2275,8 +2090,8 @@
               "02503e0f7d101013z11z69z15z13z1011z19z"
             ]
           },
-          "ratio": 2.518,
-          "shared": 287,
+          "ratio": 2.5,
+          "shared": 285,
           "strength": 27,
           "via": [
             "family",
@@ -2286,6 +2101,171 @@
             "jarm",
             "subnet",
             "vhash"
+          ]
+        },
+        {
+          "a": "AMOS",
+          "b": "Shub Stealer",
+          "evidence": {
+            "certificate": [
+              "00afda128fa451d0b82d8b5162daba1e001bf3233f874b503c5dac0feea776d0",
+              "03c01db9837cc0cfefa957250f0c41a5d8f9760e639e0300298559ef0e87e714",
+              "062aba7f448606a5cc8e46197bf79aaa921db22d4dbb1435c85ad42e58c92b06",
+              "0ab1ce1fdb1267516e5c77326453ef75032dfed5472305b34960a744ecf22bf4",
+              "0cc645dffc2a676d52d9e1cd45caaa60d3e2ec92469871c01fc821d5d9613547"
+            ],
+            "filename": [
+              ".mainhelper",
+              "123",
+              "123a",
+              "7wsawlcvm.exe",
+              "kito"
+            ],
+            "ioc": [
+              "ioc.domain|0x666.info",
+              "ioc.domain|aforvm.com",
+              "ioc.domain|apple-mac-fix-hidden.medium.com",
+              "ioc.domain|arkypc.com",
+              "ioc.domain|avafex.com"
+            ],
+            "jarm": [
+              "00000000000000000000043d00041d1798d6156df422564fb9b667b7418e4c",
+              "27d27d27d00027d1dc42d42d000000f7be33a964d0daa97a97a8068db17dd3",
+              "27d40d40d00040d1dc27d40d27d40d5fb4c89fe3813d172ffb53f84a68f750",
+              "29d3fd00029d29d00041d41d00041d6b5eefa2404a56c2ced79a0d16afe36c"
+            ],
+            "registrable": [
+              "0x666.info",
+              "aforvm.com",
+              "arkypc.com",
+              "avafex.com",
+              "bankafolder.com"
+            ],
+            "subnet": [
+              "45.94.47.0/24",
+              "95.85.251.0/24"
+            ]
+          },
+          "ratio": 2.636,
+          "shared": 377,
+          "strength": 26,
+          "via": [
+            "certificate",
+            "filename",
+            "ioc",
+            "jarm",
+            "registrable",
+            "subnet"
+          ]
+        },
+        {
+          "a": "Macsync",
+          "b": "Shub Stealer",
+          "evidence": {
+            "certificate": [
+              "00afda128fa451d0b82d8b5162daba1e001bf3233f874b503c5dac0feea776d0",
+              "03c01db9837cc0cfefa957250f0c41a5d8f9760e639e0300298559ef0e87e714",
+              "062aba7f448606a5cc8e46197bf79aaa921db22d4dbb1435c85ad42e58c92b06",
+              "0ab1ce1fdb1267516e5c77326453ef75032dfed5472305b34960a744ecf22bf4",
+              "0cc645dffc2a676d52d9e1cd45caaa60d3e2ec92469871c01fc821d5d9613547"
+            ],
+            "filename": [
+              ".mainhelper",
+              "123",
+              "123a",
+              "7wsawlcvm.exe",
+              "kito"
+            ],
+            "ioc": [
+              "ioc.domain|0x666.info",
+              "ioc.domain|aforvm.com",
+              "ioc.domain|apple-mac-fix-hidden.medium.com",
+              "ioc.domain|arkypc.com",
+              "ioc.domain|avafex.com"
+            ],
+            "jarm": [
+              "00000000000000000000043d00041d1798d6156df422564fb9b667b7418e4c",
+              "27d27d27d00027d1dc42d42d000000f7be33a964d0daa97a97a8068db17dd3",
+              "27d40d40d00040d1dc27d40d27d40d5fb4c89fe3813d172ffb53f84a68f750",
+              "29d3fd00029d29d00041d41d00041d6b5eefa2404a56c2ced79a0d16afe36c"
+            ],
+            "registrable": [
+              "0x666.info",
+              "aforvm.com",
+              "arkypc.com",
+              "avafex.com",
+              "bankafolder.com"
+            ],
+            "subnet": [
+              "45.94.47.0/24",
+              "95.85.251.0/24"
+            ]
+          },
+          "ratio": 2.636,
+          "shared": 377,
+          "strength": 26,
+          "via": [
+            "certificate",
+            "filename",
+            "ioc",
+            "jarm",
+            "registrable",
+            "subnet"
+          ]
+        },
+        {
+          "a": "AMOS",
+          "b": "Macsync",
+          "evidence": {
+            "certificate": [
+              "00afda128fa451d0b82d8b5162daba1e001bf3233f874b503c5dac0feea776d0",
+              "03c01db9837cc0cfefa957250f0c41a5d8f9760e639e0300298559ef0e87e714",
+              "062aba7f448606a5cc8e46197bf79aaa921db22d4dbb1435c85ad42e58c92b06",
+              "0ab1ce1fdb1267516e5c77326453ef75032dfed5472305b34960a744ecf22bf4",
+              "0cc645dffc2a676d52d9e1cd45caaa60d3e2ec92469871c01fc821d5d9613547"
+            ],
+            "filename": [
+              ".mainhelper",
+              "123",
+              "123a",
+              "7wsawlcvm.exe",
+              "kito"
+            ],
+            "ioc": [
+              "ioc.domain|0x666.info",
+              "ioc.domain|aforvm.com",
+              "ioc.domain|apple-mac-fix-hidden.medium.com",
+              "ioc.domain|arkypc.com",
+              "ioc.domain|avafex.com"
+            ],
+            "jarm": [
+              "00000000000000000000043d00041d1798d6156df422564fb9b667b7418e4c",
+              "27d27d27d00027d1dc42d42d000000f7be33a964d0daa97a97a8068db17dd3",
+              "27d40d40d00040d1dc27d40d27d40d5fb4c89fe3813d172ffb53f84a68f750",
+              "29d3fd00029d29d00041d41d00041d6b5eefa2404a56c2ced79a0d16afe36c"
+            ],
+            "registrable": [
+              "0x666.info",
+              "aforvm.com",
+              "arkypc.com",
+              "avafex.com",
+              "bankafolder.com"
+            ],
+            "subnet": [
+              "45.94.47.0/24",
+              "95.85.251.0/24"
+            ]
+          },
+          "ratio": 2.448,
+          "shared": 377,
+          "strength": 26,
+          "via": [
+            "certificate",
+            "filename",
+            "ioc",
+            "jarm",
+            "registrable",
+            "subnet"
           ]
         },
         {
@@ -2336,7 +2316,7 @@
           ]
         }
       ],
-      "weak_only": 445
+      "weak_only": 449
     }
   },
   "schema": 1,
