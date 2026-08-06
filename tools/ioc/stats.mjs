@@ -7,6 +7,7 @@
 //                            [--asn-max-addresses 4096] [--asn-max-actors 8]
 //                            [--jarm-cap 0.01] [--filename-cap 8] [--filename-min 2]
 //                            [--family-cap 8] [--vhash-cap 8] [--imphash-cap 8]
+//                            [--resolution-cap 3] [--resolution-asn-cap 2]
 //                            [--evidence-cap 5]
 //                            [--hosting-ratio 0.7] [--hosting-min 3]
 //
@@ -83,6 +84,25 @@ const FAMILY_CAP = Number(args["family-cap"] || args["ubiquity-cap"] || 8);
 const FILENAME_MIN = Number(args["filename-min"] || 2);
 /** 根拠の値を 1 種類あたり何件まで残すか。全部だと overlaps.jsonl が膨らむ。 */
 const EVIDENCE_CAP = Number(args["evidence-cap"] || 5);
+/**
+ * 解決先も同じ考え方。これより多くの実体のドメインが解決する IP は共用の入れ物。
+ * **他の根拠より厳しくする**（既定 3）。resolution は 7 点と強い根拠なので、
+ * 弱い根拠と同じ緩さで通すと、パーキング 1 つで上位が埋まる。
+ */
+const RESOLUTION_CAP = Number(args["resolution-cap"] || 3);
+/**
+ * 同じことを AS 単位でも見る。パーキングは IP 単位では小さくても AS 全体では広い。
+ *
+ * 既定 2。実測で境目を動かすと、3 では Seznam.cz（`77.75.77.222`）が
+ * APT28 ↔ APT29 を、韓国テレコム（`168.126.27.83`）が APT37 ↔ DPRK IT Worker
+ * Schemes を繋いだままだった。4 では Squarespace（`198.185.159.176`）が残った。
+ * どれも**顧客のドメインが並ぶ入れ物**であって、共有された C2 ではない。
+ *
+ * **代償は承知の上。** 2 にすると「3 つの実体が同じ防弾ホストを共有している」
+ * という本物も切れる。resolution は 7 点と強い根拠なので、
+ * 取りこぼすより誤って繋ぐほうが害が大きいと判断した。緩めるならこの値を上げる。
+ */
+const RESOLUTION_ASN_CAP = Number(args["resolution-asn-cap"] || 2);
 /** ファジーハッシュも同じ考え方。これより多くの実体に付く値は、作りが共通なだけ。 */
 const VHASH_CAP = Number(args["vhash-cap"] || args["ubiquity-cap"] || 8);
 const IMPHASH_CAP = Number(args["imphash-cap"] || args["ubiquity-cap"] || 8);
@@ -177,6 +197,46 @@ const resolvedIps = new Set();
 const cdnIps = new Set();
 /** 生えた IP にも bogon / noise の印は付いている。索引の IOC と同じ扱いにする。 */
 const markOf = new Map([...iocById, ...derivedIocs.map((r) => [r.key, r])]);
+
+/**
+ * 解決先ごとの「そこに解決するドメインを持つ実体」の数。
+ *
+ * **大きさだけでは足りない。** ドメインパーキングは AS が小さいのに解決先だけ膨大で、
+ * 実測で SEDO GmbH（AS47846、**1,024 アドレス**）の `91.195.240.12` が上限を
+ * 素通りし、APT33 / Cytrox / Konni / Lazarus Group など 8 実体を総当たりで
+ * 繋いでいた。Trellian（AS133618）と ParkingCrew（AS206834）も同じ形。
+ * 他の根拠に入れている ubiquity cap を、解決先にも同じ考えで入れる。
+ */
+const entityLabels = new Map();   // IOC 鍵 → その IOC を持つ実体の名札
+for (const kind of ["actor", "malware"]) {
+  for (const [name, keys] of owned.get(kind)) {
+    for (const k of keys) {
+      if (!entityLabels.has(k)) entityLabels.set(k, new Set());
+      entityLabels.get(k).add(`${kind}:${name}`);
+    }
+  }
+}
+const entitiesPerResolvedIp = new Map();
+/**
+ * AS 単位でも同じことを見る。**パーキングは 1 つの IP では跨りが小さくても、
+ * AS 全体で見ると必ず広い。** 実測で 4,096 アドレス以下の AS を跨りの多い順に
+ * 並べると、上位 4 つが SEDO(12) / Trellian(7) / Team Internet(7) / IP Vendetta(7)
+ * で、5 つ目から 4 に落ちる。事業の性質がそのまま数字に出る。
+ */
+const entitiesPerResolvedAsn = new Map();
+for (const [domain, set] of resolvesTo) {
+  const labels = entityLabels.get(domain);
+  if (!labels?.size) continue;
+  for (const ip of set) {
+    if (!entitiesPerResolvedIp.has(ip)) entitiesPerResolvedIp.set(ip, new Set());
+    for (const l of labels) entitiesPerResolvedIp.get(ip).add(l);
+    const asn = asnOf.get(ip);
+    if (asn === undefined) continue;
+    if (!entitiesPerResolvedAsn.has(asn)) entitiesPerResolvedAsn.set(asn, new Set());
+    for (const l of labels) entitiesPerResolvedAsn.get(asn).add(l);
+  }
+}
+
 for (const set of resolvesTo.values()) {
   for (const ip of set) {
     // 127.0.0.1 に解決するドメイン同士は「同じ所に居る」ではなく、**どちらも
@@ -186,6 +246,8 @@ for (const set of resolvesTo.values()) {
     const asn = asnOf.get(ip);
     const size = asn ? (asnInfo.get(asn)?.addresses ?? 0) : 0;
     if (size > ASN_MAX_ADDRESSES) { cdnIps.add(ip); continue; }
+    if ((entitiesPerResolvedIp.get(ip)?.size ?? 0) > RESOLUTION_CAP) { cdnIps.add(ip); continue; }
+    if (asn !== undefined && (entitiesPerResolvedAsn.get(asn)?.size ?? 0) > RESOLUTION_ASN_CAP) { cdnIps.add(ip); continue; }
     resolvedIps.add(ip);
   }
 }
