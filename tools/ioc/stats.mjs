@@ -55,6 +55,7 @@
 import path from "node:path";
 import { byKeys, parseArgs, readJson, readJsonl, writeJson, writeJsonl } from "./lib/io.mjs";
 import { coverageOf } from "./lib/enrich.mjs";
+import { strengthOf, weakOnly } from "./lib/overlap.mjs";
 import { REPO_ROOT } from "./lib/sources.mjs";
 
 const args = parseArgs(process.argv.slice(2));
@@ -425,7 +426,7 @@ function pairsFor(kind, groups) {
       // 根拠の種類による差を数字に出す。共有数だけでは弱い根拠が 10 個ある組が上位に来る
       strength: strengthOf(via),
       evidence,
-      ...(via.every((x) => WEAK_VIA.has(x)) ? { weak_only: true } : {}),
+      ...(weakOnly(via) ? { weak_only: true } : {}),
       a_iocs: sa,
       b_iocs: sb,
       // 小さいほうに対する割合。件数だけだと大きい実体が常に上位に来る
@@ -434,30 +435,6 @@ function pairsFor(kind, groups) {
   }).filter(Boolean);
 }
 
-/**
- * 根拠の強さ（docs/ioc-enrich-plan.md §3.1）。
- * 同じ証明書を使っている > 同じ IOC > 同じ解決先 > ファミリ・/24・AS > 名前・登録者・JARM。
- * 出てきた根拠の点数を合算する。共有数を掛けないのは、
- * 弱い根拠を数で押した組が、強い根拠 1 つの組を追い越さないようにするため。
- */
-const VIA_WEIGHT = {
-  certificate: 9, ioc: 8, resolution: 7, vhash: 6,
-  subnet: 5, asn: 5, imphash: 4,
-  family: 2, registrable: 2, filename: 1, jarm: 1,
-};
-/**
- * これだけで成立している組には印を付ける。除きはしない（bogon / noise と同じ扱い）。
- *
- * **VT の検知名（family）は弱い根拠**に置く。VT が集約した 1 つのラベルしか見て
- * いなくても、提供元の都合で広く付く札が混じる。実測で `mikey` が APT28 と
- * Silver Fox を、`tedy` が APT28 と APT41 を繋いでいた。同じラベルが付くことは
- * 「同じ物」を意味しない。
- *
- * **ファイル名も弱い根拠**。置き名（`payload.bin`）と自動命名は enrich 側で
- * 落としているが、残ったものも「同じ名前 = 同じ物」ではない。
- */
-const WEAK_VIA = new Set(["family", "filename", "registrable", "jarm"]);
-const strengthOf = (via) => via.reduce((n, v) => n + (VIA_WEIGHT[v] || 0), 0);
 
 /** 2 つの実体が同じ IOC 集合を持つか。空同士は「一致」と見なさない。 */
 const sameSet = (a, b) => !!a && !!b && a.size > 0 && a.size === b.size && [...a].every((k) => b.has(k));
@@ -765,7 +742,12 @@ const top = (kind, n = 10) => overlaps
 const byType = {};
 for (const r of iocs) byType[r.type] = (byType[r.type] || 0) + 1;
 
-const VIA = [
+/**
+ * 内訳に出す根拠の並び。**lib/overlap.mjs の VIA とは別物。**
+ * あちらは「あり得る根拠の全種類」で、こちらは「この環境で実際に出せるもの」。
+ * AS もエンリッチも無い環境では、出ない根拠を 0 件として並べても読み手を惑わせる。
+ */
+const VIA_SHOWN = [
   "ioc", "subnet", "registrable",
   ...(HAS_ASN ? ["asn"] : []),
   ...(HAS_VT ? ["certificate", "resolution", "vhash", "imphash", "family", "filename", "jarm"] : []),
@@ -819,7 +801,7 @@ const stats = {
     weak_only: overlaps.filter((o) => o.kind === k && o.weak_only).length,
     // IOC 集合が一致したので重なりから外した組。中身は identical-sets.jsonl
     identical_sets: identicalSets.filter((o) => o.kind === k).length,
-    by_via: VIA.reduce((acc, v) => {
+    by_via: VIA_SHOWN.reduce((acc, v) => {
       acc[v] = overlaps.filter((o) => o.kind === k && o.via.includes(v)).length;
       return acc;
     }, {}),

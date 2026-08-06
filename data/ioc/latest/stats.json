@@ -67,6 +67,18 @@
       },
       {
         "actors": [
+          "APT38",
+          "Rognar"
+        ],
+        "addresses": 2048,
+        "asn": 398256,
+        "cc": "US",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "Ultahost, Inc."
+      },
+      {
+        "actors": [
           "DPRK IT Worker Schemes",
           "Lazarus Group"
         ],
@@ -131,6 +143,32 @@
       },
       {
         "actors": [
+          "APT1",
+          "APT28",
+          "APT29",
+          "APT37",
+          "APT41",
+          "Anonymous",
+          "CL-STA-1062",
+          "Candiru",
+          "Confucius",
+          "Fox Kitten",
+          "Gorgon Group",
+          "Higaisa",
+          "Qilin",
+          "Rognar",
+          "Silver Fox",
+          "TAG-195",
+          "Volt Typhoon",
+          "Webworm"
+        ],
+        "addresses": 1422848,
+        "asn": 20473,
+        "cc": "US",
+        "name": "The Constant Company, LLC"
+      },
+      {
+        "actors": [
           "APT28",
           "APT29",
           "APT34",
@@ -157,31 +195,6 @@
       },
       {
         "actors": [
-          "APT1",
-          "APT28",
-          "APT29",
-          "APT37",
-          "APT41",
-          "Anonymous",
-          "CL-STA-1062",
-          "Candiru",
-          "Confucius",
-          "Fox Kitten",
-          "Gorgon Group",
-          "Higaisa",
-          "Qilin",
-          "Silver Fox",
-          "TAG-195",
-          "Volt Typhoon",
-          "Webworm"
-        ],
-        "addresses": 1422848,
-        "asn": 20473,
-        "cc": "US",
-        "name": "The Constant Company, LLC"
-      },
-      {
-        "actors": [
           "APT28",
           "APT29",
           "APT34",
@@ -196,6 +209,7 @@
           "Lazarus Group",
           "MuddyWater",
           "Nomadic Octopus",
+          "Rognar",
           "Wizard Spider"
         ],
         "addresses": 1616896,
@@ -228,6 +242,8 @@
       },
       {
         "actors": [
+          "APT29",
+          "APT29 sub-cluster",
           "APT37",
           "APT38",
           "Bohrium",
@@ -238,6 +254,7 @@
           "Konni",
           "Lazarus Group",
           "MuddyWater",
+          "Storm-2945",
           "UNC5342"
         ],
         "addresses": 54272,
@@ -318,6 +335,7 @@
           "JadeProx",
           "Lamberts",
           "Magecart",
+          "Mustang Panda",
           "Qilin",
           "Silver Fox",
           "UNC5174"
@@ -341,6 +359,20 @@
         "asn": 51852,
         "cc": "PA",
         "name": "Private Layer INC"
+      },
+      {
+        "actors": [
+          "APT28",
+          "APT29",
+          "APT29 sub-cluster",
+          "Anonymous",
+          "Storm-2945",
+          "The Gentlemen"
+        ],
+        "addresses": 37552640,
+        "asn": 174,
+        "cc": "US",
+        "name": "Cogent Communications, LLC"
       },
       {
         "actors": [
@@ -386,6 +418,34 @@
       },
       {
         "actors": [
+          "Gamaredon",
+          "Ghostwriter",
+          "REF8372",
+          "Rognar",
+          "TA543",
+          "The Gentlemen"
+        ],
+        "addresses": 156416,
+        "asn": 216071,
+        "cc": "AE",
+        "name": "SERVERS TECH FZCO"
+      },
+      {
+        "actors": [
+          "APT29",
+          "APT29 sub-cluster",
+          "APT38",
+          "Anonymous",
+          "Pepesoft",
+          "Storm-2945"
+        ],
+        "addresses": 239360,
+        "asn": 396356,
+        "cc": "US",
+        "name": "Latitude.sh"
+      },
+      {
+        "actors": [
           "APT37",
           "Anonymous",
           "Equation Group",
@@ -409,50 +469,11 @@
         "asn": 7018,
         "cc": "US",
         "name": "AT&T Enterprises, LLC"
-      },
-      {
-        "actors": [
-          "APT37",
-          "Chatty Spider",
-          "Equation Group",
-          "Konni",
-          "Lazarus Group"
-        ],
-        "addresses": 25770496,
-        "asn": 9318,
-        "cc": "KR",
-        "name": "SK Broadband Co Ltd"
-      },
-      {
-        "actors": [
-          "Anonymous",
-          "JINX-0164",
-          "MuddyWater",
-          "Transparent Tribe",
-          "Void Balaur"
-        ],
-        "addresses": 581888,
-        "asn": 12876,
-        "cc": "FR",
-        "name": "Scaleway"
-      },
-      {
-        "actors": [
-          "APT29",
-          "CopyKittens",
-          "MuddyWater",
-          "Transparent Tribe",
-          "ZooPark"
-        ],
-        "addresses": 422400,
-        "asn": 20860,
-        "cc": "GB",
-        "name": "IOMART CLOUD SERVICES LIMITED"
       }
     ],
-    "multi_actor": 180,
-    "multi_actor_small": 4,
-    "small": 160,
+    "multi_actor": 185,
+    "multi_actor_small": 5,
+    "small": 162,
     "top": [
       {
         "actors": [
@@ -512,98 +533,115 @@
         ],
         "name": "Inovare-Prim SRL",
         "shared_hosting": false
+      },
+      {
+        "actors": [
+          "Inception",
+          "Rognar"
+        ],
+        "addresses": 4096,
+        "asn": 48753,
+        "cc": "MD",
+        "ips": 3,
+        "malware": [
+          "DOUBLECUP",
+          "PowerShower",
+          "Remus Stealer"
+        ],
+        "name": "AVA HOST SRL",
+        "shared_hosting": false
       }
     ],
-    "total": 975
+    "total": 980
   },
   "coverage": {
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 719,
-          "target": 719
+          "done": 773,
+          "target": 844
         },
         "2": {
-          "done": 311,
-          "target": 311
+          "done": 305,
+          "target": 305
         },
         "5": {
-          "done": 2196,
-          "target": 2196
+          "done": 2147,
+          "target": 2152
         }
       },
-      "done": 3227,
-      "ratio": 1,
-      "target": 3226
+      "done": 3226,
+      "ratio": 0.977,
+      "target": 3301
     },
     "newest_fetch": "2026-08-06",
     "oldest_fetch": "2026-08-02",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 4324,
-          "target": 4329
+          "done": 4477,
+          "target": 4929
         },
         "2": {
-          "done": 311,
-          "target": 311
+          "done": 304,
+          "target": 305
         },
         "3": {
-          "done": 4514,
-          "target": 4514
+          "done": 4424,
+          "target": 4452
         },
         "4": {
-          "done": 1795,
-          "target": 6548
+          "done": 1747,
+          "target": 6379
         },
         "5": {
-          "done": 125,
-          "target": 2196
+          "done": 121,
+          "target": 2152
         },
         "6": {
-          "done": 205,
-          "target": 706
+          "done": 201,
+          "target": 723
         }
       },
       "done": 11275,
       "known": 9267,
-      "ratio": 0.606,
-      "target": 18604,
+      "ratio": 0.595,
+      "target": 18940,
       "unknown": 2008
     }
   },
   "entities": {
-    "actor": 230,
-    "campaign": 13,
-    "case": 417,
-    "malware": 304
+    "actor": 236,
+    "campaign": 14,
+    "case": 430,
+    "malware": 366
   },
   "from": {
-    "collected_at": "2026-08-03T20:40:43.151Z",
+    "collected_at": "2026-08-06T05:28:21.903Z",
     "week": "2026-W32"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 6252,
+      "ioc.domain": 6318,
       "ioc.email": 263,
-      "ioc.endpoint": 151,
-      "ioc.ipv4": 3171,
+      "ioc.endpoint": 166,
+      "ioc.ipv4": 3246,
       "ioc.ipv6": 63,
-      "ioc.md5": 2280,
-      "ioc.sha1": 1416,
-      "ioc.sha256": 2661,
+      "ioc.md5": 2291,
+      "ioc.sha1": 1419,
+      "ioc.sha256": 2788,
       "ioc.sha512": 16,
-      "ioc.url": 2769
+      "ioc.url": 2823
     },
-    "dated": 5946,
+    "dated": 6251,
     "excluded": {
       "bogon": 2,
       "malformed": 0,
       "noise": 6,
       "sample_reported": 1
     },
-    "total": 19042,
-    "usable": 19034
+    "total": 19393,
+    "usable": 19385
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -622,20 +660,20 @@
   "overlaps": {
     "actor": {
       "by_via": {
-        "asn": 3,
-        "certificate": 37,
+        "asn": 4,
+        "certificate": 39,
         "family": 149,
         "filename": 31,
         "imphash": 14,
-        "ioc": 81,
-        "jarm": 442,
-        "registrable": 122,
+        "ioc": 83,
+        "jarm": 458,
+        "registrable": 132,
         "resolution": 2,
-        "subnet": 61,
+        "subnet": 64,
         "vhash": 34
       },
-      "identical_sets": 2,
-      "pairs": 681,
+      "identical_sets": 3,
+      "pairs": 706,
       "top": [
         {
           "a": "Silver Fox",
@@ -795,7 +833,7 @@
               "02603e0f7d1bz4tz1017z"
             ]
           },
-          "ratio": 0.06,
+          "ratio": 0.059,
           "shared": 59,
           "strength": 34,
           "via": [
@@ -1051,6 +1089,98 @@
           ]
         },
         {
+          "a": "APT29",
+          "b": "APT29 sub-cluster",
+          "evidence": {
+            "certificate": [
+              "0c3db4cd8be323e07cef15529e7fa6b401b3ea87d74c016a9990b3e3947b3a42",
+              "77c67232567ef34ed5ca44cd3a94d66275b7baf3e10877c06ccf0c6df3063e65",
+              "ea97b074a907ac5cc7454b14d0701c156987164507d5252926bd79b604d832a4",
+              "eb39a5a7c2d9ced07913e3a035f7a00521c3e6c2b7dcb2c0cdc892e30793e36b"
+            ],
+            "ioc": [
+              "ioc.domain|m365-owa.com",
+              "ioc.domain|ms365-device.com",
+              "ioc.domain|ms365-live.com",
+              "ioc.domain|owa-ms365.com",
+              "ioc.ipv4|107.189.26.194"
+            ],
+            "jarm": [
+              "1dd40d40d00040d00042d43d0000007d20e9b9a3e87aa1ec17cb4d646ce9a5",
+              "27d40d40d00040d00042d43d0000007d20e9b9a3e87aa1ec17cb4d646ce9a5",
+              "29d3fd00029d29d00042d43d00000023f2ae7180b8a0816654f2296c007d93"
+            ],
+            "registrable": [
+              "m365-owa.com",
+              "ms365-device.com",
+              "ms365-live.com",
+              "owa-ms365.com"
+            ],
+            "subnet": [
+              "107.189.26.0/24",
+              "213.145.86.0/24",
+              "31.57.243.0/24",
+              "38.146.28.0/24"
+            ]
+          },
+          "ratio": 1.533,
+          "shared": 23,
+          "strength": 25,
+          "via": [
+            "certificate",
+            "ioc",
+            "jarm",
+            "registrable",
+            "subnet"
+          ]
+        },
+        {
+          "a": "APT29",
+          "b": "Storm-2945",
+          "evidence": {
+            "certificate": [
+              "0c3db4cd8be323e07cef15529e7fa6b401b3ea87d74c016a9990b3e3947b3a42",
+              "77c67232567ef34ed5ca44cd3a94d66275b7baf3e10877c06ccf0c6df3063e65",
+              "ea97b074a907ac5cc7454b14d0701c156987164507d5252926bd79b604d832a4",
+              "eb39a5a7c2d9ced07913e3a035f7a00521c3e6c2b7dcb2c0cdc892e30793e36b"
+            ],
+            "ioc": [
+              "ioc.domain|m365-owa.com",
+              "ioc.domain|ms365-device.com",
+              "ioc.domain|ms365-live.com",
+              "ioc.domain|owa-ms365.com",
+              "ioc.ipv4|107.189.26.194"
+            ],
+            "jarm": [
+              "1dd40d40d00040d00042d43d0000007d20e9b9a3e87aa1ec17cb4d646ce9a5",
+              "27d40d40d00040d00042d43d0000007d20e9b9a3e87aa1ec17cb4d646ce9a5",
+              "29d3fd00029d29d00042d43d00000023f2ae7180b8a0816654f2296c007d93"
+            ],
+            "registrable": [
+              "m365-owa.com",
+              "ms365-device.com",
+              "ms365-live.com",
+              "owa-ms365.com"
+            ],
+            "subnet": [
+              "107.189.26.0/24",
+              "213.145.86.0/24",
+              "31.57.243.0/24",
+              "38.146.28.0/24"
+            ]
+          },
+          "ratio": 1.533,
+          "shared": 23,
+          "strength": 25,
+          "via": [
+            "certificate",
+            "ioc",
+            "jarm",
+            "registrable",
+            "subnet"
+          ]
+        },
+        {
           "a": "APT28",
           "b": "BITTER",
           "evidence": {
@@ -1087,70 +1217,9 @@
             "registrable",
             "subnet"
           ]
-        },
-        {
-          "a": "BRONZE BUTLER",
-          "b": "Blue Termite",
-          "evidence": {
-            "certificate": [
-              "353f6324e6af340ca9ddfee170dc334467854449295d61f9519be411fd696687"
-            ],
-            "ioc": [
-              "ioc.domain|softi.co.kr",
-              "ioc.ipv4|1.13.196.164"
-            ],
-            "jarm": [
-              "27d40d40d00040d00042d43d0000003d25bc6207ca8acd9652e99aa3724a08"
-            ],
-            "registrable": [
-              "softi.co.kr"
-            ],
-            "subnet": [
-              "1.13.196.0/24"
-            ]
-          },
-          "ratio": 3,
-          "shared": 6,
-          "strength": 25,
-          "via": [
-            "certificate",
-            "ioc",
-            "jarm",
-            "registrable",
-            "subnet"
-          ]
-        },
-        {
-          "a": "DPRK IT Worker Schemes",
-          "b": "UNC5342",
-          "evidence": {
-            "certificate": [
-              "02292c408e4b656a8b6ddd92bce397f376d98633fd3351bf5d889d3157aeee0c"
-            ],
-            "ioc": [
-              "ioc.domain|t.me",
-              "ioc.ipv4|194.33.45.162",
-              "ioc.url|https://t.me/peregrine423f"
-            ],
-            "registrable": [
-              "t.me"
-            ],
-            "subnet": [
-              "194.33.45.0/24"
-            ]
-          },
-          "ratio": 0.188,
-          "shared": 6,
-          "strength": 24,
-          "via": [
-            "certificate",
-            "ioc",
-            "registrable",
-            "subnet"
-          ]
         }
       ],
-      "weak_only": 525
+      "weak_only": 546
     },
     "campaign": {
       "by_via": {
@@ -1292,15 +1361,15 @@
         "family": 1,
         "filename": 0,
         "imphash": 0,
-        "ioc": 111,
-        "jarm": 62,
-        "registrable": 76,
+        "ioc": 119,
+        "jarm": 66,
+        "registrable": 78,
         "resolution": 0,
-        "subnet": 16,
+        "subnet": 21,
         "vhash": 3
       },
-      "identical_sets": 153,
-      "pairs": 159,
+      "identical_sets": 155,
+      "pairs": 167,
       "top": [
         {
           "a": "case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7",
@@ -1632,20 +1701,20 @@
     },
     "malware": {
       "by_via": {
-        "asn": 2,
-        "certificate": 21,
-        "family": 70,
-        "filename": 22,
-        "imphash": 21,
-        "ioc": 33,
-        "jarm": 291,
-        "registrable": 73,
+        "asn": 5,
+        "certificate": 23,
+        "family": 75,
+        "filename": 25,
+        "imphash": 24,
+        "ioc": 48,
+        "jarm": 379,
+        "registrable": 69,
         "resolution": 1,
-        "subnet": 30,
-        "vhash": 31
+        "subnet": 40,
+        "vhash": 39
       },
       "identical_sets": 8,
-      "pairs": 443,
+      "pairs": 551,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2245,8 +2314,7 @@
             "registrable": [
               "drivelivelime.com",
               "msiidentity.com",
-              "trafficmanagerupdate.com",
-              "workers.dev"
+              "trafficmanagerupdate.com"
             ],
             "subnet": [
               "103.27.108.0/24",
@@ -2256,8 +2324,8 @@
               "45.135.135.0/24"
             ]
           },
-          "ratio": 2.4,
-          "shared": 36,
+          "ratio": 2.333,
+          "shared": 35,
           "strength": 25,
           "via": [
             "certificate",
@@ -2268,12 +2336,12 @@
           ]
         }
       ],
-      "weak_only": 365
+      "weak_only": 445
     }
   },
   "schema": 1,
   "subnets": {
-    "multi_actor": 82,
+    "multi_actor": 88,
     "top": [
       {
         "actors": [
@@ -2373,6 +2441,26 @@
       {
         "actors": [
           "APT29",
+          "APT29 sub-cluster",
+          "Storm-2945"
+        ],
+        "asns": [
+          {
+            "addresses": 54272,
+            "asn": 14956,
+            "name": "RouterHosting LLC"
+          }
+        ],
+        "ips": 2,
+        "malware": [
+          "ChocoShell",
+          "SectopRAT"
+        ],
+        "subnet": "107.189.26.0/24"
+      },
+      {
+        "actors": [
+          "APT29",
           "APT41",
           "Higaisa"
         ],
@@ -2391,6 +2479,23 @@
       },
       {
         "actors": [
+          "APT29",
+          "APT29 sub-cluster",
+          "Storm-2945"
+        ],
+        "asns": [
+          {
+            "addresses": 37552640,
+            "asn": 174,
+            "name": "Cogent Communications, LLC"
+          }
+        ],
+        "ips": 2,
+        "malware": [],
+        "subnet": "38.146.28.0/24"
+      },
+      {
+        "actors": [
           "TAG-56",
           "TAG-82",
           "TAG-83"
@@ -2405,6 +2510,42 @@
         "ips": 1,
         "malware": [],
         "subnet": "135.181.203.0/24"
+      },
+      {
+        "actors": [
+          "APT29",
+          "APT29 sub-cluster",
+          "Storm-2945"
+        ],
+        "asns": [
+          {
+            "addresses": 239360,
+            "asn": 396356,
+            "name": "Latitude.sh"
+          }
+        ],
+        "ips": 1,
+        "malware": [
+          "ChocoShell"
+        ],
+        "subnet": "213.145.86.0/24"
+      },
+      {
+        "actors": [
+          "APT29",
+          "APT29 sub-cluster",
+          "Storm-2945"
+        ],
+        "asns": [
+          {
+            "addresses": 160000,
+            "asn": 262287,
+            "name": "Latitude.sh LTDA"
+          }
+        ],
+        "ips": 1,
+        "malware": [],
+        "subnet": "31.57.243.0/24"
       },
       {
         "actors": [
@@ -2475,81 +2616,9 @@
         "ips": 3,
         "malware": [],
         "subnet": "175.45.178.0/24"
-      },
-      {
-        "actors": [
-          "APT1",
-          "APT28"
-        ],
-        "asns": [
-          {
-            "addresses": 51968,
-            "asn": 59711,
-            "name": "HZ Hosting Ltd"
-          }
-        ],
-        "ips": 3,
-        "malware": [
-          "Showboat"
-        ],
-        "subnet": "185.117.89.0/24"
-      },
-      {
-        "actors": [
-          "APT29",
-          "Nomadic Octopus"
-        ],
-        "asns": [
-          {
-            "addresses": 12800,
-            "asn": 61138,
-            "name": "Zappie Host LLC"
-          }
-        ],
-        "ips": 3,
-        "malware": [
-          "Octopus",
-          "SUNBURST"
-        ],
-        "subnet": "185.99.133.0/24"
-      },
-      {
-        "actors": [
-          "Candiru",
-          "Cinnamon Tempest"
-        ],
-        "asns": [
-          {
-            "addresses": 16128,
-            "asn": 132335,
-            "name": "Leapswitch Networks Pvt. Ltd."
-          }
-        ],
-        "ips": 3,
-        "malware": [
-          "MINIRECON",
-          "PUBLOAD"
-        ],
-        "subnet": "188.208.141.0/24"
-      },
-      {
-        "actors": [
-          "APT28",
-          "Gamaredon"
-        ],
-        "asns": [
-          {
-            "addresses": 61696,
-            "asn": 215540,
-            "name": "GLOBAL CONNECTIVITY SOLUTIONS LLP"
-          }
-        ],
-        "ips": 3,
-        "malware": [],
-        "subnet": "195.133.88.0/24"
       }
     ],
-    "total": 355
+    "total": 370
   },
   "timeline": {
     "actors": {
@@ -2573,7 +2642,7 @@
         {
           "dated": 388,
           "first": "2009-03-10",
-          "iocs": 989,
+          "iocs": 997,
           "last": "2025-07-02",
           "name": "APT29",
           "span_days": 5958
@@ -2822,7 +2891,7 @@
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 170,
+      "checked": 172,
       "lowest": [
         {
           "checked": 6,

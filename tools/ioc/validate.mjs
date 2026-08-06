@@ -39,6 +39,8 @@ import { byKeys, parseArgs, readJson, readJsonl, stableStringify, writeJson } fr
 import { classifyIpv4, ipv4ToInt, registrableDomain, subnet24 } from "./lib/net.mjs";
 import { ipv6ToHex } from "./lib/asn.mjs";
 import { coverageOf } from "./lib/enrich.mjs";
+import { isQualifier, nameKey, tooShort } from "./lib/names.mjs";
+import { VIA, strengthOf, weakOnly } from "./lib/overlap.mjs";
 import { REPO_ROOT } from "./lib/sources.mjs";
 
 const args = parseArgs(process.argv.slice(2));
@@ -78,17 +80,9 @@ const HASH_LEN = { "ioc.md5": 32, "ioc.sha1": 40, "ioc.sha256": 64, "ioc.sha512"
 const LINK_KINDS = new Set(["actor", "malware", "campaign", "case", "article", "cve", "ioc"]);
 /** IOC として妥当な URL の scheme。これ以外は元表記の取り違えを疑う。 */
 const URL_SCHEMES = new Set(["http:", "https:", "ftp:", "ftps:", "ws:", "wss:", "smb:", "tcp:"]);
-const VIA = new Set([
-  "ioc", "subnet", "registrable", "asn",
-  "certificate", "resolution", "vhash", "imphash", "family", "filename", "jarm",
-]);
-/** 重なりの強さ。stats.mjs の VIA_WEIGHT と同じ表を持ち、数え直して突き合わせる。 */
-const VIA_WEIGHT = {
-  certificate: 9, ioc: 8, resolution: 7, vhash: 6,
-  subnet: 5, asn: 5, imphash: 4,
-  family: 2, registrable: 2, filename: 1, jarm: 1,
-};
-const WEAK_VIA = new Set(["family", "filename", "registrable", "jarm"]);
+// 根拠と強さは出す側と同じ表を見る（lib/overlap.mjs）。数え直して突き合わせるので、
+// 別々に持つと「検査だけが落ちる」か「古い重みを通す」のどちらかになる
+const VIA_SET = new Set(VIA);
 /** 見本アドレスの境目。enrich-intel.mjs の既定と同じ表を持ち、突き合わせる。 */
 const SAMPLE_MIN = 20;
 const SAMPLE_RATIO = 0.3;
@@ -153,19 +147,8 @@ function prefixContains(prefix, value, type) {
   return BigInt("0x" + b) === net && ((BigInt("0x" + v) >> bits) << bits) === net;
 }
 
-/**
- * 名前ではなく確度の但し書きだったもの。collect 側と同じ判定を持つ。
- * ここでは弾くためではなく、**弾き漏らしに気づくため**に使う。
- */
-const nameKey = (s) => String(s ?? "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "");
-const QUALIFIER = new Set([
-  "suspected", "possible", "likely", "probable", "unknown", "unattributed",
-  "unclear", "na", "tbd", "none", "multipleactors", "multiple", "various",
-]);
-const looksQualifier = (s) => {
-  const k = nameKey(s);
-  return !k || QUALIFIER.has(k) || /confidence$/.test(k) || /^aka/.test(k);
-};
+// 名前の判定は集める側と同じものを使う（lib/names.mjs）。ここでは弾くためではなく、
+// **弾き漏らしに気づくため**に使う。別々に持つと「検査は通るのに中身は壊れている」になる。
 
 /* ---------------- 1. 読み込みと正準形 ---------------- */
 
@@ -493,7 +476,15 @@ for (let i = 0; i < entities.length; i++) {
   }
 
   /* 元データ由来の壊れ方。名前として成立していないもの */
-  if ((e.kind === "actor" || e.kind === "malware") && looksQualifier(e.name)) {
+  if (e.kind === "actor" || e.kind === "malware") {
+    // 区切りで切れた断片。`N/A` が `A` と `N` という実体になり、それが 468 IOC を
+    // 持つ最大のマルウェアになっていた索引が実在する。collect が落とすので error
+    if (tooShort(e.name)) {
+      err("entity.tooshort", `名前として短すぎます（区切りで切れた断片の疑い）: ${e.kind}/${e.name}`,
+        at("entities.jsonl", i));
+    }
+  }
+  if ((e.kind === "actor" || e.kind === "malware") && isQualifier(e.name)) {
     warn("entity.qualifier", `名前ではなく但し書きに見えます: ${e.kind}/${e.name}`, at("entities.jsonl", i));
   }
   if (e.kind === "actor" || e.kind === "malware") {
@@ -742,15 +733,15 @@ if (overlaps) {
     if (!Number.isInteger(o.shared) || o.shared < 1) {
       err("overlap.shared", `shared が 1 以上の整数ではありません: ${o.shared}`, at("overlaps.jsonl", i));
     }
-    if (!Array.isArray(o.via) || !o.via.length || o.via.some((v) => !VIA.has(v))) {
+    if (!Array.isArray(o.via) || !o.via.length || o.via.some((v) => !VIA_SET.has(v))) {
       err("overlap.via", `via が不正です: ${JSON.stringify(o.via)}`, at("overlaps.jsonl", i));
     } else {
       // 根拠の強さは数え直して突き合わせる。ここがずれると並べ替えの意味が無くなる
-      const expect = o.via.reduce((n, v) => n + VIA_WEIGHT[v], 0);
+      const expect = strengthOf(o.via);
       if (o.strength !== expect) {
         err("overlap.strength", `strength が ${expect} と違います: ${o.strength}`, at("overlaps.jsonl", i));
       }
-      const weak = o.via.every((v) => WEAK_VIA.has(v));
+      const weak = weakOnly(o.via);
       if (weak !== (o.weak_only === true)) {
         err("overlap.weak", `weak_only が ${weak} であるべきです: ${o.weak_only}`, at("overlaps.jsonl", i));
       }

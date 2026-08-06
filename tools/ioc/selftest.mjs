@@ -401,6 +401,9 @@ const CASES = [
   ["entity.alias_comma", "別名が分けられていない", (d) => {
     editLine(d, "entities.jsonl", "APT-Test", (l) => l.replace(/"aliases":\[[^\]]*\]/, '"aliases":["Test Panda, Test Bear"]'));
   }, "warn"],
+  ["entity.tooshort", "区切りで切れた断片が実体になっている", (d) => {
+    renameEntity(d, "Other Group", "A");
+  }],
   ["entity.qualifier", "但し書きが実体として残っている", (d) => {
     renameEntity(d, "Other Group", "medium-to-high confidence");
   }, "warn"],

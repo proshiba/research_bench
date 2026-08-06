@@ -3,6 +3,7 @@
 // ソースは互いを知らない。横串はここで `joinKey` の一致から作る（仕様 §3）。
 
 import { getAdapter } from "./adapters.js";
+import { brokenRelNote, markBrokenRefs } from "./index-health.js";
 import { detectType, fillTemplate, joinKey, refang, resolveUrl, typeGroup } from "./util.js";
 
 const listeners = new Set();
@@ -187,8 +188,11 @@ function buildBlob(e) {
 
 function indexSource(source) {
   source.byId = new Map();
-  source.brokenRels = [];
-  detectBrokenRefs(source);
+  // 参照先が選ばれていない関係は辺にしない（index-health.js）。除いたことは必ず残す
+  const broken = markBrokenRefs(source.entities);
+  source.brokenRels = [...broken.keys()].sort();
+  for (const [rel, n] of broken) source.limits = [...(source.limits || []), brokenRelNote(rel, n)];
+  if (broken.size) console.warn(`[research_bench] ${source.app_id}: 参照先が固定された関係を除外`, [...broken]);
   for (const e of source.entities) {
     e._src = source.app_id;
     e._blob = buildBlob(e);
@@ -208,69 +212,6 @@ function indexSource(source) {
       bucket.push({ source, entity: e });
     }
   }
-}
-
-/**
- * 参照先が「兄弟の先頭」に固定されている関係を見つける。
- *
- * 索引が `<家族>#<番号>` という id を使っているとき（`article:20260728#3` など）、
- * 同じ家族に兄弟が複数いるのに参照が**常に同じ番号**を指しているなら、その関係は
- * 参照先を選んでいない。生成側で既定値のまま出ているということ。
- *
- * これを信じると、**まったく無関係なものが関係あるものとして画面に出る**。
- * 実際に、ある IOC の「収集元」が常にその日の 1 本目の記事を指していて、
- * SparkKitty の IOC に Apple の訴訟記事がぶら下がっていた。
- * 誤った辺は無い辺より悪いので、見つけた関係は辺を作らず、理由を残す。
- */
-const SEQ_ID = /^(.+)#(\d+)$/;
-/** これ未満は偶然そうなることがあるので判定しない。 */
-const BROKEN_MIN_EDGES = 20;
-
-function detectBrokenRefs(source) {
-  const siblings = new Map();   // 家族 → 兄弟の番号
-  for (const e of source.entities) {
-    const m = SEQ_ID.exec(e.id || "");
-    if (!m) continue;
-    if (!siblings.has(m[1])) siblings.set(m[1], new Set());
-    siblings.get(m[1]).add(m[2]);
-  }
-  if (!siblings.size) return;
-
-  const perRel = new Map();     // rel → { edges, seqs, withSiblings }
-  for (const e of source.entities) {
-    for (const r of e.refs || []) {
-      const m = SEQ_ID.exec(r.target || "");
-      if (!m) continue;
-      let s = perRel.get(r.rel);
-      if (!s) perRel.set(r.rel, (s = { edges: 0, seqs: new Set(), withSiblings: 0 }));
-      s.edges++;
-      s.seqs.add(m[2]);
-      if ((siblings.get(m[1])?.size ?? 0) > 1) s.withSiblings++;
-    }
-  }
-
-  const broken = new Map();
-  for (const [rel, s] of perRel) {
-    // 兄弟が居る家族しか指していないのに、番号が 1 種類しかない
-    if (s.edges >= BROKEN_MIN_EDGES && s.seqs.size === 1 && s.withSiblings === s.edges) {
-      broken.set(rel, s.edges);
-    }
-  }
-  if (!broken.size) return;
-
-  for (const e of source.entities) {
-    for (const r of e.refs || []) {
-      if (broken.has(r.rel) && SEQ_ID.test(r.target || "")) r._broken = true;
-    }
-  }
-  source.brokenRels = [...broken.keys()].sort();
-  for (const [rel, n] of broken) {
-    source.limits = [
-      ...(source.limits || []),
-      `「${rel}」の参照先が常に同じ相手に固定されているため、この関係の ${n} 件は使いません（索引側の不具合）。`,
-    ];
-  }
-  console.warn(`[research_bench] ${source.app_id}: 参照先が固定された関係を除外`, [...broken]);
 }
 
 function dropFromIndex(source) {
