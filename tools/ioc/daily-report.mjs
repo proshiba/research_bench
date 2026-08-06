@@ -14,7 +14,8 @@
 //   2. 新しく出た重なり — **強い根拠のものだけ**。弱い根拠だけの組は数だけ
 //   3. 新しく生えたもの — 実体・別名・共有証明書・解決先
 //   4. **見に行くべきもの** — 索引の主張と食い違った IOC、VT が知らない IOC、
-//      AS が経路表と食い違った IP。どれも「機械では決められない」ものだけを残す
+//      AS が経路表と食い違った IP、根拠から外した AS と証明書。
+//      どれも「機械では決められない」ものだけを残す
 //
 // --prev が無ければ差分は出さず、今の姿だけを出す（初回や写しが無い環境）。
 // --json を渡すと同じ中身をファイルにも残す。daily.sh は
@@ -88,8 +89,10 @@ const grew = prev ? now.overlaps.filter((o) => {
 }).map((o) => ({ ...o, was: prevPairs.get(pairKey(o)).strength })) : [];
 
 const strong = (list) => list.filter((o) => !o.weak_only).sort((a, b) => b.strength - a.strength || b.shared - a.shared);
+/** 根拠の値も一緒に渡す。**どの証明書かが分からなければ検算できない。** */
 const slim = (o) => ({
   kind: o.kind, a: o.a, b: o.b, shared: o.shared, strength: o.strength, via: o.via,
+  evidence: o.evidence,
   ...(o.was !== undefined ? { was: o.was } : {}),
 });
 
@@ -179,6 +182,15 @@ const report = {
     top_abuse: topAbuse,
     // 大きさとアクター数では根拠になるのに、事業者の網と言われて外れた AS
     hosting_excluded: now.stats.asns?.hosting_excluded ?? [],
+    // **錨が無くて外した証明書。** 複数の IOC が同じ証明書を出しているのに、
+    // どれも名前が当たらなかったもの。基盤の既定（`invalid2.invalid` など）が
+    // 大半だが、運用者が名前の合わない証明書を使い回している場合もある。
+    // 見分けは機械では付かないので、人に渡す
+    cert_excluded: now.certs
+      .filter((c) => c.shared && c.weak_why === "unanchored")
+      .map((c) => ({ thumbprint: c.thumbprint, issuer: c.issuer ?? null, subject: c.subject ?? null, iocs: c.iocs }))
+      .sort(byKeys("thumbprint"))
+      .slice(0, TOP),
   },
 };
 
@@ -232,5 +244,11 @@ if (topMalicious.length) {
 if (topAbuse.length) {
   console.log("    スコアの高い新顔の IP:");
   for (const r of topAbuse.slice(0, 5)) console.log(`      ${String(r.score).padStart(3)} ${r.ioc}  通報 ${r.reports}/${r.reporters} 人  ${r.usage_type || ""}`);
+}
+if (report.to_check.cert_excluded.length) {
+  console.log(`    錨が無くて外した証明書 … ${report.to_check.cert_excluded.length} 件`);
+  for (const c of report.to_check.cert_excluded.slice(0, 5)) {
+    console.log(`      ${c.thumbprint.slice(0, 12)} ${c.issuer || "?"} / ${c.subject || "?"}  IOC ${c.iocs.length}`);
+  }
 }
 if (args.json) console.log(`  → ${args.json}`);

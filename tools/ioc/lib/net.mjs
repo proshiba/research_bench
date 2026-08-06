@@ -44,6 +44,10 @@ const BOGON = [
 const NOISE = [
   { range: cidr("1.0.0.0/24"), why: "APNIC 研究用 / Cloudflare DNS" },
   { range: cidr("1.1.1.0/24"), why: "Cloudflare DNS" },
+  // 1.2.3.4 は「適当な IP」として書かれ続けた見本アドレス。経路には乗るので
+  // bogon では拾えないが、報告書に出てきても実際の C2 ではまず無い。
+  // AbuseIPDB でも ISP が "APNIC Debogon Project" と出て、汚染の計測対象であることが分かる。
+  { range: cidr("1.2.3.0/24"), why: "見本アドレス / APNIC Debogon Project" },
   { range: cidr("8.8.8.0/24"), why: "Google DNS" },
   { range: cidr("8.8.4.0/24"), why: "Google DNS" },
   { range: cidr("9.9.9.0/24"), why: "Quad9 DNS" },

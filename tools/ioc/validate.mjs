@@ -83,6 +83,9 @@ const URL_SCHEMES = new Set(["http:", "https:", "ftp:", "ftps:", "ws:", "wss:", 
 // 根拠と強さは出す側と同じ表を見る（lib/overlap.mjs）。数え直して突き合わせるので、
 // 別々に持つと「検査だけが落ちる」か「古い重みを通す」のどちらかになる
 const VIA_SET = new Set(VIA);
+/** 見本アドレスの境目。enrich-intel.mjs の既定と同じ表を持ち、突き合わせる。 */
+const SAMPLE_MIN = 20;
+const SAMPLE_RATIO = 0.3;
 const IPASN_FIELDS = { required: ["ioc"], optional: ["asn", "prefix", "hits", "routed"] };
 const ASN_FIELDS = { required: ["asn", "iocs", "prefixes", "addresses"], optional: ["name", "cc", "class"] };
 
@@ -94,13 +97,16 @@ const VT_FIELDS = {
     "malicious", "suspicious", "harmless", "undetected", "timeout", "reputation",
     "analyzed_at", "label", "families", "first_submission", "type_description", "size",
     "signer", "names", "created", "registrar", "jarm", "dns", "cert",
+    // ssdeep / tlsh はここに出さない（enrich-intel.mjs の理由を参照）。
+    // 許す欄から外しておくと、うっかり戻したときに検査で落ちる
+    "vhash", "imphash", "rich_header",
     "asn", "as_owner", "country", "network", "asn_differs", "final_url", "title",
   ],
 };
 const ABUSE_FIELDS = {
   required: ["ioc", "score", "reports", "reporters"],
   optional: ["last_reported_at", "usage_type", "hosting", "isp", "domain", "country",
-    "tor", "whitelisted", "categories"],
+    "tor", "whitelisted", "categories", "comments", "hollow", "sample"],
 };
 const DERIVED_IOC_FIELDS = {
   required: ["key", "type", "value", "origin", "from"],
@@ -389,6 +395,7 @@ for (let i = 0; i < iocs.length; i++) {
 /* ---------------- 5. links.jsonl ---------------- */
 
 const entityKeys = new Set(entities.map((e) => `${e.kind}\t${e.name}`));
+const entityByKey = new Map(entities.map((e) => [`${e.kind}\t${e.name}`, e]));
 /** 参照の再計算。entities の集計と突き合わせるために作る。 */
 const linkIocs = new Map();     // "kind\tname" → IOC 鍵の集合
 const linkSources = new Map();  // "kind\tname" → 出典の集合
@@ -738,11 +745,61 @@ if (overlaps) {
       if (weak !== (o.weak_only === true)) {
         err("overlap.weak", `weak_only が ${weak} であるべきです: ${o.weak_only}`, at("overlaps.jsonl", i));
       }
+      // **根拠は検算できないと意味がない。** via のそれぞれに値が付いていること
+      const ev = o.evidence;
+      if (!ev || typeof ev !== "object" || Array.isArray(ev)) {
+        err("overlap.evidence", "evidence がありません", at("overlaps.jsonl", i));
+      } else {
+        for (const v of o.via) {
+          if (!Array.isArray(ev[v]) || !ev[v].length) {
+            err("overlap.evidence", `${v} の根拠になった値がありません`, at("overlaps.jsonl", i));
+          }
+        }
+        for (const k of Object.keys(ev)) {
+          if (!o.via.includes(k)) err("overlap.evidence", `via に無い根拠が入っています: ${k}`, at("overlaps.jsonl", i));
+        }
+      }
     }
     // 割合は「小さいほうの IOC 数」に対する共有数。件数だけで並べないための値
     const expect = Math.round((o.shared / Math.max(1, Math.min(o.a_iocs, o.b_iocs))) * 1000) / 1000;
     if (Math.abs(expect - o.ratio) > 1e-9) {
       err("overlap.ratio", `ratio が ${expect} と違います: ${o.ratio}`, at("overlaps.jsonl", i));
+    }
+  }
+}
+
+/**
+ * IOC 集合が完全に一致した組。**overlaps.jsonl と両方に出ていてはいけない。**
+ * 片方に出したつもりで両方に残ると、外したはずの組が上位に戻る。
+ */
+const identicalSets = loadJsonl("identical-sets.jsonl", { required: false });
+if (identicalSets) {
+  checkOrder("identical-sets.jsonl", identicalSets, byKeys("kind", "a", "b"), (o) => `${o.kind}\t${o.a}\t${o.b}`);
+  const inOverlaps = new Set((overlaps || []).map((o) => `${o.kind}\t${o.a}\t${o.b}`));
+  for (let i = 0; i < identicalSets.length; i++) {
+    const o = identicalSets[i];
+    checkFields("identical-sets.jsonl", o, i, { required: ["kind", "a", "b", "iocs"], optional: [] });
+    for (const side of ["a", "b"]) {
+      if (!entityKeys.has(`${o.kind}\t${o[side]}`)) {
+        err("identical.entity", `${side} が entities.jsonl にありません: ${o.kind}/${o[side]}`, at("identical-sets.jsonl", i));
+      }
+    }
+    if (o.a === o.b) err("identical.self", "自分自身との組です", at("identical-sets.jsonl", i));
+    if (!(o.a < o.b)) err("identical.order", `組が a < b になっていません: ${o.a} / ${o.b}`, at("identical-sets.jsonl", i));
+    if (!Number.isInteger(o.iocs) || o.iocs < 1) {
+      err("identical.iocs", `iocs が 1 以上の整数ではありません: ${o.iocs}`, at("identical-sets.jsonl", i));
+    } else {
+      // 数え直しはしない。stats 側は bogon / noise / sample を除いた集合で数えるので
+      // entities.jsonl の ioc_count とは一致しない。**上回ることだけは無い**のでそこを見る
+      for (const side of ["a", "b"]) {
+        const e = entityByKey.get(`${o.kind}\t${o[side]}`);
+        if (e && Number.isInteger(e.ioc_count) && o.iocs > e.ioc_count) {
+          err("identical.iocs", `iocs が ${side} の ioc_count を上回っています: ${o.iocs} > ${e.ioc_count}`, at("identical-sets.jsonl", i));
+        }
+      }
+    }
+    if (inOverlaps.has(`${o.kind}\t${o.a}\t${o.b}`)) {
+      err("identical.both", `overlaps.jsonl にも出ています: ${o.kind}/${o.a} ↔ ${o.b}`, at("identical-sets.jsonl", i));
     }
   }
 }
@@ -995,6 +1052,21 @@ if (abuseRows) {
       err("abuse.count", `通報者が通報数を上回っています: ${r.reporters} > ${r.reports}`, at("abuseipdb.jsonl", i));
     }
     if (r.last_reported_at !== undefined) checkDate("abuseipdb.jsonl", i, "last_reported_at", r.last_reported_at);
+    // 見本アドレスの印。**判定に使った分母と分子が row に残っていること**を見る。
+    // 残っていなければ、あとから境目を動かしたときに何を根拠に外したのかが分からない。
+    if (r.hollow !== undefined || r.comments !== undefined) {
+      if (!Number.isInteger(r.comments) || r.comments < 1) {
+        err("abuse.hollow", `comments が 1 以上の整数ではありません: ${r.comments}`, at("abuseipdb.jsonl", i));
+      } else if (!Number.isInteger(r.hollow) || r.hollow < 1 || r.hollow > r.comments) {
+        err("abuse.hollow", `hollow が 1〜comments の整数ではありません: ${r.hollow} / ${r.comments}`, at("abuseipdb.jsonl", i));
+      }
+    }
+    if (r.sample && !(r.comments >= SAMPLE_MIN && r.hollow / r.comments >= SAMPLE_RATIO)) {
+      err("abuse.sample", `見本アドレスの印が境目と合いません: ${r.hollow}/${r.comments}`, at("abuseipdb.jsonl", i));
+    }
+    if (!r.sample && r.comments >= SAMPLE_MIN && r.hollow / r.comments >= SAMPLE_RATIO) {
+      err("abuse.sample", `境目を超えているのに見本アドレスの印がありません: ${r.hollow}/${r.comments}`, at("abuseipdb.jsonl", i));
+    }
     for (const [k, v] of Object.entries(r.categories || {})) {
       if (!Number.isInteger(v) || v < 1) {
         err("abuse.categories", `${k} の件数が 1 以上の整数ではありません: ${v}`, at("abuseipdb.jsonl", i));

@@ -5,7 +5,8 @@
 //   node tools/ioc/enrich-intel.mjs [--in data/ioc/latest] [--out <同じ場所>]
 //                                   [--vt-cache data/ioc/.cache/vt]
 //                                   [--abuse-cache data/ioc/.cache/abuseipdb]
-//                                   [--san-cap 100] [--name-cap 8] [--include-noise]
+//                                   [--san-cap 100] [--name-cap 8] [--serial-min 3]
+//                                   [--include-noise]
 //
 // 先に fetch-vt.mjs / fetch-abuseipdb.mjs で写しを作っておくこと。
 // **同じ写しからは何度でも同じ結果が出る**（fetch-asn / enrich-asn と同じ分け方）。
@@ -22,6 +23,8 @@
 // 出力
 //   vt.jsonl            IOC ごとの VT 判定。VT が知らないものは known:false（結果として残す）
 //   abuseipdb.jsonl     IP ごとの通報状況。**通報数ではなく信頼度スコアで判断する**
+//                       ただしスコアも万能ではない。中身の無い通報が積み上がって
+//                       高スコアになる見本アドレスがあるので sample の印を付ける
 //   derived-iocs.jsonl  写しから生えた IOC（今は DNS の解決先）
 //   derived-links.jsonl 生えた辺（ファミリ・解決先）
 //   derived-entities.jsonl 生えた実体（VT のファミリ名のうち索引に無かったもの）
@@ -45,6 +48,14 @@ const INCLUDE_NOISE = !!args["include-noise"];
 const SAN_CAP = Number(args["san-cap"] || 100);
 /** ファイル名を残す上限。1 件が何百も名前を持つことがある */
 const NAME_CAP = Number(args["name-cap"] || 8);
+/**
+ * 「見本アドレス」を通報の中身から見つけるための境目（§2.8）。
+ * 大勢が通報しているのに中身の無いコメントばかり、という組み合わせだけを見る。
+ * 通報が 1〜2 件しか無い IP は中身無し率が 100% でも珍しくないので、
+ * 件数の下限を置かないと大量に誤って印が付く。
+ */
+const SAMPLE_MIN = Number(args["sample-min"] || 20);
+const SAMPLE_RATIO = Number(args["sample-ratio"] || 0.3);
 
 const iocs = readJsonl(path.join(IN, "iocs.jsonl"));
 if (!iocs.length) {
@@ -98,6 +109,9 @@ const GENERIC = new Set([
   "astraea", "graftor", "gencirc", "convagent", "kryptik", "genkryptik", "zusy",
   "razy", "barys", "symmi", "midie", "wacatac", "occamy", "presenoker", "fugrafa",
   "bsymem", "ulise", "noon", "tedy", "strictor", "sivis", "malgent", "multi",
+  // mikey は 4 検体に付いていたが、変種が dynamer / etset / pswdump と全部違い、
+  // JS・DLL・OCX と種別も違った。APT28 ↔ Silver Fox を繋いでいたが根拠にならない
+  "mikey",
 ]);
 
 /**
@@ -106,8 +120,10 @@ const GENERIC = new Set([
  * 繋いでいた。**AgentTesla のような実在のファミリは残す**（後ろが 2 文字より長い）。
  */
 const looksVariant = (name) =>
-  /^agent[a-z]{0,2}$/.test(name) ||
-  /^gen[a-z]{0,2}$/.test(name) ||
+  /^agent[a-z0-9]{0,2}$/.test(name) ||
+  /^gen[a-z0-9]{0,2}$/.test(name) ||
+  // `ag1536201` `cve20151641` のような、短い頭文字＋長い数字。人が付けた名前ではない
+  /^[a-z]{1,3}\d{3,}$/.test(name) ||
   // `generickdq` のような「generic + 検出器の連番」
   /^generic/.test(name) ||
   // `grhh` `kqil` `vsnw09g25` のような、母音の無い機械生成の札。人が付けた名前ではない
@@ -123,6 +139,31 @@ function familyOf(label) {
   if (!k || GENERIC.has(k) || looksVariant(k)) return null;
   return name;
 }
+
+/**
+ * 中身と関係のないファイル名。**置き名と自動命名**は結び付きの根拠にならない。
+ *
+ * 実測で `payload.bin` が APT28（Sednit）と Silver Fox（Atlas RAT）を繋いでいた。
+ * 解析者やサンドボックスが付ける名前で、同じ名前でも同じ物とは限らない。
+ * ハッシュそのものを名前にしているものも同じ（`6922b319….exe` は VT の自動命名）。
+ */
+const PLACEHOLDER = new Set([
+  "payload.bin", "payload.exe", "payload.dll", "payload", "stage1.bin", "stage2.bin",
+  "sample.exe", "sample.bin", "sample", "malware.exe", "malware.bin", "virus.exe",
+  "file.exe", "file.bin", "file", "test.exe", "tmp.exe", "temp.exe", "output.exe",
+  "a.exe", "b.exe", "1.exe", "2.exe", "x.exe", "new.exe", "dropped.exe", "binary.bin",
+  "setup.exe", "install.exe", "installer.exe", "update.exe", "updater.exe", "main.exe",
+  "app.exe", "program.exe", "document.doc", "invoice.doc", "unknown", "noname",
+  "svchost.exe", "explorer.exe", "rundll32.exe", "cmd.exe", "powershell.exe",
+  "regsvr32.exe", "msiexec.exe", "wscript.exe", "cscript.exe", "mshta.exe",
+]);
+const placeholderName = (v) => {
+  const k = v.toLowerCase();
+  if (PLACEHOLDER.has(k)) return true;
+  // ハッシュそのもの（拡張子の有無は問わない）
+  if (/^[0-9a-f]{16,}(\.[a-z0-9]{1,5})?$/.test(k)) return true;
+  return false;
+};
 
 /** 実体名の突き合わせ鍵。collect.mjs の canonMalware と同じ潰し方にする。 */
 const nameKey = (s) => String(s ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "");
@@ -189,8 +230,25 @@ for (const rec of vtRecords) {
     if (Number.isFinite(b.size)) row.size = int(b.size);
     const signer = b.signature_info?.signers || b.signature_info?.["signers details"]?.[0]?.name;
     if (typeof signer === "string" && signer.trim()) row.signer = signer.trim();
+
+    /**
+     * ファジーハッシュ。**提供元の判断が入らず、論理が明示的**なので、
+     * 検知名より根拠として素直。`vhash` と `imphash` は完全一致で使える。
+     *
+     * **`ssdeep` と `tlsh` はここには出さない。** 距離を測らないと使えないので
+     * まだ根拠になっておらず、そのうえ GitHub の secret scanning が
+     * `49152:bPE+OIaSlC05Alg0PBnQ…` のような base64 風の並びを AWS の鍵と
+     * 誤検知して push を止める。毎日新しい検体で当たるので運用にならない。
+     * 写し（`.cache`）には射影として残っているので、距離を実装するときは
+     * 引き直さずに作れる。そのとき出すべきなのは生の値ではなく**組ごとの距離**。
+     */
+    for (const f of ["vhash", "imphash", "rich_header"]) {
+      if (typeof b[f] === "string" && b[f].trim()) row[f] = b[f].trim();
+    }
     const names = [b.meaningful_name, ...(b.names || [])]
-      .filter((x) => typeof x === "string" && x.trim());
+      .filter((x) => typeof x === "string" && x.trim())
+      .map((x) => x.trim())
+      .filter((x) => !placeholderName(x));
     if (names.length) row.names = [...new Set(names)].sort().slice(0, NAME_CAP);
 
     /* §2.1 マルウェア名の正規化。索引に同じものがあれば索引の表記に寄せる */
@@ -301,10 +359,15 @@ for (const rec of vtRecords) {
         iocs: new Set(),
         // SAN に名前が載っている IOC の数。0 なら基盤に出された証明書
         literal: 0,
+        // そのうちドメイン。**IP だけの群はどちらとも言えない**（下の anchor を見よ）
+        anchors: 0,
       });
     }
     certs.get(thumb).iocs.add(rec.ioc);
-    if (!row.cert.wildcard) certs.get(thumb).literal++;
+    if (!row.cert.wildcard) {
+      certs.get(thumb).literal++;
+      if (ioc.type === "ioc.domain") certs.get(thumb).anchors++;
+    }
   }
 
   vtRows.push(row);
@@ -331,12 +394,44 @@ for (const [key, from] of resolveTargets) {
 }
 derivedIocs.sort(byKeys("type", "value"));
 
+/** 索引が既に知っている名前。連番の判定でも、生えた実体の判定でも使う。 */
+const knownNames = new Set(entities.filter((e) => e.kind === "malware").map((e) => e.name));
+
+/* ---------------- 1b. 提供元の連番ファミリを落とす ---------------- */
+
+/**
+ * `boiq` `boir` `boiv` `boja` `bokf` … のように、**頭 2 文字と長さが同じ札が
+ * 何本も並ぶ**のは提供元の連番であって、ファミリ名ではない。
+ * 実測で 13 本の `bo` + 4 文字、3 本の `ag` + 7 桁が実体として生えていた。
+ * 名前を列挙して弾くのは一般化しないので、**並びの数で測る**。
+ *
+ * 実在のファミリは頭 2 文字と長さが揃って何本も出てくることがない
+ * （`turla` `tiny` は長さが違い、`data` `dump` は頭 2 文字が違う）。
+ */
+// 3 で実測すると提供元の連番だけが落ちる。2 まで下げると datper / rokrat /
+// muddywater のような実在のファミリまで巻き込む
+const SERIAL_MIN = Number(args["serial-min"] || 3);
+const shapeCount = new Map();
+for (const fam of familySamples.keys()) {
+  const k = `${fam.slice(0, 2)}\t${fam.length}`;
+  shapeCount.set(k, (shapeCount.get(k) || 0) + 1);
+}
+const serialFamilies = new Set([...familySamples.keys()]
+  .filter((f) => (shapeCount.get(`${f.slice(0, 2)}\t${f.length}`) || 0) >= SERIAL_MIN)
+  // 索引が既に知っている名前は、並びが揃っていても落とさない
+  .filter((f) => !knownNames.has(f)));
+for (const f of serialFamilies) {
+  familySamples.delete(f);
+  aliasSupport.delete(f);
+}
+
 const derivedKeys = new Set(derivedIocs.map((r) => r.key));
 /* 解決先が索引側にも派生側にも無い（壊れた値）辺は残さない。
    同じ辺が 2 度出ることもあるので、ここで 1 本にまとめる */
 const seenLink = new Set();
 const usableDerivedLinks = derivedLinks.filter((l) => {
   if (l.kind === "ioc" && !iocByKey.has(l.name) && !derivedKeys.has(l.name)) return false;
+  if (l.rel === "suggested_threat_label" && serialFamilies.has(l.name)) return false;
   const k = `${l.ioc}\t${l.kind}\t${l.name}\t${l.rel}\t${l.source}`;
   if (seenLink.has(k)) return false;
   seenLink.add(k);
@@ -345,7 +440,6 @@ const usableDerivedLinks = derivedLinks.filter((l) => {
 
 /* ---------------- 3. 生えた実体と別名 ---------------- */
 
-const knownNames = new Set(entities.filter((e) => e.kind === "malware").map((e) => e.name));
 const derivedEntities = [...familySamples.entries()]
   .filter(([name]) => !knownNames.has(name))
   .map(([name, set]) => ({ kind: "malware", name, ioc_count: set.size, sources: ["virustotal"] }))
@@ -377,13 +471,21 @@ const derivedAliases = [...aliasSupport.entries()]
 const certWeakness = (c) => {
   if (c.san_count > SAN_CAP) return "san";
   if (c.literal === 0) return "wildcard";
+  // **IP だけの群は、運用者の証明書か基盤の既定かを見分けられない。**
+  // 実測で `invalid2.invalid`（Cloudflare の既定）・`*.hstgr.io`（Hostinger の共用）・
+  // `cloudflare-dns.com`・`n.sni-347-default.ssl.fastly.net` が、
+  // 無関係なアクター同士を strength 9〜10 で繋いでいた。
+  // 名前が当たったドメインが 1 つでも居れば「その運用者のもの」と言えるので、
+  // それを錨（anchor）にする。錨が無い群は**捨てずに印を付け**、
+  // daily-report が cert_excluded として人に渡す。
+  if (c.anchors === 0) return "unanchored";
   return null;
 };
 
 const certRows = [...certs.values()]
   .map((c) => {
     const why = certWeakness(c);
-    const { literal, ...rest } = c;
+    const { literal, anchors, ...rest } = c;
     return {
       ...rest,
       iocs: [...c.iocs].sort(),
@@ -406,18 +508,34 @@ const CATEGORY = {
 /** 相乗り判定の 3 つ目の観点（§2.5）。事業者の網かどうか。 */
 const HOSTING = /data center|web hosting|transit|content delivery|reserved/i;
 
+/**
+ * 中身の無い通報コメント。**通報したという事実だけが残っていて、何をされたかが書いていない。**
+ * 見本アドレス（1.2.3.4 など）は「適当な IP」として書かれ続けるので、
+ * 動作確認や無言の通報がここに溜まり、信頼度スコアだけが上がる。
+ */
+const HOLLOW = /^(|\.{2,}|-+|_+|\?+|x+|test(ing|ed)?|n\/?a|none|null|nil|abuse|spam|bad|blocked|report(ed)?|sample|example|dummy|placeholder|foo|bar|asdf?)$/i;
+
 const abuseRows = [];
 for (const rec of abuseRecords) {
   if (!iocByKey.has(rec.ioc)) continue;
   const b = rec.body || {};
   const cats = new Map();
-  for (const r of b.reports || []) {
+  const reports = b.reports || [];
+  for (const r of reports) {
     for (const c of r?.categories || []) {
       const name = CATEGORY[c] || `分類 ${c}`;
       cats.set(name, (cats.get(name) || 0) + 1);
     }
   }
+  // 中身無しの数は常に残す。印が付かなかったものも、あとから境目を動かして見直せるように。
+  // 分母は totalReports ではなく **実際にコメントを読めた件数**。API が返す通報は
+  // 上限で切られるので、この 2 つは一致しない。判定に使った方を残さないと検算できない。
+  const hollow = reports.filter((r) => HOLLOW.test(String(r?.comment ?? "").trim())).length;
+  const sample = reports.length >= SAMPLE_MIN && hollow / reports.length >= SAMPLE_RATIO;
   abuseRows.push({
+    ...(hollow ? { comments: reports.length, hollow } : {}),
+    // **消さずに印を付ける。**stats 側でこの印の付いた IP を根拠から外す。
+    ...(sample ? { sample: true } : {}),
     ioc: rec.ioc,
     // **通報数ではなくこれで判断する**（通報 97 件でスコア 0 の IP が実在する）
     score: int(b.abuseConfidenceScore) ?? 0,

@@ -196,6 +196,8 @@ function buildEnrichFixture(dir, iocs, links) {
     last_reported_at: "2026-02-12", usage_type: "Data Center/Web Hosting/Transit",
     hosting: true, isp: "検査用ホスティング", country: "US",
     categories: { "ポートスキャン": 8, "総当たり": 4 },
+    // 中身無しはあるが、境目（20 件 / 30%）には届かないので印は付かない
+    comments: 12, hollow: 2,
   }];
 
   // c2.example.com の解決先のうち、索引に無かったほうだけが生える
@@ -514,6 +516,20 @@ const CASES = [
   ["abuse.type", "IP でない IOC に通報状況が付く", (d) => {
     editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace("ioc.ipv4|45.32.10.7", "ioc.domain|c2.example.com"));
   }],
+  ["abuse.hollow", "中身無しの数が分母を超える", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace('"hollow":2', '"hollow":13'));
+  }],
+  ["abuse.hollow", "判定に使った分母が残っていない", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace('"comments":12,', ""));
+  }],
+  ["abuse.sample", "境目を超えているのに見本アドレスの印が無い", (d) => {
+    // 鍵は並べ替えて書いているので、この 2 つは隣り合っていない
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7",
+      (l) => l.replace('"comments":12', '"comments":40').replace('"hollow":2', '"hollow":30'));
+  }],
+  ["abuse.sample", "境目に届いていないのに見本アドレスの印が付く", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace('"hollow":2', '"hollow":2,"sample":true'));
+  }],
   ["derived.duplicate", "生えた IOC が索引の IOC と重複する", (d) => {
     // 重複したら索引側を優先する。混ざると「これはどこの主張か」が追えなくなる
     editLine(d, "derived-iocs.jsonl", "45.32.11.9", (l) =>
@@ -551,12 +567,41 @@ const CASES = [
   ["overlap.strength", "根拠の強さがずれる", (d) => {
     editLine(d, "overlaps.jsonl", '"kind":"actor"', (l) => l.replace(/"strength":\d+/, '"strength":99'));
   }],
+  ["overlap.evidence", "根拠の値が残っていない", (d) => {
+    // 「証明書で繋がっている」と言われても、どの証明書かが無ければ検算できない
+    editLine(d, "overlaps.jsonl", '"kind":"actor"', (l) => {
+      const r = JSON.parse(l);
+      delete r.evidence;
+      return putRow(r);
+    });
+  }],
+  ["overlap.evidence", "via に無い根拠が混じる", (d) => {
+    editLine(d, "overlaps.jsonl", '"kind":"actor"', (l) => {
+      const r = JSON.parse(l);
+      r.evidence = { ...r.evidence, certificate: ["a".repeat(64)] };
+      return putRow(r);
+    });
+  }],
   ["overlap.weak", "強い根拠があるのに weak_only が付く", (d) => {
     editLine(d, "overlaps.jsonl", '"kind":"actor"', (l) => {
       const r = JSON.parse(l);
       r.weak_only = true;
       return putRow(r);
     });
+  }],
+  // IOC 集合が一致した組。**片方に出したつもりで両方に残ると、外したはずの組が上位に戻る**
+  ["identical.both", "重なりと集合一致の両方に出ている", (d) => {
+    const o = JSON.parse(fs.readFileSync(path.join(d, "overlaps.jsonl"), "utf8").trim().split("\n")[0]);
+    fs.writeFileSync(path.join(d, "identical-sets.jsonl"),
+      `${putRow({ kind: o.kind, a: o.a, b: o.b, iocs: 1 })}\n`);
+  }],
+  ["identical.entity", "集合一致の相手が実体一覧に無い", (d) => {
+    fs.writeFileSync(path.join(d, "identical-sets.jsonl"),
+      `${putRow({ kind: "actor", a: "APT-Test", b: "Ghost Group", iocs: 1 })}\n`);
+  }],
+  ["identical.iocs", "集合一致の数が実体の IOC 数を上回る", (d) => {
+    fs.writeFileSync(path.join(d, "identical-sets.jsonl"),
+      `${putRow({ kind: "actor", a: "APT-Test", b: "Other Group", iocs: 999 })}\n`);
   }],
   ["enrichmeta.sha", "写しのハッシュが無い", (d) => {
     const f = path.join(d, "enrich-meta.json");

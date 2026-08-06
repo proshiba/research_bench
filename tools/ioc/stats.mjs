@@ -5,7 +5,10 @@
 //                            [--since <前回のスナップショット>] [--include-noise]
 //                            [--ubiquity-cap 8] [--min-shared 1]
 //                            [--asn-max-addresses 4096] [--asn-max-actors 8]
-//                            [--jarm-cap 0.01] [--filename-cap 8] [--family-cap 8]
+//                            [--jarm-cap 0.01] [--filename-cap 8] [--filename-min 2]
+//                            [--family-cap 8] [--vhash-cap 8] [--imphash-cap 8]
+//                            [--resolution-cap 3] [--resolution-asn-cap 2]
+//                            [--evidence-cap 5]
 //                            [--hosting-ratio 0.7] [--hosting-min 3]
 //
 // 重なりの見方を 9 つ出す。どれも「共有している IOC の数」を根拠にする。
@@ -13,16 +16,18 @@
 //   certificate … 同じ証明書（thumbprint 一致）。**最も強いインフラ共有の証拠**
 //   ioc         … 同じ IOC を指している
 //   resolution  … 同じ IP に解決するドメインを持っている
-//   family      … VT が同じ脅威ラベルを付けている
+//   vhash       … VT の構造ハッシュが一致。**提供元の判断が入らない**
+//   imphash     … PE のインポート表が一致。パッカーで衝突するので中くらい
 //   subnet      … 同じ /24 に IP がある（インフラの共有。API 不要で出せる）
 //   asn         … 同じ AS に IP がある。**小さい AS に限る**（enrich-asn.mjs が要る）
-//   filename    … 珍しいファイル名の共有
-//   registrable … 同じ登録可能ドメインを使っている
-//   jarm        … 同じ TLS 指紋。**単独では根拠にしない**
+//   family      … VT が同じ脅威ラベルを付けている。**弱い**（提供元の札は広く付く）
+//   registrable … 同じ登録可能ドメインを使っている。弱い
+//   filename    … 珍しいファイル名の共有。**弱い**（2 つ以上揃って初めて数える）
+//   jarm        … 同じ TLS 指紋。弱い（単独では根拠にしない）
 //
 // **根拠に強さの順を入れる。** 共有数と割合だけだと、根拠の種類による差が数字に出ない。
 // 上の順を点数にして合算した `strength` を持たせ、要約の並べ替えをこれにする。
-// 弱い根拠（filename / registrable / jarm）だけで成立している組には weak_only の印を
+// 弱い根拠（family / filename / registrable / jarm）だけで成立している組には weak_only の印を
 // 付ける。**除くのではなく印を付ける**（bogon / noise と同じ扱い）。
 //
 // asn を大きさで絞るのは、絞らないと意味を持たないため。400 万アドレスを持つ事業者に
@@ -32,10 +37,14 @@
 //
 // 既定では bogon と noise（公開 DNS など）を除く。これらは誰にでも現れるので、
 // 入れると重なりの上位が意味の無いもので埋まる。--include-noise で戻せる。
+// enrich-intel.mjs が付けた sample の印（通報の中身が空ばかりの見本アドレス）も同じ扱い。
+// net.mjs の帯の一覧は手で足すしかないので、そこから漏れたものをこちらで拾う。
 //
 // 出力
 //   stats.json      **カバレッジ**・件数・種別内訳・重なりの要約・時間軸・判定の分布
-//   overlaps.jsonl  実体の組ごとの重なり（根拠と強さつき）
+//   overlaps.jsonl  実体の組ごとの重なり（根拠・強さ・**根拠になった値**つき）
+//   identical-sets.jsonl  IOC 集合が完全に一致した組。**共有率 100% は構造上そう
+//                   なるだけで根拠にならない**ので overlaps からは外す。捨てはしない
 //   graph.json      実体と重なりのグラフ（そのまま描ける形）
 //   new.jsonl       --since を渡したときだけ。前回に無かった IOC
 //
@@ -72,6 +81,32 @@ const JARM_CAP = Number(args["jarm-cap"] || 0.01);
 const FILENAME_CAP = Number(args["filename-cap"] || args["ubiquity-cap"] || 8);
 /** ファミリ名も同じ。これより多くの実体にぶら下がるラベルは、ファミリではなく手口。 */
 const FAMILY_CAP = Number(args["family-cap"] || args["ubiquity-cap"] || 8);
+/** ファイル名を根拠に数えるのに要る、一致した名前の数。1 つだけの一致は偶然が多い。 */
+const FILENAME_MIN = Number(args["filename-min"] || 2);
+/** 根拠の値を 1 種類あたり何件まで残すか。全部だと overlaps.jsonl が膨らむ。 */
+const EVIDENCE_CAP = Number(args["evidence-cap"] || 5);
+/**
+ * 解決先も同じ考え方。これより多くの実体のドメインが解決する IP は共用の入れ物。
+ * **他の根拠より厳しくする**（既定 3）。resolution は 7 点と強い根拠なので、
+ * 弱い根拠と同じ緩さで通すと、パーキング 1 つで上位が埋まる。
+ */
+const RESOLUTION_CAP = Number(args["resolution-cap"] || 3);
+/**
+ * 同じことを AS 単位でも見る。パーキングは IP 単位では小さくても AS 全体では広い。
+ *
+ * 既定 2。実測で境目を動かすと、3 では Seznam.cz（`77.75.77.222`）が
+ * APT28 ↔ APT29 を、韓国テレコム（`168.126.27.83`）が APT37 ↔ DPRK IT Worker
+ * Schemes を繋いだままだった。4 では Squarespace（`198.185.159.176`）が残った。
+ * どれも**顧客のドメインが並ぶ入れ物**であって、共有された C2 ではない。
+ *
+ * **代償は承知の上。** 2 にすると「3 つの実体が同じ防弾ホストを共有している」
+ * という本物も切れる。resolution は 7 点と強い根拠なので、
+ * 取りこぼすより誤って繋ぐほうが害が大きいと判断した。緩めるならこの値を上げる。
+ */
+const RESOLUTION_ASN_CAP = Number(args["resolution-asn-cap"] || 2);
+/** ファジーハッシュも同じ考え方。これより多くの実体に付く値は、作りが共通なだけ。 */
+const VHASH_CAP = Number(args["vhash-cap"] || args["ubiquity-cap"] || 8);
+const IMPHASH_CAP = Number(args["imphash-cap"] || args["ubiquity-cap"] || 8);
 /**
  * AbuseIPDB が「事業者の網」と言う IP の割合がこれを超えたら相乗りとみなす（§3.2）。
  * ただし判定の付いた IP が --hosting-min 未満の AS では割合が当てにならないので使わない。
@@ -105,11 +140,17 @@ const HAS_VT = vt.length > 0;
 const HAS_ABUSE = abuse.length > 0;
 
 const iocById = new Map(iocs.map((r) => [r.key, r]));
+/**
+ * 通報の中身から見本アドレスと判定された IP（enrich-intel.mjs が印を付ける）。
+ * net.mjs の帯の一覧は手で足すしかないので、そこから漏れたものをここで拾う。
+ */
+const sampleIps = new Set(abuse.filter((r) => r.sample).map((r) => r.ioc));
+const dropped = (r) => r.bogon || r.noise || sampleIps.has(r.key);
 const usable = (key) => {
   const r = iocById.get(key);
   if (!r) return false;
   if (r.malformed) return false;
-  if (!INCLUDE_NOISE && (r.bogon || r.noise)) return false;
+  if (!INCLUDE_NOISE && dropped(r)) return false;
   return true;
 };
 
@@ -157,15 +198,57 @@ const resolvedIps = new Set();
 const cdnIps = new Set();
 /** 生えた IP にも bogon / noise の印は付いている。索引の IOC と同じ扱いにする。 */
 const markOf = new Map([...iocById, ...derivedIocs.map((r) => [r.key, r])]);
+
+/**
+ * 解決先ごとの「そこに解決するドメインを持つ実体」の数。
+ *
+ * **大きさだけでは足りない。** ドメインパーキングは AS が小さいのに解決先だけ膨大で、
+ * 実測で SEDO GmbH（AS47846、**1,024 アドレス**）の `91.195.240.12` が上限を
+ * 素通りし、APT33 / Cytrox / Konni / Lazarus Group など 8 実体を総当たりで
+ * 繋いでいた。Trellian（AS133618）と ParkingCrew（AS206834）も同じ形。
+ * 他の根拠に入れている ubiquity cap を、解決先にも同じ考えで入れる。
+ */
+const entityLabels = new Map();   // IOC 鍵 → その IOC を持つ実体の名札
+for (const kind of ["actor", "malware"]) {
+  for (const [name, keys] of owned.get(kind)) {
+    for (const k of keys) {
+      if (!entityLabels.has(k)) entityLabels.set(k, new Set());
+      entityLabels.get(k).add(`${kind}:${name}`);
+    }
+  }
+}
+const entitiesPerResolvedIp = new Map();
+/**
+ * AS 単位でも同じことを見る。**パーキングは 1 つの IP では跨りが小さくても、
+ * AS 全体で見ると必ず広い。** 実測で 4,096 アドレス以下の AS を跨りの多い順に
+ * 並べると、上位 4 つが SEDO(12) / Trellian(7) / Team Internet(7) / IP Vendetta(7)
+ * で、5 つ目から 4 に落ちる。事業の性質がそのまま数字に出る。
+ */
+const entitiesPerResolvedAsn = new Map();
+for (const [domain, set] of resolvesTo) {
+  const labels = entityLabels.get(domain);
+  if (!labels?.size) continue;
+  for (const ip of set) {
+    if (!entitiesPerResolvedIp.has(ip)) entitiesPerResolvedIp.set(ip, new Set());
+    for (const l of labels) entitiesPerResolvedIp.get(ip).add(l);
+    const asn = asnOf.get(ip);
+    if (asn === undefined) continue;
+    if (!entitiesPerResolvedAsn.has(asn)) entitiesPerResolvedAsn.set(asn, new Set());
+    for (const l of labels) entitiesPerResolvedAsn.get(asn).add(l);
+  }
+}
+
 for (const set of resolvesTo.values()) {
   for (const ip of set) {
     // 127.0.0.1 に解決するドメイン同士は「同じ所に居る」ではなく、**どちらも
     // シンクホールされている**。実測で APT28 ↔ STAC4749 を繋いでいた
     const m = markOf.get(ip);
-    if (m && (m.malformed || m.bogon || (!INCLUDE_NOISE && m.noise))) { cdnIps.add(ip); continue; }
+    if (m && (m.malformed || m.bogon || (!INCLUDE_NOISE && (m.noise || sampleIps.has(m.key))))) { cdnIps.add(ip); continue; }
     const asn = asnOf.get(ip);
     const size = asn ? (asnInfo.get(asn)?.addresses ?? 0) : 0;
     if (size > ASN_MAX_ADDRESSES) { cdnIps.add(ip); continue; }
+    if ((entitiesPerResolvedIp.get(ip)?.size ?? 0) > RESOLUTION_CAP) { cdnIps.add(ip); continue; }
+    if (asn !== undefined && (entitiesPerResolvedAsn.get(asn)?.size ?? 0) > RESOLUTION_ASN_CAP) { cdnIps.add(ip); continue; }
     resolvedIps.add(ip);
   }
 }
@@ -194,6 +277,39 @@ const commonJarm = new Set([...jarmCount].filter(([, n]) => n > jarmTotal * JARM
 const nameCount = new Map();
 for (const r of vt) for (const n of r.names || []) nameCount.set(n, (nameCount.get(n) || 0) + 1);
 const commonName = new Set([...nameCount].filter(([, n]) => n > FILENAME_CAP).map(([n]) => n));
+
+/**
+ * ファジーハッシュ。**提供元の判断が入らないぶん、検知名より素直な根拠**。
+ *
+ *   vhash   … VT の構造ハッシュ。一致すれば作りが同じ
+ *   imphash … PE のインポート表。一致すれば同じ取り込み方だが、**パッカーでよく衝突する**
+ *
+ * どちらも「みんなが同じ値になる」ことがあるので、ありふれた値は外す。
+ * 数え方は他と揃えて **何実体にぶら下がっているか**で測る。
+ */
+const DEGENERATE_HASH = new Set([
+  "d41d8cd98f00b204e9800998ecf8427e",   // 空（インポートが無い PE の imphash）
+  "0000000000000000000000000000000000000000000000000000000000000000",
+]);
+const hashOwners = (field) => {
+  const m = new Map();
+  for (const l of links) {
+    if (!KINDS.includes(l.kind)) continue;
+    const v = vtByIoc.get(l.ioc)?.[field];
+    if (!v || DEGENERATE_HASH.has(v)) continue;
+    if (!m.has(v)) m.set(v, new Set());
+    m.get(v).add(`${l.kind}\t${l.name}`);
+  }
+  return m;
+};
+const commonVhash = new Set([...hashOwners("vhash")].filter(([, e]) => e.size > VHASH_CAP).map(([v]) => v));
+const commonImphash = new Set([...hashOwners("imphash")].filter(([, e]) => e.size > IMPHASH_CAP).map(([v]) => v));
+const usableHash = (field, v) => {
+  if (!v || DEGENERATE_HASH.has(v)) return null;
+  if (field === "vhash" && commonVhash.has(v)) return null;
+  if (field === "imphash" && commonImphash.has(v)) return null;
+  return v;
+};
 
 /**
  * ありふれたファミリ名も外す。
@@ -264,18 +380,22 @@ const asnUsable = (asn) => {
  * 根拠として弱いうえに組を大量に生むので、上限を超えたら数えない。
  */
 function pairsFor(kind, groups) {
-  const pairCount = new Map();  // "a\tb" → { n, via:Set }
+  // "a\tb" → { byVia: Map(via → 共有した値の集合) }
+  //
+  // **共有した値そのものを持つ。** 数だけだと「証明書で繋がっている」と言われても
+  // どの証明書かを確かめられない。根拠は後から検算できないと意味がない。
+  const pairCount = new Map();
   for (const [via, byValue] of groups) {
-    for (const [, names] of byValue) {
+    for (const [value, names] of byValue) {
       const list = [...names].sort();
       if (list.length < 2 || list.length > UBIQUITY_CAP) continue;
       for (let i = 0; i < list.length; i++) {
         for (let j = i + 1; j < list.length; j++) {
           const k = `${list[i]}\t${list[j]}`;
-          if (!pairCount.has(k)) pairCount.set(k, { n: 0, via: new Set() });
-          const p = pairCount.get(k);
-          p.n++;
-          p.via.add(via);
+          if (!pairCount.has(k)) pairCount.set(k, { byVia: new Map() });
+          const m = pairCount.get(k).byVia;
+          if (!m.has(via)) m.set(via, new Set());
+          m.get(via).add(value);
         }
       }
     }
@@ -285,24 +405,39 @@ function pairsFor(kind, groups) {
     const [a, b] = k.split("\t");
     const sa = sizes.get(a)?.size || 0;
     const sb = sizes.get(b)?.size || 0;
-    const via = [...v.via].sort();
+    // **ファイル名は 1 つだけの一致では数えない。** 置き名や自動命名を落としても
+    // 「たまたま同じ名前」は残る。2 つ以上揃って初めて手掛かりになる
+    const via = [...v.byVia.keys()].filter((x) => !(x === "filename" && v.byVia.get(x).size < FILENAME_MIN)).sort();
+    const shared = via.reduce((t, x) => t + v.byVia.get(x).size, 0);
+    if (!via.length) return null;
+    // **IOC 集合が完全に一致する組は「重なり」ではない。**同じものが 2 つの名前で
+    // 立っているだけで、自分自身と比べている。実測で `"マルウェア": "A, N"` が
+    // 区切りで割れ、468 IOC を共有する 2 実体の間に shared 1190 の組が立っていた。
+    // 元を断ったあとも、上流の別名が畳めていなければ同じことが起きる。
+    if (sameSet(sizes.get(a), sizes.get(b))) return { kind, a, b, iocs: sa, same_set: true };
+    // 根拠の値そのもの。多いものは切るが、切ったことが分かるように件数は shared に残る
+    const evidence = Object.fromEntries(via.map((x) => [x, [...v.byVia.get(x)].sort().slice(0, EVIDENCE_CAP)]));
     return {
       kind,
       a,
       b,
-      shared: v.n,
+      shared: shared,
       via,
       // 根拠の種類による差を数字に出す。共有数だけでは弱い根拠が 10 個ある組が上位に来る
       strength: strengthOf(via),
+      evidence,
       ...(weakOnly(via) ? { weak_only: true } : {}),
       a_iocs: sa,
       b_iocs: sb,
       // 小さいほうに対する割合。件数だけだと大きい実体が常に上位に来る
-      ratio: Math.round((v.n / Math.max(1, Math.min(sa, sb))) * 1000) / 1000,
+      ratio: Math.round((shared / Math.max(1, Math.min(sa, sb))) * 1000) / 1000,
     };
-  });
+  }).filter(Boolean);
 }
 
+
+/** 2 つの実体が同じ IOC 集合を持つか。空同士は「一致」と見なさない。 */
+const sameSet = (a, b) => !!a && !!b && a.size > 0 && a.size === b.size && [...a].every((k) => b.has(k));
 
 /** 根拠ごとの「値 → その値を共有する実体名の集合」。 */
 function groupsFor(kind) {
@@ -315,6 +450,8 @@ function groupsFor(kind) {
   const byFamily = new Map();
   const byFilename = new Map();
   const byJarm = new Map();
+  const byVhash = new Map();
+  const byImphash = new Map();
   const m = owned.get(kind);
   for (const [name, keys] of m) {
     for (const key of keys) {
@@ -341,6 +478,8 @@ function groupsFor(kind) {
       const v = vtByIoc.get(key);
       for (const n of v?.names || []) if (!commonName.has(n)) put(byFilename, n);
       if (v?.jarm && !commonJarm.has(v.jarm)) put(byJarm, v.jarm);
+      put(byVhash, usableHash("vhash", v?.vhash));
+      put(byImphash, usableHash("imphash", v?.imphash));
     }
   }
   return [
@@ -348,17 +487,31 @@ function groupsFor(kind) {
     ...(HAS_ASN ? [["asn", byAsn]] : []),
     ...(HAS_VT ? [
       ["certificate", byCert], ["resolution", byResolution],
+      ["vhash", byVhash], ["imphash", byImphash],
       ["family", byFamily], ["filename", byFilename], ["jarm", byJarm],
     ] : []),
   ];
 }
 
 const overlaps = [];
+/**
+ * IOC 集合が完全に一致した組。重なりとしては出さず、別の出口に回す。
+ *
+ * 実体の種類で意味が変わる。malware / actor なら **同じものが 2 つの名前で
+ * 立っている**疑い（実測で CloudSorcerer ↔ DeedRAT、Gshell ↔ TencShell など、
+ * 既知の別名が並んだ）。case は 1 つの記事から起こすので集合が一致しやすく、
+ * 別名ではなく単に同じ括り。どちらにしても「共有率 100%」は構造上そうなるだけで
+ * 重なりの根拠にならないので、overlaps.jsonl からは外して数と中身を別に出す。
+ */
+const identicalSets = [];
 for (const kind of KINDS) {
   if (!owned.get(kind).size) continue;
-  overlaps.push(...pairsFor(kind, groupsFor(kind)));
+  for (const o of pairsFor(kind, groupsFor(kind))) {
+    (o.same_set ? identicalSets : overlaps).push(o);
+  }
 }
 overlaps.sort(byKeys("kind", "a", "b"));
+identicalSets.sort(byKeys("kind", "a", "b"));
 
 /* ---------------- /24 の同居 ---------------- */
 
@@ -370,7 +523,7 @@ function coTenancy(binOf) {
   const bins = new Map();   // 鍵 → { ips:Set, actors:Set, malware:Set }
   for (const r of iocs) {
     if (r.type !== "ioc.ipv4" && r.type !== "ioc.ipv6") continue;
-    if (!INCLUDE_NOISE && (r.bogon || r.noise)) continue;
+    if (!INCLUDE_NOISE && dropped(r)) continue;
     const bin = binOf(r);
     if (bin === null || bin === undefined) continue;
     if (!bins.has(bin)) bins.set(bin, { ips: new Set(), actors: new Set(), malware: new Set() });
@@ -568,6 +721,7 @@ writeJson(path.join(OUT, "graph.json"), {
 });
 
 writeJsonl(path.join(OUT, "overlaps.jsonl"), overlaps);
+writeJsonl(path.join(OUT, "identical-sets.jsonl"), identicalSets.map((o) => ({ kind: o.kind, a: o.a, b: o.b, iocs: o.iocs })));
 // 要約には上位しか載らないので、同居は全件を別に残す
 writeJsonl(path.join(OUT, "subnets.jsonl"), subnets);
 if (HAS_ASN) writeJsonl(path.join(OUT, "asn-cotenancy.jsonl"), asnCoTenancy);
@@ -581,16 +735,22 @@ const top = (kind, n = 10) => overlaps
   .slice(0, n)
   .map((o) => ({
     a: o.a, b: o.b, shared: o.shared, strength: o.strength, ratio: o.ratio, via: o.via,
+    evidence: o.evidence,
     ...(o.weak_only ? { weak_only: true } : {}),
   }));
 
 const byType = {};
 for (const r of iocs) byType[r.type] = (byType[r.type] || 0) + 1;
 
-const VIA = [
+/**
+ * 内訳に出す根拠の並び。**lib/overlap.mjs の VIA とは別物。**
+ * あちらは「あり得る根拠の全種類」で、こちらは「この環境で実際に出せるもの」。
+ * AS もエンリッチも無い環境では、出ない根拠を 0 件として並べても読み手を惑わせる。
+ */
+const VIA_SHOWN = [
   "ioc", "subnet", "registrable",
   ...(HAS_ASN ? ["asn"] : []),
-  ...(HAS_VT ? ["certificate", "resolution", "family", "filename", "jarm"] : []),
+  ...(HAS_VT ? ["certificate", "resolution", "vhash", "imphash", "family", "filename", "jarm"] : []),
 ];
 
 /**
@@ -617,7 +777,8 @@ const stats = {
     ubiquity_cap: UBIQUITY_CAP,
     min_shared: MIN_SHARED,
     ...(HAS_ASN ? { asn_max_addresses: ASN_MAX_ADDRESSES } : {}),
-    ...(HAS_VT ? { jarm_cap: JARM_CAP, filename_cap: FILENAME_CAP, family_cap: FAMILY_CAP } : {}),
+    ...(HAS_VT ? { jarm_cap: JARM_CAP, filename_cap: FILENAME_CAP, filename_min: FILENAME_MIN,
+      family_cap: FAMILY_CAP, vhash_cap: VHASH_CAP, imphash_cap: IMPHASH_CAP } : {}),
     ...(HAS_ABUSE ? { hosting_ratio: HOSTING_RATIO, hosting_min: HOSTING_MIN } : {}),
   },
   iocs: {
@@ -627,6 +788,8 @@ const stats = {
     excluded: {
       bogon: iocs.filter((r) => r.bogon).length,
       noise: iocs.filter((r) => r.noise).length,
+      // 通報の中身が空ばかりで、見本アドレスと判断したもの
+      sample_reported: iocs.filter((r) => sampleIps.has(r.key)).length,
       malformed: iocs.filter((r) => r.malformed).length,
     },
     dated: iocs.filter((r) => r.observed_first).length,
@@ -636,7 +799,9 @@ const stats = {
     pairs: overlaps.filter((o) => o.kind === k).length,
     // 弱い根拠だけで成立している組。除かずに数える
     weak_only: overlaps.filter((o) => o.kind === k && o.weak_only).length,
-    by_via: VIA.reduce((acc, v) => {
+    // IOC 集合が一致したので重なりから外した組。中身は identical-sets.jsonl
+    identical_sets: identicalSets.filter((o) => o.kind === k).length,
+    by_via: VIA_SHOWN.reduce((acc, v) => {
       acc[v] = overlaps.filter((o) => o.kind === k && o.via.includes(v)).length;
       return acc;
     }, {}),

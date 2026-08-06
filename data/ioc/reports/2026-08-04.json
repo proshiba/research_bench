@@ -1,0 +1,1676 @@
+{
+  "compared_with": ".ioc-prev",
+  "coverage": {
+    "abuseipdb": {
+      "added": 1229,
+      "by_stage": {
+        "1": {
+          "added": 0,
+          "done": 719,
+          "target": 719
+        },
+        "2": {
+          "added": 0,
+          "done": 311,
+          "target": 311
+        },
+        "5": {
+          "added": 1229,
+          "done": 2196,
+          "target": 2196
+        }
+      },
+      "done": 3227,
+      "ratio": 1,
+      "target": 3226
+    },
+    "virustotal": {
+      "added": 125,
+      "by_stage": {
+        "1": {
+          "added": 0,
+          "done": 4324,
+          "target": 4329
+        },
+        "2": {
+          "added": 0,
+          "done": 311,
+          "target": 311
+        },
+        "3": {
+          "added": 125,
+          "done": 511,
+          "target": 4514
+        },
+        "4": {
+          "added": 0,
+          "done": 81,
+          "target": 6548
+        },
+        "5": {
+          "added": 0,
+          "done": 125,
+          "target": 2196
+        },
+        "6": {
+          "added": 0,
+          "done": 205,
+          "target": 706
+        }
+      },
+      "done": 5558,
+      "known": 4734,
+      "ratio": 0.299,
+      "target": 18604,
+      "unknown": 824
+    }
+  },
+  "grown": {
+    "aliases": [
+      {
+        "aliases": [
+          "abtrojan"
+        ],
+        "name": "BlueShell"
+      },
+      {
+        "aliases": [
+          "aptx"
+        ],
+        "name": "cometer"
+      },
+      {
+        "aliases": [
+          "atraps",
+          "doina"
+        ],
+        "name": "datper"
+      },
+      {
+        "aliases": [
+          "zebrocy"
+        ],
+        "name": "hesv"
+      },
+      {
+        "aliases": [
+          "applockbypass",
+          "w97m"
+        ],
+        "name": "heur2"
+      },
+      {
+        "aliases": [
+          "cve202323397"
+        ],
+        "name": "ole2"
+      },
+      {
+        "aliases": [
+          "andr"
+        ],
+        "name": "secimage"
+      },
+      {
+        "aliases": [
+          "donoff"
+        ],
+        "name": "winlnk"
+      }
+    ],
+    "entities": [
+      {
+        "ioc_count": 1,
+        "name": "abfr"
+      },
+      {
+        "ioc_count": 1,
+        "name": "bamtib"
+      },
+      {
+        "ioc_count": 1,
+        "name": "demp"
+      },
+      {
+        "ioc_count": 1,
+        "name": "dtrack"
+      },
+      {
+        "ioc_count": 1,
+        "name": "gofarer"
+      },
+      {
+        "ioc_count": 2,
+        "name": "mirai"
+      },
+      {
+        "ioc_count": 1,
+        "name": "nemesis"
+      },
+      {
+        "ioc_count": 1,
+        "name": "olympicdestroyer"
+      },
+      {
+        "ioc_count": 1,
+        "name": "shadowpad"
+      }
+    ],
+    "iocs": 0,
+    "shared_certs": []
+  },
+  "overlaps": {
+    "grew": 32,
+    "new": 14,
+    "new_strong": 10,
+    "top_grew": [
+      {
+        "a": "Backdoor.Turn",
+        "b": "DragonForce ransomware",
+        "evidence": {
+          "asn": [
+            "AS215929"
+          ],
+          "certificate": [
+            "328d54a51ff39b40cd85010ccd50413b4d1efce9881aee32da2e2650fc703724",
+            "373f5fbbeef3238da71b7ee640cc24a7a1a1a1ba83cb0d16230b228f76a12e54",
+            "5eabf66b0fbd5c53861151d48bcec6c8704f2b7e648e9334e0f7c3c0c01c8cb6",
+            "ab41a277f64fa14fa60ae31bfde1a83819cf4d2b41bc8779b9c4958dff8b1a19",
+            "c490f8d3e1f722c49808b1c5100c83916124327aa5a982aa7d75150e72c512a1"
+          ],
+          "family": [
+            "kqil",
+            "lazy",
+            "malisher",
+            "netscan",
+            "qwexlafiba"
+          ],
+          "filename": [
+            "$RJ52J97.sys",
+            "2026-02-09_ecb1d69999a730760b3c5654920f0ef6_cobalt-strike_conti",
+            "252a8bb2eb9c96c5e6cc7cab822e2ed0d508032f9350351221781684e86c03ab.bin.sample",
+            "56g92nc.exe",
+            "60005706.sys"
+          ],
+          "imphash": [
+            "1398f66d7e712e0d8ec9238cbb4a30da",
+            "2d8d7d6eeb2786b615f43abb6b6e9f4e",
+            "2fef8f9eeb650850eed165e593a0254b",
+            "4e157a70f40af9369da3829aa8ddec74",
+            "4e3c3df003b6a014459f47ae8cb021c7"
+          ],
+          "ioc": [
+            "ioc.domain|comunidadesparentais.com.br",
+            "ioc.domain|glanz-gmbh.de",
+            "ioc.domain|mysimerp.net",
+            "ioc.domain|professionalhomebasedbusiness.com",
+            "ioc.domain|projetosmecanicos.com.br"
+          ],
+          "jarm": [
+            "15d3fd16d29d29d00042d43d0000007cad75e0049912dcaa3fad94e678d707",
+            "27d27d27d00027d00027d27d27d27ddc225751d8e917387634028f1ce6bcf4",
+            "29d29d15d29d29d00042d42d000000cd600c085f371f8533aaf66051f8e5b1",
+            "29d29d15d29d29d00042d42d000000df133019600a83abfb096ff3e86cd79d",
+            "29d29d15d29d29d21c42d42d000000d740f47fc623495ea334f7291b19b353"
+          ],
+          "registrable": [
+            "comunidadesparentais.com.br",
+            "glanz-gmbh.de",
+            "mysimerp.net",
+            "professionalhomebasedbusiness.com",
+            "projetosmecanicos.com.br"
+          ],
+          "subnet": [
+            "62.164.177.0/24"
+          ],
+          "vhash": [
+            "0170965d65156c0d1d1d72915050071za51113z1c135ze0501cb061z21c7z",
+            "0170a65d5c0d1d151c051212106007a009e1013z1a185ze0301d9030702186z3",
+            "024076651d151e55151iz28xz",
+            "0250b76d7515551c0d1d1az3c2drz19z",
+            "0260a6050d0506060d1779z17z1xz"
+          ]
+        },
+        "kind": "malware",
+        "shared": 123,
+        "strength": 43,
+        "via": [
+          "asn",
+          "certificate",
+          "family",
+          "filename",
+          "imphash",
+          "ioc",
+          "jarm",
+          "registrable",
+          "subnet",
+          "vhash"
+        ],
+        "was": 33
+      },
+      {
+        "a": "AMOS",
+        "b": "Macsync",
+        "evidence": {
+          "certificate": [
+            "00afda128fa451d0b82d8b5162daba1e001bf3233f874b503c5dac0feea776d0",
+            "03c01db9837cc0cfefa957250f0c41a5d8f9760e639e0300298559ef0e87e714",
+            "062aba7f448606a5cc8e46197bf79aaa921db22d4dbb1435c85ad42e58c92b06",
+            "0ab1ce1fdb1267516e5c77326453ef75032dfed5472305b34960a744ecf22bf4",
+            "0cc645dffc2a676d52d9e1cd45caaa60d3e2ec92469871c01fc821d5d9613547"
+          ],
+          "filename": [
+            ".mainhelper",
+            "123",
+            "123a",
+            "7wsawlcvm.exe",
+            "kito"
+          ],
+          "ioc": [
+            "ioc.domain|0x666.info",
+            "ioc.domain|aforvm.com",
+            "ioc.domain|apple-mac-fix-hidden.medium.com",
+            "ioc.domain|arkypc.com",
+            "ioc.domain|avafex.com"
+          ],
+          "jarm": [
+            "00000000000000000000043d00041d1798d6156df422564fb9b667b7418e4c",
+            "27d27d27d00027d1dc42d42d000000f7be33a964d0daa97a97a8068db17dd3",
+            "27d40d40d00040d1dc27d40d27d40d5fb4c89fe3813d172ffb53f84a68f750",
+            "29d3fd00029d29d00041d41d00041d6b5eefa2404a56c2ced79a0d16afe36c"
+          ],
+          "registrable": [
+            "0x666.info",
+            "aforvm.com",
+            "arkypc.com",
+            "avafex.com",
+            "bankafolder.com"
+          ],
+          "resolution": [
+            "ioc.ipv4|198.185.159.176",
+            "ioc.ipv4|198.185.159.177",
+            "ioc.ipv4|198.49.23.176",
+            "ioc.ipv4|198.49.23.177"
+          ],
+          "subnet": [
+            "45.94.47.0/24",
+            "95.85.251.0/24"
+          ],
+          "vhash": [
+            "2a581c7f46b2e4fe65c191a172dc2260"
+          ]
+        },
+        "kind": "malware",
+        "shared": 382,
+        "strength": 39,
+        "via": [
+          "certificate",
+          "filename",
+          "ioc",
+          "jarm",
+          "registrable",
+          "resolution",
+          "subnet",
+          "vhash"
+        ],
+        "was": 33
+      },
+      {
+        "a": "AMOS",
+        "b": "Shub Stealer",
+        "evidence": {
+          "certificate": [
+            "00afda128fa451d0b82d8b5162daba1e001bf3233f874b503c5dac0feea776d0",
+            "03c01db9837cc0cfefa957250f0c41a5d8f9760e639e0300298559ef0e87e714",
+            "062aba7f448606a5cc8e46197bf79aaa921db22d4dbb1435c85ad42e58c92b06",
+            "0ab1ce1fdb1267516e5c77326453ef75032dfed5472305b34960a744ecf22bf4",
+            "0cc645dffc2a676d52d9e1cd45caaa60d3e2ec92469871c01fc821d5d9613547"
+          ],
+          "filename": [
+            ".mainhelper",
+            "123",
+            "123a",
+            "7wsawlcvm.exe",
+            "kito"
+          ],
+          "ioc": [
+            "ioc.domain|0x666.info",
+            "ioc.domain|aforvm.com",
+            "ioc.domain|apple-mac-fix-hidden.medium.com",
+            "ioc.domain|arkypc.com",
+            "ioc.domain|avafex.com"
+          ],
+          "jarm": [
+            "00000000000000000000043d00041d1798d6156df422564fb9b667b7418e4c",
+            "27d27d27d00027d1dc42d42d000000f7be33a964d0daa97a97a8068db17dd3",
+            "27d40d40d00040d1dc27d40d27d40d5fb4c89fe3813d172ffb53f84a68f750",
+            "29d3fd00029d29d00041d41d00041d6b5eefa2404a56c2ced79a0d16afe36c"
+          ],
+          "registrable": [
+            "0x666.info",
+            "aforvm.com",
+            "arkypc.com",
+            "avafex.com",
+            "bankafolder.com"
+          ],
+          "resolution": [
+            "ioc.ipv4|198.185.159.176",
+            "ioc.ipv4|198.185.159.177",
+            "ioc.ipv4|198.49.23.176",
+            "ioc.ipv4|198.49.23.177"
+          ],
+          "subnet": [
+            "45.94.47.0/24",
+            "95.85.251.0/24"
+          ],
+          "vhash": [
+            "2a581c7f46b2e4fe65c191a172dc2260"
+          ]
+        },
+        "kind": "malware",
+        "shared": 382,
+        "strength": 39,
+        "via": [
+          "certificate",
+          "filename",
+          "ioc",
+          "jarm",
+          "registrable",
+          "resolution",
+          "subnet",
+          "vhash"
+        ],
+        "was": 33
+      },
+      {
+        "a": "Macsync",
+        "b": "Shub Stealer",
+        "evidence": {
+          "certificate": [
+            "00afda128fa451d0b82d8b5162daba1e001bf3233f874b503c5dac0feea776d0",
+            "03c01db9837cc0cfefa957250f0c41a5d8f9760e639e0300298559ef0e87e714",
+            "062aba7f448606a5cc8e46197bf79aaa921db22d4dbb1435c85ad42e58c92b06",
+            "0ab1ce1fdb1267516e5c77326453ef75032dfed5472305b34960a744ecf22bf4",
+            "0cc645dffc2a676d52d9e1cd45caaa60d3e2ec92469871c01fc821d5d9613547"
+          ],
+          "filename": [
+            ".mainhelper",
+            "123",
+            "123a",
+            "7wsawlcvm.exe",
+            "kito"
+          ],
+          "ioc": [
+            "ioc.domain|0x666.info",
+            "ioc.domain|aforvm.com",
+            "ioc.domain|apple-mac-fix-hidden.medium.com",
+            "ioc.domain|arkypc.com",
+            "ioc.domain|avafex.com"
+          ],
+          "jarm": [
+            "00000000000000000000043d00041d1798d6156df422564fb9b667b7418e4c",
+            "27d27d27d00027d1dc42d42d000000f7be33a964d0daa97a97a8068db17dd3",
+            "27d40d40d00040d1dc27d40d27d40d5fb4c89fe3813d172ffb53f84a68f750",
+            "29d3fd00029d29d00041d41d00041d6b5eefa2404a56c2ced79a0d16afe36c"
+          ],
+          "registrable": [
+            "0x666.info",
+            "aforvm.com",
+            "arkypc.com",
+            "avafex.com",
+            "bankafolder.com"
+          ],
+          "resolution": [
+            "ioc.ipv4|198.185.159.176",
+            "ioc.ipv4|198.185.159.177",
+            "ioc.ipv4|198.49.23.176",
+            "ioc.ipv4|198.49.23.177"
+          ],
+          "subnet": [
+            "45.94.47.0/24",
+            "95.85.251.0/24"
+          ],
+          "vhash": [
+            "2a581c7f46b2e4fe65c191a172dc2260"
+          ]
+        },
+        "kind": "malware",
+        "shared": 382,
+        "strength": 39,
+        "via": [
+          "certificate",
+          "filename",
+          "ioc",
+          "jarm",
+          "registrable",
+          "resolution",
+          "subnet",
+          "vhash"
+        ],
+        "was": 33
+      },
+      {
+        "a": "Silver Fox",
+        "b": "UTG-Q-1000",
+        "evidence": {
+          "certificate": [
+            "633bc7ab44c777f22ee970b8913974a2ce1739455ffde5a917750966eb8cef33",
+            "a2c771868c56f305ae6d0f7a43ac853d453545f7ab6e8f2be94ab161b57431dc"
+          ],
+          "family": [
+            "MODBEACON",
+            "caypnamer"
+          ],
+          "filename": [
+            "64elbn07i.exe",
+            "ab5875aaec3f.exe",
+            "cbvchost.exe"
+          ],
+          "imphash": [
+            "1ca84a3bb3b66c5a60efb6086479acef"
+          ],
+          "ioc": [
+            "ioc.domain|asd268668.oss-ap-southeast-1.aliyuncs.com",
+            "ioc.domain|cn-mumu.com.cn",
+            "ioc.domain|fast-cloud-node.com",
+            "ioc.domain|kkuu8899.org",
+            "ioc.domain|skystackservice.com"
+          ],
+          "jarm": [
+            "27d1dc27d0000001dc43d1dc1dc43d76e1f79b8645e08ae7fa8f07eb5e4202",
+            "29d29d00029d29d21c29d29d29d29dc2ddcfd203d071c45b4b0ffe3d7b4b89"
+          ],
+          "registrable": [
+            "aliyuncs.com",
+            "cn-mumu.com.cn",
+            "damaix9k.com",
+            "fast-cloud-node.com",
+            "kkuu8899.org"
+          ],
+          "subnet": [
+            "182.16.88.0/24"
+          ],
+          "vhash": [
+            "035056557515151bzc!z"
+          ]
+        },
+        "kind": "actor",
+        "shared": 36,
+        "strength": 38,
+        "via": [
+          "certificate",
+          "family",
+          "filename",
+          "imphash",
+          "ioc",
+          "jarm",
+          "registrable",
+          "subnet",
+          "vhash"
+        ],
+        "was": 28
+      },
+      {
+        "a": "APT37",
+        "b": "Lazarus Group",
+        "evidence": {
+          "asn": [
+            "AS131279"
+          ],
+          "family": [
+            "BabyShark",
+            "onlinegames"
+          ],
+          "filename": [
+            "455721986.exe",
+            "6f76a8e16908ba2d576cf0e8cdb70114dcb70e0f7223be10aab3a728dc65c41c_unpacked",
+            "BabyShark.exe",
+            "HEUR-Trojan.Win32.BabyShark.gen-6f76a8e16908ba2d576cf0e8cdb70114dcb70e0f7223be10aab3a728dc65c41c",
+            "umgii1el.exe"
+          ],
+          "imphash": [
+            "57b6d88707d9cd1c87169076c24f962e"
+          ],
+          "ioc": [
+            "ioc.sha256|6f76a8e16908ba2d576cf0e8cdb70114dcb70e0f7223be10aab3a728dc65c41c"
+          ],
+          "jarm": [
+            "26d26d00026d26d22c26d26d26d26dd3b67dd3674d9af9dd91c1955a35d0e9",
+            "2ad2ad0002ad2ad0002ad2ad2ad2ad83c2e51da709c877942c98b10a5e814a",
+            "2ad2ad16d00000022c2ad2ad2ad2adbc07bc352a188303b518c8a273c71220",
+            "2ad2ad16d2ad2ad22c2ad2ad2ad2ad92c32e54b47f0f89cca85ab1615a4c10",
+            "3fd3fd0003fd3fd21c42d42d000000307ee0eb468e9fdb5cfcd698a80a67ef"
+          ],
+          "registrable": [
+            "ac.kr",
+            "or.kr",
+            "xxx.xxx"
+          ],
+          "subnet": [
+            "175.45.178.0/24",
+            "211.239.157.0/24"
+          ],
+          "vhash": [
+            "034036651d1az29!z"
+          ]
+        },
+        "kind": "actor",
+        "shared": 21,
+        "strength": 34,
+        "via": [
+          "asn",
+          "family",
+          "filename",
+          "imphash",
+          "ioc",
+          "jarm",
+          "registrable",
+          "subnet",
+          "vhash"
+        ],
+        "was": 24
+      },
+      {
+        "a": "Bohrium",
+        "b": "Screening Serpens",
+        "evidence": {
+          "certificate": [
+            "24c1acc12831acfb8bfd5d82d192c71810a6401fb267592fb44a88e6af627222",
+            "55138ed69bb043e638f6793510c773f246f39d4b362872e7bfa9676e66b78ab5",
+            "959301c6ef23a480f8747ee39268ebd547239b6fadc7d98899fa8f2072cd8db8",
+            "9ae780dae096c8aceb774b72ce66cb38ba809f4adae3912153a3cd3990e18b2f"
+          ],
+          "family": [
+            "seamonkey"
+          ],
+          "filename": [
+            "43d.dll",
+            "Connection.dll",
+            "Hiring Portal.zip",
+            "United Airlines (2).zip",
+            "UpdateChecker.dll"
+          ],
+          "imphash": [
+            "0f9f0202630f1b3e6559b044ba4a5e52",
+            "5f514ee47216375248f28242ef180630",
+            "a640dad4ae3531ffabd09e13cc63aa7c",
+            "b88f561ce39c060ad187e689f97f0b12",
+            "ffb23e23f3a6f1838d71595cbd00d215"
+          ],
+          "ioc": [
+            "ioc.domain|buisness-centeral-transportation.azurewebsites.net",
+            "ioc.domain|buisness-centeral-transportation.com",
+            "ioc.domain|buisness-centeral.azurewebsites.net",
+            "ioc.domain|business-startup.azurewebsites.net",
+            "ioc.domain|business-startup.org"
+          ],
+          "jarm": [
+            "2ad2ad00000000000042d42d00042da9006a0dbf6f6785a41d588d6e6fd492"
+          ],
+          "registrable": [
+            "azurewebsites.net",
+            "buisness-centeral-transportation.com",
+            "business-startup.org",
+            "premierhealthadvisory.com",
+            "ramiltonsfinance.com"
+          ],
+          "vhash": [
+            "117026751\"z",
+            "117066655d755d055az5c&za40",
+            "125066655d155d055az49nz1ez1",
+            "125066655d155d055az51nz1ez1",
+            "126076655d155d05555az5b&za40"
+          ]
+        },
+        "kind": "actor",
+        "shared": 69,
+        "strength": 33,
+        "via": [
+          "certificate",
+          "family",
+          "filename",
+          "imphash",
+          "ioc",
+          "jarm",
+          "registrable",
+          "vhash"
+        ],
+        "was": 23
+      },
+      {
+        "a": "MiniFast",
+        "b": "MiniUpdate",
+        "evidence": {
+          "certificate": [
+            "24c1acc12831acfb8bfd5d82d192c71810a6401fb267592fb44a88e6af627222",
+            "55138ed69bb043e638f6793510c773f246f39d4b362872e7bfa9676e66b78ab5",
+            "959301c6ef23a480f8747ee39268ebd547239b6fadc7d98899fa8f2072cd8db8",
+            "9ae780dae096c8aceb774b72ce66cb38ba809f4adae3912153a3cd3990e18b2f"
+          ],
+          "family": [
+            "seamonkey"
+          ],
+          "filename": [
+            "Hiring Portal.zip",
+            "United Airlines (2).zip",
+            "UpdateChecker.dll",
+            "ZoomInstall64 (2).zip",
+            "evz60qsib.exe"
+          ],
+          "imphash": [
+            "5f514ee47216375248f28242ef180630",
+            "a640dad4ae3531ffabd09e13cc63aa7c"
+          ],
+          "ioc": [
+            "ioc.domain|buisness-centeral-transportation.azurewebsites.net",
+            "ioc.domain|buisness-centeral-transportation.com",
+            "ioc.domain|buisness-centeral.azurewebsites.net",
+            "ioc.domain|business-startup.azurewebsites.net",
+            "ioc.domain|business-startup.org"
+          ],
+          "jarm": [
+            "2ad2ad00000000000042d42d00042da9006a0dbf6f6785a41d588d6e6fd492"
+          ],
+          "registrable": [
+            "azurewebsites.net",
+            "buisness-centeral-transportation.com",
+            "business-startup.org",
+            "premierhealthadvisory.com",
+            "ramiltonsfinance.com"
+          ],
+          "vhash": [
+            "125066655d155d055az49nz1ez1",
+            "125066655d155d055az51nz1ez1",
+            "3cd990bb3b15831b074569eab4179de1",
+            "a180547f1880edc6f59363a3a8e90d22"
+          ]
+        },
+        "kind": "malware",
+        "shared": 48,
+        "strength": 33,
+        "via": [
+          "certificate",
+          "family",
+          "filename",
+          "imphash",
+          "ioc",
+          "jarm",
+          "registrable",
+          "vhash"
+        ],
+        "was": 23
+      },
+      {
+        "a": "MiniFast",
+        "b": "MiniJunk V2",
+        "evidence": {
+          "certificate": [
+            "24c1acc12831acfb8bfd5d82d192c71810a6401fb267592fb44a88e6af627222",
+            "55138ed69bb043e638f6793510c773f246f39d4b362872e7bfa9676e66b78ab5",
+            "959301c6ef23a480f8747ee39268ebd547239b6fadc7d98899fa8f2072cd8db8",
+            "9ae780dae096c8aceb774b72ce66cb38ba809f4adae3912153a3cd3990e18b2f"
+          ],
+          "filename": [
+            "43d.dll",
+            "Connection.dll",
+            "a10l6.exe",
+            "cyl5qcm4.exe",
+            "payload_uevmonitor.decrypted"
+          ],
+          "imphash": [
+            "0f9f0202630f1b3e6559b044ba4a5e52",
+            "b88f561ce39c060ad187e689f97f0b12",
+            "ffb23e23f3a6f1838d71595cbd00d215"
+          ],
+          "ioc": [
+            "ioc.domain|buisness-centeral-transportation.azurewebsites.net",
+            "ioc.domain|buisness-centeral-transportation.com",
+            "ioc.domain|buisness-centeral.azurewebsites.net",
+            "ioc.domain|business-startup.azurewebsites.net",
+            "ioc.domain|business-startup.org"
+          ],
+          "jarm": [
+            "2ad2ad00000000000042d42d00042da9006a0dbf6f6785a41d588d6e6fd492"
+          ],
+          "registrable": [
+            "azurewebsites.net",
+            "buisness-centeral-transportation.com",
+            "business-startup.org",
+            "premierhealthadvisory.com",
+            "ramiltonsfinance.com"
+          ],
+          "vhash": [
+            "117026751\"z",
+            "117066655d755d055az5c&za40",
+            "126076655d155d05555az5b&za40",
+            "185076655d155d055551z13z60051mz1acza40",
+            "9c2cae4bfc7e8fbe0a7647323dbf0d1c"
+          ]
+        },
+        "kind": "malware",
+        "shared": 47,
+        "strength": 31,
+        "via": [
+          "certificate",
+          "filename",
+          "imphash",
+          "ioc",
+          "jarm",
+          "registrable",
+          "vhash"
+        ],
+        "was": 21
+      },
+      {
+        "a": "Silver Fox",
+        "b": "TA4922",
+        "evidence": {
+          "family": [
+            "buggie",
+            "kepavll",
+            "silverfox"
+          ],
+          "filename": [
+            "0w98qnk.exe",
+            "1.RY",
+            "1.rar",
+            "1.ry",
+            "27997.exe"
+          ],
+          "imphash": [
+            "4664255d16bce58ae5f16114a9d8d3e9",
+            "54011c803d9b5e4ecfef5a7d1fbfd683",
+            "740a9d5dfbfc6893500a5c96d02a87f6",
+            "b13eb928d438cb055cc6fe42479d7f40",
+            "da8e1b9c15ab5746b3778b8918a4d4b2"
+          ],
+          "ioc": [
+            "ioc.domain|gbedn.fit",
+            "ioc.ipv4|154.211.86.110",
+            "ioc.ipv4|43.207.218.80",
+            "ioc.sha256|00f153b80e3824368d0303d6ffd0b50ceb237a40e63ec873a10b591dde5db83c",
+            "ioc.sha256|0d8589978cdd63e41a3d6e4bd76331ff698dc942fd83b41d7584154c33d4afb6"
+          ],
+          "jarm": [
+            "21d14d00021d21d00042d43d00000091f9827a8676a9d9f27d421962a09b5d"
+          ],
+          "registrable": [
+            "gbedn.fit"
+          ],
+          "subnet": [
+            "154.211.86.0/24",
+            "43.207.218.0/24"
+          ],
+          "vhash": [
+            "115076655d151515155018z5ez17z1dzc8",
+            "115076655d15551d055058z5ddz17z1dzc5",
+            "115076655d155d051550f8z4fdz17z1dz2d",
+            "125066655d15551550a8z6d7z4031z31z1011z61z40017z1",
+            "125066655d15551550c8z857z7031z81z1011za1z40217z1"
+          ]
+        },
+        "kind": "actor",
+        "shared": 70,
+        "strength": 29,
+        "via": [
+          "family",
+          "filename",
+          "imphash",
+          "ioc",
+          "jarm",
+          "registrable",
+          "subnet",
+          "vhash"
+        ],
+        "was": 19
+      },
+      {
+        "a": "Vidar Stealer",
+        "b": "XMRig",
+        "evidence": {
+          "family": [
+            "Vidar",
+            "egairtigado",
+            "giant",
+            "lumma",
+            "lummastealer"
+          ],
+          "filename": [
+            "1.exe_",
+            "12gvr.exe",
+            "13.exe",
+            "1gr01b2.exe",
+            "289yxtdo2.exe"
+          ],
+          "imphash": [
+            "0951d9f67c9a9e1b6ea746ed01bccc26",
+            "1aae8bf580c846f39c71c05898e57e88",
+            "5af915f278815e76bad476ef32593028",
+            "d42595b695fc008ef2c56aabd8efd68e",
+            "d8b31f8c03e0c76ff245ed05a15ffe6c"
+          ],
+          "ioc": [
+            "ioc.ipv4|116.203.243.208",
+            "ioc.ipv4|136.243.203.109",
+            "ioc.ipv4|136.243.203.111",
+            "ioc.ipv4|138.199.246.13",
+            "ioc.sha1|ab92f731ab20774dfdb95664ee41a2fbafe2a284"
+          ],
+          "jarm": [
+            "2ad2ad16d2ad2ad00042d42d00000072e74222ce193a6f991becaa3da6c94d",
+            "40d40d40d00000000043d40d40d43d684d61a135bd962c8dd9c541ddbaefa8"
+          ],
+          "subnet": [
+            "116.203.243.0/24",
+            "136.243.203.0/24",
+            "138.199.246.0/24"
+          ],
+          "vhash": [
+            "016066656d1d15645az2c!z",
+            "016066656d5d15645az2d!z",
+            "016076656d1d1564557az2c!z",
+            "016086656d15551d15545az2e!z",
+            "017086656d15551d15545az2e!z"
+          ]
+        },
+        "kind": "malware",
+        "shared": 332,
+        "strength": 27,
+        "via": [
+          "family",
+          "filename",
+          "imphash",
+          "ioc",
+          "jarm",
+          "subnet",
+          "vhash"
+        ],
+        "was": 17
+      },
+      {
+        "a": "Sednit",
+        "b": "Zebrocy",
+        "evidence": {
+          "family": [
+            "Sednit",
+            "Zebrocy",
+            "autoit",
+            "doina",
+            "hancitor"
+          ],
+          "filename": [
+            "0V4V6Z4P.exe",
+            "0b6e96edab66aaeb9b3912cd511b6aeea852e33453796226db36dce7bdf0f38d_pzyvzgcsfb.bin",
+            "1000-41686703ce9e9aec64b6ad1c516746751219bc62",
+            "1002-2c01ae417e5de213845b1ed46d4e82d45edd598d",
+            "1023-36b5e59a01e7f244d4a3bbb539e57aa468115dc8"
+          ],
+          "imphash": [
+            "033f2b0e7b4fb3b798b7ebe1bbeb10f5",
+            "03718a73bbaed408e204b2f2ba033f51",
+            "050e142c020fc2c13cdf8c3db8bdd4da",
+            "1ea98425b5df0aa505fb8815ab4606b3",
+            "25de1235bfb5533a02d65cb15e1036ed"
+          ],
+          "ioc": [
+            "ioc.ipv4|142.0.68.2",
+            "ioc.ipv4|185.25.50.93",
+            "ioc.ipv4|185.25.51.114",
+            "ioc.ipv4|185.25.51.164",
+            "ioc.ipv4|185.25.51.198"
+          ],
+          "jarm": [
+            "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
+            "28d28d28d00028d00042d42d00042de0d120da90d5910c5de2af43b74a6bd8",
+            "29d29d00029d29d00042d42d00000090d94d1f02cef4051cfd1d66dbe44eb0",
+            "29d29d15d29d29d00041d41d000000df133019600a83abfb096ff3e86cd79d",
+            "29d3fd00029d29d00042d43d0000008aec5bb03750a1d7eddfa29fb2d1deea"
+          ],
+          "subnet": [
+            "142.0.68.0/24",
+            "185.25.50.0/24",
+            "185.25.51.0/24",
+            "185.77.129.0/24",
+            "188.241.68.0/24"
+          ],
+          "vhash": [
+            "016096666d5c0d5c0515603142z41002c1z23z6035z23z50301bz",
+            "016096666d5c0d5c0515603142z41002c1z25z35z23z50301bz",
+            "016096666d5c0d5c0515603162z45002c7za03bz5031z29z",
+            "016096666d5c0d5c0515603172z45002c7zb03bz5031z29z",
+            "02503e0f7d101013z11z69z15z13z1011z19z"
+          ]
+        },
+        "kind": "malware",
+        "shared": 289,
+        "strength": 27,
+        "via": [
+          "family",
+          "filename",
+          "imphash",
+          "ioc",
+          "jarm",
+          "subnet",
+          "vhash"
+        ],
+        "was": 17
+      },
+      {
+        "a": "Dream Job",
+        "b": "ThreatNeedle",
+        "evidence": {
+          "certificate": [
+            "ec0af914f774aa72980c956d5267f91170f9ce476d846a4abd415fd262d74135"
+          ],
+          "ioc": [
+            "ioc.domain|au-pair.org",
+            "ioc.domain|co.cr"
+          ],
+          "jarm": [
+            "2ad2ad16d2ad2ad0002ad2ad2ad2adbfb4c26e4a72aca380107db225a1ef64"
+          ],
+          "registrable": [
+            "au-pair.org",
+            "co.cr"
+          ],
+          "vhash": [
+            "1e6f88518876090960c9c1a37180d410"
+          ]
+        },
+        "kind": "campaign",
+        "shared": 7,
+        "strength": 26,
+        "via": [
+          "certificate",
+          "ioc",
+          "jarm",
+          "registrable",
+          "vhash"
+        ],
+        "was": 20
+      },
+      {
+        "a": "Agent Tesla",
+        "b": "DonutLoader",
+        "evidence": {
+          "family": [
+            "luajit"
+          ],
+          "filename": [
+            "ABTUVQFLAWSVYYHQ.PIF",
+            "ACILDKSVYDDKRQGW.PIF",
+            "AIZUDRHZXGBAORSM.PIF",
+            "AJLLJGGKXKWSLDDC.PIF",
+            "AZJHFFCIDNUPKUUT.PIF"
+          ],
+          "imphash": [
+            "f09ca5b7fb5026a683c783d4a5ee3730"
+          ],
+          "ioc": [
+            "ioc.sha256|52f0c0230b580e2fdf53a378b5c6d0db9829af900dae43e0df8f18635cd9f0c1"
+          ],
+          "vhash": [
+            "0450a76d1555551c0d1d1az255b=z"
+          ]
+        },
+        "kind": "malware",
+        "shared": 12,
+        "strength": 21,
+        "via": [
+          "family",
+          "filename",
+          "imphash",
+          "ioc",
+          "vhash"
+        ],
+        "was": 11
+      },
+      {
+        "a": "ChonkyChicken",
+        "b": "Modular ChonkyChicken",
+        "evidence": {
+          "family": [
+            "ravartar"
+          ],
+          "filename": [
+            "a9atkt.exe",
+            "koki.ocx"
+          ],
+          "imphash": [
+            "905ab9e220ce532b5a78cd737cc2d172"
+          ],
+          "ioc": [
+            "ioc.sha256|e3153ced59bb0376186b0eee0ec68f0b5aa9ae5820ef8508ae4e67625e1a3581"
+          ],
+          "vhash": [
+            "1260b76d1555655c051d1013z42z4458sz1d6z3"
+          ]
+        },
+        "kind": "malware",
+        "shared": 6,
+        "strength": 21,
+        "via": [
+          "family",
+          "filename",
+          "imphash",
+          "ioc",
+          "vhash"
+        ],
+        "was": 11
+      }
+    ],
+    "top_new": [
+      {
+        "a": "APT41",
+        "b": "CL-STA-1062",
+        "evidence": {
+          "vhash": [
+            "2a85fbef90580a5a9f23c0c917daa086"
+          ]
+        },
+        "kind": "actor",
+        "shared": 1,
+        "strength": 6,
+        "via": [
+          "vhash"
+        ]
+      },
+      {
+        "a": "Silver Fox",
+        "b": "SilverFox APT",
+        "evidence": {
+          "vhash": [
+            "6aac0d33a71658ec12681563b9541912"
+          ]
+        },
+        "kind": "actor",
+        "shared": 1,
+        "strength": 6,
+        "via": [
+          "vhash"
+        ]
+      },
+      {
+        "a": "KEYPLUG",
+        "b": "TinyRCT",
+        "evidence": {
+          "vhash": [
+            "2a85fbef90580a5a9f23c0c917daa086"
+          ]
+        },
+        "kind": "malware",
+        "shared": 1,
+        "strength": 6,
+        "via": [
+          "vhash"
+        ]
+      },
+      {
+        "a": "LEASHTEST",
+        "b": "LONGLEASH",
+        "evidence": {
+          "vhash": [
+            "c3ad0242391315fbff07a7455292fde3"
+          ]
+        },
+        "kind": "malware",
+        "shared": 1,
+        "strength": 6,
+        "via": [
+          "vhash"
+        ]
+      },
+      {
+        "a": "PoisonX",
+        "b": "ValleyRAT",
+        "evidence": {
+          "vhash": [
+            "6aac0d33a71658ec12681563b9541912"
+          ]
+        },
+        "kind": "malware",
+        "shared": 1,
+        "strength": 6,
+        "via": [
+          "vhash"
+        ]
+      },
+      {
+        "a": "The Gentlemen",
+        "b": "X3D MINER",
+        "evidence": {
+          "imphash": [
+            "1aae8bf580c846f39c71c05898e57e88",
+            "d42595b695fc008ef2c56aabd8efd68e"
+          ]
+        },
+        "kind": "actor",
+        "shared": 2,
+        "strength": 4,
+        "via": [
+          "imphash"
+        ]
+      },
+      {
+        "a": "The Gentlemen Ransomware",
+        "b": "Vidar Stealer",
+        "evidence": {
+          "imphash": [
+            "1aae8bf580c846f39c71c05898e57e88",
+            "d42595b695fc008ef2c56aabd8efd68e"
+          ]
+        },
+        "kind": "malware",
+        "shared": 2,
+        "strength": 4,
+        "via": [
+          "imphash"
+        ]
+      },
+      {
+        "a": "The Gentlemen Ransomware",
+        "b": "XMRig",
+        "evidence": {
+          "imphash": [
+            "1aae8bf580c846f39c71c05898e57e88",
+            "d42595b695fc008ef2c56aabd8efd68e"
+          ]
+        },
+        "kind": "malware",
+        "shared": 2,
+        "strength": 4,
+        "via": [
+          "imphash"
+        ]
+      },
+      {
+        "a": "Lazarus Group",
+        "b": "ROOTBOY",
+        "evidence": {
+          "imphash": [
+            "ed8b780a3ce7ca4aba78a21f6bc3d4e0"
+          ]
+        },
+        "kind": "actor",
+        "shared": 1,
+        "strength": 4,
+        "via": [
+          "imphash"
+        ]
+      },
+      {
+        "a": "PHANTOMPULSE",
+        "b": "Prinz Eugen",
+        "evidence": {
+          "imphash": [
+            "ed8b780a3ce7ca4aba78a21f6bc3d4e0"
+          ]
+        },
+        "kind": "malware",
+        "shared": 1,
+        "strength": 4,
+        "via": [
+          "imphash"
+        ]
+      }
+    ],
+    "total": 974
+  },
+  "schema": 1,
+  "to_check": {
+    "asn_differs": {
+      "samples": [],
+      "total": 0
+    },
+    "cert_excluded": [
+      {
+        "iocs": [
+          "ioc.domain|princessclub.click",
+          "ioc.ipv4|89.37.185.60"
+        ],
+        "issuer": "Apple Inc.",
+        "subject": "www.apple.com",
+        "thumbprint": "04183fea3b7dbc238985724a8b1d8fcb61bf5bb1007551250dbf3a4cf8c2c565"
+      },
+      {
+        "iocs": [
+          "ioc.domain|agent.ae",
+          "ioc.domain|server275.web-hosting.com",
+          "ioc.ipv4|199.188.200.245"
+        ],
+        "issuer": "Sectigo Limited",
+        "subject": "*.web-hosting.com",
+        "thumbprint": "13425ee4d5a83601e09711e6f81329e1d1487f6ce0b6c9d65f744cb0f13c361a"
+      },
+      {
+        "iocs": [
+          "ioc.domain|lvl99.store",
+          "ioc.domain|onetoken.ink",
+          "ioc.ipv4|159.198.41.140"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "joaanksa.com",
+        "thumbprint": "137121f2df5ac46cc228e1789b0aeac5eb5b8ff3004b7af47762a7684a57bdea"
+      },
+      {
+        "iocs": [
+          "ioc.ipv4|142.11.200.186",
+          "ioc.ipv4|142.11.200.187"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "azurenetfiles.net",
+        "thumbprint": "1d5d41aaade38405588680d419c5651b2f31f8b0ad941289ca871a0f4dd1439c"
+      },
+      {
+        "iocs": [
+          "ioc.domain|driver-hub.net",
+          "ioc.domain|driver-updater.net",
+          "ioc.domain|www.driver-hub.net",
+          "ioc.domain|www.driver-updater.net",
+          "ioc.ipv4|45.45.217.242"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "driversformac.com",
+        "thumbprint": "1d5f98e6e298a1482efad2c679dfd9e43a66ee03b350ba36d56cfd8ffbc5b500"
+      },
+      {
+        "iocs": [
+          "ioc.ipv4|130.0.233.178",
+          "ioc.ipv4|212.113.119.255"
+        ],
+        "issuer": "invalid2.invalid",
+        "subject": "invalid2.invalid",
+        "thumbprint": "312c95e5e2eea17971f239399345ff62b24f0ce0d4a922fb6cfe10697434c1ab"
+      },
+      {
+        "iocs": [
+          "ioc.domain|colorncopy.co.kr",
+          "ioc.domain|swr.co.kr",
+          "ioc.ipv4|222.231.2.20"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "b20.nskorea.com",
+        "thumbprint": "3af7a9cb4979783511f169cb9277822b9f74f0d49de25c82312fdc5772a48cab"
+      },
+      {
+        "iocs": [
+          "ioc.ipv4|156.67.222.88",
+          "ioc.ipv4|185.212.70.16",
+          "ioc.ipv4|185.212.71.135",
+          "ioc.ipv4|185.212.71.216",
+          "ioc.ipv4|185.224.137.63",
+          "ioc.ipv4|185.224.138.13",
+          "ioc.ipv4|185.224.138.29",
+          "ioc.ipv4|45.13.135.103",
+          "ioc.ipv4|82.180.174.174"
+        ],
+        "issuer": "Sectigo Limited",
+        "subject": "*.hstgr.io",
+        "thumbprint": "47e1b5dc5d6102e8ed8c012161af8b225370ab5563b00caf146cbd7a9651e95e"
+      },
+      {
+        "iocs": [
+          "ioc.domain|cndsoft.co.kr",
+          "ioc.ipv4|222.231.2.41"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "b41.nskorea.com",
+        "thumbprint": "492fd0d8349a6157631a4a7e582dce26fb22765cf7d78f3ee85244b579d4ffdc"
+      },
+      {
+        "iocs": [
+          "ioc.domain|learn.teams.cam",
+          "ioc.domain|live.teams.cam",
+          "ioc.domain|login.teams.cam",
+          "ioc.ipv4|185.100.85.98"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "admin.cahana.io",
+        "thumbprint": "58169168193e597cbfc97c35a2ced3367c255f62a10731198f775a9ae4cd996f"
+      },
+      {
+        "iocs": [
+          "ioc.ipv4|151.0.185.147",
+          "ioc.ipv4|212.103.208.182"
+        ],
+        "issuer": "GlobalSign nv-sa",
+        "subject": "*.smartmoda.com",
+        "thumbprint": "8b640bd355505fcb1b8c6ec24fdb864d6332824ca3e02220b5ee68b81b6dfbe0"
+      },
+      {
+        "iocs": [
+          "ioc.domain|crwellfood.com",
+          "ioc.ipv4|121.254.222.80",
+          "ioc.ipv4|218.150.78.231"
+        ],
+        "issuer": "Sectigo Limited",
+        "subject": "https.secuidc.com",
+        "thumbprint": "9c3ed7e0aede38c75a93fc4c0f9f949d82061c682f2a4e7cf233c1f9e623e392"
+      },
+      {
+        "iocs": [
+          "ioc.ipv4|50.243.3.154",
+          "ioc.ipv4|50.243.3.155"
+        ],
+        "issuer": "DigiCert Inc",
+        "subject": "*.mysticmediasoft.com",
+        "thumbprint": "9ebe8258536e24802e508cef17a721542b2ed1b06c6ed679428a66120f75613b"
+      },
+      {
+        "iocs": [
+          "ioc.ipv4|15.235.166.18",
+          "ioc.ipv6|2402:1f00:8000:800::40db"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "project.gaterlaluyakin.xyz",
+        "thumbprint": "9ec4d1f2c58540239798a2453dd9c66f74fd36191bfcb8321718b7f95eb63588"
+      },
+      {
+        "iocs": [
+          "ioc.domain|newrentalsenterprise.com",
+          "ioc.ipv4|64.176.43.209"
+        ],
+        "issuer": "Microsoft Corporation",
+        "subject": "www.microsoft.com",
+        "thumbprint": "9f17b548f7d24f309dbcaab571576c0ca73b80559ce69f27fe295f6408cc57bf"
+      }
+    ],
+    "disagreement": {
+      "samples": [],
+      "total": 0
+    },
+    "hosting_excluded": [
+      {
+        "actors": [
+          "APT1",
+          "APT28",
+          "APT29"
+        ],
+        "addresses": 512,
+        "asn": 207560,
+        "cc": "UA",
+        "hosting_ratio": 1,
+        "hosting_seen": 48,
+        "name": "Zubritska Valeriia Nikolaevna"
+      },
+      {
+        "actors": [
+          "APT28",
+          "APT29",
+          "OceanLotus"
+        ],
+        "addresses": 1280,
+        "asn": 214431,
+        "cc": "IR",
+        "hosting_ratio": 1,
+        "hosting_seen": 8,
+        "name": "Mizban Gostar Dade Alvand Ltd"
+      },
+      {
+        "actors": [
+          "Icarus",
+          "PhantomEnigma",
+          "shinyhunters"
+        ],
+        "addresses": 1280,
+        "asn": 214961,
+        "cc": "FR",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "Stellar Group SAS"
+      },
+      {
+        "actors": [
+          "APT34",
+          "APT37",
+          "Lamberts"
+        ],
+        "addresses": 2048,
+        "asn": 60140,
+        "cc": "AE",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "Buzinessware FZCO"
+      },
+      {
+        "actors": [
+          "APT34",
+          "BITTER"
+        ],
+        "addresses": 1536,
+        "asn": 206383,
+        "cc": "BG",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "VOXLAN LTD."
+      },
+      {
+        "actors": [
+          "DPRK IT Worker Schemes",
+          "Lazarus Group"
+        ],
+        "addresses": 3584,
+        "asn": 55639,
+        "cc": "HK",
+        "hosting_ratio": 1,
+        "hosting_seen": 6,
+        "name": "Asia Web Service Ltd"
+      },
+      {
+        "actors": [
+          "Famous Chollima",
+          "UNK_DeadDrop"
+        ],
+        "addresses": 3584,
+        "asn": 206216,
+        "cc": "US",
+        "hosting_ratio": 1,
+        "hosting_seen": 4,
+        "name": "Advin Services LLC"
+      },
+      {
+        "actors": [
+          "APT29",
+          "MuddyWater"
+        ],
+        "addresses": 4096,
+        "asn": 201206,
+        "cc": "DE",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "Droptop GmbH"
+      }
+    ],
+    "top_abuse": [
+      {
+        "ioc": "ioc.ipv4|103.79.185.121",
+        "reporters": 56,
+        "reports": 84,
+        "score": 100,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|217.138.252.123",
+        "reporters": 57,
+        "reports": 186,
+        "score": 76,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|89.124.93.110",
+        "reporters": 13,
+        "reports": 20,
+        "score": 74,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|216.73.163.151",
+        "reporters": 84,
+        "reports": 146,
+        "score": 71,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|216.73.163.158",
+        "reporters": 95,
+        "reports": 163,
+        "score": 71,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|78.153.155.152",
+        "reporters": 773,
+        "reports": 1934,
+        "score": 67,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|193.37.32.214",
+        "reporters": 163,
+        "reports": 568,
+        "score": 56,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|193.37.32.179",
+        "reporters": 156,
+        "reports": 597,
+        "score": 55,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|62.102.148.212",
+        "reporters": 15,
+        "reports": 27,
+        "score": 52,
+        "usage_type": "Fixed Line ISP"
+      },
+      {
+        "ioc": "ioc.ipv4|34.111.179.208",
+        "reporters": 35,
+        "reports": 117,
+        "score": 39,
+        "usage_type": "Content Delivery Network"
+      },
+      {
+        "ioc": "ioc.ipv4|35.89.44.36",
+        "reporters": 33,
+        "reports": 95,
+        "score": 35,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|143.244.47.67",
+        "reporters": 41,
+        "reports": 281,
+        "score": 30,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|34.117.59.81",
+        "reporters": 13,
+        "reports": 96,
+        "score": 27,
+        "usage_type": "Content Delivery Network"
+      }
+    ],
+    "top_malicious": [
+      {
+        "ioc": "ioc.md5|4924369c0bdaf73b21eb992eb9db4dea",
+        "label": "trojan.remcos/rescoms",
+        "malicious": 65
+      },
+      {
+        "ioc": "ioc.md5|3e91836b89b6d6249741dc8ee0d2895a",
+        "label": "trojan.msil/foreign",
+        "malicious": 61
+      },
+      {
+        "ioc": "ioc.md5|4354cb04d0ac36dab76606c326bcb187",
+        "label": "trojan.msil/basic",
+        "malicious": 61
+      },
+      {
+        "ioc": "ioc.md5|3a67ebcab5dc3563dc161fdc3c7fb161",
+        "label": "trojan.crimson/jalapeno",
+        "malicious": 60
+      },
+      {
+        "ioc": "ioc.md5|3e713a838a68259ae2f9ef2eed05a761",
+        "label": "trojan.sednit/ulise",
+        "malicious": 60
+      },
+      {
+        "ioc": "ioc.md5|43c58adee9cb4ef968bfc14816a4762b",
+        "label": "trojan.msil/androm",
+        "malicious": 60
+      },
+      {
+        "ioc": "ioc.md5|38ce32cb94092cc6790030abcc9a638b",
+        "label": "trojan.msil/crimson",
+        "malicious": 59
+      },
+      {
+        "ioc": "ioc.md5|3b08095786731c522f5649081f8dbb7e",
+        "label": "trojan.msil/msilperseus",
+        "malicious": 59
+      },
+      {
+        "ioc": "ioc.md5|3dce29291a34b4ebf9f29404f527c704",
+        "label": "trojan.zusy/malex",
+        "malicious": 59
+      },
+      {
+        "ioc": "ioc.md5|3ff165ee68d1bc03ae7d4d3baf99b963",
+        "label": "trojan.msilmamut/msil",
+        "malicious": 59
+      },
+      {
+        "ioc": "ioc.md5|42f6f0345d197c20aa749db1b65ee55e",
+        "label": "trojan.msil/cryptpack",
+        "malicious": 59
+      },
+      {
+        "ioc": "ioc.md5|463565ec38e4d790a89eb592435820e3",
+        "label": "trojan.msil/msilmamut",
+        "malicious": 59
+      },
+      {
+        "ioc": "ioc.md5|3a3bad366916aa3198fd1f76f3c29f24",
+        "label": "trojan.dtrack/keydoor",
+        "malicious": 58
+      },
+      {
+        "ioc": "ioc.md5|43f47d2045ca98265fd4bd4011a04932",
+        "label": "trojan.crimson/msilmamut",
+        "malicious": 58
+      },
+      {
+        "ioc": "ioc.md5|4601e75267d0dcfe4256c43f45ec470a",
+        "label": "trojan.gofarer/bcxxozl",
+        "malicious": 58
+      }
+    ],
+    "unknown": {
+      "samples": [
+        "ioc.md5|381321d0977ce81e07263bc6be753b85",
+        "ioc.md5|38839558d6f5c45bf9e399ef5237053c",
+        "ioc.md5|388efc272e17d7c3fdcc8feca74fa471",
+        "ioc.md5|39ff842a2c758bf336af852186c1404a",
+        "ioc.md5|3a64e2d3558a28c4fdb0f076fa09e1a1",
+        "ioc.md5|3ad0557588574850927711b85bdb8e09",
+        "ioc.md5|3b576869a4ec45298536b80a7769e899",
+        "ioc.md5|3ba4e04fdcf73c267b89d91fc90f836f",
+        "ioc.md5|3bbba44c6cae4d9695755183472171e2",
+        "ioc.md5|3bf827922ba14823a7d8b8c8c792cf61",
+        "ioc.md5|3c8b2d20e428f8207b4324bb58f5d228",
+        "ioc.md5|3c8c2d7fbff744ebb868414730cc5902",
+        "ioc.md5|3c9a1ba8e0c7475706adc6376e9d7b7c",
+        "ioc.md5|3cc848432e0ebe25e4f19effdd92d9c2",
+        "ioc.md5|3d2b43f91f65bfbf36a9c71b6b418876"
+      ],
+      "total": 47
+    }
+  },
+  "tool": "tools/ioc/daily-report.mjs"
+}

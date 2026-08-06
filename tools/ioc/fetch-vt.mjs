@@ -25,8 +25,8 @@
 import path from "node:path";
 import { parseArgs, readJsonl } from "./lib/io.mjs";
 import {
-  KeyPool, PROJECTION, buildQueue, entityCounts, excluded, keyId, notableIps,
-  project, readKeys, readRecord, sleep, stageOf, tallyStages, vtTarget, writeRecord,
+  KeyPool, buildQueue, entityCounts, excluded, keyId, notableIps, project,
+  projectionOf, readKeys, readRecord, sleep, stageOf, tallyStages, vtTarget, writeRecord,
 } from "./lib/enrich.mjs";
 import { REPO_ROOT } from "./lib/sources.mjs";
 
@@ -76,7 +76,8 @@ const now = Date.now();
 /** 取り直すか。版が変わった写しは、使う欄が増えているので取り直す。 */
 const stale = (rec) => {
   if (!rec) return true;
-  if ((rec.projection ?? 0) < (FULL ? 0 : PROJECTION)) return true;
+  // 版は引き先ごと。ファイルの欄を増やしても、ドメインや IP は取り直さない
+  if ((rec.projection ?? 0) < (FULL ? 0 : projectionOf(rec.endpoint))) return true;
   return now - Date.parse(rec.fetched_at || 0) > MAX_AGE;
 };
 
@@ -90,8 +91,13 @@ const stale = (rec) => {
 const alreadyKnown = args.refresh ? new Set() : new Set(readJsonl(path.join(IN, "vt.jsonl")).map((r) => r.ioc));
 
 /* 写しを見るのは 1 回だけ。2 度読むと 18,000 件では目に見えて遅くなる */
-const todo = buildQueue(targets)
-  .filter((t) => stale(readRecord(CACHE, t.ioc)) && !alreadyKnown.has(t.ioc));
+const todo = buildQueue(targets).filter((t) => {
+  const rec = readRecord(CACHE, t.ioc);
+  // 写しがあるなら、取り直すかどうかは版と古さで決める（vt.jsonl の有無は関係ない）
+  if (rec) return stale(rec);
+  // 写しが無いときだけ vt.jsonl を控えとして使う。**判定を持っているなら枠を使わない**
+  return !alreadyKnown.has(t.ioc);
+});
 const queue = ONLY_STAGE ? todo.filter((t) => t.stage === ONLY_STAGE) : todo;
 
 console.log(`VT の対象 ${targets.length} 件（写し済み ${targets.length - todo.length} / 残り ${todo.length}）`);
@@ -249,7 +255,7 @@ async function worker() {
     writeRecord(CACHE, {
       ...result.record,
       fetched_at: new Date().toISOString(),
-      projection: FULL ? 0 : PROJECTION,
+      projection: FULL ? 0 : projectionOf(item.kind),
       source: "virustotal",
     });
     if (result.record.status === 404) stat.unknown++;

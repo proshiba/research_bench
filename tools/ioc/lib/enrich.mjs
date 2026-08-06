@@ -226,7 +226,13 @@ export function digestRecords(records) {
  * 版が古い写しは取り直す。何を落としたかが写し自身から分かるようにするため。
  * 全部残したいときは fetch-vt.mjs に --full を付ける（`projection: 0` になる）。
  */
-export const PROJECTION = 1;
+/**
+ * 版は**引き先ごとに持つ**。使う欄が増えたときに、増えた種類だけ取り直せばよい。
+ * まとめて 1 つにすると、ファイルの欄を増やしただけでドメインも IP も
+ * 取り直すことになる（実測で 2,058 件で済むところが 5,433 件になる）。
+ */
+export const PROJECTION = { files: 2, domains: 1, ip_addresses: 1, urls: 1 };
+export const projectionOf = (kind) => PROJECTION[kind] ?? 1;
 
 export const VT_FIELDS = {
   files: [
@@ -234,6 +240,9 @@ export const VT_FIELDS = {
     "first_submission_date", "last_analysis_date", "last_submission_date",
     "meaningful_name", "names", "type_description", "size", "signature_info",
     "md5", "sha1", "sha256",
+    // 版 2 で足した**ファジーハッシュ**。提供元の判断が入らず、論理が明示的なので
+    // 検知名より根拠として素直（vhash / imphash は完全一致、ssdeep / tlsh は距離）
+    "vhash", "ssdeep", "tlsh", "authentihash", "telfhash", "permhash", "magic",
   ],
   domains: [
     "last_analysis_stats", "reputation", "last_dns_records", "last_https_certificate",
@@ -251,12 +260,24 @@ export const VT_FIELDS = {
   ],
 };
 
+/**
+ * 入れ子から引き上げる欄。`pe_info` は丸ごとだと数十 KB あるので、
+ * 使うハッシュだけを平らに持つ。
+ */
+const VT_LIFT = {
+  files: { imphash: (a) => a.pe_info?.imphash, rich_header: (a) => a.pe_info?.rich_pe_header_hash },
+};
+
 /** 使う欄だけを抜く。無い欄は作らない（あとで「取れなかった」と区別できるように）。 */
 export function project(kind, attributes) {
   const keep = VT_FIELDS[kind];
   if (!keep) return attributes;
   const out = {};
   for (const k of keep) if (attributes?.[k] !== undefined) out[k] = attributes[k];
+  for (const [k, pick] of Object.entries(VT_LIFT[kind] || {})) {
+    const v = pick(attributes || {});
+    if (v !== undefined && v !== null && v !== "") out[k] = v;
+  }
   return out;
 }
 
