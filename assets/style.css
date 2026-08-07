@@ -392,6 +392,11 @@ a { color: inherit; }
   background: var(--surface-3);
   flex: none;
 }
+/* 未フォーカス時は「/」でここへ飛べることを示し、入力中は Enter を出す */
+.search .kbd-focus { display: none; }
+.search:focus-within .kbd-focus { display: block; }
+.search:focus-within .kbd-blur { display: none; }
+.search.is-compact .kbd-blur { display: none; }
 
 .topbar-link {
   display: flex;

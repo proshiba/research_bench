@@ -1508,6 +1508,14 @@ async function runAction(node, action) {
         setStatus(`${label}… ジョブ ${job.status}${nums ? ` — ${nums}` : ""}`);
       },
     });
+    // 調査は数分かかることがある（ポートスキャンなどの非同期ジョブ）。その間に
+    // 「新規調査」でグラフを空にしたり、対象ノードを消したり、別の保存グラフを
+    // 開いたりできる。起点ノードがもう無いのに結果を入れると、無関係なグラフに
+    // 古い調査の実体と辺が紛れ込む。起点が残っているときだけ反映する。
+    if (!ui.graph.nodes.has(node.id)) {
+      setStatus(`${label}: 対象がグラフから無くなっていたので結果は入れませんでした`);
+      return;
+    }
     applyResult(node, out);
     setStatus(`${label}: ${out.note || "完了"}`, { error: !!out.error });
   } catch (err) {
