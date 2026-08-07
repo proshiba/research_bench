@@ -473,7 +473,7 @@
     ],
     "multi_actor": 185,
     "multi_actor_small": 5,
-    "small": 162,
+    "small": 188,
     "top": [
       {
         "actors": [
@@ -552,7 +552,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 980
+    "total": 1070
   },
   "coverage": {
     "abuseipdb": {
@@ -574,24 +574,24 @@
       "ratio": 0.977,
       "target": 3301
     },
-    "newest_fetch": "2026-08-06",
+    "newest_fetch": "2026-08-07",
     "oldest_fetch": "2026-08-02",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 4477,
+          "done": 4924,
           "target": 4929
         },
         "2": {
-          "done": 304,
+          "done": 305,
           "target": 305
         },
         "3": {
-          "done": 4424,
+          "done": 4452,
           "target": 4452
         },
         "4": {
-          "done": 1747,
+          "done": 4088,
           "target": 6379
         },
         "5": {
@@ -603,11 +603,11 @@
           "target": 723
         }
       },
-      "done": 11275,
-      "known": 9267,
-      "ratio": 0.595,
+      "done": 14092,
+      "known": 12006,
+      "ratio": 0.744,
       "target": 18940,
-      "unknown": 2008
+      "unknown": 2086
     }
   },
   "entities": {
@@ -662,18 +662,18 @@
       "by_via": {
         "asn": 4,
         "certificate": 39,
-        "family": 149,
+        "family": 155,
         "filename": 31,
-        "imphash": 14,
+        "imphash": 13,
         "ioc": 83,
-        "jarm": 458,
+        "jarm": 521,
         "registrable": 132,
-        "resolution": 2,
+        "resolution": 3,
         "subnet": 64,
-        "vhash": 9
+        "vhash": 10
       },
       "identical_sets": 3,
-      "pairs": 695,
+      "pairs": 763,
       "top": [
         {
           "a": "Silver Fox",
@@ -758,11 +758,11 @@
               "ioc.domain|paste.ee"
             ],
             "jarm": [
+              "20d08b20d21d20d20c42d08b20b41d494e0df9532e75299f15ba73156cee38",
+              "27d27d27d00027d00042d43d00041df04c41293ba84f6efe3a613b22f983e6",
               "27d40d40d00040d00042d43d000000e1ea2a807a629b496b664cf07ad7c08d",
               "29d29d00029d29d00042d42d0000002059a3b916699461c5923779b77cf06b",
-              "29d29d15d29d29d21c29d29d29d29d92c32e54b47f0f89cca85ab1615a4c10",
-              "29d3fd00029d29d21c42d43d00041df48f145f65c66577d0b01ecea881c1ba",
-              "2ad2ad0002ad2ad0002ad2ad2ad2ad83c2e51da709c877942c98b10a5e814a"
+              "29d29d15d29d29d00041d41d000000038eaaf490bec8dc33757f165ce01762"
             ],
             "registrable": [
               "email.cz",
@@ -775,8 +775,8 @@
               "195.133.88.0/24"
             ]
           },
-          "ratio": 0.021,
-          "shared": 25,
+          "ratio": 0.028,
+          "shared": 33,
           "strength": 35,
           "via": [
             "certificate",
@@ -813,11 +813,11 @@
               "ioc.domain|seznam.cz"
             ],
             "jarm": [
+              "07d2ad16d00000000007d2ad07d21d0a5f1333c55ada247c8c999e2ec3a818",
               "15d3fd16d29d29d00042d43d000000eed8083ffe0365e3dd86aa60eff5d3bb",
               "20d08b20d21d20d20c42d08b20b41d494e0df9532e75299f15ba73156cee38",
-              "29d29d00029d29d00029d29d29d29d00efabaa2e194cf5d86dd52d92433bab",
-              "29d29d15d29d29d00041d41d000000df133019600a83abfb096ff3e86cd79d",
-              "29d29d15d29d29d00042d42d000000038eaaf490bec8dc33757f165ce01762"
+              "27d27d27d00027d00042d43d00041df04c41293ba84f6efe3a613b22f983e6",
+              "29d29d00029d29d00029d29d29d29d00efabaa2e194cf5d86dd52d92433bab"
             ],
             "registrable": [
               "mail.ru",
@@ -833,8 +833,8 @@
               "02603e0f7d1bz4tz1017z"
             ]
           },
-          "ratio": 0.059,
-          "shared": 59,
+          "ratio": 0.062,
+          "shared": 62,
           "strength": 34,
           "via": [
             "certificate",
@@ -876,11 +876,11 @@
               "ioc.sha256|6f76a8e16908ba2d576cf0e8cdb70114dcb70e0f7223be10aab3a728dc65c41c"
             ],
             "jarm": [
+              "05d02d20d21d20d05c05d02d05d20da23a7a927f270a23608b3c7a72999cab",
+              "07d2ad16d00000000007d2ad07d21d0a5f1333c55ada247c8c999e2ec3a818",
               "26d26d00026d26d22c26d26d26d26dd3b67dd3674d9af9dd91c1955a35d0e9",
               "2ad2ad0002ad2ad0002ad2ad2ad2ad83c2e51da709c877942c98b10a5e814a",
-              "2ad2ad16d00000022c2ad2ad2ad2adbc07bc352a188303b518c8a273c71220",
-              "2ad2ad16d2ad2ad22c2ad2ad2ad2ad92c32e54b47f0f89cca85ab1615a4c10",
-              "3fd3fd0003fd3fd21c42d42d000000307ee0eb468e9fdb5cfcd698a80a67ef"
+              "2ad2ad16d00000022c2ad2ad2ad2adbc07bc352a188303b518c8a273c71220"
             ],
             "registrable": [
               "ac.kr",
@@ -898,8 +898,8 @@
               "2170361515151z240020"
             ]
           },
-          "ratio": 0.039,
-          "shared": 42,
+          "ratio": 0.041,
+          "shared": 44,
           "strength": 34,
           "via": [
             "asn",
@@ -1107,6 +1107,7 @@
             "jarm": [
               "1dd40d40d00040d00042d43d0000007d20e9b9a3e87aa1ec17cb4d646ce9a5",
               "27d40d40d00040d00042d43d0000007d20e9b9a3e87aa1ec17cb4d646ce9a5",
+              "29d2ad00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b",
               "29d3fd00029d29d00042d43d00000023f2ae7180b8a0816654f2296c007d93"
             ],
             "registrable": [
@@ -1122,8 +1123,8 @@
               "38.146.28.0/24"
             ]
           },
-          "ratio": 1.533,
-          "shared": 23,
+          "ratio": 1.6,
+          "shared": 24,
           "strength": 25,
           "via": [
             "certificate",
@@ -1153,6 +1154,7 @@
             "jarm": [
               "1dd40d40d00040d00042d43d0000007d20e9b9a3e87aa1ec17cb4d646ce9a5",
               "27d40d40d00040d00042d43d0000007d20e9b9a3e87aa1ec17cb4d646ce9a5",
+              "29d2ad00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b",
               "29d3fd00029d29d00042d43d00000023f2ae7180b8a0816654f2296c007d93"
             ],
             "registrable": [
@@ -1168,8 +1170,8 @@
               "38.146.28.0/24"
             ]
           },
-          "ratio": 1.533,
-          "shared": 23,
+          "ratio": 1.6,
+          "shared": 24,
           "strength": 25,
           "via": [
             "certificate",
@@ -1193,10 +1195,10 @@
             ],
             "jarm": [
               "15d3fd16d29d29d00042d43d00000071784fa9f8305ba9220d0a7894b6ff2c",
+              "27d27d27d00027d00042d42d000000831b6af40378e2dd35eeac4e9311926e",
               "27d27d27d00027d1dc42d42d0000005557fe5c0eece598995bd43427a3386b",
               "29d29d00029d29d00042d42d0000002059a3b916699461c5923779b77cf06b",
-              "29d29d00029d29d21c29d29d29d29d4d38a7b5ffb0e5536d09513d9de81205",
-              "2ad2ad00000000000042d42d000000dd5c266caaa8baaf93008418f7774284"
+              "29d29d15d29d29d00041d41d000000038eaaf490bec8dc33757f165ce01762"
             ],
             "registrable": [
               "camdvr.org",
@@ -1206,8 +1208,8 @@
               "185.27.134.0/24"
             ]
           },
-          "ratio": 0.036,
-          "shared": 15,
+          "ratio": 0.038,
+          "shared": 16,
           "strength": 25,
           "via": [
             "certificate",
@@ -1218,7 +1220,7 @@
           ]
         }
       ],
-      "weak_only": 557
+      "weak_only": 624
     },
     "campaign": {
       "by_via": {
@@ -1353,184 +1355,19 @@
       "by_via": {
         "asn": 1,
         "certificate": 28,
-        "family": 1,
-        "filename": 0,
-        "imphash": 0,
+        "family": 10,
+        "filename": 3,
+        "imphash": 1,
         "ioc": 119,
-        "jarm": 66,
+        "jarm": 84,
         "registrable": 78,
         "resolution": 0,
         "subnet": 21,
-        "vhash": 3
+        "vhash": 5
       },
       "identical_sets": 155,
-      "pairs": 167,
+      "pairs": 194,
       "top": [
-        {
-          "a": "case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7",
-          "b": "case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da",
-          "evidence": {
-            "certificate": [
-              "35ef895d7798486bd1b4326db859140408e7e0f5f4523f6a830962dc6540f2df",
-              "9599553b674a6284e1dcd392cb85695e136099f99d91c05b03b7053ad7ca8071"
-            ],
-            "ioc": [
-              "ioc.domain|stratimasesstr.com",
-              "ioc.domain|winarkamaps.com",
-              "ioc.url|https://stratimasesstr.com/live/",
-              "ioc.url|https://winarkamaps.com/live/"
-            ],
-            "jarm": [
-              "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
-              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
-            ],
-            "registrable": [
-              "stratimasesstr.com",
-              "winarkamaps.com"
-            ]
-          },
-          "ratio": 2.5,
-          "shared": 10,
-          "strength": 20,
-          "via": [
-            "certificate",
-            "ioc",
-            "jarm",
-            "registrable"
-          ]
-        },
-        {
-          "a": "case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7",
-          "b": "case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0",
-          "evidence": {
-            "certificate": [
-              "35ef895d7798486bd1b4326db859140408e7e0f5f4523f6a830962dc6540f2df",
-              "9599553b674a6284e1dcd392cb85695e136099f99d91c05b03b7053ad7ca8071"
-            ],
-            "ioc": [
-              "ioc.domain|stratimasesstr.com",
-              "ioc.domain|winarkamaps.com",
-              "ioc.url|https://stratimasesstr.com/live/",
-              "ioc.url|https://winarkamaps.com/live/"
-            ],
-            "jarm": [
-              "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
-              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
-            ],
-            "registrable": [
-              "stratimasesstr.com",
-              "winarkamaps.com"
-            ]
-          },
-          "ratio": 2.5,
-          "shared": 10,
-          "strength": 20,
-          "via": [
-            "certificate",
-            "ioc",
-            "jarm",
-            "registrable"
-          ]
-        },
-        {
-          "a": "case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da",
-          "b": "case:9645a12079edffd20560d4631160a6052ae5728d6f73b7366588166ad281c534",
-          "evidence": {
-            "certificate": [
-              "35ef895d7798486bd1b4326db859140408e7e0f5f4523f6a830962dc6540f2df",
-              "9599553b674a6284e1dcd392cb85695e136099f99d91c05b03b7053ad7ca8071"
-            ],
-            "ioc": [
-              "ioc.domain|stratimasesstr.com",
-              "ioc.domain|winarkamaps.com",
-              "ioc.url|https://stratimasesstr.com/live/",
-              "ioc.url|https://winarkamaps.com/live/"
-            ],
-            "jarm": [
-              "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
-              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
-            ],
-            "registrable": [
-              "stratimasesstr.com",
-              "winarkamaps.com"
-            ]
-          },
-          "ratio": 2.5,
-          "shared": 10,
-          "strength": 20,
-          "via": [
-            "certificate",
-            "ioc",
-            "jarm",
-            "registrable"
-          ]
-        },
-        {
-          "a": "case:9645a12079edffd20560d4631160a6052ae5728d6f73b7366588166ad281c534",
-          "b": "case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0",
-          "evidence": {
-            "certificate": [
-              "35ef895d7798486bd1b4326db859140408e7e0f5f4523f6a830962dc6540f2df",
-              "9599553b674a6284e1dcd392cb85695e136099f99d91c05b03b7053ad7ca8071"
-            ],
-            "ioc": [
-              "ioc.domain|stratimasesstr.com",
-              "ioc.domain|winarkamaps.com",
-              "ioc.url|https://stratimasesstr.com/live/",
-              "ioc.url|https://winarkamaps.com/live/"
-            ],
-            "jarm": [
-              "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
-              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
-            ],
-            "registrable": [
-              "stratimasesstr.com",
-              "winarkamaps.com"
-            ]
-          },
-          "ratio": 2.5,
-          "shared": 10,
-          "strength": 20,
-          "via": [
-            "certificate",
-            "ioc",
-            "jarm",
-            "registrable"
-          ]
-        },
-        {
-          "a": "case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da",
-          "b": "case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0",
-          "evidence": {
-            "certificate": [
-              "35ef895d7798486bd1b4326db859140408e7e0f5f4523f6a830962dc6540f2df",
-              "9599553b674a6284e1dcd392cb85695e136099f99d91c05b03b7053ad7ca8071"
-            ],
-            "ioc": [
-              "ioc.domain|stratimasesstr.com",
-              "ioc.domain|winarkamaps.com",
-              "ioc.url|https://stratimasesstr.com/live/",
-              "ioc.url|https://winarkamaps.com/live/"
-            ],
-            "jarm": [
-              "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
-              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
-            ],
-            "registrable": [
-              "stratimasesstr.com",
-              "winarkamaps.com"
-            ]
-          },
-          "ratio": 2,
-          "shared": 10,
-          "strength": 20,
-          "via": [
-            "certificate",
-            "ioc",
-            "jarm",
-            "registrable"
-          ]
-        },
         {
           "a": "case:34aff1767909ff582d15949922549fddb5849f163260ad3efdc32d4f869fdf09",
           "b": "case:6091f2589fef42e0ab3d7975806cd8a0da012b519637c03b73f702f7586b21ef",
@@ -1583,6 +1420,70 @@
             "registrable": [
               "skinnyjeanso.com",
               "titnovacrion.top"
+            ]
+          },
+          "ratio": 2.25,
+          "shared": 9,
+          "strength": 20,
+          "via": [
+            "certificate",
+            "ioc",
+            "jarm",
+            "registrable"
+          ]
+        },
+        {
+          "a": "case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7",
+          "b": "case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da",
+          "evidence": {
+            "certificate": [
+              "35ef895d7798486bd1b4326db859140408e7e0f5f4523f6a830962dc6540f2df",
+              "9599553b674a6284e1dcd392cb85695e136099f99d91c05b03b7053ad7ca8071"
+            ],
+            "ioc": [
+              "ioc.domain|stratimasesstr.com",
+              "ioc.domain|winarkamaps.com",
+              "ioc.url|https://stratimasesstr.com/live/",
+              "ioc.url|https://winarkamaps.com/live/"
+            ],
+            "jarm": [
+              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
+            ],
+            "registrable": [
+              "stratimasesstr.com",
+              "winarkamaps.com"
+            ]
+          },
+          "ratio": 2.25,
+          "shared": 9,
+          "strength": 20,
+          "via": [
+            "certificate",
+            "ioc",
+            "jarm",
+            "registrable"
+          ]
+        },
+        {
+          "a": "case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7",
+          "b": "case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0",
+          "evidence": {
+            "certificate": [
+              "35ef895d7798486bd1b4326db859140408e7e0f5f4523f6a830962dc6540f2df",
+              "9599553b674a6284e1dcd392cb85695e136099f99d91c05b03b7053ad7ca8071"
+            ],
+            "ioc": [
+              "ioc.domain|stratimasesstr.com",
+              "ioc.domain|winarkamaps.com",
+              "ioc.url|https://stratimasesstr.com/live/",
+              "ioc.url|https://winarkamaps.com/live/"
+            ],
+            "jarm": [
+              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
+            ],
+            "registrable": [
+              "stratimasesstr.com",
+              "winarkamaps.com"
             ]
           },
           "ratio": 2.25,
@@ -1660,6 +1561,70 @@
           ]
         },
         {
+          "a": "case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da",
+          "b": "case:9645a12079edffd20560d4631160a6052ae5728d6f73b7366588166ad281c534",
+          "evidence": {
+            "certificate": [
+              "35ef895d7798486bd1b4326db859140408e7e0f5f4523f6a830962dc6540f2df",
+              "9599553b674a6284e1dcd392cb85695e136099f99d91c05b03b7053ad7ca8071"
+            ],
+            "ioc": [
+              "ioc.domain|stratimasesstr.com",
+              "ioc.domain|winarkamaps.com",
+              "ioc.url|https://stratimasesstr.com/live/",
+              "ioc.url|https://winarkamaps.com/live/"
+            ],
+            "jarm": [
+              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
+            ],
+            "registrable": [
+              "stratimasesstr.com",
+              "winarkamaps.com"
+            ]
+          },
+          "ratio": 2.25,
+          "shared": 9,
+          "strength": 20,
+          "via": [
+            "certificate",
+            "ioc",
+            "jarm",
+            "registrable"
+          ]
+        },
+        {
+          "a": "case:9645a12079edffd20560d4631160a6052ae5728d6f73b7366588166ad281c534",
+          "b": "case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0",
+          "evidence": {
+            "certificate": [
+              "35ef895d7798486bd1b4326db859140408e7e0f5f4523f6a830962dc6540f2df",
+              "9599553b674a6284e1dcd392cb85695e136099f99d91c05b03b7053ad7ca8071"
+            ],
+            "ioc": [
+              "ioc.domain|stratimasesstr.com",
+              "ioc.domain|winarkamaps.com",
+              "ioc.url|https://stratimasesstr.com/live/",
+              "ioc.url|https://winarkamaps.com/live/"
+            ],
+            "jarm": [
+              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
+            ],
+            "registrable": [
+              "stratimasesstr.com",
+              "winarkamaps.com"
+            ]
+          },
+          "ratio": 2.25,
+          "shared": 9,
+          "strength": 20,
+          "via": [
+            "certificate",
+            "ioc",
+            "jarm",
+            "registrable"
+          ]
+        },
+        {
           "a": "case:34aff1767909ff582d15949922549fddb5849f163260ad3efdc32d4f869fdf09",
           "b": "case:65da6d9f781ff5fc2865b8850cfa64993b36f00151387fdce25859781c1eb711",
           "evidence": {
@@ -1690,26 +1655,58 @@
             "jarm",
             "registrable"
           ]
+        },
+        {
+          "a": "case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da",
+          "b": "case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0",
+          "evidence": {
+            "certificate": [
+              "35ef895d7798486bd1b4326db859140408e7e0f5f4523f6a830962dc6540f2df",
+              "9599553b674a6284e1dcd392cb85695e136099f99d91c05b03b7053ad7ca8071"
+            ],
+            "ioc": [
+              "ioc.domain|stratimasesstr.com",
+              "ioc.domain|winarkamaps.com",
+              "ioc.url|https://stratimasesstr.com/live/",
+              "ioc.url|https://winarkamaps.com/live/"
+            ],
+            "jarm": [
+              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
+            ],
+            "registrable": [
+              "stratimasesstr.com",
+              "winarkamaps.com"
+            ]
+          },
+          "ratio": 1.8,
+          "shared": 9,
+          "strength": 20,
+          "via": [
+            "certificate",
+            "ioc",
+            "jarm",
+            "registrable"
+          ]
         }
       ],
-      "weak_only": 44
+      "weak_only": 70
     },
     "malware": {
       "by_via": {
         "asn": 5,
         "certificate": 23,
-        "family": 75,
-        "filename": 25,
-        "imphash": 24,
+        "family": 79,
+        "filename": 26,
+        "imphash": 22,
         "ioc": 48,
-        "jarm": 379,
+        "jarm": 374,
         "registrable": 69,
         "resolution": 1,
         "subnet": 40,
-        "vhash": 22
+        "vhash": 26
       },
       "identical_sets": 8,
-      "pairs": 542,
+      "pairs": 546,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -1996,8 +1993,8 @@
               "0951d9f67c9a9e1b6ea746ed01bccc26",
               "1aae8bf580c846f39c71c05898e57e88",
               "5af915f278815e76bad476ef32593028",
-              "d42595b695fc008ef2c56aabd8efd68e",
-              "d8b31f8c03e0c76ff245ed05a15ffe6c"
+              "d8b31f8c03e0c76ff245ed05a15ffe6c",
+              "ebc247a77b4d4a804b261f97a1fd075c"
             ],
             "ioc": [
               "ioc.ipv4|116.203.243.208",
@@ -2023,8 +2020,8 @@
               "017086656d15551d15545az2e!z"
             ]
           },
-          "ratio": 3.183,
-          "shared": 331,
+          "ratio": 3.173,
+          "shared": 330,
           "strength": 27,
           "via": [
             "family",
@@ -2069,11 +2066,11 @@
               "ioc.ipv4|185.25.51.198"
             ],
             "jarm": [
-              "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
               "28d28d28d00028d00042d42d00042de0d120da90d5910c5de2af43b74a6bd8",
               "29d29d00029d29d00042d42d00000090d94d1f02cef4051cfd1d66dbe44eb0",
               "29d29d15d29d29d00041d41d000000df133019600a83abfb096ff3e86cd79d",
-              "29d3fd00029d29d00042d43d0000008aec5bb03750a1d7eddfa29fb2d1deea"
+              "29d3fd00029d29d00042d43d0000008aec5bb03750a1d7eddfa29fb2d1deea",
+              "2ad2ad0002ad2ad00042d42d000000301510f56407964db9434a9bb0d4ee4a"
             ],
             "subnet": [
               "142.0.68.0/24",
@@ -2090,8 +2087,8 @@
               "02503e0f7d101013z11z69z15z13z1011z19z"
             ]
           },
-          "ratio": 2.5,
-          "shared": 285,
+          "ratio": 2.491,
+          "shared": 284,
           "strength": 27,
           "via": [
             "family",
@@ -2316,7 +2313,7 @@
           ]
         }
       ],
-      "weak_only": 449
+      "weak_only": 451
     }
   },
   "schema": 1,
@@ -2684,7 +2681,7 @@
           "span_days": 4063
         }
       ],
-      "with_dates": 121
+      "with_dates": 127
     },
     "campaigns": {
       "spans": [
@@ -2859,19 +2856,19 @@
       ],
       "with_dates": 10
     },
-    "dated": 4824,
+    "dated": 5032,
     "index_lag": {
-      "ahead": 150,
-      "median_days": 55,
-      "p25_days": 14,
-      "p75_days": 138,
-      "pairs": 1662
+      "ahead": 152,
+      "median_days": 53,
+      "p25_days": 12,
+      "p75_days": 133,
+      "pairs": 1788
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 172,
+      "checked": 181,
       "lowest": [
         {
           "checked": 6,
@@ -2895,14 +2892,14 @@
           "unknown": 1
         },
         {
-          "checked": 12,
+          "checked": 27,
           "iocs": 79,
           "median_malicious": 0,
           "name": "Callisto Group",
-          "unknown": 4
+          "unknown": 5
         },
         {
-          "checked": 20,
+          "checked": 75,
           "iocs": 324,
           "median_malicious": 0,
           "name": "Equation Group",
@@ -2923,13 +2920,6 @@
           "unknown": 3
         },
         {
-          "checked": 7,
-          "iocs": 48,
-          "median_malicious": 0,
-          "name": "NSO Group",
-          "unknown": 2
-        },
-        {
           "checked": 17,
           "iocs": 17,
           "median_malicious": 0,
@@ -2942,10 +2932,17 @@
           "median_malicious": 1,
           "name": "APT42",
           "unknown": 2
+        },
+        {
+          "checked": 23,
+          "iocs": 30,
+          "median_malicious": 1,
+          "name": "Nomadic Octopus",
+          "unknown": 6
         }
       ]
     },
-    "clean": 741,
+    "clean": 1150,
     "disagreement": {
       "samples": [
         {
@@ -3084,9 +3081,9 @@
           ]
         }
       ],
-      "total": 101
+      "total": 118
     },
-    "malicious": 8456,
-    "unknown": 2008
+    "malicious": 10766,
+    "unknown": 2086
   }
 }

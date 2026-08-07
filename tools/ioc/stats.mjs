@@ -8,6 +8,7 @@
 //                            [--jarm-cap 0.01] [--filename-cap 8] [--filename-min 2]
 //                            [--family-cap 8] [--vhash-cap 8] [--imphash-cap 8]
 //                            [--resolution-cap 3] [--resolution-asn-cap 2]
+//                            [--hash-size-spread 10]
 //                            [--evidence-cap 5]
 //                            [--hosting-ratio 0.7] [--hosting-min 3]
 //
@@ -321,12 +322,44 @@ const hashOwners = (field) => {
   }
   return m;
 };
+
+/**
+ * **同じ値なのに大きさが桁で違う群は、同じ物を指していない。**
+ *
+ * 実測で `f34d5f2d…` が 420 検体・47 実体に付き、5KB から 38MB まで並んでいた。
+ * `.NET` の起動部だけを取り込む実行ファイルはインポート表が同じになるので、
+ * 中身と関係なく imphash が一致する。実体数の上限（8）は 47 や 24 を落とすが、
+ * `d42595b695…`（91 検体・6 実体・**1.5MB 〜 630MB**）のように上限を通るものが残る。
+ *
+ * 同じ物の別ビルドなら、デバッグ情報や埋め込みの差でせいぜい数倍。
+ * 実測でも 10 倍を境に分かれた（imphash 13 群 / vhash 7 群が超え、
+ * 上位は生成器の署名そのもの）。大きさの分からない検体は判断材料にしない。
+ */
+const SIZE_SPREAD_CAP = Number(args["hash-size-spread"] || 10);
+const spreadOut = (field) => {
+  const sizes = new Map();
+  for (const r of vt) {
+    const v = r[field];
+    if (!v || !Number.isFinite(r.size) || r.size <= 0) continue;
+    if (field === "vhash" && !isPe(r.ioc)) continue;
+    if (!sizes.has(v)) sizes.set(v, []);
+    sizes.get(v).push(r.size);
+  }
+  const out = new Set();
+  for (const [v, list] of sizes) {
+    if (list.length < 2) continue;
+    if (Math.max(...list) / Math.min(...list) > SIZE_SPREAD_CAP) out.add(v);
+  }
+  return out;
+};
+const spreadVhash = spreadOut("vhash");
+const spreadImphash = spreadOut("imphash");
 const commonVhash = new Set([...hashOwners("vhash")].filter(([, e]) => e.size > VHASH_CAP).map(([v]) => v));
 const commonImphash = new Set([...hashOwners("imphash")].filter(([, e]) => e.size > IMPHASH_CAP).map(([v]) => v));
 const usableHash = (field, v) => {
   if (!v || DEGENERATE_HASH.has(v)) return null;
-  if (field === "vhash" && commonVhash.has(v)) return null;
-  if (field === "imphash" && commonImphash.has(v)) return null;
+  if (field === "vhash" && (commonVhash.has(v) || spreadVhash.has(v))) return null;
+  if (field === "imphash" && (commonImphash.has(v) || spreadImphash.has(v))) return null;
   return v;
 };
 
