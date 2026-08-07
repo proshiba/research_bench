@@ -410,13 +410,27 @@ async function boot() {
   document.addEventListener("click", closeMenus);
   document.addEventListener("keydown", (ev) => {
     if (ev.key === "Escape") closeMenus();
-    if (ev.key === "/" && document.activeElement !== dom.q) {
+    // 「/」で検索へ飛ぶ。ただし文字を打っている最中は横取りしない。
+    // ここを active===dom.q だけで判定すると、トレイや保存グラフ検索など
+    // 他の入力欄で「/」が食われ、URL やパス（http:// など）が打てなくなる。
+    // Cmd/Ctrl+K は入力中でも効くショートカットとして併せて用意する。
+    const el = document.activeElement;
+    const typing = el && (el.isContentEditable
+      || el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT");
+    if ((ev.metaKey || ev.ctrlKey) && (ev.key === "k" || ev.key === "K")) {
       ev.preventDefault();
-      setSearchCompact(false);
-      dom.q.focus();
-      dom.q.select();
+      focusSearch();
+    } else if (ev.key === "/" && !typing) {
+      ev.preventDefault();
+      focusSearch();
     }
   });
+
+  function focusSearch() {
+    setSearchCompact(false);
+    dom.q.focus();
+    dom.q.select();
+  }
 
   dom.searchForm.addEventListener("submit", (ev) => {
     ev.preventDefault();

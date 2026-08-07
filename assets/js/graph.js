@@ -114,6 +114,9 @@ export function createGraph(canvas, { onSelect, onStatus, onMutate, onContext } 
   /** ユーザーが自分で張るリンク。ソース由来の辺と区別して保持する。 */
   function addManualEdge(fromId, toId, rel = "手動リンク") {
     if (fromId === toId) return null;
+    // 手動リンクは必ず実在ノード同士を結ぶ。片端が消えている場合に張ると、
+    // 描画では弾かれるが serialize には残る幽霊辺になる（restore で落ちるまで残る）
+    if (!nodes.has(fromId) || !nodes.has(toId)) return null;
     const e = addEdge(fromId, toId, rel);
     if (!e) return null;
     e.manual = true;

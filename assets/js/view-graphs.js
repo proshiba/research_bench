@@ -101,6 +101,9 @@ async function fillThumb(item, img) {
   if (thumbs.has(key)) { img.src = thumbs.get(key); img.classList.remove("is-pending"); return; }
   try {
     const url = await thumbnailUrl(item.id);
+    // 再描画などで同じ鍵の取得が並行すると、後勝ちで map を上書きし、
+    // 先に作った objectURL が revoke されず孤児になる。既にあれば作った分は捨てる
+    if (thumbs.has(key)) { URL.revokeObjectURL(url); img.src = thumbs.get(key); img.classList.remove("is-pending"); return; }
     thumbs.set(key, url);
     img.src = url;
     img.classList.remove("is-pending");
