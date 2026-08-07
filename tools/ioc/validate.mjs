@@ -99,7 +99,7 @@ const VT_FIELDS = {
     "signer", "names", "created", "registrar", "jarm", "dns", "cert",
     // ssdeep / tlsh はここに出さない（enrich-intel.mjs の理由を参照）。
     // 許す欄から外しておくと、うっかり戻したときに検査で落ちる
-    "vhash", "imphash", "rich_header",
+    "vhash", "imphash", "rich_header", "popular",
     "asn", "as_owner", "country", "network", "asn_differs", "final_url", "title",
   ],
 };
@@ -995,6 +995,15 @@ if (vtRows) {
         err("vt.unknown", `known:false なのに判定が入っています: ${extra.join(", ")}`, at("vt.jsonl", i));
       }
       continue;
+    }
+    // 正規サービスの印。**検知が付いているのに印が残っていたら判定と食い違っている。**
+    // 順位そのものを残すのは、境目（--popular-rank）を後から動かして見直せるように
+    if (r.popular !== undefined) {
+      if (!Number.isInteger(r.popular) || r.popular < 1) {
+        err("vt.popular", `popular が 1 以上の整数ではありません: ${r.popular}`, at("vt.jsonl", i));
+      } else if (Number.isInteger(r.malicious) && r.malicious >= 2) {
+        err("vt.popular", `検知 ${r.malicious} なのに正規サービスの印が付いています`, at("vt.jsonl", i));
+      }
     }
     for (const f of ["malicious", "suspicious", "harmless", "undetected", "timeout"]) {
       if (r[f] === undefined) continue;

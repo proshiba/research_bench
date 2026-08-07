@@ -146,7 +146,15 @@ const iocById = new Map(iocs.map((r) => [r.key, r]));
  * net.mjs の帯の一覧は手で足すしかないので、そこから漏れたものをここで拾う。
  */
 const sampleIps = new Set(abuse.filter((r) => r.sample).map((r) => r.ioc));
-const dropped = (r) => r.bogon || r.noise || sampleIps.has(r.key);
+/**
+ * 正規サービスと判定されたドメイン（enrich-intel.mjs が popular の印を付ける）。
+ * 攻撃者が**使った**だけのサービスは、支配しているインフラではない。
+ * 実測で seznam.cz / mail.ru の正規証明書が APT28 ↔ APT29 の「証明書共有」として
+ * 最上位に立っていた。ioc・certificate・jarm・registrable と多重に効くので、
+ * 大元のここで bogon / noise と同じ扱いにする。
+ */
+const popularDomains = new Set(vt.filter((r) => r.popular).map((r) => r.ioc));
+const dropped = (r) => r.bogon || r.noise || sampleIps.has(r.key) || popularDomains.has(r.key);
 const usable = (key) => {
   const r = iocById.get(key);
   if (!r) return false;
@@ -256,12 +264,24 @@ for (const set of resolvesTo.values()) {
 
 /** 共用ホスティングの証明書は根拠にしない（SAN が多すぎるもの・基盤に出されたもの）。 */
 const weakCert = new Set(derivedCerts.filter((c) => c.weak).map((c) => c.thumbprint));
+/**
+ * **IOC を 1 つしか持たない証明書は「橋」ではない。**
+ *
+ * 両実体が同じ IOC を指しているという事実は `ioc`（8 点）で既に数えている。
+ * その IOC の証明書を `certificate`（9 点）でもう一度数えると、同じ事実が
+ * 17 点になる。実測で、根拠に引かれた証明書のべ 159 枚のうち **133 枚が
+ * IOC 1 つの鏡写し**で、91 組中 67 組の証明書根拠がこれだけで立っていた。
+ * 証明書が根拠になるのは、**別々の IOC を同じ鍵が結んでいる**ときだけ。
+ */
+const certIocs = new Map(derivedCerts.map((c) => [c.thumbprint, c.iocs || []]));
+const bridgeCert = new Set(derivedCerts.filter((c) => !c.weak && (c.iocs || []).length >= 2).map((c) => c.thumbprint));
 const certOf = new Map();
 for (const r of vt) {
   if (!r.cert?.thumbprint) continue;
   if (weakCert.has(r.cert.thumbprint)) continue;
   // 自分の名前が SAN に無く、ワイルドカードで拾っただけの組み合わせは根拠にしない
   if (r.cert.wildcard) continue;
+  if (!bridgeCert.has(r.cert.thumbprint)) continue;
   certOf.set(r.ioc, r.cert.thumbprint);
 }
 
@@ -356,6 +376,44 @@ const spreadVhash = spreadOut("vhash");
 const spreadImphash = spreadOut("imphash");
 const commonVhash = new Set([...hashOwners("vhash")].filter(([, e]) => e.size > VHASH_CAP).map(([v]) => v));
 const commonImphash = new Set([...hashOwners("imphash")].filter(([, e]) => e.size > IMPHASH_CAP).map(([v]) => v));
+
+/**
+ * 署名者。**窃取されたコード署名証明書の共有は、インフラの証明書共有と同種の証拠。**
+ * 実測で EGIS Co., Ltd.（52 検体・3 実体。窃取署名として既知）や
+ * Gray Matter Software S.R.L.（4 実体）が跨っていた。
+ *
+ * Microsoft 署名は除く。正規の Windows ファイルが IOC に混ざった印であって
+ * （実測で 6 実体に跨っていた）、共有の根拠ではない。ありふれた署名者も外す。
+ */
+const LEGIT_SIGNER = /microsoft|windows/i;
+const SIGNER_CAP = Number(args["signer-cap"] || args["ubiquity-cap"] || 8);
+/**
+ * 署名者を根拠に数えるのに要る、その検体自身の検知数。
+ *
+ * サイドローディングの宿主（NVIDIA や LENOVO が署名した**正規バイナリ**）も
+ * IOC として索引に載る。検知が付かない検体の署名者を数えると、
+ * 「同じ正規ツールを悪用した」という手口の一致が「署名証明書の共有」に化ける。
+ * 実測で NVIDIA 署名の検体は検知 [0, 53] と割れた。0 は正規の宿主、
+ * 53 は署名を**騙っている**マルウェア。検知で切ると前者だけが落ちる。
+ */
+const SIGNER_MIN_MAL = Number(args["signer-min-malicious"] || 5);
+const commonSigner = new Set([...hashOwners("signer")].filter(([, e]) => e.size > SIGNER_CAP).map(([v]) => v));
+const usableSigner = (v) => {
+  const s = v?.signer;
+  if (typeof s !== "string" || !s) return null;
+  if ((v.malicious ?? 0) < SIGNER_MIN_MAL) return null;
+  if (LEGIT_SIGNER.test(s)) return null;
+  if (commonSigner.has(s)) return null;
+  return s;
+};
+/** 署名者 → その署名を持つ検体。証明書と同じ橋の条件（下）を組ごとに見るために持つ。 */
+const signerIocs = new Map();
+for (const r of vt) {
+  const sg = usableSigner(r);
+  if (!sg) continue;
+  if (!signerIocs.has(sg)) signerIocs.set(sg, new Set());
+  signerIocs.get(sg).add(r.ioc);
+}
 const usableHash = (field, v) => {
   if (!v || DEGENERATE_HASH.has(v)) return null;
   if (field === "vhash" && (commonVhash.has(v) || spreadVhash.has(v))) return null;
@@ -455,6 +513,21 @@ function pairsFor(kind, groups) {
   const sizes = owned.get(kind);
   return [...pairCount.entries()].map(([k, v]) => {
     const [a, b] = k.split("\t");
+    // 証明書と署名者は**組ごとに**橋の条件を見る。同じ鍵が複数の IOC に付いていても、
+    // 両実体が同じ 1 つの IOC からしか届いていなければ、それは ioc 根拠の鏡写しのまま
+    for (const [viaName, iocsOf] of [["certificate", certIocs], ["signer", signerIocs]]) {
+      const set = v.byVia.get(viaName);
+      if (!set) continue;
+      const oa = sizes.get(a) || new Set();
+      const ob = sizes.get(b) || new Set();
+      for (const t of [...set]) {
+        const list = [...(iocsOf.get(t) || [])];
+        const ia = list.filter((i) => oa.has(i));
+        const ib = list.filter((i) => ob.has(i));
+        if (!ia.some((x) => ib.some((y) => x !== y))) set.delete(t);
+      }
+      if (!set.size) v.byVia.delete(viaName);
+    }
     const sa = sizes.get(a)?.size || 0;
     const sb = sizes.get(b)?.size || 0;
     // **ファイル名は 1 つだけの一致では数えない。** 置き名や自動命名を落としても
@@ -504,6 +577,7 @@ function groupsFor(kind) {
   const byJarm = new Map();
   const byVhash = new Map();
   const byImphash = new Map();
+  const bySigner = new Map();
   const m = owned.get(kind);
   for (const [name, keys] of m) {
     for (const key of keys) {
@@ -531,6 +605,7 @@ function groupsFor(kind) {
       for (const n of v?.names || []) if (!commonName.has(n)) put(byFilename, n);
       if (v?.jarm && !commonJarm.has(v.jarm)) put(byJarm, v.jarm);
       if (isPe(key)) put(byVhash, usableHash("vhash", v?.vhash));
+      put(bySigner, usableSigner(v));
       put(byImphash, usableHash("imphash", v?.imphash));
     }
   }
@@ -539,7 +614,7 @@ function groupsFor(kind) {
     ...(HAS_ASN ? [["asn", byAsn]] : []),
     ...(HAS_VT ? [
       ["certificate", byCert], ["resolution", byResolution],
-      ["vhash", byVhash], ["imphash", byImphash],
+      ["vhash", byVhash], ["imphash", byImphash], ["signer", bySigner],
       ["family", byFamily], ["filename", byFilename], ["jarm", byJarm],
     ] : []),
   ];
@@ -802,7 +877,7 @@ for (const r of iocs) byType[r.type] = (byType[r.type] || 0) + 1;
 const VIA_SHOWN = [
   "ioc", "subnet", "registrable",
   ...(HAS_ASN ? ["asn"] : []),
-  ...(HAS_VT ? ["certificate", "resolution", "vhash", "imphash", "family", "filename", "jarm"] : []),
+  ...(HAS_VT ? ["certificate", "resolution", "vhash", "imphash", "signer", "family", "filename", "jarm"] : []),
 ];
 
 /**
@@ -842,6 +917,8 @@ const stats = {
       noise: iocs.filter((r) => r.noise).length,
       // 通報の中身が空ばかりで、見本アドレスと判断したもの
       sample_reported: iocs.filter((r) => sampleIps.has(r.key)).length,
+      // 人気順位が高く検知が付かない、正規サービスの混入と判断したもの
+      popular: iocs.filter((r) => popularDomains.has(r.key)).length,
       malformed: iocs.filter((r) => r.malformed).length,
     },
     dated: iocs.filter((r) => r.observed_first).length,

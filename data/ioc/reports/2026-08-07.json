@@ -386,10 +386,81 @@
     ]
   },
   "overlaps": {
-    "grew": 28,
-    "new": 247,
+    "grew": 29,
+    "new": 240,
     "new_strong": 10,
     "top_grew": [
+      {
+        "a": "APT37",
+        "b": "Lazarus Group",
+        "evidence": {
+          "asn": [
+            "AS131279"
+          ],
+          "family": [
+            "BabyShark",
+            "esulat",
+            "fragtor",
+            "kimsuky",
+            "macros"
+          ],
+          "filename": [
+            "1.bin",
+            "3.exe",
+            "455721986.exe",
+            "6f76a8e16908ba2d576cf0e8cdb70114dcb70e0f7223be10aab3a728dc65c41c_unpacked",
+            "7f9bec87-ee4c-4bc1-aea8-d6af6db8c7a5.exe"
+          ],
+          "imphash": [
+            "51981fb204f971da12a4bb090daebaf0",
+            "57b6d88707d9cd1c87169076c24f962e"
+          ],
+          "ioc": [
+            "ioc.sha256|6f76a8e16908ba2d576cf0e8cdb70114dcb70e0f7223be10aab3a728dc65c41c"
+          ],
+          "jarm": [
+            "05d02d20d21d20d05c05d02d05d20da23a7a927f270a23608b3c7a72999cab",
+            "07d2ad16d00000000007d2ad07d21d0a5f1333c55ada247c8c999e2ec3a818",
+            "26d26d00026d26d22c26d26d26d26dd3b67dd3674d9af9dd91c1955a35d0e9",
+            "2ad2ad0002ad2ad0002ad2ad2ad2ad83c2e51da709c877942c98b10a5e814a",
+            "2ad2ad16d00000022c2ad2ad2ad2adbc07bc352a188303b518c8a273c71220"
+          ],
+          "registrable": [
+            "ac.kr",
+            "or.kr",
+            "xxx.xxx"
+          ],
+          "signer": [
+            "EGIS Co., Ltd.; thawte SHA256 Code Signing CA; thawte"
+          ],
+          "subnet": [
+            "175.45.178.0/24",
+            "211.239.157.0/24"
+          ],
+          "vhash": [
+            "034036651d1az29!z",
+            "035056656d15551az437z27z23za1z4bz",
+            "21603655151ff040fffff10e66ff",
+            "2170361515151z240020"
+          ]
+        },
+        "kind": "actor",
+        "shared": 45,
+        "strength": 41,
+        "via": [
+          "asn",
+          "family",
+          "filename",
+          "imphash",
+          "ioc",
+          "jarm",
+          "registrable",
+          "signer",
+          "subnet",
+          "vhash"
+        ],
+        "was": 34
+      },
       {
         "a": "case:61a602b23169ad451a22661e2e356e16ef2bd3c7ef7a23d5892ac4f79baff0b5",
         "b": "case:e0e1ae775ef8e530875235f035fb623b217d48fa810537144c872fcf41592648",
@@ -502,62 +573,6 @@
         "was": 10
       },
       {
-        "a": "Anonymous",
-        "b": "MuddyWater",
-        "evidence": {
-          "ioc": [
-            "ioc.domain|wscript.shell"
-          ],
-          "jarm": [
-            "29d29d15d29d29d00042d42d0000008fe5654c9239cdb4052d3ab65a579afa"
-          ],
-          "registrable": [
-            "wscript.shell"
-          ]
-        },
-        "kind": "actor",
-        "shared": 3,
-        "strength": 11,
-        "via": [
-          "ioc",
-          "jarm",
-          "registrable"
-        ],
-        "was": 10
-      },
-      {
-        "a": "APT37",
-        "b": "Gorgon Group",
-        "evidence": {
-          "family": [
-            "alien",
-            "bodegun",
-            "genbadur",
-            "kimsuky",
-            "valyria"
-          ],
-          "imphash": [
-            "00be6e6c4f9e287672c8301b72bdabf3"
-          ],
-          "jarm": [
-            "21d19d00021d21d21c21d19d21d21d3b0d229d76f2fd7cb8e23bb87da38a20"
-          ],
-          "registrable": [
-            "contaboserver.net"
-          ]
-        },
-        "kind": "actor",
-        "shared": 9,
-        "strength": 9,
-        "via": [
-          "family",
-          "imphash",
-          "jarm",
-          "registrable"
-        ],
-        "was": 8
-      },
-      {
         "a": "Agent Tesla",
         "b": "Windows Script Stager",
         "evidence": {
@@ -622,6 +637,26 @@
           "subnet"
         ],
         "was": 7
+      },
+      {
+        "a": "APT29",
+        "b": "Higaisa",
+        "evidence": {
+          "jarm": [
+            "29d3fd00029d29d00041d41d00041d6b5eefa2404a56c2ced79a0d16afe36c"
+          ],
+          "subnet": [
+            "185.14.29.0/24"
+          ]
+        },
+        "kind": "actor",
+        "shared": 2,
+        "strength": 6,
+        "via": [
+          "jarm",
+          "subnet"
+        ],
+        "was": 5
       },
       {
         "a": "Gamaredon",
@@ -822,7 +857,7 @@
         ]
       }
     ],
-    "total": 1510
+    "total": 1475
   },
   "schema": 1,
   "to_check": {

@@ -7,7 +7,7 @@
 /** 根拠の種類。ここに無いものが `via` に出てきたら、出す側の作り方が崩れている。 */
 export const VIA = [
   "ioc", "subnet", "registrable", "asn",
-  "certificate", "resolution", "vhash", "imphash", "family", "filename", "jarm",
+  "certificate", "resolution", "vhash", "imphash", "signer", "family", "filename", "jarm",
 ];
 
 /**
@@ -18,12 +18,15 @@ export const VIA = [
  * 出てきた根拠の点数を合算する。**共有数は掛けない。** 掛けると、弱い根拠を数で押した組が
  * 強い根拠 1 つの組を追い越してしまう。
  *
+ * **署名者はインフラの証明書と同種。** 窃取されたコード署名証明書の共有は
+ * 偶然では起きない。Microsoft などの正規署名は stats 側で除いたうえで使う。
+ *
  * **ファジーハッシュを検知名より上に置く。** `vhash` と `imphash` は算出の論理が
  * 明示的で提供元の判断が入らず、完全一致で使える。`imphash` が `vhash` より下なのは
  * パッカーで衝突するため。
  */
 export const VIA_WEIGHT = {
-  certificate: 9, ioc: 8, resolution: 7, vhash: 6,
+  certificate: 9, ioc: 8, resolution: 7, signer: 7, vhash: 6,
   subnet: 5, asn: 5, imphash: 4,
   family: 2, registrable: 2, filename: 1, jarm: 1,
 };

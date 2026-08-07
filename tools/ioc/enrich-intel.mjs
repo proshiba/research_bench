@@ -56,6 +56,13 @@ const NAME_CAP = Number(args["name-cap"] || 8);
  */
 const SAMPLE_MIN = Number(args["sample-min"] || 20);
 const SAMPLE_RATIO = Number(args["sample-ratio"] || 0.3);
+/**
+ * 正規サービスの印（§2.9）。人気順位がこれ以内で、かつ検知がこれ未満のドメインは
+ * 「攻撃者が使っただけの正規サービス」とみなして popular の印を付ける。
+ * 順位は VT の popularity_ranks（Alexa / Cisco Umbrella など）の最良値。
+ */
+const POPULAR_RANK = Number(args["popular-rank"] || 10000);
+const POPULAR_MAX_MAL = Number(args["popular-max-malicious"] || 2);
 
 const iocs = readJsonl(path.join(IN, "iocs.jsonl"));
 if (!iocs.length) {
@@ -277,6 +284,26 @@ for (const rec of vtRecords) {
     if (day(b.creation_date)) row.created = day(b.creation_date);
     if (b.registrar) row.registrar = String(b.registrar);
     if (b.jarm) row.jarm = String(b.jarm);
+
+    /**
+     * §2.9 正規サービスの混入を人気順位で見つける。
+     *
+     * 索引には「攻撃者が**使った**だけの正規サービス」が IOC として混ざる。
+     * 実測で mail.ru（Alexa 48 位）や seznam.cz（499 位）が入っていて、
+     * その正規証明書が APT28 ↔ APT29 の「証明書共有」として最上位に立っていた。
+     * drive.google.com・t.me・un.org まで実体に紐付いていた。
+     *
+     * 検知数の条件を併せるのは、人気があっても**実際に悪用中**のものを残すため
+     * （daum.net は 216 位だが検知 3 なので印を付けない）。
+     */
+    const ranks = Object.values(b.popularity_ranks || {})
+      .map((x) => x?.rank).filter(Number.isFinite);
+    if (ranks.length) {
+      const best = Math.min(...ranks);
+      if (best <= POPULAR_RANK && (int(b.last_analysis_stats?.malicious) ?? 0) < POPULAR_MAX_MAL) {
+        row.popular = best;
+      }
+    }
 
     /* §2.2 domain → IP。今の IOC ↔ IOC の辺は 315 本しかない */
     const dns = [];
