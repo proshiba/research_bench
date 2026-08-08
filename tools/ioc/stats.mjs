@@ -8,6 +8,8 @@
 //                            [--jarm-cap 0.01] [--filename-cap 8] [--filename-min 2]
 //                            [--family-cap 8] [--vhash-cap 8] [--imphash-cap 8]
 //                            [--resolution-cap 3] [--resolution-asn-cap 2]
+//                            [--hash-size-spread 10] [--regday-min 3] [--regday-cap 25]
+//                            [--target-min-malicious 3]
 //                            [--evidence-cap 5]
 //                            [--hosting-ratio 0.7] [--hosting-min 3]
 //
@@ -43,6 +45,7 @@
 // 出力
 //   stats.json      **カバレッジ**・件数・種別内訳・重なりの要約・時間軸・判定の分布
 //   overlaps.jsonl  実体の組ごとの重なり（根拠・強さ・**根拠になった値**つき）
+//   targets.jsonl   正規サービスを騙った／悪用したドメイン。**根拠からは外すが標的は残す**
 //   identical-sets.jsonl  IOC 集合が完全に一致した組。**共有率 100% は構造上そう
 //                   なるだけで根拠にならない**ので overlaps からは外す。捨てはしない
 //   graph.json      実体と重なりのグラフ（そのまま描ける形）
@@ -145,7 +148,54 @@ const iocById = new Map(iocs.map((r) => [r.key, r]));
  * net.mjs の帯の一覧は手で足すしかないので、そこから漏れたものをここで拾う。
  */
 const sampleIps = new Set(abuse.filter((r) => r.sample).map((r) => r.ioc));
-const dropped = (r) => r.bogon || r.noise || sampleIps.has(r.key);
+/**
+ * 正規サービスと判定されたドメイン（enrich-intel.mjs が popular の印を付ける）。
+ * 攻撃者が**使った**だけのサービスは、支配しているインフラではない。
+ * 実測で seznam.cz / mail.ru の正規証明書が APT28 ↔ APT29 の「証明書共有」として
+ * 最上位に立っていた。ioc・certificate・jarm・registrable と多重に効くので、
+ * 大元のここで bogon / noise と同じ扱いにする。
+ */
+const popularDomains = new Set(vt.filter((r) => r.popular).map((r) => r.ioc));
+
+/**
+ * **正規サービスの印は「捨てるもの」であると同時に「何を狙ったか」の手掛かり**（§3.6）。
+ *
+ * 根拠からは外すが、名前を騙られている以上、そこには標的が現れている。実測で
+ * `danas.bid` と本物の `danas.rs`、`politika.bid` と `politika.rs` のように、
+ * **なりすまし先が IOC として併記されている**ことがある。
+ *
+ * 2 つに分ける。意味がまるで違う。
+ *   なりすまし … 別の登録可能ドメインで名前を騙る（`google-com.online`）
+ *   悪用       … 本物のサービスの下にぶら下がる（`…….supabase.co`）
+ *
+ * 突き合わせは**ラベル単位の完全一致**にする。部分一致だと `drive` が
+ * `driver-hub.net` に当たり、実測で 168 件中の相当数が的外れになった。
+ */
+const TARGET_MIN_MAL = Number(args["target-min-malicious"] || 3);
+const targetsOf = () => {
+  const pops = vt.filter((r) => r.popular)
+    .map((r) => ({ reg: iocById.get(r.ioc)?.registrable, rank: r.popular }))
+    .filter((p) => p.reg);
+  const impersonation = [], abuse_ = [];
+  for (const r of vt) {
+    if (!r.ioc.startsWith("ioc.domain|") || r.popular) continue;
+    if ((r.malicious ?? 0) < TARGET_MIN_MAL) continue;
+    const d = r.ioc.slice("ioc.domain|".length);
+    const reg = iocById.get(r.ioc)?.registrable;
+    const labels = new Set(d.split(/[.\-_]/).filter(Boolean));
+    for (const p of pops) {
+      const row = { ioc: r.ioc, target: p.reg, rank: p.rank, malicious: r.malicious };
+      // 本物の下にぶら下がっているかは名前の長さと関係ない。**先に見る**
+      if (reg === p.reg) { abuse_.push(row); break; }
+      // 名前を騙る側だけ、短すぎる語を除く（`rf` `esy` が偶然当たるため）
+      const stem = p.reg.split(".")[0];
+      if (stem.length >= 4 && labels.has(stem)) { impersonation.push(row); break; }
+    }
+  }
+  const byKeys2 = (a, b) => a.target.localeCompare(b.target) || a.ioc.localeCompare(b.ioc);
+  return { impersonation: impersonation.sort(byKeys2), abuse: abuse_.sort(byKeys2) };
+};
+const dropped = (r) => r.bogon || r.noise || sampleIps.has(r.key) || popularDomains.has(r.key);
 const usable = (key) => {
   const r = iocById.get(key);
   if (!r) return false;
@@ -255,13 +305,60 @@ for (const set of resolvesTo.values()) {
 
 /** 共用ホスティングの証明書は根拠にしない（SAN が多すぎるもの・基盤に出されたもの）。 */
 const weakCert = new Set(derivedCerts.filter((c) => c.weak).map((c) => c.thumbprint));
+/**
+ * **IOC を 1 つしか持たない証明書は「橋」ではない。**
+ *
+ * 両実体が同じ IOC を指しているという事実は `ioc`（8 点）で既に数えている。
+ * その IOC の証明書を `certificate`（9 点）でもう一度数えると、同じ事実が
+ * 17 点になる。実測で、根拠に引かれた証明書のべ 159 枚のうち **133 枚が
+ * IOC 1 つの鏡写し**で、91 組中 67 組の証明書根拠がこれだけで立っていた。
+ * 証明書が根拠になるのは、**別々の IOC を同じ鍵が結んでいる**ときだけ。
+ */
+const certIocs = new Map(derivedCerts.map((c) => [c.thumbprint, c.iocs || []]));
+const bridgeCert = new Set(derivedCerts.filter((c) => !c.weak && (c.iocs || []).length >= 2).map((c) => c.thumbprint));
 const certOf = new Map();
 for (const r of vt) {
   if (!r.cert?.thumbprint) continue;
   if (weakCert.has(r.cert.thumbprint)) continue;
   // 自分の名前が SAN に無く、ワイルドカードで拾っただけの組み合わせは根拠にしない
   if (r.cert.wildcard) continue;
+  if (!bridgeCert.has(r.cert.thumbprint)) continue;
   certOf.set(r.ioc, r.cert.thumbprint);
+}
+
+/**
+ * 同じ日にまとめて取られたドメイン（§3.1c）。**一斉登録は運用の跡**。
+ *
+ * 実測で APT29 の `eu-central-1-aws.mzv-sk.cloud`（スロバキア外務省）など 107 件が
+ * 2024-08-15〜26 の 2 週間に集中し、命名も揃っていた。登録業者は 7 社に分けてある
+ * ので業者では追えないが、**日付は分けられていない**。
+ *
+ * **数えるのは登録可能ドメインの種類。** そのまま数えると上位が動的 DNS で埋まる。
+ * `actor-tv.ddns.net` のような子ドメインには**親（ddns.net）の登録日が返る**ので、
+ * 実測で 2001-06-28 に 264 件、2000-02-17 に 108 件が並んだ。これは 1 種にまとまる。
+ *
+ * 大きすぎる日も外す。1 日に何十種類も取るのは、キャンペーンではなく
+ * 登録業者側の一括処理か、日付そのものが当てにならない（実測の最大は 37 種）。
+ */
+const REGDAY_MIN = Number(args["regday-min"] || 3);
+const REGDAY_CAP = Number(args["regday-cap"] || 25);
+const regDayOf = new Map();   // IOC 鍵 → 登録日
+{
+  const perDay = new Map();   // 日 → その日に登録された登録可能ドメインの集合
+  for (const r of vt) {
+    if (!r.created || !r.ioc.startsWith("ioc.domain|")) continue;
+    const reg = iocById.get(r.ioc)?.registrable;
+    if (!reg) continue;
+    if (!perDay.has(r.created)) perDay.set(r.created, new Set());
+    perDay.get(r.created).add(reg);
+  }
+  const usableDay = new Set([...perDay]
+    .filter(([, s]) => s.size >= REGDAY_MIN && s.size <= REGDAY_CAP).map(([d]) => d));
+  for (const r of vt) {
+    if (r.created && usableDay.has(r.created) && r.ioc.startsWith("ioc.domain|")) {
+      regDayOf.set(r.ioc, r.created);
+    }
+  }
 }
 
 /**
@@ -291,10 +388,29 @@ const DEGENERATE_HASH = new Set([
   "d41d8cd98f00b204e9800998ecf8427e",   // 空（インポートが無い PE の imphash）
   "0000000000000000000000000000000000000000000000000000000000000000",
 ]);
+/**
+ * **vhash は PE のときだけ使う。**
+ *
+ * 実測で、PE 以外の vhash は**中身ではなく入れ物の形式**しか見ていなかった。
+ *   `fe43cc09…`  18 検体 / 4 アクター  Hangul 文書 + Outlook + MS Word（12KB〜800KB）
+ *   `7596fdd0…`   5 検体 / 3 アクター  JavaScript + シェルスクリプト（**105B〜1.5MB**）
+ *   `9f0d05f0…`   4 検体 / 3 アクター  PDF
+ *   `2a85fbef…`   9 検体 / 4 アクター  ELF（1.4MB〜6.2MB）
+ * 105 バイトのシェルスクリプトと 1.5MB の JavaScript が同じ値になる時点で、
+ * これは「同じ物」の証拠にならない。APT29 ↔ APT41 のような組が立っていた。
+ *
+ * PE では 1,679 群が安定していて、同じ問題は出ていない。種別で切るほうが、
+ * 上限を下げて PE ごと巻き添えにするより損が小さい（上限 2 だと 77 組 → 16 組、
+ * 種別で切ると 77 組 → 58 組で、誤検知はどちらも 0 になる）。
+ * `imphash` は PE のインポート表なので、そもそも PE にしか付かない。
+ */
+const PE_TYPE = /^Win(32|64) (EXE|DLL)/;
+const isPe = (ioc) => PE_TYPE.test(vtByIoc.get(ioc)?.type_description || "");
 const hashOwners = (field) => {
   const m = new Map();
   for (const l of links) {
     if (!KINDS.includes(l.kind)) continue;
+    if (field === "vhash" && !isPe(l.ioc)) continue;
     const v = vtByIoc.get(l.ioc)?.[field];
     if (!v || DEGENERATE_HASH.has(v)) continue;
     if (!m.has(v)) m.set(v, new Set());
@@ -302,12 +418,82 @@ const hashOwners = (field) => {
   }
   return m;
 };
+
+/**
+ * **同じ値なのに大きさが桁で違う群は、同じ物を指していない。**
+ *
+ * 実測で `f34d5f2d…` が 420 検体・47 実体に付き、5KB から 38MB まで並んでいた。
+ * `.NET` の起動部だけを取り込む実行ファイルはインポート表が同じになるので、
+ * 中身と関係なく imphash が一致する。実体数の上限（8）は 47 や 24 を落とすが、
+ * `d42595b695…`（91 検体・6 実体・**1.5MB 〜 630MB**）のように上限を通るものが残る。
+ *
+ * 同じ物の別ビルドなら、デバッグ情報や埋め込みの差でせいぜい数倍。
+ * 実測でも 10 倍を境に分かれた（imphash 13 群 / vhash 7 群が超え、
+ * 上位は生成器の署名そのもの）。大きさの分からない検体は判断材料にしない。
+ */
+const SIZE_SPREAD_CAP = Number(args["hash-size-spread"] || 10);
+const spreadOut = (field) => {
+  const sizes = new Map();
+  for (const r of vt) {
+    const v = r[field];
+    if (!v || !Number.isFinite(r.size) || r.size <= 0) continue;
+    if (field === "vhash" && !isPe(r.ioc)) continue;
+    if (!sizes.has(v)) sizes.set(v, []);
+    sizes.get(v).push(r.size);
+  }
+  const out = new Set();
+  for (const [v, list] of sizes) {
+    if (list.length < 2) continue;
+    if (Math.max(...list) / Math.min(...list) > SIZE_SPREAD_CAP) out.add(v);
+  }
+  return out;
+};
+const spreadVhash = spreadOut("vhash");
+const spreadImphash = spreadOut("imphash");
 const commonVhash = new Set([...hashOwners("vhash")].filter(([, e]) => e.size > VHASH_CAP).map(([v]) => v));
 const commonImphash = new Set([...hashOwners("imphash")].filter(([, e]) => e.size > IMPHASH_CAP).map(([v]) => v));
+
+/**
+ * 署名者。**窃取されたコード署名証明書の共有は、インフラの証明書共有と同種の証拠。**
+ * 実測で EGIS Co., Ltd.（52 検体・3 実体。窃取署名として既知）や
+ * Gray Matter Software S.R.L.（4 実体）が跨っていた。
+ *
+ * Microsoft 署名は除く。正規の Windows ファイルが IOC に混ざった印であって
+ * （実測で 6 実体に跨っていた）、共有の根拠ではない。ありふれた署名者も外す。
+ */
+const LEGIT_SIGNER = /microsoft|windows/i;
+const SIGNER_CAP = Number(args["signer-cap"] || args["ubiquity-cap"] || 8);
+/**
+ * 署名者を根拠に数えるのに要る、その検体自身の検知数。
+ *
+ * サイドローディングの宿主（NVIDIA や LENOVO が署名した**正規バイナリ**）も
+ * IOC として索引に載る。検知が付かない検体の署名者を数えると、
+ * 「同じ正規ツールを悪用した」という手口の一致が「署名証明書の共有」に化ける。
+ * 実測で NVIDIA 署名の検体は検知 [0, 53] と割れた。0 は正規の宿主、
+ * 53 は署名を**騙っている**マルウェア。検知で切ると前者だけが落ちる。
+ */
+const SIGNER_MIN_MAL = Number(args["signer-min-malicious"] || 5);
+const commonSigner = new Set([...hashOwners("signer")].filter(([, e]) => e.size > SIGNER_CAP).map(([v]) => v));
+const usableSigner = (v) => {
+  const s = v?.signer;
+  if (typeof s !== "string" || !s) return null;
+  if ((v.malicious ?? 0) < SIGNER_MIN_MAL) return null;
+  if (LEGIT_SIGNER.test(s)) return null;
+  if (commonSigner.has(s)) return null;
+  return s;
+};
+/** 署名者 → その署名を持つ検体。証明書と同じ橋の条件（下）を組ごとに見るために持つ。 */
+const signerIocs = new Map();
+for (const r of vt) {
+  const sg = usableSigner(r);
+  if (!sg) continue;
+  if (!signerIocs.has(sg)) signerIocs.set(sg, new Set());
+  signerIocs.get(sg).add(r.ioc);
+}
 const usableHash = (field, v) => {
   if (!v || DEGENERATE_HASH.has(v)) return null;
-  if (field === "vhash" && commonVhash.has(v)) return null;
-  if (field === "imphash" && commonImphash.has(v)) return null;
+  if (field === "vhash" && (commonVhash.has(v) || spreadVhash.has(v))) return null;
+  if (field === "imphash" && (commonImphash.has(v) || spreadImphash.has(v))) return null;
   return v;
 };
 
@@ -403,6 +589,21 @@ function pairsFor(kind, groups) {
   const sizes = owned.get(kind);
   return [...pairCount.entries()].map(([k, v]) => {
     const [a, b] = k.split("\t");
+    // 証明書と署名者は**組ごとに**橋の条件を見る。同じ鍵が複数の IOC に付いていても、
+    // 両実体が同じ 1 つの IOC からしか届いていなければ、それは ioc 根拠の鏡写しのまま
+    for (const [viaName, iocsOf] of [["certificate", certIocs], ["signer", signerIocs]]) {
+      const set = v.byVia.get(viaName);
+      if (!set) continue;
+      const oa = sizes.get(a) || new Set();
+      const ob = sizes.get(b) || new Set();
+      for (const t of [...set]) {
+        const list = [...(iocsOf.get(t) || [])];
+        const ia = list.filter((i) => oa.has(i));
+        const ib = list.filter((i) => ob.has(i));
+        if (!ia.some((x) => ib.some((y) => x !== y))) set.delete(t);
+      }
+      if (!set.size) v.byVia.delete(viaName);
+    }
     const sa = sizes.get(a)?.size || 0;
     const sb = sizes.get(b)?.size || 0;
     // **ファイル名は 1 つだけの一致では数えない。** 置き名や自動命名を落としても
@@ -452,6 +653,8 @@ function groupsFor(kind) {
   const byJarm = new Map();
   const byVhash = new Map();
   const byImphash = new Map();
+  const bySigner = new Map();
+  const byRegDay = new Map();
   const m = owned.get(kind);
   for (const [name, keys] of m) {
     for (const key of keys) {
@@ -478,7 +681,10 @@ function groupsFor(kind) {
       const v = vtByIoc.get(key);
       for (const n of v?.names || []) if (!commonName.has(n)) put(byFilename, n);
       if (v?.jarm && !commonJarm.has(v.jarm)) put(byJarm, v.jarm);
-      put(byVhash, usableHash("vhash", v?.vhash));
+      if (isPe(key)) put(byVhash, usableHash("vhash", v?.vhash));
+      put(bySigner, usableSigner(v));
+      // 一斉登録。**同じ登録可能ドメイン同士では数えない**（registrable の写しになる）
+      put(byRegDay, regDayOf.get(key));
       put(byImphash, usableHash("imphash", v?.imphash));
     }
   }
@@ -487,7 +693,8 @@ function groupsFor(kind) {
     ...(HAS_ASN ? [["asn", byAsn]] : []),
     ...(HAS_VT ? [
       ["certificate", byCert], ["resolution", byResolution],
-      ["vhash", byVhash], ["imphash", byImphash],
+      ["vhash", byVhash], ["imphash", byImphash], ["signer", bySigner],
+      ["registered", byRegDay],
       ["family", byFamily], ["filename", byFilename], ["jarm", byJarm],
     ] : []),
   ];
@@ -724,6 +931,13 @@ writeJsonl(path.join(OUT, "overlaps.jsonl"), overlaps);
 writeJsonl(path.join(OUT, "identical-sets.jsonl"), identicalSets.map((o) => ({ kind: o.kind, a: o.a, b: o.b, iocs: o.iocs })));
 // 要約には上位しか載らないので、同居は全件を別に残す
 writeJsonl(path.join(OUT, "subnets.jsonl"), subnets);
+if (HAS_VT) {
+  const t = targetsOf();
+  writeJsonl(path.join(OUT, "targets.jsonl"), [
+    ...t.impersonation.map((r) => ({ ...r, kind: "impersonation" })),
+    ...t.abuse.map((r) => ({ ...r, kind: "abuse" })),
+  ].sort((a, b) => a.kind.localeCompare(b.kind) || a.target.localeCompare(b.target) || a.ioc.localeCompare(b.ioc)));
+}
 if (HAS_ASN) writeJsonl(path.join(OUT, "asn-cotenancy.jsonl"), asnCoTenancy);
 
 /* ---------------- 要約 ---------------- */
@@ -750,7 +964,7 @@ for (const r of iocs) byType[r.type] = (byType[r.type] || 0) + 1;
 const VIA_SHOWN = [
   "ioc", "subnet", "registrable",
   ...(HAS_ASN ? ["asn"] : []),
-  ...(HAS_VT ? ["certificate", "resolution", "vhash", "imphash", "family", "filename", "jarm"] : []),
+  ...(HAS_VT ? ["certificate", "resolution", "vhash", "imphash", "signer", "registered", "family", "filename", "jarm"] : []),
 ];
 
 /**
@@ -790,6 +1004,8 @@ const stats = {
       noise: iocs.filter((r) => r.noise).length,
       // 通報の中身が空ばかりで、見本アドレスと判断したもの
       sample_reported: iocs.filter((r) => sampleIps.has(r.key)).length,
+      // 人気順位が高く検知が付かない、正規サービスの混入と判断したもの
+      popular: iocs.filter((r) => popularDomains.has(r.key)).length,
       malformed: iocs.filter((r) => r.malformed).length,
     },
     dated: iocs.filter((r) => r.observed_first).length,
@@ -807,6 +1023,25 @@ const stats = {
     }, {}),
     top: top(k),
   }])),
+  /** 何を狙ったか（§3.6）。根拠からは外した正規サービスを、標的として数え直す */
+  targets: (() => {
+    if (!HAS_VT) return { impersonation: 0, abuse: 0, by_target: [] };
+    const t = targetsOf();
+    const per = new Map();
+    for (const kind of ["impersonation", "abuse"]) {
+      for (const r of t[kind]) {
+        if (!per.has(r.target)) per.set(r.target, { target: r.target, rank: r.rank, impersonation: 0, abuse: 0 });
+        per.get(r.target)[kind]++;
+      }
+    }
+    return {
+      impersonation: t.impersonation.length,
+      abuse: t.abuse.length,
+      by_target: [...per.values()]
+        .sort((a, b) => (b.impersonation + b.abuse) - (a.impersonation + a.abuse) || a.target.localeCompare(b.target))
+        .slice(0, 20),
+    };
+  })(),
   subnets: {
     total: subnets.length,
     multi_actor: subnets.filter((s) => s.actors.length > 1).length,

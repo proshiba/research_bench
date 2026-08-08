@@ -99,7 +99,7 @@ const VT_FIELDS = {
     "signer", "names", "created", "registrar", "jarm", "dns", "cert",
     // ssdeep / tlsh はここに出さない（enrich-intel.mjs の理由を参照）。
     // 許す欄から外しておくと、うっかり戻したときに検査で落ちる
-    "vhash", "imphash", "rich_header",
+    "vhash", "imphash", "rich_header", "popular",
     "asn", "as_owner", "country", "network", "asn_differs", "final_url", "title",
   ],
 };
@@ -996,6 +996,15 @@ if (vtRows) {
       }
       continue;
     }
+    // 正規サービスの印。**検知が付いているのに印が残っていたら判定と食い違っている。**
+    // 順位そのものを残すのは、境目（--popular-rank）を後から動かして見直せるように
+    if (r.popular !== undefined) {
+      if (!Number.isInteger(r.popular) || r.popular < 1) {
+        err("vt.popular", `popular が 1 以上の整数ではありません: ${r.popular}`, at("vt.jsonl", i));
+      } else if (Number.isInteger(r.malicious) && r.malicious >= 2) {
+        err("vt.popular", `検知 ${r.malicious} なのに正規サービスの印が付いています`, at("vt.jsonl", i));
+      }
+    }
     for (const f of ["malicious", "suspicious", "harmless", "undetected", "timeout"]) {
       if (r[f] === undefined) continue;
       if (!Number.isInteger(r[f]) || r[f] < 0) {
@@ -1023,6 +1032,33 @@ if (vtRows) {
     }
     if (r.jarm !== undefined && !/^[0-9a-f]{62}$/.test(String(r.jarm))) {
       warn("vt.jarm", `JARM の形ではありません: ${r.jarm}`, at("vt.jsonl", i));
+    }
+  }
+}
+
+/**
+ * 標的の一覧（§3.6）。**根拠から外したものを、標的として数え直したもの**。
+ * 指す先が実在し、正規サービス側に印が付いていることを見る。
+ */
+const targetRows = loadJsonl("targets.jsonl", { required: false });
+if (targetRows) {
+  const popular = new Set((vtRows || []).filter((r) => r.popular).map((r) => r.ioc));
+  const popularReg = new Set([...popular].map((k) => iocByKey.get(k)?.registrable).filter(Boolean));
+  checkOrder("targets.jsonl", targetRows, byKeys("kind", "target", "ioc"), (r) => `${r.kind}\t${r.target}\t${r.ioc}`);
+  for (let i = 0; i < targetRows.length; i++) {
+    const r = targetRows[i];
+    checkFields("targets.jsonl", r, i, { required: ["ioc", "target", "rank", "kind", "malicious"], optional: [] });
+    if (!anyIoc(r.ioc)) err("target.ioc", `存在しない IOC を指しています: ${r.ioc}`, at("targets.jsonl", i));
+    if (r.kind !== "impersonation" && r.kind !== "abuse") {
+      err("target.kind", `kind が impersonation / abuse ではありません: ${r.kind}`, at("targets.jsonl", i));
+    }
+    // **騙られた先には正規サービスの印が付いているはず。** 付いていなければ、
+    // 「根拠から外したものを標的として数え直す」という筋が通っていない
+    if (popularReg.size && !popularReg.has(r.target)) {
+      err("target.popular", `騙られた先に正規サービスの印がありません: ${r.target}`, at("targets.jsonl", i));
+    }
+    if (popular.has(r.ioc)) {
+      err("target.self", `正規サービス自身が標的として並んでいます: ${r.ioc}`, at("targets.jsonl", i));
     }
   }
 }

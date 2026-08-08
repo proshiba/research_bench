@@ -28,6 +28,12 @@ const KEEP = process.argv.includes("--keep");
 const IOCS = [
   { key: "ioc.domain|evil.example.com", type: "ioc.domain", value: "evil.example.com",
     registrable: "example.com", sources: ["src-a"], raw: "evil[.]example[.]com" },
+  // 正規サービスの混入（人気順位つき）。統計側で popular として除かれる
+  { key: "ioc.domain|legit.example.com", type: "ioc.domain", value: "legit.example.com",
+    registrable: "example.com", sources: ["src-a"] },
+  // その名前を騙るドメイン。根拠からは外れるが標的として数え直される
+  { key: "ioc.domain|legit-login.example.net", type: "ioc.domain", value: "legit-login.example.net",
+    registrable: "example.net", sources: ["src-a"] },
   { key: "ioc.domain|c2.example.com", type: "ioc.domain", value: "c2.example.com",
     registrable: "example.com", sources: ["src-a", "src-b"],
     observed_first: "2026-01-05", observed_last: "2026-02-10" },
@@ -175,6 +181,11 @@ function buildEnrichFixture(dir, iocs, links) {
     { ioc: "ioc.domain|evil.example.com", known: true,
       malicious: 3, suspicious: 0, harmless: 62, undetected: 21,
       cert: { thumbprint: CERT, issuer: "検査用 CA", san_count: 2 } },
+    // 正規サービスの混入。検知 0 で人気順位が付くので popular の印が乗る
+    { ioc: "ioc.domain|legit.example.com", known: true,
+      malicious: 0, suspicious: 0, harmless: 70, undetected: 15, popular: 500 },
+    { ioc: "ioc.domain|legit-login.example.net", known: true,
+      malicious: 8, suspicious: 0, harmless: 55, undetected: 22 },
     { ioc: "ioc.ipv4|45.32.10.7", known: true,
       malicious: 2, suspicious: 0, harmless: 63, undetected: 21,
       asn: 64500, as_owner: "検査用ホスティング", country: "US", network: "45.32.8.0/21" },
@@ -515,6 +526,18 @@ const CASES = [
   }],
   ["abuse.type", "IP でない IOC に通報状況が付く", (d) => {
     editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace("ioc.ipv4|45.32.10.7", "ioc.domain|c2.example.com"));
+  }],
+  ["target.popular", "騙られた先に正規サービスの印が無い", (d) => {
+    editLine(d, "targets.jsonl", "legit-login", (l) => l.replace(/"target":"[^"]*"/, '"target":"ghost.example.org"'));
+  }],
+  ["target.kind", "標的の種別が不正", (d) => {
+    editLine(d, "targets.jsonl", "legit-login", (l) => l.replace(/"kind":"[^"]*"/, '"kind":"typo"'));
+  }],
+  ["vt.popular", "正規サービスの順位が 1 以上の整数でない", (d) => {
+    editLine(d, "vt.jsonl", "legit.example.com", (l) => l.replace('"popular":500', '"popular":0'));
+  }],
+  ["vt.popular", "検知が付いているのに正規サービスの印が残る", (d) => {
+    editLine(d, "vt.jsonl", "legit.example.com", (l) => l.replace('"malicious":0', '"malicious":9'));
   }],
   ["abuse.hollow", "中身無しの数が分母を超える", (d) => {
     editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace('"hollow":2', '"hollow":13'));
