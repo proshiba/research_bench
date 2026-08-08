@@ -8,7 +8,8 @@
 //                            [--jarm-cap 0.01] [--filename-cap 8] [--filename-min 2]
 //                            [--family-cap 8] [--vhash-cap 8] [--imphash-cap 8]
 //                            [--resolution-cap 3] [--resolution-asn-cap 2]
-//                            [--hash-size-spread 10]
+//                            [--hash-size-spread 10] [--regday-min 3] [--regday-cap 25]
+//                            [--target-min-malicious 3]
 //                            [--evidence-cap 5]
 //                            [--hosting-ratio 0.7] [--hosting-min 3]
 //
@@ -44,6 +45,7 @@
 // 出力
 //   stats.json      **カバレッジ**・件数・種別内訳・重なりの要約・時間軸・判定の分布
 //   overlaps.jsonl  実体の組ごとの重なり（根拠・強さ・**根拠になった値**つき）
+//   targets.jsonl   正規サービスを騙った／悪用したドメイン。**根拠からは外すが標的は残す**
 //   identical-sets.jsonl  IOC 集合が完全に一致した組。**共有率 100% は構造上そう
 //                   なるだけで根拠にならない**ので overlaps からは外す。捨てはしない
 //   graph.json      実体と重なりのグラフ（そのまま描ける形）
@@ -154,6 +156,45 @@ const sampleIps = new Set(abuse.filter((r) => r.sample).map((r) => r.ioc));
  * 大元のここで bogon / noise と同じ扱いにする。
  */
 const popularDomains = new Set(vt.filter((r) => r.popular).map((r) => r.ioc));
+
+/**
+ * **正規サービスの印は「捨てるもの」であると同時に「何を狙ったか」の手掛かり**（§3.6）。
+ *
+ * 根拠からは外すが、名前を騙られている以上、そこには標的が現れている。実測で
+ * `danas.bid` と本物の `danas.rs`、`politika.bid` と `politika.rs` のように、
+ * **なりすまし先が IOC として併記されている**ことがある。
+ *
+ * 2 つに分ける。意味がまるで違う。
+ *   なりすまし … 別の登録可能ドメインで名前を騙る（`google-com.online`）
+ *   悪用       … 本物のサービスの下にぶら下がる（`…….supabase.co`）
+ *
+ * 突き合わせは**ラベル単位の完全一致**にする。部分一致だと `drive` が
+ * `driver-hub.net` に当たり、実測で 168 件中の相当数が的外れになった。
+ */
+const TARGET_MIN_MAL = Number(args["target-min-malicious"] || 3);
+const targetsOf = () => {
+  const pops = vt.filter((r) => r.popular)
+    .map((r) => ({ reg: iocById.get(r.ioc)?.registrable, rank: r.popular }))
+    .filter((p) => p.reg);
+  const impersonation = [], abuse_ = [];
+  for (const r of vt) {
+    if (!r.ioc.startsWith("ioc.domain|") || r.popular) continue;
+    if ((r.malicious ?? 0) < TARGET_MIN_MAL) continue;
+    const d = r.ioc.slice("ioc.domain|".length);
+    const reg = iocById.get(r.ioc)?.registrable;
+    const labels = new Set(d.split(/[.\-_]/).filter(Boolean));
+    for (const p of pops) {
+      const row = { ioc: r.ioc, target: p.reg, rank: p.rank, malicious: r.malicious };
+      // 本物の下にぶら下がっているかは名前の長さと関係ない。**先に見る**
+      if (reg === p.reg) { abuse_.push(row); break; }
+      // 名前を騙る側だけ、短すぎる語を除く（`rf` `esy` が偶然当たるため）
+      const stem = p.reg.split(".")[0];
+      if (stem.length >= 4 && labels.has(stem)) { impersonation.push(row); break; }
+    }
+  }
+  const byKeys2 = (a, b) => a.target.localeCompare(b.target) || a.ioc.localeCompare(b.ioc);
+  return { impersonation: impersonation.sort(byKeys2), abuse: abuse_.sort(byKeys2) };
+};
 const dropped = (r) => r.bogon || r.noise || sampleIps.has(r.key) || popularDomains.has(r.key);
 const usable = (key) => {
   const r = iocById.get(key);
@@ -283,6 +324,41 @@ for (const r of vt) {
   if (r.cert.wildcard) continue;
   if (!bridgeCert.has(r.cert.thumbprint)) continue;
   certOf.set(r.ioc, r.cert.thumbprint);
+}
+
+/**
+ * 同じ日にまとめて取られたドメイン（§3.1c）。**一斉登録は運用の跡**。
+ *
+ * 実測で APT29 の `eu-central-1-aws.mzv-sk.cloud`（スロバキア外務省）など 107 件が
+ * 2024-08-15〜26 の 2 週間に集中し、命名も揃っていた。登録業者は 7 社に分けてある
+ * ので業者では追えないが、**日付は分けられていない**。
+ *
+ * **数えるのは登録可能ドメインの種類。** そのまま数えると上位が動的 DNS で埋まる。
+ * `actor-tv.ddns.net` のような子ドメインには**親（ddns.net）の登録日が返る**ので、
+ * 実測で 2001-06-28 に 264 件、2000-02-17 に 108 件が並んだ。これは 1 種にまとまる。
+ *
+ * 大きすぎる日も外す。1 日に何十種類も取るのは、キャンペーンではなく
+ * 登録業者側の一括処理か、日付そのものが当てにならない（実測の最大は 37 種）。
+ */
+const REGDAY_MIN = Number(args["regday-min"] || 3);
+const REGDAY_CAP = Number(args["regday-cap"] || 25);
+const regDayOf = new Map();   // IOC 鍵 → 登録日
+{
+  const perDay = new Map();   // 日 → その日に登録された登録可能ドメインの集合
+  for (const r of vt) {
+    if (!r.created || !r.ioc.startsWith("ioc.domain|")) continue;
+    const reg = iocById.get(r.ioc)?.registrable;
+    if (!reg) continue;
+    if (!perDay.has(r.created)) perDay.set(r.created, new Set());
+    perDay.get(r.created).add(reg);
+  }
+  const usableDay = new Set([...perDay]
+    .filter(([, s]) => s.size >= REGDAY_MIN && s.size <= REGDAY_CAP).map(([d]) => d));
+  for (const r of vt) {
+    if (r.created && usableDay.has(r.created) && r.ioc.startsWith("ioc.domain|")) {
+      regDayOf.set(r.ioc, r.created);
+    }
+  }
 }
 
 /**
@@ -578,6 +654,7 @@ function groupsFor(kind) {
   const byVhash = new Map();
   const byImphash = new Map();
   const bySigner = new Map();
+  const byRegDay = new Map();
   const m = owned.get(kind);
   for (const [name, keys] of m) {
     for (const key of keys) {
@@ -606,6 +683,8 @@ function groupsFor(kind) {
       if (v?.jarm && !commonJarm.has(v.jarm)) put(byJarm, v.jarm);
       if (isPe(key)) put(byVhash, usableHash("vhash", v?.vhash));
       put(bySigner, usableSigner(v));
+      // 一斉登録。**同じ登録可能ドメイン同士では数えない**（registrable の写しになる）
+      put(byRegDay, regDayOf.get(key));
       put(byImphash, usableHash("imphash", v?.imphash));
     }
   }
@@ -615,6 +694,7 @@ function groupsFor(kind) {
     ...(HAS_VT ? [
       ["certificate", byCert], ["resolution", byResolution],
       ["vhash", byVhash], ["imphash", byImphash], ["signer", bySigner],
+      ["registered", byRegDay],
       ["family", byFamily], ["filename", byFilename], ["jarm", byJarm],
     ] : []),
   ];
@@ -851,6 +931,13 @@ writeJsonl(path.join(OUT, "overlaps.jsonl"), overlaps);
 writeJsonl(path.join(OUT, "identical-sets.jsonl"), identicalSets.map((o) => ({ kind: o.kind, a: o.a, b: o.b, iocs: o.iocs })));
 // 要約には上位しか載らないので、同居は全件を別に残す
 writeJsonl(path.join(OUT, "subnets.jsonl"), subnets);
+if (HAS_VT) {
+  const t = targetsOf();
+  writeJsonl(path.join(OUT, "targets.jsonl"), [
+    ...t.impersonation.map((r) => ({ ...r, kind: "impersonation" })),
+    ...t.abuse.map((r) => ({ ...r, kind: "abuse" })),
+  ].sort((a, b) => a.kind.localeCompare(b.kind) || a.target.localeCompare(b.target) || a.ioc.localeCompare(b.ioc)));
+}
 if (HAS_ASN) writeJsonl(path.join(OUT, "asn-cotenancy.jsonl"), asnCoTenancy);
 
 /* ---------------- 要約 ---------------- */
@@ -877,7 +964,7 @@ for (const r of iocs) byType[r.type] = (byType[r.type] || 0) + 1;
 const VIA_SHOWN = [
   "ioc", "subnet", "registrable",
   ...(HAS_ASN ? ["asn"] : []),
-  ...(HAS_VT ? ["certificate", "resolution", "vhash", "imphash", "signer", "family", "filename", "jarm"] : []),
+  ...(HAS_VT ? ["certificate", "resolution", "vhash", "imphash", "signer", "registered", "family", "filename", "jarm"] : []),
 ];
 
 /**
@@ -936,6 +1023,25 @@ const stats = {
     }, {}),
     top: top(k),
   }])),
+  /** 何を狙ったか（§3.6）。根拠からは外した正規サービスを、標的として数え直す */
+  targets: (() => {
+    if (!HAS_VT) return { impersonation: 0, abuse: 0, by_target: [] };
+    const t = targetsOf();
+    const per = new Map();
+    for (const kind of ["impersonation", "abuse"]) {
+      for (const r of t[kind]) {
+        if (!per.has(r.target)) per.set(r.target, { target: r.target, rank: r.rank, impersonation: 0, abuse: 0 });
+        per.get(r.target)[kind]++;
+      }
+    }
+    return {
+      impersonation: t.impersonation.length,
+      abuse: t.abuse.length,
+      by_target: [...per.values()]
+        .sort((a, b) => (b.impersonation + b.abuse) - (a.impersonation + a.abuse) || a.target.localeCompare(b.target))
+        .slice(0, 20),
+    };
+  })(),
   subnets: {
     total: subnets.length,
     multi_actor: subnets.filter((s) => s.actors.length > 1).length,
