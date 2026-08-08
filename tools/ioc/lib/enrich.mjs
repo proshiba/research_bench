@@ -374,22 +374,44 @@ export function stageOf(ioc, { entities, isNew, notable }) {
   if (ioc.type === "ioc.md5" || ioc.type === "ioc.sha1" || ioc.type === "ioc.sha256") {
     return entities >= 1 ? "3" : "6";
   }
-  if (ioc.type === "ioc.domain" || ioc.type === "ioc.url") {
-    return entities >= 1 ? "4" : "6";
-  }
+  if (ioc.type === "ioc.domain") return entities >= 1 ? "4" : "6";
+  /**
+   * **URL は IP より後ろに置く。** 元の計画では段階 4 にドメインと同居させていたが、
+   * 実測すると URL の応答は**いま根拠に使っている欄を 1 つも持っていなかった**
+   * （取得済み 749 件で証明書 0 / JARM 0 / DNS 0 / 人気順位 0）。
+   * 返ってくるのは転送先と分類だけで、どちらもまだ via になっていない。
+   * 同じ枠を IP に使えば、1,271 件で証明書 604・JARM 708・AS 1,233 が付いた。
+   * 段階 5 に同居させ、buildQueue の KIND_YIELD で IP を先に引く。
+   */
+  if (ioc.type === "ioc.url") return entities >= 1 ? "5" : "6";
   if (ioc.type === "ioc.ipv4" || ioc.type === "ioc.ipv6") return "5";
   return "6";
 }
 
 /**
+ * 引き先ごとの「1 回引いて得られる根拠の量」。段階の中の並びに使う。
+ *
+ * **同じ段階でも引き先で収穫が違う。** 段階 4 はドメインと URL が同居するが、
+ * ドメインは証明書・解決先・JARM・人気順位（正規サービスの印）を返すのに対し、
+ * URL が返すのは転送先と分類だけで、**いま根拠として使っている欄をほぼ持たない**。
+ * 実測で段階 4 の残り 2,291 件のうち 2,074 件が URL だった。順を付けないと、
+ * 枠の大半が収穫の薄いほうに流れる。
+ *
+ * files が domains の次なのは、ハッシュが署名者とファジーハッシュを返すため。
+ */
+const KIND_YIELD = { domains: 0, files: 1, ip_addresses: 2, urls: 3 };
+
+/**
  * 引く順を決める。並びは決定的にする（同じ入力なら同じ順で引く）。
- * 段階の中では「繋がっている実体が多い順 → 鍵順」。
+ * 段階の中では「繋がっている実体が多い順 → 収穫の多い引き先順 → 鍵順」。
  */
 export function buildQueue(targets) {
   const rank = new Map(STAGES.map((s, i) => [s, i]));
+  const yieldOf = (t) => KIND_YIELD[t.kind] ?? 9;
   return [...targets].sort((a, b) =>
     rank.get(a.stage) - rank.get(b.stage) ||
     (b.entities ?? 0) - (a.entities ?? 0) ||
+    yieldOf(a) - yieldOf(b) ||
     (a.ioc < b.ioc ? -1 : 1));
 }
 
