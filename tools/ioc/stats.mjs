@@ -107,6 +107,11 @@ const RESOLUTION_CAP = Number(args["resolution-cap"] || 3);
  * 取りこぼすより誤って繋ぐほうが害が大きいと判断した。緩めるならこの値を上げる。
  */
 const RESOLUTION_ASN_CAP = Number(args["resolution-asn-cap"] || 2);
+/**
+ * 索引に無い IP を関係の根拠に使うのに要る検知数（§9.1e）。
+ * 1 で「VT が何か言っている」の意味になる。判定そのものが無いものには掛からない。
+ */
+const RELATION_MIN_MAL = Number(args["relation-min-malicious"] || 1);
 /** ファジーハッシュも同じ考え方。これより多くの実体に付く値は、作りが共通なだけ。 */
 const VHASH_CAP = Number(args["vhash-cap"] || args["ubiquity-cap"] || 8);
 const IMPHASH_CAP = Number(args["imphash-cap"] || args["ubiquity-cap"] || 8);
@@ -138,6 +143,8 @@ const abuse = readJsonl(path.join(IN, "abuseipdb.jsonl"));
 const derivedLinks = readJsonl(path.join(IN, "derived-links.jsonl"));
 const derivedCerts = readJsonl(path.join(IN, "derived-certs.jsonl"));
 const derivedIocs = readJsonl(path.join(IN, "derived-iocs.jsonl"));
+/** 生えた IOC に付いた判定（§9.1e）。索引の vt.jsonl とは別の入れ物。 */
+const derivedVerdicts = readJsonl(path.join(IN, "derived-verdicts.jsonl"));
 const enrichMeta = readJson(path.join(IN, "enrich-meta.json"));
 const HAS_VT = vt.length > 0;
 const HAS_ABUSE = abuse.length > 0;
@@ -365,6 +372,25 @@ function foldTargets(edges) {
      * （enrich-asn.mjs を動かしていなくても他の根拠は出る）。
      */
     if (HAS_ASN && asn === undefined) { dropped.add(ip); continue; }
+    /**
+     * **索引に無い IP は、VT が何か言っているものだけ使う（§9.1e）。**
+     *
+     * 索引の IOC には「これは C2 だ」という人の主張が付いている。だから検知 0 でも
+     * 根拠に使う（検知 0 の C2 は 239 件あり、それ自体が調べる価値のある食い違い）。
+     * **関係から生えた IP には、その主張が無い。** 索引も VT も何も言わない IP を
+     * 攻撃基盤として扱う理由がどこにも無い。
+     *
+     * 実測すると、守りを通った生えた IP 160 件のうち **115 件（72%）が検知 0** で、
+     * 落としたかった `192.35.177.64`（IdenTrust の証明書失効確認サーバ）もそこに居た。
+     * 一方、残したい `23.186.113.60`（APT28 ↔ Gamaredon）は検知 3 だった。
+     *
+     * **判定が無いものは落とさない**（未取得は陰性ではなく未知）。次の日次で
+     * `--relation-ips` が引くので、翌日には判定が付いて収束する。
+     */
+    if (!iocById.has(ip)) {
+      const v = derivedVerdictOf.get(ip);
+      if (v && (v.known === false || (v.malicious ?? 0) < RELATION_MIN_MAL)) { dropped.add(ip); continue; }
+    }
     const size = asn ? (asnInfo.get(asn)?.addresses ?? 0) : 0;
     if (size > ASN_MAX_ADDRESSES) { dropped.add(ip); continue; }
     /**
@@ -384,6 +410,7 @@ function foldTargets(edges) {
   return { usable, dropped, iocsOf };
 }
 
+const derivedVerdictOf = new Map(derivedVerdicts.map((r) => [r.ioc, r]));
 const resolution = foldTargets(resolvesTo);
 for (const ip of resolution.usable) resolvedIps.add(ip);
 for (const ip of resolution.dropped) cdnIps.add(ip);
@@ -1059,6 +1086,42 @@ if (HAS_VT) {
 }
 if (HAS_ASN) writeJsonl(path.join(OUT, "asn-cotenancy.jsonl"), asnCoTenancy);
 
+/**
+ * **守りを通った IP を全部残す（§3.7）。**
+ *
+ * 関係の根拠（`resolution` / `resolved` / `contacted`）は、2,482 の通信先のうち
+ * 15 しか通らないほど強く絞る。その 15 が何なのかを一覧で見られないと、
+ * 「絞ったつもりで何が残ったか」を人が確かめられない。
+ *
+ * この一覧は**次に何を調べるかの指示書**でもある。ここに載る IP はどれも
+ * 根拠として使われうるので、`fetch-vt.mjs --relation-ips` が引く相手になる
+ * （索引に無い IP は判定を持っていないため。§9.1e）。
+ */
+if (HAS_VT) {
+  const rows = [];
+  for (const [via, folded] of [
+    ["resolution", resolution], ["resolved", resolvedAt], ["contacted", contacted],
+  ]) {
+    for (const ip of folded.usable) {
+      const asn = asnOf.get(ip);
+      const a = asn === undefined ? null : asnInfo.get(asn);
+      rows.push({
+        via, ioc: ip,
+        // 索引が主張している IP か、写しから生えた IP か。生えたほうは判定を持たない
+        derived: !iocById.has(ip),
+        // その IP に届く元 IOC（自分自身を含む）。橋の条件を人が追える形で残す
+        from: [...(folded.iocsOf.get(ip) || [])].filter((k) => k !== ip).sort(),
+        ...(asn === undefined ? {} : {
+          asn,
+          ...(a?.name ? { as_owner: a.name } : {}),
+          ...(a?.addresses ? { as_addresses: a.addresses } : {}),
+        }),
+      });
+    }
+  }
+  writeJsonl(path.join(OUT, "relation-ips.jsonl"), rows.sort(byKeys("via", "ioc")));
+}
+
 /* ---------------- 要約 ---------------- */
 
 /** 既定の並べ替えは強さ。共有数だけだと、弱い根拠を数で押した組が上位に来る。 */
@@ -1113,7 +1176,8 @@ const stats = {
     ...(HAS_VT ? { jarm_cap: JARM_CAP, filename_cap: FILENAME_CAP, filename_min: FILENAME_MIN,
       family_cap: FAMILY_CAP, vhash_cap: VHASH_CAP, imphash_cap: IMPHASH_CAP } : {}),
     ...(HAS_ABUSE ? { hosting_ratio: HOSTING_RATIO, hosting_min: HOSTING_MIN } : {}),
-    ...(HAS_VT ? { resolution_cap: RESOLUTION_CAP, resolution_asn_cap: RESOLUTION_ASN_CAP } : {}),
+    ...(HAS_VT ? { resolution_cap: RESOLUTION_CAP, resolution_asn_cap: RESOLUTION_ASN_CAP,
+      relation_min_malicious: RELATION_MIN_MAL } : {}),
   },
   iocs: {
     total: iocs.length,

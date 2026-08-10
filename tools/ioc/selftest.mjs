@@ -249,6 +249,16 @@ function buildEnrichFixture(dir, iocs, links) {
     const k = (l) => `${l.ioc}\t${l.kind}\t${l.name}\t${l.rel}\t${l.source}`;
     return k(a) < k(b) ? -1 : 1;
   });
+  /**
+   * 生えた IOC に付いた判定（§9.1e）。**索引の判定とは別の入れ物**なので、
+   * ここに索引の IOC が来たら検査で落ちる。
+   */
+  const derivedVerdicts = [{
+    ioc: "ioc.ipv4|45.32.12.5", known: true,
+    malicious: 3, suspicious: 0, harmless: 60, undetected: 5,
+    as_owner: "検査用ホスティング", country: "US",
+    abuse_score: 12, abuse_reports: 2, usage_type: "Commercial", isp: "検査用 ISP",
+  }];
   const derivedAliases = [{ name: "newfam", aliases: ["othername"], samples: 1, source: "virustotal" }];
   const derivedCerts = [{
     thumbprint: CERT, issuer: "検査用 CA", subject: "evil.example.com",
@@ -262,6 +272,7 @@ function buildEnrichFixture(dir, iocs, links) {
   writeJsonl(path.join(dir, "derived-entities.jsonl"), derivedEntities);
   writeJsonl(path.join(dir, "derived-links.jsonl"), derivedLinks);
   writeJsonl(path.join(dir, "derived-aliases.jsonl"), derivedAliases);
+  writeJsonl(path.join(dir, "derived-verdicts.jsonl"), derivedVerdicts);
   writeJsonl(path.join(dir, "derived-certs.jsonl"), derivedCerts);
 
   const asnOf = new Map();
@@ -616,6 +627,38 @@ const CASES = [
       r.evidence = { ...r.evidence, contacted: ["ioc.ipv4|45.32.10.7"] };
       return putRow(r);
     });
+  }],
+  // 守りを通った IP の一覧（§3.7）と、生えた IOC の判定（§9.1e）
+  ["relation.derived", "索引の IOC なのに派生の印が付く", (d) => {
+    editLine(d, "relation-ips.jsonl", "45.32.12.5", (l) => l.replace('"derived":true', '"derived":false'));
+  }],
+  ["relation.from", "届く元に自分自身が入っている", (d) => {
+    editLine(d, "relation-ips.jsonl", "45.32.12.5", (l) => {
+      const r = JSON.parse(l);
+      r.from = [...r.from, r.ioc].sort();
+      return putRow(r);
+    });
+  }],
+  ["overlap.evidence", "根拠が守りを通った一覧に無い", (d) => {
+    // 守りを通していない値が根拠に出たら、絞り込みを迂回している
+    editLine(d, "relation-ips.jsonl", "45.32.12.5", (l) =>
+      l.replace(/45\.32\.12\.5/g, "45.32.12.9"));
+  }],
+  ["verdict.index", "索引の IOC の判定が混じる", (d) => {
+    // 混ぜるとカバレッジの分子だけが増えて 100% を超える
+    editLine(d, "derived-verdicts.jsonl", "45.32.12.5", (l) =>
+      l.replace("45.32.12.5", "45.32.10.7"));
+  }],
+  ["verdict.hosting", "事業者の網の印が usage_type と食い違う", (d) => {
+    editLine(d, "derived-verdicts.jsonl", "45.32.12.5", (l) => {
+      const r = JSON.parse(l);
+      r.hosting = true;
+      return putRow(r);
+    });
+  }],
+  ["verdict.unknown", "VT が知らないのに検知数が入っている", (d) => {
+    editLine(d, "derived-verdicts.jsonl", "45.32.12.5", (l) =>
+      l.replace('"known":true', '"known":false'));
   }],
   ["derived.link_entity", "生えた辺が知らない実体を指す", (d) => {
     editLine(d, "derived-links.jsonl", "suggested_threat_label", (l) => l.replace('"TestRAT"', '"GhostFam"'));

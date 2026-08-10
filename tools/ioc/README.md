@@ -216,6 +216,8 @@ node tools/ioc/enrich-intel.mjs [--in data/ioc/latest] [--out <同じ場所>]
 | `abuseipdb.jsonl` | IP ごとの通報状況。**通報数ではなくスコアで判断する** |
 | `derived-iocs.jsonl` | 写しから生えた IOC（解決先・過去の解決先・通信先の IP）。`origin` で出どころが分かる |
 | `derived-links.jsonl` | 生えた辺（`resolves_to` / `resolved_at` / `contacted` / ファミリ）。過去の解決先には `at`（解決日）が付く |
+| `derived-verdicts.jsonl` | **生えた IOC に付いた判定。** 索引の `vt.jsonl` / `abuseipdb.jsonl` とは分ける（混ぜるとカバレッジの分子だけが増える） |
+| `relation-ips.jsonl` | 関係の守りを通った IP の一覧。**絞ったつもりで何が残ったか**を確かめる出口で、`--relation-ips` が引く相手でもある |
 | `derived-entities.jsonl` | 生えた実体（索引に無かった VT のファミリ名） |
 | `derived-aliases.jsonl` | ファミリの別名候補 |
 | `derived-certs.jsonl` | 証明書ごとの IOC のまとまり |
@@ -395,6 +397,12 @@ AS が引けないと大きさの守りが素通りするためで、実測で�
 **APT37 ↔ Lazarus Group** という強い主張が通信先の根拠として立っていた。
 CDN は使わなくなった網を返上するので、**経路に無いこと自体が「昔の CDN の跡」の印**
 になっている。
+
+**索引に無い IP は、VT の検知が 1 以上のものだけ使う。** 索引の IOC には
+「これは C2 だ」という人の主張が付いているので検知 0 でも根拠にするが、
+関係から生えた IP にはその主張が無い。実測で守りを通った 160 件のうち
+**115 件（72%）が検知 0** で、`192.35.177.64`（IdenTrust の証明書失効確認サーバ）が
+そこに居た。判定そのものが無い IP は落とさない（未取得は陰性ではなく未知）。
 
 **両実体が別々の IOC から届いていること**（橋の条件）も見る。「両方がこの IP に
 解決する」と言っても、その IP を出したドメインが 1 本しか無ければ、それは

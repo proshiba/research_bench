@@ -6,6 +6,7 @@
 //                          [--limit 1500] [--stage 1] [--plan]
 //                          [--rpm 4] [--daily 500] [--hourly 240]
 //                          [--max-age 2592000] [--refresh] [--full] [--include-noise]
+//                          [--relation-ips]
 //
 // 1 IOC につき **object を 1 回**だけ引く。関係（/resolutions など）は引かない。
 // 1 IOC あたり呼び出しが 1〜3 回増え、18,537 件では成立しないため
@@ -36,6 +37,8 @@ const CACHE = path.resolve(REPO_ROOT, args.cache || "data/ioc/.cache/vt");
 const PLAN_ONLY = !!args.plan;
 const FULL = !!args.full;
 const INCLUDE_NOISE = !!args["include-noise"];
+/** 関係の根拠に使える IP（stats.mjs の relation-ips.jsonl）も引く。§3.7 */
+const RELATION_IPS = !!args["relation-ips"];
 const LIMIT = args.limit === undefined ? Infinity : Number(args.limit);
 /** これより古い写しは取り直す。既定 30 日（判定は動くが、毎回取り直すほどではない） */
 const MAX_AGE = Number(args["max-age"] || 2592000) * 1000;
@@ -59,10 +62,12 @@ const counts = entityCounts(links);
 const notable = notableIps(iocs, links, { asnOf, asnInfo });
 
 const targets = [];
+const seenTarget = new Set();
 for (const r of iocs) {
   const t = vtTarget(r);
   if (!t) continue;
   if (excluded(r, { includeNoise: INCLUDE_NOISE })) continue;
+  seenTarget.add(r.key);
   targets.push({
     ioc: r.key,
     kind: t.kind,
@@ -70,6 +75,24 @@ for (const r of iocs) {
     entities: counts.get(r.key) || 0,
     stage: stageOf(r, { entities: counts.get(r.key) || 0, isNew: fresh.has(r.key), notable: notable.has(r.key) }),
   });
+}
+
+/**
+ * **関係の根拠に使える IP（§3.7）のうち、索引が持っていないものも引く。**
+ * 索引の IOC ではないのでカバレッジの分母には入らない（数十件しかない）。
+ * 判定が無いままだと、正規サービス（CA の失効確認・CDN・広告配信）を
+ * 根拠から外す手立てがない。§9.1e
+ */
+if (RELATION_IPS) {
+  for (const r of readJsonl(path.join(IN, "relation-ips.jsonl"))) {
+    if (!r.derived || seenTarget.has(r.ioc)) continue;
+    const type = r.ioc.slice(0, r.ioc.indexOf("|"));
+    const value = r.ioc.slice(r.ioc.indexOf("|") + 1);
+    const t = vtTarget({ type, value });
+    if (!t) continue;
+    seenTarget.add(r.ioc);
+    targets.push({ ioc: r.ioc, kind: t.kind, id: t.id, entities: 0, stage: "rel" });
+  }
 }
 
 const now = Date.now();

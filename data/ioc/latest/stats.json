@@ -639,6 +639,7 @@
     "include_noise": false,
     "jarm_cap": 0.01,
     "min_shared": 1,
+    "relation_min_malicious": 1,
     "resolution_asn_cap": 2,
     "resolution_cap": 3,
     "ubiquity_cap": 8,
@@ -1230,9 +1231,6 @@
           "a": "Dream Job",
           "b": "ThreatNeedle",
           "evidence": {
-            "contacted": [
-              "ioc.ipv4|192.35.177.64"
-            ],
             "ioc": [
               "ioc.domain|au-pair.org",
               "ioc.domain|co.cr"
@@ -1245,11 +1243,10 @@
               "co.cr"
             ]
           },
-          "ratio": 0.102,
-          "shared": 6,
-          "strength": 15,
+          "ratio": 0.085,
+          "shared": 5,
+          "strength": 11,
           "via": [
-            "contacted",
             "ioc",
             "jarm",
             "registrable"
@@ -1388,9 +1385,6 @@
           "a": "case:61a602b23169ad451a22661e2e356e16ef2bd3c7ef7a23d5892ac4f79baff0b5",
           "b": "case:ee0ef34a4402dea54ec8b4e0557de9605a038a4f2b82380f2978296fd60f9791",
           "evidence": {
-            "contacted": [
-              "ioc.ipv4|185.196.12.16"
-            ],
             "family": [
               "valley"
             ],
@@ -1406,11 +1400,10 @@
               "haochisadnka.cc"
             ]
           },
-          "ratio": 1.167,
-          "shared": 7,
-          "strength": 19,
+          "ratio": 1,
+          "shared": 6,
+          "strength": 15,
           "via": [
-            "contacted",
             "family",
             "ioc",
             "registered",
