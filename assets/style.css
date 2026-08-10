@@ -1427,6 +1427,8 @@ button.lg:disabled { cursor: default; opacity: 0.45; }
 .st-link:hover { color: var(--ink); border-color: var(--ink-faint); }
 /* 配信側に新しい版が出ているときの案内。見落とすと「直したのに変わらない」になる */
 .st-link.is-new { color: var(--focus); border-color: var(--focus); font-weight: 600; }
+/* 索引側の古さ。build 表示の隣に置いて、どちらが古いのかを見分けられるようにする */
+.st-link.is-age.is-stale { color: var(--crit); border-color: color-mix(in srgb, var(--crit) 45%, transparent); font-weight: 600; }
 
 /* ---------------- popover ---------------- */
 
@@ -1514,6 +1516,35 @@ button.lg:disabled { cursor: default; opacity: 0.45; }
 .top-panel-name { margin: 0; font-size: 13.5px; font-weight: 600; }
 .top-sub { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
 .top-open { margin-left: auto; font-size: 11px; padding: 3px 8px; }
+
+/* 索引の生成時刻。パネルの日付は「索引の中で一番新しい日付」であって
+   索引そのものの新しさではないので、必ず並べて出す。
+   色を増やさず、fresh は地の文・aging は枠・stale は警戒色で段階を付ける。 */
+.top-age-wrap { display: flex; align-items: center; gap: 5px; flex-basis: 100%; }
+.top-age {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+.top-panel-head > .top-age { flex-basis: 100%; }
+.top-age.is-aging { color: var(--ink-dim); border: 1px solid var(--line); padding: 0 5px; }
+.top-age.is-stale {
+  color: var(--crit);
+  font-weight: 600;
+  border: 1px solid color-mix(in srgb, var(--crit) 45%, transparent);
+  padding: 0 5px;
+}
+.top-age-refresh {
+  padding: 0 6px;
+  background: none;
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink-dim);
+  cursor: pointer;
+}
+.top-age-refresh:hover { color: var(--ink); border-color: var(--ink-faint); }
 
 .top-body { display: flex; flex-direction: column; gap: 9px; min-width: 0; }
 

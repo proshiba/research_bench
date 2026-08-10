@@ -52,7 +52,9 @@ export async function initStore() {
 export async function loadMeta(source) {
   if (!source.meta_url) return null;
   try {
-    const res = await fetch(source.meta_url, { mode: "cors", credentials: "omit" });
+    // GitHub Pages は max-age=600 を返す。meta.json は鮮度そのものを載せている
+    // ので、10 分前の写しで「今の索引はこれ」と言わないよう毎回問い合わせる。
+    const res = await fetch(source.meta_url, { mode: "cors", credentials: "omit", cache: "no-cache" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const meta = await res.json();
     source.meta = meta;
@@ -235,6 +237,12 @@ export async function loadSource(source, { force = false } = {}) {
   source._promise = (async () => {
     try {
       const adapter = getAdapter(source.adapter);
+      // 取り直しは「古いものを掴んでいる」ときに押される。ブラウザの写しを
+      // 使い回しては意味がないので、索引も meta も取得しなおす。
+      if (force) {
+        source._reload = true;
+        await loadMeta(source);
+      }
       const result = await adapter.load(source, (p) => {
         source.progress = p;
         emit();
@@ -253,6 +261,7 @@ export async function loadSource(source, { force = false } = {}) {
       console.error(`[research_bench] ${source.app_id} の読み込みに失敗`, err);
     } finally {
       source._promise = null;
+      source._reload = false;
       emit();
     }
     return source;

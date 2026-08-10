@@ -2,6 +2,7 @@
 
 import { authState, finishLogin, loadAuth, onAuthChange } from "./auth-active-research.js";
 import { loadCredentials, resetCredentials } from "./credentials.js";
+import { freshness, oldestSource } from "./freshness.js";
 import { getModule, loadModuleSettings } from "./modules.js";
 import { loadSettings } from "./osint.js";
 import { deepLink, getSource, initStore, loadSource, onChange, store } from "./store.js";
@@ -226,12 +227,13 @@ function renderStatus() {
     const label = s.status === "ready" ? fmtNum(s.entities.length)
       : s.status === "loading" ? `${Math.round(s.progress * 100)}%`
       : s.status === "error" ? "失敗" : "未取得";
+    const f = freshness(s);
     bar.append(el("span", {
       class: `st-src${cls}`,
       style: s.status === "ready" || s.status === "loading" ? `color:var(--src-${s.accent})` : null,
       title: s.status === "error" ? s.error
-        : s.status === "idle" ? `${fmtBytes(s.approx_bytes)} — 検索時に取得します`
-        : s.app_id,
+        : s.status === "idle" ? `${fmtBytes(s.approx_bytes)} — 検索時に取得します\n${f.text}`
+        : `${s.app_id}\n${f.text}`,
     }, [
       el("i"),
       el("span", { style: "color:var(--ink-faint)", text: `${s.short || s.name} ${label}` }),
@@ -239,6 +241,19 @@ function renderStatus() {
   }
 
   bar.append(el("span", { html: `索引 <b>${fmtNum(indexed)}</b> エンティティ` }));
+
+  // 索引そのものの古さ。ポータルの build 表示と並べて、
+  // 「画面が古い」の原因がどちら側かをここだけで見分けられるようにする。
+  const worst = oldestSource(store.sources);
+  if (worst) {
+    const f = worst.freshness;
+    bar.append(el("button", {
+      class: `st-link is-age is-${f.level}`, type: "button",
+      text: `索引 最古 ${worst.source.short || worst.source.name} ${f.label}`,
+      title: `${f.title}\n\n押すと全ソースの索引を取り直します（ブラウザの写しは使いません）`,
+      onclick: () => store.sources.forEach((s) => loadSource(s, { force: true })),
+    }));
+  }
   bar.append(el("button", {
     class: "st-link", type: "button", text: osintSummary(), title: osintTooltip(),
     onclick: () => openOsintSettings(dom.osintDialog),

@@ -315,7 +315,10 @@ async function loadSpecV1(source, onProgress) {
   const meta = source.meta || null;
   const indexUrl = source.index_url
     || resolveUrl(meta?.site_url || source.site_url, meta?.endpoints?.search || "api/v1/search.json");
-  const text = await fetchWithProgress(indexUrl, { approx: source.approx_bytes, onProgress });
+  const text = await fetchWithProgress(indexUrl, {
+    approx: source.approx_bytes, onProgress,
+    cache: source._reload ? "reload" : undefined,
+  });
   const db = JSON.parse(text);
   const entities = (db.entities || []).map((e) => ent(e.type, e.id, e.label, {
     value: e.value, detail: e.detail, aliases: e.aliases, attrs: e.attrs, refs: e.refs,

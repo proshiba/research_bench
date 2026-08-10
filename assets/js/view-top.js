@@ -9,7 +9,8 @@
 //
 // 押すとそのアプリのダッシュボードへ飛ぶ。タグはクロスサーチに繋ぐ。
 
-import { loadAllSources, store } from "./store.js";
+import { freshness } from "./freshness.js";
+import { loadAllSources, loadSource, store } from "./store.js";
 import { hasSummarySource, loadSummaries, summaryError, summaryNow, summaryState } from "./summaries.js";
 import { el, fmtNum, shorten } from "./util.js";
 
@@ -55,6 +56,27 @@ function daysBack(latest, n) {
 
 /* ---------------- 部品 ---------------- */
 
+/**
+ * 索引がいつ作られたかの札。
+ *
+ * パネルに出る日付は「索引に入っている中で一番新しい日付」であって、
+ * 索引そのものの新しさではない。ソースの生成が止まっていると、画面は
+ * 古いまま静かに正しく見えてしまう。生成時刻を必ず添えて切り分けられるようにする。
+ */
+function ageChip(source) {
+  const f = freshness(source);
+  const chip = el("span", { class: `top-age is-${f.level}`, title: f.title, text: f.text });
+  if (f.level === "fresh" || f.level === "unknown") return chip;
+  return el("span", { class: "top-age-wrap" }, [
+    chip,
+    el("button", {
+      class: "top-age-refresh", type: "button", text: "取り直す",
+      title: "ブラウザの写しを使わずに索引を取得しなおします",
+      onclick: () => loadSource(source, { force: true }),
+    }),
+  ]);
+}
+
 function panel(source, { subtitle, body, empty }) {
   const head = el("div", { class: "top-panel-head" }, [
     el("span", { class: "top-dot", style: `color:var(--src-${source.accent})` }),
@@ -64,6 +86,7 @@ function panel(source, { subtitle, body, empty }) {
       class: "btn top-open", type: "button", text: "ダッシュボードを開く →",
       onclick: () => ctx.onOpen?.(source.app_id),
     }),
+    ageChip(source),
   ]);
   return el("section", { class: "top-panel", dataset: { app: source.app_id } }, [
     head,
@@ -314,7 +337,7 @@ function actorPanel(source) {
 
 function malwarePanel(source) {
   const cases = source.entities.filter((e) => e.type === "case");
-  const { top, latest } = newest(cases, ["初観測"], 12);
+  const { days, top, latest } = newest(cases, ["初観測"], 12);
   const families = source.entities.filter((e) => e.type === "malware").length;
 
   if (!latest) {
@@ -328,7 +351,8 @@ function malwarePanel(source) {
   return panel(source, {
     subtitle: `最新の初観測 ${latest}`,
     body: el("div", { class: "top-body" }, [
-      stats([["解析ケース", cases.length], ["ファミリ", families], ["日付つき", top.length]]),
+      // top は先頭 12 件に切ったもの。日付を持つ件数は days のほうで数える
+      stats([["解析ケース", cases.length], ["ファミリ", families], ["日付つき", days.length]]),
       el("h3", { class: "side-h", text: "新しい解析ケース" }),
       itemList(source, top.map(([day, e]) => ({
         entity: e, day,

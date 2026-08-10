@@ -196,8 +196,8 @@ export function shorten(s, n = 22) {
 }
 
 /** 進捗つき fetch。Content-Length が無ければ approx で按分する。 */
-export async function fetchWithProgress(url, { approx = 0, onProgress } = {}) {
-  const res = await fetch(url, { mode: "cors", credentials: "omit" });
+export async function fetchWithProgress(url, { approx = 0, onProgress, cache } = {}) {
+  const res = await fetch(url, { mode: "cors", credentials: "omit", ...(cache ? { cache } : {}) });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const total = Number(res.headers.get("content-length")) || approx || 0;
   if (!res.body || !onProgress) return res.text();
