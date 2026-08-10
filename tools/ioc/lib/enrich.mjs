@@ -171,8 +171,13 @@ export function readRecord(root, iocKey) {
   }
 }
 
-export function writeRecord(root, rec) {
-  const f = cacheFile(root, rec.ioc);
+/**
+ * 写しを 1 件置く。**鍵は既定で `rec.ioc`** だが、同じ IOC に複数の写しを持つ工程
+ * （関係の取得。IOC ごとに contacted_ips / contacted_domains … と分かれる）は
+ * `key` を明示して分ける。
+ */
+export function writeRecord(root, rec, key) {
+  const f = cacheFile(root, key ?? rec.ioc);
   fs.mkdirSync(path.dirname(f), { recursive: true });
   // 途中で落ちても壊れた写しが残らないように、書いてから差し替える
   const tmp = `${f}.tmp`;

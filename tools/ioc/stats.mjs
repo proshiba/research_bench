@@ -11,7 +11,7 @@
 //                            [--hash-size-spread 10] [--regday-min 3] [--regday-cap 25]
 //                            [--target-min-malicious 3]
 //                            [--evidence-cap 5]
-//                            [--hosting-ratio 0.7] [--hosting-min 3]
+//                            [--hosting-ratio 0.7] [--hosting-min 3]  ← asn と subnet の両方に効く
 //
 // 重なりの見方を 9 つ出す。どれも「共有している IOC の数」を根拠にする。
 // 後半 5 つは enrich-intel.mjs があるときだけ出る。
@@ -20,7 +20,7 @@
 //   resolution  … 同じ IP に解決するドメインを持っている
 //   vhash       … VT の構造ハッシュが一致。**提供元の判断が入らない**
 //   imphash     … PE のインポート表が一致。パッカーで衝突するので中くらい
-//   subnet      … 同じ /24 に IP がある（インフラの共有。API 不要で出せる）
+//   subnet      … 同じ /24 に IP がある。**貸し出し用の /24 は外す**（asn と同じ観点）
 //   asn         … 同じ AS に IP がある。**小さい AS に限る**（enrich-asn.mjs が要る）
 //   family      … VT が同じ脅威ラベルを付けている。**弱い**（提供元の札は広く付く）
 //   registrable … 同じ登録可能ドメインを使っている。弱い
@@ -559,6 +559,35 @@ const asnUsable = (asn) => {
 };
 
 /**
+ * **`/24` にも AS と同じ守りを入れる（§3.2b）。**
+ *
+ * `asn` には 3 つの条件（アドレス数・アクター数・事業者の網の割合）を掛けているのに、
+ * `/24` は同じ 5 点なのに実質無条件だった。この非対称のせいで、強い根拠のグラフに
+ * **70 実体が地続きの塊**ができ、その 99 辺のうち 40 辺を `subnet` 単独が支えていた
+ * （APT1 / APT28 / APT29 / APT37 / APT41 / BITTER … が 1 つに繋がる）。
+ *
+ * 実測すると、2 実体以上が居る /24 が 572 あり、そのうち **344（60%）が
+ * 事業者の網と判定した AS の中**にあった。上位は RouterHosting・BL Networks・
+ * Antbox Networks・CTG Server・Zappie Host・UAB Bacloud。どれも VPS 事業者で、
+ * `45.61.136.0/24` に 5 実体が居るのは**同じ業者から借りているだけ**。
+ *
+ * 「同じ AS に居る」が大きさ抜きでは何も言えないのと同じで、
+ * **「同じ /24 に居る」も、その /24 が貸し出し用なら何も言えない**。
+ * 判定は AS 単位で持つ（/24 単位だと判定の付いた IP が 1〜3 件しかなく当てにならない。
+ * 実測で判定 3 件以上ある /24 は 572 のうち 56 だけだった）。
+ * AbuseIPDB が無い環境では判定できないので、そのときは今までどおり通す。
+ */
+const hostingSubnet = new Set();
+for (const r of iocs) {
+  if (!r.subnet) continue;
+  const asn = asnOf.get(r.key);
+  if (asn === undefined) continue;
+  const hr = hostingRatio(asn);
+  if (hr !== null && hr > HOSTING_RATIO) hostingSubnet.add(r.subnet);
+}
+const subnetUsable = (subnet) => !!subnet && !hostingSubnet.has(subnet);
+
+/**
  * 組ごとの共有数を数える。
  *
  * 総当たりだと実体数の 2 乗になるので、IOC 側から「その IOC を共有する実体」を
@@ -665,7 +694,8 @@ function groupsFor(kind) {
         map.get(k).add(name);
       };
       put(byIoc, key);
-      put(bySubnet, rec.subnet);
+      // 貸し出し用の /24 は根拠にしない（AS と同じ観点。§3.2b）
+      if (subnetUsable(rec?.subnet)) put(bySubnet, rec.subnet);
       put(byDomain, rec.registrable);
       const asn = asnOf.get(key);
       if (asn && asnUsable(asn)) put(byAsn, `AS${asn}`);
