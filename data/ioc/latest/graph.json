@@ -13471,6 +13471,17 @@
     },
     {
       "kind": "case",
+      "ratio": 0.5,
+      "shared": 1,
+      "source": "case:case:09034743ead73365c3077a85036d69c4ef0b0c19bba669db7cd53814b9308889",
+      "strength": 5,
+      "target": "case:case:ba7570395a1adfa7dd22638402d994c2b36efb559d1a69ddc91503bb0b608839",
+      "via": [
+        "subnet"
+      ]
+    },
+    {
+      "kind": "case",
       "ratio": 0.067,
       "shared": 1,
       "source": "case:case:0f2abaabea8bb9454e5cf979e58eba7de10172dab1f3ebff6a9face304f4ce48",
@@ -15355,6 +15366,18 @@
     },
     {
       "kind": "case",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "case:case:843eec789f90f15c13e6905f36f54c32a0dbf767d9715aef1387d232aa11ab93",
+      "strength": 1,
+      "target": "case:case:e5898e75b05b5e51683f7337322b15be5d06a9ffb522a9267c4c1e42547b6ee2",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "case",
       "ratio": 0.333,
       "shared": 1,
       "source": "case:case:856e540dd3765d8e1129070615d6104388a4f8c34179b520acfd87d9efa56643",
@@ -17216,7 +17239,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.029,
       "shared": 1,
       "source": "malware:AMOS",
       "strength": 3,
@@ -18009,7 +18032,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.037,
+      "ratio": 0.03,
       "shared": 1,
       "source": "malware:AdaptixC2",
       "strength": 1,
@@ -18323,7 +18346,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.029,
       "shared": 1,
       "source": "malware:Agent Tesla",
       "strength": 1,
@@ -18635,16 +18658,16 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.065,
-      "shared": 2,
+      "ratio": 0.086,
+      "shared": 3,
       "source": "malware:Amadey",
-      "strength": 4,
+      "strength": 9,
       "target": "malware:StealC",
       "via": [
         "jarm",
-        "registered"
-      ],
-      "weak_only": true
+        "registered",
+        "subnet"
+      ]
     },
     {
       "kind": "malware",
@@ -19523,7 +19546,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.037,
+      "ratio": 0.03,
       "shared": 1,
       "source": "malware:Beagle",
       "strength": 1,
@@ -21536,7 +21559,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.111,
+      "ratio": 0.091,
       "shared": 3,
       "source": "malware:CountLoader",
       "strength": 4,
@@ -21634,7 +21657,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.065,
+      "ratio": 0.057,
       "shared": 2,
       "source": "malware:CountLoader",
       "strength": 3,
@@ -22297,7 +22320,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.031,
       "shared": 1,
       "source": "malware:DOUBLECUP",
       "strength": 1,
@@ -22626,7 +22649,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.031,
       "shared": 1,
       "source": "malware:DragonForce ransomware",
       "strength": 1,
@@ -22914,7 +22937,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.037,
+      "ratio": 0.031,
       "shared": 1,
       "source": "malware:Dysphoria",
       "strength": 3,
@@ -23448,7 +23471,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.065,
+      "ratio": 0.057,
       "shared": 2,
       "source": "malware:ErrTraffic",
       "strength": 3,
@@ -25666,7 +25689,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.029,
       "shared": 1,
       "source": "malware:KEYPLUG",
       "strength": 1,
@@ -26731,7 +26754,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.029,
       "shared": 1,
       "source": "malware:Macsync",
       "strength": 3,
@@ -27459,7 +27482,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.029,
       "shared": 1,
       "source": "malware:Mistic",
       "strength": 3,
@@ -28010,7 +28033,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.029,
       "shared": 1,
       "source": "malware:NukeSped",
       "strength": 1,
@@ -28311,7 +28334,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.037,
+      "ratio": 0.03,
       "shared": 1,
       "source": "malware:Overlord",
       "strength": 1,
@@ -28383,7 +28406,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.029,
       "shared": 1,
       "source": "malware:Overlord",
       "strength": 3,
@@ -28818,7 +28841,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.077,
+      "ratio": 0.063,
       "shared": 1,
       "source": "malware:PhantomRelay",
       "strength": 1,
@@ -28986,7 +29009,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.077,
+      "ratio": 0.063,
       "shared": 1,
       "source": "malware:PhantomRelayLite",
       "strength": 1,
@@ -29740,7 +29763,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.037,
+      "ratio": 0.03,
       "shared": 1,
       "source": "malware:Remus Stealer",
       "strength": 3,
@@ -29788,7 +29811,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.037,
+      "ratio": 0.03,
       "shared": 1,
       "source": "malware:Remus Stealer",
       "strength": 3,
@@ -30004,8 +30027,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
-      "shared": 1,
+      "ratio": 0.057,
+      "shared": 2,
       "source": "malware:SUNBURST",
       "strength": 1,
       "target": "malware:StealC",
@@ -30148,7 +30171,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.029,
       "shared": 1,
       "source": "malware:Sednit",
       "strength": 1,
@@ -30409,7 +30432,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.029,
       "shared": 1,
       "source": "malware:Shub Stealer",
       "strength": 3,
@@ -30529,7 +30552,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.029,
       "shared": 1,
       "source": "malware:SourTrade",
       "strength": 3,
@@ -30625,7 +30648,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.032,
+      "ratio": 0.029,
       "shared": 1,
       "source": "malware:StealC",
       "strength": 1,
@@ -30984,7 +31007,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-08-10T05:11:15.048Z",
+  "generated_from": "2026-08-10T18:13:13.101Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -31959,6 +31982,12 @@
       "name": "case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2"
     },
     {
+      "id": "case:case:09034743ead73365c3077a85036d69c4ef0b0c19bba669db7cd53814b9308889",
+      "ioc_count": 4,
+      "kind": "case",
+      "name": "case:09034743ead73365c3077a85036d69c4ef0b0c19bba669db7cd53814b9308889"
+    },
+    {
       "id": "case:case:0f2abaabea8bb9454e5cf979e58eba7de10172dab1f3ebff6a9face304f4ce48",
       "ioc_count": 18,
       "kind": "case",
@@ -32307,6 +32336,12 @@
       "name": "case:830418fab925fb6b34c1e819f7e099ee92d6b5205bf4c73586f0bf7430e72080"
     },
     {
+      "id": "case:case:843eec789f90f15c13e6905f36f54c32a0dbf767d9715aef1387d232aa11ab93",
+      "ioc_count": 7,
+      "kind": "case",
+      "name": "case:843eec789f90f15c13e6905f36f54c32a0dbf767d9715aef1387d232aa11ab93"
+    },
+    {
       "id": "case:case:856e540dd3765d8e1129070615d6104388a4f8c34179b520acfd87d9efa56643",
       "ioc_count": 4,
       "kind": "case",
@@ -32473,6 +32508,12 @@
       "ioc_count": 4,
       "kind": "case",
       "name": "case:b740a321546671ad7ebdf540189cbea05a2307b0033f2e17535c23bb38217a91"
+    },
+    {
+      "id": "case:case:ba7570395a1adfa7dd22638402d994c2b36efb559d1a69ddc91503bb0b608839",
+      "ioc_count": 2,
+      "kind": "case",
+      "name": "case:ba7570395a1adfa7dd22638402d994c2b36efb559d1a69ddc91503bb0b608839"
     },
     {
       "id": "case:case:bb7cb5aea4192a035376d380682716235fdb4809d06b63b63d6d6d1061a5c231",
@@ -33706,7 +33747,7 @@
     },
     {
       "id": "malware:RedLine Stealer",
-      "ioc_count": 14,
+      "ioc_count": 17,
       "kind": "malware",
       "name": "RedLine Stealer"
     },
@@ -33718,7 +33759,7 @@
     },
     {
       "id": "malware:Remus Stealer",
-      "ioc_count": 27,
+      "ioc_count": 34,
       "kind": "malware",
       "name": "Remus Stealer"
     },
@@ -33892,7 +33933,7 @@
     },
     {
       "id": "malware:StealC",
-      "ioc_count": 32,
+      "ioc_count": 36,
       "kind": "malware",
       "name": "StealC"
     },

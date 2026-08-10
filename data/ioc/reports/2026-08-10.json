@@ -2,94 +2,123 @@
   "compared_with": ".ioc-prev",
   "coverage": {
     "abuseipdb": {
-      "added": 28,
+      "added": 4,
       "by_stage": {
         "1": {
-          "added": 0,
-          "done": 844,
-          "target": 844
+          "added": 2,
+          "done": 846,
+          "target": 846
         },
         "2": {
-          "added": 1,
-          "done": 306,
-          "target": 306
+          "added": 2,
+          "done": 308,
+          "target": 308
         },
         "5": {
-          "added": 27,
+          "added": 0,
           "done": 2179,
           "target": 2179
         }
       },
-      "done": 3330,
+      "done": 3334,
       "ratio": 1,
-      "target": 3329
+      "target": 3333
     },
     "virustotal": {
-      "added": 115,
+      "added": 22,
       "by_stage": {
         "1": {
-          "added": 49,
-          "done": 4978,
-          "target": 4978
+          "added": 13,
+          "done": 4991,
+          "target": 4991
         },
         "2": {
-          "added": 1,
-          "done": 306,
-          "target": 306
+          "added": 2,
+          "done": 308,
+          "target": 308
         },
         "3": {
-          "added": 4,
+          "added": 0,
           "done": 4456,
           "target": 4456
         },
         "4": {
-          "added": 20,
+          "added": 0,
           "done": 4457,
           "target": 4457
         },
         "5": {
-          "added": 32,
+          "added": 0,
           "done": 4126,
           "target": 4126
         },
         "6": {
-          "added": 9,
-          "done": 732,
-          "target": 732
+          "added": 7,
+          "done": 739,
+          "target": 739
         }
       },
-      "done": 19056,
-      "known": 16330,
+      "done": 19078,
+      "known": 16349,
       "ratio": 1,
-      "target": 19055,
-      "unknown": 2726
+      "target": 19077,
+      "unknown": 2729
     }
   },
   "grown": {
-    "aliases": [
-      {
-        "aliases": [
-          "abbackdoor"
-        ],
-        "name": "PhantomCore"
-      }
-    ],
-    "entities": [
-      {
-        "ioc_count": 1,
-        "name": "sbadur"
-      }
-    ],
-    "iocs": 41,
+    "aliases": [],
+    "entities": [],
+    "iocs": 18,
     "shared_certs": []
   },
   "overlaps": {
     "grew": 1,
-    "new": 28,
-    "new_strong": 0,
-    "top_grew": [],
-    "top_new": [],
-    "total": 2551
+    "new": 2,
+    "new_strong": 1,
+    "top_grew": [
+      {
+        "a": "Amadey",
+        "b": "StealC",
+        "evidence": {
+          "jarm": [
+            "21d19d00021d21d00042d43d0000005ad20eceaf7f71ae0887d2ff117bf97f"
+          ],
+          "registered": [
+            "2025-11-07"
+          ],
+          "subnet": [
+            "185.215.113.0/24"
+          ]
+        },
+        "kind": "malware",
+        "shared": 3,
+        "strength": 9,
+        "via": [
+          "jarm",
+          "registered",
+          "subnet"
+        ],
+        "was": 4
+      }
+    ],
+    "top_new": [
+      {
+        "a": "case:09034743ead73365c3077a85036d69c4ef0b0c19bba669db7cd53814b9308889",
+        "b": "case:ba7570395a1adfa7dd22638402d994c2b36efb559d1a69ddc91503bb0b608839",
+        "evidence": {
+          "subnet": [
+            "185.215.113.0/24"
+          ]
+        },
+        "kind": "case",
+        "shared": 1,
+        "strength": 5,
+        "via": [
+          "subnet"
+        ]
+      }
+    ],
+    "total": 2553
   },
   "schema": 1,
   "to_check": {
@@ -254,54 +283,8 @@
       }
     ],
     "disagreement": {
-      "samples": [
-        {
-          "classes": [
-            "c2"
-          ],
-          "ioc": "ioc.ipv4|31.59.102.61",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
-        },
-        {
-          "classes": [
-            "c2"
-          ],
-          "ioc": "ioc.ipv4|81.177.32.12",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
-        },
-        {
-          "classes": [
-            "malware"
-          ],
-          "ioc": "ioc.sha256|c214746c74cae8ece8bdaf69aa05da4db6ce013f9e77452d1eed1a002fd9ba00",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
-        },
-        {
-          "classes": [
-            "c2"
-          ],
-          "ioc": "ioc.url|https://oob-worker.cf102-baf.workers.dev/pkg/package",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
-        },
-        {
-          "classes": [
-            "c2"
-          ],
-          "ioc": "ioc.url|https://oob-worker.cf99-9b3.workers.dev/pkg/package",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
-        }
-      ],
-      "total": 5
+      "samples": [],
+      "total": 0
     },
     "hosting_excluded": [
       {
@@ -406,18 +389,6 @@
       },
       {
         "actors": [
-          "Inception",
-          "Rognar"
-        ],
-        "addresses": 4096,
-        "asn": 48753,
-        "cc": "MD",
-        "hosting_ratio": 1,
-        "hosting_seen": 3,
-        "name": "AVA HOST SRL"
-      },
-      {
-        "actors": [
           "APT29",
           "MuddyWater"
         ],
@@ -429,110 +400,76 @@
         "name": "Droptop GmbH"
       }
     ],
-    "top_abuse": [
-      {
-        "ioc": "ioc.ipv4|68.235.46.235",
-        "reporters": 14,
-        "reports": 132,
-        "score": 34,
-        "usage_type": "Data Center/Web Hosting/Transit"
-      },
-      {
-        "ioc": "ioc.ipv4|173.249.252.176",
-        "reporters": 11,
-        "reports": 11,
-        "score": 26,
-        "usage_type": "Data Center/Web Hosting/Transit"
-      }
-    ],
+    "top_abuse": [],
     "top_malicious": [
       {
-        "ioc": "ioc.md5|c5a460e4e68a088f6e51b2c6474642ec",
-        "label": "trojan.phantomcore/usblgn26",
-        "malicious": 39
+        "ioc": "ioc.url|http://onesdto.shop:2535",
+        "malicious": 21
       },
       {
-        "ioc": "ioc.md5|8fcc3e4ccbf1725d9989fb464abf3561",
-        "label": "trojan.agentagen/usblh926",
-        "malicious": 36
-      },
-      {
-        "ioc": "ioc.md5|b3a6fee3307f1c26841fd5c603e2b013",
-        "label": "trojan.sbadur/agentagen",
-        "malicious": 36
-      },
-      {
-        "ioc": "ioc.sha256|619a99ba4ee9d7f33db8045c7e03c4265424977993fe8a53b0f45157c5abd3e5",
-        "label": "trojan.stealer/infostl",
-        "malicious": 30
-      },
-      {
-        "ioc": "ioc.sha256|f0062f7e70e61493684a2f60748a475168e155bc2502163c844c42e87692abd0",
-        "label": "trojan.stealer/bmcx",
-        "malicious": 29
-      },
-      {
-        "ioc": "ioc.sha256|5bad988affc1094f12b8b8bed659ef55b20e2988eb25441e1c1b34dd03b3eb52",
-        "label": "trojan.shell/abdownloader",
-        "malicious": 26
-      },
-      {
-        "ioc": "ioc.domain|nova-stream.site",
+        "ioc": "ioc.domain|onesdto.shop",
         "malicious": 20
       },
       {
-        "ioc": "ioc.ipv4|67.217.57.240",
-        "malicious": 19
-      },
-      {
-        "ioc": "ioc.md5|748c9f8cb1065000616204935f96207f",
-        "label": "trojan.phantomcore/egairtigado",
-        "malicious": 19
-      },
-      {
-        "ioc": "ioc.domain|masscan.cloud",
+        "ioc": "ioc.url|http://slyfogx.shop:5776",
         "malicious": 18
       },
       {
-        "ioc": "ioc.domain|matrix.masscan.cloud",
+        "ioc": "ioc.domain|slyfogx.shop",
         "malicious": 17
       },
       {
-        "ioc": "ioc.domain|pcp.masscan.cloud",
+        "ioc": "ioc.url|http://192.144.32.84:16383/",
         "malicious": 17
       },
       {
-        "ioc": "ioc.domain|natalstatus.org",
+        "ioc": "ioc.url|http://185.215.113.37/0d60be0de163924d/",
         "malicious": 16
       },
       {
-        "ioc": "ioc.url|http://67.217.57.240:666/files/keyen.sh",
+        "ioc": "ioc.ipv4|185.215.113.37",
         "malicious": 15
       },
       {
-        "ioc": "ioc.url|http://67.217.57.240:666/files/netsh",
+        "ioc": "ioc.ipv4|192.144.32.84",
+        "malicious": 15
+      },
+      {
+        "ioc": "ioc.domain|vtps.us",
         "malicious": 14
+      },
+      {
+        "ioc": "ioc.url|http://185.215.113.37/e2b1563c6670f193.php",
+        "malicious": 14
+      },
+      {
+        "ioc": "ioc.domain|f168hi.com",
+        "malicious": 13
+      },
+      {
+        "ioc": "ioc.domain|opa.tlsd.shop",
+        "malicious": 12
+      },
+      {
+        "ioc": "ioc.domain|relay.eurofin.digital",
+        "malicious": 10
+      },
+      {
+        "ioc": "ioc.domain|relay.dltsolutions.top",
+        "malicious": 7
+      },
+      {
+        "ioc": "ioc.ipv4|45.88.91.78",
+        "malicious": 4
       }
     ],
     "unknown": {
       "samples": [
-        "ioc.md5|0e4541c3153ec5ed01497f19cf4f63d0",
-        "ioc.md5|0e79996d9483d1e44fea32b0a48c2c19",
-        "ioc.md5|129462164a7d52e9ea8560b60f0412c5",
-        "ioc.md5|12d4e8f5295f2ef7e0f9bfc0f4830939",
-        "ioc.md5|2bb75c20e778eb5c416965bd4d4259b1",
-        "ioc.md5|43f435c3c437bc879a2d7d4634f43494",
-        "ioc.md5|489f43be558b2679284ceabed7adc4f3",
-        "ioc.md5|aee9642b45b099cb7f3053b9b680b425",
-        "ioc.md5|b348642146ea34771e5785c5857950f5",
-        "ioc.md5|c3a2abe8756910f42582b04a44ea3514",
-        "ioc.md5|c915cb6c2aeb863ee8479238e1644217",
-        "ioc.md5|dd1fd2b459b97b7d59375cb8383cd19a",
-        "ioc.md5|ec0bf4a2186a88874e9f26f07cfeb532",
-        "ioc.md5|ee2861d5965e8730708cd1da8a93fa4c",
-        "ioc.sha256|0fc30f82e1fa5e51a6c0c43f3ed7f13592ea731cb331e43a4d085df60a4db8b6"
+        "ioc.sha256|c4fcae3847946173bf0b3cedf5d97a9e3d18090023842f942ba544fa7fda180d",
+        "ioc.sha256|c84739655ce1af0a0269138263d47567418f69e0f75e249f8e23bc21802209e2",
+        "ioc.sha256|eb083365dc70d0294e8c4f55a2e78be0edb0f3497f2a06a70c9f474dafab48d8"
       ],
-      "total": 22
+      "total": 3
     }
   },
   "tool": "tools/ioc/daily-report.mjs"
