@@ -372,6 +372,9 @@ export function notableIps(iocs, links, { asnOf, asnInfo, maxAddresses = 4096 })
  * 段階（docs/ioc-enrich-plan.md §4）。小さいほど先に埋める。
  *
  *   new … 前回に無かった IOC。常に最優先（新しく入ってくる分を溜めないため）
+ *   rel … 関係の根拠に使える IP のうち索引に無いもの（§3.7）。索引の IOC ではないので
+ *         カバレッジの分母には入らない。**判定が無いと正規サービスを外せない**うえ、
+ *         守りを通った数十件しかないので、new の次に置いても他を圧迫しない
  *   1   … 複数の実体に繋がる IOC。**ここが終われば主目的はほぼ達成**
  *   2   … 注目 IP（小さい AS / 別アクター同居の /24）
  *   3   … ハッシュ（実体 1 つ）
@@ -379,7 +382,7 @@ export function notableIps(iocs, links, { asnOf, asnInfo, maxAddresses = 4096 })
  *   5   … 残りの IP
  *   6   … どれにも入らないもの（実体に繋がっていない IOC など）
  */
-export const STAGES = ["new", "1", "2", "3", "4", "5", "6"];
+export const STAGES = ["new", "rel", "1", "2", "3", "4", "5", "6"];
 
 export function stageOf(ioc, { entities, isNew, notable }) {
   if (isNew) return "new";

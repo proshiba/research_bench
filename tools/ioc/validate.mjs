@@ -114,6 +114,21 @@ const DERIVED_IOC_FIELDS = {
 };
 const DERIVED_ENTITY_FIELDS = { required: ["kind", "name", "ioc_count", "sources"], optional: ["aliases"] };
 const DERIVED_ALIAS_FIELDS = { required: ["name", "aliases", "source"], optional: ["samples"] };
+/** 関係の根拠に使える IP の一覧（stats.mjs、§3.7）。 */
+const RELATION_IP_FIELDS = {
+  required: ["via", "ioc", "derived", "from"],
+  optional: ["asn", "as_owner", "as_addresses"],
+};
+/**
+ * 生えた IOC に付いた判定（enrich-intel.mjs、§9.1e）。
+ * **索引の判定とは別の入れ物**。混ぜるとカバレッジの分子だけが増える。
+ */
+const DERIVED_VERDICT_FIELDS = {
+  required: ["ioc"],
+  optional: ["known", "malicious", "suspicious", "harmless", "undetected",
+    "as_owner", "country", "abuse_score", "abuse_reports", "usage_type",
+    "hosting", "isp", "whitelisted"],
+};
 const DERIVED_CERT_FIELDS = {
   required: ["thumbprint", "san_count", "sans", "iocs", "shared"],
   optional: ["issuer", "subject", "serial", "not_after", "weak", "weak_why"],
@@ -126,6 +141,10 @@ const DERIVED_CERT_FIELDS = {
  */
 const ORIGINS = new Set(["vt.dns", "vt.resolution", "vt.contacted"]);
 const DNS_TYPES = new Set(["A", "AAAA", "CNAME"]);
+/** 関係から来る根拠（§3.7）。3 つとも形が同じ（IOC → IP）。 */
+const RELATION_VIA = new Set(["resolution", "resolved", "contacted"]);
+/** enrich-intel.mjs の HOSTING と同じもの。片方だけ変わったら検査で落ちる。 */
+const HOSTING_USAGE = /data center|web hosting|transit|content delivery|reserved/i;
 
 /**
  * prefix が値を含むか。enrich-asn.mjs の最長一致が正しく効いたかを確かめる。
@@ -1038,6 +1057,85 @@ if (derivedCerts) {
     }
     if ((c.weak === true) !== (c.weak_why !== undefined)) {
       err("cert.weak", "weak と weak_why は揃っている必要があります", at("derived-certs.jsonl", i));
+    }
+  }
+}
+
+/**
+ * **守りを通った IP の一覧（§3.7）。** 根拠として使われうる IP はここに全部載る。
+ * 載っていない値が根拠に出てきたら、守りを通していない値が使われている。
+ */
+const relationIps = loadJsonl("relation-ips.jsonl", { required: false });
+const relationIpByVia = new Map();
+if (relationIps) {
+  checkOrder("relation-ips.jsonl", relationIps, byKeys("via", "ioc"), (r) => `${r.via}\t${r.ioc}`);
+  for (let i = 0; i < relationIps.length; i++) {
+    const r = relationIps[i];
+    checkFields("relation-ips.jsonl", r, i, RELATION_IP_FIELDS);
+    if (!RELATION_VIA.has(r.via)) {
+      err("relation.via", `知らない根拠です: ${r.via}`, at("relation-ips.jsonl", i));
+    }
+    if (!anyIoc(r.ioc)) {
+      err("relation.ioc", `存在しない IOC を指しています: ${r.ioc}`, at("relation-ips.jsonl", i));
+    }
+    // 索引が持っているかどうかは、引く相手を決めるのに使う。取り違えると枠を無駄にする
+    const isDerived = !iocByKey.has(r.ioc);
+    if (r.derived !== isDerived) {
+      err("relation.derived", `derived が ${isDerived} であるべきです: ${r.derived}`, at("relation-ips.jsonl", i));
+    }
+    for (const k of r.from || []) {
+      if (!anyIoc(k)) err("relation.from", `from が存在しない IOC を指しています: ${k}`, at("relation-ips.jsonl", i));
+    }
+    // 自分自身は from に入れない（「そこに届く別の IOC」の一覧なので）
+    if ((r.from || []).includes(r.ioc)) {
+      err("relation.from", `from に自分自身が入っています: ${r.ioc}`, at("relation-ips.jsonl", i));
+    }
+    if (!relationIpByVia.has(r.via)) relationIpByVia.set(r.via, new Set());
+    relationIpByVia.get(r.via).add(r.ioc);
+  }
+  // **根拠に出てくる値は、守りを通った一覧に必ず載っていること。**
+  for (let i = 0; overlaps && i < overlaps.length; i++) {
+    const o = overlaps[i];
+    for (const via of RELATION_VIA) {
+      for (const v of o.evidence?.[via] || []) {
+        if (!relationIpByVia.get(via)?.has(v)) {
+          err("overlap.evidence", `${via} の根拠 ${v} が relation-ips.jsonl にありません`, at("overlaps.jsonl", i));
+        }
+      }
+    }
+  }
+}
+
+/**
+ * 生えた IOC の判定。**索引の IOC の行がここに来てはいけない**（逆も同じ）。
+ * 混ざるとカバレッジの分子だけが増えて 100% を超える。
+ */
+const derivedVerdicts = loadJsonl("derived-verdicts.jsonl", { required: false });
+if (derivedVerdicts) {
+  checkOrder("derived-verdicts.jsonl", derivedVerdicts, byKeys("ioc"), (r) => r.ioc);
+  for (let i = 0; i < derivedVerdicts.length; i++) {
+    const r = derivedVerdicts[i];
+    checkFields("derived-verdicts.jsonl", r, i, DERIVED_VERDICT_FIELDS);
+    if (iocByKey.has(r.ioc)) {
+      err("verdict.index", `索引の IOC の判定が混じっています: ${r.ioc}`, at("derived-verdicts.jsonl", i));
+    } else if (!derivedIocByKey.has(r.ioc)) {
+      err("verdict.ioc", `存在しない IOC を指しています: ${r.ioc}`, at("derived-verdicts.jsonl", i));
+    }
+    // VT が知らないものに検知数は付かない
+    if (r.known === false && r.malicious !== undefined) {
+      err("verdict.unknown", `VT が知らないのに検知数が入っています: ${r.ioc}`, at("derived-verdicts.jsonl", i));
+    }
+    for (const k of ["malicious", "suspicious", "harmless", "undetected", "abuse_reports"]) {
+      if (r[k] !== undefined && (!Number.isInteger(r[k]) || r[k] < 0)) {
+        err("verdict.count", `${k} が 0 以上の整数ではありません: ${r[k]}`, at("derived-verdicts.jsonl", i));
+      }
+    }
+    if (r.abuse_score !== undefined && (!Number.isInteger(r.abuse_score) || r.abuse_score < 0 || r.abuse_score > 100)) {
+      err("verdict.score", `abuse_score が 0〜100 ではありません: ${r.abuse_score}`, at("derived-verdicts.jsonl", i));
+    }
+    // hosting の印は usage_type から起こす。片方だけ動かすと根拠の理由が追えなくなる
+    if (r.hosting === true && !HOSTING_USAGE.test(String(r.usage_type ?? ""))) {
+      err("verdict.hosting", `usage_type が事業者の網ではないのに印が付いています: ${r.usage_type}`, at("derived-verdicts.jsonl", i));
     }
   }
 }

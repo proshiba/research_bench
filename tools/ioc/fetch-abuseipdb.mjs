@@ -5,7 +5,7 @@
 //                         [--in data/ioc/latest] [--cache data/ioc/.cache/abuseipdb]
 //                         [--limit 1000] [--plan] [--rpm 30] [--daily 1000]
 //                         [--max-age 2592000] [--max-age-days 365]
-//                         [--refresh] [--include-noise]
+//                         [--refresh] [--include-noise] [--relation-ips]
 //
 // `GET /api/v2/check?ipAddress=&maxAgeInDays=365&verbose=` を IP ごとに 1 回。
 // verbose を付けるのは **通報カテゴリの分布**が欲しいため（何をして通報されたか）。
@@ -28,6 +28,8 @@ const IN = path.resolve(REPO_ROOT, args.in || "data/ioc/latest");
 const CACHE = path.resolve(REPO_ROOT, args.cache || "data/ioc/.cache/abuseipdb");
 const PLAN_ONLY = !!args.plan;
 const INCLUDE_NOISE = !!args["include-noise"];
+/** 関係の根拠に使える IP（stats.mjs の relation-ips.jsonl）も引く。§3.7 */
+const RELATION_IPS = !!args["relation-ips"];
 const LIMIT = args.limit === undefined ? Infinity : Number(args.limit);
 const MAX_AGE = Number(args["max-age"] || 2592000) * 1000;
 /** 何日ぶんの通報を見るか。既定 365 日（計画 §1.2 と同じ） */
@@ -51,16 +53,37 @@ const counts = entityCounts(links);
 const notable = notableIps(iocs, links, { asnOf, asnInfo });
 
 const targets = [];
+const seenTarget = new Set();
 for (const r of iocs) {
   if (!ABUSE_TARGET_TYPES.has(r.type)) continue;
   if (excluded(r, { includeNoise: INCLUDE_NOISE })) continue;
   const entities = counts.get(r.key) || 0;
+  seenTarget.add(r.key);
   targets.push({
     ioc: r.key,
     id: r.value,
     entities,
     stage: stageOf(r, { entities, isNew: fresh.has(r.key), notable: notable.has(r.key) }),
   });
+}
+
+/**
+ * **関係の根拠に使える IP（§3.7）のうち、索引が持っていないものも引く。**
+ *
+ * 「事業者の網か」の判定は AS 単位で持っていて、その AS に判定が 3 件以上ないと
+ * 使えない。ところが守りを通った IP の AS は Clever Cloud・Bunny.net・Seznam・
+ * Criteo のような**索引に 1 件も出てこない事業者**が多く、判定が集まらない。
+ * その IP 自身に判定を付けるのがいちばん直接的な近道になる（§9.1e）。
+ */
+if (RELATION_IPS) {
+  for (const r of readJsonl(path.join(IN, "relation-ips.jsonl"))) {
+    if (!r.derived || seenTarget.has(r.ioc)) continue;
+    const type = r.ioc.slice(0, r.ioc.indexOf("|"));
+    const value = r.ioc.slice(r.ioc.indexOf("|") + 1);
+    if (!ABUSE_TARGET_TYPES.has(type)) continue;
+    seenTarget.add(r.ioc);
+    targets.push({ ioc: r.ioc, id: value, entities: 0, stage: "rel" });
+  }
 }
 
 const now = Date.now();

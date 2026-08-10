@@ -692,6 +692,61 @@ const coverage = coverageOf({
 });
 const ratio = (a, b) => (b > 0 ? Math.round((a / b) * 1000) / 1000 : 0);
 
+/* ---------------- 5. 生えた IOC の判定 ---------------- */
+
+/**
+ * **生えた IOC に付いた判定は、索引の判定とは別の入れ物に置く（§9.1e）。**
+ *
+ * `vt.jsonl` / `abuseipdb.jsonl` に混ぜてはいけない。カバレッジの分子は
+ * これらの行数そのもの（`coverageOf` の `done`）で、分母は索引の IOC から数える。
+ * 索引に無い IOC の行を混ぜると、**分子だけが増えて 100% を超える**。
+ *
+ * 引く相手は `stats.mjs` が `relation-ips.jsonl` に出した「守りを通った IP」だけ
+ * （`fetch-*.mjs --relation-ips`）。全部の生えた IOC を引くわけではないので、
+ * ここに行があるのは根拠として使われうる数十件に限られる。
+ */
+const derivedVerdicts = [];
+{
+  const vtByIoc = new Map(vtRecords.map((r) => [r.ioc, r]));
+  const abuseByIoc = new Map(abuseRecords.map((r) => [r.ioc, r]));
+  for (const r of derivedIocs) {
+    const v = vtByIoc.get(r.key);
+    const a = abuseByIoc.get(r.key);
+    if (!v && !a) continue;
+    const row = { ioc: r.key };
+    if (v) {
+      if (v.status === 404 || v.status === 400) {
+        row.known = false;
+      } else {
+        const b = v.body || {};
+        const s = b.last_analysis_stats || {};
+        row.known = true;
+        row.malicious = int(s.malicious) ?? 0;
+        row.suspicious = int(s.suspicious) ?? 0;
+        row.harmless = int(s.harmless) ?? 0;
+        row.undetected = int(s.undetected) ?? 0;
+        // **AS の持ち主は判定の要**。Criteo（広告）や IdenTrust（証明書失効確認）は
+        // 検知 0 でも「正規サービス」として外したい相手で、名前がその手掛かりになる
+        if (b.as_owner) row.as_owner = String(b.as_owner);
+        if (b.country) row.country = String(b.country);
+      }
+    }
+    if (a && a.body) {
+      const b = a.body;
+      row.abuse_score = int(b.abuseConfidenceScore) ?? 0;
+      row.abuse_reports = int(b.totalReports) ?? 0;
+      if (b.usageType) row.usage_type = String(b.usageType);
+      // 事業者の網の判定。**AS 単位の割合と違い、その IP 自身への判定**なので、
+      // 索引に 1 件も出てこない事業者（Clever Cloud・Bunny.net）にも効く
+      if (b.usageType && HOSTING.test(String(b.usageType))) row.hosting = true;
+      if (b.isp) row.isp = String(b.isp);
+      if (b.isWhitelisted) row.whitelisted = true;
+    }
+    derivedVerdicts.push(row);
+  }
+  derivedVerdicts.sort(byKeys("ioc"));
+}
+
 /* ---------------- 書き出し ---------------- */
 
 writeJsonl(path.join(OUT, "vt.jsonl"), vtRows);
@@ -701,6 +756,7 @@ writeJsonl(path.join(OUT, "derived-links.jsonl"), usableDerivedLinks.sort(byKeys
 writeJsonl(path.join(OUT, "derived-entities.jsonl"), derivedEntities);
 writeJsonl(path.join(OUT, "derived-aliases.jsonl"), derivedAliases);
 writeJsonl(path.join(OUT, "derived-certs.jsonl"), certRows);
+writeJsonl(path.join(OUT, "derived-verdicts.jsonl"), derivedVerdicts);
 
 writeJson(path.join(OUT, "enrich-meta.json"), {
   tool: "tools/ioc/enrich-intel.mjs",
@@ -736,6 +792,7 @@ writeJson(path.join(OUT, "enrich-meta.json"), {
     derived_entities: derivedEntities.length,
     derived_aliases: derivedAliases.length,
     derived_certs: certRows.length,
+    derived_verdicts: derivedVerdicts.length,
     shared_certs: certRows.filter((c) => c.shared && !c.weak).length,
   },
   // AS は経路表とも突き合わせる。食い違いは時点差なので、消さずに数だけ残す
