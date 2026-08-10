@@ -224,6 +224,46 @@ for (const l of links) {
   m.get(l.name).add(l.ioc);
 }
 
+/**
+ * **その IOC が「攻撃側のもの」と言われているか（§3.8）。**
+ *
+ * 索引の関係語のうち `観測アクター`（アクター 13,308 件）と `関連`（マルウェア・
+ * 作戦 2,671 件）は、**役割を述べていない**。「その記事にアクターと一緒に出てきた」
+ * という意味しかなく、C2 なのか、被害組織なのか、記事そのものなのかを区別しない。
+ * `c2` `attrs.マルウェア` `beacon_or_tasking` のような語は役割を述べている。
+ *
+ * 実測すると、`ioc` 根拠に引かれた 209 IOC のうち **64 件が役割を述べられておらず**、
+ * その中身は研究報告の URL（`401trg.com/burning-umbrella/`）・研究者の連絡先
+ * （`silas@stairwell.com`）・ベンダーの営業窓口（`sales@bitsight.com`）・
+ * 被害組織や防御側のサイト（`www.nis.go.kr` `boho.or.kr` `ecrm.police.go.kr`）・
+ * 解析ツール（`gchq.github.io/cyberchef/`）・記事（`mp.weixin.qq.com/s/…`）で、
+ * さらに `1.3.6.1`（OID の断片）や `com.apple` `com.de`（TLD の断片）、
+ * `20132018201720152019201720162016`（年を並べた数字を MD5 と読んだもの）まであった。
+ *
+ * **役割が述べられていない、かつ VT も何も言わない**ものだけを根拠から外す。
+ * 関係の IP と同じ考え方（§9.1e）で、**どこにも主張が無いものは根拠にしない**。
+ * 役割が述べられていれば検知 0 でも使う（検知 0 の C2 は 239 件あり、
+ * それ自体が調べる価値のある食い違い。§3.4）。
+ */
+const GENERIC_REL = new Set(["観測アクター", "関連"]);
+const relsOf = new Map();
+for (const l of links) {
+  if (!KINDS.includes(l.kind)) continue;
+  if (!relsOf.has(l.ioc)) relsOf.set(l.ioc, new Set());
+  relsOf.get(l.ioc).add(l.rel ?? "");
+}
+/**
+ * 判定は **IOC 単位**で見る（実体ごとではない）。誰か 1 人でも役割を述べていれば、
+ * その IOC は攻撃側のものとして索引に載っている。片側の言い方だけで決めると、
+ * 同じ IOC が組によって使えたり使えなかったりして、根拠の意味が揺れる。
+ */
+const assertedIoc = (key) => {
+  const rels = relsOf.get(key);
+  if (rels && [...rels].some((r) => !GENERIC_REL.has(r))) return true;
+  const v = vtByIoc.get(key);
+  return (v?.malicious ?? 0) >= 1;
+};
+
 /* ---------------- エンリッチから来る根拠 ---------------- */
 
 const vtByIoc = new Map(vt.map((r) => [r.ioc, r]));
@@ -803,12 +843,28 @@ function groupsFor(kind) {
         if (!map.has(k)) map.set(k, new Set());
         map.get(k).add(name);
       };
-      put(byIoc, key);
-      // 貸し出し用の /24 は根拠にしない（AS と同じ観点。§3.2b）
-      if (subnetUsable(rec?.subnet)) put(bySubnet, rec.subnet);
-      put(byDomain, rec.registrable);
-      const asn = asnOf.get(key);
-      if (asn && asnUsable(asn)) put(byAsn, `AS${asn}`);
+      /**
+       * **IOC の文字列そのものから生える根拠は、主張のあるものだけ（§3.8）。**
+       *
+       * `ioc`・`/24`・登録可能ドメイン・AS は、どれも IOC の値をそのまま読んで
+       * 出しているので、**その値が攻撃側のものでなければ全部が同時に崩れる**。
+       * 実測で `1.3.6.1`（OID の断片を IP と読んだもの）が `1.3.6.0/24` として
+       * APT28 ↔ Anonymous を 5 点で繋いでいた。
+       *
+       * 一方、証明書・解決先・JARM・ファジーハッシュは**エンリッチが独立に
+       * 見つけた事実**で、索引が役割を書いたかどうかとは別に成り立つ。
+       * ここまで外すと APT28 ↔ Gamaredon が 25 → 7 に落ちる（証明書と解決先を失う）。
+       * **線はここに引く。**
+       */
+      const asserted = assertedIoc(key);
+      if (asserted) {
+        put(byIoc, key);
+        // 貸し出し用の /24 は根拠にしない（AS と同じ観点。§3.2b）
+        if (subnetUsable(rec?.subnet)) put(bySubnet, rec.subnet);
+        put(byDomain, rec.registrable);
+        const asn = asnOf.get(key);
+        if (asn && asnUsable(asn)) put(byAsn, `AS${asn}`);
+      }
 
       if (!HAS_VT) continue;
       put(byCert, certOf.get(key));

@@ -141,6 +141,11 @@ const DERIVED_CERT_FIELDS = {
  */
 const ORIGINS = new Set(["vt.dns", "vt.resolution", "vt.contacted"]);
 const DNS_TYPES = new Set(["A", "AAAA", "CNAME"]);
+/**
+ * 役割を述べていない関係語（§3.8）。「その記事に一緒に出てきた」しか言っていない。
+ * stats.mjs の GENERIC_REL と同じもの。片方だけ変わったら検査で落ちる。
+ */
+const GENERIC_REL = new Set(["観測アクター", "関連"]);
 /** 関係から来る根拠（§3.7）。3 つとも形が同じ（IOC → IP）。 */
 const RELATION_VIA = new Set(["resolution", "resolved", "contacted"]);
 /** enrich-intel.mjs の HOSTING と同じもの。片方だけ変わったら検査で落ちる。 */
@@ -1141,6 +1146,34 @@ if (derivedVerdicts) {
 }
 
 const vtRows = loadJsonl("vt.jsonl", { required: false });
+/**
+ * **役割も検知も無い IOC が根拠に出ていないこと（§3.8）。**
+ *
+ * 出す側（stats.mjs）と同じ判定をここで数え直す。索引の関係語のうち
+ * `観測アクター` と `関連` は「その記事に一緒に出てきた」しか言っておらず、
+ * 研究報告の URL や被害組織のサイトがそのまま根拠になってしまう。
+ */
+if (vtRows && overlaps && links) {
+  const malOf = new Map(vtRows.map((r) => [r.ioc, r.known === false ? 0 : (r.malicious ?? 0)]));
+  const relsOf = new Map();
+  for (const l of links) {
+    if (!["actor", "malware", "campaign", "case"].includes(l.kind)) continue;
+    if (!relsOf.has(l.ioc)) relsOf.set(l.ioc, new Set());
+    relsOf.get(l.ioc).add(l.rel ?? "");
+  }
+  const asserted = (key) => {
+    const rels = relsOf.get(key);
+    if (rels && [...rels].some((r) => !GENERIC_REL.has(r))) return true;
+    return (malOf.get(key) ?? 0) >= 1;
+  };
+  for (let i = 0; i < overlaps.length; i++) {
+    for (const v of overlaps[i].evidence?.ioc || []) {
+      if (!asserted(v)) {
+        err("overlap.asserted", `役割も検知も無い IOC が根拠になっています: ${v}`, at("overlaps.jsonl", i));
+      }
+    }
+  }
+}
 if (vtRows) {
   checkOrder("vt.jsonl", vtRows, byKeys("ioc"), (r) => r.ioc);
   for (let i = 0; i < vtRows.length; i++) {

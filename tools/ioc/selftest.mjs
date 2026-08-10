@@ -56,6 +56,10 @@ const IOCS = [
   { key: "ioc.sha256|" + "4".repeat(64), type: "ioc.sha256", value: "4".repeat(64), sources: ["src-a"] },
   { key: "ioc.url|https://evil.example.com/a", type: "ioc.url", value: "https://evil.example.com/a",
     sources: ["src-a"] },
+  // 報告書そのもの。索引は「一緒に出てきた」としか言っておらず、VT も何も言わない。
+  // 両アクターが持っていても根拠にはならない（§3.8）
+  { key: "ioc.url|https://report.example/writeup/", type: "ioc.url", value: "https://report.example/writeup/",
+    sources: ["src-a"] },
 ];
 
 const LINKS = [
@@ -69,6 +73,8 @@ const LINKS = [
   { ioc: "ioc.sha1|" + "2".repeat(40), kind: "malware", name: "TestRAT", source: "src-a", rel: "sample" },
   { ioc: "ioc.sha256|" + "3".repeat(64), kind: "actor", name: "Other Group", source: "src-b", rel: "sample" },
   { ioc: "ioc.sha256|" + "4".repeat(64), kind: "actor", name: "APT-Test", source: "src-a", rel: "sample" },
+  { ioc: "ioc.url|https://report.example/writeup/", kind: "actor", name: "APT-Test", source: "src-a", rel: "観測アクター" },
+  { ioc: "ioc.url|https://report.example/writeup/", kind: "actor", name: "Other Group", source: "src-a", rel: "観測アクター" },
   { ioc: "ioc.domain|c2.example.com", kind: "cve", name: "CVE-2026-0001", source: "src-a", rel: "attrs.関連CVE" },
 ];
 const ALIASES = { "APT-Test": ["Test Panda"] };
@@ -659,6 +665,14 @@ const CASES = [
   ["verdict.unknown", "VT が知らないのに検知数が入っている", (d) => {
     editLine(d, "derived-verdicts.jsonl", "45.32.12.5", (l) =>
       l.replace('"known":true', '"known":false'));
+  }],
+  ["overlap.asserted", "役割も検知も無い IOC が根拠になっている", (d) => {
+    // 研究報告の URL や被害組織のサイトが実体を繋いでしまう形（§3.8）
+    editLine(d, "overlaps.jsonl", '"kind":"actor"', (l) => {
+      const r = JSON.parse(l);
+      r.evidence = { ...r.evidence, ioc: [...r.evidence.ioc, "ioc.url|https://report.example/writeup/"].sort() };
+      return putRow(r);
+    });
   }],
   ["derived.link_entity", "生えた辺が知らない実体を指す", (d) => {
     editLine(d, "derived-links.jsonl", "suggested_threat_label", (l) => l.replace('"TestRAT"', '"GhostFam"'));

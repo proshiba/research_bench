@@ -653,17 +653,17 @@
         "family": 156,
         "filename": 31,
         "imphash": 13,
-        "ioc": 59,
+        "ioc": 37,
         "jarm": 642,
         "registered": 352,
-        "registrable": 115,
+        "registrable": 94,
         "resolution": 1,
         "signer": 2,
-        "subnet": 17,
+        "subnet": 14,
         "vhash": 10
       },
       "identical_sets": 3,
-      "pairs": 1088,
+      "pairs": 1066,
       "top": [
         {
           "a": "APT37",
@@ -701,9 +701,7 @@
               "26d26d00026d26d22c26d26d26d26dd3b67dd3674d9af9dd91c1955a35d0e9"
             ],
             "registrable": [
-              "ac.kr",
-              "or.kr",
-              "xxx.xxx"
+              "or.kr"
             ],
             "signer": [
               "EGIS Co., Ltd.; thawte SHA256 Code Signing CA; thawte"
@@ -718,8 +716,8 @@
               "2170361515151z240020"
             ]
           },
-          "ratio": 0.047,
-          "shared": 50,
+          "ratio": 0.045,
+          "shared": 48,
           "strength": 41,
           "via": [
             "asn",
@@ -800,63 +798,6 @@
             "registrable",
             "signer",
             "vhash"
-          ]
-        },
-        {
-          "a": "APT28",
-          "b": "Gamaredon",
-          "evidence": {
-            "certificate": [
-              "f29681d6e4ad64673d561247b8d8b055e92b61133ee49d1fb0c997bcd038d36a"
-            ],
-            "family": [
-              "jaik"
-            ],
-            "filename": [
-              "prod.js",
-              "release.exe",
-              "runner.exe",
-              "主要.js",
-              "有效負載.js"
-            ],
-            "ioc": [
-              "ioc.domain|email.cz",
-              "ioc.domain|paste.ee"
-            ],
-            "jarm": [
-              "15d3fd16d29d29d00042d43d00000071784fa9f8305ba9220d0a7894b6ff2c",
-              "20d08b20d21d20d20c42d08b20b41d494e0df9532e75299f15ba73156cee38",
-              "27d40d40d00040d00042d43d0000004ac24e77d76646867f0f6a0c6d9b9bb0",
-              "27d40d40d00040d00042d43d000000e1ea2a807a629b496b664cf07ad7c08d",
-              "28d28d28d00028d00042d42d0000005a3e96c1dfa4bdb24b8b3c04cae18cc3"
-            ],
-            "registered": [
-              "2020-08-13",
-              "2023-03-31",
-              "2023-04-19",
-              "2023-11-01",
-              "2023-11-02"
-            ],
-            "registrable": [
-              "email.cz",
-              "paste.ee"
-            ],
-            "resolution": [
-              "ioc.ipv4|23.186.113.60"
-            ]
-          },
-          "ratio": 0.037,
-          "shared": 42,
-          "strength": 33,
-          "via": [
-            "certificate",
-            "family",
-            "filename",
-            "ioc",
-            "jarm",
-            "registered",
-            "registrable",
-            "resolution"
           ]
         },
         {
@@ -1076,6 +1017,53 @@
           ]
         },
         {
+          "a": "APT28",
+          "b": "Gamaredon",
+          "evidence": {
+            "certificate": [
+              "f29681d6e4ad64673d561247b8d8b055e92b61133ee49d1fb0c997bcd038d36a"
+            ],
+            "family": [
+              "jaik"
+            ],
+            "filename": [
+              "prod.js",
+              "release.exe",
+              "runner.exe",
+              "主要.js",
+              "有效負載.js"
+            ],
+            "jarm": [
+              "15d3fd16d29d29d00042d43d00000071784fa9f8305ba9220d0a7894b6ff2c",
+              "20d08b20d21d20d20c42d08b20b41d494e0df9532e75299f15ba73156cee38",
+              "27d40d40d00040d00042d43d0000004ac24e77d76646867f0f6a0c6d9b9bb0",
+              "27d40d40d00040d00042d43d000000e1ea2a807a629b496b664cf07ad7c08d",
+              "28d28d28d00028d00042d42d0000005a3e96c1dfa4bdb24b8b3c04cae18cc3"
+            ],
+            "registered": [
+              "2020-08-13",
+              "2023-03-31",
+              "2023-04-19",
+              "2023-11-01",
+              "2023-11-02"
+            ],
+            "resolution": [
+              "ioc.ipv4|23.186.113.60"
+            ]
+          },
+          "ratio": 0.033,
+          "shared": 38,
+          "strength": 23,
+          "via": [
+            "certificate",
+            "family",
+            "filename",
+            "jarm",
+            "registered",
+            "resolution"
+          ]
+        },
+        {
           "a": "Cellebrite",
           "b": "Cytrox",
           "evidence": {
@@ -1206,7 +1194,7 @@
           ]
         }
       ],
-      "weak_only": 1008
+      "weak_only": 1009
     },
     "campaign": {
       "by_via": {
@@ -1215,10 +1203,10 @@
         "family": 0,
         "filename": 0,
         "imphash": 0,
-        "ioc": 1,
+        "ioc": 0,
         "jarm": 6,
         "registered": 0,
-        "registrable": 1,
+        "registrable": 0,
         "resolution": 0,
         "signer": 0,
         "subnet": 0,
@@ -1227,31 +1215,6 @@
       "identical_sets": 0,
       "pairs": 6,
       "top": [
-        {
-          "a": "Dream Job",
-          "b": "ThreatNeedle",
-          "evidence": {
-            "ioc": [
-              "ioc.domain|au-pair.org",
-              "ioc.domain|co.cr"
-            ],
-            "jarm": [
-              "2ad2ad16d2ad2ad0002ad2ad2ad2adbfb4c26e4a72aca380107db225a1ef64"
-            ],
-            "registrable": [
-              "au-pair.org",
-              "co.cr"
-            ]
-          },
-          "ratio": 0.085,
-          "shared": 5,
-          "strength": 11,
-          "via": [
-            "ioc",
-            "jarm",
-            "registrable"
-          ]
-        },
         {
           "a": "Meta Syrian network disruption (October 2021)",
           "b": "TOUGHPROGRESS Government Targeting Campaign",
@@ -1317,6 +1280,22 @@
           "weak_only": true
         },
         {
+          "a": "Dream Job",
+          "b": "ThreatNeedle",
+          "evidence": {
+            "jarm": [
+              "2ad2ad16d2ad2ad0002ad2ad2ad2adbfb4c26e4a72aca380107db225a1ef64"
+            ]
+          },
+          "ratio": 0.017,
+          "shared": 1,
+          "strength": 1,
+          "via": [
+            "jarm"
+          ],
+          "weak_only": true
+        },
+        {
           "a": "Operation Newton",
           "b": "ThreatNeedle",
           "evidence": {
@@ -1333,7 +1312,7 @@
           "weak_only": true
         }
       ],
-      "weak_only": 5
+      "weak_only": 6
     },
     "case": {
       "by_via": {
@@ -1905,9 +1884,9 @@
             "ioc": [
               "ioc.ipv4|142.0.68.2",
               "ioc.ipv4|185.25.50.93",
-              "ioc.ipv4|185.25.51.114",
-              "ioc.ipv4|185.25.51.164",
-              "ioc.ipv4|185.25.51.198"
+              "ioc.ipv4|185.25.51.198",
+              "ioc.ipv4|188.241.68.121",
+              "ioc.ipv4|194.187.249.126"
             ],
             "jarm": [
               "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
@@ -1918,10 +1897,10 @@
             ],
             "subnet": [
               "142.0.68.0/24",
-              "185.77.129.0/24",
               "188.241.68.0/24",
               "213.103.67.0/24",
-              "220.158.216.0/24"
+              "220.158.216.0/24",
+              "222.15.23.0/24"
             ],
             "vhash": [
               "016096666d5c0d5c0515603142z41002c1z23z6035z23z50301bz",
@@ -1931,8 +1910,8 @@
               "02503e0f7d101013z11z69z15z13z1011z19z"
             ]
           },
-          "ratio": 2.421,
-          "shared": 276,
+          "ratio": 2.351,
+          "shared": 268,
           "strength": 27,
           "via": [
             "family",
