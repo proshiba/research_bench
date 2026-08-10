@@ -148,7 +148,8 @@ VT_API_KEYS="k1,k2,k3" node tools/ioc/fetch-vt.mjs
 ABUSEIPDB_API_KEY="k"  node tools/ioc/fetch-abuseipdb.mjs [--limit 1000] [--plan]
 ```
 
-**1 IOC につき object を 1 回だけ**引く。関係（`/resolutions` など）は引かない。
+**1 IOC につき object を 1 回だけ**引く。関係（`/resolutions` など）はここでは引かない
+（`fetch-vt-rel.mjs` が対象を絞って別に引く）。
 1 IOC あたり呼び出しが 1〜3 回増え、18,589 件では成立しないため。object の応答だけでも
 DNS レコード・証明書・JARM・脅威ラベルは入っている。
 
@@ -213,8 +214,8 @@ node tools/ioc/enrich-intel.mjs [--in data/ioc/latest] [--out <同じ場所>]
 | --- | --- |
 | `vt.jsonl` | IOC ごとの判定。VT が知らないものは `known:false` |
 | `abuseipdb.jsonl` | IP ごとの通報状況。**通報数ではなくスコアで判断する** |
-| `derived-iocs.jsonl` | 写しから生えた IOC（DNS の解決先）。`origin` で出どころが分かる |
-| `derived-links.jsonl` | 生えた辺（解決先・ファミリ） |
+| `derived-iocs.jsonl` | 写しから生えた IOC（解決先・過去の解決先・通信先の IP）。`origin` で出どころが分かる |
+| `derived-links.jsonl` | 生えた辺（`resolves_to` / `resolved_at` / `contacted` / ファミリ）。過去の解決先には `at`（解決日）が付く |
 | `derived-entities.jsonl` | 生えた実体（索引に無かった VT のファミリ名） |
 | `derived-aliases.jsonl` | ファミリの別名候補 |
 | `derived-certs.jsonl` | 証明書ごとの IOC のまとまり |
@@ -287,18 +288,22 @@ node tools/ioc/stats.mjs [--in data/ioc/latest] [--out <同じ場所>]
                          [--hosting-ratio 0.7] [--hosting-min 3]
 ```
 
-重なりの根拠を 9 つ出す。どれも「共有している IOC の数」で測る。
-後半 5 つは `enrich-intel.mjs` があるときだけ出る。
+重なりの根拠を 15 通り出す。どれも「共有している IOC の数」で測る。
+`enrich-intel.mjs` があるときだけ出るものが多い。
 
 | 根拠 | 意味 | 点 |
 | --- | --- | --- |
 | `certificate` | 同じ証明書（thumbprint 一致）。**最も強いインフラ共有の証拠** | 9 |
 | `ioc` | 同じ IOC を指している | 8 |
-| `resolution` | 同じ IP に解決するドメインを持っている | 7 |
+| `resolution` | 同じ IP に解決するドメインを持っている（**現在**の DNS） | 7 |
+| `signer` | 同じコード署名者。窃取された証明書の共有は偶然では起きない | 7 |
 | `vhash` | VT の構造ハッシュが一致。**提供元の判断が入らない** | 6 |
 | `subnet` | 同じ /24 に IP がある。**API を 1 回も呼ばずに見える** | 5 |
 | `asn` | 同じ AS に IP がある。**小さい AS に限る** | 5 |
+| `resolved` | **過去に**同じ IP に解決していた（`/resolutions`、日付つき） | 5 |
 | `imphash` | PE のインポート表が一致。パッカーで衝突するので中くらい | 4 |
+| `contacted` | 検体が同じ IP と通信した（`/contacted_ips`） | 4 |
+| `registered` | 同じ日に一斉登録された。**弱い**（他の根拠と重なって初めて効く） | 3 |
 | `family` | VT が同じ脅威ラベルを付けている。**弱い** | 2 |
 | `registrable` | 同じ登録可能ドメイン（eTLD+1）を使っている。弱い | 2 |
 | `filename` | 珍しいファイル名の共有。**弱い**（2 つ以上揃って初めて数える） | 1 |
@@ -369,6 +374,11 @@ JARM や `invoice.doc` を根拠にすると、無関係な実体が総当たり
 Agent.a / Agent.b。AgentTesla のような実在のファミリは残る）、`generic` で始まるもの、
 そして**母音を含まないもの**（`grhh` `kqil` `vsnw09g25` のような機械生成の札）。
 
+### 解決先・過去の解決先・通信先は同じ守りを通す
+
+`resolution` / `resolved` / `contacted` は形が同じ（IOC → IP）なので、守りも同じものを
+一つの関数（`foldTargets`）で掛ける。**引いた関係をそのまま根拠にはしない。**
+
 `resolution` は**誰かの解決先になっている IP だけ**を数える。自分の IP を無条件に
 入れると `ioc`（同じ IOC を指している）の写しになってしまう。
 
@@ -379,8 +389,17 @@ Agent.a / Agent.b。AgentTesla のような実在のファミリは残る）、`
 その IP が edge なら何も言えない**。境目は `asn` と同じ `--asn-max-addresses`。
 これで解決先を根拠にする組は 156 → 22 に絞られた。
 
-AS が分からない解決先は判断できないので残す。実測では、経路に出ていない
-`216.120.147.200` に 2 つのドメインが解決していて、これは残すべきものだった。
+**経路に無い IP は外す**（経路表そのものが無い環境では判断できないので、そのときは通す）。
+AS が引けないと大きさの守りが素通りするためで、実測ではこの穴から
+`93.184.220.29` / `72.21.91.29`（Edgecast / Limelight の CDN）が抜け、
+**APT37 ↔ Lazarus Group** という強い主張が通信先の根拠として立っていた。
+CDN は使わなくなった網を返上するので、**経路に無いこと自体が「昔の CDN の跡」の印**
+になっている。
+
+**両実体が別々の IOC から届いていること**（橋の条件）も見る。「両方がこの IP に
+解決する」と言っても、その IP を出したドメインが 1 本しか無ければ、それは
+「両方がそのドメインを持つ」の言い換えでしかない。実測で、過去の解決先はこの条件だけで
+**根拠が全部消えた**（守りを通った 33 IP がすべて 1 ドメイン経由だった）。
 
 **bogon と noise の解決先も外す。** `127.0.0.1` に解決するドメイン同士は
 「同じ所に居る」のではなく、**どちらもシンクホールされている**。実測で

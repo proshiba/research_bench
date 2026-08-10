@@ -51,6 +51,9 @@ const IOCS = [
   { key: "ioc.sha256|" + "1".repeat(64), type: "ioc.sha256", value: "1".repeat(64), sources: ["src-b"] },
   // VT が索引に無いファミリ名を付ける検体。生えた実体の道筋を通す
   { key: "ioc.sha1|" + "2".repeat(40), type: "ioc.sha1", value: "2".repeat(40), sources: ["src-a"] },
+  // 通信先の根拠を通すための検体。**別々のアクターが別々の検体から同じ IP に届く**
+  { key: "ioc.sha256|" + "3".repeat(64), type: "ioc.sha256", value: "3".repeat(64), sources: ["src-b"] },
+  { key: "ioc.sha256|" + "4".repeat(64), type: "ioc.sha256", value: "4".repeat(64), sources: ["src-a"] },
   { key: "ioc.url|https://evil.example.com/a", type: "ioc.url", value: "https://evil.example.com/a",
     sources: ["src-a"] },
 ];
@@ -64,6 +67,8 @@ const LINKS = [
   { ioc: "ioc.md5|" + "0".repeat(32), kind: "malware", name: "TestRAT", source: "src-a", rel: "sample" },
   { ioc: "ioc.sha256|" + "1".repeat(64), kind: "malware", name: "TestRAT", source: "src-b", rel: "sample" },
   { ioc: "ioc.sha1|" + "2".repeat(40), kind: "malware", name: "TestRAT", source: "src-a", rel: "sample" },
+  { ioc: "ioc.sha256|" + "3".repeat(64), kind: "actor", name: "Other Group", source: "src-b", rel: "sample" },
+  { ioc: "ioc.sha256|" + "4".repeat(64), kind: "actor", name: "APT-Test", source: "src-a", rel: "sample" },
   { ioc: "ioc.domain|c2.example.com", kind: "cve", name: "CVE-2026-0001", source: "src-a", rel: "attrs.関連CVE" },
 ];
 const ALIASES = { "APT-Test": ["Test Panda"] };
@@ -141,11 +146,15 @@ function buildAsnFixture(dir) {
     { asn: 64500, hits: 100, ioc: "ioc.ipv4|45.32.10.7", prefix: "45.32.8.0/21" },
     // 生えた IP にも AS を付ける。付けないと「解決先が edge かどうか」が判断できない
     { asn: 64500, hits: 50, ioc: "ioc.ipv4|45.32.11.9", prefix: "45.32.8.0/21" },
+    // 通信先として生えた IP。経路が引けないと大きさの守りが素通りする
+    { asn: 64500, hits: 40, ioc: "ioc.ipv4|45.32.12.5", prefix: "45.32.8.0/21" },
+    // 過去の解決先として生えた IP。経路に無いので根拠には使われない
+    { ioc: "ioc.ipv4|45.32.13.7", routed: false },
     { ioc: "ioc.ipv4|45.32.10.8", routed: false },
   ].sort((a, b) => (a.ioc < b.ioc ? -1 : 1)));
 
   writeJsonl(path.join(dir, "asns.jsonl"), [
-    { asn: 64500, cc: "US", iocs: 2, name: "検査用ホスティング", prefixes: 2, addresses: 2048 },
+    { asn: 64500, cc: "US", iocs: 3, name: "検査用ホスティング", prefixes: 2, addresses: 2048 },
     { asn: 64501, cc: "US", class: "Content", iocs: 1, name: "検査用 DNS", prefixes: 1, addresses: 256 },
   ]);
 
@@ -157,7 +166,7 @@ function buildAsnFixture(dir) {
       bytes: 1234, lines: 3, sha256: "f".repeat(64) },
     asn_names: null,
     table_prefixes: { v4: 3, v6: 0, skipped: 0 },
-    counts: { routed: 3, unrouted: 1, skipped: 1, asns: 2 },
+    counts: { routed: 4, unrouted: 2, skipped: 1, asns: 2 },
   });
 
 }
@@ -215,6 +224,16 @@ function buildEnrichFixture(dir, iocs, links) {
   const derivedIocs = [{
     key: "ioc.ipv4|45.32.11.9", type: "ioc.ipv4", value: "45.32.11.9",
     origin: "vt.dns", from: ["ioc.domain|c2.example.com"], subnet: "45.32.11.0/24",
+  }, {
+    // 検体の通信先（§3.7）。別々のアクターの検体が同じ IP に届く
+    key: "ioc.ipv4|45.32.12.5", type: "ioc.ipv4", value: "45.32.12.5",
+    origin: "vt.contacted",
+    from: ["ioc.sha256|" + "3".repeat(64), "ioc.sha256|" + "4".repeat(64)].sort(),
+    subnet: "45.32.12.0/24",
+  }, {
+    // 過去の解決先。**日付が付く**のはこの種類だけ
+    key: "ioc.ipv4|45.32.13.7", type: "ioc.ipv4", value: "45.32.13.7",
+    origin: "vt.resolution", from: ["ioc.domain|evil.example.com"], subnet: "45.32.13.0/24",
   }];
   // testrat は索引の TestRAT に畳まれ、newfam だけが実体として生える
   const derivedEntities = [{ kind: "malware", name: "newfam", ioc_count: 1, sources: ["virustotal"] }];
@@ -223,6 +242,9 @@ function buildEnrichFixture(dir, iocs, links) {
     { ioc: "ioc.domain|c2.example.com", kind: "ioc", name: "ioc.ipv4|45.32.11.9", rel: "resolves_to", source: "virustotal" },
     { ioc: "ioc.md5|" + "0".repeat(32), kind: "malware", name: "TestRAT", rel: "suggested_threat_label", source: "virustotal" },
     { ioc: "ioc.sha1|" + "2".repeat(40), kind: "malware", name: "newfam", rel: "suggested_threat_label", source: "virustotal" },
+    { ioc: "ioc.sha256|" + "3".repeat(64), kind: "ioc", name: "ioc.ipv4|45.32.12.5", rel: "contacted", source: "virustotal" },
+    { ioc: "ioc.sha256|" + "4".repeat(64), kind: "ioc", name: "ioc.ipv4|45.32.12.5", rel: "contacted", source: "virustotal" },
+    { ioc: "ioc.domain|evil.example.com", kind: "ioc", name: "ioc.ipv4|45.32.13.7", rel: "resolved_at", at: "2019-05-04", source: "virustotal" },
   ].sort((a, b) => {
     const k = (l) => `${l.ioc}\t${l.kind}\t${l.name}\t${l.rel}\t${l.source}`;
     return k(a) < k(b) ? -1 : 1;
@@ -563,6 +585,37 @@ const CASES = [
   }],
   ["derived.origin", "生えた IOC の出どころが知らない値", (d) => {
     editLine(d, "derived-iocs.jsonl", "45.32.11.9", (l) => l.replace('"vt.dns"', '"guess"'));
+  }],
+  // 関係から起こした IP（§3.7）。**種類ごとに別の入れ物**なので配線違いを見る
+  ["date.format", "過去の解決先の日付が壊れている", (d) => {
+    editLine(d, "derived-links.jsonl", "resolved_at", (l) => l.replace('"2019-05-04"', '"2019-5-4"'));
+  }],
+  ["derived.link_at", "通信先の辺に解決日が付いている", (d) => {
+    // 日付が付くのは過去の解決先だけ。通信先に日付は無い
+    editLine(d, "derived-links.jsonl", '"contacted"', (l) => {
+      const r = JSON.parse(l);
+      r.at = "2020-01-01";
+      return putRow(r);
+    });
+  }],
+  ["derived.from", "生えた IOC の from が辺と合わない", (d) => {
+    editLine(d, "derived-iocs.jsonl", "45.32.12.5", (l) => {
+      const r = JSON.parse(l);
+      r.from = r.from.slice(0, 1);
+      return putRow(r);
+    });
+  }],
+  ["derived.origin", "生えた IOC の出どころが辺と食い違う", (d) => {
+    // 通信先からしか来ていないのに「現在の解決先」を名乗る
+    editLine(d, "derived-iocs.jsonl", "45.32.12.5", (l) => l.replace('"vt.contacted"', '"vt.dns"'));
+  }],
+  ["overlap.evidence", "通信先の根拠が辺に出てこない", (d) => {
+    // 解決先と通信先は形が同じ。配線を取り違えると検算のできない根拠になる
+    editLine(d, "overlaps.jsonl", '"kind":"actor"', (l) => {
+      const r = JSON.parse(l);
+      r.evidence = { ...r.evidence, contacted: ["ioc.ipv4|45.32.10.7"] };
+      return putRow(r);
+    });
   }],
   ["derived.link_entity", "生えた辺が知らない実体を指す", (d) => {
     editLine(d, "derived-links.jsonl", "suggested_threat_label", (l) => l.replace('"TestRAT"', '"GhostFam"'));

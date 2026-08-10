@@ -7,7 +7,8 @@
 /** 根拠の種類。ここに無いものが `via` に出てきたら、出す側の作り方が崩れている。 */
 export const VIA = [
   "ioc", "subnet", "registrable", "asn",
-  "certificate", "resolution", "vhash", "imphash", "signer", "registered", "family", "filename", "jarm",
+  "certificate", "resolution", "resolved", "contacted",
+  "vhash", "imphash", "signer", "registered", "family", "filename", "jarm",
 ];
 
 /**
@@ -30,9 +31,18 @@ export const VIA = [
  * 明示的で提供元の判断が入らず、完全一致で使える。`imphash` が `vhash` より下なのは
  * パッカーで衝突するため。
  */
+/**
+ * **過去の解決先（`resolved`）と通信先（`contacted`）は、現在の解決先より下に置く。**
+ *
+ * `resolution` は「今そこに解決する」なので、両者が同時にそこに居たと言える。
+ * `resolved` は履歴で、**2015 年と 2024 年の解決が同じ重さになってしまう**。
+ * `contacted` はさらに弱い。検体が話した先には、C2 のほかに解析環境からの
+ * 疎通確認や更新の取得が混じる。どちらもインフラ判定・跨り上限・橋の条件を
+ * 通したうえで使うが、通ったものでも現在の解決先ほどの意味は無い。
+ */
 export const VIA_WEIGHT = {
   certificate: 9, ioc: 8, resolution: 7, signer: 7, vhash: 6,
-  subnet: 5, asn: 5, imphash: 4,
+  subnet: 5, asn: 5, resolved: 5, imphash: 4, contacted: 4,
   registered: 3,
   family: 2, registrable: 2, filename: 1, jarm: 1,
 };
