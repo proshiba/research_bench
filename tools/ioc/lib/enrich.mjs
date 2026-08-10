@@ -211,9 +211,18 @@ export function readAllRecords(root) {
  */
 export function digestRecords(records) {
   const h = crypto.createHash("sha256");
-  for (const r of [...records].sort((a, b) => (a.ioc < b.ioc ? -1 : 1))) {
-    h.update(r.ioc).update("\0").update(String(r.status)).update("\0");
-    h.update(sha256(Buffer.from(stableStringify(r.body ?? null, 0), "utf8"))).update("\n");
+  // **関係の写しは 1 IOC に複数ある**（contacted_ips / resolutions …）ので、
+  // 並べ替えにも中身にも `rel` を混ぜないと同じ IOC の写しが区別できない。
+  // object の写しには `rel` が無いので、既存のハッシュは変わらない。
+  const cmp = (a, b) => (a.ioc < b.ioc ? -1 : a.ioc > b.ioc ? 1
+    : String(a.rel ?? "") < String(b.rel ?? "") ? -1 : 1);
+  for (const r of [...records].sort(cmp)) {
+    h.update(r.ioc).update("\0");
+    if (r.rel) h.update(r.rel).update("\0");
+    h.update(String(r.status)).update("\0");
+    // 関係の写しは `body` を持たず、中身が `ids`（通信先）か `hits`（解決履歴）に入る
+    const content = r.body ?? r.ids ?? r.hits ?? null;
+    h.update(sha256(Buffer.from(stableStringify(content, 0), "utf8"))).update("\n");
   }
   return h.digest("hex");
 }

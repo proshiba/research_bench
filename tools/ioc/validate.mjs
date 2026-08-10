@@ -68,7 +68,7 @@ const IOC_FIELDS = {
     "observed_first", "observed_last", "collected_first", "collected_last",
   ],
 };
-const LINK_FIELDS = { required: ["ioc", "kind", "name", "source"], optional: ["rel", "id"] };
+const LINK_FIELDS = { required: ["ioc", "kind", "name", "source"], optional: ["rel", "id", "at"] };
 const ENTITY_FIELDS = { required: ["kind", "name", "ioc_count", "sources"], optional: ["aliases"] };
 
 /** 索引が出しうる IOC の型。増えたら気づけるように列挙で持つ。 */
@@ -118,8 +118,13 @@ const DERIVED_CERT_FIELDS = {
   required: ["thumbprint", "san_count", "sans", "iocs", "shared"],
   optional: ["issuer", "subject", "serial", "not_after", "weak", "weak_why"],
 };
-/** 生えた IOC がどこから来たか。増えたら気づけるように列挙で持つ。 */
-const ORIGINS = new Set(["vt.dns"]);
+/**
+ * 生えた IOC がどこから来たか。増えたら気づけるように列挙で持つ。
+ *   vt.dns         現在の解決先（last_dns_records）
+ *   vt.resolution  過去の解決先（/resolutions）
+ *   vt.contacted   検体の通信先（/contacted_ips）
+ */
+const ORIGINS = new Set(["vt.dns", "vt.resolution", "vt.contacted"]);
 const DNS_TYPES = new Set(["A", "AAAA", "CNAME"]);
 
 /**
@@ -916,6 +921,12 @@ if (derivedLinks) {
       if (!anyIoc(l.name)) {
         err("derived.link_target", `辺の相手が存在しません: ${l.name}`, at("derived-links.jsonl", i));
       }
+      // 過去の解決先の日付。**いつの繋がりかで意味が変わる**ので形を確かめる
+      // （2013 年からの記録があるので oldest は既定より前に置く）
+      if (l.at !== undefined) checkDate("derived-links.jsonl", i, "at", l.at, { oldest: "1990-01-01" });
+      if (l.at !== undefined && l.rel !== "resolved_at") {
+        err("derived.link_at", `${l.rel} の辺に解決日が付いています`, at("derived-links.jsonl", i));
+      }
     } else if (["actor", "malware", "campaign", "case"].includes(l.kind)) {
       const k = `${l.kind}\t${l.name}`;
       if (!entityKeys.has(k) && !derivedEntityKeys.has(k)) {
@@ -927,6 +938,60 @@ if (derivedLinks) {
       }
     }
   }
+  /**
+   * **解決先・過去の解決先・通信先の根拠は、対応する辺から届いていること。**
+   *
+   * この 3 つは形が同じで（IOC → IP）、出す側では別々の入れ物に分けている。
+   * 配線を取り違えると「通信先」と書いてあるのに解決先の値が入る、という
+   * 検算のできない根拠になるので、辺の側から突き合わせる。
+   */
+  const targetsOfRel = new Map([["resolution", "resolves_to"], ["resolved", "resolved_at"], ["contacted", "contacted"]]);
+  const ipsByRel = new Map([...targetsOfRel.values()].map((r) => [r, new Set()]));
+  const srcByIp = new Map();      // 生えた IP → それを指した元 IOC の集合
+  const relsByIp = new Map();     // 生えた IP → それを指した辺の種類
+  for (const l of derivedLinks) {
+    if (l.kind !== "ioc" || !ipsByRel.has(l.rel)) continue;
+    ipsByRel.get(l.rel).add(l.name);
+    if (!srcByIp.has(l.name)) { srcByIp.set(l.name, new Set()); relsByIp.set(l.name, new Set()); }
+    srcByIp.get(l.name).add(l.ioc);
+    relsByIp.get(l.name).add(l.rel);
+  }
+  /**
+   * **生えた IP の `from` と `origin` は辺から数え直して合うこと。**
+   * `from` は「この IP をどの IOC が指したか」の控えで、辿り直しの起点になる。
+   * `origin` は種類が複数あるときの代表（現在の解決先 > 過去の解決先 > 通信先）。
+   */
+  const ORIGIN_OF_REL = { resolves_to: "vt.dns", resolved_at: "vt.resolution", contacted: "vt.contacted" };
+  const ORIGIN_RANK = { "vt.dns": 0, "vt.resolution": 1, "vt.contacted": 2 };
+  for (let i = 0; derivedIocs && i < derivedIocs.length; i++) {
+    const r = derivedIocs[i];
+    const src = srcByIp.get(r.key);
+    if (!src) {
+      err("derived.from", `どの辺からも指されていません: ${r.key}`, at("derived-iocs.jsonl", i));
+      continue;
+    }
+    const want = [...src].sort();
+    if (want.join("\t") !== (r.from || []).join("\t")) {
+      err("derived.from", `from が辺の数え直し（${want.length} 件）と違います: ${(r.from || []).length} 件`, at("derived-iocs.jsonl", i));
+    }
+    const best = [...relsByIp.get(r.key)].map((x) => ORIGIN_OF_REL[x])
+      .sort((a, b) => ORIGIN_RANK[a] - ORIGIN_RANK[b])[0];
+    if (r.origin !== best) {
+      err("derived.origin", `origin が辺から見て ${best} であるべきです: ${r.origin}`, at("derived-iocs.jsonl", i));
+    }
+  }
+  for (let i = 0; overlaps && i < overlaps.length; i++) {
+    const o = overlaps[i];
+    for (const [via, rel] of targetsOfRel) {
+      for (const v of o.evidence?.[via] || []) {
+        // 値は IP そのものか、その IP を指した辺の相手か。どちらでもないなら配線違い
+        if (!ipsByRel.get(rel).has(v)) {
+          err("overlap.evidence", `${via} の根拠 ${v} は ${rel} の辺に出てきません`, at("overlaps.jsonl", i));
+        }
+      }
+    }
+  }
+
   // 生えた実体の ioc_count は辺から数え直して合うこと
   for (let i = 0; derivedEntities && i < derivedEntities.length; i++) {
     const e = derivedEntities[i];

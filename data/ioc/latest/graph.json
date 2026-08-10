@@ -563,8 +563,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.038,
-      "shared": 44,
+      "ratio": 0.037,
+      "shared": 42,
       "source": "actor:APT28",
       "strength": 33,
       "target": "actor:Gamaredon",
@@ -2715,15 +2715,15 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.026,
-      "shared": 4,
+      "ratio": 0.02,
+      "shared": 3,
       "source": "actor:APT37",
-      "strength": 8,
+      "strength": 1,
       "target": "actor:Ghostwriter",
       "via": [
-        "jarm",
-        "resolution"
-      ]
+        "jarm"
+      ],
+      "weak_only": true
     },
     {
       "kind": "actor",
@@ -6607,18 +6607,17 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.21,
-      "shared": 25,
+      "ratio": 0.202,
+      "shared": 24,
       "source": "actor:Cellebrite",
-      "strength": 30,
+      "strength": 23,
       "target": "actor:Cytrox",
       "via": [
         "certificate",
         "ioc",
         "jarm",
         "registered",
-        "registrable",
-        "resolution"
+        "registrable"
       ]
     },
     {
@@ -13310,12 +13309,13 @@
     },
     {
       "kind": "campaign",
-      "ratio": 0.085,
-      "shared": 5,
+      "ratio": 0.102,
+      "shared": 6,
       "source": "campaign:Dream Job",
-      "strength": 11,
+      "strength": 15,
       "target": "campaign:ThreatNeedle",
       "via": [
+        "contacted",
         "ioc",
         "jarm",
         "registrable"
@@ -14857,12 +14857,13 @@
     },
     {
       "kind": "case",
-      "ratio": 1,
-      "shared": 6,
+      "ratio": 1.167,
+      "shared": 7,
       "source": "case:case:61a602b23169ad451a22661e2e356e16ef2bd3c7ef7a23d5892ac4f79baff0b5",
-      "strength": 15,
+      "strength": 19,
       "target": "case:case:ee0ef34a4402dea54ec8b4e0557de9605a038a4f2b82380f2978296fd60f9791",
       "via": [
+        "contacted",
         "family",
         "ioc",
         "registered",

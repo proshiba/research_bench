@@ -43,6 +43,7 @@ const IN = path.resolve(REPO_ROOT, args.in || "data/ioc/latest");
 const OUT = path.resolve(REPO_ROOT, args.out || args.in || "data/ioc/latest");
 const VT_CACHE = path.resolve(REPO_ROOT, args["vt-cache"] || "data/ioc/.cache/vt");
 const ABUSE_CACHE = path.resolve(REPO_ROOT, args["abuse-cache"] || "data/ioc/.cache/abuseipdb");
+const REL_CACHE = path.resolve(REPO_ROOT, args["rel-cache"] || "data/ioc/.cache/vt-rel");
 const INCLUDE_NOISE = !!args["include-noise"];
 /** SAN がこれを超える証明書は共用ホスティング。根拠にしない（/24 や AS と同じ考え方） */
 const SAN_CAP = Number(args["san-cap"] || 100);
@@ -75,6 +76,12 @@ const iocByKey = new Map(iocs.map((r) => [r.key, r]));
 
 const vtRecords = readAllRecords(VT_CACHE);
 const abuseRecords = readAllRecords(ABUSE_CACHE);
+/**
+ * 関係の写し（fetch-vt-rel.mjs）。**object の写しとは別の入れ物**にしてある。
+ * 1 IOC に複数の関係がぶら下がるので鍵が `ioc\trel` になり、混ぜると
+ * `readAllRecords` が何の写しか区別できなくなる。無くても他は動く。
+ */
+const relRecords = readAllRecords(REL_CACHE);
 if (!vtRecords.length && !abuseRecords.length) {
   console.error([
     "写しがありません。先に取得してください。",
@@ -190,6 +197,8 @@ for (const e of entities) {
 const vtRows = [];
 const derivedLinks = [];
 const resolveTargets = new Map();   // 解決先 IP → それを出したドメインの集合
+const contactTargets = new Map();   // 通信先 IP → それと話した検体の集合
+const historyTargets = new Map();   // 過去の解決先 IP → それを出したドメイン → 最新の解決日
 const certs = new Map();            // thumbprint → まとまり
 const familySamples = new Map();    // ファミリ → 支えている IOC の集合
 const aliasSupport = new Map();     // ファミリ → 別名候補 → 出てきた件数
@@ -403,19 +412,105 @@ for (const rec of vtRecords) {
 }
 vtRows.sort(byKeys("ioc"));
 
+/* ---------------- 1d. 関係の写しから IP を起こす ---------------- */
+
+/**
+ * §9.1 の関係（`fetch-vt-rel.mjs` が引いた写し）を辺と IOC に起こす。
+ *
+ * **ここでは何も落とさない。** 通信先の大半は Cloudflare や Google DNS だが、
+ * それを落とすのは根拠を作る側（stats.mjs）の仕事で、この工程の役目は
+ * 「写しに書いてあることを、AS を引ける形にする」ところまで。
+ * `derived-iocs.jsonl` に載せておけば `enrich-asn.mjs` が AS を付けてくれるので、
+ * `subnet` / `asn` と同じインフラ判定を後段で掛けられるようになる（§3.7）。
+ *
+ * 出どころは辺の `rel` で区別する。
+ *   contacted    検体が通信した先。日付は無い
+ *   resolved_at  ドメインが過去に解決していた先。**日付が付く**
+ */
+const ipKeyOf = (v) => {
+  const s = String(v ?? "").trim().toLowerCase();
+  if (!s) return null;
+  if (/^\d{1,3}(\.\d{1,3}){3}$/.test(s)) return classifyIpv4(s).valid ? `ioc.ipv4|${s}` : null;
+  if (s.includes(":")) return classifyIpv6(s).valid ? `ioc.ipv6|${s}` : null;
+  return null;
+};
+
+for (const rec of relRecords) {
+  if (rec.status !== 200) continue;
+  const src = iocByKey.get(rec.ioc);
+  // 索引から消えた IOC の写しは残っていてよいが、辺には起こさない（object と同じ扱い）
+  if (!src) continue;
+
+  if (rec.rel === "contacted_ips") {
+    for (const id of rec.ids || []) {
+      const key = ipKeyOf(id);
+      if (!key || key === rec.ioc) continue;
+      if (!contactTargets.has(key)) contactTargets.set(key, new Set());
+      contactTargets.get(key).add(rec.ioc);
+      derivedLinks.push({ ioc: rec.ioc, kind: "ioc", name: key, rel: "contacted", source: "virustotal" });
+    }
+    continue;
+  }
+
+  if (rec.rel === "resolutions") {
+    for (const h of rec.hits || []) {
+      const key = ipKeyOf(h?.ip);
+      if (!key || key === rec.ioc) continue;
+      const at = dayOf(h?.at);
+      if (!historyTargets.has(key)) historyTargets.set(key, new Map());
+      const m = historyTargets.get(key);
+      // 同じ組が複数回記録されることがある。**一番新しい日付を残す**
+      const prev = m.get(rec.ioc);
+      if (prev === undefined || (at && (!prev || at > prev))) m.set(rec.ioc, at || prev || null);
+    }
+  }
+}
+
+/**
+ * 過去の解決先の辺は**組ごとに 1 本**にまとめてから出す。同じ組が何度も記録されて
+ * いるので、そのまま出すと同じ辺が日付違いで並ぶ。日付は一番新しいものを残す。
+ */
+for (const [key, m] of historyTargets) {
+  for (const [domain, at] of m) {
+    derivedLinks.push({
+      ioc: domain, kind: "ioc", name: key, rel: "resolved_at",
+      ...(at ? { at } : {}), source: "virustotal",
+    });
+  }
+}
+
 /* ---------------- 2. 生えた IOC ---------------- */
 
+/**
+ * 生えた IP の出どころ。**1 つの IP が複数の関係から来ることがある**ので、
+ * 強いほうを `origin` に残す（現在の解決先 > 過去の解決先 > 通信先）。
+ * どの IOC から来たかは `from` に全部入るし、関係の種類は辺の `rel` で追える。
+ */
+const ORIGIN_RANK = { "vt.dns": 0, "vt.resolution": 1, "vt.contacted": 2 };
+const fromByKey = new Map();   // 生えた IP → { origin, from:Set }
+const noteFrom = (map, origin) => {
+  for (const [key, from] of map) {
+    // 索引が既に主張しているものは索引側を優先する。派生に混ぜない
+    if (iocByKey.has(key)) continue;
+    if (!fromByKey.has(key)) fromByKey.set(key, { origin, from: new Set() });
+    const e = fromByKey.get(key);
+    if (ORIGIN_RANK[origin] < ORIGIN_RANK[e.origin]) e.origin = origin;
+    for (const src of (from instanceof Map ? from.keys() : from)) e.from.add(src);
+  }
+};
+noteFrom(resolveTargets, "vt.dns");
+noteFrom(historyTargets, "vt.resolution");
+noteFrom(contactTargets, "vt.contacted");
+
 const derivedIocs = [];
-for (const [key, from] of resolveTargets) {
-  // 索引が既に主張しているものは索引側を優先する。派生に混ぜない
-  if (iocByKey.has(key)) continue;
+for (const [key, e] of fromByKey) {
   const [type, value] = [key.slice(0, key.indexOf("|")), key.slice(key.indexOf("|") + 1)];
   const c = type === "ioc.ipv4" ? classifyIpv4(value) : classifyIpv6(value);
   if (!c.valid) continue;
   derivedIocs.push({
     key, type, value,
-    origin: "vt.dns",
-    from: [...from].sort(),
+    origin: e.origin,
+    from: [...e.from].sort(),
     ...(type === "ioc.ipv4" && subnet24(value) ? { subnet: subnet24(value) } : {}),
     ...(c.bogon ? { bogon: true } : {}),
     ...(c.noise ? { noise: c.noise } : {}),
@@ -624,6 +719,14 @@ writeJson(path.join(OUT, "enrich-meta.json"), {
       records: abuseRecords.length,
       sha256: digestRecords(abuseRecords),
     },
+    ...(relRecords.length ? {
+      virustotal_rel: {
+        dir: path.relative(REPO_ROOT, REL_CACHE),
+        records: relRecords.length,
+        sha256: digestRecords(relRecords),
+        by_rel: Object.fromEntries([...relRecords.reduce((m, r) => m.set(r.rel, (m.get(r.rel) || 0) + 1), new Map())].sort()),
+      },
+    } : {}),
   },
   counts: {
     vt: vtRows.length,
@@ -651,9 +754,10 @@ for (const [s, v] of Object.entries(coverage.virustotal.by_stage)) {
 console.log(`AbuseIPDB ${coverage.abuseipdb.done} / ${coverage.abuseipdb.target} IP（${pct(coverage.abuseipdb.ratio)}）`);
 const scored = abuseRows.filter((r) => r.score >= 25).length;
 if (abuseRows.length) console.log(`    スコア 25 以上 ${scored} 件 / 事業者の網 ${abuseRows.filter((r) => r.hosting).length} 件`);
+const relCount = (rel) => usableDerivedLinks.filter((l) => l.rel === rel).length;
 console.log(`生えたもの: IOC ${derivedIocs.length} / 辺 ${usableDerivedLinks.length}`
-  + `（うち解決先 ${usableDerivedLinks.filter((l) => l.rel === "resolves_to").length}`
-  + ` / ファミリ ${usableDerivedLinks.filter((l) => l.rel === "suggested_threat_label").length}）`);
+  + `（解決先 ${relCount("resolves_to")} / ファミリ ${relCount("suggested_threat_label")}`
+  + ` / 過去の解決先 ${relCount("resolved_at")} / 通信先 ${relCount("contacted")}）`);
 console.log(`    実体 ${derivedEntities.length} / 別名 ${derivedAliases.length}`
   + ` / 証明書 ${certRows.length}（共有 ${certRows.filter((c) => c.shared && !c.weak).length}）`);
 if (asnAgree + asnDisagree) {

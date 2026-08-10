@@ -486,7 +486,7 @@
     ],
     "multi_actor": 187,
     "multi_actor_small": 4,
-    "small": 195,
+    "small": 220,
     "top": [
       {
         "actors": [
@@ -548,7 +548,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1095
+    "total": 1229
   },
   "coverage": {
     "abuseipdb": {
@@ -651,6 +651,8 @@
     "include_noise": false,
     "jarm_cap": 0.01,
     "min_shared": 1,
+    "resolution_asn_cap": 2,
+    "resolution_cap": 3,
     "ubiquity_cap": 8,
     "vhash_cap": 8
   },
@@ -666,7 +668,7 @@
         "jarm": 642,
         "registered": 352,
         "registrable": 115,
-        "resolution": 3,
+        "resolution": 1,
         "signer": 2,
         "subnet": 17,
         "vhash": 10
@@ -851,13 +853,11 @@
               "paste.ee"
             ],
             "resolution": [
-              "ioc.ipv4|23.186.113.60",
-              "ioc.ipv4|77.75.78.196",
-              "ioc.ipv6|2a02:598:a::78:196"
+              "ioc.ipv4|23.186.113.60"
             ]
           },
-          "ratio": 0.038,
-          "shared": 44,
+          "ratio": 0.037,
+          "shared": 42,
           "strength": 33,
           "via": [
             "certificate",
@@ -931,54 +931,6 @@
             "registrable",
             "subnet",
             "vhash"
-          ]
-        },
-        {
-          "a": "Cellebrite",
-          "b": "Cytrox",
-          "evidence": {
-            "certificate": [
-              "07617bdb802bb4762fe758c6a06df8c349be9719dae2ee3f4145d8f76d9123e1",
-              "95abac11fd5ed55ea781a754d071358c77d435b74863b84cf1b34f054edfdf1e"
-            ],
-            "ioc": [
-              "ioc.domain|bumabara.bid",
-              "ioc.domain|cellconn.net",
-              "ioc.domain|danas.bid",
-              "ioc.domain|kormoran.bid",
-              "ioc.domain|novosti.bid"
-            ],
-            "jarm": [
-              "29d29d15d29d29d00042d42d000000038eaaf490bec8dc33757f165ce01762",
-              "29d29d15d29d29d00042d42d00000068f5dc63852f94da932cd6b61b1cd9e3",
-              "2ad2ad0002ad2ad00042d42d000000ad9bf51cc3f5a1e29eecb81d0c7b06eb",
-              "3fd3fd15d3fd3fd21c3fd3fd3fd3fd29155350e8849a750dd7dd2bbb967cc2",
-              "3fd3fd15d3fd3fd21c3fd3fd3fd3fdc110bab2c0a19e5d4e587c17ce497b15"
-            ],
-            "registered": [
-              "2020-05-23"
-            ],
-            "registrable": [
-              "bumabara.bid",
-              "cellconn.net",
-              "danas.bid",
-              "kormoran.bid",
-              "novosti.bid"
-            ],
-            "resolution": [
-              "ioc.ipv4|109.68.33.64"
-            ]
-          },
-          "ratio": 0.21,
-          "shared": 25,
-          "strength": 30,
-          "via": [
-            "certificate",
-            "ioc",
-            "jarm",
-            "registered",
-            "registrable",
-            "resolution"
           ]
         },
         {
@@ -1135,6 +1087,50 @@
           ]
         },
         {
+          "a": "Cellebrite",
+          "b": "Cytrox",
+          "evidence": {
+            "certificate": [
+              "07617bdb802bb4762fe758c6a06df8c349be9719dae2ee3f4145d8f76d9123e1",
+              "95abac11fd5ed55ea781a754d071358c77d435b74863b84cf1b34f054edfdf1e"
+            ],
+            "ioc": [
+              "ioc.domain|bumabara.bid",
+              "ioc.domain|cellconn.net",
+              "ioc.domain|danas.bid",
+              "ioc.domain|kormoran.bid",
+              "ioc.domain|novosti.bid"
+            ],
+            "jarm": [
+              "29d29d15d29d29d00042d42d000000038eaaf490bec8dc33757f165ce01762",
+              "29d29d15d29d29d00042d42d00000068f5dc63852f94da932cd6b61b1cd9e3",
+              "2ad2ad0002ad2ad00042d42d000000ad9bf51cc3f5a1e29eecb81d0c7b06eb",
+              "3fd3fd15d3fd3fd21c3fd3fd3fd3fd29155350e8849a750dd7dd2bbb967cc2",
+              "3fd3fd15d3fd3fd21c3fd3fd3fd3fdc110bab2c0a19e5d4e587c17ce497b15"
+            ],
+            "registered": [
+              "2020-05-23"
+            ],
+            "registrable": [
+              "bumabara.bid",
+              "cellconn.net",
+              "danas.bid",
+              "kormoran.bid",
+              "novosti.bid"
+            ]
+          },
+          "ratio": 0.202,
+          "shared": 24,
+          "strength": 23,
+          "via": [
+            "certificate",
+            "ioc",
+            "jarm",
+            "registered",
+            "registrable"
+          ]
+        },
+        {
           "a": "APT29",
           "b": "Lazarus Group",
           "evidence": {
@@ -1221,7 +1217,7 @@
           ]
         }
       ],
-      "weak_only": 1007
+      "weak_only": 1008
     },
     "campaign": {
       "by_via": {
@@ -1246,6 +1242,9 @@
           "a": "Dream Job",
           "b": "ThreatNeedle",
           "evidence": {
+            "contacted": [
+              "ioc.ipv4|192.35.177.64"
+            ],
             "ioc": [
               "ioc.domain|au-pair.org",
               "ioc.domain|co.cr"
@@ -1258,10 +1257,11 @@
               "co.cr"
             ]
           },
-          "ratio": 0.085,
-          "shared": 5,
-          "strength": 11,
+          "ratio": 0.102,
+          "shared": 6,
+          "strength": 15,
           "via": [
+            "contacted",
             "ioc",
             "jarm",
             "registrable"
@@ -1400,6 +1400,9 @@
           "a": "case:61a602b23169ad451a22661e2e356e16ef2bd3c7ef7a23d5892ac4f79baff0b5",
           "b": "case:ee0ef34a4402dea54ec8b4e0557de9605a038a4f2b82380f2978296fd60f9791",
           "evidence": {
+            "contacted": [
+              "ioc.ipv4|185.196.12.16"
+            ],
             "family": [
               "valley"
             ],
@@ -1415,10 +1418,11 @@
               "haochisadnka.cc"
             ]
           },
-          "ratio": 1,
-          "shared": 6,
-          "strength": 15,
+          "ratio": 1.167,
+          "shared": 7,
+          "strength": 19,
           "via": [
+            "contacted",
             "family",
             "ioc",
             "registered",

@@ -223,12 +223,22 @@ const vtByIoc = new Map(vt.map((r) => [r.ioc, r]));
 
 /** ドメイン → 解決先 IP。今の IOC ↔ IOC の辺を桁で増やすのがこれ（§2.2）。 */
 const resolvesTo = new Map();
+/** 検体 → 通信先 IP（VT の contacted_ips）。§3.7 */
+const contactedTo = new Map();
+/** ドメイン → 過去の解決先 IP（VT の resolutions）。§3.7 */
+const resolvedAtTo = new Map();
 /** ハッシュ → VT が付けたファミリ名。マルウェア名の正規化の実体（§2.1）。 */
 const familyOf = new Map();
 for (const l of derivedLinks) {
   if (l.kind === "ioc" && l.rel === "resolves_to") {
     if (!resolvesTo.has(l.ioc)) resolvesTo.set(l.ioc, new Set());
     resolvesTo.get(l.ioc).add(l.name);
+  } else if (l.kind === "ioc" && l.rel === "contacted") {
+    if (!contactedTo.has(l.ioc)) contactedTo.set(l.ioc, new Set());
+    contactedTo.get(l.ioc).add(l.name);
+  } else if (l.kind === "ioc" && l.rel === "resolved_at") {
+    if (!resolvedAtTo.has(l.ioc)) resolvedAtTo.set(l.ioc, new Set());
+    resolvedAtTo.get(l.ioc).add(l.name);
   } else if (l.kind === "malware" && l.rel === "suggested_threat_label") {
     if (!familyOf.has(l.ioc)) familyOf.set(l.ioc, new Set());
     familyOf.get(l.ioc).add(l.name);
@@ -258,6 +268,25 @@ const markOf = new Map([...iocById, ...derivedIocs.map((r) => [r.key, r])]);
  * 繋いでいた。Trellian（AS133618）と ParkingCrew（AS206834）も同じ形。
  * 他の根拠に入れている ubiquity cap を、解決先にも同じ考えで入れる。
  */
+/**
+ * AS ごとの「事業者の網の割合」（§3.2 の 3 つ目の観点）。
+ * 判定が付いた IP が少ない AS では割合が当てにならないので、件数も一緒に持つ。
+ */
+const hostingByAsn = new Map();
+for (const r of abuse) {
+  const asn = asnOf.get(r.ioc);
+  if (!asn) continue;
+  if (!hostingByAsn.has(asn)) hostingByAsn.set(asn, { n: 0, hosting: 0 });
+  const h = hostingByAsn.get(asn);
+  h.n++;
+  if (r.hosting) h.hosting++;
+}
+const hostingRatio = (asn) => {
+  const h = hostingByAsn.get(asn);
+  if (!h || h.n < HOSTING_MIN) return null;
+  return Math.round((h.hosting / h.n) * 1000) / 1000;
+};
+
 const entityLabels = new Map();   // IOC 鍵 → その IOC を持つ実体の名札
 for (const kind of ["actor", "malware"]) {
   for (const [name, keys] of owned.get(kind)) {
@@ -267,41 +296,104 @@ for (const kind of ["actor", "malware"]) {
     }
   }
 }
-const entitiesPerResolvedIp = new Map();
 /**
- * AS 単位でも同じことを見る。**パーキングは 1 つの IP では跨りが小さくても、
- * AS 全体で見ると必ず広い。** 実測で 4,096 アドレス以下の AS を跨りの多い順に
- * 並べると、上位 4 つが SEDO(12) / Trellian(7) / Team Internet(7) / IP Vendetta(7)
- * で、5 つ目から 4 に落ちる。事業の性質がそのまま数字に出る。
+ * **IOC → IP の辺 1 種類ぶんを、根拠に使える形にたたむ（§3.7）。**
+ *
+ * 現在の解決先・過去の解決先・検体の通信先は、どれも「ある IOC が指した IP」で
+ * 形が同じなので、守りも同じものを掛ける。守りは 4 段。
+ *
+ *   1. bogon / noise / 見本アドレス   シンクホールや予約アドレスを外す
+ *   2. AS の大きさ                    edge・CDN は大きさで落ちる
+ *   3. IP ごとの実体の跨り            パーキングは AS が小さくても跨りが広い
+ *   4. AS ごとの実体の跨り            1 IP では小さくても AS 全体では必ず広い
+ *
+ * 併せて **その IP に届く元 IOC の一覧**（`iocsOf`）を返す。組ごとの「橋の条件」
+ * （§3.1b）に要る。両実体が同じ 1 つの IOC からしか届いていなければ、それは
+ * `ioc` 根拠の鏡写しであって、新しい繋がりではない。
  */
-const entitiesPerResolvedAsn = new Map();
-for (const [domain, set] of resolvesTo) {
-  const labels = entityLabels.get(domain);
-  if (!labels?.size) continue;
-  for (const ip of set) {
-    if (!entitiesPerResolvedIp.has(ip)) entitiesPerResolvedIp.set(ip, new Set());
-    for (const l of labels) entitiesPerResolvedIp.get(ip).add(l);
-    const asn = asnOf.get(ip);
-    if (asn === undefined) continue;
-    if (!entitiesPerResolvedAsn.has(asn)) entitiesPerResolvedAsn.set(asn, new Set());
-    for (const l of labels) entitiesPerResolvedAsn.get(asn).add(l);
+function foldTargets(edges) {
+  const perIp = new Map();
+  const perAsn = new Map();
+  const iocsOf = new Map();   // IP → その IP に届く元 IOC の集合（IP 自身も含む）
+  for (const [src, set] of edges) {
+    for (const ip of set) {
+      if (!iocsOf.has(ip)) iocsOf.set(ip, new Set());
+      iocsOf.get(ip).add(src);
+    }
+    const labels = entityLabels.get(src);
+    if (!labels?.size) continue;
+    for (const ip of set) {
+      if (!perIp.has(ip)) perIp.set(ip, new Set());
+      for (const l of labels) perIp.get(ip).add(l);
+      const asn = asnOf.get(ip);
+      if (asn === undefined) continue;
+      if (!perAsn.has(asn)) perAsn.set(asn, new Set());
+      for (const l of labels) perAsn.get(asn).add(l);
+    }
   }
-}
+  /**
+   * **その IP 自身も「そこに届く IOC」に数える。** ドメインしか持たない実体と
+   * IP しか持たない実体が繋がるのがこの根拠の狙いで、IP を持っている側は
+   * その IP 自身から届いている。橋の条件を見るときに要る。
+   *
+   * ただし**跨りの上限には入れない。** 上限が測っているのは「その入れ物を
+   * 何人が共用しているか」で、上限の値（3 / 2）はドメイン側の跨りだけで実測した。
+   * IP を持っている実体を混ぜると、索引の充実度で上限の意味が変わってしまう
+   * （実測で Inception ↔ RevSocks ↔ PowerShower の 3 実体になり、
+   * `kufar.org` → `45.87.219.116` という正しい繋がりが落ちた）。
+   */
+  for (const ip of [...iocsOf.keys()]) iocsOf.get(ip).add(ip);
 
-for (const set of resolvesTo.values()) {
-  for (const ip of set) {
+  const usable = new Set();
+  const dropped = new Set();
+  for (const ip of iocsOf.keys()) {
     // 127.0.0.1 に解決するドメイン同士は「同じ所に居る」ではなく、**どちらも
     // シンクホールされている**。実測で APT28 ↔ STAC4749 を繋いでいた
     const m = markOf.get(ip);
-    if (m && (m.malformed || m.bogon || (!INCLUDE_NOISE && (m.noise || sampleIps.has(m.key))))) { cdnIps.add(ip); continue; }
+    if (m && (m.malformed || m.bogon || (!INCLUDE_NOISE && (m.noise || sampleIps.has(m.key))))) { dropped.add(ip); continue; }
     const asn = asnOf.get(ip);
+    /**
+     * **経路に無い IP は根拠にしない（AS の情報がある環境でだけ）。**
+     *
+     * AS が引けないと大きさの守りが素通りする。実測でこの穴から
+     * `93.184.220.29` / `208.111.179.129` / `72.21.91.29`（どれも Edgecast /
+     * Limelight の CDN）が抜け、**APT37 ↔ Lazarus Group** という強い主張が
+     * 通信先の根拠として立っていた。CDN は使われなくなった網を返上するので、
+     * **経路に無いこと自体が「昔の CDN の跡」の印**になっている。
+     *
+     * 経路表そのものが無い環境では判断できないので、そのときは通す
+     * （enrich-asn.mjs を動かしていなくても他の根拠は出る）。
+     */
+    if (HAS_ASN && asn === undefined) { dropped.add(ip); continue; }
     const size = asn ? (asnInfo.get(asn)?.addresses ?? 0) : 0;
-    if (size > ASN_MAX_ADDRESSES) { cdnIps.add(ip); continue; }
-    if ((entitiesPerResolvedIp.get(ip)?.size ?? 0) > RESOLUTION_CAP) { cdnIps.add(ip); continue; }
-    if (asn !== undefined && (entitiesPerResolvedAsn.get(asn)?.size ?? 0) > RESOLUTION_ASN_CAP) { cdnIps.add(ip); continue; }
-    resolvedIps.add(ip);
+    if (size > ASN_MAX_ADDRESSES) { dropped.add(ip); continue; }
+    /**
+     * **事業者の網は解決先でも根拠にしない（§3.2b と同じ観点）。**
+     * `/24` と `asn` には掛けているのに、解決先だけ素通りしていた。実測で
+     * `79.143.87.233`（AS214431 Mizban Gostar、AbuseIPDB が事業者の網と判定）が
+     * **Anonymous ↔ OceanLotus** を繋いでいた。同じ業者から借りているだけ。
+     */
+    if (asn !== undefined) {
+      const hr = hostingRatio(asn);
+      if (hr !== null && hr > HOSTING_RATIO) { dropped.add(ip); continue; }
+    }
+    if ((perIp.get(ip)?.size ?? 0) > RESOLUTION_CAP) { dropped.add(ip); continue; }
+    if (asn !== undefined && (perAsn.get(asn)?.size ?? 0) > RESOLUTION_ASN_CAP) { dropped.add(ip); continue; }
+    usable.add(ip);
   }
+  return { usable, dropped, iocsOf };
 }
+
+const resolution = foldTargets(resolvesTo);
+for (const ip of resolution.usable) resolvedIps.add(ip);
+for (const ip of resolution.dropped) cdnIps.add(ip);
+/**
+ * 通信先と過去の解決先（§3.7）。**同じ守りを、別々に掛ける。**
+ * まとめて 1 つの入れ物にすると、通信先の跨りが解決先の上限を食い潰す
+ * （通信先だけで 2,482 IP あり、解決先の 10 倍近い）。
+ */
+const contacted = foldTargets(contactedTo);
+const resolvedAt = foldTargets(resolvedAtTo);
 
 /** 共用ホスティングの証明書は根拠にしない（SAN が多すぎるもの・基盤に出されたもの）。 */
 const weakCert = new Set(derivedCerts.filter((c) => c.weak).map((c) => c.thumbprint));
@@ -518,25 +610,6 @@ for (const l of derivedLinks) {
 }
 const commonFamily = new Set([...entitiesPerFamily].filter(([, s]) => s.size > FAMILY_CAP).map(([f]) => f));
 
-/**
- * AS ごとの「事業者の網の割合」（§3.2 の 3 つ目の観点）。
- * 判定が付いた IP が少ない AS では割合が当てにならないので、件数も一緒に持つ。
- */
-const hostingByAsn = new Map();
-for (const r of abuse) {
-  const asn = asnOf.get(r.ioc);
-  if (!asn) continue;
-  if (!hostingByAsn.has(asn)) hostingByAsn.set(asn, { n: 0, hosting: 0 });
-  const h = hostingByAsn.get(asn);
-  h.n++;
-  if (r.hosting) h.hosting++;
-}
-const hostingRatio = (asn) => {
-  const h = hostingByAsn.get(asn);
-  if (!h || h.n < HOSTING_MIN) return null;
-  return Math.round((h.hosting / h.n) * 1000) / 1000;
-};
-
 /** AS ごとに、そこで見えたアクターの数。相乗り（事業者）かどうかの実測。 */
 const actorsPerAsn = new Map();
 for (const l of links) {
@@ -619,8 +692,16 @@ function pairsFor(kind, groups) {
   return [...pairCount.entries()].map(([k, v]) => {
     const [a, b] = k.split("\t");
     // 証明書と署名者は**組ごとに**橋の条件を見る。同じ鍵が複数の IOC に付いていても、
-    // 両実体が同じ 1 つの IOC からしか届いていなければ、それは ioc 根拠の鏡写しのまま
-    for (const [viaName, iocsOf] of [["certificate", certIocs], ["signer", signerIocs]]) {
+    // 両実体が同じ 1 つの IOC からしか届いていなければ、それは ioc 根拠の鏡写しのまま。
+    //
+    // **解決先・通信先も同じ形（§3.7）。** 実測すると、過去の解決先で 2 実体以上に
+    // 届く IP を守り一式に通したあと、残った組は**全部が同じ 1 ドメイン経由**だった。
+    // 「両方がこの IP に解決する」と言っても、その IP を出したドメインが 1 本しか
+    // 無ければ、それは「両方がそのドメインを持つ」を言い換えただけになる。
+    for (const [viaName, iocsOf] of [
+      ["certificate", certIocs], ["signer", signerIocs],
+      ["resolution", resolution.iocsOf], ["resolved", resolvedAt.iocsOf], ["contacted", contacted.iocsOf],
+    ]) {
       const set = v.byVia.get(viaName);
       if (!set) continue;
       const oa = sizes.get(a) || new Set();
@@ -677,6 +758,8 @@ function groupsFor(kind) {
   const byAsn = new Map();
   const byCert = new Map();
   const byResolution = new Map();
+  const byContacted = new Map();
+  const byResolvedAt = new Map();
   const byFamily = new Map();
   const byFilename = new Map();
   const byJarm = new Map();
@@ -707,6 +790,11 @@ function groupsFor(kind) {
       // なってしまうので、**誰かの解決先になっている IP のときだけ**数える
       if (resolvedIps.has(key)) put(byResolution, key);
       for (const ip of resolvesTo.get(key) || []) if (!cdnIps.has(ip)) put(byResolution, ip);
+      // 通信先・過去の解決先も同じ形（§3.7）。守りは foldTargets が済ませている
+      if (contacted.usable.has(key)) put(byContacted, key);
+      for (const ip of contactedTo.get(key) || []) if (contacted.usable.has(ip)) put(byContacted, ip);
+      if (resolvedAt.usable.has(key)) put(byResolvedAt, key);
+      for (const ip of resolvedAtTo.get(key) || []) if (resolvedAt.usable.has(ip)) put(byResolvedAt, ip);
       for (const fam of familyOf.get(key) || []) if (!commonFamily.has(fam)) put(byFamily, fam);
       const v = vtByIoc.get(key);
       for (const n of v?.names || []) if (!commonName.has(n)) put(byFilename, n);
@@ -723,6 +811,7 @@ function groupsFor(kind) {
     ...(HAS_ASN ? [["asn", byAsn]] : []),
     ...(HAS_VT ? [
       ["certificate", byCert], ["resolution", byResolution],
+      ["resolved", byResolvedAt], ["contacted", byContacted],
       ["vhash", byVhash], ["imphash", byImphash], ["signer", bySigner],
       ["registered", byRegDay],
       ["family", byFamily], ["filename", byFilename], ["jarm", byJarm],
@@ -1024,6 +1113,7 @@ const stats = {
     ...(HAS_VT ? { jarm_cap: JARM_CAP, filename_cap: FILENAME_CAP, filename_min: FILENAME_MIN,
       family_cap: FAMILY_CAP, vhash_cap: VHASH_CAP, imphash_cap: IMPHASH_CAP } : {}),
     ...(HAS_ABUSE ? { hosting_ratio: HOSTING_RATIO, hosting_min: HOSTING_MIN } : {}),
+    ...(HAS_VT ? { resolution_cap: RESOLUTION_CAP, resolution_asn_cap: RESOLUTION_ASN_CAP } : {}),
   },
   iocs: {
     total: iocs.length,
@@ -1218,10 +1308,12 @@ if (HAS_VT) {
     const l = stats.timeline.index_lag;
     console.log(`  索引の遅れ: 中央値 ${l.median_days} 日（${l.p25_days}〜${l.p75_days} 日 / 索引が先 ${l.ahead} 件）`);
   }
-  const certPairs = overlaps.filter((o) => o.via.includes("certificate")).length;
-  const resPairs = overlaps.filter((o) => o.via.includes("resolution")).length;
-  const famPairs = overlaps.filter((o) => o.via.includes("family")).length;
-  console.log(`  エンリッチ由来の根拠: 証明書 ${certPairs} 組 / 解決先 ${resPairs} 組 / ファミリ ${famPairs} 組`);
+  const viaPairs = (v) => overlaps.filter((o) => o.via.includes(v)).length;
+  console.log(`  エンリッチ由来の根拠: 証明書 ${viaPairs("certificate")} 組`
+    + ` / 解決先 ${viaPairs("resolution")} 組 / ファミリ ${viaPairs("family")} 組`);
+  console.log(`    関係から: 通信先 ${viaPairs("contacted")} 組 / 過去の解決先 ${viaPairs("resolved")} 組`
+    + `（守りを通った IP: 通信先 ${contacted.usable.size} / ${contacted.iocsOf.size}`
+    + ` ・ 過去の解決先 ${resolvedAt.usable.size} / ${resolvedAt.iocsOf.size}）`);
 }
 if (args.since) console.log(`  前回から増えた IOC: ${added.length} 件`);
 console.log(`  → ${path.relative(REPO_ROOT, OUT)}`);
