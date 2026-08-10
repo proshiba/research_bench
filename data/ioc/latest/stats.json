@@ -37,7 +37,7 @@
         "asn": 214961,
         "cc": "FR",
         "hosting_ratio": 1,
-        "hosting_seen": 3,
+        "hosting_seen": 5,
         "name": "Stellar Group SAS"
       },
       {
@@ -74,7 +74,7 @@
         "asn": 398256,
         "cc": "US",
         "hosting_ratio": 1,
-        "hosting_seen": 3,
+        "hosting_seen": 4,
         "name": "Ultahost, Inc."
       },
       {
@@ -100,6 +100,18 @@
         "hosting_ratio": 1,
         "hosting_seen": 4,
         "name": "Advin Services LLC"
+      },
+      {
+        "actors": [
+          "Inception",
+          "Rognar"
+        ],
+        "addresses": 4096,
+        "asn": 48753,
+        "cc": "MD",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "AVA HOST SRL"
       },
       {
         "actors": [
@@ -472,8 +484,8 @@
       }
     ],
     "multi_actor": 185,
-    "multi_actor_small": 5,
-    "small": 193,
+    "multi_actor_small": 4,
+    "small": 195,
     "top": [
       {
         "actors": [
@@ -533,32 +545,15 @@
         ],
         "name": "Inovare-Prim SRL",
         "shared_hosting": false
-      },
-      {
-        "actors": [
-          "Inception",
-          "Rognar"
-        ],
-        "addresses": 4096,
-        "asn": 48753,
-        "cc": "MD",
-        "ips": 3,
-        "malware": [
-          "DOUBLECUP",
-          "PowerShower",
-          "Remus Stealer"
-        ],
-        "name": "AVA HOST SRL",
-        "shared_hosting": false
       }
     ],
-    "total": 1084
+    "total": 1091
   },
   "coverage": {
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 773,
+          "done": 844,
           "target": 844
         },
         "2": {
@@ -566,20 +561,20 @@
           "target": 305
         },
         "5": {
-          "done": 2147,
+          "done": 2152,
           "target": 2152
         }
       },
-      "done": 3226,
-      "ratio": 0.977,
+      "done": 3302,
+      "ratio": 1,
       "target": 3301
     },
-    "newest_fetch": "2026-08-08",
+    "newest_fetch": "2026-08-09",
     "oldest_fetch": "2026-08-02",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 4924,
+          "done": 4929,
           "target": 4929
         },
         "2": {
@@ -591,23 +586,23 @@
           "target": 4452
         },
         "4": {
-          "done": 4419,
+          "done": 4437,
           "target": 4437
         },
         "5": {
-          "done": 2564,
+          "done": 4094,
           "target": 4094
         },
         "6": {
-          "done": 201,
+          "done": 723,
           "target": 723
         }
       },
-      "done": 16866,
-      "known": 14703,
-      "ratio": 0.89,
+      "done": 18941,
+      "known": 16237,
+      "ratio": 1,
       "target": 18940,
-      "unknown": 2163
+      "unknown": 2704
     }
   },
   "entities": {
@@ -661,7 +656,7 @@
   "overlaps": {
     "actor": {
       "by_via": {
-        "asn": 4,
+        "asn": 3,
         "certificate": 6,
         "family": 155,
         "filename": 31,
@@ -676,7 +671,7 @@
         "vhash": 10
       },
       "identical_sets": 3,
-      "pairs": 1101,
+      "pairs": 1100,
       "top": [
         {
           "a": "APT37",
@@ -1360,7 +1355,7 @@
         "imphash": 1,
         "ioc": 117,
         "jarm": 99,
-        "registered": 17,
+        "registered": 22,
         "registrable": 76,
         "resolution": 0,
         "signer": 0,
@@ -1593,78 +1588,99 @@
           ]
         },
         {
-          "a": "case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2",
-          "b": "case:1de6220fc4c3502a55fa5cc220b9a91cead25fc34bc7d3610edf1914f83bc379",
+          "a": "case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7",
+          "b": "case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da",
           "evidence": {
             "ioc": [
-              "ioc.ipv4|172.233.124.230",
-              "ioc.ipv4|45.154.98.115"
+              "ioc.domain|stratimasesstr.com",
+              "ioc.domain|winarkamaps.com",
+              "ioc.url|https://stratimasesstr.com/live/",
+              "ioc.url|https://winarkamaps.com/live/"
             ],
             "jarm": [
-              "29d3fd00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b"
+              "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
+              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
             ],
-            "subnet": [
-              "172.233.124.0/24",
-              "45.154.98.0/24"
+            "registered": [
+              "2025-07-31"
+            ],
+            "registrable": [
+              "stratimasesstr.com",
+              "winarkamaps.com"
             ]
           },
-          "ratio": 1.25,
-          "shared": 5,
+          "ratio": 2.25,
+          "shared": 9,
           "strength": 14,
           "via": [
             "ioc",
             "jarm",
-            "subnet"
+            "registered",
+            "registrable"
           ]
         },
         {
-          "a": "case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2",
-          "b": "case:b6b9753bf156d5eb5dcbad43de9ab651146a819da27fe9d2c031097ca10619d3",
+          "a": "case:465f931e8a44b7f8dff8435255240b88f88f11e23bc73741b21c20be8673b6b7",
+          "b": "case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0",
           "evidence": {
             "ioc": [
-              "ioc.ipv4|172.233.124.230",
-              "ioc.ipv4|45.154.98.115"
+              "ioc.domain|stratimasesstr.com",
+              "ioc.domain|winarkamaps.com",
+              "ioc.url|https://stratimasesstr.com/live/",
+              "ioc.url|https://winarkamaps.com/live/"
             ],
             "jarm": [
-              "29d3fd00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b"
+              "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
+              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
             ],
-            "subnet": [
-              "172.233.124.0/24",
-              "45.154.98.0/24"
+            "registered": [
+              "2025-07-31"
+            ],
+            "registrable": [
+              "stratimasesstr.com",
+              "winarkamaps.com"
             ]
           },
-          "ratio": 1.25,
-          "shared": 5,
+          "ratio": 2.25,
+          "shared": 9,
           "strength": 14,
           "via": [
             "ioc",
             "jarm",
-            "subnet"
+            "registered",
+            "registrable"
           ]
         },
         {
-          "a": "case:1de6220fc4c3502a55fa5cc220b9a91cead25fc34bc7d3610edf1914f83bc379",
-          "b": "case:875257991745c0557dd2fb00cd40934de6281ded379289c26d900bca2628f25f",
+          "a": "case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da",
+          "b": "case:9645a12079edffd20560d4631160a6052ae5728d6f73b7366588166ad281c534",
           "evidence": {
             "ioc": [
-              "ioc.ipv4|172.233.124.230",
-              "ioc.ipv4|45.154.98.115"
+              "ioc.domain|stratimasesstr.com",
+              "ioc.domain|winarkamaps.com",
+              "ioc.url|https://stratimasesstr.com/live/",
+              "ioc.url|https://winarkamaps.com/live/"
             ],
             "jarm": [
-              "29d3fd00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b"
+              "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
+              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
             ],
-            "subnet": [
-              "172.233.124.0/24",
-              "45.154.98.0/24"
+            "registered": [
+              "2025-07-31"
+            ],
+            "registrable": [
+              "stratimasesstr.com",
+              "winarkamaps.com"
             ]
           },
-          "ratio": 1.25,
-          "shared": 5,
+          "ratio": 2.25,
+          "shared": 9,
           "strength": 14,
           "via": [
             "ioc",
             "jarm",
-            "subnet"
+            "registered",
+            "registrable"
           ]
         }
       ],
@@ -1672,14 +1688,14 @@
     },
     "malware": {
       "by_via": {
-        "asn": 5,
+        "asn": 2,
         "certificate": 5,
         "family": 79,
         "filename": 26,
         "imphash": 22,
         "ioc": 47,
-        "jarm": 484,
-        "registered": 615,
+        "jarm": 531,
+        "registered": 620,
         "registrable": 68,
         "resolution": 1,
         "signer": 1,
@@ -1687,7 +1703,7 @@
         "vhash": 26
       },
       "identical_sets": 8,
-      "pairs": 1206,
+      "pairs": 1252,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2224,7 +2240,7 @@
           ]
         }
       ],
-      "weak_only": 1111
+      "weak_only": 1160
     }
   },
   "schema": 1,
@@ -2509,11 +2525,11 @@
     "total": 370
   },
   "targets": {
-    "abuse": 8,
+    "abuse": 10,
     "by_target": [
       {
         "abuse": 0,
-        "impersonation": 85,
+        "impersonation": 86,
         "rank": 643,
         "target": "live.com"
       },
@@ -2554,6 +2570,12 @@
         "target": "telegram.me"
       },
       {
+        "abuse": 3,
+        "impersonation": 1,
+        "rank": 30,
+        "target": "cloudfront.net"
+      },
+      {
         "abuse": 4,
         "impersonation": 0,
         "rank": 7232,
@@ -2566,16 +2588,16 @@
         "target": "interia.pl"
       },
       {
-        "abuse": 1,
-        "impersonation": 1,
-        "rank": 30,
-        "target": "cloudfront.net"
-      },
-      {
         "abuse": 0,
         "impersonation": 2,
         "rank": 500,
         "target": "github.com"
+      },
+      {
+        "abuse": 0,
+        "impersonation": 2,
+        "rank": 10000,
+        "target": "ngrok.io"
       },
       {
         "abuse": 0,
@@ -2610,12 +2632,6 @@
       {
         "abuse": 0,
         "impersonation": 1,
-        "rank": 10000,
-        "target": "ngrok.io"
-      },
-      {
-        "abuse": 0,
-        "impersonation": 1,
         "rank": 1125,
         "target": "unhcr.org"
       },
@@ -2632,13 +2648,13 @@
         "target": "yandex.ru"
       }
     ],
-    "impersonation": 213
+    "impersonation": 215
   },
   "timeline": {
     "actors": {
       "longest": [
         {
-          "dated": 428,
+          "dated": 499,
           "first": "2009-03-30",
           "iocs": 1337,
           "last": "2026-07-24",
@@ -2646,7 +2662,7 @@
           "span_days": 6325
         },
         {
-          "dated": 393,
+          "dated": 404,
           "first": "2009-03-10",
           "iocs": 987,
           "last": "2025-10-05",
@@ -2654,7 +2670,7 @@
           "span_days": 6053
         },
         {
-          "dated": 462,
+          "dated": 578,
           "first": "2009-12-15",
           "iocs": 1068,
           "last": "2026-07-01",
@@ -2662,7 +2678,7 @@
           "span_days": 6042
         },
         {
-          "dated": 49,
+          "dated": 54,
           "first": "2010-08-18",
           "iocs": 1579,
           "last": "2026-06-08",
@@ -2678,7 +2694,15 @@
           "span_days": 5708
         },
         {
-          "dated": 323,
+          "dated": 22,
+          "first": "2010-09-20",
+          "iocs": 215,
+          "last": "2026-03-26",
+          "name": "Lamberts",
+          "span_days": 5666
+        },
+        {
+          "dated": 361,
           "first": "2010-09-27",
           "iocs": 1149,
           "last": "2026-02-17",
@@ -2686,12 +2710,20 @@
           "span_days": 5622
         },
         {
-          "dated": 323,
-          "first": "2012-05-22",
+          "dated": 329,
+          "first": "2010-10-13",
           "iocs": 420,
-          "last": "2025-09-02",
+          "last": "2026-02-11",
           "name": "Transparent Tribe",
-          "span_days": 4851
+          "span_days": 5600
+        },
+        {
+          "dated": 12,
+          "first": "2012-07-20",
+          "iocs": 30,
+          "last": "2025-07-25",
+          "name": "Nomadic Octopus",
+          "span_days": 4753
         },
         {
           "dated": 160,
@@ -2700,25 +2732,9 @@
           "last": "2023-09-29",
           "name": "BadMagic",
           "span_days": 4594
-        },
-        {
-          "dated": 48,
-          "first": "2014-06-25",
-          "iocs": 95,
-          "last": "2026-06-25",
-          "name": "APT41",
-          "span_days": 4383
-        },
-        {
-          "dated": 176,
-          "first": "2013-12-17",
-          "iocs": 352,
-          "last": "2025-07-22",
-          "name": "OceanLotus",
-          "span_days": 4235
         }
       ],
-      "with_dates": 130
+      "with_dates": 157
     },
     "campaigns": {
       "spans": [
@@ -2893,26 +2909,40 @@
       ],
       "with_dates": 10
     },
-    "dated": 5493,
+    "dated": 6707,
     "index_lag": {
-      "ahead": 173,
-      "median_days": 52,
-      "p25_days": 9,
-      "p75_days": 131,
-      "pairs": 1891
+      "ahead": 300,
+      "median_days": 36,
+      "p25_days": 2,
+      "p75_days": 116,
+      "pairs": 2485
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 185,
+      "checked": 206,
       "lowest": [
         {
-          "checked": 53,
+          "checked": 4,
+          "iocs": 8,
+          "median_malicious": 0,
+          "name": "APT-C-37",
+          "unknown": 4
+        },
+        {
+          "checked": 55,
           "iocs": 55,
           "median_malicious": 0,
           "name": "APT34",
           "unknown": 0
+        },
+        {
+          "checked": 9,
+          "iocs": 11,
+          "median_malicious": 0,
+          "name": "APT42",
+          "unknown": 2
         },
         {
           "checked": 3,
@@ -2922,11 +2952,18 @@
           "unknown": 1
         },
         {
-          "checked": 445,
+          "checked": 3,
+          "iocs": 4,
+          "median_malicious": 0,
+          "name": "Andariel",
+          "unknown": 1
+        },
+        {
+          "checked": 460,
           "iocs": 483,
           "median_malicious": 0,
           "name": "Anonymous",
-          "unknown": 15
+          "unknown": 22
         },
         {
           "checked": 3,
@@ -2936,50 +2973,29 @@
           "unknown": 1
         },
         {
-          "checked": 32,
+          "checked": 35,
           "iocs": 76,
           "median_malicious": 0,
           "name": "Callisto Group",
-          "unknown": 7
+          "unknown": 23
         },
         {
-          "checked": 322,
+          "checked": 58,
+          "iocs": 119,
+          "median_malicious": 0,
+          "name": "Cellebrite",
+          "unknown": 59
+        },
+        {
+          "checked": 323,
           "iocs": 324,
           "median_malicious": 0,
           "name": "Equation Group",
-          "unknown": 0
-        },
-        {
-          "checked": 3,
-          "iocs": 3,
-          "median_malicious": 0,
-          "name": "Glocom",
-          "unknown": 0
-        },
-        {
-          "checked": 3,
-          "iocs": 6,
-          "median_malicious": 0,
-          "name": "Hato Tsusin",
-          "unknown": 3
-        },
-        {
-          "checked": 17,
-          "iocs": 17,
-          "median_malicious": 0,
-          "name": "Storm-2755",
-          "unknown": 0
-        },
-        {
-          "checked": 34,
-          "iocs": 119,
-          "median_malicious": 0.5,
-          "name": "Cellebrite",
-          "unknown": 5
+          "unknown": 1
         }
       ]
     },
-    "clean": 2020,
+    "clean": 2415,
     "disagreement": {
       "samples": [
         {
@@ -3040,6 +3056,33 @@
           "classes": [
             "c2"
           ],
+          "ioc": "ioc.domain|anyclaw.store",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|api.adblock-for-youtube.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|api.extensions-hub.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
           "ioc": "ioc.domain|api.mywalletsss.store",
           "sources": [
             "tech-memo-daily-news"
@@ -3089,38 +3132,11 @@
           "sources": [
             "tech-memo-daily-news"
           ]
-        },
-        {
-          "classes": [
-            "c2"
-          ],
-          "ioc": "ioc.domain|coffeesaloon.online",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
-        },
-        {
-          "classes": [
-            "phishing-site"
-          ],
-          "ioc": "ioc.domain|deepminds.me",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
-        },
-        {
-          "classes": [
-            "c2"
-          ],
-          "ioc": "ioc.domain|digoprotergonde.org",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
         }
       ],
-      "total": 131
+      "total": 234
     },
-    "malicious": 12514,
-    "unknown": 2163
+    "malicious": 13580,
+    "unknown": 2704
   }
 }

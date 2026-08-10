@@ -195,10 +195,20 @@ async function fetchOne(slot, item) {
     // VT が知らない＝**失敗ではなく結果**。索引の独自性の指標になる（§3.4）
     return { record: { ioc: item.ioc, endpoint: item.kind, status: 404 } };
   }
+  if (res.status === 400) {
+    /**
+     * **VT が引数として受け付けない名前も、失敗ではなく結果**（404 と同じ扱い）。
+     *
+     * 実測で 24 件あり、どれも取り直しても直らない性質のものだった。
+     *   `meower.eth` `roanoke.sol` … ブロックチェーンの名前で DNS ではない
+     *   `minio.internal`           … 内部専用 TLD
+     *   `in.ua` `co.cr` `com.co`   … 公開接尾辞そのもの（登録可能ドメインではない）
+     * 記録しないと毎日 24 回引き直して枠を捨てることになる。
+     */
+    return { record: { ioc: item.ioc, endpoint: item.kind, status: 400 } };
+  }
   if (!res.ok || !body?.data) {
-    // 400 は取り直しても直らない（引数として受け付けられない値）。
-    // 写しを残さず、理由だけ残して次に行く
-    return { retry: res.status === 400 ? "bad" : "server", why: `HTTP ${res.status} ${body?.error?.code || ""}`.trim() };
+    return { retry: "server", why: `HTTP ${res.status} ${body?.error?.code || ""}`.trim() };
   }
   const attrs = body.data.attributes || {};
   return {
@@ -258,7 +268,7 @@ async function worker() {
       projection: FULL ? 0 : projectionOf(item.kind),
       source: "virustotal",
     });
-    if (result.record.status === 404) stat.unknown++;
+    if (result.record.status === 404 || result.record.status === 400) stat.unknown++;
     else stat.ok++;
 
     const n = stat.ok + stat.unknown + stat.failed;

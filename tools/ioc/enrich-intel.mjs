@@ -203,8 +203,10 @@ for (const rec of vtRecords) {
   // 索引から消えた IOC の写しは残っていてよい（取り直す手間を省くため）が、判定には使わない
   if (!ioc) continue;
 
-  if (rec.status === 404) {
-    // VT が知らない＝結果。索引の独自性の指標になる（§3.4）
+  if (rec.status === 404 || rec.status === 400) {
+    // VT が知らない（404）／VT が引数として受け付けない（400）＝どちらも**結果**。
+    // 400 は `meower.eth` や `co.cr` のように、そもそも DNS の名前ではないもの。
+    // 索引の独自性の指標になる（§3.4）
     vtRows.push({ ioc: rec.ioc, known: false });
     continue;
   }
