@@ -285,6 +285,7 @@
           "Sandworm Team",
           "Silver Fox",
           "TA4922",
+          "TeamPCP",
           "Void Balaur"
         ],
         "addresses": 211584768,
@@ -483,7 +484,7 @@
         "name": "AT&T Enterprises, LLC"
       }
     ],
-    "multi_actor": 185,
+    "multi_actor": 187,
     "multi_actor_small": 4,
     "small": 195,
     "top": [
@@ -547,7 +548,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1091
+    "total": 1095
   },
   "coverage": {
     "abuseipdb": {
@@ -557,78 +558,78 @@
           "target": 844
         },
         "2": {
-          "done": 305,
-          "target": 305
+          "done": 306,
+          "target": 306
         },
         "5": {
-          "done": 2152,
-          "target": 2152
+          "done": 2179,
+          "target": 2179
         }
       },
-      "done": 3302,
+      "done": 3330,
       "ratio": 1,
-      "target": 3301
+      "target": 3329
     },
-    "newest_fetch": "2026-08-09",
+    "newest_fetch": "2026-08-10",
     "oldest_fetch": "2026-08-02",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 4929,
-          "target": 4929
+          "done": 4978,
+          "target": 4978
         },
         "2": {
-          "done": 305,
-          "target": 305
+          "done": 306,
+          "target": 306
         },
         "3": {
-          "done": 4452,
-          "target": 4452
+          "done": 4456,
+          "target": 4456
         },
         "4": {
-          "done": 4437,
-          "target": 4437
+          "done": 4457,
+          "target": 4457
         },
         "5": {
-          "done": 4094,
-          "target": 4094
+          "done": 4126,
+          "target": 4126
         },
         "6": {
-          "done": 723,
-          "target": 723
+          "done": 732,
+          "target": 732
         }
       },
-      "done": 18941,
-      "known": 16237,
+      "done": 19056,
+      "known": 16330,
       "ratio": 1,
-      "target": 18940,
-      "unknown": 2704
+      "target": 19055,
+      "unknown": 2726
     }
   },
   "entities": {
-    "actor": 236,
+    "actor": 238,
     "campaign": 14,
-    "case": 430,
-    "malware": 366
+    "case": 431,
+    "malware": 369
   },
   "from": {
-    "collected_at": "2026-08-06T05:28:21.903Z",
-    "week": "2026-W32"
+    "collected_at": "2026-08-10T05:11:15.048Z",
+    "week": "2026-W33"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 6318,
+      "ioc.domain": 6356,
       "ioc.email": 263,
-      "ioc.endpoint": 166,
-      "ioc.ipv4": 3246,
+      "ioc.endpoint": 167,
+      "ioc.ipv4": 3274,
       "ioc.ipv6": 63,
-      "ioc.md5": 2291,
+      "ioc.md5": 2311,
       "ioc.sha1": 1419,
-      "ioc.sha256": 2788,
+      "ioc.sha256": 2799,
       "ioc.sha512": 16,
-      "ioc.url": 2823
+      "ioc.url": 2841
     },
-    "dated": 6251,
+    "dated": 6349,
     "excluded": {
       "bogon": 2,
       "malformed": 0,
@@ -636,8 +637,8 @@
       "popular": 75,
       "sample_reported": 1
     },
-    "total": 19393,
-    "usable": 19310
+    "total": 19509,
+    "usable": 19426
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -658,20 +659,20 @@
       "by_via": {
         "asn": 3,
         "certificate": 6,
-        "family": 155,
+        "family": 156,
         "filename": 31,
         "imphash": 13,
         "ioc": 59,
-        "jarm": 654,
-        "registered": 344,
-        "registrable": 108,
+        "jarm": 642,
+        "registered": 352,
+        "registrable": 115,
         "resolution": 3,
         "signer": 2,
         "subnet": 17,
         "vhash": 10
       },
       "identical_sets": 3,
-      "pairs": 1083,
+      "pairs": 1088,
       "top": [
         {
           "a": "APT37",
@@ -1220,7 +1221,7 @@
           ]
         }
       ],
-      "weak_only": 1002
+      "weak_only": 1007
     },
     "campaign": {
       "by_via": {
@@ -1675,7 +1676,7 @@
       "by_via": {
         "asn": 2,
         "certificate": 5,
-        "family": 79,
+        "family": 83,
         "filename": 26,
         "imphash": 22,
         "ioc": 47,
@@ -1688,7 +1689,7 @@
         "vhash": 26
       },
       "identical_sets": 8,
-      "pairs": 1240,
+      "pairs": 1244,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2219,7 +2220,7 @@
           ]
         }
       ],
-      "weak_only": 1165
+      "weak_only": 1169
     }
   },
   "schema": 1,
@@ -2244,6 +2245,26 @@
           "SUNBURST"
         ],
         "subnet": "79.143.87.0/24"
+      },
+      {
+        "actors": [
+          "Gamaredon",
+          "KongTuke",
+          "Qilin"
+        ],
+        "asns": [
+          {
+            "addresses": 17408,
+            "asn": 399629,
+            "name": "BL Networks"
+          }
+        ],
+        "ips": 4,
+        "malware": [
+          "ModeloRAT",
+          "Qilin"
+        ],
+        "subnet": "45.61.136.0/24"
       },
       {
         "actors": [
@@ -2280,26 +2301,6 @@
         "ips": 3,
         "malware": [],
         "subnet": "109.236.85.0/24"
-      },
-      {
-        "actors": [
-          "Gamaredon",
-          "KongTuke",
-          "Qilin"
-        ],
-        "asns": [
-          {
-            "addresses": 17408,
-            "asn": 399629,
-            "name": "BL Networks"
-          }
-        ],
-        "ips": 3,
-        "malware": [
-          "ModeloRAT",
-          "Qilin"
-        ],
-        "subnet": "45.61.136.0/24"
       },
       {
         "actors": [
@@ -2501,7 +2502,7 @@
         "subnet": "175.45.178.0/24"
       }
     ],
-    "total": 370
+    "total": 373
   },
   "targets": {
     "abuse": 10,
@@ -2514,7 +2515,7 @@
       },
       {
         "abuse": 0,
-        "impersonation": 53,
+        "impersonation": 54,
         "rank": 7223,
         "target": "mail.ru"
       },
@@ -2627,7 +2628,7 @@
         "target": "yandex.ru"
       }
     ],
-    "impersonation": 215
+    "impersonation": 216
   },
   "timeline": {
     "actors": {
@@ -2713,7 +2714,7 @@
           "span_days": 4594
         }
       ],
-      "with_dates": 157
+      "with_dates": 159
     },
     "campaigns": {
       "spans": [
@@ -2888,19 +2889,19 @@
       ],
       "with_dates": 10
     },
-    "dated": 6707,
+    "dated": 6734,
     "index_lag": {
-      "ahead": 300,
+      "ahead": 309,
       "median_days": 36,
       "p25_days": 2,
-      "p75_days": 116,
-      "pairs": 2485
+      "p75_days": 117,
+      "pairs": 2512
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 206,
+      "checked": 208,
       "lowest": [
         {
           "checked": 4,
@@ -2974,7 +2975,7 @@
         }
       ]
     },
-    "clean": 2415,
+    "clean": 2420,
     "disagreement": {
       "samples": [
         {
@@ -3113,9 +3114,9 @@
           ]
         }
       ],
-      "total": 234
+      "total": 239
     },
-    "malicious": 13580,
-    "unknown": 2704
+    "malicious": 13667,
+    "unknown": 2726
   }
 }
