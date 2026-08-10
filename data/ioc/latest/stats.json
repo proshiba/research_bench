@@ -667,11 +667,11 @@
         "registrable": 108,
         "resolution": 3,
         "signer": 2,
-        "subnet": 64,
+        "subnet": 17,
         "vhash": 10
       },
       "identical_sets": 3,
-      "pairs": 1100,
+      "pairs": 1083,
       "top": [
         {
           "a": "APT37",
@@ -717,8 +717,7 @@
               "EGIS Co., Ltd.; thawte SHA256 Code Signing CA; thawte"
             ],
             "subnet": [
-              "175.45.178.0/24",
-              "211.239.157.0/24"
+              "175.45.178.0/24"
             ],
             "vhash": [
               "034036651d1az29!z",
@@ -727,8 +726,8 @@
               "2170361515151z240020"
             ]
           },
-          "ratio": 0.048,
-          "shared": 51,
+          "ratio": 0.047,
+          "shared": 50,
           "strength": 41,
           "via": [
             "asn",
@@ -741,69 +740,6 @@
             "signer",
             "subnet",
             "vhash"
-          ]
-        },
-        {
-          "a": "APT28",
-          "b": "Gamaredon",
-          "evidence": {
-            "certificate": [
-              "f29681d6e4ad64673d561247b8d8b055e92b61133ee49d1fb0c997bcd038d36a"
-            ],
-            "family": [
-              "jaik"
-            ],
-            "filename": [
-              "prod.js",
-              "release.exe",
-              "runner.exe",
-              "主要.js",
-              "有效負載.js"
-            ],
-            "ioc": [
-              "ioc.domain|email.cz",
-              "ioc.domain|paste.ee"
-            ],
-            "jarm": [
-              "15d3fd16d29d29d00042d43d00000071784fa9f8305ba9220d0a7894b6ff2c",
-              "20d08b20d21d20d20c42d08b20b41d494e0df9532e75299f15ba73156cee38",
-              "27d40d40d00040d00042d43d0000004ac24e77d76646867f0f6a0c6d9b9bb0",
-              "27d40d40d00040d00042d43d000000e1ea2a807a629b496b664cf07ad7c08d",
-              "28d28d28d00028d00042d42d0000005a3e96c1dfa4bdb24b8b3c04cae18cc3"
-            ],
-            "registered": [
-              "2020-08-13",
-              "2023-03-31",
-              "2023-04-19",
-              "2023-11-01",
-              "2023-11-02"
-            ],
-            "registrable": [
-              "email.cz",
-              "paste.ee"
-            ],
-            "resolution": [
-              "ioc.ipv4|23.186.113.60",
-              "ioc.ipv4|77.75.78.196",
-              "ioc.ipv6|2a02:598:a::78:196"
-            ],
-            "subnet": [
-              "195.133.88.0/24"
-            ]
-          },
-          "ratio": 0.039,
-          "shared": 45,
-          "strength": 38,
-          "via": [
-            "certificate",
-            "family",
-            "filename",
-            "ioc",
-            "jarm",
-            "registered",
-            "registrable",
-            "resolution",
-            "subnet"
           ]
         },
         {
@@ -875,69 +811,62 @@
           ]
         },
         {
-          "a": "Silver Fox",
-          "b": "TA4922",
+          "a": "APT28",
+          "b": "Gamaredon",
           "evidence": {
+            "certificate": [
+              "f29681d6e4ad64673d561247b8d8b055e92b61133ee49d1fb0c997bcd038d36a"
+            ],
             "family": [
-              "buggie",
-              "kepavll",
-              "silverfox"
+              "jaik"
             ],
             "filename": [
-              "0w98qnk.exe",
-              "1.RY",
-              "1.rar",
-              "1.ry",
-              "27997.exe"
-            ],
-            "imphash": [
-              "4664255d16bce58ae5f16114a9d8d3e9",
-              "54011c803d9b5e4ecfef5a7d1fbfd683",
-              "740a9d5dfbfc6893500a5c96d02a87f6",
-              "b13eb928d438cb055cc6fe42479d7f40",
-              "da8e1b9c15ab5746b3778b8918a4d4b2"
+              "prod.js",
+              "release.exe",
+              "runner.exe",
+              "主要.js",
+              "有效負載.js"
             ],
             "ioc": [
-              "ioc.domain|gbedn.fit",
-              "ioc.ipv4|154.211.86.110",
-              "ioc.ipv4|43.207.218.80",
-              "ioc.sha256|00f153b80e3824368d0303d6ffd0b50ceb237a40e63ec873a10b591dde5db83c",
-              "ioc.sha256|0d8589978cdd63e41a3d6e4bd76331ff698dc942fd83b41d7584154c33d4afb6"
+              "ioc.domain|email.cz",
+              "ioc.domain|paste.ee"
             ],
             "jarm": [
-              "21d14d00021d21d00042d43d00000091f9827a8676a9d9f27d421962a09b5d"
+              "15d3fd16d29d29d00042d43d00000071784fa9f8305ba9220d0a7894b6ff2c",
+              "20d08b20d21d20d20c42d08b20b41d494e0df9532e75299f15ba73156cee38",
+              "27d40d40d00040d00042d43d0000004ac24e77d76646867f0f6a0c6d9b9bb0",
+              "27d40d40d00040d00042d43d000000e1ea2a807a629b496b664cf07ad7c08d",
+              "28d28d28d00028d00042d42d0000005a3e96c1dfa4bdb24b8b3c04cae18cc3"
             ],
             "registered": [
-              "2026-01-27"
+              "2020-08-13",
+              "2023-03-31",
+              "2023-04-19",
+              "2023-11-01",
+              "2023-11-02"
             ],
             "registrable": [
-              "gbedn.fit"
+              "email.cz",
+              "paste.ee"
             ],
-            "subnet": [
-              "154.211.86.0/24",
-              "43.207.218.0/24"
-            ],
-            "vhash": [
-              "115076655d151515155018z5ez17z1dzc8",
-              "115076655d15551d055058z5ddz17z1dzc5",
-              "115076655d155d051550f8z4fdz17z1dz2d",
-              "125066655d15551550a8z6d7z4031z31z1011z61z40017z1",
-              "125066655d15551550c8z857z7031z81z1011za1z40217z1"
+            "resolution": [
+              "ioc.ipv4|23.186.113.60",
+              "ioc.ipv4|77.75.78.196",
+              "ioc.ipv6|2a02:598:a::78:196"
             ]
           },
-          "ratio": 1.581,
-          "shared": 68,
-          "strength": 32,
+          "ratio": 0.038,
+          "shared": 44,
+          "strength": 33,
           "via": [
+            "certificate",
             "family",
             "filename",
-            "imphash",
             "ioc",
             "jarm",
             "registered",
             "registrable",
-            "subnet",
-            "vhash"
+            "resolution"
           ]
         },
         {
@@ -1081,14 +1010,12 @@
               "owa-ms365.com"
             ],
             "subnet": [
-              "107.189.26.0/24",
-              "213.145.86.0/24",
               "31.57.243.0/24",
               "38.146.28.0/24"
             ]
           },
-          "ratio": 1.467,
-          "shared": 22,
+          "ratio": 1.333,
+          "shared": 20,
           "strength": 28,
           "via": [
             "certificate",
@@ -1129,14 +1056,12 @@
               "owa-ms365.com"
             ],
             "subnet": [
-              "107.189.26.0/24",
-              "213.145.86.0/24",
               "31.57.243.0/24",
               "38.146.28.0/24"
             ]
           },
-          "ratio": 1.467,
-          "shared": 22,
+          "ratio": 1.333,
+          "shared": 20,
           "strength": 28,
           "via": [
             "certificate",
@@ -1145,6 +1070,67 @@
             "registered",
             "registrable",
             "subnet"
+          ]
+        },
+        {
+          "a": "Silver Fox",
+          "b": "TA4922",
+          "evidence": {
+            "family": [
+              "buggie",
+              "kepavll",
+              "silverfox"
+            ],
+            "filename": [
+              "0w98qnk.exe",
+              "1.RY",
+              "1.rar",
+              "1.ry",
+              "27997.exe"
+            ],
+            "imphash": [
+              "4664255d16bce58ae5f16114a9d8d3e9",
+              "54011c803d9b5e4ecfef5a7d1fbfd683",
+              "740a9d5dfbfc6893500a5c96d02a87f6",
+              "b13eb928d438cb055cc6fe42479d7f40",
+              "da8e1b9c15ab5746b3778b8918a4d4b2"
+            ],
+            "ioc": [
+              "ioc.domain|gbedn.fit",
+              "ioc.ipv4|154.211.86.110",
+              "ioc.ipv4|43.207.218.80",
+              "ioc.sha256|00f153b80e3824368d0303d6ffd0b50ceb237a40e63ec873a10b591dde5db83c",
+              "ioc.sha256|0d8589978cdd63e41a3d6e4bd76331ff698dc942fd83b41d7584154c33d4afb6"
+            ],
+            "jarm": [
+              "21d14d00021d21d00042d43d00000091f9827a8676a9d9f27d421962a09b5d"
+            ],
+            "registered": [
+              "2026-01-27"
+            ],
+            "registrable": [
+              "gbedn.fit"
+            ],
+            "vhash": [
+              "115076655d151515155018z5ez17z1dzc8",
+              "115076655d15551d055058z5ddz17z1dzc5",
+              "115076655d155d051550f8z4fdz17z1dz2d",
+              "125066655d15551550a8z6d7z4031z31z1011z61z40017z1",
+              "125066655d15551550c8z857z7031z81z1011za1z40217z1"
+            ]
+          },
+          "ratio": 1.535,
+          "shared": 66,
+          "strength": 27,
+          "via": [
+            "family",
+            "filename",
+            "imphash",
+            "ioc",
+            "jarm",
+            "registered",
+            "registrable",
+            "vhash"
           ]
         },
         {
@@ -1194,30 +1180,47 @@
           ]
         },
         {
-          "a": "Qilin",
-          "b": "TAG-195",
+          "a": "APT28",
+          "b": "BITTER",
           "evidence": {
-            "certificate": [
-              "9341ae19d6f59eeed18481d24a13f0d34a320df32fc4880b5d7acdc9968d139e"
-            ],
             "ioc": [
-              "ioc.ipv4|70.34.205.43"
+              "ioc.domain|camdvr.org"
+            ],
+            "jarm": [
+              "15d3fd16d29d29d00042d43d00000071784fa9f8305ba9220d0a7894b6ff2c",
+              "27d27d27d00027d00042d42d000000831b6af40378e2dd35eeac4e9311926e",
+              "27d27d27d00027d1dc42d42d0000005557fe5c0eece598995bd43427a3386b",
+              "29d29d00029d29d00042d42d00000000f78d2dc0ce6e5bbc5b8149a4872356",
+              "29d29d15d29d29d00041d41d000000038eaaf490bec8dc33757f165ce01762"
+            ],
+            "registered": [
+              "2022-12-16",
+              "2023-09-26",
+              "2023-12-22",
+              "2024-04-30",
+              "2025-04-23"
+            ],
+            "registrable": [
+              "camdvr.org",
+              "rf.gd"
             ],
             "subnet": [
-              "70.34.205.0/24"
+              "185.27.134.0/24"
             ]
           },
-          "ratio": 0.188,
-          "shared": 3,
-          "strength": 22,
+          "ratio": 0.04,
+          "shared": 17,
+          "strength": 19,
           "via": [
-            "certificate",
             "ioc",
+            "jarm",
+            "registered",
+            "registrable",
             "subnet"
           ]
         }
       ],
-      "weak_only": 985
+      "weak_only": 1002
     },
     "campaign": {
       "by_via": {
@@ -1359,7 +1362,7 @@
         "registrable": 76,
         "resolution": 0,
         "signer": 0,
-        "subnet": 21,
+        "subnet": 3,
         "vhash": 5
       },
       "identical_sets": 155,
@@ -1390,172 +1393,6 @@
             "imphash",
             "ioc",
             "vhash"
-          ]
-        },
-        {
-          "a": "case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2",
-          "b": "case:6afda92c73f89ddce818f752d2d3fb7f39cef34c53478ecd993cd42936a12efc",
-          "evidence": {
-            "ioc": [
-              "ioc.domain|nvms9000.online",
-              "ioc.endpoint|nvms9000.online:9018",
-              "ioc.ipv4|172.233.124.230",
-              "ioc.ipv4|45.154.98.115"
-            ],
-            "jarm": [
-              "29d3fd00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b"
-            ],
-            "registered": [
-              "2026-07-19"
-            ],
-            "registrable": [
-              "nvms9000.online"
-            ],
-            "subnet": [
-              "172.233.124.0/24",
-              "45.154.98.0/24"
-            ]
-          },
-          "ratio": 2.25,
-          "shared": 9,
-          "strength": 19,
-          "via": [
-            "ioc",
-            "jarm",
-            "registered",
-            "registrable",
-            "subnet"
-          ]
-        },
-        {
-          "a": "case:6afda92c73f89ddce818f752d2d3fb7f39cef34c53478ecd993cd42936a12efc",
-          "b": "case:875257991745c0557dd2fb00cd40934de6281ded379289c26d900bca2628f25f",
-          "evidence": {
-            "ioc": [
-              "ioc.domain|nvms9000.online",
-              "ioc.endpoint|nvms9000.online:9018",
-              "ioc.ipv4|172.233.124.230",
-              "ioc.ipv4|45.154.98.115"
-            ],
-            "jarm": [
-              "29d3fd00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b"
-            ],
-            "registered": [
-              "2026-07-19"
-            ],
-            "registrable": [
-              "nvms9000.online"
-            ],
-            "subnet": [
-              "172.233.124.0/24",
-              "45.154.98.0/24"
-            ]
-          },
-          "ratio": 2.25,
-          "shared": 9,
-          "strength": 19,
-          "via": [
-            "ioc",
-            "jarm",
-            "registered",
-            "registrable",
-            "subnet"
-          ]
-        },
-        {
-          "a": "case:1de6220fc4c3502a55fa5cc220b9a91cead25fc34bc7d3610edf1914f83bc379",
-          "b": "case:6afda92c73f89ddce818f752d2d3fb7f39cef34c53478ecd993cd42936a12efc",
-          "evidence": {
-            "ioc": [
-              "ioc.domain|meower.eth",
-              "ioc.domain|roanoke.sol",
-              "ioc.endpoint|172.233.124.230:39419",
-              "ioc.endpoint|45.154.98.115:39419",
-              "ioc.ipv4|172.233.124.230"
-            ],
-            "jarm": [
-              "29d3fd00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b"
-            ],
-            "registrable": [
-              "meower.eth",
-              "roanoke.sol"
-            ],
-            "subnet": [
-              "172.233.124.0/24",
-              "45.154.98.0/24"
-            ]
-          },
-          "ratio": 1.375,
-          "shared": 11,
-          "strength": 16,
-          "via": [
-            "ioc",
-            "jarm",
-            "registrable",
-            "subnet"
-          ]
-        },
-        {
-          "a": "case:6afda92c73f89ddce818f752d2d3fb7f39cef34c53478ecd993cd42936a12efc",
-          "b": "case:b6b9753bf156d5eb5dcbad43de9ab651146a819da27fe9d2c031097ca10619d3",
-          "evidence": {
-            "ioc": [
-              "ioc.domain|meower.eth",
-              "ioc.domain|roanoke.sol",
-              "ioc.endpoint|172.233.124.230:39419",
-              "ioc.endpoint|45.154.98.115:39419",
-              "ioc.ipv4|172.233.124.230"
-            ],
-            "jarm": [
-              "29d3fd00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b"
-            ],
-            "registrable": [
-              "meower.eth",
-              "roanoke.sol"
-            ],
-            "subnet": [
-              "172.233.124.0/24",
-              "45.154.98.0/24"
-            ]
-          },
-          "ratio": 1.375,
-          "shared": 11,
-          "strength": 16,
-          "via": [
-            "ioc",
-            "jarm",
-            "registrable",
-            "subnet"
-          ]
-        },
-        {
-          "a": "case:194845853f864088bc9fae5c0b2f692f6d6b1564f41111041247b3f86d356f30",
-          "b": "case:e0e1ae775ef8e530875235f035fb623b217d48fa810537144c872fcf41592648",
-          "evidence": {
-            "family": [
-              "valley"
-            ],
-            "filename": [
-              "PDFCore8.dll",
-              "PdfcOrE8.dLL"
-            ],
-            "ioc": [
-              "ioc.endpoint|121.127.253.206:8856",
-              "ioc.endpoint|121.127.253.206:8868",
-              "ioc.ipv4|121.127.253.206"
-            ],
-            "subnet": [
-              "121.127.253.0/24"
-            ]
-          },
-          "ratio": 1.167,
-          "shared": 7,
-          "strength": 16,
-          "via": [
-            "family",
-            "filename",
-            "ioc",
-            "subnet"
           ]
         },
         {
@@ -1682,6 +1519,154 @@
             "registered",
             "registrable"
           ]
+        },
+        {
+          "a": "case:9645a12079edffd20560d4631160a6052ae5728d6f73b7366588166ad281c534",
+          "b": "case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0",
+          "evidence": {
+            "ioc": [
+              "ioc.domain|stratimasesstr.com",
+              "ioc.domain|winarkamaps.com",
+              "ioc.url|https://stratimasesstr.com/live/",
+              "ioc.url|https://winarkamaps.com/live/"
+            ],
+            "jarm": [
+              "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
+              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
+            ],
+            "registered": [
+              "2025-07-31"
+            ],
+            "registrable": [
+              "stratimasesstr.com",
+              "winarkamaps.com"
+            ]
+          },
+          "ratio": 2.25,
+          "shared": 9,
+          "strength": 14,
+          "via": [
+            "ioc",
+            "jarm",
+            "registered",
+            "registrable"
+          ]
+        },
+        {
+          "a": "case:7040402574a686f031c3af5fed37509d8979855397787aab70b2d1059099d2da",
+          "b": "case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0",
+          "evidence": {
+            "ioc": [
+              "ioc.domain|stratimasesstr.com",
+              "ioc.domain|winarkamaps.com",
+              "ioc.url|https://stratimasesstr.com/live/",
+              "ioc.url|https://winarkamaps.com/live/"
+            ],
+            "jarm": [
+              "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
+              "2ad2ad0002ad2ad00042d42d00000051af7d8070a18e002eaaedf620fa118c"
+            ],
+            "registered": [
+              "2025-07-31"
+            ],
+            "registrable": [
+              "stratimasesstr.com",
+              "winarkamaps.com"
+            ]
+          },
+          "ratio": 1.8,
+          "shared": 9,
+          "strength": 14,
+          "via": [
+            "ioc",
+            "jarm",
+            "registered",
+            "registrable"
+          ]
+        },
+        {
+          "a": "case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2",
+          "b": "case:6afda92c73f89ddce818f752d2d3fb7f39cef34c53478ecd993cd42936a12efc",
+          "evidence": {
+            "ioc": [
+              "ioc.domain|nvms9000.online",
+              "ioc.endpoint|nvms9000.online:9018",
+              "ioc.ipv4|172.233.124.230",
+              "ioc.ipv4|45.154.98.115"
+            ],
+            "jarm": [
+              "29d3fd00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b"
+            ],
+            "registered": [
+              "2026-07-19"
+            ],
+            "registrable": [
+              "nvms9000.online"
+            ]
+          },
+          "ratio": 1.75,
+          "shared": 7,
+          "strength": 14,
+          "via": [
+            "ioc",
+            "jarm",
+            "registered",
+            "registrable"
+          ]
+        },
+        {
+          "a": "case:6afda92c73f89ddce818f752d2d3fb7f39cef34c53478ecd993cd42936a12efc",
+          "b": "case:875257991745c0557dd2fb00cd40934de6281ded379289c26d900bca2628f25f",
+          "evidence": {
+            "ioc": [
+              "ioc.domain|nvms9000.online",
+              "ioc.endpoint|nvms9000.online:9018",
+              "ioc.ipv4|172.233.124.230",
+              "ioc.ipv4|45.154.98.115"
+            ],
+            "jarm": [
+              "29d3fd00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b"
+            ],
+            "registered": [
+              "2026-07-19"
+            ],
+            "registrable": [
+              "nvms9000.online"
+            ]
+          },
+          "ratio": 1.75,
+          "shared": 7,
+          "strength": 14,
+          "via": [
+            "ioc",
+            "jarm",
+            "registered",
+            "registrable"
+          ]
+        },
+        {
+          "a": "case:4049128f0308d05dcb8d24b668f69238d720199de32ba0d8304cd3c3b3bde1b9",
+          "b": "case:ffa78f3d4b1dafb9723e6a68456e42a57c0a109b9b8246196e1a8a6d6d2d6f5a",
+          "evidence": {
+            "ioc": [
+              "ioc.endpoint|31.77.168.180:5000",
+              "ioc.ipv4|31.77.168.180"
+            ],
+            "jarm": [
+              "28d28d28d00028d00042d42d000000e1ea2a807a629b496b664cf07ad7c08d"
+            ],
+            "subnet": [
+              "31.77.168.0/24"
+            ]
+          },
+          "ratio": 1.333,
+          "shared": 4,
+          "strength": 14,
+          "via": [
+            "ioc",
+            "jarm",
+            "subnet"
+          ]
         }
       ],
       "weak_only": 91
@@ -1699,11 +1684,11 @@
         "registrable": 68,
         "resolution": 1,
         "signer": 1,
-        "subnet": 40,
+        "subnet": 14,
         "vhash": 26
       },
       "identical_sets": 8,
-      "pairs": 1252,
+      "pairs": 1240,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -1889,15 +1874,11 @@
               "driver-hub.net"
             ],
             "subnet": [
-              "153.92.126.0/24",
-              "163.172.53.0/24",
-              "185.100.85.0/24",
-              "185.175.59.0/24",
               "208.115.220.0/24"
             ]
           },
-          "ratio": 1.932,
-          "shared": 170,
+          "ratio": 1.852,
+          "shared": 163,
           "strength": 31,
           "via": [
             "certificate",
@@ -1908,68 +1889,6 @@
             "registered",
             "registrable",
             "subnet"
-          ]
-        },
-        {
-          "a": "Vidar Stealer",
-          "b": "XMRig",
-          "evidence": {
-            "family": [
-              "Vidar",
-              "egairtigado",
-              "giant",
-              "lumma",
-              "lummastealer"
-            ],
-            "filename": [
-              "1.exe_",
-              "12gvr.exe",
-              "13.exe",
-              "1gr01b2.exe",
-              "289yxtdo2.exe"
-            ],
-            "imphash": [
-              "0951d9f67c9a9e1b6ea746ed01bccc26",
-              "1aae8bf580c846f39c71c05898e57e88",
-              "5af915f278815e76bad476ef32593028",
-              "d8b31f8c03e0c76ff245ed05a15ffe6c",
-              "ebc247a77b4d4a804b261f97a1fd075c"
-            ],
-            "ioc": [
-              "ioc.ipv4|116.203.243.208",
-              "ioc.ipv4|136.243.203.109",
-              "ioc.ipv4|136.243.203.111",
-              "ioc.ipv4|138.199.246.13",
-              "ioc.sha1|ab92f731ab20774dfdb95664ee41a2fbafe2a284"
-            ],
-            "jarm": [
-              "2ad2ad16d2ad2ad00042d42d00000072e74222ce193a6f991becaa3da6c94d",
-              "40d40d40d00000000043d40d40d43d684d61a135bd962c8dd9c541ddbaefa8"
-            ],
-            "subnet": [
-              "116.203.243.0/24",
-              "136.243.203.0/24",
-              "138.199.246.0/24"
-            ],
-            "vhash": [
-              "016066656d1d15645az2c!z",
-              "016066656d5d15645az2d!z",
-              "016076656d1d1564557az2c!z",
-              "016086656d15551d15545az2e!z",
-              "017086656d15551d15545az2e!z"
-            ]
-          },
-          "ratio": 3.173,
-          "shared": 330,
-          "strength": 27,
-          "via": [
-            "family",
-            "filename",
-            "imphash",
-            "ioc",
-            "jarm",
-            "subnet",
-            "vhash"
           ]
         },
         {
@@ -2013,10 +1932,10 @@
             ],
             "subnet": [
               "142.0.68.0/24",
-              "185.25.50.0/24",
-              "185.25.51.0/24",
               "185.77.129.0/24",
-              "188.241.68.0/24"
+              "188.241.68.0/24",
+              "213.103.67.0/24",
+              "220.158.216.0/24"
             ],
             "vhash": [
               "016096666d5c0d5c0515603142z41002c1z23z6035z23z50301bz",
@@ -2026,8 +1945,8 @@
               "02503e0f7d101013z11z69z15z13z1011z19z"
             ]
           },
-          "ratio": 2.5,
-          "shared": 285,
+          "ratio": 2.421,
+          "shared": 276,
           "strength": 27,
           "via": [
             "family",
@@ -2138,66 +2057,59 @@
           ]
         },
         {
-          "a": "ValleyRAT",
-          "b": "VenomRAT",
+          "a": "Vidar Stealer",
+          "b": "XMRig",
           "evidence": {
+            "family": [
+              "Vidar",
+              "egairtigado",
+              "giant",
+              "lumma",
+              "lummastealer"
+            ],
             "filename": [
-              "20 ????? ?? ?-??????.exe",
-              "20 जुलाई का ई-इनवॉइस.exe",
-              "NOTICE_F.EXE",
-              "NVML.DLL",
-              "Notice from Tax Departmen.exe"
+              "1.exe_",
+              "12gvr.exe",
+              "13.exe",
+              "1gr01b2.exe",
+              "289yxtdo2.exe"
             ],
             "imphash": [
-              "e94c291cbf7f11ed5641bc513cd6a0f8"
+              "0951d9f67c9a9e1b6ea746ed01bccc26",
+              "1aae8bf580c846f39c71c05898e57e88",
+              "5af915f278815e76bad476ef32593028",
+              "d8b31f8c03e0c76ff245ed05a15ffe6c",
+              "ebc247a77b4d4a804b261f97a1fd075c"
             ],
             "ioc": [
-              "ioc.ipv4|192.252.180.45",
-              "ioc.sha256|93694473622f770d539263ae211dde4715264b0f23c858ba69796adca76cae35"
+              "ioc.ipv4|116.203.243.208",
+              "ioc.ipv4|136.243.203.109",
+              "ioc.ipv4|136.243.203.111",
+              "ioc.ipv4|138.199.246.13",
+              "ioc.sha1|ab92f731ab20774dfdb95664ee41a2fbafe2a284"
             ],
             "jarm": [
-              "0bd0bd0000bd0bd0000bd0bd0bd0bdd737c5a746ca3707b1a4cd16ec9698af"
-            ],
-            "subnet": [
-              "192.252.180.0/24"
+              "2ad2ad16d2ad2ad00042d42d00000072e74222ce193a6f991becaa3da6c94d",
+              "40d40d40d00000000043d40d40d43d684d61a135bd962c8dd9c541ddbaefa8"
             ],
             "vhash": [
-              "025056655d15551az4c!z"
+              "016066656d1d15645az2c!z",
+              "016066656d5d15645az2d!z",
+              "016076656d1d1564557az2c!z",
+              "016086656d15551d15545az2e!z",
+              "017086656d15551d15545az2e!z"
             ]
           },
-          "ratio": 1.333,
-          "shared": 16,
-          "strength": 25,
+          "ratio": 3.144,
+          "shared": 327,
+          "strength": 22,
           "via": [
+            "family",
             "filename",
             "imphash",
             "ioc",
             "jarm",
-            "subnet",
             "vhash"
-          ]
-        },
-        {
-          "a": "Qilin",
-          "b": "TinyEgg",
-          "evidence": {
-            "certificate": [
-              "9341ae19d6f59eeed18481d24a13f0d34a320df32fc4880b5d7acdc9968d139e"
-            ],
-            "ioc": [
-              "ioc.ipv4|70.34.205.43"
-            ],
-            "subnet": [
-              "70.34.205.0/24"
-            ]
-          },
-          "ratio": 0.2,
-          "shared": 3,
-          "strength": 22,
-          "via": [
-            "certificate",
-            "ioc",
-            "subnet"
           ]
         },
         {
@@ -2238,9 +2150,76 @@
             "ioc",
             "vhash"
           ]
+        },
+        {
+          "a": "Agent Tesla",
+          "b": "DonutLoader",
+          "evidence": {
+            "family": [
+              "luajit"
+            ],
+            "filename": [
+              "ABTUVQFLAWSVYYHQ.PIF",
+              "ACILDKSVYDDKRQGW.PIF",
+              "AIZUDRHZXGBAORSM.PIF",
+              "AJLLJGGKXKWSLDDC.PIF",
+              "AZJHFFCIDNUPKUUT.PIF"
+            ],
+            "imphash": [
+              "f09ca5b7fb5026a683c783d4a5ee3730"
+            ],
+            "ioc": [
+              "ioc.sha256|52f0c0230b580e2fdf53a378b5c6d0db9829af900dae43e0df8f18635cd9f0c1"
+            ],
+            "vhash": [
+              "0450a76d1555551c0d1d1az255b=z"
+            ]
+          },
+          "ratio": 0.522,
+          "shared": 12,
+          "strength": 21,
+          "via": [
+            "family",
+            "filename",
+            "imphash",
+            "ioc",
+            "vhash"
+          ]
+        },
+        {
+          "a": "ChonkyChicken",
+          "b": "Modular ChonkyChicken",
+          "evidence": {
+            "family": [
+              "ravartar"
+            ],
+            "filename": [
+              "a9atkt.exe",
+              "koki.ocx"
+            ],
+            "imphash": [
+              "905ab9e220ce532b5a78cd737cc2d172"
+            ],
+            "ioc": [
+              "ioc.sha256|e3153ced59bb0376186b0eee0ec68f0b5aa9ae5820ef8508ae4e67625e1a3581"
+            ],
+            "vhash": [
+              "1260b76d1555655c051d1013z42z4458sz1d6z3"
+            ]
+          },
+          "ratio": 3,
+          "shared": 6,
+          "strength": 21,
+          "via": [
+            "family",
+            "filename",
+            "imphash",
+            "ioc",
+            "vhash"
+          ]
         }
       ],
-      "weak_only": 1160
+      "weak_only": 1165
     }
   },
   "schema": 1,
