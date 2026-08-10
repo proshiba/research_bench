@@ -42,10 +42,21 @@ const MIN_MAL = Number(args["min-malicious"] ?? 10);
 const MIN_ENT = Number(args["min-entities"] ?? 2);
 const MAX_AGE = Number(args["max-age"] || 2592000) * 1000;
 
-/** 引ける関係。ここに無いものは打ち間違いとして止める。 */
-const RELS = new Set(["contacted_ips", "contacted_domains", "contacted_urls"]);
-if (!RELS.has(REL)) {
-  console.error(`--rel は ${[...RELS].join(" / ")} のどれかです: ${REL}`);
+/**
+ * 引ける関係。引き先（files / domains）ごとに分けて持つ。
+ * ここに無いものは打ち間違いとして止める。
+ */
+const REL_KIND = {
+  contacted_ips: "files",
+  contacted_domains: "files",
+  contacted_urls: "files",
+  // ドメインの**過去の**解決先。object の last_dns_records は現在しか返さないので、
+  // ここでしか埋まらない（§9.1b）
+  resolutions: "domains",
+};
+const KIND = REL_KIND[REL];
+if (!KIND) {
+  console.error(`--rel は ${Object.keys(REL_KIND).join(" / ")} のどれかです: ${REL}`);
   process.exit(2);
 }
 
@@ -66,14 +77,37 @@ if (!vt.size) {
 const counts = entityCounts(links);
 const HASH = new Set(["ioc.md5", "ioc.sha1", "ioc.sha256"]);
 
+/**
+ * ドメインの `resolutions` は**現在の解決先が無いものから引く**。
+ *
+ * 実測（40 件の試験取得）で、現在の解決先が無いドメインの 40% に履歴があり、
+ * 1 件あたり平均 5.4 の IP が返った。しかも **72% は CDN ではない実サーバ**で、
+ * `driver-store.com` の `89.36.224.5` のように**索引が既に持っている IP** に
+ * 当たるものが 63 件中 9 件あった。
+ *
+ * いまドメインが Cloudflare の裏にあると `last_dns_records` は `104.21.x` しか
+ * 返さず、解決先の守りで落ちる。**過去の解決先には Cloudflare を入れる前の
+ * 原本 IP が残っている**ので、そこが取れるのがこの関係の値打ち。
+ */
+const resolved = new Set(
+  readJsonl(path.join(IN, "derived-links.jsonl"))
+    .filter((l) => l.rel === "resolves_to").map((l) => l.ioc));
+
 const targets = [];
 for (const r of iocs) {
+  const n = counts.get(r.key) || 0;
+  if (KIND === "domains") {
+    if (r.type !== "ioc.domain") continue;
+    if (n < 1) continue;               // 実体に繋がらないドメインは重なりを作れない
+    if (resolved.has(r.key)) continue; // 現在の解決先があるなら object で足りている
+    targets.push({ ioc: r.key, id: r.value, entities: n, malicious: vt.get(r.key)?.malicious ?? 0 });
+    continue;
+  }
   if (!HASH.has(r.type)) continue;
   const v = vt.get(r.key);
   // VT が知らない検体には関係も無い。引くだけ枠の無駄
   if (!v?.known) continue;
   if ((v.malicious ?? 0) < MIN_MAL) continue;
-  const n = counts.get(r.key) || 0;
   if (n < MIN_ENT) continue;
   targets.push({ ioc: r.key, id: r.value, entities: n, malicious: v.malicious ?? 0 });
 }
@@ -86,7 +120,9 @@ const stale = (rec) => !rec || now - Date.parse(rec.fetched_at || 0) > MAX_AGE;
 const todo = targets.filter((t) => stale(readRecord(CACHE, `${t.ioc}\t${REL}`)));
 
 console.log(`関係 ${REL} の対象 ${targets.length} 件`
-  + `（検知 ${MIN_MAL} 以上・実体 ${MIN_ENT} 以上のハッシュ）`);
+  + (KIND === "domains"
+    ? "（実体つき・現在の解決先が無いドメイン）"
+    : `（検知 ${MIN_MAL} 以上・実体 ${MIN_ENT} 以上のハッシュ）`));
 console.log(`  写し済み ${targets.length - todo.length} / 残り ${todo.length}`);
 
 if (PLAN_ONLY) {
@@ -155,7 +191,7 @@ process.on("SIGINT", () => {
 });
 
 async function fetchOne(slot, item) {
-  const url = `https://www.virustotal.com/api/v3/files/${item.id}/${REL}?limit=${LIMIT_PER}`;
+  const url = `https://www.virustotal.com/api/v3/${KIND}/${item.id}/${REL}?limit=${LIMIT_PER}`;
   const res = await fetch(url, { headers: { "x-apikey": slot.key, accept: "application/json" } });
 
   if (res.status === 429) return { retry: "quota" };
@@ -165,10 +201,29 @@ async function fetchOne(slot, item) {
   const body = await res.json().catch(() => null);
   // 404 / 400 は結果として残す（object と同じ扱い。引き直しても直らない）
   if (res.status === 404 || res.status === 400) {
-    return { record: { ioc: item.ioc, rel: REL, status: res.status, ids: [] } };
+    return { record: { ioc: item.ioc, rel: REL, status: res.status, ...(REL === "resolutions" ? { hits: [] } : { ids: [] }) } };
   }
   if (!res.ok || !Array.isArray(body?.data)) {
     return { retry: "server", why: `HTTP ${res.status} ${body?.error?.code || ""}`.trim() };
+  }
+  if (REL === "resolutions") {
+    /**
+     * **いつの解決先かを一緒に残す。** 時期を捨てると、5 年前に同じ共用ホストに
+     * 居ただけの組が上位に来る（§9.1b）。実体の活動期間と突き合わせられるように
+     * `{ip, at}` の形で持つ。同じ IP が何度も出るので、**最も新しい日**だけ残す。
+     */
+    const seen = new Map();
+    for (const d of body.data) {
+      const ip = String(d?.attributes?.ip_address || "").trim();
+      if (!ip) continue;
+      const sec = Number(d?.attributes?.date);
+      const at = Number.isFinite(sec) && sec > 0
+        ? new Date(sec * 1000).toISOString().slice(0, 10) : null;
+      const prev = seen.get(ip);
+      if (!prev || (at && (!prev.at || at > prev.at))) seen.set(ip, { ip, ...(at ? { at } : {}) });
+    }
+    const hits = [...seen.values()].sort((a, b) => (a.ip < b.ip ? -1 : 1));
+    return { record: { ioc: item.ioc, rel: REL, status: 200, hits } };
   }
   const ids = body.data.map((d) => String(d?.id || "")).filter(Boolean).sort();
   return { record: { ioc: item.ioc, rel: REL, status: 200, ids: [...new Set(ids)] } };
@@ -204,7 +259,7 @@ async function worker() {
       source: "virustotal",
     }, `${item.ioc}\t${REL}`);
 
-    if (result.record.ids.length) stat.ok++; else stat.empty++;
+    if ((result.record.ids ?? result.record.hits).length) stat.ok++; else stat.empty++;
     const n = stat.ok + stat.empty + stat.failed;
     if (n % 50 === 0 || n === budget) {
       console.log(`  ${String(n).padStart(5)} / ${budget}  相手あり ${stat.ok} / 相手なし ${stat.empty} / 取れず ${stat.failed}`);
