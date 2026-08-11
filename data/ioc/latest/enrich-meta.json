@@ -1,13 +1,13 @@
 {
   "asn_check": {
-    "agree": 3133,
-    "differ": 39
+    "agree": 3146,
+    "differ": 40
   },
   "cache": {
     "abuseipdb": {
       "dir": "data/ioc/.cache/abuseipdb",
-      "records": 3495,
-      "sha256": "e1de1e73ee6ab59d74150456dc0bfcadb2d42bb6e3f2a18b1e39d488b7c1beb3"
+      "records": 3515,
+      "sha256": "aeb143aa2eed549aa5bc91e884296558c718d3ddabd00e5d8f01b727cff8190b"
     },
     "virustotal": {
       "dir": "data/ioc/.cache/vt",
@@ -17,29 +17,29 @@
         "ip_addresses": 1,
         "urls": 1
       },
-      "records": 19238,
-      "sha256": "fd465812b7be0a29e6587aaf12cf383639ed12ea4468d997cff16d5207992780"
+      "records": 19346,
+      "sha256": "9988cfb04662aedfe838a57a4dd9614b19415623cd406553fd6df9c9f504b635"
     },
     "virustotal_rel": {
       "by_rel": {
         "contacted_ips": 1135,
-        "resolutions": 1435
+        "resolutions": 1484
       },
       "dir": "data/ioc/.cache/vt-rel",
-      "records": 2570,
-      "sha256": "0020a3e0ad56c3acd5f330c2b49e38bcee7a7f0935c49486a854868606378b6e"
+      "records": 2619,
+      "sha256": "02d5f603e502541837f91f11bd5936014ba84316bc088721faf37657e1338f6e"
     }
   },
   "counts": {
-    "abuseipdb": 3334,
-    "derived_aliases": 198,
-    "derived_certs": 4517,
-    "derived_entities": 423,
-    "derived_iocs": 8611,
-    "derived_links": 20680,
-    "derived_verdicts": 160,
-    "shared_certs": 124,
-    "vt": 19078
+    "abuseipdb": 3348,
+    "derived_aliases": 199,
+    "derived_certs": 4545,
+    "derived_entities": 424,
+    "derived_iocs": 8691,
+    "derived_links": 20816,
+    "derived_verdicts": 166,
+    "shared_certs": 125,
+    "vt": 19180
   },
   "coverage": {
     "abuseipdb": {
@@ -49,52 +49,52 @@
           "target": 846
         },
         "2": {
-          "done": 308,
-          "target": 308
+          "done": 311,
+          "target": 311
         },
         "5": {
-          "done": 2179,
-          "target": 2179
+          "done": 2190,
+          "target": 2190
         }
       },
-      "done": 3334,
+      "done": 3348,
       "ratio": 1,
-      "target": 3333
+      "target": 3347
     },
-    "newest_fetch": "2026-08-10",
+    "newest_fetch": "2026-08-11",
     "oldest_fetch": "2026-08-02",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 4991,
-          "target": 4991
+          "done": 4992,
+          "target": 4992
         },
         "2": {
-          "done": 308,
-          "target": 308
+          "done": 311,
+          "target": 311
         },
         "3": {
-          "done": 4456,
-          "target": 4456
+          "done": 4462,
+          "target": 4462
         },
         "4": {
-          "done": 4457,
-          "target": 4457
+          "done": 4524,
+          "target": 4524
         },
         "5": {
-          "done": 4126,
-          "target": 4126
+          "done": 4138,
+          "target": 4138
         },
         "6": {
-          "done": 739,
-          "target": 739
+          "done": 752,
+          "target": 752
         }
       },
-      "done": 19078,
-      "known": 16349,
+      "done": 19180,
+      "known": 16450,
       "ratio": 1,
-      "target": 19077,
-      "unknown": 2729
+      "target": 19179,
+      "unknown": 2730
     }
   },
   "options": {

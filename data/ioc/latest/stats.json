@@ -136,7 +136,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4632576,
+        "addresses": 4632320,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -276,7 +276,7 @@
           "TeamPCP",
           "Void Balaur"
         ],
-        "addresses": 211761664,
+        "addresses": 211777280,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -309,7 +309,7 @@
           "MuddyWater",
           "UNC5174"
         ],
-        "addresses": 1434112,
+        "addresses": 1433856,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -354,9 +354,10 @@
           "BlackFile",
           "Helix",
           "MuddyWater",
-          "Sandworm Team"
+          "Sandworm Team",
+          "UNC6671"
         ],
-        "addresses": 34048,
+        "addresses": 33792,
         "asn": 51852,
         "cc": "PA",
         "name": "Private Layer INC"
@@ -370,10 +371,24 @@
           "Storm-2945",
           "The Gentlemen"
         ],
-        "addresses": 37514240,
+        "addresses": 37513728,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
+      },
+      {
+        "actors": [
+          "Akira",
+          "Equation Group",
+          "Sandworm Team",
+          "Storm-2755",
+          "UNC6671",
+          "UTA0533"
+        ],
+        "addresses": 113598464,
+        "asn": 7018,
+        "cc": "US",
+        "name": "AT&T Enterprises, LLC"
       },
       {
         "actors": [
@@ -384,7 +399,7 @@
           "Transparent Tribe",
           "Wizard Spider"
         ],
-        "addresses": 30976,
+        "addresses": 35072,
         "asn": 16125,
         "cc": "LT",
         "name": "UAB \"Cherry Servers\""
@@ -457,24 +472,11 @@
         "asn": 4766,
         "cc": "KR",
         "name": "Korea Telecom"
-      },
-      {
-        "actors": [
-          "Akira",
-          "Equation Group",
-          "Sandworm Team",
-          "Storm-2755",
-          "UTA0533"
-        ],
-        "addresses": 113598464,
-        "asn": 7018,
-        "cc": "US",
-        "name": "AT&T Enterprises, LLC"
       }
     ],
     "multi_actor": 186,
     "multi_actor_small": 4,
-    "small": 219,
+    "small": 224,
     "top": [
       {
         "actors": [
@@ -536,7 +538,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1232
+    "total": 1244
   },
   "coverage": {
     "abuseipdb": {
@@ -546,78 +548,78 @@
           "target": 846
         },
         "2": {
-          "done": 308,
-          "target": 308
+          "done": 311,
+          "target": 311
         },
         "5": {
-          "done": 2179,
-          "target": 2179
+          "done": 2190,
+          "target": 2190
         }
       },
-      "done": 3334,
+      "done": 3348,
       "ratio": 1,
-      "target": 3333
+      "target": 3347
     },
-    "newest_fetch": "2026-08-10",
+    "newest_fetch": "2026-08-11",
     "oldest_fetch": "2026-08-02",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 4991,
-          "target": 4991
+          "done": 4992,
+          "target": 4992
         },
         "2": {
-          "done": 308,
-          "target": 308
+          "done": 311,
+          "target": 311
         },
         "3": {
-          "done": 4456,
-          "target": 4456
+          "done": 4462,
+          "target": 4462
         },
         "4": {
-          "done": 4457,
-          "target": 4457
+          "done": 4524,
+          "target": 4524
         },
         "5": {
-          "done": 4126,
-          "target": 4126
+          "done": 4138,
+          "target": 4138
         },
         "6": {
-          "done": 739,
-          "target": 739
+          "done": 752,
+          "target": 752
         }
       },
-      "done": 19078,
-      "known": 16349,
+      "done": 19180,
+      "known": 16450,
       "ratio": 1,
-      "target": 19077,
-      "unknown": 2729
+      "target": 19179,
+      "unknown": 2730
     }
   },
   "entities": {
-    "actor": 238,
+    "actor": 239,
     "campaign": 14,
     "case": 435,
     "malware": 370
   },
   "from": {
-    "collected_at": "2026-08-10T18:13:13.101Z",
+    "collected_at": "2026-08-11T05:34:14.321Z",
     "week": "2026-W33"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 6366,
+      "ioc.domain": 6437,
       "ioc.email": 263,
       "ioc.endpoint": 174,
-      "ioc.ipv4": 3278,
+      "ioc.ipv4": 3292,
       "ioc.ipv6": 63,
       "ioc.md5": 2311,
       "ioc.sha1": 1419,
-      "ioc.sha256": 2802,
+      "ioc.sha256": 2814,
       "ioc.sha512": 16,
-      "ioc.url": 2846
+      "ioc.url": 2851
     },
-    "dated": 6349,
+    "dated": 6451,
     "excluded": {
       "bogon": 2,
       "malformed": 0,
@@ -625,8 +627,8 @@
       "popular": 76,
       "sample_reported": 1
     },
-    "total": 19538,
-    "usable": 19454
+    "total": 19640,
+    "usable": 19556
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -653,17 +655,17 @@
         "family": 156,
         "filename": 31,
         "imphash": 13,
-        "ioc": 59,
-        "jarm": 642,
-        "registered": 352,
-        "registrable": 115,
+        "ioc": 38,
+        "jarm": 656,
+        "registered": 371,
+        "registrable": 95,
         "resolution": 1,
         "signer": 2,
-        "subnet": 17,
+        "subnet": 14,
         "vhash": 10
       },
       "identical_sets": 3,
-      "pairs": 1088,
+      "pairs": 1093,
       "top": [
         {
           "a": "APT37",
@@ -701,9 +703,7 @@
               "26d26d00026d26d22c26d26d26d26dd3b67dd3674d9af9dd91c1955a35d0e9"
             ],
             "registrable": [
-              "ac.kr",
-              "or.kr",
-              "xxx.xxx"
+              "or.kr"
             ],
             "signer": [
               "EGIS Co., Ltd.; thawte SHA256 Code Signing CA; thawte"
@@ -718,8 +718,8 @@
               "2170361515151z240020"
             ]
           },
-          "ratio": 0.047,
-          "shared": 50,
+          "ratio": 0.045,
+          "shared": 48,
           "strength": 41,
           "via": [
             "asn",
@@ -767,7 +767,8 @@
             ],
             "registered": [
               "2026-02-17",
-              "2026-02-26"
+              "2026-02-26",
+              "2026-07-28"
             ],
             "registrable": [
               "azurewebsites.net",
@@ -787,8 +788,8 @@
               "126076655d155d05555az5b&za40"
             ]
           },
-          "ratio": 1.757,
-          "shared": 65,
+          "ratio": 1.784,
+          "shared": 66,
           "strength": 34,
           "via": [
             "family",
@@ -800,63 +801,6 @@
             "registrable",
             "signer",
             "vhash"
-          ]
-        },
-        {
-          "a": "APT28",
-          "b": "Gamaredon",
-          "evidence": {
-            "certificate": [
-              "f29681d6e4ad64673d561247b8d8b055e92b61133ee49d1fb0c997bcd038d36a"
-            ],
-            "family": [
-              "jaik"
-            ],
-            "filename": [
-              "prod.js",
-              "release.exe",
-              "runner.exe",
-              "主要.js",
-              "有效負載.js"
-            ],
-            "ioc": [
-              "ioc.domain|email.cz",
-              "ioc.domain|paste.ee"
-            ],
-            "jarm": [
-              "15d3fd16d29d29d00042d43d00000071784fa9f8305ba9220d0a7894b6ff2c",
-              "20d08b20d21d20d20c42d08b20b41d494e0df9532e75299f15ba73156cee38",
-              "27d40d40d00040d00042d43d0000004ac24e77d76646867f0f6a0c6d9b9bb0",
-              "27d40d40d00040d00042d43d000000e1ea2a807a629b496b664cf07ad7c08d",
-              "28d28d28d00028d00042d42d0000005a3e96c1dfa4bdb24b8b3c04cae18cc3"
-            ],
-            "registered": [
-              "2020-08-13",
-              "2023-03-31",
-              "2023-04-19",
-              "2023-11-01",
-              "2023-11-02"
-            ],
-            "registrable": [
-              "email.cz",
-              "paste.ee"
-            ],
-            "resolution": [
-              "ioc.ipv4|23.186.113.60"
-            ]
-          },
-          "ratio": 0.037,
-          "shared": 42,
-          "strength": 33,
-          "via": [
-            "certificate",
-            "family",
-            "filename",
-            "ioc",
-            "jarm",
-            "registered",
-            "registrable",
-            "resolution"
           ]
         },
         {
@@ -943,6 +887,7 @@
             ],
             "registered": [
               "2026-05-14",
+              "2026-07-20",
               "2026-07-23"
             ],
             "registrable": [
@@ -956,8 +901,8 @@
               "38.146.28.0/24"
             ]
           },
-          "ratio": 1.333,
-          "shared": 20,
+          "ratio": 1.4,
+          "shared": 21,
           "strength": 28,
           "via": [
             "certificate",
@@ -989,6 +934,7 @@
             ],
             "registered": [
               "2026-05-14",
+              "2026-07-20",
               "2026-07-23"
             ],
             "registrable": [
@@ -1002,8 +948,8 @@
               "38.146.28.0/24"
             ]
           },
-          "ratio": 1.333,
-          "shared": 20,
+          "ratio": 1.4,
+          "shared": 21,
           "strength": 28,
           "via": [
             "certificate",
@@ -1073,6 +1019,53 @@
             "registered",
             "registrable",
             "vhash"
+          ]
+        },
+        {
+          "a": "APT28",
+          "b": "Gamaredon",
+          "evidence": {
+            "certificate": [
+              "f29681d6e4ad64673d561247b8d8b055e92b61133ee49d1fb0c997bcd038d36a"
+            ],
+            "family": [
+              "jaik"
+            ],
+            "filename": [
+              "prod.js",
+              "release.exe",
+              "runner.exe",
+              "主要.js",
+              "有效負載.js"
+            ],
+            "jarm": [
+              "15d3fd16d29d29d00042d43d00000071784fa9f8305ba9220d0a7894b6ff2c",
+              "20d08b20d21d20d20c42d08b20b41d494e0df9532e75299f15ba73156cee38",
+              "27d40d40d00040d00042d43d0000004ac24e77d76646867f0f6a0c6d9b9bb0",
+              "27d40d40d00040d00042d43d000000e1ea2a807a629b496b664cf07ad7c08d",
+              "28d28d28d00028d00042d42d0000005a3e96c1dfa4bdb24b8b3c04cae18cc3"
+            ],
+            "registered": [
+              "2020-08-13",
+              "2023-03-31",
+              "2023-04-19",
+              "2023-11-01",
+              "2023-11-02"
+            ],
+            "resolution": [
+              "ioc.ipv4|23.186.113.60"
+            ]
+          },
+          "ratio": 0.034,
+          "shared": 39,
+          "strength": 23,
+          "via": [
+            "certificate",
+            "family",
+            "filename",
+            "jarm",
+            "registered",
+            "resolution"
           ]
         },
         {
@@ -1206,7 +1199,7 @@
           ]
         }
       ],
-      "weak_only": 1008
+      "weak_only": 1035
     },
     "campaign": {
       "by_via": {
@@ -1215,10 +1208,10 @@
         "family": 0,
         "filename": 0,
         "imphash": 0,
-        "ioc": 1,
+        "ioc": 0,
         "jarm": 6,
         "registered": 0,
-        "registrable": 1,
+        "registrable": 0,
         "resolution": 0,
         "signer": 0,
         "subnet": 0,
@@ -1228,29 +1221,21 @@
       "pairs": 6,
       "top": [
         {
-          "a": "Dream Job",
-          "b": "ThreatNeedle",
+          "a": "Operation DarkHorse",
+          "b": "Operation Newton",
           "evidence": {
-            "ioc": [
-              "ioc.domain|au-pair.org",
-              "ioc.domain|co.cr"
-            ],
             "jarm": [
-              "2ad2ad16d2ad2ad0002ad2ad2ad2adbfb4c26e4a72aca380107db225a1ef64"
-            ],
-            "registrable": [
-              "au-pair.org",
-              "co.cr"
+              "3fd3fd00000000000043d43d00043dc3b2afa8a5ec09b510a8559aff7899fb",
+              "3fd3fd0003fd3fd21c42d42d000000307ee0eb468e9fdb5cfcd698a80a67ef"
             ]
           },
-          "ratio": 0.085,
-          "shared": 5,
-          "strength": 11,
+          "ratio": 0.038,
+          "shared": 2,
+          "strength": 1,
           "via": [
-            "ioc",
-            "jarm",
-            "registrable"
-          ]
+            "jarm"
+          ],
+          "weak_only": true
         },
         {
           "a": "Meta Syrian network disruption (October 2021)",
@@ -1286,7 +1271,7 @@
         },
         {
           "a": "Operation DarkHorse",
-          "b": "Operation Newton",
+          "b": "ThreatNeedle",
           "evidence": {
             "jarm": [
               "3fd3fd0003fd3fd21c42d42d000000307ee0eb468e9fdb5cfcd698a80a67ef"
@@ -1301,14 +1286,14 @@
           "weak_only": true
         },
         {
-          "a": "Operation DarkHorse",
+          "a": "Dream Job",
           "b": "ThreatNeedle",
           "evidence": {
             "jarm": [
-              "3fd3fd0003fd3fd21c42d42d000000307ee0eb468e9fdb5cfcd698a80a67ef"
+              "2ad2ad16d2ad2ad0002ad2ad2ad2adbfb4c26e4a72aca380107db225a1ef64"
             ]
           },
-          "ratio": 0.019,
+          "ratio": 0.017,
           "shared": 1,
           "strength": 1,
           "via": [
@@ -1333,7 +1318,7 @@
           "weak_only": true
         }
       ],
-      "weak_only": 5
+      "weak_only": 6
     },
     "case": {
       "by_via": {
@@ -1661,12 +1646,12 @@
       "by_via": {
         "asn": 2,
         "certificate": 5,
-        "family": 83,
+        "family": 84,
         "filename": 26,
         "imphash": 22,
         "ioc": 47,
         "jarm": 531,
-        "registered": 620,
+        "registered": 624,
         "registrable": 68,
         "resolution": 1,
         "signer": 1,
@@ -1674,7 +1659,7 @@
         "vhash": 26
       },
       "identical_sets": 8,
-      "pairs": 1244,
+      "pairs": 1249,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -1777,7 +1762,8 @@
               "2ad2ad00000000000042d42d00042da9006a0dbf6f6785a41d588d6e6fd492"
             ],
             "registered": [
-              "2026-02-26"
+              "2026-02-26",
+              "2026-07-28"
             ],
             "registrable": [
               "azurewebsites.net",
@@ -1794,8 +1780,8 @@
               "125066655d155d055az51nz1ez1"
             ]
           },
-          "ratio": 1.419,
-          "shared": 44,
+          "ratio": 1.452,
+          "shared": 45,
           "strength": 34,
           "via": [
             "family",
@@ -1905,9 +1891,9 @@
             "ioc": [
               "ioc.ipv4|142.0.68.2",
               "ioc.ipv4|185.25.50.93",
-              "ioc.ipv4|185.25.51.114",
-              "ioc.ipv4|185.25.51.164",
-              "ioc.ipv4|185.25.51.198"
+              "ioc.ipv4|185.25.51.198",
+              "ioc.ipv4|188.241.68.121",
+              "ioc.ipv4|194.187.249.126"
             ],
             "jarm": [
               "27d3ed3ed0003ed1dc42d43d00041d6183ff1bfae51ebd88d70384363d525c",
@@ -1918,10 +1904,10 @@
             ],
             "subnet": [
               "142.0.68.0/24",
-              "185.77.129.0/24",
               "188.241.68.0/24",
               "213.103.67.0/24",
-              "220.158.216.0/24"
+              "220.158.216.0/24",
+              "222.15.23.0/24"
             ],
             "vhash": [
               "016096666d5c0d5c0515603142z41002c1z23z6035z23z50301bz",
@@ -1931,8 +1917,8 @@
               "02503e0f7d101013z11z69z15z13z1011z19z"
             ]
           },
-          "ratio": 2.421,
-          "shared": 276,
+          "ratio": 2.351,
+          "shared": 268,
           "strength": 27,
           "via": [
             "family",
@@ -1971,7 +1957,8 @@
               "2ad2ad00000000000042d42d00042da9006a0dbf6f6785a41d588d6e6fd492"
             ],
             "registered": [
-              "2026-02-26"
+              "2026-02-26",
+              "2026-07-28"
             ],
             "registrable": [
               "azurewebsites.net",
@@ -1987,8 +1974,8 @@
               "185076655d155d055551z13z60051mz1acza40"
             ]
           },
-          "ratio": 1.433,
-          "shared": 43,
+          "ratio": 1.467,
+          "shared": 44,
           "strength": 25,
           "via": [
             "filename",
@@ -2205,12 +2192,12 @@
           ]
         }
       ],
-      "weak_only": 1168
+      "weak_only": 1173
     }
   },
   "schema": 1,
   "subnets": {
-    "multi_actor": 88,
+    "multi_actor": 89,
     "top": [
       {
         "actors": [
@@ -2354,7 +2341,7 @@
         ],
         "asns": [
           {
-            "addresses": 37514240,
+            "addresses": 37513728,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2487,7 +2474,7 @@
         "subnet": "175.45.178.0/24"
       }
     ],
-    "total": 374
+    "total": 377
   },
   "targets": {
     "abuse": 10,
@@ -2874,19 +2861,19 @@
       ],
       "with_dates": 10
     },
-    "dated": 6739,
+    "dated": 6755,
     "index_lag": {
       "ahead": 309,
       "median_days": 36,
       "p25_days": 2,
-      "p75_days": 117,
-      "pairs": 2512
+      "p75_days": 116,
+      "pairs": 2528
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 208,
+      "checked": 209,
       "lowest": [
         {
           "checked": 4,
@@ -2960,7 +2947,7 @@
         }
       ]
     },
-    "clean": 2424,
+    "clean": 2426,
     "disagreement": {
       "samples": [
         {
@@ -3099,9 +3086,9 @@
           ]
         }
       ],
-      "total": 239
+      "total": 240
     },
-    "malicious": 13682,
-    "unknown": 2729
+    "malicious": 13781,
+    "unknown": 2730
   }
 }
