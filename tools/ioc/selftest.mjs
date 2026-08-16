@@ -814,6 +814,49 @@ try {
   console.log("");
   check(run(warnDir).code === 0, "warn だけなら既定は通る");
   check(run(warnDir, ["--strict"]).code === 1, "--strict なら warn でも落ちる");
+
+  /* 4. 線引きそのもの。**写しに依らず確かめる**
+   *
+   *  公開接尾辞一覧とトラッカーの判定は、間違っても validate は鳴らない
+   *  （形は正しいまま、意味だけが変わるため）。ここで直に押さえる。
+   *  一覧は下に書いた作り物を渡すので、写しの有無で結果が変わらない。 */
+  console.log("\n線引き");
+  const { parsePsl, publicSuffixOf, registrableFromPsl, privateSuffixOf } = await import("./lib/psl.mjs");
+  const { isCdnAsn, looksDead, CDN_MIN_ADDRESSES } = await import("./lib/tracker.mjs");
+  const psl = parsePsl([
+    "// ===BEGIN ICANN DOMAINS===",
+    "com", "jp", "co.jp", "*.kobe.jp", "!city.kobe.jp", "br", "com.br", "gov.br",
+    "// ===BEGIN PRIVATE DOMAINS===",
+    "ddns.net", "workers.dev",
+  ].join("\n"));
+  const suffix = (h) => publicSuffixOf(h, { psl });
+  const reg = (h) => registrableFromPsl(h, { psl });
+  for (const [got, want, label] of [
+    [suffix("evil.example.com"), "com", "普通の規則"],
+    [suffix("a.example.co.jp"), "co.jp", "長いほうが勝つ"],
+    [suffix("foo.bar.kobe.jp"), "bar.kobe.jp", "ワイルドカード"],
+    [suffix("a.b.city.kobe.jp"), "kobe.jp", "例外が最優先"],
+    [suffix("www.gov.br"), "gov.br", "gov.br は接尾辞（手書き一覧に無かった）"],
+    [suffix("nope.example.invalidtld"), "invalidtld", "どれにも当たらなければ右端 1 段"],
+    [reg("a.b.city.kobe.jp"), "city.kobe.jp", "例外の下の登録可能ドメイン"],
+    [reg("www.gov.br"), "www.gov.br", "gov.br の下は 1 段が登録単位"],
+    [reg("com"), null, "接尾辞そのものは誰の持ち物でもない"],
+    [reg("ddns.net"), null, "PRIVATE の接尾辞そのものも同じ"],
+    [privateSuffixOf("foo.ddns.net", { psl }), "ddns.net", "PRIVATE 区画を見分ける"],
+    [privateSuffixOf("x.y.workers.dev", { psl }), "workers.dev", "共用基盤も同じ"],
+    [privateSuffixOf("evil.example.com", { psl }), null, "ICANN だけなら動的ではない"],
+    [privateSuffixOf("a.b.city.kobe.jp", { psl }), null, "例外が絡んでも誤検知しない"],
+  ]) check(got === want, `psl  ${label}`, got === want ? "" : `${JSON.stringify(got)} ≠ ${JSON.stringify(want)}`);
+
+  for (const [got, want, label] of [
+    [isCdnAsn(13335, 0), true, "一覧にある AS は CDN"],
+    [isCdnAsn(64500, CDN_MIN_ADDRESSES), true, "一覧に無くてもアドレスが多ければ CDN"],
+    [isCdnAsn(64500, CDN_MIN_ADDRESSES - 1), false, "境目の下は CDN ではない"],
+    [isCdnAsn(null, 9e9), false, "AS が無ければ判定しない"],
+    [looksDead("0.0.0.0"), true, "行き先が無い"],
+    [looksDead("199.59.243.200"), true, "パーキングの帯"],
+    [looksDead("45.32.10.7"), false, "普通の IP は生きている扱い"],
+  ]) check(got === want, `tracker  ${label}`, got === want ? "" : `${JSON.stringify(got)} ≠ ${JSON.stringify(want)}`);
 } finally {
   if (KEEP) console.log(`\n作業場所を残しました: ${root}`);
   else fs.rmSync(root, { recursive: true, force: true });

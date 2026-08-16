@@ -1,16 +1,19 @@
 {
   "by_status": {
-    "answer": 2157,
-    "error": 622,
-    "no_answer": 537,
-    "nxdomain": 2929
+    "answer": 2291,
+    "error": 152,
+    "no_answer": 592,
+    "nxdomain": 3210
   },
   "date": "2026-08-16",
-  "fetched_at": "2026-08-16T07:33:24.928Z",
+  "fetched_at": "2026-08-16T10:26:13.809Z",
+  "recovered_by_retry": 239,
   "resolved": 6245,
   "resolvers": [
-    "8.8.8.8"
+    "8.8.8.8",
+    "1.1.1.1"
   ],
+  "retries": 2,
   "schema": 1,
   "targets": 6245,
   "tool": "tools/ioc/fetch-dns.mjs"
