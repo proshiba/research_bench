@@ -2,18 +2,18 @@
 //
 // ここに置いてあるのは「何を追い、何を無視するか」の線引きだけ。
 // 取得（fetch-dns.mjs）と突き合わせ（track-domains.mjs）の両方から使う。
+import { privateSuffixOf, hasPsl } from "./psl.mjs";
 
-/** 動的 DNS と、誰でも子ドメインを作れる基盤。
+/** 動的 DNS と、誰でも子ドメインを作れる基盤。**PSL の写しが無いときの控え**。
  *
- *  **なぜ明示の一覧なのか。** 「同じ登録可能ドメインに子が N 件以上ぶら下がっていたら
- *  共用基盤」という数え方を試したが、実測（索引の 6,594 ドメイン）で分かれなかった。
- *  子が 5〜9 件の帯には `gov-pl.cloud` `mindef-nl.cloud` `ukrainesec.cloud` のような
- *  **攻撃者が自分で取った**ドメインが並ぶ。さらに `registrable` の算出が公開接尾辞を
- *  拾っていて、`gov.br`（19）`or.kr`（15）`com.ru`（13）のような eTLD が上位に混ざる。
- *  件数では three-way（DDNS / 公開接尾辞 / 攻撃者所有）を分けられない。
+ *  本番は公開接尾辞一覧の PRIVATE 区画（3,290 規則）を使う。下の一覧はその写しが
+ *  取れなかったときだけ使われる。
  *
- *  そのため一覧は手で持つ。代わりに、一覧に無いのに子が多い登録可能ドメインは
- *  `shared_suspect` の印を付けて人に見せる（自動では分類しない）。 */
+ *  **数で判定してはいけない。** 「同じ登録可能ドメインに子が N 件以上ぶら下がって
+ *  いたら共用基盤」という数え方を試したが、実測（索引の 6,594 ドメイン）で分かれ
+ *  なかった。子が 5〜9 件の帯には `gov-pl.cloud` `mindef-nl.cloud` `ukrainesec.cloud`
+ *  のような**攻撃者が自分で取った**ドメインが並ぶ。件数では
+ *  DDNS / 公開接尾辞 / 攻撃者所有の 3 つを分けられない。 */
 export const DYNAMIC_SUFFIXES = [
   // No-IP
   "ddns.net", "hopto.org", "zapto.org", "sytes.net", "bounceme.net", "redirectme.net",
@@ -40,8 +40,20 @@ export const DYNAMIC_SUFFIXES = [
 const DYN = new Set(DYNAMIC_SUFFIXES);
 
 /** そのドメイン名が動的 DNS / 共用基盤の下にあるか。
- *  返すのは「どの接尾辞に当たったか」。当たらなければ null */
+ *  返すのは「どの接尾辞に当たったか」。当たらなければ null。
+ *
+ *  **公開接尾辞一覧の PRIVATE 区画があればそれを使う**（3,290 規則）。
+ *  PRIVATE 区画は定義そのものが「誰でも子ドメインを作れる事業者」なので、
+ *  手書きの一覧より正確で、しかも週次で更新される。
+ *  写しが無いときだけ下の DYNAMIC_SUFFIXES に落ちる。 */
 export function dynamicSuffixOf(host) {
+  const viaPsl = privateSuffixOf(host);
+  if (viaPsl) return viaPsl;
+  if (hasPsl()) return null;
+  return handwrittenSuffixOf(host);
+}
+
+function handwrittenSuffixOf(host) {
   const h = String(host || "").toLowerCase().replace(/\.$/, "");
   const parts = h.split(".");
   for (let i = 0; i < parts.length - 1; i++) {

@@ -81,7 +81,17 @@ export function classifyIpv6(ip) {
   return { valid: true };
 }
 
-/** ドメインの登録可能部分（おおまかな eTLD+1）。同一登録者の推定に使う。 */
+import { registrableFromPsl, hasPsl } from "./psl.mjs";
+
+/** ドメインの登録可能部分（eTLD+1）。同一登録者の推定に使う。
+ *
+ *  **公開接尾辞一覧（PSL）の写しがあればそれを使う**（tools/ioc/fetch-psl.mjs）。
+ *  無いときだけ下の手書き一覧に落ちる。手書きでは追いつかないことが実測で分かっている
+ *  ——`com.br` は入っていたが `gov.br` が抜けていて、ブラジル政府のドメイン 19 件が
+ *  「同じ登録者の子」に見えていた。`or.kr` `pe.kr` `com.ru` も同じ。
+ *
+ *  PSL の PRIVATE 区画（`ddns.net` `workers.dev` …）も接尾辞として扱う。
+ *  `a.ddns.net` と `b.ddns.net` は「同じ人が買った」ではないため。 */
 const MULTI_TLD = new Set([
   "co.uk", "co.jp", "ne.jp", "or.jp", "ac.jp", "go.jp", "com.au", "com.br", "com.cn",
   "com.mx", "com.tr", "com.tw", "co.kr", "co.in", "co.za", "com.ar", "com.pe", "com.my",
@@ -89,6 +99,9 @@ const MULTI_TLD = new Set([
 ]);
 
 export function registrableDomain(host) {
+  const viaPsl = registrableFromPsl(host);
+  if (viaPsl !== null) return viaPsl;
+  if (hasPsl()) return null;   // 写しがあって null なら、それは接尾辞そのもの
   const parts = String(host).trim().toLowerCase().replace(/\.$/, "").split(".");
   if (parts.length < 2) return null;
   const last2 = parts.slice(-2).join(".");
