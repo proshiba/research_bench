@@ -128,6 +128,7 @@
           "Candiru",
           "Confucius",
           "Contagious Interview",
+          "DPRK IT Worker Schemes",
           "Fox Kitten",
           "Gorgon Group",
           "Higaisa",
@@ -138,7 +139,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1434368,
+        "addresses": 1445376,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -165,7 +166,7 @@
           "X3D MINER",
           "ZooPark"
         ],
-        "addresses": 3173888,
+        "addresses": 3174144,
         "asn": 24940,
         "cc": "DE",
         "name": "Hetzner Online GmbH"
@@ -191,7 +192,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4632064,
+        "addresses": 4633600,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -215,7 +216,7 @@
           "Rognar",
           "Wizard Spider"
         ],
-        "addresses": 1611008,
+        "addresses": 1610752,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -232,6 +233,7 @@
           "Gamaredon",
           "Ice Fog",
           "JadeProx",
+          "Jewelbug",
           "KongTuke",
           "MuddyWater",
           "Nomad Panda",
@@ -279,10 +281,27 @@
           "TeamPCP",
           "Void Balaur"
         ],
-        "addresses": 212323584,
+        "addresses": 215538688,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
+      },
+      {
+        "actors": [
+          "Anonymous",
+          "JadeProx",
+          "Jewelbug",
+          "Lamberts",
+          "Magecart",
+          "Mustang Panda",
+          "Qilin",
+          "Silver Fox",
+          "UNC5174"
+        ],
+        "addresses": 10756608,
+        "asn": 45102,
+        "cc": "US",
+        "name": "Alibaba (US) Technology Co., Ltd."
       },
       {
         "actors": [
@@ -312,7 +331,7 @@
           "MuddyWater",
           "UNC5174"
         ],
-        "addresses": 1431296,
+        "addresses": 1431040,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -328,26 +347,10 @@
           "Qilin",
           "TAG-83"
         ],
-        "addresses": 536832,
+        "addresses": 534528,
         "asn": 29802,
         "cc": "US",
         "name": "HIVELOCITY, Inc."
-      },
-      {
-        "actors": [
-          "Anonymous",
-          "JadeProx",
-          "Lamberts",
-          "Magecart",
-          "Mustang Panda",
-          "Qilin",
-          "Silver Fox",
-          "UNC5174"
-        ],
-        "addresses": 10755584,
-        "asn": 45102,
-        "cc": "US",
-        "name": "Alibaba (US) Technology Co., Ltd."
       },
       {
         "actors": [
@@ -371,13 +374,29 @@
           "APT29",
           "APT29 sub-cluster",
           "Anonymous",
+          "Jewelbug",
           "Storm-2945",
           "The Gentlemen"
         ],
-        "addresses": 37576192,
+        "addresses": 37569280,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
+      },
+      {
+        "actors": [
+          "APT28",
+          "APT34",
+          "APT37",
+          "Anonymous",
+          "BITTER",
+          "Contagious Interview",
+          "DPRK IT Worker Schemes"
+        ],
+        "addresses": 1053440,
+        "asn": 36352,
+        "cc": "US",
+        "name": "HostPapa"
       },
       {
         "actors": [
@@ -410,27 +429,13 @@
       {
         "actors": [
           "APT28",
-          "APT34",
-          "APT37",
-          "Anonymous",
-          "BITTER",
-          "Contagious Interview"
-        ],
-        "addresses": 1059840,
-        "asn": 36352,
-        "cc": "US",
-        "name": "HostPapa"
-      },
-      {
-        "actors": [
-          "APT28",
           "APT33",
           "BITTER",
           "DEV-0861",
           "Sandworm Team",
           "Turla"
         ],
-        "addresses": 19712,
+        "addresses": 19968,
         "asn": 44901,
         "cc": "BG",
         "name": "Belcloud LTD"
@@ -451,6 +456,20 @@
       },
       {
         "actors": [
+          "APT28",
+          "Anonymous",
+          "Gamaredon",
+          "MuddyWater",
+          "Myxa VPN",
+          "UTA0533"
+        ],
+        "addresses": 61696,
+        "asn": 215540,
+        "cc": "GB",
+        "name": "GLOBAL CONNECTIVITY SOLUTIONS LLP"
+      },
+      {
+        "actors": [
           "Gamaredon",
           "Ghostwriter",
           "REF8372",
@@ -462,25 +481,11 @@
         "asn": 216071,
         "cc": "AE",
         "name": "SERVERS TECH FZCO"
-      },
-      {
-        "actors": [
-          "APT29",
-          "APT29 sub-cluster",
-          "APT38",
-          "Anonymous",
-          "Pepesoft",
-          "Storm-2945"
-        ],
-        "addresses": 239104,
-        "asn": 396356,
-        "cc": "US",
-        "name": "Latitude.sh"
       }
     ],
-    "multi_actor": 189,
+    "multi_actor": 197,
     "multi_actor_small": 4,
-    "small": 227,
+    "small": 228,
     "top": [
       {
         "actors": [
@@ -542,88 +547,88 @@
         "shared_hosting": false
       }
     ],
-    "total": 1250
+    "total": 1255
   },
   "coverage": {
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 873,
-          "target": 873
+          "done": 897,
+          "target": 897
         },
         "2": {
-          "done": 318,
-          "target": 318
+          "done": 321,
+          "target": 321
         },
         "5": {
-          "done": 2200,
-          "target": 2200
+          "done": 2224,
+          "target": 2224
         }
       },
-      "done": 3392,
+      "done": 3443,
       "ratio": 1,
-      "target": 3391
+      "target": 3442
     },
-    "newest_fetch": "2026-08-12",
+    "newest_fetch": "2026-08-15",
     "oldest_fetch": "2026-08-02",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 5139,
-          "target": 5139
+          "done": 5312,
+          "target": 5312
         },
         "2": {
-          "done": 318,
-          "target": 318
+          "done": 321,
+          "target": 321
         },
         "3": {
-          "done": 4487,
-          "target": 4487
+          "done": 4542,
+          "target": 4542
         },
         "4": {
-          "done": 4523,
-          "target": 4523
+          "done": 4600,
+          "target": 4600
         },
         "5": {
-          "done": 4150,
-          "target": 4150
+          "done": 4188,
+          "target": 4188
         },
         "6": {
           "done": 759,
           "target": 759
         }
       },
-      "done": 19377,
-      "known": 16576,
+      "done": 19723,
+      "known": 16868,
       "ratio": 1,
-      "target": 19376,
-      "unknown": 2801
+      "target": 19722,
+      "unknown": 2855
     }
   },
   "entities": {
-    "actor": 241,
-    "campaign": 14,
-    "case": 447,
-    "malware": 379
+    "actor": 247,
+    "campaign": 19,
+    "case": 459,
+    "malware": 396
   },
   "from": {
-    "collected_at": "2026-08-12T03:52:49.346Z",
+    "collected_at": "2026-08-15T10:57:47.769Z",
     "week": "2026-W33"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 6458,
-      "ioc.email": 263,
-      "ioc.endpoint": 178,
-      "ioc.ipv4": 3336,
+      "ioc.domain": 6594,
+      "ioc.email": 265,
+      "ioc.endpoint": 179,
+      "ioc.ipv4": 3387,
       "ioc.ipv6": 63,
-      "ioc.md5": 2356,
-      "ioc.sha1": 1419,
-      "ioc.sha256": 2889,
+      "ioc.md5": 2389,
+      "ioc.sha1": 1452,
+      "ioc.sha256": 2958,
       "ioc.sha512": 16,
-      "ioc.url": 2863
+      "ioc.url": 2887
     },
-    "dated": 6621,
+    "dated": 6928,
     "excluded": {
       "bogon": 2,
       "malformed": 0,
@@ -631,8 +636,8 @@
       "popular": 76,
       "sample_reported": 1
     },
-    "total": 19841,
-    "usable": 19757
+    "total": 20190,
+    "usable": 20106
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -656,20 +661,20 @@
       "by_via": {
         "asn": 3,
         "certificate": 6,
-        "family": 160,
-        "filename": 31,
-        "imphash": 13,
-        "ioc": 40,
-        "jarm": 661,
-        "registered": 380,
-        "registrable": 97,
+        "family": 157,
+        "filename": 34,
+        "imphash": 18,
+        "ioc": 44,
+        "jarm": 696,
+        "registered": 470,
+        "registrable": 107,
         "resolution": 1,
         "signer": 2,
-        "subnet": 16,
-        "vhash": 10
+        "subnet": 18,
+        "vhash": 14
       },
       "identical_sets": 3,
-      "pairs": 1105,
+      "pairs": 1221,
       "top": [
         {
           "a": "APT37",
@@ -681,9 +686,9 @@
             "family": [
               "BabyShark",
               "esulat",
-              "fragtor",
               "kimsuky",
-              "macros"
+              "o97m",
+              "onlinegames"
             ],
             "filename": [
               "1.bin",
@@ -722,8 +727,8 @@
               "2170361515151z240020"
             ]
           },
-          "ratio": 0.043,
-          "shared": 48,
+          "ratio": 0.04,
+          "shared": 45,
           "strength": 41,
           "via": [
             "asn",
@@ -891,6 +896,7 @@
             ],
             "registered": [
               "2026-05-14",
+              "2026-07-16",
               "2026-07-20",
               "2026-07-23"
             ],
@@ -905,8 +911,8 @@
               "38.146.28.0/24"
             ]
           },
-          "ratio": 1.4,
-          "shared": 21,
+          "ratio": 1.467,
+          "shared": 22,
           "strength": 28,
           "via": [
             "certificate",
@@ -938,6 +944,7 @@
             ],
             "registered": [
               "2026-05-14",
+              "2026-07-16",
               "2026-07-20",
               "2026-07-23"
             ],
@@ -952,8 +959,8 @@
               "38.146.28.0/24"
             ]
           },
-          "ratio": 1.4,
-          "shared": 21,
+          "ratio": 1.467,
+          "shared": 22,
           "strength": 28,
           "via": [
             "certificate",
@@ -1026,6 +1033,145 @@
           ]
         },
         {
+          "a": "APT44 subcluster",
+          "b": "UAC-0145",
+          "evidence": {
+            "family": [
+              "coppertube"
+            ],
+            "filename": [
+              "SopraVPN.exe",
+              "Sopravpn-windows",
+              "mhcimfwx.exe",
+              "p5kolx.exe",
+              "sopraVPN.exe"
+            ],
+            "imphash": [
+              "f0ea7b7844bbc5bfa9bb32efdcea957c"
+            ],
+            "ioc": [
+              "ioc.domain|atlasgroup-ua.com",
+              "ioc.domain|douncloud.site",
+              "ioc.domain|soprasteria-bg.com",
+              "ioc.domain|soprasteriabg.com",
+              "ioc.ipv4|139.28.36.23"
+            ],
+            "registered": [
+              "2026-02-10",
+              "2026-05-14",
+              "2026-07-16"
+            ],
+            "registrable": [
+              "atlasgroup-ua.com",
+              "douncloud.site",
+              "soprasteria-bg.com",
+              "soprasteriabg.com"
+            ],
+            "vhash": [
+              "086076655d5d1554155az28!z",
+              "086096655d55551d15541az3-z"
+            ]
+          },
+          "ratio": 1.952,
+          "shared": 41,
+          "strength": 26,
+          "via": [
+            "family",
+            "filename",
+            "imphash",
+            "ioc",
+            "registered",
+            "registrable",
+            "vhash"
+          ]
+        },
+        {
+          "a": "Cinnamon Tempest",
+          "b": "Mustang Panda",
+          "evidence": {
+            "filename": [
+              "bvsnts.exe",
+              "ctxmui.dll",
+              "filedata.sys",
+              "msagent.sys",
+              "scx005nys.exe"
+            ],
+            "imphash": [
+              "269d7ffa9f23142665dd5833b41c7c18",
+              "f395029542a536ce5aa643474b052cd3"
+            ],
+            "ioc": [
+              "ioc.domain|black-popular.com",
+              "ioc.domain|cloudtroe.giize.com",
+              "ioc.domain|employers.theworkpc.com",
+              "ioc.domain|freeread.casacam.net",
+              "ioc.domain|news.dursamjbataar.org"
+            ],
+            "registered": [
+              "2016-07-23",
+              "2017-02-02",
+              "2024-04-17",
+              "2026-06-18"
+            ],
+            "registrable": [
+              "black-popular.com",
+              "casacam.net",
+              "dursamjbataar.org",
+              "freeddns.org",
+              "giize.com"
+            ],
+            "vhash": [
+              "045076655d155516556iz7avz2a",
+              "194046655d156018z48?z5"
+            ]
+          },
+          "ratio": 1.609,
+          "shared": 37,
+          "strength": 24,
+          "via": [
+            "filename",
+            "imphash",
+            "ioc",
+            "registered",
+            "registrable",
+            "vhash"
+          ]
+        },
+        {
+          "a": "Akira",
+          "b": "Akira ransomware affiliate",
+          "evidence": {
+            "filename": [
+              "2026-03-19_61a1ad1b6a028a1833c85e6544383999_coinminer_dosia_frostygoop_glassworm_hive_luca-stealer_poet-rat_quasar-rat_salatstealer_sliver_snatch",
+              "s5cmd.exe"
+            ],
+            "imphash": [
+              "c2d457ad8ac36fc9f18d45bffcd450c2"
+            ],
+            "ioc": [
+              "ioc.ipv4|72.23.77.35",
+              "ioc.sha256|414b9985f46714f44dd1bd63860d2a48dcfababcfe5c712a4b4f575378127a56",
+              "ioc.sha256|e2356c742c74cce5c6b6100162d0071a3f71e2fed2ed895c2011061a95b3299a"
+            ],
+            "subnet": [
+              "72.23.77.0/24"
+            ],
+            "vhash": [
+              "017086651d15551d15541az2f!z"
+            ]
+          },
+          "ratio": 2.667,
+          "shared": 8,
+          "strength": 24,
+          "via": [
+            "filename",
+            "imphash",
+            "ioc",
+            "subnet",
+            "vhash"
+          ]
+        },
+        {
           "a": "APT28",
           "b": "Gamaredon",
           "evidence": {
@@ -1060,8 +1206,8 @@
               "ioc.ipv4|23.186.113.60"
             ]
           },
-          "ratio": 0.034,
-          "shared": 39,
+          "ratio": 0.033,
+          "shared": 38,
           "strength": 23,
           "via": [
             "certificate",
@@ -1071,139 +1217,9 @@
             "registered",
             "resolution"
           ]
-        },
-        {
-          "a": "Cellebrite",
-          "b": "Cytrox",
-          "evidence": {
-            "certificate": [
-              "07617bdb802bb4762fe758c6a06df8c349be9719dae2ee3f4145d8f76d9123e1",
-              "95abac11fd5ed55ea781a754d071358c77d435b74863b84cf1b34f054edfdf1e"
-            ],
-            "ioc": [
-              "ioc.domain|bumabara.bid",
-              "ioc.domain|cellconn.net",
-              "ioc.domain|danas.bid",
-              "ioc.domain|kormoran.bid",
-              "ioc.domain|novosti.bid"
-            ],
-            "jarm": [
-              "29d29d15d29d29d00042d42d000000038eaaf490bec8dc33757f165ce01762",
-              "29d29d15d29d29d00042d42d00000068f5dc63852f94da932cd6b61b1cd9e3",
-              "3fd3fd15d3fd3fd21c3fd3fd3fd3fd29155350e8849a750dd7dd2bbb967cc2",
-              "3fd3fd15d3fd3fd21c3fd3fd3fd3fdc110bab2c0a19e5d4e587c17ce497b15"
-            ],
-            "registered": [
-              "2020-05-23"
-            ],
-            "registrable": [
-              "bumabara.bid",
-              "cellconn.net",
-              "danas.bid",
-              "kormoran.bid",
-              "novosti.bid"
-            ]
-          },
-          "ratio": 0.193,
-          "shared": 23,
-          "strength": 23,
-          "via": [
-            "certificate",
-            "ioc",
-            "jarm",
-            "registered",
-            "registrable"
-          ]
-        },
-        {
-          "a": "APT29",
-          "b": "Lazarus Group",
-          "evidence": {
-            "family": [
-              "bulz",
-              "cerbu",
-              "fragtor",
-              "jaik",
-              "mint"
-            ],
-            "filename": [
-              "$RSLL2W5.Sys",
-              "1.ex_",
-              "2.sys",
-              "2.sys.xxx",
-              "DBUtil-2-3.Sys"
-            ],
-            "imphash": [
-              "473c3773ca11aa7371dbf350919c5724"
-            ],
-            "ioc": [
-              "ioc.sha256|0296e2ce999e67c76352613a718e11516fe1b0efc3ffdb8918fc999dd76a73a5"
-            ],
-            "jarm": [
-              "07d2ad16d00000000007d2ad07d21d0a5f1333c55ada247c8c999e2ec3a818",
-              "15d3fd16d29d29d00042d43d000000fbc10435df141b3459e26f69e76d5947",
-              "20d08b20d21d20d20c42d08b20b41d494e0df9532e75299f15ba73156cee38",
-              "27d27d27d00027d00042d43d00041dba951fb796b4b956c9799ba19149e94a",
-              "29d29d15d29d29d00042d42d0000009435214b849738c4ebab4534b5d158dd"
-            ],
-            "vhash": [
-              "014066551d15165e1iz1yz"
-            ]
-          },
-          "ratio": 0.036,
-          "shared": 36,
-          "strength": 22,
-          "via": [
-            "family",
-            "filename",
-            "imphash",
-            "ioc",
-            "jarm",
-            "vhash"
-          ]
-        },
-        {
-          "a": "APT28",
-          "b": "BITTER",
-          "evidence": {
-            "ioc": [
-              "ioc.domain|camdvr.org"
-            ],
-            "jarm": [
-              "15d3fd16d29d29d00042d43d00000071784fa9f8305ba9220d0a7894b6ff2c",
-              "27d27d27d00027d00042d42d000000831b6af40378e2dd35eeac4e9311926e",
-              "27d27d27d00027d1dc42d42d0000005557fe5c0eece598995bd43427a3386b",
-              "29d29d00029d29d00042d42d00000000f78d2dc0ce6e5bbc5b8149a4872356",
-              "29d29d15d29d29d00041d41d000000038eaaf490bec8dc33757f165ce01762"
-            ],
-            "registered": [
-              "2022-12-16",
-              "2023-09-26",
-              "2023-12-22",
-              "2024-04-30",
-              "2025-04-23"
-            ],
-            "registrable": [
-              "camdvr.org",
-              "rf.gd"
-            ],
-            "subnet": [
-              "185.27.134.0/24"
-            ]
-          },
-          "ratio": 0.04,
-          "shared": 17,
-          "strength": 19,
-          "via": [
-            "ioc",
-            "jarm",
-            "registered",
-            "registrable",
-            "subnet"
-          ]
         }
       ],
-      "weak_only": 1043
+      "weak_only": 1152
     },
     "campaign": {
       "by_via": {
@@ -1213,8 +1229,8 @@
         "filename": 0,
         "imphash": 0,
         "ioc": 0,
-        "jarm": 6,
-        "registered": 0,
+        "jarm": 9,
+        "registered": 4,
         "registrable": 0,
         "resolution": 0,
         "signer": 0,
@@ -1222,8 +1238,73 @@
         "vhash": 0
       },
       "identical_sets": 0,
-      "pairs": 6,
+      "pairs": 13,
       "top": [
+        {
+          "a": "Storm-2945によるCaptiveCrunchキャンペーン:出張者向けcaptive portal Wi-Fi悪用によるマルウェア配布と資格情報窃取",
+          "b": "偽の採用プロセスによる社会工学と改変WireGuardクライアントSopraVPNの配布",
+          "evidence": {
+            "registered": [
+              "2026-05-14",
+              "2026-07-16"
+            ]
+          },
+          "ratio": 0.25,
+          "shared": 2,
+          "strength": 3,
+          "via": [
+            "registered"
+          ],
+          "weak_only": true
+        },
+        {
+          "a": "Mirage Kittenによる中東・アフリカの航空宇宙、防衛、通信分野へのサイバースパイ活動",
+          "b": "Storm-2945によるCaptiveCrunchキャンペーン:出張者向けcaptive portal Wi-Fi悪用によるマルウェア配布と資格情報窃取",
+          "evidence": {
+            "registered": [
+              "2026-07-16"
+            ]
+          },
+          "ratio": 0.125,
+          "shared": 1,
+          "strength": 3,
+          "via": [
+            "registered"
+          ],
+          "weak_only": true
+        },
+        {
+          "a": "APTグループHoneyMyteがCoolClientを強化：バックドアにWindowsカーネルレベルのルートキットを追加",
+          "b": "Operation DarkHorse",
+          "evidence": {
+            "registered": [
+              "2024-04-17"
+            ]
+          },
+          "ratio": 0.067,
+          "shared": 1,
+          "strength": 3,
+          "via": [
+            "registered"
+          ],
+          "weak_only": true
+        },
+        {
+          "a": "Mirage Kittenによる中東・アフリカの航空宇宙、防衛、通信分野へのサイバースパイ活動",
+          "b": "偽の採用プロセスによる社会工学と改変WireGuardクライアントSopraVPNの配布",
+          "evidence": {
+            "registered": [
+              "2026-07-16"
+            ]
+          },
+          "ratio": 0.043,
+          "shared": 1,
+          "strength": 3,
+          "via": [
+            "registered"
+          ],
+          "weak_only": true
+        },
         {
           "a": "Operation DarkHorse",
           "b": "Operation Newton",
@@ -1250,6 +1331,22 @@
             ]
           },
           "ratio": 0.1,
+          "shared": 1,
+          "strength": 1,
+          "via": [
+            "jarm"
+          ],
+          "weak_only": true
+        },
+        {
+          "a": "Operation DarkHorse",
+          "b": "偽の採用プロセスによる社会工学と改変WireGuardクライアントSopraVPNの配布",
+          "evidence": {
+            "jarm": [
+              "29d29d15d29d29d00041d41d000000df133019600a83abfb096ff3e86cd79d"
+            ]
+          },
+          "ratio": 0.043,
           "shared": 1,
           "strength": 1,
           "via": [
@@ -1290,30 +1387,14 @@
           "weak_only": true
         },
         {
-          "a": "Dream Job",
-          "b": "ThreatNeedle",
+          "a": "Operation DarkHorse",
+          "b": "共有Webメールホスティング侵害による政府・軍への諜報活動",
           "evidence": {
             "jarm": [
-              "2ad2ad16d2ad2ad0002ad2ad2ad2adbfb4c26e4a72aca380107db225a1ef64"
+              "3fd21b20d3fd3fd21c43d21b21b43d50c8594d0a42335f3aca21f0ce31ac7c"
             ]
           },
-          "ratio": 0.017,
-          "shared": 1,
-          "strength": 1,
-          "via": [
-            "jarm"
-          ],
-          "weak_only": true
-        },
-        {
-          "a": "Operation Newton",
-          "b": "ThreatNeedle",
-          "evidence": {
-            "jarm": [
-              "3fd3fd0003fd3fd21c42d42d000000307ee0eb468e9fdb5cfcd698a80a67ef"
-            ]
-          },
-          "ratio": 0.016,
+          "ratio": 0.019,
           "shared": 1,
           "strength": 1,
           "via": [
@@ -1322,27 +1403,62 @@
           "weak_only": true
         }
       ],
-      "weak_only": 6
+      "weak_only": 13
     },
     "case": {
       "by_via": {
         "asn": 1,
         "certificate": 0,
-        "family": 10,
-        "filename": 4,
-        "imphash": 2,
-        "ioc": 122,
-        "jarm": 106,
+        "family": 11,
+        "filename": 5,
+        "imphash": 3,
+        "ioc": 123,
+        "jarm": 111,
         "registered": 22,
         "registrable": 76,
         "resolution": 0,
         "signer": 0,
         "subnet": 4,
-        "vhash": 6
+        "vhash": 7
       },
       "identical_sets": 155,
-      "pairs": 221,
+      "pairs": 226,
       "top": [
+        {
+          "a": "case:3f09145757282e6a59cd69319ac3b9da3265022a1d4f92a1646f8ddbaad89333",
+          "b": "case:dfc8e7b7e48faab9a410111ea31001c729ab9b1c83525499f028b5344869be9e",
+          "evidence": {
+            "family": [
+              "luajit"
+            ],
+            "filename": [
+              "ABTUVQFLAWSVYYHQ.PIF",
+              "ACILDKSVYDDKRQGW.PIF",
+              "AIZUDRHZXGBAORSM.PIF",
+              "AJLLJGGKXKWSLDDC.PIF",
+              "AZJHFFCIDNUPKUUT.PIF"
+            ],
+            "imphash": [
+              "f09ca5b7fb5026a683c783d4a5ee3730"
+            ],
+            "ioc": [
+              "ioc.sha256|52f0c0230b580e2fdf53a378b5c6d0db9829af900dae43e0df8f18635cd9f0c1"
+            ],
+            "vhash": [
+              "0450a76d1555551c0d1d1az255b=z"
+            ]
+          },
+          "ratio": 2,
+          "shared": 12,
+          "strength": 21,
+          "via": [
+            "family",
+            "filename",
+            "imphash",
+            "ioc",
+            "vhash"
+          ]
+        },
         {
           "a": "case:6469edd613ceb62dd8e14a75628a6b75fa443ef4311da2b45e805bc7d18afe25",
           "b": "case:93df03d7db7df23317ee87ebe3946ddff4364e45de5217b0c90c7925b22c8f04",
@@ -1621,58 +1737,28 @@
             "registered",
             "registrable"
           ]
-        },
-        {
-          "a": "case:6afda92c73f89ddce818f752d2d3fb7f39cef34c53478ecd993cd42936a12efc",
-          "b": "case:875257991745c0557dd2fb00cd40934de6281ded379289c26d900bca2628f25f",
-          "evidence": {
-            "ioc": [
-              "ioc.domain|nvms9000.online",
-              "ioc.endpoint|nvms9000.online:9018",
-              "ioc.ipv4|172.233.124.230",
-              "ioc.ipv4|45.154.98.115"
-            ],
-            "jarm": [
-              "29d3fd00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b"
-            ],
-            "registered": [
-              "2026-07-19"
-            ],
-            "registrable": [
-              "nvms9000.online"
-            ]
-          },
-          "ratio": 1.75,
-          "shared": 7,
-          "strength": 14,
-          "via": [
-            "ioc",
-            "jarm",
-            "registered",
-            "registrable"
-          ]
         }
       ],
-      "weak_only": 93
+      "weak_only": 97
     },
     "malware": {
       "by_via": {
-        "asn": 2,
+        "asn": 3,
         "certificate": 5,
-        "family": 96,
-        "filename": 26,
-        "imphash": 22,
-        "ioc": 48,
-        "jarm": 508,
-        "registered": 633,
-        "registrable": 69,
+        "family": 107,
+        "filename": 28,
+        "imphash": 23,
+        "ioc": 50,
+        "jarm": 494,
+        "registered": 664,
+        "registrable": 77,
         "resolution": 1,
         "signer": 1,
-        "subnet": 15,
-        "vhash": 26
+        "subnet": 16,
+        "vhash": 31
       },
       "identical_sets": 8,
-      "pairs": 1245,
+      "pairs": 1283,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -1862,8 +1948,8 @@
               "208.115.220.0/24"
             ]
           },
-          "ratio": 1.852,
-          "shared": 163,
+          "ratio": 1.841,
+          "shared": 162,
           "strength": 31,
           "via": [
             "certificate",
@@ -2030,7 +2116,7 @@
               "125066651d151d751.ze"
             ]
           },
-          "ratio": 0.783,
+          "ratio": 0.692,
           "shared": 18,
           "strength": 25,
           "via": [
@@ -2039,6 +2125,49 @@
             "ioc",
             "jarm",
             "subnet",
+            "vhash"
+          ]
+        },
+        {
+          "a": "DonutLoader",
+          "b": "Snake Keylogger",
+          "evidence": {
+            "family": [
+              "luainj",
+              "luajit"
+            ],
+            "filename": [
+              "ABTUVQFLAWSVYYHQ.PIF",
+              "ACILDKSVYDDKRQGW.PIF",
+              "AIZUDRHZXGBAORSM.PIF",
+              "AJLLJGGKXKWSLDDC.PIF",
+              "AZJHFFCIDNUPKUUT.PIF"
+            ],
+            "imphash": [
+              "f09ca5b7fb5026a683c783d4a5ee3730"
+            ],
+            "ioc": [
+              "ioc.domain|mail.elpasohonroso.com",
+              "ioc.sha256|36ea8b1a990ceb83adf53f626078d631580b7d973e410e916a4818fab0014d3d",
+              "ioc.sha256|52f0c0230b580e2fdf53a378b5c6d0db9829af900dae43e0df8f18635cd9f0c1",
+              "ioc.sha256|dfc8e7b7e48faab9a410111ea31001c729ab9b1c83525499f028b5344869be9e"
+            ],
+            "registrable": [
+              "elpasohonroso.com"
+            ],
+            "vhash": [
+              "0450a76d1555551c0d1d1az255b=z"
+            ]
+          },
+          "ratio": 3.286,
+          "shared": 23,
+          "strength": 23,
+          "via": [
+            "family",
+            "filename",
+            "imphash",
+            "ioc",
+            "registrable",
             "vhash"
           ]
         },
@@ -2103,7 +2232,6 @@
           "b": "PureRAT",
           "evidence": {
             "family": [
-              "mardom",
               "xceyri"
             ],
             "filename": [
@@ -2126,8 +2254,8 @@
               "24503665151180952b810a0"
             ]
           },
-          "ratio": 3.167,
-          "shared": 19,
+          "ratio": 3,
+          "shared": 18,
           "strength": 21,
           "via": [
             "family",
@@ -2139,9 +2267,10 @@
         },
         {
           "a": "Agent Tesla",
-          "b": "DonutLoader",
+          "b": "Snake Keylogger",
           "evidence": {
             "family": [
+              "luainj",
               "luajit"
             ],
             "filename": [
@@ -2161,40 +2290,8 @@
               "0450a76d1555551c0d1d1az255b=z"
             ]
           },
-          "ratio": 0.522,
-          "shared": 12,
-          "strength": 21,
-          "via": [
-            "family",
-            "filename",
-            "imphash",
-            "ioc",
-            "vhash"
-          ]
-        },
-        {
-          "a": "ChonkyChicken",
-          "b": "Modular ChonkyChicken",
-          "evidence": {
-            "family": [
-              "ravartar"
-            ],
-            "filename": [
-              "a9atkt.exe",
-              "koki.ocx"
-            ],
-            "imphash": [
-              "905ab9e220ce532b5a78cd737cc2d172"
-            ],
-            "ioc": [
-              "ioc.sha256|e3153ced59bb0376186b0eee0ec68f0b5aa9ae5820ef8508ae4e67625e1a3581"
-            ],
-            "vhash": [
-              "1260b76d1555655c051d1013z42z4458sz1d6z3"
-            ]
-          },
-          "ratio": 3,
-          "shared": 6,
+          "ratio": 1.857,
+          "shared": 13,
           "strength": 21,
           "via": [
             "family",
@@ -2205,12 +2302,12 @@
           ]
         }
       ],
-      "weak_only": 1168
+      "weak_only": 1200
     }
   },
   "schema": 1,
   "subnets": {
-    "multi_actor": 91,
+    "multi_actor": 103,
     "top": [
       {
         "actors": [
@@ -2259,7 +2356,7 @@
         ],
         "asns": [
           {
-            "addresses": 19712,
+            "addresses": 19968,
             "asn": 44901,
             "name": "Belcloud LTD"
           }
@@ -2373,7 +2470,7 @@
         ],
         "asns": [
           {
-            "addresses": 37576192,
+            "addresses": 37569280,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2390,7 +2487,7 @@
         ],
         "asns": [
           {
-            "addresses": 3173888,
+            "addresses": 3174144,
             "asn": 24940,
             "name": "Hetzner Online GmbH"
           }
@@ -2407,7 +2504,7 @@
         ],
         "asns": [
           {
-            "addresses": 239104,
+            "addresses": 239360,
             "asn": 396356,
             "name": "Latitude.sh"
           }
@@ -2426,7 +2523,7 @@
         ],
         "asns": [
           {
-            "addresses": 157952,
+            "addresses": 154368,
             "asn": 262287,
             "name": "Latitude.sh LTDA"
           }
@@ -2490,7 +2587,7 @@
         "subnet": "64.120.31.0/24"
       }
     ],
-    "total": 383
+    "total": 404
   },
   "targets": {
     "abuse": 10,
@@ -2515,7 +2612,7 @@
       },
       {
         "abuse": 0,
-        "impersonation": 15,
+        "impersonation": 16,
         "rank": 6,
         "target": "microsoft.com"
       },
@@ -2552,14 +2649,14 @@
       {
         "abuse": 0,
         "impersonation": 3,
-        "rank": 721,
-        "target": "interia.pl"
+        "rank": 500,
+        "target": "github.com"
       },
       {
         "abuse": 0,
-        "impersonation": 2,
-        "rank": 500,
-        "target": "github.com"
+        "impersonation": 3,
+        "rank": 721,
+        "target": "interia.pl"
       },
       {
         "abuse": 0,
@@ -2616,7 +2713,7 @@
         "target": "yandex.ru"
       }
     ],
-    "impersonation": 216
+    "impersonation": 218
   },
   "timeline": {
     "actors": {
@@ -2644,6 +2741,14 @@
           "last": "2025-10-05",
           "name": "APT29",
           "span_days": 6053
+        },
+        {
+          "dated": 340,
+          "first": "2010-10-13",
+          "iocs": 452,
+          "last": "2026-08-13",
+          "name": "Transparent Tribe",
+          "span_days": 5783
         },
         {
           "dated": 54,
@@ -2678,14 +2783,6 @@
           "span_days": 5622
         },
         {
-          "dated": 329,
-          "first": "2010-10-13",
-          "iocs": 420,
-          "last": "2026-02-11",
-          "name": "Transparent Tribe",
-          "span_days": 5600
-        },
-        {
           "dated": 12,
           "first": "2012-07-20",
           "iocs": 30,
@@ -2702,10 +2799,17 @@
           "span_days": 4594
         }
       ],
-      "with_dates": 160
+      "with_dates": 165
     },
     "campaigns": {
       "spans": [
+        {
+          "dated": 2,
+          "first": "2026-02-28",
+          "iocs": 15,
+          "last": "2026-04-30",
+          "name": "APTグループHoneyMyteがCoolClientを強化：バックドアにWindowsカーネルレベルのルートキットを追加"
+        },
         {
           "dated": 3,
           "first": "2022-08-09",
@@ -2775,9 +2879,29 @@
           "iocs": 115,
           "last": "2021-02-26",
           "name": "ThreatNeedle"
+        },
+        {
+          "dated": 12,
+          "first": "2026-05-18",
+          "iocs": 23,
+          "last": "2026-08-12",
+          "name": "偽の採用プロセスによる社会工学と改変WireGuardクライアントSopraVPNの配布"
+        },
+        {
+          "dated": 17,
+          "first": "2023-10-31",
+          "iocs": 52,
+          "last": "2026-08-13",
+          "name": "共有Webメールホスティング侵害による政府・軍への諜報活動"
         }
       ],
       "time_overlaps": [
+        {
+          "a": "APTグループHoneyMyteがCoolClientを強化：バックドアにWindowsカーネルレベルのルートキットを追加",
+          "b": "共有Webメールホスティング侵害による政府・軍への諜報活動",
+          "from": "2026-02-28",
+          "to": "2026-04-30"
+        },
         {
           "a": "Browser Extension and Google Play Abuse",
           "b": "Operation Newton",
@@ -2821,6 +2945,18 @@
           "to": "2021-10-10"
         },
         {
+          "a": "Mirage Kittenによる中東・アフリカの航空宇宙、防衛、通信分野へのサイバースパイ活動",
+          "b": "偽の採用プロセスによる社会工学と改変WireGuardクライアントSopraVPNの配布",
+          "from": "2026-06-15",
+          "to": "2026-08-02"
+        },
+        {
+          "a": "Mirage Kittenによる中東・アフリカの航空宇宙、防衛、通信分野へのサイバースパイ活動",
+          "b": "共有Webメールホスティング侵害による政府・軍への諜報活動",
+          "from": "2026-06-15",
+          "to": "2026-08-02"
+        },
+        {
           "a": "Molerats",
           "b": "Operation Newton",
           "from": "2024-06-08",
@@ -2829,6 +2965,12 @@
         {
           "a": "Molerats",
           "b": "Smoke Screen / Stealth Power",
+          "from": "2024-06-08",
+          "to": "2024-06-08"
+        },
+        {
+          "a": "Molerats",
+          "b": "共有Webメールホスティング侵害による政府・軍への諜報活動",
           "from": "2024-06-08",
           "to": "2024-06-08"
         },
@@ -2857,8 +2999,20 @@
           "to": "2021-02-26"
         },
         {
+          "a": "Operation Newton",
+          "b": "共有Webメールホスティング侵害による政府・軍への諜報活動",
+          "from": "2023-10-31",
+          "to": "2025-07-25"
+        },
+        {
           "a": "Sea Turtle",
           "b": "Smoke Screen / Stealth Power",
+          "from": "2024-01-04",
+          "to": "2024-01-04"
+        },
+        {
+          "a": "Sea Turtle",
+          "b": "共有Webメールホスティング侵害による政府・軍への諜報活動",
           "from": "2024-01-04",
           "to": "2024-01-04"
         },
@@ -2873,23 +3027,41 @@
           "b": "ThreatNeedle",
           "from": "2015-12-02",
           "to": "2021-02-26"
+        },
+        {
+          "a": "Smoke Screen / Stealth Power",
+          "b": "共有Webメールホスティング侵害による政府・軍への諜報活動",
+          "from": "2023-10-31",
+          "to": "2025-07-19"
+        },
+        {
+          "a": "TOUGHPROGRESS Government Targeting Campaign",
+          "b": "共有Webメールホスティング侵害による政府・軍への諜報活動",
+          "from": "2025-05-09",
+          "to": "2025-05-29"
+        },
+        {
+          "a": "偽の採用プロセスによる社会工学と改変WireGuardクライアントSopraVPNの配布",
+          "b": "共有Webメールホスティング侵害による政府・軍への諜報活動",
+          "from": "2026-05-18",
+          "to": "2026-08-12"
         }
       ],
-      "with_dates": 10
+      "with_dates": 13
     },
-    "dated": 6816,
+    "dated": 6921,
     "index_lag": {
-      "ahead": 312,
-      "median_days": 37,
+      "ahead": 318,
+      "median_days": 38,
       "p25_days": 2,
-      "p75_days": 118,
-      "pairs": 2586
+      "p75_days": 121,
+      "pairs": 2687
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 210,
+      "checked": 216,
       "lowest": [
         {
           "checked": 4,
@@ -2911,13 +3083,6 @@
           "median_malicious": 0,
           "name": "APT42",
           "unknown": 2
-        },
-        {
-          "checked": 3,
-          "iocs": 18,
-          "median_malicious": 0,
-          "name": "Akira",
-          "unknown": 1
         },
         {
           "checked": 3,
@@ -2960,6 +3125,13 @@
           "median_malicious": 0,
           "name": "Equation Group",
           "unknown": 1
+        },
+        {
+          "checked": 3,
+          "iocs": 3,
+          "median_malicious": 0,
+          "name": "Glocom",
+          "unknown": 0
         }
       ]
     },
@@ -3104,7 +3276,7 @@
       ],
       "total": 246
     },
-    "malicious": 13897,
-    "unknown": 2801
+    "malicious": 14189,
+    "unknown": 2855
   }
 }
