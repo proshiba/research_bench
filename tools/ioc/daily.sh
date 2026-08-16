@@ -1,16 +1,17 @@
 #!/bin/sh
 # 1 日ぶんのエンリッチを通しでやる。**判断が要らないところは全部ここでやる。**
 #
-#   VT_API_KEYS="k1,k2,k3" ABUSEIPDB_API_KEY="k" sh tools/ioc/daily.sh [--collect] [--commit] [--push]
+#   VT_API_KEYS="k1,k2,k3" ABUSEIPDB_API_KEY="k" sh tools/ioc/daily.sh [--collect] [--track] [--commit] [--push]
 #
 # 何をするか
 #   0. 索引を取り直す（--collect のときだけ。既定は週次なので毎日はやらない）
 #   1. 経路表の写しを更新する（BGPTOOLS_CONTACT があるときだけ）
-#   2. VT と AbuseIPDB を、その日の枠を使い切るまで引く（並行）
-#   3. 写しから作り直す（enrich-intel → enrich-asn → stats）
-#   4. 検査する。**通らなければここで止まる**
-#   5. 昨日から何が変わったかを出し、data/ioc/reports/<日付>.json に残す
-#   6. コミットして push する（--commit / --push のときだけ）
+#   2. 攻撃者ドメインの生存確認（--track のときだけ。DNS は枠を使わない）
+#   3. VT と AbuseIPDB を、その日の枠を使い切るまで引く（並行）
+#   4. 写しから作り直す（enrich-intel → enrich-asn → stats）
+#   5. 検査する。**通らなければここで止まる**
+#   6. 昨日から何が変わったかを出し、data/ioc/reports/<日付>.json に残す
+#   7. コミットして push する（--commit / --push のときだけ）
 #
 # VT は無料枠だと 1 鍵 500 件/日なので、全件は一度に埋まらない。引く順は
 # docs/ioc-enrich-plan.md §4 の段階分けに従うので、**何日目で止まっていても
@@ -25,12 +26,18 @@ DIR=${IOC_DIR:-data/ioc/latest}
 PREV=${IOC_PREV:-.ioc-prev}
 # 日次レポートの置き場。1 日 1 ファイルで、これだけを追って経過が読める
 REPORTS=${IOC_REPORTS:-data/ioc/reports}
+# 攻撃者ドメインのトラッカー。観測は 1 日 1 ファイルで積み上がる
+TRACKER=${IOC_TRACKER:-data/ioc/tracker}
+# 生存ドメインの検体を引き直す件数。**VT の枠を先に少しだけ取る**（下記）
+TRACK_SAMPLES=${IOC_TRACK_SAMPLES:-120}
 COLLECT=0
+TRACK=0
 COMMIT=0
 PUSH=0
 for a in "$@"; do
   case "$a" in
     --collect) COLLECT=1 ;;
+    --track)   TRACK=1 ;;
     --commit)  COMMIT=1 ;;
     --push)    COMMIT=1; PUSH=1 ;;
     *) echo "知らない引数です: $a" >&2; exit 2 ;;
@@ -58,6 +65,23 @@ fi
 if [ -n "$BGPTOOLS_CONTACT" ]; then
   say "経路表の写し"
   node tools/ioc/fetch-asn.mjs
+fi
+
+if [ "$TRACK" = 1 ]; then
+  # DNS は鍵も枠も要らないので、毎日全件やって構わない。答えが返らなかったものは
+  # 中で引き直す（初回実測で error 622 件のうち大半はこちらの叩きすぎだった）
+  say "攻撃者ドメインの生存確認"
+  node tools/ioc/fetch-dns.mjs --out "$TRACKER" --in "$DIR"
+  node tools/ioc/track-domains.mjs --tracker "$TRACKER" --in "$DIR"
+
+  # 検体の引き直しは **VT より先**。fetch-vt は VT に「今日いくつ使ったか」を
+  # 聞いてから予算を決めるので、先に少し取っておけば自動的に譲ってくれる。
+  # 逆にすると枠を使い切ったあとで、生存ドメイン側が 1 件も引けない
+  if [ -n "$VT_API_KEYS$VT_API_KEYs" ]; then
+    say "生きているドメインに付いた検体"
+    node tools/ioc/fetch-tracker-samples.mjs --tracker "$TRACKER" --in "$DIR" --limit "$TRACK_SAMPLES" || \
+      echo "! 検体の引き直しが落ちました。生死の判定は済んでいます" >&2
+  fi
 fi
 
 # 外に出るのはこの 2 つだけ。どちらも写しを残す。鍵も枠も別なので並行して走らせる
@@ -97,6 +121,7 @@ if [ "$COMMIT" = 1 ]; then
   say "残す"
   # 検査が通ってからでないとコミットしない。壊れた一式が明日の基準になるのを防ぐ
   git add "$DIR" "$REPORTS"
+  if [ "$TRACK" = 1 ]; then git add "$TRACKER"; fi
   if git diff --cached --quiet; then
     echo "  変化がありません。コミットしません"
   else
