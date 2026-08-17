@@ -10,13 +10,17 @@
 // 生死と切り替わりは DNS だけで分かる（fetch-dns.mjs）。こちらはその先で、
 // **生きている足場に新しい検体がぶら下がったか**を見るためのもの。
 //
-// 枠の使い方を絞る 3 つの決まり
+// 枠の使い方を絞る 4 つの決まり
 //
 //   1. **死んだドメインは引かない。** state.jsonl が `alive` と言っているものだけ。
 //      索引全体の 6,245 件を毎日引いたら枠が何日あっても足りない。
 //   2. **動的 DNS の下も引かない。** `foo.ddns.net` に付く検体は、その名前を
 //      たまたま使った別人のものでありうる。足場としての連続性が無い。
-//   3. **同じドメインは --max-age（既定 7 日）空けてから引き直す。** 毎日引いても
+//   3. **事業者のドメインも引かない。** `t.me` `gist.github.com` `aadcdn.msauth.net`
+//      の類。役割としては dead drop などが正しく付いているが、返る検体はその事業者を
+//      使った全員のもので、この足場の話にならない。実測で 1 日 120 件のうち 12 件が
+//      これに食われていた（`state.jsonl` の `service_like`）。
+//   4. **同じドメインは --max-age（既定 7 日）空けてから引き直す。** 毎日引いても
 //      新しい検体が湧くわけではない。生死は DNS が毎日見ているので、こちらは疎で足りる。
 import path from "node:path";
 import { parseArgs, readJsonl, writeJson } from "./lib/io.mjs";
@@ -49,12 +53,18 @@ const stale = (key) => {
 
 const alive = state.filter((s) => s.status === STATUS.ALIVE);
 const candidates = alive.filter((s) => s.track_domain !== false)
+  // 3. **事業者のドメインは引かない。** `t.me` `gist.github.com` の類は、
+  //    役割としては dead drop などが正しく付いているが、返ってくる検体は
+  //    その事業者を使った全員のもので、この足場の話にならない
+  .filter((s) => s.service_like !== true)
   .filter((s) => stale(`rel|communicating_files|ioc.domain|${s.host}`))
   // 長く生きているものほど足場として本物。次に変化の多いもの
   .sort((a, b) => (b.changes - a.changes) || String(a.first_seen).localeCompare(String(b.first_seen)));
 const todo = candidates.slice(0, LIMIT);
 
-console.log(`生きているドメイン ${alive.length} / うち動的 DNS を除く ${alive.filter((s) => s.track_domain !== false).length}`);
+const trackable = alive.filter((s) => s.track_domain !== false);
+console.log(`生きているドメイン ${alive.length} / うち動的 DNS を除く ${trackable.length}`);
+console.log(`  事業者のドメインとして外した ${trackable.filter((s) => s.service_like === true).length} 件`);
 console.log(`  ${MAX_AGE / 86400000} 日以上引いていないもの ${candidates.length} / 今回引く ${todo.length}`);
 if (!todo.length) { console.log("  引くものがありません"); process.exit(0); }
 if (PLAN_ONLY) { console.log("  → 引かずに終わります（--plan）"); process.exit(0); }

@@ -136,26 +136,40 @@ async function pass(targets, { concurrency, round }) {
   return out;
 }
 
+/** 「無い」という答えかどうか。ENOTFOUND と ENODATA は立派な答えで、引き直す意味が無い。
+ *  それ以外（ETIMEOUT・ESERVFAIL・EREFUSED）は**答えられなかっただけ**なので引き直す。 */
+const soft = (code) => !!code && code !== "ENOTFOUND" && code !== "ENODATA";
+
+/** 引き直す価値があるか。
+ *
+ *  **全体が error のときだけでは足りない。** A が時間切れでも AAAA が返れば
+ *  status は `answer` になり、生きている扱いのまま**行き先から v4 が丸ごと落ちる**。
+ *  経路表は v4 しか持っていないので、これは「AS が変わった」に化ける。
+ *  実測: 2 日目の as_change 78 件のうち **44 件がこれ**で、A が返らなかった日と
+ *  返った日を行ったり来たりしていただけだった。種類ごとの失敗も見る。 */
+const shaky = (r) => r.status === "error" || soft(r.errors?.a) || soft(r.errors?.aaaa);
+
 const answers = await pass(todo, { concurrency: CONCURRENCY, round: 0 });
 console.log(`\r  ${todo.length} / ${todo.length}      `);
 
-// 答えが返らなかったものだけ、同時数を落として引き直す。
-// **nxdomain と no_answer は引き直さない** ——「無い」も立派な答えなので。
 const byHost = new Map(todo.map((t) => [t.host, t]));
 for (let round = 1; round <= RETRIES; round++) {
-  const failed = [...answers.values()].filter((r) => r.status === "error").map((r) => byHost.get(r.host));
+  const failed = [...answers.values()].filter(shaky).map((r) => byHost.get(r.host));
   if (!failed.length) break;
   console.log(`  引き直し ${round}: ${failed.length} 件 / 同時 ${RETRY_CONCURRENCY} / リゾルバ ${RESOLVERS[round % RESOLVERS.length]}`);
   const retried = await pass(failed, { concurrency: RETRY_CONCURRENCY, round });
   let fixed = 0;
   for (const [host, r] of retried) {
-    // 引き直しで答えが出たときだけ差し替える。**悪くなる方向には上書きしない**
-    if (r.status === "error") continue;
+    // **全部きれいに answered したときだけ差し替える。** 半端な結果で上書きすると、
+    // 「引けなかった」が「消えた」として記録に残ってしまう
+    if (shaky(r)) continue;
     answers.set(host, { ...r, retried: round });
     fixed++;
   }
   console.log(`  → ${fixed} 件が答えるようになりました`);
 }
+const left = [...answers.values()].filter(shaky);
+if (left.length) console.log(`  引き直しても半端なままのもの ${left.length} 件（うち丸ごと引けず ${left.filter((r) => r.status === "error").length} 件）`);
 
 const results = [...answers.values()];
 results.sort(byKeys("host"));
