@@ -122,6 +122,25 @@ export function trackable(key, { relsOf, vt, iocs, minMalicious = 2 }) {
   return (vt.get(key)?.malicious ?? 0) >= minMalicious;
 }
 
+/** **正規のサービスに見えるか。** 攻撃者が足場として使っていても、
+ *  ドメインそのものは事業者のものであるという型。
+ *
+ *  `t.me` `gist.github.com` `aadcdn.msauth.net` のように、役割としては
+ *  `dead_drop_configuration` などが正しく付いているが、**生死も IP も追う意味が無い**
+ *  ものがある。Telegram は落ちないし、返る IP は Telegram のものだから。
+ *  実測（生存 1,929 件、動的 DNS を除く）で 450 件がこれに当たり、
+ *  トラッカーの VT 枠を食っていた（1 日 120 件のうち 12 件が `t.me` の類）。
+ *
+ *  **捨てずに印を付ける。** 名前解決はただなので生死は見続ける。外すのは
+ *  枠を使う工程（fetch-tracker-samples）だけ。
+ *
+ *  判定は「多数の判定器が無害と言い、悪性と言うものがほとんど無い」。
+ *  **知られていないもの（harmless 0）は含めない** —— 未知は無害ではないので。 */
+export const SERVICE_MIN_HARMLESS = 40;
+export const SERVICE_MAX_MALICIOUS = 2;
+export const serviceLike = (v) =>
+  (v?.harmless ?? 0) >= SERVICE_MIN_HARMLESS && (v?.malicious ?? 0) < SERVICE_MAX_MALICIOUS;
+
 /** 状態の名前。events.jsonl と state.jsonl で共通に使う */
 export const STATUS = {
   ALIVE: "alive",          // A / AAAA が返り、行き先も意味がある

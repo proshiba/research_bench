@@ -822,7 +822,7 @@ try {
    *  一覧は下に書いた作り物を渡すので、写しの有無で結果が変わらない。 */
   console.log("\n線引き");
   const { parsePsl, publicSuffixOf, registrableFromPsl, privateSuffixOf } = await import("./lib/psl.mjs");
-  const { isCdnAsn, looksDead, CDN_MIN_ADDRESSES } = await import("./lib/tracker.mjs");
+  const { isCdnAsn, looksDead, serviceLike, CDN_MIN_ADDRESSES } = await import("./lib/tracker.mjs");
   const psl = parsePsl([
     "// ===BEGIN ICANN DOMAINS===",
     "com", "jp", "co.jp", "*.kobe.jp", "!city.kobe.jp", "br", "com.br", "gov.br",
@@ -856,6 +856,11 @@ try {
     [looksDead("0.0.0.0"), true, "行き先が無い"],
     [looksDead("199.59.243.200"), true, "パーキングの帯"],
     [looksDead("45.32.10.7"), false, "普通の IP は生きている扱い"],
+    [serviceLike({ harmless: 57, malicious: 0 }), true, "多数が無害と言えば事業者のもの"],
+    [serviceLike({ harmless: 39, malicious: 19 }), false, "検知が多ければ事業者ではない"],
+    [serviceLike({ harmless: 0, malicious: 0 }), false, "知られていないものは無害ではない"],
+    [serviceLike({ harmless: 55, malicious: 2 }), false, "少しでも検知があれば外さない"],
+    [serviceLike(undefined), false, "判定が無ければ外さない"],
   ]) check(got === want, `tracker  ${label}`, got === want ? "" : `${JSON.stringify(got)} ≠ ${JSON.stringify(want)}`);
 } finally {
   if (KEEP) console.log(`\n作業場所を残しました: ${root}`);

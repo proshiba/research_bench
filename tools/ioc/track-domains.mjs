@@ -23,12 +23,17 @@
 //      失効は追わない**（消えても「攻撃者が畳んだ」以上の意味を持たない）。
 //   3. **一時的な引けなさ。** SERVFAIL やタイムアウトは判定を保留する。
 //      これを「死んだ」と数えると、リゾルバが不機嫌な日に大量の誤報が出る。
+//   4. **A か AAAA の片方だけが引けなかった日の行き先。** もう片方が返っていれば
+//      生きている扱いのままだが、行き先の集合からその族が丸ごと落ちる。経路表は v4 しか
+//      持たないので、A が落ちた日は「AS が変わった」に化ける。実測: 2 日目の変化 89 件が、
+//      これを保留するだけで 30 件になった（as_change 78 → 19）。生死は判定するが、
+//      行き先の比較だけ見送って前日の形を残す。
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs, readJsonl, writeJsonl, writeJson, byKeys } from "./lib/io.mjs";
 import { REPO_ROOT } from "./lib/sources.mjs";
 import { loadTable, lookupIpv4 } from "./lib/asn.mjs";
-import { dynamicSuffixOf, isCdnAsn, looksDead, STATUS } from "./lib/tracker.mjs";
+import { dynamicSuffixOf, isCdnAsn, looksDead, serviceLike, STATUS } from "./lib/tracker.mjs";
 
 const args = parseArgs(process.argv.slice(2));
 const IN = path.resolve(REPO_ROOT, args.in || "data/ioc/latest");
@@ -54,6 +59,8 @@ console.log(`観測 ${dates.length} 日ぶん（${dates[0]} 〜 ${dates[dates.le
 
 const tableFile = path.join(CACHE, "table.jsonl");
 const asns = new Map(readJsonl(path.join(IN, "asns.jsonl")).map((a) => [a.asn, a]));
+// 判定の写し。**「正規のサービスに見えるか」の印を付けるためだけ**に読む
+const vt = new Map(readJsonl(path.join(IN, "vt.jsonl")).map((r) => [r.ioc || r.key, r]));
 let table = null;
 if (fs.existsSync(tableFile)) {
   table = loadTable(tableFile, ["v4"]);
@@ -75,6 +82,10 @@ const cdnLike = (ip) => {
 
 /* ---------------- 1 日ぶんの観測を「見え方」に畳む ---------------- */
 
+/** 「無い」という答えかどうか。fetch-dns.mjs と同じ線引き。
+ *  ENOTFOUND / ENODATA は答えなので保留しない。 */
+const softFail = (code) => !!code && code !== "ENOTFOUND" && code !== "ENODATA";
+
 /** その日の観測 1 行から、比べるための形を作る。
  *  ここで CDN の IP を AS に丸める。丸めた事実は残す（隠さない） */
 function shapeOf(o) {
@@ -95,6 +106,12 @@ function shapeOf(o) {
     : STATUS.ALIVE;
   return {
     status,
+    /** **A か AAAA の片方だけが引けなかった日。** もう片方が返っていれば status は
+     *  alive のままだが、行き先の集合からその族が丸ごと落ちる。経路表は v4 しか
+     *  持たないので、A が落ちた日は「AS が変わった」に化ける。取得側でも引き直して
+     *  いるが、それでも残った分はここで**行き先の比較を保留する**
+     *  （生死の判定は保留しない）。実測 8/16: A 178 件 / AAAA 420 件。 */
+    partial: softFail(o.errors?.a) || softFail(o.errors?.aaaa),
     ips: live.sort(),
     parked_ips: ips.filter((ip) => looksDead(ip)).sort(),
     asns: [...asnSet].sort((a, b) => a - b),
@@ -113,6 +130,8 @@ const addressKey = (s) => (s.cdn ? "as:" + s.asns.join(",") : "ip:" + s.ips.join
 const state = new Map();   // host -> 現況
 const events = [];
 let observations = 0;
+/** A か AAAA が引けず、行き先の比較を見送った回数 */
+let held = 0;
 
 for (const date of dates) {
   for (const o of readJsonl(path.join(obsDir, `${date}.jsonl`))) {
@@ -149,8 +168,11 @@ for (const date of dates) {
       prev.since = date;
     }
 
-    // 3. 行き先の変化
-    if (s.status === STATUS.ALIVE) {
+    // 3. 行き先の変化。**A が引けなかった日は比べない**（保留して前日の形を残す）。
+    //    **前日が半端だったときも比べない** —— 比較は 2 日ぶんが揃って初めて成り立つ。
+    //    片側が欠けたまま突き合わせると、欠けたほうが「消えた」として記録に残る。
+    if (s.status === STATUS.ALIVE && (s.partial || prev.shape.partial)) held++;
+    else if (s.status === STATUS.ALIVE) {
       const before = prev.shape, key = addressKey(s);
       if (key !== prev.addr_key) {
         const asChanged = before.asns.join(",") !== s.asns.join(",");
@@ -179,7 +201,7 @@ for (const date of dates) {
         prev.changes++;
       }
     }
-    prev.shape = s;
+    if (!s.partial) prev.shape = s;
   }
 }
 
@@ -195,6 +217,8 @@ const rows = [...state.values()].map((r) => ({
   dynamic_suffix: r.dynamic_suffix || undefined,
   /** 動的 DNS の下では、追うのは解決先だけでドメインの生死は追わない */
   track_domain: r.dynamic_suffix ? false : true,
+  /** 事業者のドメインに見える。生死は見るが、検体は引きに行かない */
+  service_like: serviceLike(vt.get("ioc.domain|" + r.host)) || undefined,
   ips: r.shape.ips,
   asns: r.shape.asns,
   asn_names: r.shape.asns.map((a) => asns.get(a)?.name).filter(Boolean),
@@ -216,6 +240,7 @@ const alive = rows.filter((r) => r.status === STATUS.ALIVE);
 console.log(`\n現況 ${rows.length} ドメイン: ` + Object.entries(tally).sort().map(([k, v]) => `${k} ${v}`).join(" / "));
 console.log(`  生きているもの ${alive.length}（うち CDN の上 ${alive.filter((r) => r.cdn).length} / 動的 DNS の下 ${alive.filter((r) => r.dynamic_suffix).length}）`);
 const kinds = events.reduce((m, e) => (m[e.kind] = (m[e.kind] || 0) + 1, m), {});
+if (held) console.log(`  片方の族が引けず行き先の比較を見送った ${held} 回`);
 console.log(`変化 ${events.length} 件: ` + (Object.entries(kinds).map(([k, v]) => `${k} ${v}`).join(" / ") || "なし"));
 const last = dates[dates.length - 1];
 const today = events.filter((e) => e.date === last);
