@@ -192,7 +192,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4632832,
+        "addresses": 4631808,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -216,7 +216,7 @@
           "Rognar",
           "Wizard Spider"
         ],
-        "addresses": 1610752,
+        "addresses": 1606144,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -281,7 +281,7 @@
           "TeamPCP",
           "Void Balaur"
         ],
-        "addresses": 215396352,
+        "addresses": 215398400,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -331,7 +331,7 @@
           "MuddyWater",
           "UNC5174"
         ],
-        "addresses": 1431296,
+        "addresses": 1431808,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -347,7 +347,7 @@
           "Qilin",
           "TAG-83"
         ],
-        "addresses": 534528,
+        "addresses": 534784,
         "asn": 29802,
         "cc": "US",
         "name": "HIVELOCITY, Inc."
@@ -378,7 +378,7 @@
           "Storm-2945",
           "The Gentlemen"
         ],
-        "addresses": 37569280,
+        "addresses": 37567232,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
@@ -407,7 +407,7 @@
           "UNC6671",
           "UTA0533"
         ],
-        "addresses": 113597952,
+        "addresses": 113598208,
         "asn": 7018,
         "cc": "US",
         "name": "AT&T Enterprises, LLC"
@@ -483,7 +483,7 @@
         "name": "SERVERS TECH FZCO"
       }
     ],
-    "multi_actor": 196,
+    "multi_actor": 197,
     "multi_actor_small": 4,
     "small": 227,
     "top": [
@@ -547,7 +547,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1255
+    "total": 1256
   },
   "coverage": {
     "abuseipdb": {
@@ -561,16 +561,16 @@
           "target": 320
         },
         "5": {
-          "done": 2225,
-          "target": 2225
+          "done": 2233,
+          "target": 2233
         }
       },
-      "done": 3443,
+      "done": 3451,
       "ratio": 1,
-      "target": 3442
+      "target": 3450
     },
-    "newest_fetch": "2026-08-15",
-    "oldest_fetch": "2026-08-02",
+    "newest_fetch": "2026-08-18",
+    "oldest_fetch": "2026-08-18",
     "virustotal": {
       "by_stage": {
         "1": {
@@ -582,53 +582,53 @@
           "target": 320
         },
         "3": {
-          "done": 4542,
-          "target": 4542
+          "done": 4551,
+          "target": 4551
         },
         "4": {
-          "done": 4600,
-          "target": 4600
+          "done": 4603,
+          "target": 4603
         },
         "5": {
-          "done": 4189,
-          "target": 4189
+          "done": 4201,
+          "target": 4201
         },
         "6": {
-          "done": 759,
-          "target": 759
+          "done": 762,
+          "target": 762
         }
       },
-      "done": 19723,
-      "known": 16868,
+      "done": 19750,
+      "known": 16884,
       "ratio": 1,
-      "target": 19722,
-      "unknown": 2855
+      "target": 19749,
+      "unknown": 2866
     }
   },
   "entities": {
     "actor": 247,
     "campaign": 19,
     "case": 459,
-    "malware": 396
+    "malware": 399
   },
   "from": {
-    "collected_at": "2026-08-17T02:12:47.152Z",
+    "collected_at": "2026-08-18T00:04:10.926Z",
     "week": "2026-W34"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 6594,
+      "ioc.domain": 6598,
       "ioc.email": 265,
       "ioc.endpoint": 179,
-      "ioc.ipv4": 3387,
+      "ioc.ipv4": 3395,
       "ioc.ipv6": 63,
       "ioc.md5": 2389,
-      "ioc.sha1": 1452,
+      "ioc.sha1": 1461,
       "ioc.sha256": 2958,
       "ioc.sha512": 16,
-      "ioc.url": 2887
+      "ioc.url": 2893
     },
-    "dated": 6928,
+    "dated": 6955,
     "excluded": {
       "bogon": 2,
       "malformed": 0,
@@ -636,8 +636,8 @@
       "popular": 76,
       "sample_reported": 1
     },
-    "total": 20190,
-    "usable": 20106
+    "total": 20217,
+    "usable": 20133
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -666,15 +666,15 @@
         "imphash": 18,
         "ioc": 44,
         "jarm": 696,
-        "registered": 508,
-        "registrable": 28,
+        "registered": 470,
+        "registrable": 107,
         "resolution": 1,
         "signer": 2,
         "subnet": 18,
         "vhash": 14
       },
       "identical_sets": 3,
-      "pairs": 1212,
+      "pairs": 1221,
       "top": [
         {
           "a": "APT37",
@@ -711,6 +711,9 @@
               "25d3fd00025d25d00042d43d0000007d9a2df75fc17326c15d1e44e597e360",
               "26d26d00026d26d22c26d26d26d26dd3b67dd3674d9af9dd91c1955a35d0e9"
             ],
+            "registrable": [
+              "or.kr"
+            ],
             "signer": [
               "EGIS Co., Ltd.; thawte SHA256 Code Signing CA; thawte"
             ],
@@ -725,8 +728,8 @@
             ]
           },
           "ratio": 0.04,
-          "shared": 44,
-          "strength": 39,
+          "shared": 45,
+          "strength": 41,
           "via": [
             "asn",
             "family",
@@ -734,6 +737,7 @@
             "imphash",
             "ioc",
             "jarm",
+            "registrable",
             "signer",
             "subnet",
             "vhash"
@@ -776,11 +780,11 @@
               "2026-07-28"
             ],
             "registrable": [
-              "buisness-centeral-transportation.azurewebsites.net",
+              "azurewebsites.net",
               "buisness-centeral-transportation.com",
-              "buisness-centeral.azurewebsites.net",
-              "business-startup.azurewebsites.net",
-              "business-startup.org"
+              "business-startup.org",
+              "premierhealthadvisory.com",
+              "ramiltonsfinance.com"
             ],
             "signer": [
               "Gray Matter Software S.R.L.; SSL.com Code Signing Intermediate CA RSA R1; SSL.com Root Certification Authority RSA"
@@ -793,8 +797,8 @@
               "126076655d155d05555az5b&za40"
             ]
           },
-          "ratio": 2.081,
-          "shared": 77,
+          "ratio": 1.784,
+          "shared": 66,
           "strength": 34,
           "via": [
             "family",
@@ -1105,16 +1109,16 @@
             ],
             "registered": [
               "2016-07-23",
-              "2017-01-14",
+              "2017-02-02",
               "2024-04-17",
               "2026-06-18"
             ],
             "registrable": [
               "black-popular.com",
-              "cloudtroe.giize.com",
+              "casacam.net",
               "dursamjbataar.org",
-              "employers.theworkpc.com",
-              "freeread.casacam.net"
+              "freeddns.org",
+              "giize.com"
             ],
             "vhash": [
               "045076655d155516556iz7avz2a",
@@ -1215,7 +1219,7 @@
           ]
         }
       ],
-      "weak_only": 1143
+      "weak_only": 1152
     },
     "campaign": {
       "by_via": {
@@ -1410,8 +1414,8 @@
         "imphash": 3,
         "ioc": 123,
         "jarm": 111,
-        "registered": 47,
-        "registrable": 65,
+        "registered": 22,
+        "registrable": 76,
         "resolution": 0,
         "signer": 0,
         "subnet": 4,
@@ -1746,15 +1750,15 @@
         "imphash": 23,
         "ioc": 50,
         "jarm": 494,
-        "registered": 697,
-        "registrable": 38,
+        "registered": 668,
+        "registrable": 77,
         "resolution": 1,
         "signer": 1,
         "subnet": 16,
         "vhash": 31
       },
       "identical_sets": 8,
-      "pairs": 1280,
+      "pairs": 1287,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -1861,11 +1865,11 @@
               "2026-07-28"
             ],
             "registrable": [
-              "buisness-centeral-transportation.azurewebsites.net",
+              "azurewebsites.net",
               "buisness-centeral-transportation.com",
-              "buisness-centeral.azurewebsites.net",
-              "business-startup.azurewebsites.net",
-              "business-startup.org"
+              "business-startup.org",
+              "premierhealthadvisory.com",
+              "ramiltonsfinance.com"
             ],
             "signer": [
               "Gray Matter Software S.R.L.; SSL.com Code Signing Intermediate CA RSA R1; SSL.com Root Certification Authority RSA"
@@ -1875,8 +1879,8 @@
               "125066655d155d055az51nz1ez1"
             ]
           },
-          "ratio": 1.806,
-          "shared": 56,
+          "ratio": 1.452,
+          "shared": 45,
           "strength": 34,
           "via": [
             "family",
@@ -1944,8 +1948,8 @@
               "208.115.220.0/24"
             ]
           },
-          "ratio": 1.864,
-          "shared": 164,
+          "ratio": 1.841,
+          "shared": 162,
           "strength": 31,
           "via": [
             "certificate",
@@ -2056,11 +2060,11 @@
               "2026-07-28"
             ],
             "registrable": [
-              "buisness-centeral-transportation.azurewebsites.net",
+              "azurewebsites.net",
               "buisness-centeral-transportation.com",
-              "buisness-centeral.azurewebsites.net",
-              "business-startup.azurewebsites.net",
-              "business-startup.org"
+              "business-startup.org",
+              "premierhealthadvisory.com",
+              "ramiltonsfinance.com"
             ],
             "vhash": [
               "117026751\"z",
@@ -2069,8 +2073,8 @@
               "185076655d155d055551z13z60051mz1acza40"
             ]
           },
-          "ratio": 1.833,
-          "shared": 55,
+          "ratio": 1.467,
+          "shared": 44,
           "strength": 25,
           "via": [
             "filename",
@@ -2298,7 +2302,7 @@
           ]
         }
       ],
-      "weak_only": 1197
+      "weak_only": 1204
     }
   },
   "schema": 1,
@@ -2371,7 +2375,7 @@
         ],
         "asns": [
           {
-            "addresses": 75008,
+            "addresses": 75264,
             "asn": 49981,
             "name": "WorldStream B.V."
           }
@@ -2466,7 +2470,7 @@
         ],
         "asns": [
           {
-            "addresses": 37569280,
+            "addresses": 37567232,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2586,7 +2590,7 @@
     "total": 404
   },
   "targets": {
-    "abuse": 5,
+    "abuse": 10,
     "by_target": [
       {
         "abuse": 0,
@@ -2631,6 +2635,12 @@
         "target": "telegram.me"
       },
       {
+        "abuse": 3,
+        "impersonation": 1,
+        "rank": 30,
+        "target": "cloudfront.net"
+      },
+      {
         "abuse": 4,
         "impersonation": 0,
         "rank": 7232,
@@ -2651,6 +2661,12 @@
       {
         "abuse": 0,
         "impersonation": 2,
+        "rank": 10000,
+        "target": "ngrok.io"
+      },
+      {
+        "abuse": 0,
+        "impersonation": 2,
         "rank": 531,
         "target": "onet.pl"
       },
@@ -2665,6 +2681,12 @@
         "impersonation": 2,
         "rank": 513,
         "target": "proton.me"
+      },
+      {
+        "abuse": 2,
+        "impersonation": 0,
+        "rank": 1000,
+        "target": "supabase.co"
       },
       {
         "abuse": 1,
@@ -2691,7 +2713,7 @@
         "target": "yandex.ru"
       }
     ],
-    "impersonation": 215
+    "impersonation": 218
   },
   "timeline": {
     "actors": {
@@ -3027,13 +3049,13 @@
       ],
       "with_dates": 13
     },
-    "dated": 6921,
+    "dated": 6925,
     "index_lag": {
       "ahead": 318,
       "median_days": 38,
       "p25_days": 2,
       "p75_days": 121,
-      "pairs": 2687
+      "pairs": 2691
     }
   },
   "tool": "tools/ioc/stats.mjs",
@@ -3113,7 +3135,7 @@
         }
       ]
     },
-    "clean": 2436,
+    "clean": 2438,
     "disagreement": {
       "samples": [
         {
@@ -3252,9 +3274,9 @@
           ]
         }
       ],
-      "total": 246
+      "total": 247
     },
-    "malicious": 14189,
-    "unknown": 2855
+    "malicious": 14203,
+    "unknown": 2866
   }
 }
