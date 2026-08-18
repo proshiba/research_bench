@@ -410,6 +410,20 @@ for (const rec of vtRecords) {
 
   vtRows.push(row);
 }
+
+/**
+ * §運用: `vt.jsonl` は fetch-vt.mjs 自身が「もう引いたか」の控えとして読む
+ * 唯一の場所（§1 冒頭のコメント）。一方でここまでの判定は `.cache/vt` の
+ * 中身だけから作っている。**写し（`.cache`）は環境をまたいで残るとは限らない**
+ * （まっさらなコンテナで毎回動く運用だと、今日引かなかった分の写しは無い）ので、
+ * 写しに無い IOC も、前回の `vt.jsonl` に判定が残っていれば引き継ぐ。
+ * 引き継がないと fetch 側の「もう引いた」という判断とここでのカバレッジが
+ * 矛盾し、翌日また同じ分を枠を使って取り直すことになる。
+ * 索引から消えた IOC は前回の分も含めて出さない（上のループと同じ扱い）。
+ */
+const prevVt = readJsonl(path.join(IN, "vt.jsonl")).filter((r) => iocByKey.has(r.ioc));
+const freshVtIocs = new Set(vtRows.map((r) => r.ioc));
+for (const row of prevVt) if (!freshVtIocs.has(row.ioc)) vtRows.push(row);
 vtRows.sort(byKeys("ioc"));
 
 /* ---------------- 1d. 関係の写しから IP を起こす ---------------- */
@@ -516,6 +530,21 @@ for (const [key, e] of fromByKey) {
     ...(c.noise ? { noise: c.noise } : {}),
   });
 }
+
+/**
+ * vt.jsonl と同じ理由。今日の写しに出てこない生えた IOC も、前回の
+ * derived-iocs.jsonl に残っていれば引き継ぐ（`from` は索引に残っている
+ * IOC だけに絞る。索引が主張するに至ったものは、上と同じく混ぜない）。
+ */
+{
+  const freshDerivedKeys = new Set(derivedIocs.map((r) => r.key));
+  for (const r of readJsonl(path.join(IN, "derived-iocs.jsonl"))) {
+    if (freshDerivedKeys.has(r.key) || iocByKey.has(r.key)) continue;
+    const from = (r.from || []).filter((k) => iocByKey.has(k));
+    if (!from.length) continue;
+    derivedIocs.push({ ...r, from });
+  }
+}
 derivedIocs.sort(byKeys("type", "value"));
 
 /** 索引が既に知っている名前。連番の判定でも、生えた実体の判定でも使う。 */
@@ -550,6 +579,12 @@ for (const f of serialFamilies) {
 }
 
 const derivedKeys = new Set(derivedIocs.map((r) => r.key));
+
+// vt.jsonl と同じ理由。前回の derived-links.jsonl も混ぜてから、下の filter に通す
+for (const l of readJsonl(path.join(IN, "derived-links.jsonl"))) {
+  if (iocByKey.has(l.ioc)) derivedLinks.push(l);
+}
+
 /* 解決先が索引側にも派生側にも無い（壊れた値）辺は残さない。
    同じ辺が 2 度出ることもあるので、ここで 1 本にまとめる */
 const seenLink = new Set();
@@ -562,12 +597,73 @@ const usableDerivedLinks = derivedLinks.filter((l) => {
   return true;
 });
 
+/**
+ * `from` / `origin` は辺（`usableDerivedLinks`）から数え直す。**検査
+ * （validate.mjs の derived.from）と同じやり方。** 前回の分を混ぜた後、
+ * 個々に `from` を持ち越すと、今日と過去の別々の IOC が同じ生えた IP を
+ * 指しているときに二重取りや取りこぼしが起きる。辺を唯一の正にすれば、
+ * どちらから来た組み合わせでも必ず合う。辺が 1 本も無くなったものは落とす。
+ */
+{
+  const ORIGIN_OF_REL = { resolves_to: "vt.dns", resolved_at: "vt.resolution", contacted: "vt.contacted" };
+  const ORIGIN_RANK = { "vt.dns": 0, "vt.resolution": 1, "vt.contacted": 2 };
+  const srcByIp = new Map();
+  const relsByIp = new Map();
+  for (const l of usableDerivedLinks) {
+    if (l.kind !== "ioc" || !ORIGIN_OF_REL[l.rel]) continue;
+    if (!srcByIp.has(l.name)) { srcByIp.set(l.name, new Set()); relsByIp.set(l.name, new Set()); }
+    srcByIp.get(l.name).add(l.ioc);
+    relsByIp.get(l.name).add(l.rel);
+  }
+  for (let i = derivedIocs.length - 1; i >= 0; i--) {
+    const r = derivedIocs[i];
+    const src = srcByIp.get(r.key);
+    if (!src || !src.size) { derivedIocs.splice(i, 1); continue; }
+    r.from = [...src].sort();
+    r.origin = [...relsByIp.get(r.key)].map((x) => ORIGIN_OF_REL[x])
+      .sort((a, b) => ORIGIN_RANK[a] - ORIGIN_RANK[b])[0];
+  }
+}
+
 /* ---------------- 3. 生えた実体と別名 ---------------- */
 
 const derivedEntities = [...familySamples.entries()]
   .filter(([name]) => !knownNames.has(name))
   .map(([name, set]) => ({ kind: "malware", name, ioc_count: set.size, sources: ["virustotal"] }))
   .sort(byKeys("kind", "name"));
+
+/**
+ * vt.jsonl と同じ理由。前回の分を名前で引き継ぐ。`ioc_count` は元の IOC
+ * 集合を持ち越していない（数だけ）ので、二重に足さず大きい方を採る
+ * （実在する裏付けの数を過小に見せないほうを選ぶ）。
+ */
+{
+  const freshByName = new Map(derivedEntities.map((e) => [e.name, e]));
+  for (const e of readJsonl(path.join(IN, "derived-entities.jsonl"))) {
+    if (knownNames.has(e.name)) continue;
+    const f = freshByName.get(e.name);
+    if (!f) { derivedEntities.push(e); freshByName.set(e.name, e); continue; }
+    if (e.ioc_count > f.ioc_count) f.ioc_count = e.ioc_count;
+    f.sources = [...new Set([...f.sources, ...(e.sources || [])])].sort();
+    if (e.aliases?.length) f.aliases = [...new Set([...(f.aliases || []), ...e.aliases])].sort();
+  }
+}
+// from と同じ理由で、ioc_count も辺（usableDerivedLinks）から数え直す
+{
+  const perEntity = new Map();
+  for (const l of usableDerivedLinks) {
+    if (l.kind !== "malware" || l.rel !== "suggested_threat_label") continue;
+    if (!perEntity.has(l.name)) perEntity.set(l.name, new Set());
+    perEntity.get(l.name).add(l.ioc);
+  }
+  for (let i = derivedEntities.length - 1; i >= 0; i--) {
+    const e = derivedEntities[i];
+    const n = perEntity.get(e.name)?.size ?? 0;
+    if (!n) { derivedEntities.splice(i, 1); continue; }
+    e.ioc_count = n;
+  }
+}
+derivedEntities.sort(byKeys("kind", "name"));
 
 /** 別名候補。2 件以上の検体で一緒に出たものだけ（1 件だけの同居は当てにならない）。 */
 const derivedAliases = [...aliasSupport.entries()]
@@ -577,6 +673,18 @@ const derivedAliases = [...aliasSupport.entries()]
   })
   .filter(Boolean)
   .sort(byKeys("name"));
+
+// 同じ理由で前回の分を名前で引き継ぐ
+{
+  const freshByName = new Map(derivedAliases.map((a) => [a.name, a]));
+  for (const a of readJsonl(path.join(IN, "derived-aliases.jsonl"))) {
+    const f = freshByName.get(a.name);
+    if (!f) { derivedAliases.push(a); freshByName.set(a.name, a); continue; }
+    f.aliases = [...new Set([...f.aliases, ...(a.aliases || [])])].sort();
+    if ((a.samples || 0) > (f.samples || 0)) f.samples = a.samples;
+  }
+}
+derivedAliases.sort(byKeys("name"));
 
 /* ---------------- 4. 証明書 ---------------- */
 
@@ -618,6 +726,22 @@ const certRows = [...certs.values()]
     };
   })
   .sort(byKeys("thumbprint"));
+
+/**
+ * vt.jsonl と同じ理由。今日の写しに出てこない証明書でも、引き継いだ vt.jsonl の
+ * 行が指している以上は derived-certs.jsonl 側にも残す（vt.cert の検査が通る条件）。
+ * 索引から消えた IOC は iocs から落とし、shared はその後の数で数え直す。
+ * literal / anchors を持ち越していないので weak_why は当時のまま（多少古びていても
+ * 危険側には倒れない: 共有の強さを判断する材料であって安全側の印ではないため）。
+ */
+const freshCertThumbs = new Set(certRows.map((c) => c.thumbprint));
+for (const c of readJsonl(path.join(IN, "derived-certs.jsonl"))) {
+  if (freshCertThumbs.has(c.thumbprint)) continue;
+  const iocs = (c.iocs || []).filter((k) => iocByKey.has(k));
+  if (!iocs.length) continue;
+  certRows.push({ ...c, iocs, shared: iocs.length > 1 });
+}
+certRows.sort(byKeys("thumbprint"));
 
 /* ---------------- 5. AbuseIPDB ---------------- */
 
@@ -676,6 +800,11 @@ for (const rec of abuseRecords) {
     ...(cats.size ? { categories: Object.fromEntries([...cats].sort()) } : {}),
   });
 }
+
+// vt.jsonl と同じ理由で、写しに無い IOC は前回の abuseipdb.jsonl から引き継ぐ
+const prevAbuse = readJsonl(path.join(IN, "abuseipdb.jsonl")).filter((r) => iocByKey.has(r.ioc));
+const freshAbuseIocs = new Set(abuseRows.map((r) => r.ioc));
+for (const row of prevAbuse) if (!freshAbuseIocs.has(row.ioc)) abuseRows.push(row);
 abuseRows.sort(byKeys("ioc"));
 
 /* ---------------- 6. カバレッジ ---------------- */
@@ -743,6 +872,11 @@ const derivedVerdicts = [];
       if (b.isWhitelisted) row.whitelisted = true;
     }
     derivedVerdicts.push(row);
+  }
+  // vt.jsonl と同じ理由。前回の分のうち、生えた IOC としてまだ有効なものだけ引き継ぐ
+  const freshIocs = new Set(derivedVerdicts.map((r) => r.ioc));
+  for (const r of readJsonl(path.join(IN, "derived-verdicts.jsonl"))) {
+    if (!freshIocs.has(r.ioc) && derivedKeys.has(r.ioc)) derivedVerdicts.push(r);
   }
   derivedVerdicts.sort(byKeys("ioc"));
 }
