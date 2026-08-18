@@ -1,0 +1,859 @@
+{
+  "compared_with": ".ioc-prev",
+  "coverage": {
+    "abuseipdb": {
+      "added": -3435,
+      "by_stage": {
+        "1": {
+          "added": -897,
+          "done": 0,
+          "target": 897
+        },
+        "2": {
+          "added": -320,
+          "done": 0,
+          "target": 320
+        },
+        "5": {
+          "added": -2217,
+          "done": 8,
+          "target": 2233
+        }
+      },
+      "done": 8,
+      "ratio": 0.002,
+      "target": 3450
+    },
+    "virustotal": {
+      "added": -19696,
+      "by_stage": {
+        "1": {
+          "added": -5312,
+          "done": 0,
+          "target": 5312
+        },
+        "2": {
+          "added": -320,
+          "done": 0,
+          "target": 320
+        },
+        "3": {
+          "added": -4533,
+          "done": 9,
+          "target": 4551
+        },
+        "4": {
+          "added": -4597,
+          "done": 3,
+          "target": 4603
+        },
+        "5": {
+          "added": -4177,
+          "done": 12,
+          "target": 4201
+        },
+        "6": {
+          "added": -756,
+          "done": 3,
+          "target": 762
+        }
+      },
+      "done": 27,
+      "known": 16,
+      "ratio": 0.001,
+      "target": 19749,
+      "unknown": 11
+    }
+  },
+  "grown": {
+    "aliases": [
+      {
+        "aliases": [
+          "reversessh",
+          "revhell"
+        ],
+        "name": "marte"
+      }
+    ],
+    "entities": [],
+    "iocs": 4,
+    "shared_certs": []
+  },
+  "overlaps": {
+    "grew": 49,
+    "new": 38,
+    "new_strong": 35,
+    "top_grew": [
+      {
+        "a": "AMOS",
+        "b": "macos-stealer-v2（MioLab/MacSync/Nova系）概要",
+        "evidence": {
+          "asn": [
+            "AS214351"
+          ],
+          "ioc": [
+            "ioc.domain|fewfwfwfwfwf.info",
+            "ioc.ipv4|196.251.107.171",
+            "ioc.url|http://196.251.107.171:3000"
+          ],
+          "registrable": [
+            "fewfwfwfwfwf.info"
+          ],
+          "subnet": [
+            "196.251.107.0/24"
+          ]
+        },
+        "kind": "malware",
+        "shared": 6,
+        "strength": 20,
+        "via": [
+          "asn",
+          "ioc",
+          "registrable",
+          "subnet"
+        ],
+        "was": 13
+      },
+      {
+        "a": "APT1",
+        "b": "APT28",
+        "evidence": {
+          "asn": [
+            "AS207560"
+          ],
+          "ioc": [
+            "ioc.ipv4|185.117.89.32",
+            "ioc.ipv4|185.237.166.55",
+            "ioc.ipv4|23.106.120.119",
+            "ioc.ipv4|64.120.31.96",
+            "ioc.ipv4|79.141.160.78"
+          ],
+          "subnet": [
+            "185.117.89.0/24",
+            "185.237.166.0/24",
+            "23.106.120.0/24",
+            "64.120.31.0/24",
+            "79.141.160.0/24"
+          ]
+        },
+        "kind": "actor",
+        "shared": 13,
+        "strength": 18,
+        "via": [
+          "asn",
+          "ioc",
+          "subnet"
+        ],
+        "was": 12
+      },
+      {
+        "a": "Icarus",
+        "b": "shinyhunters",
+        "evidence": {
+          "asn": [
+            "AS214961"
+          ],
+          "ioc": [
+            "ioc.ipv4|138.226.246.94",
+            "ioc.ipv4|212.86.125.24",
+            "ioc.ipv4|213.111.148.90",
+            "ioc.ipv4|94.154.32.160"
+          ],
+          "subnet": [
+            "138.226.246.0/24",
+            "212.86.125.0/24",
+            "213.111.148.0/24",
+            "94.154.32.0/24"
+          ]
+        },
+        "kind": "actor",
+        "shared": 9,
+        "strength": 18,
+        "via": [
+          "asn",
+          "ioc",
+          "subnet"
+        ],
+        "was": 14
+      },
+      {
+        "a": "APT37",
+        "b": "UNK_DeadDrop",
+        "evidence": {
+          "asn": [
+            "AS206216"
+          ],
+          "ioc": [
+            "ioc.ipv4|170.205.29.83",
+            "ioc.ipv4|170.205.30.227"
+          ],
+          "subnet": [
+            "170.205.29.0/24",
+            "170.205.30.0/24"
+          ]
+        },
+        "kind": "actor",
+        "shared": 5,
+        "strength": 18,
+        "via": [
+          "asn",
+          "ioc",
+          "subnet"
+        ],
+        "was": 11
+      },
+      {
+        "a": "AsyncRAT",
+        "b": "Overlord",
+        "evidence": {
+          "asn": [
+            "AS206216"
+          ],
+          "ioc": [
+            "ioc.ipv4|170.205.29.83",
+            "ioc.ipv4|170.205.30.227"
+          ],
+          "subnet": [
+            "170.205.29.0/24",
+            "170.205.30.0/24"
+          ]
+        },
+        "kind": "malware",
+        "shared": 5,
+        "strength": 18,
+        "via": [
+          "asn",
+          "ioc",
+          "subnet"
+        ],
+        "was": 9
+      },
+      {
+        "a": "case:1de6220fc4c3502a55fa5cc220b9a91cead25fc34bc7d3610edf1914f83bc379",
+        "b": "case:6afda92c73f89ddce818f752d2d3fb7f39cef34c53478ecd993cd42936a12efc",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|meower.eth",
+            "ioc.domain|roanoke.sol",
+            "ioc.endpoint|172.233.124.230:39419",
+            "ioc.endpoint|45.154.98.115:39419",
+            "ioc.ipv4|172.233.124.230"
+          ],
+          "registrable": [
+            "meower.eth",
+            "roanoke.sol"
+          ],
+          "subnet": [
+            "172.233.124.0/24",
+            "45.154.98.0/24"
+          ]
+        },
+        "kind": "case",
+        "shared": 10,
+        "strength": 15,
+        "via": [
+          "ioc",
+          "registrable",
+          "subnet"
+        ],
+        "was": 11
+      },
+      {
+        "a": "case:6afda92c73f89ddce818f752d2d3fb7f39cef34c53478ecd993cd42936a12efc",
+        "b": "case:b6b9753bf156d5eb5dcbad43de9ab651146a819da27fe9d2c031097ca10619d3",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|meower.eth",
+            "ioc.domain|roanoke.sol",
+            "ioc.endpoint|172.233.124.230:39419",
+            "ioc.endpoint|45.154.98.115:39419",
+            "ioc.ipv4|172.233.124.230"
+          ],
+          "registrable": [
+            "meower.eth",
+            "roanoke.sol"
+          ],
+          "subnet": [
+            "172.233.124.0/24",
+            "45.154.98.0/24"
+          ]
+        },
+        "kind": "case",
+        "shared": 10,
+        "strength": 15,
+        "via": [
+          "ioc",
+          "registrable",
+          "subnet"
+        ],
+        "was": 11
+      },
+      {
+        "a": "case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2",
+        "b": "case:6afda92c73f89ddce818f752d2d3fb7f39cef34c53478ecd993cd42936a12efc",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|nvms9000.online",
+            "ioc.endpoint|nvms9000.online:9018",
+            "ioc.ipv4|172.233.124.230",
+            "ioc.ipv4|45.154.98.115"
+          ],
+          "registrable": [
+            "nvms9000.online"
+          ],
+          "subnet": [
+            "172.233.124.0/24",
+            "45.154.98.0/24"
+          ]
+        },
+        "kind": "case",
+        "shared": 7,
+        "strength": 15,
+        "via": [
+          "ioc",
+          "registrable",
+          "subnet"
+        ],
+        "was": 14
+      },
+      {
+        "a": "case:6afda92c73f89ddce818f752d2d3fb7f39cef34c53478ecd993cd42936a12efc",
+        "b": "case:875257991745c0557dd2fb00cd40934de6281ded379289c26d900bca2628f25f",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|nvms9000.online",
+            "ioc.endpoint|nvms9000.online:9018",
+            "ioc.ipv4|172.233.124.230",
+            "ioc.ipv4|45.154.98.115"
+          ],
+          "registrable": [
+            "nvms9000.online"
+          ],
+          "subnet": [
+            "172.233.124.0/24",
+            "45.154.98.0/24"
+          ]
+        },
+        "kind": "case",
+        "shared": 7,
+        "strength": 15,
+        "via": [
+          "ioc",
+          "registrable",
+          "subnet"
+        ],
+        "was": 14
+      },
+      {
+        "a": "FreePBX K.php侵害スクリプト",
+        "b": "JOMANGY",
+        "evidence": {
+          "ioc": [
+            "ioc.ipv4|160.119.69.4",
+            "ioc.ipv4|45.95.147.178",
+            "ioc.url|http://160.119.69.4/hima_data/index.php",
+            "ioc.url|http://160.119.69.4/x",
+            "ioc.url|http://160.119.69.4/z/post/noroot.php"
+          ],
+          "subnet": [
+            "160.119.69.0/24",
+            "45.95.147.0/24"
+          ]
+        },
+        "kind": "malware",
+        "shared": 11,
+        "strength": 13,
+        "via": [
+          "ioc",
+          "subnet"
+        ],
+        "was": 8
+      },
+      {
+        "a": "case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2",
+        "b": "case:1de6220fc4c3502a55fa5cc220b9a91cead25fc34bc7d3610edf1914f83bc379",
+        "evidence": {
+          "ioc": [
+            "ioc.ipv4|172.233.124.230",
+            "ioc.ipv4|45.154.98.115"
+          ],
+          "subnet": [
+            "172.233.124.0/24",
+            "45.154.98.0/24"
+          ]
+        },
+        "kind": "case",
+        "shared": 4,
+        "strength": 13,
+        "via": [
+          "ioc",
+          "subnet"
+        ],
+        "was": 9
+      },
+      {
+        "a": "case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2",
+        "b": "case:b6b9753bf156d5eb5dcbad43de9ab651146a819da27fe9d2c031097ca10619d3",
+        "evidence": {
+          "ioc": [
+            "ioc.ipv4|172.233.124.230",
+            "ioc.ipv4|45.154.98.115"
+          ],
+          "subnet": [
+            "172.233.124.0/24",
+            "45.154.98.0/24"
+          ]
+        },
+        "kind": "case",
+        "shared": 4,
+        "strength": 13,
+        "via": [
+          "ioc",
+          "subnet"
+        ],
+        "was": 9
+      },
+      {
+        "a": "case:194845853f864088bc9fae5c0b2f692f6d6b1564f41111041247b3f86d356f30",
+        "b": "case:e0e1ae775ef8e530875235f035fb623b217d48fa810537144c872fcf41592648",
+        "evidence": {
+          "ioc": [
+            "ioc.endpoint|121.127.253.206:8856",
+            "ioc.endpoint|121.127.253.206:8868",
+            "ioc.ipv4|121.127.253.206"
+          ],
+          "subnet": [
+            "121.127.253.0/24"
+          ]
+        },
+        "kind": "case",
+        "shared": 4,
+        "strength": 13,
+        "via": [
+          "ioc",
+          "subnet"
+        ],
+        "was": 11
+      },
+      {
+        "a": "case:1de6220fc4c3502a55fa5cc220b9a91cead25fc34bc7d3610edf1914f83bc379",
+        "b": "case:875257991745c0557dd2fb00cd40934de6281ded379289c26d900bca2628f25f",
+        "evidence": {
+          "ioc": [
+            "ioc.ipv4|172.233.124.230",
+            "ioc.ipv4|45.154.98.115"
+          ],
+          "subnet": [
+            "172.233.124.0/24",
+            "45.154.98.0/24"
+          ]
+        },
+        "kind": "case",
+        "shared": 4,
+        "strength": 13,
+        "via": [
+          "ioc",
+          "subnet"
+        ],
+        "was": 9
+      },
+      {
+        "a": "case:875257991745c0557dd2fb00cd40934de6281ded379289c26d900bca2628f25f",
+        "b": "case:b6b9753bf156d5eb5dcbad43de9ab651146a819da27fe9d2c031097ca10619d3",
+        "evidence": {
+          "ioc": [
+            "ioc.ipv4|172.233.124.230",
+            "ioc.ipv4|45.154.98.115"
+          ],
+          "subnet": [
+            "172.233.124.0/24",
+            "45.154.98.0/24"
+          ]
+        },
+        "kind": "case",
+        "shared": 4,
+        "strength": 13,
+        "via": [
+          "ioc",
+          "subnet"
+        ],
+        "was": 9
+      }
+    ],
+    "top_new": [
+      {
+        "a": "case:28db05fffe5f32ee8df60a400c97d19270d23327ebb49ae86e455ea14d59f113",
+        "b": "case:e270275233eb28d9d60555913bd7653c1267106a7d7e4b19bcd10c1f14afa2d6",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|steamcommunity.com",
+            "ioc.domain|t.me"
+          ],
+          "registrable": [
+            "steamcommunity.com",
+            "t.me"
+          ]
+        },
+        "kind": "case",
+        "shared": 4,
+        "strength": 10,
+        "via": [
+          "ioc",
+          "registrable"
+        ]
+      },
+      {
+        "a": "Sandworm Team",
+        "b": "UNC5342",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|t.me"
+          ],
+          "registrable": [
+            "t.me"
+          ]
+        },
+        "kind": "actor",
+        "shared": 2,
+        "strength": 10,
+        "via": [
+          "ioc",
+          "registrable"
+        ]
+      },
+      {
+        "a": "case:28db05fffe5f32ee8df60a400c97d19270d23327ebb49ae86e455ea14d59f113",
+        "b": "case:5ef1aa40084a122011be62539f8d67aebcf7f9a0b1a31e6a057cbd1726a2b575",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|t.me"
+          ],
+          "registrable": [
+            "t.me"
+          ]
+        },
+        "kind": "case",
+        "shared": 2,
+        "strength": 10,
+        "via": [
+          "ioc",
+          "registrable"
+        ]
+      },
+      {
+        "a": "case:5ef1aa40084a122011be62539f8d67aebcf7f9a0b1a31e6a057cbd1726a2b575",
+        "b": "case:e270275233eb28d9d60555913bd7653c1267106a7d7e4b19bcd10c1f14afa2d6",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|t.me"
+          ],
+          "registrable": [
+            "t.me"
+          ]
+        },
+        "kind": "case",
+        "shared": 2,
+        "strength": 10,
+        "via": [
+          "ioc",
+          "registrable"
+        ]
+      },
+      {
+        "a": "case:bd20fcc313adbb44d82a033fbae527bc2b522b93ed80ba88ec0094644005df81",
+        "b": "case:fe1b0a1cc8090e6394d778530d7536588247e9de6c9996e175ce509847ad0d96",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|drive.google.com"
+          ],
+          "registrable": [
+            "google.com"
+          ]
+        },
+        "kind": "case",
+        "shared": 2,
+        "strength": 10,
+        "via": [
+          "ioc",
+          "registrable"
+        ]
+      },
+      {
+        "a": "Amadey",
+        "b": "Millenium RAT",
+        "evidence": {
+          "asn": [
+            "AS214351"
+          ],
+          "subnet": [
+            "62.60.226.0/24"
+          ]
+        },
+        "kind": "malware",
+        "shared": 2,
+        "strength": 10,
+        "via": [
+          "asn",
+          "subnet"
+        ]
+      },
+      {
+        "a": "BTMOB",
+        "b": "TCLBanker",
+        "evidence": {
+          "asn": [
+            "AS270353"
+          ],
+          "subnet": [
+            "191.96.224.0/24"
+          ]
+        },
+        "kind": "malware",
+        "shared": 2,
+        "strength": 10,
+        "via": [
+          "asn",
+          "subnet"
+        ]
+      },
+      {
+        "a": "StealC",
+        "b": "Vidar",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|t.me"
+          ],
+          "registrable": [
+            "t.me"
+          ]
+        },
+        "kind": "malware",
+        "shared": 2,
+        "strength": 10,
+        "via": [
+          "ioc",
+          "registrable"
+        ]
+      },
+      {
+        "a": "StealC",
+        "b": "macos-stealer-v2（MioLab/MacSync/Nova系）概要",
+        "evidence": {
+          "asn": [
+            "AS214351"
+          ],
+          "subnet": [
+            "196.251.107.0/24"
+          ]
+        },
+        "kind": "malware",
+        "shared": 2,
+        "strength": 10,
+        "via": [
+          "asn",
+          "subnet"
+        ]
+      },
+      {
+        "a": "Chaos",
+        "b": "MuddyWater",
+        "evidence": {
+          "subnet": [
+            "172.86.126.0/24"
+          ]
+        },
+        "kind": "actor",
+        "shared": 1,
+        "strength": 5,
+        "via": [
+          "subnet"
+        ]
+      },
+      {
+        "a": "Chatty Spider",
+        "b": "UAC-0099",
+        "evidence": {
+          "subnet": [
+            "64.94.84.0/24"
+          ]
+        },
+        "kind": "actor",
+        "shared": 1,
+        "strength": 5,
+        "via": [
+          "subnet"
+        ]
+      },
+      {
+        "a": "Contagious Interview",
+        "b": "UNK_DeadDrop",
+        "evidence": {
+          "asn": [
+            "AS206216"
+          ]
+        },
+        "kind": "actor",
+        "shared": 1,
+        "strength": 5,
+        "via": [
+          "asn"
+        ]
+      },
+      {
+        "a": "Helix",
+        "b": "blackfile",
+        "evidence": {
+          "subnet": [
+            "179.43.185.0/24"
+          ]
+        },
+        "kind": "actor",
+        "shared": 1,
+        "strength": 5,
+        "via": [
+          "subnet"
+        ]
+      },
+      {
+        "a": "Icarus",
+        "b": "PhantomEnigma",
+        "evidence": {
+          "asn": [
+            "AS214961"
+          ]
+        },
+        "kind": "actor",
+        "shared": 1,
+        "strength": 5,
+        "via": [
+          "asn"
+        ]
+      },
+      {
+        "a": "KongTuke",
+        "b": "Qilin",
+        "evidence": {
+          "subnet": [
+            "45.61.136.0/24"
+          ]
+        },
+        "kind": "actor",
+        "shared": 1,
+        "strength": 5,
+        "via": [
+          "subnet"
+        ]
+      }
+    ],
+    "total": 339
+  },
+  "schema": 1,
+  "to_check": {
+    "asn_differs": {
+      "samples": [],
+      "total": 0
+    },
+    "cert_excluded": [],
+    "disagreement": {
+      "samples": [
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.url|https://profound-beijinho-504b1f.netlify.app/f",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        }
+      ],
+      "total": 1
+    },
+    "hosting_excluded": [],
+    "top_abuse": [
+      {
+        "ioc": "ioc.ipv4|146.59.252.178",
+        "reporters": 9,
+        "reports": 11,
+        "score": 26,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      }
+    ],
+    "top_malicious": [
+      {
+        "ioc": "ioc.sha1|09b636e886e297723bdcc11fc97c3e635a3832f4",
+        "label": "hacktool.marte/reversessh",
+        "malicious": 32
+      },
+      {
+        "ioc": "ioc.domain|js-mirror.com",
+        "malicious": 23
+      },
+      {
+        "ioc": "ioc.domain|pypi-get.com",
+        "malicious": 22
+      },
+      {
+        "ioc": "ioc.sha1|70b392f5f34faddc6be7a991e6f91a49f74ed424",
+        "label": "hacktool.marte/revhell",
+        "malicious": 20
+      },
+      {
+        "ioc": "ioc.ipv4|192.255.141.13",
+        "malicious": 4
+      },
+      {
+        "ioc": "ioc.domain|intel.se9ly9upbhay.shop",
+        "malicious": 2
+      },
+      {
+        "ioc": "ioc.ipv4|146.56.116.119",
+        "malicious": 2
+      },
+      {
+        "ioc": "ioc.ipv4|146.59.252.178",
+        "malicious": 2
+      },
+      {
+        "ioc": "ioc.ipv4|185.144.28.120",
+        "malicious": 2
+      },
+      {
+        "ioc": "ioc.ipv4|5.34.176.100",
+        "malicious": 2
+      },
+      {
+        "ioc": "ioc.url|http://185.144.28.120:3232/esxi.sh",
+        "malicious": 2
+      },
+      {
+        "ioc": "ioc.domain|profound-beijinho-504b1f.netlify.app",
+        "malicious": 1
+      },
+      {
+        "ioc": "ioc.ipv4|141.95.158.73",
+        "malicious": 1
+      },
+      {
+        "ioc": "ioc.ipv4|5.34.177.38",
+        "malicious": 1
+      }
+    ],
+    "unknown": {
+      "samples": [
+        "ioc.sha1|073723eff5b69708e2d704abb94d3cf7f12ee3d2",
+        "ioc.sha1|6a6318f3924dfb4095fb59142d0113f3c3e9ab51",
+        "ioc.sha1|a9be4aa4e11d3e788b448d231b505706b4302fa6",
+        "ioc.sha1|c58c37fbd4a1978ce96bf141b278346f03403980",
+        "ioc.sha1|ddfac9a08081e07b9e4f93fb9ad71a751ee96de1",
+        "ioc.sha1|e876ceb47ba092420a97724a957152b3808568b0",
+        "ioc.sha1|efa9d8bc7356415966c2047c43e71921301ce75b",
+        "ioc.url|http://5.34.176.100:5244/d/pikpak/my",
+        "ioc.url|http://5.34.177.38:9564/linuxfile",
+        "ioc.url|http://intel.se9ly9upbhay.shop:8080/ws",
+        "ioc.url|https://tmpfiles.org/dl/1785758754.8cc04603f0b76caa/wqwnica6rb9o/systemlog.txt"
+      ],
+      "total": 11
+    }
+  },
+  "tool": "tools/ioc/daily-report.mjs"
+}
