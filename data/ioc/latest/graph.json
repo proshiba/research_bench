@@ -467,7 +467,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.154,
+      "ratio": 0.143,
       "shared": 2,
       "source": "actor:APT28",
       "strength": 1,
@@ -1374,7 +1374,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:APT29",
       "strength": 1,
@@ -2771,7 +2771,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:APT37",
       "strength": 1,
@@ -3137,6 +3137,18 @@
       "target": "actor:Mustard Tempest",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.1,
+      "shared": 1,
+      "source": "actor:APT37",
+      "strength": 1,
+      "target": "actor:North Korean IT Workers",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -4713,7 +4725,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Anonymous",
       "strength": 1,
@@ -7452,7 +7464,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Clop",
       "strength": 1,
@@ -7464,7 +7476,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Clop",
       "strength": 1,
@@ -7476,7 +7488,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Clop",
       "strength": 1,
@@ -7488,7 +7500,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.154,
+      "ratio": 0.143,
       "shared": 2,
       "source": "actor:Clop",
       "strength": 1,
@@ -7500,7 +7512,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Clop",
       "strength": 1,
@@ -7512,7 +7524,19 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
+      "shared": 1,
+      "source": "actor:Clop",
+      "strength": 2,
+      "target": "actor:SMOKE#SCREEN",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Clop",
       "strength": 1,
@@ -7524,7 +7548,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Clop",
       "strength": 1,
@@ -7536,7 +7560,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Clop",
       "strength": 1,
@@ -7548,7 +7572,19 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
+      "shared": 1,
+      "source": "actor:Clop",
+      "strength": 2,
+      "target": "actor:TeamPCP",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Clop",
       "strength": 1,
@@ -7560,7 +7596,19 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
+      "shared": 1,
+      "source": "actor:Clop",
+      "strength": 2,
+      "target": "actor:UAT-7810",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Clop",
       "strength": 1,
@@ -7572,7 +7620,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Clop",
       "strength": 1,
@@ -12455,6 +12503,18 @@
       "via": [
         "registered",
         "registrable"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.1,
+      "shared": 1,
+      "source": "actor:Lazarus Group",
+      "strength": 1,
+      "target": "actor:North Korean IT Workers",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -18110,6 +18170,17 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.019,
+      "shared": 1,
+      "source": "malware:ABCDoor",
+      "strength": 5,
+      "target": "malware:ValleyRAT",
+      "via": [
+        "subnet"
+      ]
+    },
+    {
+      "kind": "malware",
       "ratio": 0.083,
       "shared": 1,
       "source": "malware:ABCDoor",
@@ -18494,13 +18565,14 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.017,
-      "shared": 1,
+      "ratio": 0.032,
+      "shared": 2,
       "source": "malware:AMOS",
-      "strength": 3,
+      "strength": 5,
       "target": "malware:AsyncRAT",
       "via": [
-        "registered"
+        "registered",
+        "registrable"
       ],
       "weak_only": true
     },
@@ -19338,6 +19410,19 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.133,
+      "shared": 2,
+      "source": "malware:ARToken",
+      "strength": 3,
+      "target": "malware:TWINLOOT",
+      "via": [
+        "jarm",
+        "registrable"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.019,
       "shared": 1,
       "source": "malware:AUDIOFIX",
@@ -19761,6 +19846,19 @@
       "target": "malware:npm-supply-chain",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 2,
+      "shared": 2,
+      "source": "malware:AZUREVEIL",
+      "strength": 3,
+      "target": "malware:TWINLOOT",
+      "via": [
+        "jarm",
+        "registrable"
       ],
       "weak_only": true
     },
@@ -20360,7 +20458,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.019,
+      "ratio": 0.018,
       "shared": 1,
       "source": "malware:Amadey",
       "strength": 1,
@@ -20819,7 +20917,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.017,
+      "ratio": 0.016,
       "shared": 1,
       "source": "malware:AsyncRAT",
       "strength": 3,
@@ -20831,7 +20929,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.033,
+      "ratio": 0.032,
       "shared": 2,
       "source": "malware:AsyncRAT",
       "strength": 1,
@@ -20843,7 +20941,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.038,
+      "ratio": 0.036,
       "shared": 2,
       "source": "malware:AsyncRAT",
       "strength": 4,
@@ -20870,7 +20968,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.017,
+      "ratio": 0.016,
       "shared": 1,
       "source": "malware:AsyncRAT",
       "strength": 2,
@@ -20889,6 +20987,18 @@
       "target": "malware:FastViewer Android Malware",
       "via": [
         "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.016,
+      "shared": 1,
+      "source": "malware:AsyncRAT",
+      "strength": 2,
+      "target": "malware:Infostealer",
+      "via": [
+        "registrable"
       ],
       "weak_only": true
     },
@@ -20967,13 +21077,14 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.017,
-      "shared": 1,
+      "ratio": 0.032,
+      "shared": 2,
       "source": "malware:AsyncRAT",
-      "strength": 3,
+      "strength": 5,
       "target": "malware:Macsync",
       "via": [
-        "registered"
+        "registered",
+        "registrable"
       ],
       "weak_only": true
     },
@@ -20992,7 +21103,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.05,
+      "ratio": 0.048,
       "shared": 3,
       "source": "malware:AsyncRAT",
       "strength": 9,
@@ -21004,7 +21115,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.017,
+      "ratio": 0.016,
       "shared": 1,
       "source": "malware:AsyncRAT",
       "strength": 2,
@@ -21052,19 +21163,20 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.017,
-      "shared": 1,
+      "ratio": 0.032,
+      "shared": 2,
       "source": "malware:AsyncRAT",
-      "strength": 3,
+      "strength": 5,
       "target": "malware:Shub Stealer",
       "via": [
-        "registered"
+        "registered",
+        "registrable"
       ],
       "weak_only": true
     },
     {
       "kind": "malware",
-      "ratio": 0.017,
+      "ratio": 0.016,
       "shared": 1,
       "source": "malware:AsyncRAT",
       "strength": 1,
@@ -21441,6 +21553,17 @@
         "jarm"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:Backdoor.Turn",
+      "strength": 5,
+      "target": "malware:TWINLOOT",
+      "via": [
+        "asn"
+      ]
     },
     {
       "kind": "malware",
@@ -23155,6 +23278,42 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.125,
+      "shared": 1,
+      "source": "malware:Clop custom JSP web shell",
+      "strength": 2,
+      "target": "malware:Infostealer",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:Clop custom JSP web shell",
+      "strength": 2,
+      "target": "malware:JARLEASH",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.125,
+      "shared": 1,
+      "source": "malware:Clop custom JSP web shell",
+      "strength": 2,
+      "target": "malware:ScreenConnect",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.067,
       "shared": 1,
       "source": "malware:CloudSorcerer",
@@ -24268,7 +24427,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.019,
+      "ratio": 0.018,
       "shared": 1,
       "source": "malware:DCRat",
       "strength": 3,
@@ -24376,7 +24535,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.038,
+      "ratio": 0.036,
       "shared": 2,
       "source": "malware:DCRat",
       "strength": 3,
@@ -24624,6 +24783,18 @@
       "source": "malware:DOUBLECUP",
       "strength": 3,
       "target": "malware:TELEPUZ",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:DOUBLECUP",
+      "strength": 3,
+      "target": "malware:TWINLOOT",
       "via": [
         "registered"
       ],
@@ -24973,6 +25144,17 @@
         "jarm"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:DragonForce ransomware",
+      "strength": 5,
+      "target": "malware:TWINLOOT",
+      "via": [
+        "asn"
+      ]
     },
     {
       "kind": "malware",
@@ -29475,6 +29657,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "malware:Miasma",
+      "strength": 1,
+      "target": "malware:njRAT",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.333,
       "shared": 4,
       "source": "malware:Miasma",
@@ -30287,6 +30481,18 @@
       "source": "malware:Node.js Backdoor",
       "strength": 3,
       "target": "malware:SourTrade",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:Node.js Backdoor",
+      "strength": 3,
+      "target": "malware:TWINLOOT",
       "via": [
         "registered"
       ],
@@ -33113,6 +33319,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:TWINLOOT",
+      "strength": 3,
+      "target": "malware:ValleyRAT",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.05,
       "shared": 1,
       "source": "malware:TencShell",
@@ -33219,16 +33437,17 @@
     },
     {
       "kind": "malware",
-      "ratio": 1.25,
-      "shared": 15,
+      "ratio": 1.333,
+      "shared": 16,
       "source": "malware:ValleyRAT",
-      "strength": 20,
+      "strength": 25,
       "target": "malware:VenomRAT",
       "via": [
         "filename",
         "imphash",
         "ioc",
         "jarm",
+        "subnet",
         "vhash"
       ]
     },
@@ -33385,9 +33604,21 @@
         "registrable"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "malware:njRAT",
+      "strength": 1,
+      "target": "malware:rope.pyz",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
     }
   ],
-  "generated_from": "2026-08-18T00:04:10.926Z",
+  "generated_from": "2026-08-19T00:04:25.516Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -33601,7 +33832,7 @@
     },
     {
       "id": "actor:Clop",
-      "ioc_count": 13,
+      "ioc_count": 14,
       "kind": "actor",
       "name": "Clop"
     },
@@ -33904,6 +34135,12 @@
       "ioc_count": 30,
       "kind": "actor",
       "name": "Nomadic Octopus"
+    },
+    {
+      "id": "actor:North Korean IT Workers",
+      "ioc_count": 10,
+      "kind": "actor",
+      "name": "North Korean IT Workers"
     },
     {
       "id": "actor:O-UNC-066",
@@ -35172,6 +35409,12 @@
       "name": "AUDIOFIX"
     },
     {
+      "id": "malware:AZUREVEIL",
+      "ioc_count": 1,
+      "kind": "malware",
+      "name": "AZUREVEIL"
+    },
+    {
       "id": "malware:AdaptixC2",
       "ioc_count": 41,
       "kind": "malware",
@@ -35203,7 +35446,7 @@
     },
     {
       "id": "malware:AsyncRAT",
-      "ioc_count": 60,
+      "ioc_count": 62,
       "kind": "malware",
       "name": "AsyncRAT"
     },
@@ -35340,6 +35583,12 @@
       "name": "ClickFix"
     },
     {
+      "id": "malware:Clop custom JSP web shell",
+      "ioc_count": 8,
+      "kind": "malware",
+      "name": "Clop custom JSP web shell"
+    },
+    {
       "id": "malware:CloudSorcerer",
       "ioc_count": 15,
       "kind": "malware",
@@ -35401,7 +35650,7 @@
     },
     {
       "id": "malware:DCRat",
-      "ioc_count": 53,
+      "ioc_count": 55,
       "kind": "malware",
       "name": "DCRat"
     },
@@ -36432,6 +36681,12 @@
       "name": "TOUGHPROGRESS"
     },
     {
+      "id": "malware:TWINLOOT",
+      "ioc_count": 15,
+      "kind": "malware",
+      "name": "TWINLOOT"
+    },
+    {
       "id": "malware:TencShell",
       "ioc_count": 20,
       "kind": "malware",
@@ -36523,7 +36778,7 @@
     },
     {
       "id": "malware:ValleyRAT",
-      "ioc_count": 197,
+      "ioc_count": 204,
       "kind": "malware",
       "name": "ValleyRAT"
     },
@@ -36646,6 +36901,12 @@
       "ioc_count": 4,
       "kind": "malware",
       "name": "ms_upd.exe"
+    },
+    {
+      "id": "malware:njRAT",
+      "ioc_count": 10,
+      "kind": "malware",
+      "name": "njRAT"
     },
     {
       "id": "malware:npm-supply-chain",
