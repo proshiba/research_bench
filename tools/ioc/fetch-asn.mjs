@@ -42,10 +42,14 @@ if (!CONTACT) {
 }
 const UA = `research_bench-ioc/1.0 bgp.tools - ${CONTACT}`;
 
+const FETCH_TIMEOUT = 120_000;
+
 const FILES = [
-  { name: "table.jsonl", url: "https://bgp.tools/table.jsonl", maxAge: MAX_AGE },
-  // AS 名は 1 日 1 回で足りる、と取得元が案内している
-  { name: "asns.csv", url: "https://bgp.tools/asns.csv", maxAge: Math.max(MAX_AGE, 86400_000) },
+  // 経路表は enrich-asn.mjs が必須で見る。取れなければ AS 付与そのものができない
+  { name: "table.jsonl", url: "https://bgp.tools/table.jsonl", maxAge: MAX_AGE, required: true },
+  // AS 名は enrich-asn.mjs 側に「無ければ空扱い」の逃げ道がある任意の写し。
+  // 1 日 1 回で足りる、と取得元が案内している
+  { name: "asns.csv", url: "https://bgp.tools/asns.csv", maxAge: Math.max(MAX_AGE, 86400_000), required: false },
 ];
 
 const nowIso = new Date().toISOString();
@@ -67,26 +71,42 @@ for (const f of FILES) {
     continue;
   }
 
-  const res = await fetch(f.url, { headers: { "user-agent": UA, accept: "*/*" } });
-  if (!res.ok) {
-    console.error(`! ${f.url} が HTTP ${res.status}`);
-    process.exit(1);
-  }
-  const body = Buffer.from(await res.arrayBuffer());
-  fs.mkdirSync(CACHE, { recursive: true });
-  fs.writeFileSync(dest, body);
-  fetched++;
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), FETCH_TIMEOUT);
+    let res;
+    try {
+      res = await fetch(f.url, { headers: { "user-agent": UA, accept: "*/*" }, signal: ctrl.signal });
+    } finally {
+      clearTimeout(timer);
+    }
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const body = Buffer.from(await res.arrayBuffer());
+    fs.mkdirSync(CACHE, { recursive: true });
+    fs.writeFileSync(dest, body);
+    fetched++;
 
-  const lines = body.toString("utf8").split("\n").filter((l) => l.trim()).length;
-  out.files[f.name] = {
-    url: f.url,
-    fetched_at: nowIso,
-    bytes: body.length,
-    lines,
-    // 同じ写しから出た結果かを後から確かめられるように残す
-    sha256: sha256(body),
-  };
-  console.log(`  取得 ${f.name}  ${(body.length / 1048576).toFixed(1)} MB / ${lines.toLocaleString()} 行`);
+    const lines = body.toString("utf8").split("\n").filter((l) => l.trim()).length;
+    out.files[f.name] = {
+      url: f.url,
+      fetched_at: nowIso,
+      bytes: body.length,
+      lines,
+      // 同じ写しから出た結果かを後から確かめられるように残す
+      sha256: sha256(body),
+    };
+    console.log(`  取得 ${f.name}  ${(body.length / 1048576).toFixed(1)} MB / ${lines.toLocaleString()} 行`);
+  } catch (err) {
+    const reason = err?.name === "AbortError" ? `${FETCH_TIMEOUT / 1000}秒でタイムアウト` : err.message;
+    if (f.required) {
+      console.error(`! ${f.url} が取れませんでした（${reason}）`);
+      process.exit(1);
+    }
+    // 任意の写しが取れなくても、経路表（必須）さえ取れていれば続行する。
+    // enrich-asn.mjs 側はこの写しが無ければ AS 名を空扱いにするだけで落ちない
+    console.error(`! ${f.url} が取れませんでした（${reason}）。任意の写しなので続行します`);
+    if (before) out.files[f.name] = before; // 古い写しが残っていればそれを使う
+  }
 }
 
 writeJson(path.join(CACHE, "source.json"), out);
