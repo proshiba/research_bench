@@ -1,24 +1,30 @@
 {
-  "asn_names": null,
+  "asn_names": {
+    "bytes": 5557079,
+    "fetched_at": "2026-08-21T00:04:57.033Z",
+    "lines": 121782,
+    "sha256": "e1ea929b548e17a9351e8a1a5f8296403a62c95e65f787b5cfa89967d0e41c76",
+    "url": "https://bgp.tools/asns.csv"
+  },
   "counts": {
-    "asns": 1261,
-    "routed": 12117,
+    "asns": 1260,
+    "routed": 12116,
     "skipped": 97,
-    "unrouted": 271
+    "unrouted": 272
   },
   "schema": 1,
   "source": "bgp.tools",
   "table": {
-    "bytes": 75430949,
-    "fetched_at": "2026-08-20T00:20:46.504Z",
-    "lines": 1477533,
-    "sha256": "b7af3f5dfd3bc161150a7abfa0210556e9daff228d243f432cfca2aa8ae54374",
+    "bytes": 75552681,
+    "fetched_at": "2026-08-21T00:04:57.033Z",
+    "lines": 1479939,
+    "sha256": "7da48d2d5e7a60d82c98e0b70e3c65c539e544897a51004347e7e5544852c539",
     "url": "https://bgp.tools/table.jsonl"
   },
   "table_prefixes": {
-    "skipped": 1,
-    "v4": 1177351,
-    "v6": 284238
+    "skipped": 0,
+    "v4": 1179184,
+    "v6": 284717
   },
   "tool": "tools/ioc/enrich-asn.mjs"
 }

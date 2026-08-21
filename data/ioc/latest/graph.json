@@ -14961,6 +14961,20 @@
     },
     {
       "kind": "case",
+      "ratio": 1.143,
+      "shared": 8,
+      "source": "case:case:044685870eaff33a097bde51dfc03438b5cba936d3472be33737b6c0983e0fbc",
+      "strength": 16,
+      "target": "case:case:9df49e6b296765cb537245097634a9da0aa6f04fd2df118018d8b440b71cf3b9",
+      "via": [
+        "ioc",
+        "jarm",
+        "registrable",
+        "subnet"
+      ]
+    },
+    {
+      "kind": "case",
       "ratio": 0.5,
       "shared": 1,
       "source": "case:case:09034743ead73365c3077a85036d69c4ef0b0c19bba669db7cd53814b9308889",
@@ -17052,6 +17066,18 @@
         "ioc",
         "registered",
         "registrable"
+      ]
+    },
+    {
+      "kind": "case",
+      "ratio": 0.167,
+      "shared": 2,
+      "source": "case:case:87a853cf460ecb71120e8321853531038f7855d340f188db3ee475c3758a9745",
+      "strength": 10,
+      "target": "case:case:e5898e75b05b5e51683f7337322b15be5d06a9ffb522a9267c4c1e42547b6ee2",
+      "via": [
+        "family",
+        "ioc"
       ]
     },
     {
@@ -21057,7 +21083,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.059,
+      "ratio": 0.036,
       "shared": 1,
       "source": "malware:BTMOB",
       "strength": 1,
@@ -29393,7 +29419,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.059,
+      "ratio": 0.036,
       "shared": 1,
       "source": "malware:ManageEngine Endpoint Central悪用",
       "strength": 1,
@@ -29405,7 +29431,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.059,
+      "ratio": 0.036,
       "shared": 1,
       "source": "malware:ManageEngine Endpoint Central悪用",
       "strength": 1,
@@ -29417,7 +29443,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.059,
+      "ratio": 0.036,
       "shared": 1,
       "source": "malware:ManageEngine Endpoint Central悪用",
       "strength": 3,
@@ -33585,7 +33611,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-08-20T00:23:10.531Z",
+  "generated_from": "2026-08-21T00:04:56.927Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -34590,6 +34616,12 @@
       "name": "case:02e960e5278a686f38a356e5e7842def5797e07ec0b06b8fe5f34d0b28fde0b2"
     },
     {
+      "id": "case:case:044685870eaff33a097bde51dfc03438b5cba936d3472be33737b6c0983e0fbc",
+      "ioc_count": 7,
+      "kind": "case",
+      "name": "case:044685870eaff33a097bde51dfc03438b5cba936d3472be33737b6c0983e0fbc"
+    },
+    {
       "id": "case:case:09034743ead73365c3077a85036d69c4ef0b0c19bba669db7cd53814b9308889",
       "ioc_count": 4,
       "kind": "case",
@@ -34962,6 +34994,12 @@
       "name": "case:875257991745c0557dd2fb00cd40934de6281ded379289c26d900bca2628f25f"
     },
     {
+      "id": "case:case:87a853cf460ecb71120e8321853531038f7855d340f188db3ee475c3758a9745",
+      "ioc_count": 12,
+      "kind": "case",
+      "name": "case:87a853cf460ecb71120e8321853531038f7855d340f188db3ee475c3758a9745"
+    },
+    {
       "id": "case:case:87f18bd70353e44aa74d3c2fda27a2ae5dd6e7d238c3d875f6240283bc909ba6",
       "ioc_count": 3,
       "kind": "case",
@@ -35038,6 +35076,12 @@
       "ioc_count": 6,
       "kind": "case",
       "name": "case:9d930798d115b6862313e3616d3ed02a7a5c4c673390fe5fed4d85472cf906f5"
+    },
+    {
+      "id": "case:case:9df49e6b296765cb537245097634a9da0aa6f04fd2df118018d8b440b71cf3b9",
+      "ioc_count": 7,
+      "kind": "case",
+      "name": "case:9df49e6b296765cb537245097634a9da0aa6f04fd2df118018d8b440b71cf3b9"
     },
     {
       "id": "case:case:9fad77b6c9968ccf160a20fee17c3ea0d944e91eda9a3ea937027618e2f9e54e",
@@ -36073,7 +36117,7 @@
     },
     {
       "id": "malware:ManageEngine Endpoint Central悪用",
-      "ioc_count": 17,
+      "ioc_count": 28,
       "kind": "malware",
       "name": "ManageEngine Endpoint Central悪用"
     },
@@ -36781,7 +36825,7 @@
     },
     {
       "id": "malware:ValleyRAT",
-      "ioc_count": 213,
+      "ioc_count": 225,
       "kind": "malware",
       "name": "ValleyRAT"
     },
