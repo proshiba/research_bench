@@ -834,7 +834,8 @@ try {
    *  一覧は下に書いた作り物を渡すので、写しの有無で結果が変わらない。 */
   console.log("\n線引き");
   const { parsePsl, publicSuffixOf, registrableFromPsl, privateSuffixOf } = await import("./lib/psl.mjs");
-  const { isCdnAsn, looksDead, serviceLike, statedRoles, CDN_MIN_ADDRESSES } = await import("./lib/tracker.mjs");
+  const { isCdnAsn, looksDead, serviceLike, statedRoles, isBoilerplateLabel,
+    CDN_MIN_ADDRESSES } = await import("./lib/tracker.mjs");
   const psl = parsePsl([
     "// ===BEGIN ICANN DOMAINS===",
     "com", "jp", "co.jp", "*.kobe.jp", "!city.kobe.jp", "br", "com.br", "gov.br",
@@ -880,6 +881,13 @@ try {
     [statedRoles(["観測アクター", "関連"]).join(), "", "一緒に出てきただけのものは役割ではない"],
     [statedRoles(["dead_drop_configuration"]).join(), "dead_drop_configuration", "述べられた役割は残る"],
     [statedRoles(undefined).join(), "", "関係が無くても落ちない"],
+    // 証明書の記録から出た兄弟。事業者が既定で作る名前は手掛かりにならない
+    [isBoilerplateLabel("cpanel"), true, "cPanel の既定名は定型"],
+    [isBoilerplateLabel("cpcalendars"), true, "cPanel の既定名は定型（その 2）"],
+    [isBoilerplateLabel("ww38"), true, "パーキングの前置きは定型"],
+    [isBoilerplateLabel("admin"), false, "admin は定型ではない"],
+    [isBoilerplateLabel("git"), false, "git は定型ではない"],
+    [isBoilerplateLabel("springboot"), false, "springboot は定型ではない"],
   ]) check(got === want, `tracker  ${label}`, got === want ? "" : `${JSON.stringify(got)} ≠ ${JSON.stringify(want)}`);
 } finally {
   if (KEEP) console.log(`\n作業場所を残しました: ${root}`);

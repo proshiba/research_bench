@@ -164,6 +164,28 @@ export const SERVICE_MAX_MALICIOUS = 2;
 export const serviceLike = (v) =>
   (v?.harmless ?? 0) >= SERVICE_MIN_HARMLESS && (v?.malicious ?? 0) < SERVICE_MAX_MALICIOUS;
 
+/** 事業者が既定で作る名前。**攻撃者の意図が入っていないので手掛かりにならない。**
+ *
+ *  証明書の記録から兄弟を集めると必ず混ざる。`cpanel` `webmail` `cpcalendars` は
+ *  cPanel が契約時に必ず作るもので、`ww16` `ww25` はパーキング事業者の前置き。
+ *  実測（108 apex）でこの手のものが 204 件あり、残した 190 件のほうに
+ *  `admin` `git` `springboot` `api-test` のような**実際に何かが動いていた跡**が集まった。
+ *
+ *  **消すのではなく、外した数を必ず出す**（crtname.mjs が meta に残す）。 */
+export const BOILERPLATE = new Set([
+  // cPanel / WHM が契約時に必ず作る
+  "cpanel", "webmail", "webdisk", "cpcalendars", "cpcontacts", "whm", "panel",
+  // メールと DNS の定型
+  "mail", "smtp", "pop", "pop3", "imap", "mx", "mx1", "mx2", "ns", "ns1", "ns2", "ns3",
+  "autodiscover", "autoconfig", "_dmarc", "_domainkey", "_acme-challenge",
+  // 中身を持たない前置き
+  "www", "localhost", "wildcard", "ftp",
+]);
+/** パーキング・リダイレクト事業者が付ける前置き（`ww16.` `ww25.` `ww38.` …） */
+const PARKING_PREFIX = /^ww\d{1,3}$/;
+export const isBoilerplateLabel = (label) =>
+  BOILERPLATE.has(label) || PARKING_PREFIX.test(label) || String(label).startsWith("bgptools-wildcard");
+
 /** 状態の名前。events.jsonl と state.jsonl で共通に使う */
 export const STATUS = {
   ALIVE: "alive",          // A / AAAA が返り、行き先も意味がある
