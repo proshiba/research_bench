@@ -19,6 +19,7 @@ import path from "node:path";
 import { joinKey, refang } from "../../assets/js/util.js";
 import { byKeys, isoWeek, parseArgs, writeJson, writeJsonl } from "./lib/io.mjs";
 import { classifyIpv4, classifyIpv6, registrableDomain, subnet24 } from "./lib/net.mjs";
+import { pslVersion } from "./lib/psl.mjs";
 import { REPO_ROOT, loadAll } from "./lib/sources.mjs";
 import { entityNames, nameKey, pickAliases, splitNames, usableName } from "./lib/names.mjs";
 
@@ -291,6 +292,8 @@ async function main() {
     schema: 1,
     collected_at: now.toISOString(),
     week: args.week || isoWeek(now),
+    /** 登録可能ドメインをどの一覧で決めたか。null なら手書きの控えで数えている */
+    public_suffix_list: pslVersion(),
     sources: sources.map((s) => ({
       app_id: s.app_id,
       name: s.name,

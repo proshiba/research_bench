@@ -4,7 +4,7 @@
 //   node tools/ioc/fetch-dns.mjs [--in data/ioc/latest] [--out data/ioc/tracker]
 //                                [--limit 0] [--concurrency 24] [--timeout 5000]
 //                                [--resolver 8.8.8.8,1.1.1.1] [--date 2026-08-16]
-//                                [--retries 2] [--retry-concurrency 6]
+//                                [--retries 2] [--retry-concurrency 6] [--append]
 //
 // 攻撃者のサーバには触らない。**公開リゾルバに名前を聞くだけ**で、
 // 解決先に接続もしない。API の鍵も要らず、枠も消費しない。
@@ -37,6 +37,10 @@ const TIMEOUT = Number(args.timeout || 5000);
 const DATE = String(args.date || new Date().toISOString().slice(0, 10));
 const RETRIES = Number(args.retries ?? 2);
 const RETRY_CONCURRENCY = Number(args["retry-concurrency"] || 6);
+/** その日の観測に**足りないものだけ**を引き足す。
+ *  週次が証明書の記録から新しい兄弟を出したとき、全件（15 分）を引き直さずに
+ *  その日のうちに合流させるためのもの。既にある行には手を触れない。 */
+const APPEND = !!args.append;
 
 // リゾルバは**複数を順に使う**。1 台に寄せると、その 1 台の機嫌で
 // 「生死不明」の件数が毎日変わってしまい、差分が読めなくなる。
@@ -70,14 +74,44 @@ for (const l of links) {
 }
 
 const targets = [];
+const seenHost = new Set();
 for (const [key, rec] of iocs) {
   if (!key.startsWith("ioc.domain|")) continue;
   if (!trackable(key, { relsOf, vt, iocs })) continue;
-  targets.push({ key, host: key.slice("ioc.domain|".length), dynamic: dynamicSuffixOf(rec.key ? key.slice("ioc.domain|".length) : "") });
+  const host = key.slice("ioc.domain|".length);
+  seenHost.add(host);
+  targets.push({ key, host, dynamic: dynamicSuffixOf(host) });
+}
+
+// 証明書の記録から出た兄弟も一緒に引く（crtname.mjs の出力があるときだけ）。
+// **索引の IOC ではない**ので出どころを残す。生死と行き先の追い方は索引のものと同じ
+let fromCt = 0;
+const ctFile = path.join(IN, "crtname.jsonl");
+if (fs.existsSync(ctFile)) {
+  for (const r of readJsonl(ctFile)) {
+    if (!r.host || seenHost.has(r.host)) continue;
+    seenHost.add(r.host);
+    targets.push({ key: "ioc.domain|" + r.host, host: r.host, dynamic: dynamicSuffixOf(r.host),
+      via: "crtname", apex: r.apex });
+    fromCt++;
+  }
 }
 targets.sort(byKeys("host"));
-const todo = targets.slice(0, LIMIT);
+
+// --append のときは、その日の観測に既にある行を残して差分だけ引く
+const outDir = path.join(OUT, "observations");
+const outFile = path.join(outDir, `${DATE}.jsonl`);
+let carried = [];
+let pool = targets;
+if (APPEND && fs.existsSync(outFile)) {
+  carried = readJsonl(outFile);
+  const have = new Set(carried.map((r) => r.host));
+  pool = targets.filter((t) => !have.has(t.host));
+  console.log(`引き足し: ${DATE} には既に ${carried.length} 件あります`);
+}
+const todo = pool.slice(0, LIMIT);
 console.log(`追跡対象のドメイン ${targets.length} 件（役割つき または VT 検知 2 以上）`);
+if (fromCt) console.log(`  うち証明書の記録から出た兄弟: ${fromCt} 件`);
 console.log(`  うち動的 DNS / 共用基盤の下: ${targets.filter((t) => t.dynamic).length}`);
 console.log(`  今回引く: ${todo.length} 件 / 同時 ${CONCURRENCY} / リゾルバ ${RESOLVERS.join(",")}`);
 
@@ -92,6 +126,7 @@ const withTimeout = (p) => Promise.race([p,
 async function lookup(t, resolver) {
   const out = { ioc: t.key, host: t.host, date: DATE };
   if (t.dynamic) out.dynamic_suffix = t.dynamic;
+  if (t.via) { out.via = t.via; out.apex = t.apex; }
   const ask = async (kind, fn) => {
     try { return await withTimeout(fn()); }
     catch (e) {
@@ -171,11 +206,10 @@ for (let round = 1; round <= RETRIES; round++) {
 const left = [...answers.values()].filter(shaky);
 if (left.length) console.log(`  引き直しても半端なままのもの ${left.length} 件（うち丸ごと引けず ${left.filter((r) => r.status === "error").length} 件）`);
 
-const results = [...answers.values()];
+const results = [...carried, ...answers.values()];
 results.sort(byKeys("host"));
-const dir = path.join(OUT, "observations");
-fs.mkdirSync(dir, { recursive: true });
-const file = path.join(dir, `${DATE}.jsonl`);
+fs.mkdirSync(outDir, { recursive: true });
+const file = outFile;
 writeJsonl(file, results);
 
 const tally = results.reduce((m, r) => (m[r.status] = (m[r.status] || 0) + 1, m), {});

@@ -41,6 +41,17 @@ export function loadPsl(file = DEFAULT_FILE) {
 }
 export const hasPsl = (file) => !!loadPsl(file);
 
+/** どの版で数えたか。写しが無ければ null。
+ *  **これを一式に残さないと、写しの有無で結果が変わったことに気付けない。**
+ *  実測: daily.sh が fetch-psl を呼んでいなかった間、本番は手書きの一覧で
+ *  `registrable` を作り続けていたが、検査もその環境で走るので誰も気付かなかった。 */
+export function pslVersion(file = DEFAULT_FILE) {
+  if (!loadPsl(file)) return null;
+  const meta = path.join(path.dirname(file), "meta.json");
+  try { return JSON.parse(fs.readFileSync(meta, "utf8")).version || "不明"; }
+  catch { return "不明"; }
+}
+
 /** その名前の公開接尾辞を返す。
  *  @param includePrivate  PRIVATE 区画（`ddns.net` など）も接尾辞として扱うか。
  *    既定は true。**同一登録者の推定に使うなら true が正しい** ——

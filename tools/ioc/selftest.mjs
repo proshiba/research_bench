@@ -20,6 +20,7 @@ import { execFileSync } from "node:child_process";
 import { readJsonl, writeJson, writeJsonl } from "./lib/io.mjs";
 import { coverageOf } from "./lib/enrich.mjs";
 import { REPO_ROOT } from "./lib/sources.mjs";
+import { pslVersion } from "./lib/psl.mjs";
 
 const KEEP = process.argv.includes("--keep");
 
@@ -120,6 +121,9 @@ function buildFixture(dir) {
     schema: 1,
     collected_at: "2026-02-15T00:00:00.000Z",
     week: "2026-W07",
+    // collect.mjs と同じものを残す。**残さないと、写しがある環境で
+    // 「一式を作ったときと条件が違う」と鳴って作り物ごと落ちる**
+    public_suffix_list: pslVersion(),
     sources: [
       { app_id: "src-a", name: "検査用 A", search_url: "https://a.example/api/v1/search.json",
         generated_at: null, meta_sha256: "a".repeat(64), search_sha256: "b".repeat(64), entities: 8, error: null },
@@ -415,6 +419,14 @@ const CASES = [
   }],
   ["ipv4.noise", "noise の印が落ちている", (d) => {
     editLine(d, "iocs.jsonl", "8.8.8.8", (l) => l.replace(/,"noise":"[^"]*"/, ""));
+  }],
+  // 実際に起きた: daily.sh が fetch-psl を呼んでおらず、本番は手書きの控えで
+  // registrable を作り続けていた。検査も同じ器で走るので誰も気付かなかった
+  ["psl.mismatch", "公開接尾辞一覧が作成時と違う", (d) => {
+    const f = path.join(d, "meta.json");
+    const m = JSON.parse(fs.readFileSync(f, "utf8"));
+    m.public_suffix_list = "1999-01-01_00-00-00_UTC";
+    writeJson(f, m);
   }],
   ["domain.registrable", "登録可能ドメインが違う", (d) => {
     editLine(d, "iocs.jsonl", "evil.example.com", (l) => l.replace(/"registrable":"[^"]*"/, '"registrable":"other.test"'));
@@ -822,7 +834,8 @@ try {
    *  一覧は下に書いた作り物を渡すので、写しの有無で結果が変わらない。 */
   console.log("\n線引き");
   const { parsePsl, publicSuffixOf, registrableFromPsl, privateSuffixOf } = await import("./lib/psl.mjs");
-  const { isCdnAsn, looksDead, serviceLike, CDN_MIN_ADDRESSES } = await import("./lib/tracker.mjs");
+  const { isCdnAsn, looksDead, serviceLike, statedRoles, isBoilerplateLabel,
+    CDN_MIN_ADDRESSES } = await import("./lib/tracker.mjs");
   const psl = parsePsl([
     "// ===BEGIN ICANN DOMAINS===",
     "com", "jp", "co.jp", "*.kobe.jp", "!city.kobe.jp", "br", "com.br", "gov.br",
@@ -861,6 +874,20 @@ try {
     [serviceLike({ harmless: 0, malicious: 0 }), false, "知られていないものは無害ではない"],
     [serviceLike({ harmless: 55, malicious: 2 }), false, "少しでも検知があれば外さない"],
     [serviceLike(undefined), false, "判定が無ければ外さない"],
+    // 「誰かが役割を述べているか」。こちらの派生と帳簿は役割ではない
+    [statedRoles(["c2", "収集元"]).join(), "c2", "帳簿を落として役割だけ残す"],
+    [statedRoles(["resolves_to", "contacted"]).join(), "", "VT から生やした観測は役割ではない"],
+    [statedRoles(["attrs.アクター", "attrs.マルウェア"]).join(), "", "attrs. は帳簿"],
+    [statedRoles(["観測アクター", "関連"]).join(), "", "一緒に出てきただけのものは役割ではない"],
+    [statedRoles(["dead_drop_configuration"]).join(), "dead_drop_configuration", "述べられた役割は残る"],
+    [statedRoles(undefined).join(), "", "関係が無くても落ちない"],
+    // 証明書の記録から出た兄弟。事業者が既定で作る名前は手掛かりにならない
+    [isBoilerplateLabel("cpanel"), true, "cPanel の既定名は定型"],
+    [isBoilerplateLabel("cpcalendars"), true, "cPanel の既定名は定型（その 2）"],
+    [isBoilerplateLabel("ww38"), true, "パーキングの前置きは定型"],
+    [isBoilerplateLabel("admin"), false, "admin は定型ではない"],
+    [isBoilerplateLabel("git"), false, "git は定型ではない"],
+    [isBoilerplateLabel("springboot"), false, "springboot は定型ではない"],
   ]) check(got === want, `tracker  ${label}`, got === want ? "" : `${JSON.stringify(got)} ≠ ${JSON.stringify(want)}`);
 } finally {
   if (KEEP) console.log(`\n作業場所を残しました: ${root}`);

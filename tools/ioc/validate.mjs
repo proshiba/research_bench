@@ -37,6 +37,7 @@ import path from "node:path";
 import { joinKey, refang } from "../../assets/js/util.js";
 import { byKeys, parseArgs, readJson, readJsonl, stableStringify, writeJson } from "./lib/io.mjs";
 import { classifyIpv4, ipv4ToInt, registrableDomain, subnet24 } from "./lib/net.mjs";
+import { pslVersion } from "./lib/psl.mjs";
 import { ipv6ToHex } from "./lib/asn.mjs";
 import { coverageOf } from "./lib/enrich.mjs";
 import { isQualifier, nameKey, tooShort } from "./lib/names.mjs";
@@ -231,6 +232,20 @@ const entities = loadJsonl("entities.jsonl");
 const meta = readJson(path.join(IN, "meta.json"));
 if (!meta) err("file.missing", "meta.json がありません", { file: "meta.json" });
 
+/* ---------------- 公開接尾辞一覧が同じかどうか ----------------
+ *
+ * `registrable` は**一覧の有無で答えが変わる**。一式を作った環境と検査する環境で
+ * 揃っていなければ、ドメインの何割かが必ずずれる。1 件ずつ鳴らしても原因は 1 つなので、
+ * ここでまとめて 1 度だけ鳴らし、個々の照合は見送る。
+ *
+ * **見送るのであって、通すのではない。** 何件を見送ったかは必ず出す。 */
+const pslNow = pslVersion();
+const pslThen = meta && "public_suffix_list" in meta ? meta.public_suffix_list : undefined;
+// meta に欄が無い一式は、この仕組みより前に作られたもの。**手書きの控えで作られている**
+// はずなので、いまも写しが無ければ同条件、写しがあれば条件が違う
+const pslAgrees = pslThen === undefined ? pslNow === null : pslThen === pslNow;
+let registrableSkipped = 0;
+
 if (!iocs || !links || !entities) {
   report();
   process.exit(1);
@@ -389,7 +404,12 @@ for (let i = 0; i < iocs.length; i++) {
   } else if (r.type === "ioc.domain") {
     const rd = registrableDomain(r.value);
     if (r.registrable !== (rd ?? undefined)) {
-      err("domain.registrable", `registrable が ${rd} と一致しません: ${r.registrable}`, at("iocs.jsonl", i));
+      // **一式を作った環境と検査する環境で、公開接尾辞一覧の有無が違うと必ずずれる。**
+      // その場合に 1 件ずつ鳴らしても意味が無い（原因は 1 つ）。
+      // 環境の食い違いは下の psl.mismatch でまとめて 1 度だけ鳴らす。
+      if (pslAgrees) {
+        err("domain.registrable", `registrable が ${rd} と一致しません: ${r.registrable}`, at("iocs.jsonl", i));
+      } else registrableSkipped++;
     }
     if (!HOSTNAME.test(r.value)) warn("domain.format", `ホスト名として不自然です: ${r.value}`, at("iocs.jsonl", i));
     if (IPV4.test(r.value)) warn("domain.isip", `IP が domain として入っています: ${r.value}`, at("iocs.jsonl", i));
@@ -539,6 +559,15 @@ for (let i = 0; i < entities.length; i++) {
       if (/[,、;]/.test(a)) warn("entity.alias_comma", `別名が分けられていません: ${a}`, at("entities.jsonl", i));
     }
   }
+}
+
+if (!pslAgrees) {
+  const say = (v) => (v === undefined ? "記録なし（手書きの控えのはず）" : v === null ? "手書きの控え" : v);
+  err("psl.mismatch",
+    `公開接尾辞一覧が一式を作ったときと違います（作成時 ${say(pslThen)} / いま ${say(pslNow)}）\n`
+    + `    registrable の照合を ${registrableSkipped} 件見送りました。`
+    + (pslNow === null ? " node tools/ioc/fetch-psl.mjs を先に実行してください" : ""),
+    { file: "meta.json" });
 }
 
 /* ---------------- 7. meta.json ---------------- */
