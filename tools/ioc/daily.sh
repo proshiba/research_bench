@@ -57,6 +57,12 @@ if git rev-parse --verify -q HEAD >/dev/null && git cat-file -e "HEAD:$DIR/stats
   done
 fi
 
+# **索引より先。** 登録可能ドメインの判定がこの一覧に乗っているので、
+# 写しが無いまま collect すると手書きの控えで数えてしまう。写しは追跡していない
+# （器が毎回まっさら）ので、**毎回ここで取り直す必要がある**。7 日以内なら即座に返る。
+say "公開接尾辞一覧"
+node tools/ioc/fetch-psl.mjs || echo "! 一覧が取れませんでした。手書きの控えで数えます" >&2
+
 if [ "$COLLECT" = 1 ]; then
   say "索引を取り直す"
   node tools/ioc/collect.mjs --out "$DIR" --cache data/ioc/.cache

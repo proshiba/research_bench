@@ -114,6 +114,29 @@ export const looksDead = (ip) =>
 /** 追跡する価値があるか。§3.8 と同じ考え方で、
  *  役割を述べられていない IOC は追わない（研究報告の URL などが混ざるため） */
 export const GENERIC_REL = new Set(["観測アクター", "関連"]);
+
+/** **誰かが「これは何をするものか」を述べているか。**
+ *
+ *  `GENERIC_REL` とは別の問いなので分けてある。あちらは「索引が『一緒に出てきた』
+ *  としか言っていないか」を見るもの。こちらは**報告に値するかの重み付け**に使う。
+ *
+ *  述べていないものが 3 種類ある。
+ *
+ *    1. こちらが VT から生やしたもの — `resolves_to` `contacted` `resolved_at`
+ *       `suggested_threat_label`（derived-links.jsonl はこの 4 つだけ）。
+ *       **これは観測であって、誰かの主張ではない。**
+ *    2. 索引の帳簿 — `収集元` `ホスト` `url` `提出検体` `case.ファミリ`、`attrs.` で始まるもの
+ *    3. 索引の曖昧な関係 — `GENERIC_REL` の 2 つ
+ *
+ *  残ったものが「述べられた役割」。実測で `c2` `beacon_or_tasking`
+ *  `file_exfiltration` `dead_drop_configuration` `payload_distribution` などが並ぶ。 */
+export const BOOKKEEPING_REL = new Set([
+  "収集元", "ホスト", "url", "提出検体", "case.ファミリ",
+  "resolves_to", "contacted", "resolved_at", "suggested_threat_label",
+]);
+export const isStatedRole = (rel) =>
+  !!rel && !GENERIC_REL.has(rel) && !BOOKKEEPING_REL.has(rel) && !String(rel).startsWith("attrs.");
+export const statedRoles = (rels) => [...(rels || [])].filter(isStatedRole).sort();
 export function trackable(key, { relsOf, vt, iocs, minMalicious = 2 }) {
   const i = iocs.get(key);
   if (!i || i.bogon || i.noise || i.sample) return false;

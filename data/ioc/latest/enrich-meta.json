@@ -1,13 +1,13 @@
 {
   "asn_check": {
-    "agree": 0,
-    "differ": 0
+    "agree": 3225,
+    "differ": 46
   },
   "cache": {
     "abuseipdb": {
       "dir": "data/ioc/.cache/abuseipdb",
-      "records": 3,
-      "sha256": "e8b0b8d870ff4b4af7f80e843f4999043083c4ff2f5f4e04d3a6cf3e51608f86"
+      "records": 3610,
+      "sha256": "af093ff45ee03edb9cb0bdeae93bda4895e1541f61eeb941bb176b7d21814142"
     },
     "virustotal": {
       "dir": "data/ioc/.cache/vt",
@@ -17,15 +17,24 @@
         "ip_addresses": 1,
         "urls": 1
       },
-      "records": 219,
-      "sha256": "727fbd2b6f9052ed9fd1e480a95f29dbd879e2b82e4abd27f3ab2c861bc18f3d"
+      "records": 19889,
+      "sha256": "5f7fb4aa1878236d23c046e1793cbc05bd8f1c4959960653fb8576703db99a63"
+    },
+    "virustotal_rel": {
+      "by_rel": {
+        "contacted_ips": 1165,
+        "resolutions": 1489
+      },
+      "dir": "data/ioc/.cache/vt-rel",
+      "records": 2654,
+      "sha256": "18669e9074c0efc7d3e4209f282a0753fb644c9bd8b3c03d5eb4a40da5470885"
     }
   },
   "counts": {
     "abuseipdb": 3483,
-    "derived_aliases": 214,
+    "derived_aliases": 215,
     "derived_certs": 4800,
-    "derived_entities": 450,
+    "derived_entities": 448,
     "derived_iocs": 9066,
     "derived_links": 21784,
     "derived_verdicts": 166,
@@ -52,8 +61,8 @@
       "ratio": 1,
       "target": 3482
     },
-    "newest_fetch": "2026-08-24",
-    "oldest_fetch": "2026-08-24",
+    "newest_fetch": "2026-08-15",
+    "oldest_fetch": "2026-08-02",
     "virustotal": {
       "by_stage": {
         "1": {
