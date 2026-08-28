@@ -260,8 +260,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.026,
-      "shared": 3,
+      "ratio": 0.018,
+      "shared": 2,
       "source": "actor:APT28",
       "strength": 1,
       "target": "actor:APT33",
@@ -411,6 +411,18 @@
         "jarm"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.018,
+      "shared": 3,
+      "source": "actor:APT28",
+      "strength": 6,
+      "target": "actor:Bohrium",
+      "via": [
+        "asn",
+        "jarm"
+      ]
     },
     {
       "kind": "actor",
@@ -1237,8 +1249,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.018,
-      "shared": 2,
+      "ratio": 0.009,
+      "shared": 1,
       "source": "actor:APT29",
       "strength": 1,
       "target": "actor:APT33",
@@ -1383,12 +1395,13 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
-      "shared": 1,
+      "ratio": 0.012,
+      "shared": 2,
       "source": "actor:APT29",
-      "strength": 3,
+      "strength": 4,
       "target": "actor:Bohrium",
       "via": [
+        "jarm",
         "registered"
       ],
       "weak_only": true
@@ -2234,7 +2247,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.035,
+      "ratio": 0.036,
       "shared": 4,
       "source": "actor:APT33",
       "strength": 3,
@@ -2403,18 +2416,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
-      "shared": 1,
-      "source": "actor:APT33",
-      "strength": 1,
-      "target": "actor:Machete",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.167,
       "shared": 1,
       "source": "actor:APT33",
@@ -2475,7 +2476,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.026,
+      "ratio": 0.027,
       "shared": 3,
       "source": "actor:APT33",
       "strength": 1,
@@ -4799,6 +4800,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.006,
+      "shared": 1,
+      "source": "actor:Anonymous",
+      "strength": 1,
+      "target": "actor:Bohrium",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.013,
       "shared": 1,
       "source": "actor:Anonymous",
@@ -5600,8 +5613,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.025,
-      "shared": 2,
+      "ratio": 0.018,
+      "shared": 3,
       "source": "actor:BITTER",
       "strength": 4,
       "target": "actor:Bohrium",
@@ -6389,6 +6402,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.013,
+      "shared": 1,
+      "source": "actor:Bohrium",
+      "strength": 1,
+      "target": "actor:Callisto Group",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.019,
       "shared": 1,
       "source": "actor:Bohrium",
@@ -6401,19 +6426,32 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
-      "shared": 1,
+      "ratio": 0.012,
+      "shared": 2,
       "source": "actor:Bohrium",
-      "strength": 3,
+      "strength": 4,
       "target": "actor:Gamaredon",
       "via": [
+        "jarm",
         "registered"
       ],
       "weak_only": true
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
+      "ratio": 0.006,
+      "shared": 1,
+      "source": "actor:Bohrium",
+      "strength": 1,
+      "target": "actor:Gorgon Group",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.007,
       "shared": 1,
       "source": "actor:Bohrium",
       "strength": 3,
@@ -6425,7 +6463,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
+      "ratio": 0.009,
       "shared": 1,
       "source": "actor:Bohrium",
       "strength": 3,
@@ -6449,7 +6487,19 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
+      "ratio": 0.006,
+      "shared": 1,
+      "source": "actor:Bohrium",
+      "strength": 1,
+      "target": "actor:Konni",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.006,
       "shared": 1,
       "source": "actor:Bohrium",
       "strength": 3,
@@ -6464,10 +6514,59 @@
       "ratio": 0.013,
       "shared": 1,
       "source": "actor:Bohrium",
+      "strength": 1,
+      "target": "actor:Machete",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.009,
+      "shared": 1,
+      "source": "actor:Bohrium",
       "strength": 3,
-      "target": "actor:Myxa VPN",
+      "target": "actor:Mustang Panda",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.023,
+      "shared": 2,
+      "source": "actor:Bohrium",
+      "strength": 4,
+      "target": "actor:Myxa VPN",
+      "via": [
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.006,
+      "shared": 1,
+      "source": "actor:Bohrium",
+      "strength": 2,
+      "target": "actor:OceanLotus",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "actor:Bohrium",
+      "strength": 1,
+      "target": "actor:Qilin",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -6492,8 +6591,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
-      "shared": 1,
+      "ratio": 0.02,
+      "shared": 2,
       "source": "actor:Bohrium",
       "strength": 3,
       "target": "actor:SourTrade",
@@ -6540,12 +6639,13 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.025,
-      "shared": 2,
+      "ratio": 0.048,
+      "shared": 4,
       "source": "actor:Bohrium",
-      "strength": 3,
+      "strength": 4,
       "target": "actor:UNC6671",
       "via": [
+        "jarm",
         "registered"
       ],
       "weak_only": true
@@ -21313,6 +21413,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "malware:Amatera Stealer",
+      "strength": 3,
+      "target": "malware:TWOSTROKE",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.056,
       "shared": 1,
       "source": "malware:AnimateClipper",
@@ -32676,6 +32788,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "malware:PavinLoader",
+      "strength": 3,
+      "target": "malware:TWOSTROKE",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.25,
       "shared": 1,
       "source": "malware:PavinLoader",
@@ -33899,6 +34023,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.032,
+      "shared": 1,
+      "source": "malware:RustSL",
+      "strength": 2,
+      "target": "malware:ValleyRAT",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.5,
       "shared": 1,
       "source": "malware:SHEETCORD",
@@ -34439,6 +34575,18 @@
       "source": "malware:SopraVPN",
       "strength": 3,
       "target": "malware:TELEPUZ",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "malware:SopraVPN",
+      "strength": 3,
+      "target": "malware:TWOSTROKE",
       "via": [
         "registered"
       ],
@@ -34997,7 +35145,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-08-27T00:04:43.404Z",
+  "generated_from": "2026-08-28T14:38:08.924Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -35031,7 +35179,7 @@
     },
     {
       "id": "actor:APT33",
-      "ioc_count": 116,
+      "ioc_count": 114,
       "kind": "actor",
       "name": "APT33"
     },
@@ -35151,7 +35299,7 @@
     },
     {
       "id": "actor:Bohrium",
-      "ioc_count": 80,
+      "ioc_count": 168,
       "kind": "actor",
       "name": "Bohrium"
     },
@@ -36297,7 +36445,7 @@
     },
     {
       "id": "case:case:6469edd613ceb62dd8e14a75628a6b75fa443ef4311da2b45e805bc7d18afe25",
-      "ioc_count": 12,
+      "ioc_count": 15,
       "kind": "case",
       "name": "case:6469edd613ceb62dd8e14a75628a6b75fa443ef4311da2b45e805bc7d18afe25"
     },
@@ -38006,6 +38154,12 @@
       "name": "RomulusLoader"
     },
     {
+      "id": "malware:RustSL",
+      "ioc_count": 31,
+      "kind": "malware",
+      "name": "RustSL"
+    },
+    {
       "id": "malware:SHEETCORD",
       "ioc_count": 2,
       "kind": "malware",
@@ -38222,6 +38376,12 @@
       "name": "TWINLOOT"
     },
     {
+      "id": "malware:TWOSTROKE",
+      "ioc_count": 6,
+      "kind": "malware",
+      "name": "TWOSTROKE"
+    },
+    {
       "id": "malware:TencShell",
       "ioc_count": 20,
       "kind": "malware",
@@ -38325,7 +38485,7 @@
     },
     {
       "id": "malware:ValleyRAT",
-      "ioc_count": 263,
+      "ioc_count": 276,
       "kind": "malware",
       "name": "ValleyRAT"
     },

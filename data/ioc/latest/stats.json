@@ -136,6 +136,7 @@
           "APT37",
           "APT41",
           "Anonymous",
+          "Bohrium",
           "CL-STA-1062",
           "Candiru",
           "Confucius",
@@ -152,7 +153,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1477120,
+        "addresses": 1491456,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -179,7 +180,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4633856,
+        "addresses": 4630528,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -295,7 +296,7 @@
           "TeamPCP",
           "Void Balaur"
         ],
-        "addresses": 215495424,
+        "addresses": 217995520,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -312,7 +313,7 @@
           "Silver Fox",
           "UNC5174"
         ],
-        "addresses": 10760704,
+        "addresses": 10825216,
         "asn": 45102,
         "cc": "US",
         "name": "Alibaba (US) Technology Co., Ltd."
@@ -345,7 +346,7 @@
           "MuddyWater",
           "UNC5174"
         ],
-        "addresses": 1442304,
+        "addresses": 1442048,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -361,7 +362,7 @@
           "Qilin",
           "TAG-83"
         ],
-        "addresses": 535808,
+        "addresses": 536320,
         "asn": 29802,
         "cc": "US",
         "name": "HIVELOCITY, Inc."
@@ -392,7 +393,7 @@
           "The Gentlemen",
           "UNC7005"
         ],
-        "addresses": 37574400,
+        "addresses": 37563904,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
@@ -407,7 +408,7 @@
           "Contagious Interview",
           "DPRK IT Worker Schemes"
         ],
-        "addresses": 1050880,
+        "addresses": 1050112,
         "asn": 36352,
         "cc": "US",
         "name": "HostPapa"
@@ -421,7 +422,7 @@
           "UNC6671",
           "UTA0533"
         ],
-        "addresses": 116559616,
+        "addresses": 117263872,
         "asn": 7018,
         "cc": "US",
         "name": "AT&T Enterprises, LLC"
@@ -497,9 +498,9 @@
         "name": "GLOBAL CONNECTIVITY SOLUTIONS LLP"
       }
     ],
-    "multi_actor": 199,
-    "multi_actor_small": 4,
-    "small": 230,
+    "multi_actor": 200,
+    "multi_actor_small": 5,
+    "small": 232,
     "top": [
       {
         "actors": [
@@ -534,6 +535,19 @@
       },
       {
         "actors": [
+          "APT28",
+          "Bohrium"
+        ],
+        "addresses": 2560,
+        "asn": 201525,
+        "cc": "BG",
+        "ips": 2,
+        "malware": [],
+        "name": "HZ Hosting Ltd",
+        "shared_hosting": false
+      },
+      {
+        "actors": [
           "BITTER",
           "Transparent Tribe"
         ],
@@ -561,7 +575,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1272
+    "total": 1282
   },
   "coverage": {
     "abuseipdb": {
@@ -571,78 +585,78 @@
           "target": 924
         },
         "2": {
-          "done": 320,
-          "target": 320
+          "done": 324,
+          "target": 324
         },
         "5": {
-          "done": 2259,
-          "target": 2259
+          "done": 2295,
+          "target": 2295
         }
       },
-      "done": 3504,
+      "done": 3544,
       "ratio": 1,
-      "target": 3503
+      "target": 3543
     },
-    "newest_fetch": "2026-08-27",
-    "oldest_fetch": "2026-08-27",
+    "newest_fetch": "2026-08-28",
+    "oldest_fetch": "2026-08-28",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 5469,
-          "target": 5469
+          "done": 5475,
+          "target": 5475
         },
         "2": {
-          "done": 320,
-          "target": 320
+          "done": 324,
+          "target": 324
         },
         "3": {
-          "done": 4895,
-          "target": 4895
+          "done": 4908,
+          "target": 4908
         },
         "4": {
-          "done": 4740,
-          "target": 4740
+          "done": 4794,
+          "target": 4794
         },
         "5": {
-          "done": 4293,
-          "target": 4293
+          "done": 4329,
+          "target": 4329
         },
         "6": {
-          "done": 785,
-          "target": 785
+          "done": 809,
+          "target": 809
         }
       },
-      "done": 20503,
-      "known": 17508,
+      "done": 20640,
+      "known": 17644,
       "ratio": 1,
-      "target": 20502,
-      "unknown": 2995
+      "target": 20639,
+      "unknown": 2996
     }
   },
   "entities": {
     "actor": 255,
     "campaign": 19,
     "case": 474,
-    "malware": 427
+    "malware": 428
   },
   "from": {
-    "collected_at": "2026-08-27T00:04:43.404Z",
+    "collected_at": "2026-08-28T14:38:08.924Z",
     "week": "2026-W35"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 6781,
+      "ioc.domain": 6857,
       "ioc.email": 268,
       "ioc.endpoint": 196,
-      "ioc.ipv4": 3449,
+      "ioc.ipv4": 3489,
       "ioc.ipv6": 63,
-      "ioc.md5": 2442,
-      "ioc.sha1": 1467,
-      "ioc.sha256": 3334,
+      "ioc.md5": 2447,
+      "ioc.sha1": 1472,
+      "ioc.sha256": 3343,
       "ioc.sha512": 16,
-      "ioc.url": 2975
+      "ioc.url": 2977
     },
-    "dated": 7643,
+    "dated": 7770,
     "excluded": {
       "bogon": 3,
       "malformed": 0,
@@ -650,8 +664,8 @@
       "popular": 76,
       "sample_reported": 1
     },
-    "total": 20991,
-    "usable": 20906
+    "total": 21128,
+    "usable": 21043
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -673,14 +687,14 @@
   "overlaps": {
     "actor": {
       "by_via": {
-        "asn": 3,
+        "asn": 4,
         "certificate": 7,
-        "family": 140,
+        "family": 141,
         "filename": 37,
         "imphash": 23,
         "ioc": 45,
-        "jarm": 718,
-        "registered": 524,
+        "jarm": 728,
+        "registered": 525,
         "registrable": 29,
         "resolution": 1,
         "signer": 2,
@@ -688,7 +702,7 @@
         "vhash": 15
       },
       "identical_sets": 2,
-      "pairs": 1241,
+      "pairs": 1249,
       "top": [
         {
           "a": "APT37",
@@ -1245,7 +1259,7 @@
           ]
         }
       ],
-      "weak_only": 1167
+      "weak_only": 1174
     },
     "campaign": {
       "by_via": {
@@ -1787,12 +1801,12 @@
       "by_via": {
         "asn": 6,
         "certificate": 5,
-        "family": 121,
+        "family": 122,
         "filename": 29,
         "imphash": 27,
         "ioc": 54,
         "jarm": 500,
-        "registered": 785,
+        "registered": 788,
         "registrable": 42,
         "resolution": 1,
         "signer": 3,
@@ -1800,7 +1814,7 @@
         "vhash": 34
       },
       "identical_sets": 8,
-      "pairs": 1394,
+      "pairs": 1398,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2348,7 +2362,7 @@
           ]
         }
       ],
-      "weak_only": 1298
+      "weak_only": 1302
     }
   },
   "schema": 1,
@@ -2516,7 +2530,7 @@
         ],
         "asns": [
           {
-            "addresses": 37574400,
+            "addresses": 37563904,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2633,14 +2647,14 @@
         "subnet": "64.120.31.0/24"
       }
     ],
-    "total": 408
+    "total": 412
   },
   "targets": {
     "abuse": 5,
     "by_target": [
       {
         "abuse": 0,
-        "impersonation": 88,
+        "impersonation": 89,
         "rank": 643,
         "target": "live.com"
       },
@@ -2652,7 +2666,7 @@
       },
       {
         "abuse": 0,
-        "impersonation": 23,
+        "impersonation": 24,
         "rank": 30,
         "target": "google.com"
       },
@@ -2741,7 +2755,7 @@
         "target": "yandex.ru"
       }
     ],
-    "impersonation": 219
+    "impersonation": 221
   },
   "timeline": {
     "actors": {
@@ -3077,13 +3091,13 @@
       ],
       "with_dates": 13
     },
-    "dated": 7313,
+    "dated": 7333,
     "index_lag": {
       "ahead": 334,
-      "median_days": 40,
+      "median_days": 39,
       "p25_days": 2,
-      "p75_days": 112,
-      "pairs": 3062
+      "p75_days": 111,
+      "pairs": 3079
     }
   },
   "tool": "tools/ioc/stats.mjs",
@@ -3163,7 +3177,7 @@
         }
       ]
     },
-    "clean": 2495,
+    "clean": 2497,
     "disagreement": {
       "samples": [
         {
@@ -3302,9 +3316,9 @@
           ]
         }
       ],
-      "total": 283
+      "total": 284
     },
-    "malicious": 14763,
-    "unknown": 2995
+    "malicious": 14896,
+    "unknown": 2996
   }
 }

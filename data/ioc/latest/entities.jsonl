@@ -7,7 +7,7 @@
 {"aliases":["FROZENLAKE","Fancy Bear","Forest Blizzard","Grizzly Steppe","Group 74","GruesomeLarch","IRON TWILIGHT","Pawn Storm","SIG40","SNAKEMACKEREL","STRONTIUM","Sednit","Sofacy","Swallowtail","TG-4127","Threat Group-4127","Tsar Team"],"ioc_count":1164,"kind":"actor","name":"APT28","sources":["threatactor-intel-analysis"]}
 {"aliases":["Blue Kitsune","Cozer","Cozy Bear","CozyCar","CozyDuke","Cranefly /","Dark Halo","Dukes","EuroAPT","Fritillary","Group 100","Hammer Toss","ICE RELIC","IRON HEMLOCK","IRON RITUAL","Midnight Blizzard","Minidionis","NOBELIUM","NobleBaron","Office Monkeys","SeaDuke","SolarStorm","StellarParticle","TEMP.Monkeys","The Dukes","UNC2452","UNC3524","YTTRIUM"],"ioc_count":997,"kind":"actor","name":"APT29","sources":["threatactor-intel-analysis"]}
 {"ioc_count":15,"kind":"actor","name":"APT29 sub-cluster","sources":["tech-memo-daily-news"]}
-{"aliases":["APT35","COBALT GYPSY","COBALT ILLUSION","CURIUM","Charming Kitten","Cleaver","Crimson Sandstorm","Cutting Kitten","Elfin","Ghambar","HOLMIUM","ITG18","Imperial Kitten","MAGNALLIUM","Magic Hound","Mint Sandstorm","Newscaster","Peach Sandstorm","Phosphorus","Refined Kitten","TA453","TA456","TG-2889","Threat Group 2889","Timberworm","Tortoiseshell","Yellow Liderc"],"ioc_count":116,"kind":"actor","name":"APT33","sources":["threatactor-intel-analysis"]}
+{"aliases":["APT35","COBALT GYPSY","COBALT ILLUSION","CURIUM","Charming Kitten","Cleaver","Crimson Sandstorm","Cutting Kitten","Elfin","Ghambar","HOLMIUM","ITG18","Imperial Kitten","MAGNALLIUM","Magic Hound","Mint Sandstorm","Newscaster","Peach Sandstorm","Phosphorus","Refined Kitten","TA453","TA456","TG-2889","Threat Group 2889","Timberworm","Tortoiseshell","Yellow Liderc"],"ioc_count":114,"kind":"actor","name":"APT33","sources":["threatactor-intel-analysis"]}
 {"aliases":["COBALT GYPSY","Chrysene","Crambus","EUROPIUM","Earth Simnavaz","Evasive Serpens","Hazel Sandstorm","Helix Kitten","IRN2","ITG13","OilRig","TA452","Twisted Kitten"],"ioc_count":55,"kind":"actor","name":"APT34","sources":["threatactor-intel-analysis"]}
 {"aliases":["APT43","Black Banshee","CloudDragon","Emerald Sleet","G0067","G0094","Group123","InkySquid","Kimsuki","Kimsuky","Reaper","Red Eyes","Ricochet Chollima","ScarCruft","Sparkling Pisces","TA406 (Proofpoint)","TA427","TEMP.Reaper","THALLIUM","Velvet Chollima","Venus 121 \n(금성121)"],"ioc_count":1443,"kind":"actor","name":"APT37","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"aliases":["BeagleBoyz","BlueNoroff","COPERNICIUM","COPERNICIUM (Microsoft)","ElectricFish","G0082","Genie Spider","NICKEL GLADSTONE","SAPPHIRE SLEET","Stardust Chollima","TA444 (Proofpoint)","TEMP.Hermit"],"ioc_count":172,"kind":"actor","name":"APT38","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
@@ -32,7 +32,7 @@
 {"aliases":["G0098","Palmerworm","Phantom of Routers"],"ioc_count":4,"kind":"actor","name":"BlackTech","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"aliases":["APT-C-36","APT-Q-98","AguilaCiega","South America","TAG-144"],"ioc_count":102,"kind":"actor","name":"Blind Eagle","sources":["threatactor-intel-analysis"]}
 {"aliases":["Cloudy Omega","Emdivi"],"ioc_count":2,"kind":"actor","name":"Blue Termite","sources":["threatactor-intel-analysis"]}
-{"aliases":["Mirage Kitten","Nimbus Manticore","Smoke Sandstorm","UNC1549"],"ioc_count":80,"kind":"actor","name":"Bohrium","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
+{"aliases":["Mirage Kitten","Nimbus Manticore","Smoke Sandstorm","Tortoiseshell","UNC1549"],"ioc_count":168,"kind":"actor","name":"Bohrium","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":1,"kind":"actor","name":"Boson Spider","sources":["threatactor-intel-analysis"]}
 {"ioc_count":19,"kind":"actor","name":"BufferZoneCorp","sources":["tech-memo-daily-news"]}
 {"aliases":["Ratopak"],"ioc_count":3,"kind":"actor","name":"Buhtrap","sources":["threatactor-intel-analysis"]}
@@ -583,6 +583,9 @@
 {"ioc_count":28,"kind":"article","name":"article:20260826#0","sources":["tech-memo-daily-news"]}
 {"ioc_count":3,"kind":"article","name":"article:20260826#7","sources":["tech-memo-daily-news"]}
 {"ioc_count":29,"kind":"article","name":"article:20260826#8","sources":["tech-memo-daily-news"]}
+{"ioc_count":91,"kind":"article","name":"article:20260827#13","sources":["tech-memo-daily-news"]}
+{"ioc_count":22,"kind":"article","name":"article:20260827#4","sources":["tech-memo-daily-news"]}
+{"ioc_count":4,"kind":"article","name":"article:20260827#8","sources":["tech-memo-daily-news"]}
 {"ioc_count":33,"kind":"campaign","name":"2026年7月時点の初期侵害ベクター群: トレント配布、Signal、ClickFix、Android","sources":["threatactor-intel-analysis"]}
 {"ioc_count":15,"kind":"campaign","name":"APTグループHoneyMyteがCoolClientを強化：バックドアにWindowsカーネルレベルのルートキットを追加","sources":["threatactor-intel-analysis"]}
 {"ioc_count":2,"kind":"campaign","name":"Blue Termite","sources":["threatactor-intel-analysis"]}
@@ -787,7 +790,7 @@
 {"ioc_count":6,"kind":"case","name":"case:628e33326d90400f5921db3d3d07d0b10779961a5ca5660a5689e65c0c6ef6c3","sources":["ai-security-analysis"]}
 {"ioc_count":6,"kind":"case","name":"case:62c0947a8d1b8559d980307a432b26d713f221aed3eb3688c61128f98f1c5e4b","sources":["ai-security-analysis"]}
 {"ioc_count":4,"kind":"case","name":"case:635b3f87384694ca954602b2e3ccf7732056833e8276ab80d8f3545ad420d414","sources":["ai-security-analysis"]}
-{"ioc_count":12,"kind":"case","name":"case:6469edd613ceb62dd8e14a75628a6b75fa443ef4311da2b45e805bc7d18afe25","sources":["ai-security-analysis"]}
+{"ioc_count":15,"kind":"case","name":"case:6469edd613ceb62dd8e14a75628a6b75fa443ef4311da2b45e805bc7d18afe25","sources":["ai-security-analysis"]}
 {"ioc_count":6,"kind":"case","name":"case:64a385b2bfaef289318908ebf361dfeaac374897753abc7994c4e048120e688f","sources":["ai-security-analysis"]}
 {"ioc_count":6,"kind":"case","name":"case:64db0a4c220b04a3cd1ee1dd5f4298942c0876fdc16bc3046b68338e89a79dc6","sources":["ai-security-analysis"]}
 {"ioc_count":6,"kind":"case","name":"case:64e49a171913fdcbac24270f98be5aa7fae093c88b59f72b4d84f0aa7c1160b2","sources":["ai-security-analysis"]}
@@ -1087,6 +1090,7 @@
 {"ioc_count":6,"kind":"cve","name":"CVE-2026-16232","sources":["vuln-intel-agent"]}
 {"ioc_count":13,"kind":"cve","name":"CVE-2026-18556","sources":["vuln-intel-agent"]}
 {"ioc_count":13,"kind":"cve","name":"CVE-2026-18577","sources":["vuln-intel-agent"]}
+{"ioc_count":12,"kind":"cve","name":"CVE-2026-21962","sources":["vuln-intel-agent"]}
 {"ioc_count":10,"kind":"cve","name":"CVE-2026-35273","sources":["vuln-intel-agent"]}
 {"ioc_count":18,"kind":"cve","name":"CVE-2026-50751","sources":["vuln-intel-agent"]}
 {"ioc_count":1,"kind":"cve","name":"CVE-2026-59309","sources":["vuln-intel-agent"]}
@@ -1443,6 +1447,7 @@
 {"ioc_count":59,"kind":"malware","name":"TELEPUZ","sources":["tech-memo-daily-news"]}
 {"ioc_count":3,"kind":"malware","name":"TOUGHPROGRESS","sources":["threatactor-intel-analysis"]}
 {"ioc_count":15,"kind":"malware","name":"TWINLOOT","sources":["tech-memo-daily-news"]}
+{"ioc_count":6,"kind":"malware","name":"TWOSTROKE","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":1,"kind":"malware","name":"TaskWeaver","sources":["tech-memo-daily-news"]}
 {"ioc_count":20,"kind":"malware","name":"TencShell","sources":["tech-memo-daily-news"]}
 {"ioc_count":33,"kind":"malware","name":"The Gentlemen Ransomware","sources":["tech-memo-daily-news"]}
@@ -1465,7 +1470,7 @@
 {"ioc_count":8,"kind":"malware","name":"Unnamed Android family (Meta 2021)","sources":["threatactor-intel-analysis"]}
 {"ioc_count":56,"kind":"malware","name":"VBCloud","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":22,"kind":"malware","name":"VSHELL","sources":["tech-memo-daily-news"]}
-{"ioc_count":263,"kind":"malware","name":"ValleyRAT","sources":["ai-security-analysis","tech-memo-daily-news"]}
+{"ioc_count":276,"kind":"malware","name":"ValleyRAT","sources":["ai-security-analysis","tech-memo-daily-news"]}
 {"ioc_count":12,"kind":"malware","name":"VenomRAT","sources":["ai-security-analysis","tech-memo-daily-news"]}
 {"ioc_count":15,"kind":"malware","name":"Vidar","sources":["ai-security-analysis","tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":104,"kind":"malware","name":"Vidar Stealer","sources":["tech-memo-daily-news"]}
