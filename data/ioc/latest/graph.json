@@ -1024,7 +1024,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.025,
+      "ratio": 0.023,
       "shared": 2,
       "source": "actor:APT28",
       "strength": 1,
@@ -3369,7 +3369,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.025,
+      "ratio": 0.023,
       "shared": 2,
       "source": "actor:APT37",
       "strength": 1,
@@ -3999,7 +3999,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
+      "ratio": 0.011,
       "shared": 1,
       "source": "actor:APT38",
       "strength": 3,
@@ -7320,6 +7320,18 @@
       "via": [
         "vhash"
       ]
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.048,
+      "shared": 1,
+      "source": "actor:Cavern Manticore",
+      "strength": 3,
+      "target": "actor:TeamPCP",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
     },
     {
       "kind": "actor",
@@ -10963,7 +10975,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
+      "ratio": 0.011,
       "shared": 1,
       "source": "actor:GreyVibe",
       "strength": 3,
@@ -12564,13 +12576,14 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
-      "shared": 1,
+      "ratio": 0.023,
+      "shared": 2,
       "source": "actor:Lamberts",
-      "strength": 1,
+      "strength": 4,
       "target": "actor:TeamPCP",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -12893,7 +12906,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
+      "ratio": 0.011,
       "shared": 1,
       "source": "actor:Lazarus",
       "strength": 3,
@@ -13138,7 +13151,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
+      "ratio": 0.011,
       "shared": 1,
       "source": "actor:MuddyWater",
       "strength": 1,
@@ -13354,7 +13367,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
+      "ratio": 0.012,
       "shared": 1,
       "source": "actor:Myxa VPN",
       "strength": 1,
@@ -14134,7 +14147,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
+      "ratio": 0.011,
       "shared": 1,
       "source": "actor:Sandworm Team",
       "strength": 1,
@@ -14786,7 +14799,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
+      "ratio": 0.011,
       "shared": 1,
       "source": "actor:TeamPCP",
       "strength": 2,
@@ -14798,7 +14811,19 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
+      "ratio": 0.012,
+      "shared": 1,
+      "source": "actor:TeamPCP",
+      "strength": 3,
+      "target": "actor:UNC6671",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.011,
       "shared": 1,
       "source": "actor:TeamPCP",
       "strength": 1,
@@ -14810,7 +14835,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
+      "ratio": 0.011,
       "shared": 1,
       "source": "actor:TeamPCP",
       "strength": 1,
@@ -35145,7 +35170,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-08-28T14:38:08.924Z",
+  "generated_from": "2026-08-29T00:03:00.023Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -35887,7 +35912,7 @@
     },
     {
       "id": "actor:TeamPCP",
-      "ioc_count": 79,
+      "ioc_count": 88,
       "kind": "actor",
       "name": "TeamPCP"
     },
@@ -38485,7 +38510,7 @@
     },
     {
       "id": "malware:ValleyRAT",
-      "ioc_count": 276,
+      "ioc_count": 281,
       "kind": "malware",
       "name": "ValleyRAT"
     },
