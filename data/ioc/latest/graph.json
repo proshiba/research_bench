@@ -284,7 +284,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.023,
+      "ratio": 0.022,
       "shared": 27,
       "source": "actor:APT28",
       "strength": 11,
@@ -475,6 +475,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "actor:APT28",
+      "strength": 2,
+      "target": "actor:China-nexus actor",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.087,
       "shared": 2,
       "source": "actor:APT28",
@@ -611,7 +623,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.033,
+      "ratio": 0.032,
       "shared": 38,
       "source": "actor:APT28",
       "strength": 23,
@@ -952,7 +964,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:APT28",
       "strength": 1,
@@ -1861,7 +1873,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:APT29",
       "strength": 1,
@@ -2488,7 +2500,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:APT33",
       "strength": 1,
@@ -5918,7 +5930,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:BITTER",
       "strength": 1,
@@ -7192,7 +7204,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Candiru",
       "strength": 1,
@@ -9460,7 +9472,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Equation Group",
       "strength": 1,
@@ -10915,7 +10927,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:GreyVibe",
       "strength": 1,
@@ -12516,7 +12528,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Lamberts",
       "strength": 1,
@@ -13127,7 +13139,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:MuddyWater",
       "strength": 1,
@@ -14123,7 +14135,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:Sandworm Team",
       "strength": 1,
@@ -14291,7 +14303,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:ShinyHunters",
       "strength": 3,
@@ -14303,7 +14315,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:ShinyHunters",
       "strength": 1,
@@ -14327,7 +14339,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:ShinyHunters",
       "strength": 3,
@@ -14339,7 +14351,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "actor:ShinyHunters",
       "strength": 3,
@@ -28777,6 +28789,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:HOOKEDGE",
+      "strength": 2,
+      "target": "malware:QUICAgent",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.167,
       "shared": 1,
       "source": "malware:Hades",
@@ -35170,7 +35194,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-08-29T00:03:00.023Z",
+  "generated_from": "2026-08-30T00:04:13.490Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -35186,7 +35210,7 @@
     },
     {
       "id": "actor:APT28",
-      "ioc_count": 1164,
+      "ioc_count": 1220,
       "kind": "actor",
       "name": "APT28"
     },
@@ -35834,7 +35858,7 @@
     },
     {
       "id": "actor:ShinyHunters",
-      "ioc_count": 13,
+      "ioc_count": 14,
       "kind": "actor",
       "name": "ShinyHunters"
     },
@@ -37559,6 +37583,12 @@
       "ioc_count": 34,
       "kind": "malware",
       "name": "Gunra"
+    },
+    {
+      "id": "malware:HOOKEDGE",
+      "ioc_count": 56,
+      "kind": "malware",
+      "name": "HOOKEDGE"
     },
     {
       "id": "malware:Hades",
