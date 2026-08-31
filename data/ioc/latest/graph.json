@@ -9122,6 +9122,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "actor:DragonForce",
+      "strength": 1,
+      "target": "actor:terminalfix",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.03,
       "shared": 1,
       "source": "actor:DriveSurge",
@@ -15194,6 +15206,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "actor:UNC7005",
+      "strength": 3,
+      "target": "actor:terminalfix",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.125,
       "shared": 2,
       "source": "actor:UNK_DeadDrop",
@@ -19742,6 +19766,18 @@
       "shared": 1,
       "source": "malware:AMOS",
       "strength": 3,
+      "target": "malware:TerminalFix",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:AMOS",
+      "strength": 3,
       "target": "malware:TinyEgg",
       "via": [
         "registered"
@@ -20572,6 +20608,18 @@
       "target": "malware:TELEPUZ",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:AdaptixC2",
+      "strength": 1,
+      "target": "malware:TerminalFix",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -22565,6 +22613,18 @@
       "via": [
         "asn"
       ]
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:Backdoor.Turn",
+      "strength": 1,
+      "target": "malware:TerminalFix",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
     },
     {
       "kind": "malware",
@@ -26374,6 +26434,18 @@
       "via": [
         "asn"
       ]
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:DragonForce ransomware",
+      "strength": 1,
+      "target": "malware:TerminalFix",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
     },
     {
       "kind": "malware",
@@ -33271,6 +33343,18 @@
       "kind": "malware",
       "ratio": 0.25,
       "shared": 1,
+      "source": "malware:PlugX",
+      "strength": 1,
+      "target": "malware:TerminalFix",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
       "source": "malware:Popa",
       "strength": 1,
       "target": "malware:RevSocks",
@@ -35194,7 +35278,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-08-30T00:04:13.490Z",
+  "generated_from": "2026-08-31T00:25:30.638Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -36137,6 +36221,12 @@
       "ioc_count": 24,
       "kind": "actor",
       "name": "shinyenigma"
+    },
+    {
+      "id": "actor:terminalfix",
+      "ioc_count": 15,
+      "kind": "actor",
+      "name": "terminalfix"
     },
     {
       "id": "actor:unknown Chinese-speaking APT",
@@ -38443,6 +38533,12 @@
       "name": "TencShell"
     },
     {
+      "id": "malware:TerminalFix",
+      "ioc_count": 15,
+      "kind": "malware",
+      "name": "TerminalFix"
+    },
+    {
       "id": "malware:The Gentlemen Ransomware",
       "ioc_count": 33,
       "kind": "malware",
@@ -38720,5 +38816,5 @@
     }
   ],
   "schema": 1,
-  "week": "2026-W35"
+  "week": "2026-W36"
 }
