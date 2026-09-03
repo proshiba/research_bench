@@ -284,8 +284,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.022,
-      "shared": 27,
+      "ratio": 0.023,
+      "shared": 28,
       "source": "actor:APT28",
       "strength": 11,
       "target": "actor:APT37",
@@ -677,12 +677,13 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.007,
-      "shared": 1,
+      "ratio": 0.014,
+      "shared": 2,
       "source": "actor:APT28",
-      "strength": 1,
+      "strength": 3,
       "target": "actor:GreyVibe",
       "via": [
+        "family",
         "jarm"
       ],
       "weak_only": true
@@ -762,12 +763,13 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.019,
-      "shared": 1,
+      "ratio": 0.038,
+      "shared": 2,
       "source": "actor:APT28",
-      "strength": 1,
+      "strength": 3,
       "target": "actor:Jewelbug",
       "via": [
+        "family",
         "jarm"
       ],
       "weak_only": true
@@ -787,12 +789,13 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.048,
-      "shared": 8,
+      "ratio": 0.055,
+      "shared": 9,
       "source": "actor:APT28",
-      "strength": 4,
+      "strength": 6,
       "target": "actor:Konni",
       "via": [
+        "family",
         "jarm",
         "registered"
       ],
@@ -23524,6 +23527,18 @@
       "shared": 1,
       "source": "malware:BraZetsu",
       "strength": 2,
+      "target": "malware:ValleyRAT",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.04,
+      "shared": 1,
+      "source": "malware:BraZetsu",
+      "strength": 2,
       "target": "malware:Vidar Stealer",
       "via": [
         "family"
@@ -29505,6 +29520,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:HOOKEDGE",
+      "strength": 2,
+      "target": "malware:PhantomMail",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.063,
       "shared": 1,
       "source": "malware:HOOKEDGE",
@@ -32701,8 +32728,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 1.5,
-      "shared": 24,
+      "ratio": 1.563,
+      "shared": 25,
       "source": "malware:NodeRabbit",
       "strength": 14,
       "target": "malware:PollCat",
@@ -35823,6 +35850,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.019,
+      "shared": 2,
+      "source": "malware:ValleyRAT",
+      "strength": 1,
+      "target": "malware:Vidar Stealer",
+      "via": [
+        "filename"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.071,
       "shared": 1,
       "source": "malware:ValleyRAT",
@@ -35835,12 +35874,13 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.009,
-      "shared": 1,
+      "ratio": 0.028,
+      "shared": 3,
       "source": "malware:ValleyRAT",
-      "strength": 3,
+      "strength": 4,
       "target": "malware:XMRig",
       "via": [
+        "filename",
         "registered"
       ],
       "weak_only": true
@@ -36023,7 +36063,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-09-02T00:04:44.663Z",
+  "generated_from": "2026-09-03T00:37:28.815Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
