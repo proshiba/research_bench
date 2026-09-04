@@ -38,23 +38,11 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.071,
-      "shared": 1,
-      "source": "actor:APT-C-27",
-      "strength": 3,
-      "target": "actor:Contagious Interview",
-      "via": [
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.143,
       "shared": 2,
       "source": "actor:APT-C-27",
       "strength": 4,
-      "target": "actor:DPRK IT Worker Schemes",
+      "target": "actor:Contagious Interview",
       "via": [
         "jarm",
         "registered"
@@ -523,8 +511,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.057,
-      "shared": 3,
+      "ratio": 0.025,
+      "shared": 5,
       "source": "actor:APT28",
       "strength": 4,
       "target": "actor:Contagious Interview",
@@ -546,18 +534,6 @@
         "jarm",
         "registered"
       ]
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.019,
-      "shared": 3,
-      "source": "actor:APT28",
-      "strength": 1,
-      "target": "actor:DPRK IT Worker Schemes",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
     },
     {
       "kind": "actor",
@@ -648,6 +624,19 @@
         "registered",
         "resolution"
       ]
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.024,
+      "shared": 3,
+      "source": "actor:APT28",
+      "strength": 4,
+      "target": "actor:Gambling Goblin",
+      "via": [
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
     },
     {
       "kind": "actor",
@@ -1494,6 +1483,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.01,
+      "shared": 2,
+      "source": "actor:APT29",
+      "strength": 1,
+      "target": "actor:Contagious Interview",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.022,
       "shared": 5,
       "source": "actor:APT29",
@@ -1502,18 +1503,6 @@
       "via": [
         "jarm",
         "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.013,
-      "shared": 2,
-      "source": "actor:APT29",
-      "strength": 1,
-      "target": "actor:DPRK IT Worker Schemes",
-      "via": [
-        "jarm"
       ],
       "weak_only": true
     },
@@ -1590,6 +1579,18 @@
         "filename",
         "jarm",
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.008,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 1,
+      "target": "actor:Gambling Goblin",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -2906,8 +2907,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.038,
-      "shared": 2,
+      "ratio": 0.02,
+      "shared": 4,
       "source": "actor:APT37",
       "strength": 1,
       "target": "actor:Contagious Interview",
@@ -2926,18 +2927,6 @@
       "via": [
         "jarm",
         "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.019,
-      "shared": 3,
-      "source": "actor:APT37",
-      "strength": 1,
-      "target": "actor:DPRK IT Worker Schemes",
-      "via": [
-        "jarm"
       ],
       "weak_only": true
     },
@@ -3037,6 +3026,18 @@
       "via": [
         "jarm",
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.016,
+      "shared": 2,
+      "source": "actor:APT37",
+      "strength": 1,
+      "target": "actor:Gambling Goblin",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -3662,12 +3663,13 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.075,
-      "shared": 4,
+      "ratio": 0.029,
+      "shared": 5,
       "source": "actor:APT38",
-      "strength": 3,
+      "strength": 5,
       "target": "actor:Contagious Interview",
       "via": [
+        "family",
         "registered"
       ],
       "weak_only": true
@@ -3681,18 +3683,6 @@
       "target": "actor:Cytrox",
       "via": [
         "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.006,
-      "shared": 1,
-      "source": "actor:APT38",
-      "strength": 2,
-      "target": "actor:DPRK IT Worker Schemes",
-      "via": [
-        "family"
       ],
       "weak_only": true
     },
@@ -4662,6 +4652,18 @@
       "shared": 1,
       "source": "actor:AnonyMousTeam",
       "strength": 3,
+      "target": "actor:Gambling Goblin",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.036,
+      "shared": 1,
+      "source": "actor:AnonyMousTeam",
+      "strength": 3,
       "target": "actor:GreyVibe",
       "via": [
         "registered"
@@ -4936,6 +4938,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.01,
+      "shared": 2,
+      "source": "actor:Anonymous",
+      "strength": 1,
+      "target": "actor:Contagious Interview",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.013,
       "shared": 3,
       "source": "actor:Anonymous",
@@ -4944,18 +4958,6 @@
       "via": [
         "jarm",
         "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.013,
-      "shared": 2,
-      "source": "actor:Anonymous",
-      "strength": 1,
-      "target": "actor:DPRK IT Worker Schemes",
-      "via": [
-        "jarm"
       ],
       "weak_only": true
     },
@@ -4992,6 +4994,18 @@
       "target": "actor:Gamaredon",
       "via": [
         "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.008,
+      "shared": 1,
+      "source": "actor:Anonymous",
+      "strength": 3,
+      "target": "actor:Gambling Goblin",
+      "via": [
         "registered"
       ],
       "weak_only": true
@@ -6489,7 +6503,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.019,
+      "ratio": 0.005,
       "shared": 1,
       "source": "actor:Bohrium",
       "strength": 3,
@@ -6521,6 +6535,18 @@
       "via": [
         "jarm",
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.008,
+      "shared": 1,
+      "source": "actor:Bohrium",
+      "strength": 1,
+      "target": "actor:Gambling Goblin",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -6983,10 +7009,10 @@
       "ratio": 0.013,
       "shared": 1,
       "source": "actor:Callisto Group",
-      "strength": 3,
-      "target": "actor:Cytrox",
+      "strength": 1,
+      "target": "actor:Contagious Interview",
       "via": [
-        "registered"
+        "jarm"
       ],
       "weak_only": true
     },
@@ -6995,10 +7021,10 @@
       "ratio": 0.013,
       "shared": 1,
       "source": "actor:Callisto Group",
-      "strength": 1,
-      "target": "actor:DPRK IT Worker Schemes",
+      "strength": 3,
+      "target": "actor:Cytrox",
       "via": [
-        "jarm"
+        "registered"
       ],
       "weak_only": true
     },
@@ -7023,6 +7049,19 @@
       "target": "actor:Gamaredon",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.026,
+      "shared": 2,
+      "source": "actor:Callisto Group",
+      "strength": 4,
+      "target": "actor:Gambling Goblin",
+      "via": [
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -7071,6 +7110,18 @@
       "target": "actor:Lamberts",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "actor:Callisto Group",
+      "strength": 3,
+      "target": "actor:Lurking Lizard",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -7440,6 +7491,18 @@
       "shared": 1,
       "source": "actor:Cavern Manticore",
       "strength": 3,
+      "target": "actor:Gambling Goblin",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.048,
+      "shared": 1,
+      "source": "actor:Cavern Manticore",
+      "strength": 3,
       "target": "actor:Lamberts",
       "via": [
         "registered"
@@ -7507,7 +7570,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.019,
+      "ratio": 0.008,
       "shared": 1,
       "source": "actor:Cellebrite",
       "strength": 1,
@@ -7531,18 +7594,6 @@
         "registered",
         "registrable"
       ]
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.008,
-      "shared": 1,
-      "source": "actor:Cellebrite",
-      "strength": 1,
-      "target": "actor:DPRK IT Worker Schemes",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
     },
     {
       "kind": "actor",
@@ -7796,8 +7847,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 1.609,
-      "shared": 37,
+      "ratio": 1.652,
+      "shared": 38,
       "source": "actor:Cinnamon Tempest",
       "strength": 24,
       "target": "actor:Mustang Panda",
@@ -7852,7 +7903,19 @@
       "shared": 1,
       "source": "actor:Clop",
       "strength": 1,
-      "target": "actor:DPRK IT Worker Schemes",
+      "target": "actor:Contagious Interview",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.071,
+      "shared": 1,
+      "source": "actor:Clop",
+      "strength": 1,
+      "target": "actor:Gambling Goblin",
       "via": [
         "jarm"
       ],
@@ -8056,6 +8119,18 @@
       "ratio": 0.01,
       "shared": 1,
       "source": "actor:Confucius",
+      "strength": 1,
+      "target": "actor:Gambling Goblin",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.01,
+      "shared": 1,
+      "source": "actor:Confucius",
       "strength": 4,
       "target": "actor:Gorgon Group",
       "via": [
@@ -8184,20 +8259,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.302,
-      "shared": 16,
-      "source": "actor:Contagious Interview",
-      "strength": 17,
-      "target": "actor:DPRK IT Worker Schemes",
-      "via": [
-        "ioc",
-        "jarm",
-        "registered",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "actor",
       "ratio": 0.061,
       "shared": 2,
       "source": "actor:Contagious Interview",
@@ -8210,8 +8271,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.019,
-      "shared": 1,
+      "ratio": 0.01,
+      "shared": 2,
       "source": "actor:Contagious Interview",
       "strength": 1,
       "target": "actor:Equation Group",
@@ -8222,8 +8283,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.075,
-      "shared": 4,
+      "ratio": 0.03,
+      "shared": 6,
       "source": "actor:Contagious Interview",
       "strength": 4,
       "target": "actor:Gamaredon",
@@ -8235,7 +8296,31 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.057,
+      "ratio": 0.008,
+      "shared": 1,
+      "source": "actor:Contagious Interview",
+      "strength": 1,
+      "target": "actor:Gambling Goblin",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.007,
+      "shared": 1,
+      "source": "actor:Contagious Interview",
+      "strength": 3,
+      "target": "actor:Ghostwriter",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.021,
       "shared": 3,
       "source": "actor:Contagious Interview",
       "strength": 3,
@@ -8248,6 +8333,30 @@
     {
       "kind": "actor",
       "ratio": 0.038,
+      "shared": 1,
+      "source": "actor:Contagious Interview",
+      "strength": 1,
+      "target": "actor:Gunra",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.007,
+      "shared": 1,
+      "source": "actor:Contagious Interview",
+      "strength": 1,
+      "target": "actor:Intellexa",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.022,
       "shared": 2,
       "source": "actor:Contagious Interview",
       "strength": 3,
@@ -8259,7 +8368,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.057,
+      "ratio": 0.05,
       "shared": 3,
       "source": "actor:Contagious Interview",
       "strength": 3,
@@ -8271,7 +8380,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.038,
+      "ratio": 0.01,
       "shared": 2,
       "source": "actor:Contagious Interview",
       "strength": 4,
@@ -8284,12 +8393,14 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.019,
-      "shared": 1,
+      "ratio": 0.02,
+      "shared": 4,
       "source": "actor:Contagious Interview",
-      "strength": 3,
+      "strength": 6,
       "target": "actor:Lazarus",
       "via": [
+        "family",
+        "jarm",
         "registered"
       ],
       "weak_only": true
@@ -8308,8 +8419,20 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.038,
-      "shared": 2,
+      "ratio": 0.005,
+      "shared": 1,
+      "source": "actor:Contagious Interview",
+      "strength": 1,
+      "target": "actor:MuddyWater",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.047,
+      "shared": 4,
       "source": "actor:Contagious Interview",
       "strength": 4,
       "target": "actor:Myxa VPN",
@@ -8345,7 +8468,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.019,
+      "ratio": 0.005,
       "shared": 1,
       "source": "actor:Contagious Interview",
       "strength": 1,
@@ -8369,7 +8492,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.057,
+      "ratio": 0.03,
       "shared": 3,
       "source": "actor:Contagious Interview",
       "strength": 3,
@@ -8381,7 +8504,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.019,
+      "ratio": 0.011,
       "shared": 1,
       "source": "actor:Contagious Interview",
       "strength": 1,
@@ -8393,8 +8516,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.019,
-      "shared": 1,
+      "ratio": 0.01,
+      "shared": 2,
       "source": "actor:Contagious Interview",
       "strength": 1,
       "target": "actor:Transparent Tribe",
@@ -8419,18 +8542,19 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.125,
-      "shared": 4,
+      "ratio": 0.219,
+      "shared": 7,
       "source": "actor:Contagious Interview",
-      "strength": 8,
+      "strength": 11,
       "target": "actor:UNC5342",
       "via": [
-        "ioc"
+        "ioc",
+        "registered"
       ]
     },
     {
       "kind": "actor",
-      "ratio": 0.019,
+      "ratio": 0.012,
       "shared": 1,
       "source": "actor:Contagious Interview",
       "strength": 3,
@@ -8454,8 +8578,20 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.042,
+      "ratio": 0.012,
       "shared": 1,
+      "source": "actor:Contagious Interview",
+      "strength": 1,
+      "target": "actor:UNK_DeadDrop",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.083,
+      "shared": 2,
       "source": "actor:Contagious Interview",
       "strength": 1,
       "target": "actor:shinyenigma",
@@ -8847,190 +8983,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
-      "shared": 2,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 1,
-      "target": "actor:Equation Group",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.025,
-      "shared": 4,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 4,
-      "target": "actor:Gamaredon",
-      "via": [
-        "jarm",
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.007,
-      "shared": 1,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 3,
-      "target": "actor:Ghostwriter",
-      "via": [
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.038,
-      "shared": 1,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 1,
-      "target": "actor:Gunra",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.007,
-      "shared": 1,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 1,
-      "target": "actor:Intellexa",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.006,
-      "shared": 1,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 1,
-      "target": "actor:Lamberts",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.025,
-      "shared": 4,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 6,
-      "target": "actor:Lazarus",
-      "via": [
-        "family",
-        "jarm",
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.024,
-      "shared": 1,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 1,
-      "target": "actor:MoYu Group",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.006,
-      "shared": 1,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 1,
-      "target": "actor:MuddyWater",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.023,
-      "shared": 2,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 4,
-      "target": "actor:Myxa VPN",
-      "via": [
-        "jarm",
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.006,
-      "shared": 1,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 1,
-      "target": "actor:Sandworm Team",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.006,
-      "shared": 1,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 1,
-      "target": "actor:Transparent Tribe",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.094,
-      "shared": 3,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 11,
-      "target": "actor:UNC5342",
-      "via": [
-        "ioc",
-        "registered"
-      ]
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.012,
-      "shared": 1,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 1,
-      "target": "actor:UNK_DeadDrop",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.042,
-      "shared": 1,
-      "source": "actor:DPRK IT Worker Schemes",
-      "strength": 1,
-      "target": "actor:shinyenigma",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.01,
       "shared": 1,
       "source": "actor:Darkhotel",
@@ -9277,6 +9229,19 @@
       "target": "actor:Gamaredon",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.061,
+      "shared": 2,
+      "source": "actor:DriveSurge",
+      "strength": 5,
+      "target": "actor:Gambling Goblin",
+      "via": [
+        "family",
+        "registered"
       ],
       "weak_only": true
     },
@@ -9904,6 +9869,34 @@
       "target": "actor:Lazarus",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.667,
+      "shared": 18,
+      "source": "actor:GOLD SHERWOOD",
+      "strength": 28,
+      "target": "actor:Gentlemen RaaS",
+      "via": [
+        "family",
+        "filename",
+        "imphash",
+        "ioc",
+        "signer",
+        "vhash"
+      ]
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.016,
+      "shared": 2,
+      "source": "actor:Gamaredon",
+      "strength": 1,
+      "target": "actor:Gambling Goblin",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -10580,6 +10573,295 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.008,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 3,
+      "target": "actor:GreyVibe",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.017,
+      "shared": 2,
+      "source": "actor:Gambling Goblin",
+      "strength": 1,
+      "target": "actor:Inception",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 1,
+      "target": "actor:JADEPUFFER",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.011,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 2,
+      "target": "actor:JINX-0164",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.017,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 3,
+      "target": "actor:KongTuke",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.008,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 1,
+      "target": "actor:Konni",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.008,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 3,
+      "target": "actor:Lamberts",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.008,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 1,
+      "target": "actor:Lazarus",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 3,
+      "target": "actor:Lurking Lizard",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.023,
+      "shared": 2,
+      "source": "actor:Gambling Goblin",
+      "strength": 1,
+      "target": "actor:Myxa VPN",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 1,
+      "target": "actor:Qilin",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.077,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 3,
+      "target": "actor:REF3076",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.04,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 1,
+      "target": "actor:SQLRCE0",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.071,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 1,
+      "target": "actor:ShinyHunters",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.008,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 1,
+      "target": "actor:Silver Fox",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.01,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 3,
+      "target": "actor:SourTrade",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.023,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 1,
+      "target": "actor:TA4922",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.011,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 3,
+      "target": "actor:TeamPCP",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.017,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 3,
+      "target": "actor:UAT-10147",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.022,
+      "shared": 2,
+      "source": "actor:Gambling Goblin",
+      "strength": 2,
+      "target": "actor:UAT-7810",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.02,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 1,
+      "target": "actor:UNC5174",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.024,
+      "shared": 2,
+      "source": "actor:Gambling Goblin",
+      "strength": 4,
+      "target": "actor:UNC6671",
+      "via": [
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.012,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 3,
+      "target": "actor:UNK_DeadDrop",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.04,
+      "shared": 1,
+      "source": "actor:Gambling Goblin",
+      "strength": 1,
+      "target": "actor:Yx Technology",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.143,
       "shared": 1,
       "source": "actor:Ghostwriter",
@@ -11229,8 +11511,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.023,
-      "shared": 1,
+      "ratio": 0.047,
+      "shared": 2,
       "source": "actor:GreyVibe",
       "strength": 3,
       "target": "actor:TA4922",
@@ -15545,6 +15827,18 @@
     },
     {
       "kind": "campaign",
+      "ratio": 0.03,
+      "shared": 1,
+      "source": "campaign:2026年7月時点の初期侵害ベクター群: トレント配布、Signal、ClickFix、Android",
+      "strength": 3,
+      "target": "campaign:Mirage Kitten、新たなマルウェア群で中東・アフリカの航空・FinTech分野を標的化",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "campaign",
       "ratio": 0.067,
       "shared": 1,
       "source": "campaign:APTグループHoneyMyteがCoolClientを強化：バックドアにWindowsカーネルレベルのルートキットを追加",
@@ -15588,6 +15882,19 @@
       "target": "campaign:TOUGHPROGRESS Government Targeting Campaign",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "campaign",
+      "ratio": 0.063,
+      "shared": 2,
+      "source": "campaign:Mirage Kitten、新たなマルウェア群で中東・アフリカの航空・FinTech分野を標的化",
+      "strength": 4,
+      "target": "campaign:Mirage Kittenによる中東・アフリカの航空宇宙、防衛、通信分野へのサイバースパイ活動",
+      "via": [
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -18058,6 +18365,18 @@
     },
     {
       "kind": "case",
+      "ratio": 1,
+      "shared": 1,
+      "source": "case:case:9394627e9c44cf2226ddf50012e5cf47ccf7d3bd8afa2395c635a93637e23502",
+      "strength": 1,
+      "target": "case:case:9b990729e29eb355bd0d5004b73b0ec8e9a659c5577c1c633604424b0290ab12",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "case",
       "ratio": 0.5,
       "shared": 1,
       "source": "case:case:93df03d7db7df23317ee87ebe3946ddff4364e45de5217b0c90c7925b22c8f04",
@@ -18170,6 +18489,30 @@
     },
     {
       "kind": "case",
+      "ratio": 1,
+      "shared": 1,
+      "source": "case:case:9b990729e29eb355bd0d5004b73b0ec8e9a659c5577c1c633604424b0290ab12",
+      "strength": 1,
+      "target": "case:case:add013bf7ffc8a89789a7fd0ae0ff799c620af9b2755b214880b6a56768fd48c",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "case",
+      "ratio": 1,
+      "shared": 1,
+      "source": "case:case:9b990729e29eb355bd0d5004b73b0ec8e9a659c5577c1c633604424b0290ab12",
+      "strength": 1,
+      "target": "case:case:c86f319f64d25f23ac29d9b53c9764f06a150634ee8e2d836424d460e5a99b52",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "case",
       "ratio": 0.167,
       "shared": 1,
       "source": "case:case:9d930798d115b6862313e3616d3ed02a7a5c4c673390fe5fed4d85472cf906f5",
@@ -18233,6 +18576,18 @@
       "source": "case:case:a01716c2c7ea5cb234ee8b5b3b831b63274fbee0b76d8ee5d86a788c6caa26e7",
       "strength": 1,
       "target": "case:case:f14655228657a022190bb4c10effad9e92f2c5b77e14f56ee2b747129dfd047d",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "case",
+      "ratio": 1,
+      "shared": 1,
+      "source": "case:case:a107ca6f200ff774013557aec838a976d9425b1faabd65d8289e2ab71f648c3c",
+      "strength": 1,
+      "target": "case:case:e5f2c7068ade7b87d24c3b94bc749c351d53609f5fcaa48dce06234beaa2444f",
       "via": [
         "jarm"
       ],
@@ -19401,6 +19756,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:AMOS",
+      "strength": 3,
+      "target": "malware:CoolClient",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.127,
       "shared": 10,
       "source": "malware:AMOS",
@@ -19585,8 +19952,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.071,
-      "shared": 319,
+      "ratio": 2.078,
+      "shared": 320,
       "source": "malware:AMOS",
       "strength": 20,
       "target": "malware:Macsync",
@@ -19952,8 +20319,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.231,
-      "shared": 319,
+      "ratio": 2.238,
+      "shared": 320,
       "source": "malware:AMOS",
       "strength": 20,
       "target": "malware:Shub Stealer",
@@ -22731,6 +23098,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.056,
+      "shared": 1,
+      "source": "malware:BTMOB",
+      "strength": 1,
+      "target": "malware:ScreenConnect RMM",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.03,
       "shared": 1,
       "source": "malware:BTMOB",
@@ -25238,6 +25617,18 @@
       "ratio": 0.067,
       "shared": 1,
       "source": "malware:CoolClient",
+      "strength": 3,
+      "target": "malware:Macsync",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:CoolClient",
       "strength": 1,
       "target": "malware:Sednit",
       "via": [
@@ -25252,6 +25643,18 @@
       "source": "malware:CoolClient",
       "strength": 3,
       "target": "malware:Showboat",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:CoolClient",
+      "strength": 3,
+      "target": "malware:Shub Stealer",
       "via": [
         "registered"
       ],
@@ -28246,18 +28649,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.5,
-      "shared": 2,
-      "source": "malware:Evooo1Bot",
-      "strength": 10,
-      "target": "malware:mirai",
-      "via": [
-        "asn",
-        "subnet"
-      ]
-    },
-    {
-      "kind": "malware",
       "ratio": 0.25,
       "shared": 1,
       "source": "malware:Evooo1Bot",
@@ -29182,6 +29573,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.059,
+      "shared": 1,
+      "source": "malware:GentleKiller",
+      "strength": 2,
+      "target": "malware:The Gentlemen",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.5,
       "shared": 1,
       "source": "malware:GentleKiller",
@@ -29447,6 +29850,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.056,
+      "shared": 1,
+      "source": "malware:Gunra",
+      "strength": 1,
+      "target": "malware:ScreenConnect RMM",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.067,
       "shared": 1,
       "source": "malware:Gunra",
@@ -29673,6 +30088,22 @@
         "registered"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 4,
+      "shared": 8,
+      "source": "malware:HavocKiller",
+      "strength": 28,
+      "target": "malware:The Gentlemen",
+      "via": [
+        "family",
+        "filename",
+        "imphash",
+        "ioc",
+        "signer",
+        "vhash"
+      ]
     },
     {
       "kind": "malware",
@@ -31338,8 +31769,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.231,
-      "shared": 319,
+      "ratio": 2.238,
+      "shared": 320,
       "source": "malware:Macsync",
       "strength": 20,
       "target": "malware:Shub Stealer",
@@ -33945,6 +34376,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.5,
+      "shared": 1,
+      "source": "malware:PhantomRelay",
+      "strength": 3,
+      "target": "malware:WinOS 4.0",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.045,
       "shared": 1,
       "source": "malware:PhantomRelayLite",
@@ -34110,6 +34553,20 @@
         "jarm"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 1.429,
+      "shared": 10,
+      "source": "malware:PoisonX",
+      "strength": 19,
+      "target": "malware:The Gentlemen",
+      "via": [
+        "filename",
+        "imphash",
+        "ioc",
+        "vhash"
+      ]
     },
     {
       "kind": "malware",
@@ -35058,6 +35515,30 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.083,
+      "shared": 1,
+      "source": "malware:ScreenConnect RMM",
+      "strength": 1,
+      "target": "malware:Sliver",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 1,
+      "shared": 2,
+      "source": "malware:ScreenConnect RMM",
+      "strength": 1,
+      "target": "malware:SpyGlace",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.05,
       "shared": 1,
       "source": "malware:SectopRAT",
@@ -35740,6 +36221,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.5,
+      "shared": 1,
+      "source": "malware:The Gentlemen",
+      "strength": 2,
+      "target": "malware:ThrottleBlood",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.03,
       "shared": 1,
       "source": "malware:The Gentlemen Ransomware",
@@ -35850,18 +36343,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.019,
-      "shared": 2,
-      "source": "malware:ValleyRAT",
-      "strength": 1,
-      "target": "malware:Vidar Stealer",
-      "via": [
-        "filename"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.071,
       "shared": 1,
       "source": "malware:ValleyRAT",
@@ -35874,13 +36355,12 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.028,
-      "shared": 3,
+      "ratio": 0.009,
+      "shared": 1,
       "source": "malware:ValleyRAT",
-      "strength": 4,
+      "strength": 3,
       "target": "malware:XMRig",
       "via": [
-        "filename",
         "registered"
       ],
       "weak_only": true
@@ -35972,8 +36452,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 3.154,
-      "shared": 328,
+      "ratio": 3.144,
+      "shared": 327,
       "source": "malware:Vidar Stealer",
       "strength": 22,
       "target": "malware:XMRig",
@@ -36063,7 +36543,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-09-03T00:37:28.815Z",
+  "generated_from": "2026-09-04T00:04:44.607Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -36301,7 +36781,7 @@
     },
     {
       "id": "actor:Contagious Interview",
-      "ioc_count": 53,
+      "ioc_count": 206,
       "kind": "actor",
       "name": "Contagious Interview"
     },
@@ -36328,12 +36808,6 @@
       "ioc_count": 3,
       "kind": "actor",
       "name": "DEV-0861"
-    },
-    {
-      "id": "actor:DPRK IT Worker Schemes",
-      "ioc_count": 162,
-      "kind": "actor",
-      "name": "DPRK IT Worker Schemes"
     },
     {
       "id": "actor:Darkhotel",
@@ -36402,10 +36876,22 @@
       "name": "FrostyNeighbor"
     },
     {
+      "id": "actor:GOLD SHERWOOD",
+      "ioc_count": 36,
+      "kind": "actor",
+      "name": "GOLD SHERWOOD"
+    },
+    {
       "id": "actor:Gamaredon",
       "ioc_count": 1590,
       "kind": "actor",
       "name": "Gamaredon"
+    },
+    {
+      "id": "actor:Gambling Goblin",
+      "ioc_count": 124,
+      "kind": "actor",
+      "name": "Gambling Goblin"
     },
     {
       "id": "actor:Gentlemen RaaS",
@@ -37032,6 +37518,12 @@
       "name": "wel1dropper campaign"
     },
     {
+      "id": "campaign:2026年7月時点の初期侵害ベクター群: トレント配布、Signal、ClickFix、Android",
+      "ioc_count": 33,
+      "kind": "campaign",
+      "name": "2026年7月時点の初期侵害ベクター群: トレント配布、Signal、ClickFix、Android"
+    },
+    {
       "id": "campaign:APTグループHoneyMyteがCoolClientを強化：バックドアにWindowsカーネルレベルのルートキットを追加",
       "ioc_count": 15,
       "kind": "campaign",
@@ -37048,6 +37540,12 @@
       "ioc_count": 10,
       "kind": "campaign",
       "name": "Meta Syrian network disruption (October 2021)"
+    },
+    {
+      "id": "campaign:Mirage Kitten、新たなマルウェア群で中東・アフリカの航空・FinTech分野を標的化",
+      "ioc_count": 49,
+      "kind": "campaign",
+      "name": "Mirage Kitten、新たなマルウェア群で中東・アフリカの航空・FinTech分野を標的化"
     },
     {
       "id": "campaign:Mirage Kittenによる中東・アフリカの航空宇宙、防衛、通信分野へのサイバースパイ活動",
@@ -37548,6 +38046,12 @@
       "name": "case:932e3c4ae1d5404ceade8dfd386182800b91eb93794c914b7f09b094996b061e"
     },
     {
+      "id": "case:case:9394627e9c44cf2226ddf50012e5cf47ccf7d3bd8afa2395c635a93637e23502",
+      "ioc_count": 1,
+      "kind": "case",
+      "name": "case:9394627e9c44cf2226ddf50012e5cf47ccf7d3bd8afa2395c635a93637e23502"
+    },
+    {
       "id": "case:case:93df03d7db7df23317ee87ebe3946ddff4364e45de5217b0c90c7925b22c8f04",
       "ioc_count": 6,
       "kind": "case",
@@ -37578,6 +38082,12 @@
       "name": "case:9645a12079edffd20560d4631160a6052ae5728d6f73b7366588166ad281c534"
     },
     {
+      "id": "case:case:9b990729e29eb355bd0d5004b73b0ec8e9a659c5577c1c633604424b0290ab12",
+      "ioc_count": 2,
+      "kind": "case",
+      "name": "case:9b990729e29eb355bd0d5004b73b0ec8e9a659c5577c1c633604424b0290ab12"
+    },
+    {
       "id": "case:case:9d930798d115b6862313e3616d3ed02a7a5c4c673390fe5fed4d85472cf906f5",
       "ioc_count": 6,
       "kind": "case",
@@ -37600,6 +38110,12 @@
       "ioc_count": 2,
       "kind": "case",
       "name": "case:a01716c2c7ea5cb234ee8b5b3b831b63274fbee0b76d8ee5d86a788c6caa26e7"
+    },
+    {
+      "id": "case:case:a107ca6f200ff774013557aec838a976d9425b1faabd65d8289e2ab71f648c3c",
+      "ioc_count": 2,
+      "kind": "case",
+      "name": "case:a107ca6f200ff774013557aec838a976d9425b1faabd65d8289e2ab71f648c3c"
     },
     {
       "id": "case:case:a459ce4bfb5d649410231bd4776c194b0891c8c5328bafc22184fe3111c0b3e7",
@@ -37630,6 +38146,12 @@
       "ioc_count": 6,
       "kind": "case",
       "name": "case:ad755d2dfeaa23b80d561656848d12d8e66edd99b1169d63a936fe7b01da57ab"
+    },
+    {
+      "id": "case:case:add013bf7ffc8a89789a7fd0ae0ff799c620af9b2755b214880b6a56768fd48c",
+      "ioc_count": 1,
+      "kind": "case",
+      "name": "case:add013bf7ffc8a89789a7fd0ae0ff799c620af9b2755b214880b6a56768fd48c"
     },
     {
       "id": "case:case:b32f71c40fffc53327ca712d82ad9349d2a4f396826fac9940824f48c878461f",
@@ -37746,6 +38268,12 @@
       "name": "case:c4fc9162227b35c631fbe623ee30fa7f660ed015915ed66c76942b1583ac3f77"
     },
     {
+      "id": "case:case:c86f319f64d25f23ac29d9b53c9764f06a150634ee8e2d836424d460e5a99b52",
+      "ioc_count": 1,
+      "kind": "case",
+      "name": "case:c86f319f64d25f23ac29d9b53c9764f06a150634ee8e2d836424d460e5a99b52"
+    },
+    {
       "id": "case:case:d08cf8c8f95b4df31198be8583cdbcf5f8e5beda95487e4aaed26cd2529e255d",
       "ioc_count": 3,
       "kind": "case",
@@ -37816,6 +38344,12 @@
       "ioc_count": 17,
       "kind": "case",
       "name": "case:e5898e75b05b5e51683f7337322b15be5d06a9ffb522a9267c4c1e42547b6ee2"
+    },
+    {
+      "id": "case:case:e5f2c7068ade7b87d24c3b94bc749c351d53609f5fcaa48dce06234beaa2444f",
+      "ioc_count": 1,
+      "kind": "case",
+      "name": "case:e5f2c7068ade7b87d24c3b94bc749c351d53609f5fcaa48dce06234beaa2444f"
     },
     {
       "id": "case:case:eb4dda22e709b7da15aaebddec842067e97d85cdc99d753dc6335c0ae63d1e42",
@@ -39006,6 +39540,12 @@
       "name": "PlugX"
     },
     {
+      "id": "malware:PoisonX",
+      "ioc_count": 7,
+      "kind": "malware",
+      "name": "PoisonX"
+    },
+    {
       "id": "malware:PollCat",
       "ioc_count": 16,
       "kind": "malware",
@@ -39172,6 +39712,12 @@
       "ioc_count": 16,
       "kind": "malware",
       "name": "ScreenConnect"
+    },
+    {
+      "id": "malware:ScreenConnect RMM",
+      "ioc_count": 18,
+      "kind": "malware",
+      "name": "ScreenConnect RMM"
     },
     {
       "id": "malware:SectopRAT",
@@ -39372,6 +39918,12 @@
       "name": "TerminalFix"
     },
     {
+      "id": "malware:The Gentlemen",
+      "ioc_count": 36,
+      "kind": "malware",
+      "name": "The Gentlemen"
+    },
+    {
       "id": "malware:The Gentlemen Ransomware",
       "ioc_count": 33,
       "kind": "malware",
@@ -39469,7 +40021,7 @@
     },
     {
       "id": "malware:ValleyRAT",
-      "ioc_count": 297,
+      "ioc_count": 301,
       "kind": "malware",
       "name": "ValleyRAT"
     },
@@ -39508,6 +40060,12 @@
       "ioc_count": 5,
       "kind": "malware",
       "name": "WeedHack"
+    },
+    {
+      "id": "malware:WinOS 4.0",
+      "ioc_count": 2,
+      "kind": "malware",
+      "name": "WinOS 4.0"
     },
     {
       "id": "malware:Windows Script Stager",

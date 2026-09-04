@@ -104,7 +104,7 @@
       },
       {
         "actors": [
-          "DPRK IT Worker Schemes",
+          "Contagious Interview",
           "Lazarus"
         ],
         "addresses": 3584,
@@ -141,7 +141,6 @@
           "Candiru",
           "Confucius",
           "Contagious Interview",
-          "DPRK IT Worker Schemes",
           "Fox Kitten",
           "Gorgon Group",
           "Higaisa",
@@ -180,7 +179,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4629504,
+        "addresses": 4628992,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -207,10 +206,35 @@
           "X3D MINER",
           "ZooPark"
         ],
-        "addresses": 3174400,
+        "addresses": 3174144,
         "asn": 24940,
         "cc": "DE",
         "name": "Hetzner Online GmbH"
+      },
+      {
+        "actors": [
+          "APT29",
+          "APT37",
+          "APT41",
+          "Anonymous",
+          "CL-STA-1114",
+          "Candiru",
+          "Donot Team",
+          "Gamaredon",
+          "Gambling Goblin",
+          "Ice Fog",
+          "JadeProx",
+          "Jewelbug",
+          "KongTuke",
+          "MuddyWater",
+          "Nomad Panda",
+          "Qilin",
+          "Void Balaur"
+        ],
+        "addresses": 3128576,
+        "asn": 14061,
+        "cc": "US",
+        "name": "DigitalOcean LLC"
       },
       {
         "actors": [
@@ -231,34 +255,10 @@
           "Rognar",
           "Wizard Spider"
         ],
-        "addresses": 1613568,
+        "addresses": 1610240,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
-      },
-      {
-        "actors": [
-          "APT29",
-          "APT37",
-          "APT41",
-          "Anonymous",
-          "CL-STA-1114",
-          "Candiru",
-          "Donot Team",
-          "Gamaredon",
-          "Ice Fog",
-          "JadeProx",
-          "Jewelbug",
-          "KongTuke",
-          "MuddyWater",
-          "Nomad Panda",
-          "Qilin",
-          "Void Balaur"
-        ],
-        "addresses": 3128576,
-        "asn": 14061,
-        "cc": "US",
-        "name": "DigitalOcean LLC"
       },
       {
         "actors": [
@@ -289,6 +289,7 @@
           "APT37",
           "Anonymous",
           "Equation Group",
+          "Gambling Goblin",
           "Lazarus",
           "Nomadic Octopus",
           "Sandworm Team",
@@ -297,7 +298,7 @@
           "TeamPCP",
           "Void Balaur"
         ],
-        "addresses": 218025216,
+        "addresses": 218037248,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -347,7 +348,7 @@
           "MuddyWater",
           "UNC5174"
         ],
-        "addresses": 1451008,
+        "addresses": 1450752,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -363,7 +364,7 @@
           "Qilin",
           "TAG-83"
         ],
-        "addresses": 536064,
+        "addresses": 539136,
         "asn": 29802,
         "cc": "US",
         "name": "HIVELOCITY, Inc."
@@ -394,25 +395,10 @@
           "The Gentlemen",
           "UNC7005"
         ],
-        "addresses": 37565440,
+        "addresses": 37563904,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
-      },
-      {
-        "actors": [
-          "APT28",
-          "APT34",
-          "APT37",
-          "Anonymous",
-          "BITTER",
-          "Contagious Interview",
-          "DPRK IT Worker Schemes"
-        ],
-        "addresses": 1046784,
-        "asn": 36352,
-        "cc": "US",
-        "name": "HostPapa"
       },
       {
         "actors": [
@@ -460,6 +446,20 @@
       {
         "actors": [
           "APT28",
+          "APT34",
+          "APT37",
+          "Anonymous",
+          "BITTER",
+          "Contagious Interview"
+        ],
+        "addresses": 1047040,
+        "asn": 36352,
+        "cc": "US",
+        "name": "HostPapa"
+      },
+      {
+        "actors": [
+          "APT28",
           "APT33",
           "BITTER",
           "DEV-0861",
@@ -477,8 +477,8 @@
           "APT28",
           "APT33",
           "APT37",
-          "CopyKittens",
-          "DPRK IT Worker Schemes"
+          "Contagious Interview",
+          "CopyKittens"
         ],
         "addresses": 60672,
         "asn": 59253,
@@ -502,7 +502,7 @@
     ],
     "multi_actor": 202,
     "multi_actor_small": 5,
-    "small": 232,
+    "small": 237,
     "top": [
       {
         "actors": [
@@ -577,88 +577,88 @@
         "shared_hosting": false
       }
     ],
-    "total": 1286
+    "total": 1298
   },
   "coverage": {
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 929,
-          "target": 929
+          "done": 937,
+          "target": 937
         },
         "2": {
-          "done": 329,
-          "target": 329
+          "done": 331,
+          "target": 331
         },
         "5": {
-          "done": 2313,
-          "target": 2313
+          "done": 2361,
+          "target": 2361
         }
       },
-      "done": 3572,
+      "done": 3630,
       "ratio": 1,
-      "target": 3571
+      "target": 3629
     },
-    "newest_fetch": "2026-09-03",
-    "oldest_fetch": "2026-09-03",
+    "newest_fetch": "2026-09-04",
+    "oldest_fetch": "2026-09-04",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 5623,
-          "target": 5623
+          "done": 5676,
+          "target": 5676
         },
         "2": {
-          "done": 329,
-          "target": 329
+          "done": 331,
+          "target": 331
         },
         "3": {
-          "done": 4980,
-          "target": 4980
+          "done": 5053,
+          "target": 5053
         },
         "4": {
-          "done": 4860,
-          "target": 4860
+          "done": 4874,
+          "target": 4874
         },
         "5": {
-          "done": 4363,
-          "target": 4363
+          "done": 4411,
+          "target": 4411
         },
         "6": {
-          "done": 861,
-          "target": 861
+          "done": 981,
+          "target": 981
         }
       },
-      "done": 21017,
-      "known": 17976,
+      "done": 21327,
+      "known": 18231,
       "ratio": 1,
-      "target": 21016,
-      "unknown": 3041
+      "target": 21326,
+      "unknown": 3096
     }
   },
   "entities": {
-    "actor": 259,
-    "campaign": 19,
-    "case": 475,
-    "malware": 442
+    "actor": 260,
+    "campaign": 20,
+    "case": 483,
+    "malware": 443
   },
   "from": {
-    "collected_at": "2026-09-03T00:37:28.815Z",
+    "collected_at": "2026-09-04T00:04:44.607Z",
     "week": "2026-W36"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 6961,
+      "ioc.domain": 7055,
       "ioc.email": 268,
-      "ioc.endpoint": 196,
-      "ioc.ipv4": 3517,
-      "ioc.ipv6": 63,
-      "ioc.md5": 2471,
-      "ioc.sha1": 1482,
-      "ioc.sha256": 3485,
+      "ioc.endpoint": 204,
+      "ioc.ipv4": 3573,
+      "ioc.ipv6": 65,
+      "ioc.md5": 2480,
+      "ioc.sha1": 1493,
+      "ioc.sha256": 3609,
       "ioc.sha512": 16,
-      "ioc.url": 3046
+      "ioc.url": 3060
     },
-    "dated": 8110,
+    "dated": 8411,
     "excluded": {
       "bogon": 3,
       "malformed": 0,
@@ -666,8 +666,8 @@
       "popular": 76,
       "sample_reported": 1
     },
-    "total": 21505,
-    "usable": 21420
+    "total": 21823,
+    "usable": 21738
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -691,20 +691,20 @@
       "by_via": {
         "asn": 4,
         "certificate": 7,
-        "family": 141,
-        "filename": 37,
-        "imphash": 23,
-        "ioc": 45,
-        "jarm": 737,
-        "registered": 544,
+        "family": 145,
+        "filename": 38,
+        "imphash": 24,
+        "ioc": 44,
+        "jarm": 747,
+        "registered": 556,
         "registrable": 29,
         "resolution": 1,
-        "signer": 2,
-        "subnet": 19,
-        "vhash": 15
+        "signer": 3,
+        "subnet": 18,
+        "vhash": 16
       },
       "identical_sets": 2,
-      "pairs": 1274,
+      "pairs": 1297,
       "top": [
         {
           "a": "APT37",
@@ -1061,6 +1061,48 @@
           ]
         },
         {
+          "a": "GOLD SHERWOOD",
+          "b": "Gentlemen RaaS",
+          "evidence": {
+            "family": [
+              "killav"
+            ],
+            "filename": [
+              "2026-04-11_b23b653541bd95bdc4da07a0b07b57bf_icedid_njrat",
+              "G11.sys",
+              "Rootkit WHQL   ESET Win64Agent.IYQ Trojan  .exe",
+              "SophosInstall.exe",
+              "_2d91a78e739891c9854c254f5b2a6b84c0e167dfa253466cbccd2cdd1c20145d.exe"
+            ],
+            "imphash": [
+              "47c3554d0dee53d4f925ed52484bea12",
+              "4f64d9cbed3c75a7275d9b867c812a6c"
+            ],
+            "ioc": [
+              "ioc.sha1|56bee9df5833a637f5c54d5911df98b0812fe643",
+              "ioc.sha1|f0537cbb773ae12100b36731e7c39f5a9d852b14"
+            ],
+            "signer": [
+              "Sophos Ltd; GlobalSign CodeSigning CA - SHA256 - G2; GlobalSign Root CA - R3"
+            ],
+            "vhash": [
+              "014066551d1516151iz13xz",
+              "0160be06555d15151d151az66!z"
+            ]
+          },
+          "ratio": 0.667,
+          "shared": 18,
+          "strength": 28,
+          "via": [
+            "family",
+            "filename",
+            "imphash",
+            "ioc",
+            "signer",
+            "vhash"
+          ]
+        },
+        {
           "a": "Silver Fox",
           "b": "TA4922",
           "evidence": {
@@ -1200,6 +1242,7 @@
               "2016-07-23",
               "2017-01-14",
               "2024-04-17",
+              "2026-01-28",
               "2026-06-18"
             ],
             "registrable": [
@@ -1214,8 +1257,8 @@
               "194046655d156018z48?z5"
             ]
           },
-          "ratio": 1.609,
-          "shared": 37,
+          "ratio": 1.652,
+          "shared": 38,
           "strength": 24,
           "via": [
             "filename",
@@ -1225,43 +1268,9 @@
             "registrable",
             "vhash"
           ]
-        },
-        {
-          "a": "Akira",
-          "b": "Akira ransomware affiliate",
-          "evidence": {
-            "filename": [
-              "2026-03-19_61a1ad1b6a028a1833c85e6544383999_coinminer_dosia_frostygoop_glassworm_hive_luca-stealer_poet-rat_quasar-rat_salatstealer_sliver_snatch",
-              "s5cmd.exe"
-            ],
-            "imphash": [
-              "c2d457ad8ac36fc9f18d45bffcd450c2"
-            ],
-            "ioc": [
-              "ioc.ipv4|72.23.77.35",
-              "ioc.sha256|414b9985f46714f44dd1bd63860d2a48dcfababcfe5c712a4b4f575378127a56",
-              "ioc.sha256|e2356c742c74cce5c6b6100162d0071a3f71e2fed2ed895c2011061a95b3299a"
-            ],
-            "subnet": [
-              "72.23.77.0/24"
-            ],
-            "vhash": [
-              "017086651d15551d15541az2f!z"
-            ]
-          },
-          "ratio": 2.667,
-          "shared": 8,
-          "strength": 24,
-          "via": [
-            "filename",
-            "imphash",
-            "ioc",
-            "subnet",
-            "vhash"
-          ]
         }
       ],
-      "weak_only": 1199
+      "weak_only": 1223
     },
     "campaign": {
       "by_via": {
@@ -1271,8 +1280,8 @@
         "filename": 0,
         "imphash": 0,
         "ioc": 0,
-        "jarm": 8,
-        "registered": 4,
+        "jarm": 9,
+        "registered": 6,
         "registrable": 0,
         "resolution": 0,
         "signer": 0,
@@ -1280,8 +1289,28 @@
         "vhash": 0
       },
       "identical_sets": 0,
-      "pairs": 12,
+      "pairs": 14,
       "top": [
+        {
+          "a": "Mirage Kitten、新たなマルウェア群で中東・アフリカの航空・FinTech分野を標的化",
+          "b": "Mirage Kittenによる中東・アフリカの航空宇宙、防衛、通信分野へのサイバースパイ活動",
+          "evidence": {
+            "jarm": [
+              "2ad2ad00000000000042d42d00042da9006a0dbf6f6785a41d588d6e6fd492"
+            ],
+            "registered": [
+              "2025-02-19"
+            ]
+          },
+          "ratio": 0.063,
+          "shared": 2,
+          "strength": 4,
+          "via": [
+            "jarm",
+            "registered"
+          ],
+          "weak_only": true
+        },
         {
           "a": "Storm-2945によるCaptiveCrunchキャンペーン:出張者向けcaptive portal Wi-Fi悪用によるマルウェア配布と資格情報窃取",
           "b": "偽の採用プロセスによる社会工学と改変WireGuardクライアントSopraVPNの配布",
@@ -1340,6 +1369,22 @@
             ]
           },
           "ratio": 0.043,
+          "shared": 1,
+          "strength": 3,
+          "via": [
+            "registered"
+          ],
+          "weak_only": true
+        },
+        {
+          "a": "2026年7月時点の初期侵害ベクター群: トレント配布、Signal、ClickFix、Android",
+          "b": "Mirage Kitten、新たなマルウェア群で中東・アフリカの航空・FinTech分野を標的化",
+          "evidence": {
+            "registered": [
+              "2026-06-29"
+            ]
+          },
+          "ratio": 0.03,
           "shared": 1,
           "strength": 3,
           "via": [
@@ -1411,41 +1456,9 @@
             "jarm"
           ],
           "weak_only": true
-        },
-        {
-          "a": "Operation DarkHorse",
-          "b": "ThreatNeedle",
-          "evidence": {
-            "jarm": [
-              "3fd3fd0003fd3fd21c42d42d000000307ee0eb468e9fdb5cfcd698a80a67ef"
-            ]
-          },
-          "ratio": 0.019,
-          "shared": 1,
-          "strength": 1,
-          "via": [
-            "jarm"
-          ],
-          "weak_only": true
-        },
-        {
-          "a": "Operation DarkHorse",
-          "b": "共有Webメールホスティング侵害による政府・軍への諜報活動",
-          "evidence": {
-            "jarm": [
-              "3fd21b20d3fd3fd21c43d21b21b43d50c8594d0a42335f3aca21f0ce31ac7c"
-            ]
-          },
-          "ratio": 0.019,
-          "shared": 1,
-          "strength": 1,
-          "via": [
-            "jarm"
-          ],
-          "weak_only": true
         }
       ],
-      "weak_only": 12
+      "weak_only": 14
     },
     "case": {
       "by_via": {
@@ -1455,7 +1468,7 @@
         "filename": 8,
         "imphash": 6,
         "ioc": 132,
-        "jarm": 112,
+        "jarm": 116,
         "registered": 47,
         "registrable": 68,
         "resolution": 0,
@@ -1464,7 +1477,7 @@
         "vhash": 10
       },
       "identical_sets": 155,
-      "pairs": 235,
+      "pairs": 239,
       "top": [
         {
           "a": "case:3f09145757282e6a59cd69319ac3b9da3265022a1d4f92a1646f8ddbaad89333",
@@ -1797,26 +1810,26 @@
           ]
         }
       ],
-      "weak_only": 97
+      "weak_only": 101
     },
     "malware": {
       "by_via": {
-        "asn": 6,
+        "asn": 5,
         "certificate": 5,
-        "family": 130,
+        "family": 133,
         "filename": 32,
-        "imphash": 27,
-        "ioc": 55,
-        "jarm": 521,
-        "registered": 809,
+        "imphash": 29,
+        "ioc": 57,
+        "jarm": 525,
+        "registered": 813,
         "registrable": 43,
         "resolution": 1,
-        "signer": 3,
-        "subnet": 23,
-        "vhash": 34
+        "signer": 4,
+        "subnet": 22,
+        "vhash": 36
       },
       "identical_sets": 9,
-      "pairs": 1449,
+      "pairs": 1459,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2018,6 +2031,43 @@
             "registered",
             "registrable",
             "subnet"
+          ]
+        },
+        {
+          "a": "HavocKiller",
+          "b": "The Gentlemen",
+          "evidence": {
+            "family": [
+              "killav"
+            ],
+            "filename": [
+              "2026-04-11_b23b653541bd95bdc4da07a0b07b57bf_icedid_njrat",
+              "SophosInstall.exe",
+              "d421cuu5e.exe"
+            ],
+            "imphash": [
+              "4f64d9cbed3c75a7275d9b867c812a6c"
+            ],
+            "ioc": [
+              "ioc.sha1|f0537cbb773ae12100b36731e7c39f5a9d852b14"
+            ],
+            "signer": [
+              "Sophos Ltd; GlobalSign CodeSigning CA - SHA256 - G2; GlobalSign Root CA - R3"
+            ],
+            "vhash": [
+              "0160be06555d15151d151az66!z"
+            ]
+          },
+          "ratio": 4,
+          "shared": 8,
+          "strength": 28,
+          "via": [
+            "family",
+            "filename",
+            "imphash",
+            "ioc",
+            "signer",
+            "vhash"
           ]
         },
         {
@@ -2313,8 +2363,8 @@
               "017086656d15551d15545az2e!z"
             ]
           },
-          "ratio": 3.154,
-          "shared": 328,
+          "ratio": 3.144,
+          "shared": 327,
           "strength": 22,
           "via": [
             "family",
@@ -2324,52 +2374,14 @@
             "jarm",
             "vhash"
           ]
-        },
-        {
-          "a": "PureHVNC",
-          "b": "PureRAT",
-          "evidence": {
-            "family": [
-              "xceyri"
-            ],
-            "filename": [
-              "7902250.exe",
-              "8009031.exe",
-              "AI for Facebook Ads and Google Ads Campaigns.EXE",
-              "AppVIsvSubsystems64.dll",
-              "CREDIT_CARD+AUTHORIZATION_FORM.EXE"
-            ],
-            "imphash": [
-              "491cb9d5a51656cb772f344ed7c526dc"
-            ],
-            "ioc": [
-              "ioc.sha256|2e05d97ed7bfabea8f7370ba627e0705ec2c0fbf3974b39437e9d95d45d1a76d",
-              "ioc.sha256|a50dcea028a1bfcea55f2aa612c3bc0ffe354fd6a938eb5f1df07f676723df26",
-              "ioc.sha256|af4ee79582992e348a8739579da478d50daccbaa6ec97420311916a2ac0fc503"
-            ],
-            "vhash": [
-              "0770a6655d156d15155c1azdcwz9b4z9",
-              "24503665151180952b810a0"
-            ]
-          },
-          "ratio": 3,
-          "shared": 18,
-          "strength": 21,
-          "via": [
-            "family",
-            "filename",
-            "imphash",
-            "ioc",
-            "vhash"
-          ]
         }
       ],
-      "weak_only": 1348
+      "weak_only": 1357
     }
   },
   "schema": 1,
   "subnets": {
-    "multi_actor": 103,
+    "multi_actor": 94,
     "top": [
       {
         "actors": [
@@ -2532,7 +2544,7 @@
         ],
         "asns": [
           {
-            "addresses": 37565440,
+            "addresses": 37563904,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2549,7 +2561,7 @@
         ],
         "asns": [
           {
-            "addresses": 3174400,
+            "addresses": 3174144,
             "asn": 24940,
             "name": "Hetzner Online GmbH"
           }
@@ -2649,7 +2661,7 @@
         "subnet": "64.120.31.0/24"
       }
     ],
-    "total": 415
+    "total": 412
   },
   "targets": {
     "abuse": 5,
@@ -2674,7 +2686,7 @@
       },
       {
         "abuse": 0,
-        "impersonation": 16,
+        "impersonation": 17,
         "rank": 6,
         "target": "microsoft.com"
       },
@@ -2697,16 +2709,16 @@
         "target": "telegram.me"
       },
       {
+        "abuse": 0,
+        "impersonation": 4,
+        "rank": 500,
+        "target": "github.com"
+      },
+      {
         "abuse": 4,
         "impersonation": 0,
         "rank": 7232,
         "target": "rf.gd"
-      },
-      {
-        "abuse": 0,
-        "impersonation": 3,
-        "rank": 500,
-        "target": "github.com"
       },
       {
         "abuse": 0,
@@ -2757,7 +2769,7 @@
         "target": "yandex.ru"
       }
     ],
-    "impersonation": 221
+    "impersonation": 223
   },
   "timeline": {
     "actors": {
@@ -2835,15 +2847,15 @@
           "span_days": 4753
         },
         {
-          "dated": 160,
-          "first": "2011-03-02",
-          "iocs": 325,
-          "last": "2023-09-29",
-          "name": "BadMagic",
-          "span_days": 4594
+          "dated": 56,
+          "first": "2013-11-04",
+          "iocs": 203,
+          "last": "2026-07-04",
+          "name": "Contagious Interview",
+          "span_days": 4625
         }
       ],
-      "with_dates": 175
+      "with_dates": 176
     },
     "campaigns": {
       "spans": [
@@ -2874,6 +2886,13 @@
           "iocs": 10,
           "last": "2021-10-10",
           "name": "Meta Syrian network disruption (October 2021)"
+        },
+        {
+          "dated": 9,
+          "first": "2026-06-15",
+          "iocs": 49,
+          "last": "2026-07-29",
+          "name": "Mirage Kitten、新たなマルウェア群で中東・アフリカの航空・FinTech分野を標的化"
         },
         {
           "dated": 2,
@@ -2989,6 +3008,24 @@
           "to": "2021-10-10"
         },
         {
+          "a": "Mirage Kitten、新たなマルウェア群で中東・アフリカの航空・FinTech分野を標的化",
+          "b": "Mirage Kittenによる中東・アフリカの航空宇宙、防衛、通信分野へのサイバースパイ活動",
+          "from": "2026-06-15",
+          "to": "2026-07-29"
+        },
+        {
+          "a": "Mirage Kitten、新たなマルウェア群で中東・アフリカの航空・FinTech分野を標的化",
+          "b": "偽の採用プロセスによる社会工学と改変WireGuardクライアントSopraVPNの配布",
+          "from": "2026-06-15",
+          "to": "2026-07-29"
+        },
+        {
+          "a": "Mirage Kitten、新たなマルウェア群で中東・アフリカの航空・FinTech分野を標的化",
+          "b": "共有Webメールホスティング侵害による政府・軍への諜報活動",
+          "from": "2026-06-15",
+          "to": "2026-07-29"
+        },
+        {
           "a": "Mirage Kittenによる中東・アフリカの航空宇宙、防衛、通信分野へのサイバースパイ活動",
           "b": "偽の採用プロセスによる社会工学と改変WireGuardクライアントSopraVPNの配布",
           "from": "2026-06-15",
@@ -3091,21 +3128,21 @@
           "to": "2026-08-12"
         }
       ],
-      "with_dates": 13
+      "with_dates": 14
     },
-    "dated": 7533,
+    "dated": 7636,
     "index_lag": {
       "ahead": 345,
-      "median_days": 41,
+      "median_days": 44,
       "p25_days": 2,
-      "p75_days": 120,
-      "pairs": 3254
+      "p75_days": 129,
+      "pairs": 3357
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 228,
+      "checked": 229,
       "lowest": [
         {
           "checked": 4,
@@ -3179,7 +3216,7 @@
         }
       ]
     },
-    "clean": 2526,
+    "clean": 2538,
     "disagreement": {
       "samples": [
         {
@@ -3312,15 +3349,15 @@
           "classes": [
             "c2"
           ],
-          "ioc": "ioc.domain|bulletproofdomai2n.com",
+          "ioc": "ioc.domain|bestopebel.pl",
           "sources": [
             "tech-memo-daily-news"
           ]
         }
       ],
-      "total": 298
+      "total": 305
     },
-    "malicious": 15189,
-    "unknown": 3041
+    "malicious": 15420,
+    "unknown": 3096
   }
 }
