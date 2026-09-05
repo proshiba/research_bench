@@ -116,6 +116,18 @@
       },
       {
         "actors": [
+          "APT28",
+          "Sandworm Team"
+        ],
+        "addresses": 3584,
+        "asn": 60602,
+        "cc": "MD",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "Inovare-Prim SRL"
+      },
+      {
+        "actors": [
           "APT29",
           "MuddyWater"
         ],
@@ -255,7 +267,7 @@
           "Rognar",
           "Wizard Spider"
         ],
-        "addresses": 1610240,
+        "addresses": 1611520,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -298,7 +310,7 @@
           "TeamPCP",
           "Void Balaur"
         ],
-        "addresses": 218037248,
+        "addresses": 218021632,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -315,7 +327,7 @@
           "Silver Fox",
           "UNC5174"
         ],
-        "addresses": 10825216,
+        "addresses": 10825472,
         "asn": 45102,
         "cc": "US",
         "name": "Alibaba (US) Technology Co., Ltd."
@@ -348,7 +360,7 @@
           "MuddyWater",
           "UNC5174"
         ],
-        "addresses": 1450752,
+        "addresses": 1458176,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -380,7 +392,7 @@
           "UNC6671",
           "blackfile"
         ],
-        "addresses": 33792,
+        "addresses": 34304,
         "asn": 51852,
         "cc": "PA",
         "name": "Private Layer INC"
@@ -395,7 +407,7 @@
           "The Gentlemen",
           "UNC7005"
         ],
-        "addresses": 37563904,
+        "addresses": 37583616,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
@@ -452,7 +464,7 @@
           "BITTER",
           "Contagious Interview"
         ],
-        "addresses": 1047040,
+        "addresses": 1047552,
         "asn": 36352,
         "cc": "US",
         "name": "HostPapa"
@@ -501,7 +513,7 @@
       }
     ],
     "multi_actor": 202,
-    "multi_actor_small": 5,
+    "multi_actor_small": 4,
     "small": 237,
     "top": [
       {
@@ -560,21 +572,6 @@
         "malware": [],
         "name": "IP Connect Inc",
         "shared_hosting": false
-      },
-      {
-        "actors": [
-          "APT28",
-          "Sandworm Team"
-        ],
-        "addresses": 3584,
-        "asn": 60602,
-        "cc": "MD",
-        "ips": 2,
-        "malware": [
-          "Kapeka"
-        ],
-        "name": "Inovare-Prim SRL",
-        "shared_hosting": false
       }
     ],
     "total": 1298
@@ -587,76 +584,76 @@
           "target": 937
         },
         "2": {
-          "done": 331,
-          "target": 331
+          "done": 333,
+          "target": 333
         },
         "5": {
-          "done": 2361,
-          "target": 2361
+          "done": 2371,
+          "target": 2371
         }
       },
-      "done": 3630,
+      "done": 3642,
       "ratio": 1,
-      "target": 3629
+      "target": 3641
     },
-    "newest_fetch": "2026-09-04",
-    "oldest_fetch": "2026-09-04",
+    "newest_fetch": "2026-09-05",
+    "oldest_fetch": "2026-09-05",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 5676,
-          "target": 5676
+          "done": 5677,
+          "target": 5677
         },
         "2": {
-          "done": 331,
-          "target": 331
+          "done": 333,
+          "target": 333
         },
         "3": {
-          "done": 5053,
-          "target": 5053
+          "done": 5061,
+          "target": 5061
         },
         "4": {
-          "done": 4874,
-          "target": 4874
+          "done": 4875,
+          "target": 4875
         },
         "5": {
-          "done": 4411,
-          "target": 4411
+          "done": 4422,
+          "target": 4422
         },
         "6": {
-          "done": 981,
-          "target": 981
+          "done": 987,
+          "target": 987
         }
       },
-      "done": 21327,
-      "known": 18231,
+      "done": 21356,
+      "known": 18254,
       "ratio": 1,
-      "target": 21326,
-      "unknown": 3096
+      "target": 21355,
+      "unknown": 3102
     }
   },
   "entities": {
     "actor": 260,
     "campaign": 20,
-    "case": 483,
+    "case": 486,
     "malware": 443
   },
   "from": {
-    "collected_at": "2026-09-04T00:04:44.607Z",
+    "collected_at": "2026-09-05T00:04:22.049Z",
     "week": "2026-W36"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 7055,
+      "ioc.domain": 7057,
       "ioc.email": 268,
       "ioc.endpoint": 204,
-      "ioc.ipv4": 3573,
+      "ioc.ipv4": 3585,
       "ioc.ipv6": 65,
       "ioc.md5": 2480,
       "ioc.sha1": 1493,
-      "ioc.sha256": 3609,
+      "ioc.sha256": 3619,
       "ioc.sha512": 16,
-      "ioc.url": 3060
+      "ioc.url": 3065
     },
     "dated": 8411,
     "excluded": {
@@ -666,8 +663,8 @@
       "popular": 76,
       "sample_reported": 1
     },
-    "total": 21823,
-    "usable": 21738
+    "total": 21852,
+    "usable": 21767
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -689,7 +686,7 @@
   "overlaps": {
     "actor": {
       "by_via": {
-        "asn": 4,
+        "asn": 3,
         "certificate": 7,
         "family": 145,
         "filename": 38,
@@ -1270,7 +1267,7 @@
           ]
         }
       ],
-      "weak_only": 1223
+      "weak_only": 1224
     },
     "campaign": {
       "by_via": {
@@ -2544,7 +2541,7 @@
         ],
         "asns": [
           {
-            "addresses": 37563904,
+            "addresses": 37583616,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2578,7 +2575,7 @@
         ],
         "asns": [
           {
-            "addresses": 240128,
+            "addresses": 239872,
             "asn": 396356,
             "name": "Latitude.sh"
           }
@@ -2661,7 +2658,7 @@
         "subnet": "64.120.31.0/24"
       }
     ],
-    "total": 412
+    "total": 414
   },
   "targets": {
     "abuse": 5,
@@ -3130,7 +3127,7 @@
       ],
       "with_dates": 14
     },
-    "dated": 7636,
+    "dated": 7645,
     "index_lag": {
       "ahead": 345,
       "median_days": 44,
@@ -3216,7 +3213,7 @@
         }
       ]
     },
-    "clean": 2538,
+    "clean": 2540,
     "disagreement": {
       "samples": [
         {
@@ -3357,7 +3354,7 @@
       ],
       "total": 305
     },
-    "malicious": 15420,
-    "unknown": 3096
+    "malicious": 15441,
+    "unknown": 3102
   }
 }

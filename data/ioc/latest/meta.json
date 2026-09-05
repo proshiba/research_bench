@@ -1,64 +1,64 @@
 {
-  "collected_at": "2026-09-04T00:04:44.607Z",
+  "collected_at": "2026-09-05T00:04:22.049Z",
   "counts": {
     "by_entity_kind": {
       "actor": 260,
       "article": 352,
       "campaign": 20,
-      "case": 483,
-      "cve": 28,
+      "case": 486,
+      "cve": 31,
       "malware": 443
     },
     "by_source": {
-      "ai-security-analysis": 873,
+      "ai-security-analysis": 884,
       "tech-memo-daily-news": 8411,
       "threatactor-intel-analysis": 13808,
-      "vuln-intel-agent": 238
+      "vuln-intel-agent": 257
     },
     "by_type": {
-      "ioc.domain": 7055,
+      "ioc.domain": 7057,
       "ioc.email": 268,
       "ioc.endpoint": 204,
-      "ioc.ipv4": 3573,
+      "ioc.ipv4": 3585,
       "ioc.ipv6": 65,
       "ioc.md5": 2480,
       "ioc.sha1": 1493,
-      "ioc.sha256": 3609,
+      "ioc.sha256": 3619,
       "ioc.sha512": 16,
-      "ioc.url": 3060
+      "ioc.url": 3065
     },
-    "entities": 1586,
+    "entities": 1592,
     "excluded": {
       "bogon": 3,
       "malformed": 0,
       "noise": 6
     },
-    "iocs": 21823,
-    "links": 39934
+    "iocs": 21852,
+    "links": 39966
   },
-  "public_suffix_list": "2026-09-02_06-03-53_UTC",
+  "public_suffix_list": "2026-09-03_19-51-30_UTC",
   "schema": 1,
   "sources": [
     {
       "app_id": "ai-security-analysis",
       "broken_rels": null,
-      "entities": 4134,
+      "entities": 4195,
       "error": null,
-      "generated_at": "2026-09-03T15:09:48Z",
-      "meta_sha256": "fda103ff0f0ccf89830a1ff6a1fd75fd1e0fa089688c1e1451d075a34a93dc23",
+      "generated_at": "2026-09-04T22:37:58Z",
+      "meta_sha256": "647e98fae1106c6b639f0e9a13b7a8c0eb1bb826e0f9c254c80b4d7dfb1552a3",
       "name": "マルウェア解析",
-      "search_sha256": "4831c7a68fe798f817624189be853ad0869d2f8e0973914a96dfba6ab624ffea",
+      "search_sha256": "aa2e24237a0fc22c0e9f59bfd2472c539846bc5f81addf1e480a891ad32ad2a5",
       "search_url": "https://proshiba.github.io/AI-security-analysis/ui/api/v1/search.json"
     },
     {
       "app_id": "tech-memo-daily-news",
       "broken_rels": null,
-      "entities": 19035,
+      "entities": 19060,
       "error": null,
-      "generated_at": "2026-09-03T23:38:42Z",
-      "meta_sha256": "d6c8846202ee41e4b911f8d8ac3abdb04a80003070794e55f06d3ffc63eda1f3",
+      "generated_at": "2026-09-04T23:36:53Z",
+      "meta_sha256": "e1c3d67ceecfb7544bb0bf867d30d848ad0ff1628b703ef2271f06157c39d65d",
       "name": "デイリーニュース",
-      "search_sha256": "0cb77c396f241dd651fd72ee5b2527ee7838e515479d8812940cc16443fc3f5b",
+      "search_sha256": "da51f848aed3989255433075f66ddedd1532bea39e2278b5dbf2810ae702be76",
       "search_url": "https://proshiba.github.io/tech-memo/daily-news/ui/api/v1/search.json"
     },
     {
@@ -75,12 +75,12 @@
     {
       "app_id": "vuln-intel-agent",
       "broken_rels": null,
-      "entities": 64991,
+      "entities": 65610,
       "error": null,
-      "generated_at": "2026-09-03T21:42:39+00:00",
-      "meta_sha256": "e691ee986088c974b59135800db6c3bf865453ac8cb7aba0694cca472c614d21",
+      "generated_at": "2026-09-04T23:37:59+00:00",
+      "meta_sha256": "bad0eb58e0c79914062d5e659e87b554966f856a0e725233d5ea7f3ad9d7d4ed",
       "name": "脆弱性インテル",
-      "search_sha256": "9f2a9c3347c37f502f6a048472580d5ac0e065317d3fb4f70cdffa9ce7e1f59e",
+      "search_sha256": "c840e7cb25b5eefc88f19610235ba6d287e1cd8f10f7eb97bbb05bbf572cade1",
       "search_url": "https://proshiba.github.io/vuln-intel-agent/api/v1/search.json"
     }
   ],

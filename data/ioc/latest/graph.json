@@ -956,15 +956,15 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.017,
-      "shared": 7,
+      "ratio": 0.015,
+      "shared": 6,
       "source": "actor:APT28",
-      "strength": 6,
+      "strength": 1,
       "target": "actor:Sandworm Team",
       "via": [
-        "asn",
         "jarm"
-      ]
+      ],
+      "weak_only": true
     },
     {
       "kind": "actor",
@@ -35599,7 +35599,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "malware:Sednit",
       "strength": 1,
@@ -36149,7 +36149,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "malware:TELEPUZ",
       "strength": 2,
@@ -36392,7 +36392,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "malware:Vidar",
       "strength": 2,
@@ -36416,7 +36416,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "malware:Vidar",
       "strength": 2,
@@ -36428,7 +36428,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "malware:Vidar",
       "strength": 1,
@@ -36543,7 +36543,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-09-04T00:04:44.607Z",
+  "generated_from": "2026-09-05T00:04:22.049Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -40033,7 +40033,7 @@
     },
     {
       "id": "malware:Vidar",
-      "ioc_count": 15,
+      "ioc_count": 16,
       "kind": "malware",
       "name": "Vidar"
     },
