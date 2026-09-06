@@ -156,6 +156,7 @@
           "Fox Kitten",
           "Gorgon Group",
           "Higaisa",
+          "Nie",
           "Qilin",
           "Rognar",
           "Silver Fox",
@@ -191,7 +192,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4628992,
+        "addresses": 4629504,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -239,6 +240,7 @@
           "Jewelbug",
           "KongTuke",
           "MuddyWater",
+          "Nie",
           "Nomad Panda",
           "Qilin",
           "Void Balaur"
@@ -267,7 +269,7 @@
           "Rognar",
           "Wizard Spider"
         ],
-        "addresses": 1611520,
+        "addresses": 1611008,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -310,7 +312,7 @@
           "TeamPCP",
           "Void Balaur"
         ],
-        "addresses": 218021632,
+        "addresses": 218010112,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -323,6 +325,7 @@
           "Lamberts",
           "Magecart",
           "Mustang Panda",
+          "Nie",
           "Qilin",
           "Silver Fox",
           "UNC5174"
@@ -360,7 +363,7 @@
           "MuddyWater",
           "UNC5174"
         ],
-        "addresses": 1458176,
+        "addresses": 1458432,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -407,7 +410,7 @@
           "The Gentlemen",
           "UNC7005"
         ],
-        "addresses": 37583616,
+        "addresses": 37567232,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
@@ -464,7 +467,7 @@
           "BITTER",
           "Contagious Interview"
         ],
-        "addresses": 1047552,
+        "addresses": 1047296,
         "asn": 36352,
         "cc": "US",
         "name": "HostPapa"
@@ -485,6 +488,20 @@
       },
       {
         "actors": [
+          "APT29",
+          "Anonymous",
+          "BRONZE BUTLER",
+          "Blue Termite",
+          "Nie",
+          "UNG0002"
+        ],
+        "addresses": 12714240,
+        "asn": 45090,
+        "cc": "CN",
+        "name": "Tencent Cloud"
+      },
+      {
+        "actors": [
           "APT1",
           "APT28",
           "APT33",
@@ -496,20 +513,6 @@
         "asn": 59253,
         "cc": "SG",
         "name": "Leaseweb Singapore Pte. Ltd."
-      },
-      {
-        "actors": [
-          "APT28",
-          "Anonymous",
-          "Gamaredon",
-          "MuddyWater",
-          "Myxa VPN",
-          "UTA0533"
-        ],
-        "addresses": 63488,
-        "asn": 215540,
-        "cc": "GB",
-        "name": "GLOBAL CONNECTIVITY SOLUTIONS LLP"
       }
     ],
     "multi_actor": 202,
@@ -574,88 +577,88 @@
         "shared_hosting": false
       }
     ],
-    "total": 1298
+    "total": 1300
   },
   "coverage": {
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 937,
-          "target": 937
+          "done": 949,
+          "target": 949
         },
         "2": {
-          "done": 333,
-          "target": 333
+          "done": 334,
+          "target": 334
         },
         "5": {
-          "done": 2371,
-          "target": 2371
+          "done": 2375,
+          "target": 2375
         }
       },
-      "done": 3642,
+      "done": 3659,
       "ratio": 1,
-      "target": 3641
+      "target": 3658
     },
-    "newest_fetch": "2026-09-05",
-    "oldest_fetch": "2026-09-05",
+    "newest_fetch": "2026-09-06",
+    "oldest_fetch": "2026-09-06",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 5677,
-          "target": 5677
+          "done": 5717,
+          "target": 5717
         },
         "2": {
-          "done": 333,
-          "target": 333
+          "done": 334,
+          "target": 334
         },
         "3": {
-          "done": 5061,
-          "target": 5061
+          "done": 5133,
+          "target": 5133
         },
         "4": {
-          "done": 4875,
-          "target": 4875
+          "done": 4887,
+          "target": 4887
         },
         "5": {
-          "done": 4422,
-          "target": 4422
+          "done": 4426,
+          "target": 4426
         },
         "6": {
-          "done": 987,
-          "target": 987
+          "done": 1017,
+          "target": 1017
         }
       },
-      "done": 21356,
-      "known": 18254,
+      "done": 21515,
+      "known": 18375,
       "ratio": 1,
-      "target": 21355,
-      "unknown": 3102
+      "target": 21514,
+      "unknown": 3140
     }
   },
   "entities": {
-    "actor": 260,
+    "actor": 261,
     "campaign": 20,
     "case": 486,
-    "malware": 443
+    "malware": 448
   },
   "from": {
-    "collected_at": "2026-09-05T00:04:22.049Z",
+    "collected_at": "2026-09-06T00:03:13.935Z",
     "week": "2026-W36"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 7057,
+      "ioc.domain": 7076,
       "ioc.email": 268,
       "ioc.endpoint": 204,
-      "ioc.ipv4": 3585,
+      "ioc.ipv4": 3602,
       "ioc.ipv6": 65,
       "ioc.md5": 2480,
       "ioc.sha1": 1493,
-      "ioc.sha256": 3619,
+      "ioc.sha256": 3740,
       "ioc.sha512": 16,
-      "ioc.url": 3065
+      "ioc.url": 3067
     },
-    "dated": 8411,
+    "dated": 8570,
     "excluded": {
       "bogon": 3,
       "malformed": 0,
@@ -663,8 +666,8 @@
       "popular": 76,
       "sample_reported": 1
     },
-    "total": 21852,
-    "usable": 21767
+    "total": 22011,
+    "usable": 21926
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -688,12 +691,12 @@
       "by_via": {
         "asn": 3,
         "certificate": 7,
-        "family": 145,
+        "family": 141,
         "filename": 38,
         "imphash": 24,
         "ioc": 44,
-        "jarm": 747,
-        "registered": 556,
+        "jarm": 749,
+        "registered": 559,
         "registrable": 29,
         "resolution": 1,
         "signer": 3,
@@ -701,7 +704,7 @@
         "vhash": 16
       },
       "identical_sets": 2,
-      "pairs": 1297,
+      "pairs": 1302,
       "top": [
         {
           "a": "APT37",
@@ -1267,7 +1270,7 @@
           ]
         }
       ],
-      "weak_only": 1224
+      "weak_only": 1229
     },
     "campaign": {
       "by_via": {
@@ -1813,20 +1816,20 @@
       "by_via": {
         "asn": 5,
         "certificate": 5,
-        "family": 133,
-        "filename": 32,
-        "imphash": 29,
-        "ioc": 57,
-        "jarm": 525,
-        "registered": 813,
+        "family": 136,
+        "filename": 35,
+        "imphash": 35,
+        "ioc": 61,
+        "jarm": 542,
+        "registered": 827,
         "registrable": 43,
         "resolution": 1,
-        "signer": 4,
-        "subnet": 22,
-        "vhash": 36
+        "signer": 5,
+        "subnet": 23,
+        "vhash": 39
       },
       "identical_sets": 9,
-      "pairs": 1459,
+      "pairs": 1496,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -1999,11 +2002,11 @@
               "00000000029d29d00042d43d000000025dcf1556a0490d6996ab92df3d2555"
             ],
             "registered": [
+              "2025-10-27",
               "2026-01-06",
               "2026-01-14",
               "2026-01-22",
-              "2026-02-02",
-              "2026-02-03"
+              "2026-02-02"
             ],
             "registrable": [
               "bitget-meeting.com",
@@ -2016,8 +2019,8 @@
               "208.115.220.0/24"
             ]
           },
-          "ratio": 1.864,
-          "shared": 164,
+          "ratio": 1.875,
+          "shared": 165,
           "strength": 31,
           "via": [
             "certificate",
@@ -2131,6 +2134,41 @@
             "ioc",
             "jarm",
             "subnet",
+            "vhash"
+          ]
+        },
+        {
+          "a": "PXDropper",
+          "b": "PoisonX RAT",
+          "evidence": {
+            "filename": [
+              "8a037b87_.exe",
+              "k4xrk9r.exe",
+              "opl.exe",
+              "winctrl",
+              "winctrl.exe"
+            ],
+            "imphash": [
+              "def488e48bc8999f86a10e7af5918faf"
+            ],
+            "ioc": [
+              "ioc.sha256|5f3ba5a54f05a2be7191c1f4cc834a27bbb5a376420f99246e1fff3c9d33d869"
+            ],
+            "signer": [
+              "Apple Inc.; VeriSign Class 3 Code Signing 2004 CA; VeriSign Class 3 Public Primary CA"
+            ],
+            "vhash": [
+              "036076656d155d05155028z743z8hz2fz"
+            ]
+          },
+          "ratio": 3.667,
+          "shared": 11,
+          "strength": 26,
+          "via": [
+            "filename",
+            "imphash",
+            "ioc",
+            "signer",
             "vhash"
           ]
         },
@@ -2261,7 +2299,7 @@
               "025056655d15551az4c!z"
             ]
           },
-          "ratio": 1.25,
+          "ratio": 0.938,
           "shared": 15,
           "strength": 25,
           "via": [
@@ -2315,65 +2353,9 @@
             "registrable",
             "vhash"
           ]
-        },
-        {
-          "a": "Vidar Stealer",
-          "b": "XMRig",
-          "evidence": {
-            "family": [
-              "Remus",
-              "Vidar",
-              "egairtigado",
-              "giant",
-              "lumma"
-            ],
-            "filename": [
-              "1.exe_",
-              "12gvr.exe",
-              "13.exe",
-              "1gr01b2.exe",
-              "289yxtdo2.exe"
-            ],
-            "imphash": [
-              "0951d9f67c9a9e1b6ea746ed01bccc26",
-              "1aae8bf580c846f39c71c05898e57e88",
-              "5af915f278815e76bad476ef32593028",
-              "d8b31f8c03e0c76ff245ed05a15ffe6c",
-              "ebc247a77b4d4a804b261f97a1fd075c"
-            ],
-            "ioc": [
-              "ioc.ipv4|116.203.243.208",
-              "ioc.ipv4|136.243.203.109",
-              "ioc.ipv4|136.243.203.111",
-              "ioc.ipv4|138.199.246.13",
-              "ioc.sha1|ab92f731ab20774dfdb95664ee41a2fbafe2a284"
-            ],
-            "jarm": [
-              "2ad2ad16d2ad2ad00042d42d00000072e74222ce193a6f991becaa3da6c94d",
-              "40d40d40d00000000043d40d40d43d684d61a135bd962c8dd9c541ddbaefa8"
-            ],
-            "vhash": [
-              "016066656d1d15645az2c!z",
-              "016066656d5d15645az2d!z",
-              "016076656d1d1564557az2c!z",
-              "016086656d15551d15545az2e!z",
-              "017086656d15551d15545az2e!z"
-            ]
-          },
-          "ratio": 3.144,
-          "shared": 327,
-          "strength": 22,
-          "via": [
-            "family",
-            "filename",
-            "imphash",
-            "ioc",
-            "jarm",
-            "vhash"
-          ]
         }
       ],
-      "weak_only": 1357
+      "weak_only": 1387
     }
   },
   "schema": 1,
@@ -2541,7 +2523,7 @@
         ],
         "asns": [
           {
-            "addresses": 37583616,
+            "addresses": 37567232,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2575,7 +2557,7 @@
         ],
         "asns": [
           {
-            "addresses": 239872,
+            "addresses": 240128,
             "asn": 396356,
             "name": "Latitude.sh"
           }
@@ -2658,14 +2640,14 @@
         "subnet": "64.120.31.0/24"
       }
     ],
-    "total": 414
+    "total": 415
   },
   "targets": {
     "abuse": 5,
     "by_target": [
       {
         "abuse": 0,
-        "impersonation": 89,
+        "impersonation": 90,
         "rank": 643,
         "target": "live.com"
       },
@@ -2766,7 +2748,7 @@
         "target": "yandex.ru"
       }
     ],
-    "impersonation": 223
+    "impersonation": 224
   },
   "timeline": {
     "actors": {
@@ -2852,7 +2834,7 @@
           "span_days": 4625
         }
       ],
-      "with_dates": 176
+      "with_dates": 177
     },
     "campaigns": {
       "spans": [
@@ -3127,19 +3109,19 @@
       ],
       "with_dates": 14
     },
-    "dated": 7645,
+    "dated": 7730,
     "index_lag": {
-      "ahead": 345,
-      "median_days": 44,
+      "ahead": 347,
+      "median_days": 47,
       "p25_days": 2,
       "p75_days": 129,
-      "pairs": 3357
+      "pairs": 3442
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 229,
+      "checked": 230,
       "lowest": [
         {
           "checked": 4,
@@ -3213,7 +3195,7 @@
         }
       ]
     },
-    "clean": 2540,
+    "clean": 2554,
     "disagreement": {
       "samples": [
         {
@@ -3352,9 +3334,9 @@
           ]
         }
       ],
-      "total": 305
+      "total": 319
     },
-    "malicious": 15441,
-    "unknown": 3102
+    "malicious": 15545,
+    "unknown": 3140
   }
 }
