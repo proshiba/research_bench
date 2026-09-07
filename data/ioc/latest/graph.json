@@ -232,8 +232,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.057,
-      "shared": 56,
+      "ratio": 0.056,
+      "shared": 55,
       "source": "actor:APT28",
       "strength": 18,
       "target": "actor:APT29",
@@ -1062,8 +1062,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.033,
-      "shared": 15,
+      "ratio": 0.031,
+      "shared": 14,
       "source": "actor:APT28",
       "strength": 4,
       "target": "actor:Transparent Tribe",
@@ -1984,8 +1984,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.06,
-      "shared": 27,
+      "ratio": 0.058,
+      "shared": 26,
       "source": "actor:APT29",
       "strength": 4,
       "target": "actor:Transparent Tribe",
@@ -22103,6 +22103,29 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.1,
+      "shared": 1,
+      "source": "malware:Amatera",
+      "strength": 4,
+      "target": "malware:Amatera Stealer",
+      "via": [
+        "imphash"
+      ]
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.1,
+      "shared": 1,
+      "source": "malware:Amatera",
+      "strength": 3,
+      "target": "malware:NetSupport Manager",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.029,
       "shared": 1,
       "source": "malware:Amatera Stealer",
@@ -37051,7 +37074,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-09-06T00:03:13.935Z",
+  "generated_from": "2026-09-07T00:04:55.393Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -39016,6 +39039,12 @@
       "name": "Amadey"
     },
     {
+      "id": "malware:Amatera",
+      "ioc_count": 10,
+      "kind": "malware",
+      "name": "Amatera"
+    },
+    {
       "id": "malware:Amatera Stealer",
       "ioc_count": 35,
       "kind": "malware",
@@ -40775,5 +40804,5 @@
     }
   ],
   "schema": 1,
-  "week": "2026-W36"
+  "week": "2026-W37"
 }

@@ -119,7 +119,7 @@
           "APT28",
           "Sandworm Team"
         ],
-        "addresses": 3584,
+        "addresses": 3840,
         "asn": 60602,
         "cc": "MD",
         "hosting_ratio": 1,
@@ -269,7 +269,7 @@
           "Rognar",
           "Wizard Spider"
         ],
-        "addresses": 1611008,
+        "addresses": 1611520,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -312,7 +312,7 @@
           "TeamPCP",
           "Void Balaur"
         ],
-        "addresses": 218010112,
+        "addresses": 218003712,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -363,7 +363,7 @@
           "MuddyWater",
           "UNC5174"
         ],
-        "addresses": 1458432,
+        "addresses": 1459712,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -379,7 +379,7 @@
           "Qilin",
           "TAG-83"
         ],
-        "addresses": 539136,
+        "addresses": 538880,
         "asn": 29802,
         "cc": "US",
         "name": "HIVELOCITY, Inc."
@@ -410,7 +410,7 @@
           "The Gentlemen",
           "UNC7005"
         ],
-        "addresses": 37567232,
+        "addresses": 37566720,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
@@ -467,7 +467,7 @@
           "BITTER",
           "Contagious Interview"
         ],
-        "addresses": 1047296,
+        "addresses": 1047552,
         "asn": 36352,
         "cc": "US",
         "name": "HostPapa"
@@ -577,7 +577,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1300
+    "total": 1301
   },
   "coverage": {
     "abuseipdb": {
@@ -587,20 +587,20 @@
           "target": 949
         },
         "2": {
-          "done": 334,
-          "target": 334
+          "done": 335,
+          "target": 335
         },
         "5": {
           "done": 2375,
           "target": 2375
         }
       },
-      "done": 3659,
+      "done": 3660,
       "ratio": 1,
-      "target": 3658
+      "target": 3659
     },
-    "newest_fetch": "2026-09-06",
-    "oldest_fetch": "2026-09-06",
+    "newest_fetch": "2026-09-07",
+    "oldest_fetch": "2026-09-07",
     "virustotal": {
       "by_stage": {
         "1": {
@@ -608,30 +608,30 @@
           "target": 5717
         },
         "2": {
-          "done": 334,
-          "target": 334
+          "done": 335,
+          "target": 335
         },
         "3": {
-          "done": 5133,
-          "target": 5133
+          "done": 5140,
+          "target": 5140
         },
         "4": {
-          "done": 4887,
-          "target": 4887
+          "done": 4891,
+          "target": 4891
         },
         "5": {
-          "done": 4426,
-          "target": 4426
+          "done": 4430,
+          "target": 4430
         },
         "6": {
-          "done": 1017,
-          "target": 1017
+          "done": 1037,
+          "target": 1037
         }
       },
-      "done": 21515,
-      "known": 18375,
+      "done": 21551,
+      "known": 18411,
       "ratio": 1,
-      "target": 21514,
+      "target": 21550,
       "unknown": 3140
     }
   },
@@ -639,26 +639,26 @@
     "actor": 261,
     "campaign": 20,
     "case": 486,
-    "malware": 448
+    "malware": 450
   },
   "from": {
-    "collected_at": "2026-09-06T00:03:13.935Z",
-    "week": "2026-W36"
+    "collected_at": "2026-09-07T00:04:55.393Z",
+    "week": "2026-W37"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 7076,
+      "ioc.domain": 7100,
       "ioc.email": 268,
       "ioc.endpoint": 204,
-      "ioc.ipv4": 3602,
+      "ioc.ipv4": 3603,
       "ioc.ipv6": 65,
-      "ioc.md5": 2480,
+      "ioc.md5": 2481,
       "ioc.sha1": 1493,
-      "ioc.sha256": 3740,
+      "ioc.sha256": 3746,
       "ioc.sha512": 16,
-      "ioc.url": 3067
+      "ioc.url": 3071
     },
-    "dated": 8570,
+    "dated": 8606,
     "excluded": {
       "bogon": 3,
       "malformed": 0,
@@ -666,8 +666,8 @@
       "popular": 76,
       "sample_reported": 1
     },
-    "total": 22011,
-    "usable": 21926
+    "total": 22047,
+    "usable": 21962
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -1818,10 +1818,10 @@
         "certificate": 5,
         "family": 136,
         "filename": 35,
-        "imphash": 35,
+        "imphash": 36,
         "ioc": 61,
         "jarm": 542,
-        "registered": 827,
+        "registered": 828,
         "registrable": 43,
         "resolution": 1,
         "signer": 5,
@@ -1829,7 +1829,7 @@
         "vhash": 39
       },
       "identical_sets": 9,
-      "pairs": 1496,
+      "pairs": 1498,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2355,7 +2355,7 @@
           ]
         }
       ],
-      "weak_only": 1387
+      "weak_only": 1388
     }
   },
   "schema": 1,
@@ -2523,7 +2523,7 @@
         ],
         "asns": [
           {
-            "addresses": 37567232,
+            "addresses": 37566720,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -3109,13 +3109,13 @@
       ],
       "with_dates": 14
     },
-    "dated": 7730,
+    "dated": 7741,
     "index_lag": {
       "ahead": 347,
       "median_days": 47,
       "p25_days": 2,
       "p75_days": 129,
-      "pairs": 3442
+      "pairs": 3453
     }
   },
   "tool": "tools/ioc/stats.mjs",
@@ -3195,7 +3195,7 @@
         }
       ]
     },
-    "clean": 2554,
+    "clean": 2556,
     "disagreement": {
       "samples": [
         {
@@ -3336,7 +3336,7 @@
       ],
       "total": 319
     },
-    "malicious": 15545,
+    "malicious": 15578,
     "unknown": 3140
   }
 }
