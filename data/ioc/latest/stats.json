@@ -148,6 +148,7 @@
           "APT37",
           "APT41",
           "Anonymous",
+          "BigBear 2.0",
           "Bohrium",
           "CL-STA-1062",
           "Candiru",
@@ -165,7 +166,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1481728,
+        "addresses": 1456640,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -192,7 +193,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4629504,
+        "addresses": 4630016,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -245,7 +246,7 @@
           "Qilin",
           "Void Balaur"
         ],
-        "addresses": 3128576,
+        "addresses": 3132672,
         "asn": 14061,
         "cc": "US",
         "name": "DigitalOcean LLC"
@@ -269,7 +270,7 @@
           "Rognar",
           "Wizard Spider"
         ],
-        "addresses": 1611520,
+        "addresses": 1610496,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -312,7 +313,7 @@
           "TeamPCP",
           "Void Balaur"
         ],
-        "addresses": 218003712,
+        "addresses": 218017792,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -410,7 +411,7 @@
           "The Gentlemen",
           "UNC7005"
         ],
-        "addresses": 37566720,
+        "addresses": 37566464,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
@@ -467,7 +468,7 @@
           "BITTER",
           "Contagious Interview"
         ],
-        "addresses": 1047552,
+        "addresses": 1047296,
         "asn": 36352,
         "cc": "US",
         "name": "HostPapa"
@@ -515,10 +516,30 @@
         "name": "Leaseweb Singapore Pte. Ltd."
       }
     ],
-    "multi_actor": 202,
-    "multi_actor_small": 4,
-    "small": 237,
+    "multi_actor": 203,
+    "multi_actor_small": 5,
+    "small": 242,
     "top": [
+      {
+        "actors": [
+          "SQLRCE0",
+          "Silver Fox",
+          "Yx Technology"
+        ],
+        "addresses": 1792,
+        "asn": 139613,
+        "cc": "HK",
+        "hosting_ratio": 0,
+        "hosting_seen": 3,
+        "ips": 3,
+        "malware": [
+          "Flying Eagle",
+          "Night Dragon",
+          "ValleyRAT"
+        ],
+        "name": "HONG KONG LIGHTLAYER TECHNOLOGY CO., LIMITED",
+        "shared_hosting": false
+      },
       {
         "actors": [
           "APT37",
@@ -577,88 +598,88 @@
         "shared_hosting": false
       }
     ],
-    "total": 1301
+    "total": 1312
   },
   "coverage": {
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 949,
-          "target": 949
+          "done": 974,
+          "target": 974
         },
         "2": {
-          "done": 335,
-          "target": 335
+          "done": 339,
+          "target": 339
         },
         "5": {
-          "done": 2375,
-          "target": 2375
+          "done": 2387,
+          "target": 2387
         }
       },
-      "done": 3660,
+      "done": 3701,
       "ratio": 1,
-      "target": 3659
+      "target": 3700
     },
-    "newest_fetch": "2026-09-07",
-    "oldest_fetch": "2026-09-07",
+    "newest_fetch": "2026-09-08",
+    "oldest_fetch": "2026-09-08",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 5717,
-          "target": 5717
+          "done": 5800,
+          "target": 5800
         },
         "2": {
-          "done": 335,
-          "target": 335
+          "done": 339,
+          "target": 339
         },
         "3": {
-          "done": 5140,
-          "target": 5140
+          "done": 5146,
+          "target": 5146
         },
         "4": {
-          "done": 4891,
-          "target": 4891
+          "done": 4898,
+          "target": 4898
         },
         "5": {
-          "done": 4430,
-          "target": 4430
+          "done": 4443,
+          "target": 4443
         },
         "6": {
-          "done": 1037,
-          "target": 1037
+          "done": 1062,
+          "target": 1062
         }
       },
-      "done": 21551,
-      "known": 18411,
+      "done": 21689,
+      "known": 18543,
       "ratio": 1,
-      "target": 21550,
-      "unknown": 3140
+      "target": 21688,
+      "unknown": 3146
     }
   },
   "entities": {
-    "actor": 261,
+    "actor": 263,
     "campaign": 20,
-    "case": 486,
-    "malware": 450
+    "case": 493,
+    "malware": 456
   },
   "from": {
-    "collected_at": "2026-09-07T00:04:55.393Z",
+    "collected_at": "2026-09-08T00:04:30.246Z",
     "week": "2026-W37"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 7100,
+      "ioc.domain": 7159,
       "ioc.email": 268,
-      "ioc.endpoint": 204,
-      "ioc.ipv4": 3603,
+      "ioc.endpoint": 268,
+      "ioc.ipv4": 3644,
       "ioc.ipv6": 65,
       "ioc.md5": 2481,
       "ioc.sha1": 1493,
-      "ioc.sha256": 3746,
+      "ioc.sha256": 3782,
       "ioc.sha512": 16,
-      "ioc.url": 3071
+      "ioc.url": 3073
     },
-    "dated": 8606,
+    "dated": 8731,
     "excluded": {
       "bogon": 3,
       "malformed": 0,
@@ -666,8 +687,8 @@
       "popular": 76,
       "sample_reported": 1
     },
-    "total": 22047,
-    "usable": 21962
+    "total": 22249,
+    "usable": 22164
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -689,14 +710,14 @@
   "overlaps": {
     "actor": {
       "by_via": {
-        "asn": 3,
+        "asn": 5,
         "certificate": 7,
-        "family": 141,
+        "family": 143,
         "filename": 38,
         "imphash": 24,
         "ioc": 44,
-        "jarm": 749,
-        "registered": 559,
+        "jarm": 761,
+        "registered": 560,
         "registrable": 29,
         "resolution": 1,
         "signer": 3,
@@ -704,7 +725,7 @@
         "vhash": 16
       },
       "identical_sets": 2,
-      "pairs": 1302,
+      "pairs": 1322,
       "top": [
         {
           "a": "APT37",
@@ -1270,7 +1291,7 @@
           ]
         }
       ],
-      "weak_only": 1229
+      "weak_only": 1247
     },
     "campaign": {
       "by_via": {
@@ -1393,23 +1414,6 @@
           "weak_only": true
         },
         {
-          "a": "Operation DarkHorse",
-          "b": "Operation Newton",
-          "evidence": {
-            "jarm": [
-              "3fd3fd00000000000043d43d00043dc3b2afa8a5ec09b510a8559aff7899fb",
-              "3fd3fd0003fd3fd21c42d42d000000307ee0eb468e9fdb5cfcd698a80a67ef"
-            ]
-          },
-          "ratio": 0.038,
-          "shared": 2,
-          "strength": 1,
-          "via": [
-            "jarm"
-          ],
-          "weak_only": true
-        },
-        {
           "a": "Meta Syrian network disruption (October 2021)",
           "b": "TOUGHPROGRESS Government Targeting Campaign",
           "evidence": {
@@ -1456,6 +1460,22 @@
             "jarm"
           ],
           "weak_only": true
+        },
+        {
+          "a": "Operation DarkHorse",
+          "b": "Operation Newton",
+          "evidence": {
+            "jarm": [
+              "3fd3fd0003fd3fd21c42d42d000000307ee0eb468e9fdb5cfcd698a80a67ef"
+            ]
+          },
+          "ratio": 0.019,
+          "shared": 1,
+          "strength": 1,
+          "via": [
+            "jarm"
+          ],
+          "weak_only": true
         }
       ],
       "weak_only": 14
@@ -1468,16 +1488,16 @@
         "filename": 8,
         "imphash": 6,
         "ioc": 132,
-        "jarm": 116,
-        "registered": 47,
+        "jarm": 122,
+        "registered": 52,
         "registrable": 68,
         "resolution": 0,
         "signer": 0,
         "subnet": 5,
         "vhash": 10
       },
-      "identical_sets": 155,
-      "pairs": 239,
+      "identical_sets": 156,
+      "pairs": 251,
       "top": [
         {
           "a": "case:3f09145757282e6a59cd69319ac3b9da3265022a1d4f92a1646f8ddbaad89333",
@@ -1810,18 +1830,18 @@
           ]
         }
       ],
-      "weak_only": 101
+      "weak_only": 113
     },
     "malware": {
       "by_via": {
-        "asn": 5,
+        "asn": 7,
         "certificate": 5,
-        "family": 136,
+        "family": 140,
         "filename": 35,
         "imphash": 36,
         "ioc": 61,
-        "jarm": 542,
-        "registered": 828,
+        "jarm": 554,
+        "registered": 831,
         "registrable": 43,
         "resolution": 1,
         "signer": 5,
@@ -1829,7 +1849,7 @@
         "vhash": 39
       },
       "identical_sets": 9,
-      "pairs": 1498,
+      "pairs": 1523,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2355,12 +2375,12 @@
           ]
         }
       ],
-      "weak_only": 1388
+      "weak_only": 1411
     }
   },
   "schema": 1,
   "subnets": {
-    "multi_actor": 94,
+    "multi_actor": 98,
     "top": [
       {
         "actors": [
@@ -2523,7 +2543,7 @@
         ],
         "asns": [
           {
-            "addresses": 37566720,
+            "addresses": 37566464,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2640,7 +2660,7 @@
         "subnet": "64.120.31.0/24"
       }
     ],
-    "total": 415
+    "total": 421
   },
   "targets": {
     "abuse": 5,
@@ -2834,7 +2854,7 @@
           "span_days": 4625
         }
       ],
-      "with_dates": 177
+      "with_dates": 178
     },
     "campaigns": {
       "spans": [
@@ -3109,19 +3129,19 @@
       ],
       "with_dates": 14
     },
-    "dated": 7741,
+    "dated": 7773,
     "index_lag": {
-      "ahead": 347,
+      "ahead": 351,
       "median_days": 47,
       "p25_days": 2,
-      "p75_days": 129,
-      "pairs": 3453
+      "p75_days": 130,
+      "pairs": 3485
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 230,
+      "checked": 232,
       "lowest": [
         {
           "checked": 4,
@@ -3159,6 +3179,13 @@
           "unknown": 22
         },
         {
+          "checked": 48,
+          "iocs": 48,
+          "median_malicious": 0,
+          "name": "BigBear 2.0",
+          "unknown": 0
+        },
+        {
           "checked": 3,
           "iocs": 6,
           "median_malicious": 0,
@@ -3185,17 +3212,10 @@
           "median_malicious": 0,
           "name": "Equation Group",
           "unknown": 1
-        },
-        {
-          "checked": 3,
-          "iocs": 3,
-          "median_malicious": 0,
-          "name": "Glocom",
-          "unknown": 0
         }
       ]
     },
-    "clean": 2556,
+    "clean": 2608,
     "disagreement": {
       "samples": [
         {
@@ -3221,6 +3241,15 @@
             "c2"
           ],
           "ioc": "ioc.domain|11795e00a.systemdata.delivery",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|457cfa2fb7p5.daf892t5qau4og8pi4cghbc6fhm1dim3u.oast.site",
           "sources": [
             "tech-memo-daily-news"
           ]
@@ -3317,26 +3346,17 @@
         },
         {
           "classes": [
-            "c2"
+            "phishing-site"
           ],
-          "ioc": "ioc.domain|azure-nancey-17.tiiny.site",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
-        },
-        {
-          "classes": [
-            "c2"
-          ],
-          "ioc": "ioc.domain|bestopebel.pl",
+          "ioc": "ioc.domain|arrmmy.com",
           "sources": [
             "tech-memo-daily-news"
           ]
         }
       ],
-      "total": 319
+      "total": 368
     },
-    "malicious": 15578,
-    "unknown": 3140
+    "malicious": 15655,
+    "unknown": 3146
   }
 }
