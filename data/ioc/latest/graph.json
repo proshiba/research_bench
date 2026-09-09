@@ -2310,13 +2310,12 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.036,
-      "shared": 4,
+      "ratio": 0.027,
+      "shared": 3,
       "source": "actor:APT33",
-      "strength": 3,
+      "strength": 1,
       "target": "actor:APT37",
       "via": [
-        "family",
         "jarm"
       ],
       "weak_only": true
@@ -2419,18 +2418,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
-      "shared": 1,
-      "source": "actor:APT33",
-      "strength": 2,
-      "target": "actor:GreyVibe",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.019,
       "shared": 1,
       "source": "actor:APT33",
@@ -2438,18 +2425,6 @@
       "target": "actor:Jewelbug",
       "via": [
         "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.017,
-      "shared": 1,
-      "source": "actor:APT33",
-      "strength": 2,
-      "target": "actor:KongTuke",
-      "via": [
-        "family"
       ],
       "weak_only": true
     },
@@ -2486,18 +2461,6 @@
       "target": "actor:Metador",
       "via": [
         "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.009,
-      "shared": 1,
-      "source": "actor:APT33",
-      "strength": 2,
-      "target": "actor:Mustang Panda",
-      "via": [
-        "family"
       ],
       "weak_only": true
     },
@@ -3103,18 +3066,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.007,
-      "shared": 1,
-      "source": "actor:APT37",
-      "strength": 2,
-      "target": "actor:GreyVibe",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.038,
       "shared": 1,
       "source": "actor:APT37",
@@ -3175,13 +3126,12 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.05,
-      "shared": 3,
+      "ratio": 0.033,
+      "shared": 2,
       "source": "actor:APT37",
-      "strength": 6,
+      "strength": 4,
       "target": "actor:KongTuke",
       "via": [
-        "family",
         "jarm",
         "registered"
       ],
@@ -3261,13 +3211,12 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.018,
-      "shared": 2,
+      "ratio": 0.009,
+      "shared": 1,
       "source": "actor:APT37",
-      "strength": 5,
+      "strength": 3,
       "target": "actor:Mustang Panda",
       "via": [
-        "family",
         "registered"
       ],
       "weak_only": true
@@ -11629,13 +11578,12 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.05,
-      "shared": 3,
+      "ratio": 0.033,
+      "shared": 2,
       "source": "actor:GreyVibe",
-      "strength": 5,
+      "strength": 3,
       "target": "actor:KongTuke",
       "via": [
-        "family",
         "registered"
       ],
       "weak_only": true
@@ -11668,13 +11616,12 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.018,
-      "shared": 2,
+      "ratio": 0.009,
+      "shared": 1,
       "source": "actor:GreyVibe",
-      "strength": 5,
+      "strength": 3,
       "target": "actor:Mustang Panda",
       "via": [
-        "family",
         "registered"
       ],
       "weak_only": true
@@ -12901,18 +12848,6 @@
       "target": "actor:Magecart",
       "via": [
         "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.017,
-      "shared": 1,
-      "source": "actor:KongTuke",
-      "strength": 2,
-      "target": "actor:Mustang Panda",
-      "via": [
-        "family"
       ],
       "weak_only": true
     },
@@ -22057,7 +21992,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 1.857,
+      "ratio": 0.684,
       "shared": 13,
       "source": "malware:Agent Tesla",
       "strength": 21,
@@ -23121,18 +23056,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.01,
-      "shared": 1,
-      "source": "malware:AsyncRAT",
-      "strength": 2,
-      "target": "malware:FDMTP",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.111,
       "shared": 1,
       "source": "malware:AsyncRAT",
@@ -23243,13 +23166,12 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.043,
-      "shared": 2,
+      "ratio": 0.021,
+      "shared": 1,
       "source": "malware:AsyncRAT",
-      "strength": 5,
+      "strength": 3,
       "target": "malware:Mistic",
       "via": [
-        "family",
         "registered"
       ],
       "weak_only": true
@@ -23848,6 +23770,18 @@
       "source": "malware:Backdoor.Turn",
       "strength": 1,
       "target": "malware:SectopRAT",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.053,
+      "shared": 1,
+      "source": "malware:Backdoor.Turn",
+      "strength": 1,
+      "target": "malware:Snake Keylogger",
       "via": [
         "jarm"
       ],
@@ -27665,7 +27599,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 3.286,
+      "ratio": 1.211,
       "shared": 23,
       "source": "malware:DonutLoader",
       "strength": 23,
@@ -27834,6 +27768,18 @@
       "source": "malware:DragonForce ransomware",
       "strength": 1,
       "target": "malware:SectopRAT",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.053,
+      "shared": 1,
+      "source": "malware:DragonForce ransomware",
+      "strength": 1,
+      "target": "malware:Snake Keylogger",
       "via": [
         "jarm"
       ],
@@ -29323,6 +29269,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.053,
+      "shared": 1,
+      "source": "malware:Evilginx2",
+      "strength": 1,
+      "target": "malware:Snake Keylogger",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.021,
       "shared": 1,
       "source": "malware:Evilginx2",
@@ -29533,18 +29491,6 @@
       "target": "malware:GHETTOVIBE",
       "via": [
         "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.021,
-      "shared": 1,
-      "source": "malware:FDMTP",
-      "strength": 2,
-      "target": "malware:Mistic",
-      "via": [
-        "family"
       ],
       "weak_only": true
     },
@@ -34424,6 +34370,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.053,
+      "shared": 1,
+      "source": "malware:OTTERCOOKIE",
+      "strength": 1,
+      "target": "malware:Snake Keylogger",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.111,
       "shared": 1,
       "source": "malware:OTTERCOOKIE",
@@ -35749,6 +35707,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:PrincessClub",
+      "strength": 1,
+      "target": "malware:Snake Keylogger",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.077,
       "shared": 1,
       "source": "malware:PrincessClub",
@@ -36647,6 +36617,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.053,
+      "shared": 1,
+      "source": "malware:SectopRAT",
+      "strength": 1,
+      "target": "malware:Snake Keylogger",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.034,
       "shared": 1,
       "source": "malware:SectopRAT",
@@ -37083,6 +37065,20 @@
         "jarm"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 2.75,
+      "shared": 11,
+      "source": "malware:Snake Keylogger",
+      "strength": 12,
+      "target": "malware:VIPKeyLogger",
+      "via": [
+        "filename",
+        "ioc",
+        "jarm",
+        "registrable"
+      ]
     },
     {
       "kind": "malware",
@@ -37746,7 +37742,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-09-08T00:04:30.246Z",
+  "generated_from": "2026-09-09T00:05:10.906Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -41110,7 +41106,7 @@
     },
     {
       "id": "malware:Snake Keylogger",
-      "ioc_count": 7,
+      "ioc_count": 21,
       "kind": "malware",
       "name": "Snake Keylogger"
     },
@@ -41326,7 +41322,7 @@
     },
     {
       "id": "malware:ValleyRAT",
-      "ioc_count": 343,
+      "ioc_count": 348,
       "kind": "malware",
       "name": "ValleyRAT"
     },
