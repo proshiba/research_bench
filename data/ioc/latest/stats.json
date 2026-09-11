@@ -95,7 +95,7 @@
           "APT38",
           "Rognar"
         ],
-        "addresses": 2816,
+        "addresses": 3072,
         "asn": 398256,
         "cc": "US",
         "hosting_ratio": 1,
@@ -119,7 +119,7 @@
           "APT28",
           "Sandworm Team"
         ],
-        "addresses": 3840,
+        "addresses": 4096,
         "asn": 60602,
         "cc": "MD",
         "hosting_ratio": 1,
@@ -193,7 +193,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4628480,
+        "addresses": 4628736,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -271,7 +271,7 @@
           "Rognar",
           "Wizard Spider"
         ],
-        "addresses": 1608960,
+        "addresses": 1607680,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -312,9 +312,10 @@
           "Silver Fox",
           "TA4922",
           "TeamPCP",
+          "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218013184,
+        "addresses": 218020864,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -347,7 +348,8 @@
           "Gamaredon",
           "KongTuke",
           "Qilin",
-          "UAC-0099"
+          "UAC-0099",
+          "UTA0560"
         ],
         "addresses": 17408,
         "asn": 399629,
@@ -365,7 +367,7 @@
           "MuddyWater",
           "UNC5174"
         ],
-        "addresses": 1462528,
+        "addresses": 1459712,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -412,7 +414,7 @@
           "The Gentlemen",
           "UNC7005"
         ],
-        "addresses": 37615104,
+        "addresses": 37595904,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
@@ -469,7 +471,7 @@
           "BITTER",
           "Contagious Interview"
         ],
-        "addresses": 1057792,
+        "addresses": 1058048,
         "asn": 36352,
         "cc": "US",
         "name": "HostPapa"
@@ -519,7 +521,7 @@
     ],
     "multi_actor": 204,
     "multi_actor_small": 5,
-    "small": 243,
+    "small": 246,
     "top": [
       {
         "actors": [
@@ -599,88 +601,88 @@
         "shared_hosting": false
       }
     ],
-    "total": 1311
+    "total": 1317
   },
   "coverage": {
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 976,
-          "target": 976
+          "done": 983,
+          "target": 983
         },
         "2": {
-          "done": 341,
-          "target": 341
+          "done": 343,
+          "target": 343
         },
         "5": {
-          "done": 2403,
-          "target": 2403
+          "done": 2404,
+          "target": 2404
         }
       },
-      "done": 3721,
+      "done": 3731,
       "ratio": 1,
-      "target": 3720
+      "target": 3730
     },
-    "newest_fetch": "2026-09-10",
-    "oldest_fetch": "2026-09-10",
+    "newest_fetch": "2026-09-11",
+    "oldest_fetch": "2026-09-11",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 5815,
-          "target": 5815
+          "done": 5934,
+          "target": 5934
         },
         "2": {
-          "done": 341,
-          "target": 341
+          "done": 343,
+          "target": 343
         },
         "3": {
-          "done": 5158,
-          "target": 5158
+          "done": 5175,
+          "target": 5175
         },
         "4": {
-          "done": 4898,
-          "target": 4898
+          "done": 4907,
+          "target": 4907
         },
         "5": {
-          "done": 4461,
-          "target": 4461
+          "done": 4463,
+          "target": 4463
         },
         "6": {
-          "done": 1068,
-          "target": 1068
+          "done": 1085,
+          "target": 1085
         }
       },
-      "done": 21742,
-      "known": 18586,
+      "done": 21908,
+      "known": 18716,
       "ratio": 1,
-      "target": 21741,
-      "unknown": 3156
+      "target": 21907,
+      "unknown": 3192
     }
   },
   "entities": {
-    "actor": 263,
+    "actor": 271,
     "campaign": 20,
     "case": 494,
-    "malware": 458
+    "malware": 460
   },
   "from": {
-    "collected_at": "2026-09-10T00:04:51.159Z",
+    "collected_at": "2026-09-11T00:04:29.700Z",
     "week": "2026-W37"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 7164,
+      "ioc.domain": 7235,
       "ioc.email": 268,
       "ioc.endpoint": 269,
-      "ioc.ipv4": 3664,
+      "ioc.ipv4": 3674,
       "ioc.ipv6": 65,
-      "ioc.md5": 2481,
+      "ioc.md5": 2486,
       "ioc.sha1": 1493,
-      "ioc.sha256": 3805,
+      "ioc.sha256": 3859,
       "ioc.sha512": 16,
-      "ioc.url": 3078
+      "ioc.url": 3104
     },
-    "dated": 8775,
+    "dated": 8941,
     "excluded": {
       "bogon": 3,
       "malformed": 0,
@@ -688,8 +690,8 @@
       "popular": 78,
       "sample_reported": 1
     },
-    "total": 22303,
-    "usable": 22216
+    "total": 22469,
+    "usable": 22382
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -713,12 +715,12 @@
       "by_via": {
         "asn": 5,
         "certificate": 7,
-        "family": 133,
+        "family": 135,
         "filename": 38,
         "imphash": 24,
         "ioc": 44,
-        "jarm": 762,
-        "registered": 560,
+        "jarm": 748,
+        "registered": 572,
         "registrable": 29,
         "resolution": 1,
         "signer": 3,
@@ -726,7 +728,7 @@
         "vhash": 16
       },
       "identical_sets": 2,
-      "pairs": 1318,
+      "pairs": 1323,
       "top": [
         {
           "a": "APT37",
@@ -1292,7 +1294,7 @@
           ]
         }
       ],
-      "weak_only": 1243
+      "weak_only": 1248
     },
     "campaign": {
       "by_via": {
@@ -1836,21 +1838,21 @@
     "malware": {
       "by_via": {
         "asn": 7,
-        "certificate": 5,
+        "certificate": 6,
         "family": 136,
-        "filename": 35,
-        "imphash": 36,
-        "ioc": 61,
-        "jarm": 565,
-        "registered": 850,
-        "registrable": 43,
+        "filename": 36,
+        "imphash": 37,
+        "ioc": 62,
+        "jarm": 576,
+        "registered": 865,
+        "registrable": 45,
         "resolution": 1,
         "signer": 5,
-        "subnet": 23,
-        "vhash": 39
+        "subnet": 20,
+        "vhash": 40
       },
       "identical_sets": 10,
-      "pairs": 1551,
+      "pairs": 1575,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -1983,6 +1985,63 @@
             "registered",
             "registrable",
             "signer",
+            "vhash"
+          ]
+        },
+        {
+          "a": "DonutLoader",
+          "b": "Overlord",
+          "evidence": {
+            "certificate": [
+              "1c7e808997dfdee897fcd7c7b674899ad0ac58e661541456f5a14f8550e16d0f"
+            ],
+            "filename": [
+              "????????????????.exe",
+              "GST_Filing_Overdue_GSTR-3B_GSTIN07FGHIJ3456L1Z9_Due_20082026.exe",
+              "GST_Filing_Overdue_GSTR-8B_GSTIN07FGHIJ3456L1Z9_Due_20082026.exe",
+              "GST_Filing_Overdue_GSTR-8B_GSTIN24WXYZ56789M1Z3_Due_20082026.exe",
+              "GST_Filing_Overdue_GSTR-8B_GSTIN27ABCDE1234F1Z5_Due_20082026.exe"
+            ],
+            "imphash": [
+              "2951b3b15a147e026c1322ea11298884",
+              "db9c96e2ff3a0d086fb0ade5b37439ad"
+            ],
+            "ioc": [
+              "ioc.domain|pfokq.cyou",
+              "ioc.domain|rrrjp.shop",
+              "ioc.domain|vjtpcxof.top",
+              "ioc.domain|wecqb.cyou",
+              "ioc.sha256|1d08f2605fc1f991020205ca38d3518332fed4f26782e579a265cdb3652cfd98"
+            ],
+            "jarm": [
+              "3fd3fd0003fd3fd00042d43d0000002059a3b916699461c5923779b77cf06b"
+            ],
+            "registered": [
+              "2026-01-07",
+              "2026-05-17"
+            ],
+            "registrable": [
+              "pfokq.cyou",
+              "rrrjp.shop",
+              "vjtpcxof.top",
+              "wecqb.cyou"
+            ],
+            "vhash": [
+              "0560b65d5c0d1d151c0510722010064008402022z110e4z160600c50305az3",
+              "184076555d155d05151038z29=ze8"
+            ]
+          },
+          "ratio": 1.029,
+          "shared": 36,
+          "strength": 34,
+          "via": [
+            "certificate",
+            "filename",
+            "imphash",
+            "ioc",
+            "jarm",
+            "registered",
+            "registrable",
             "vhash"
           ]
         },
@@ -2280,7 +2339,7 @@
               "125066651d151d751.ze"
             ]
           },
-          "ratio": 0.692,
+          "ratio": 0.514,
           "shared": 18,
           "strength": 25,
           "via": [
@@ -2331,57 +2390,14 @@
             "subnet",
             "vhash"
           ]
-        },
-        {
-          "a": "DonutLoader",
-          "b": "Snake Keylogger",
-          "evidence": {
-            "family": [
-              "luainj",
-              "luajit"
-            ],
-            "filename": [
-              "ABTUVQFLAWSVYYHQ.PIF",
-              "ACILDKSVYDDKRQGW.PIF",
-              "AIZUDRHZXGBAORSM.PIF",
-              "AJLLJGGKXKWSLDDC.PIF",
-              "AZJHFFCIDNUPKUUT.PIF"
-            ],
-            "imphash": [
-              "f09ca5b7fb5026a683c783d4a5ee3730"
-            ],
-            "ioc": [
-              "ioc.domain|mail.elpasohonroso.com",
-              "ioc.sha256|36ea8b1a990ceb83adf53f626078d631580b7d973e410e916a4818fab0014d3d",
-              "ioc.sha256|52f0c0230b580e2fdf53a378b5c6d0db9829af900dae43e0df8f18635cd9f0c1",
-              "ioc.sha256|dfc8e7b7e48faab9a410111ea31001c729ab9b1c83525499f028b5344869be9e"
-            ],
-            "registrable": [
-              "elpasohonroso.com"
-            ],
-            "vhash": [
-              "0450a76d1555551c0d1d1az255b=z"
-            ]
-          },
-          "ratio": 1.211,
-          "shared": 23,
-          "strength": 23,
-          "via": [
-            "family",
-            "filename",
-            "imphash",
-            "ioc",
-            "registrable",
-            "vhash"
-          ]
         }
       ],
-      "weak_only": 1439
+      "weak_only": 1462
     }
   },
   "schema": 1,
   "subnets": {
-    "multi_actor": 98,
+    "multi_actor": 99,
     "top": [
       {
         "actors": [
@@ -2544,7 +2560,7 @@
         ],
         "asns": [
           {
-            "addresses": 37615104,
+            "addresses": 37595904,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2597,7 +2613,7 @@
         ],
         "asns": [
           {
-            "addresses": 149760,
+            "addresses": 143616,
             "asn": 262287,
             "name": "Latitude.sh LTDA"
           }
@@ -2661,7 +2677,7 @@
         "subnet": "64.120.31.0/24"
       }
     ],
-    "total": 422
+    "total": 425
   },
   "targets": {
     "abuse": 5,
@@ -2855,7 +2871,7 @@
           "span_days": 4625
         }
       ],
-      "with_dates": 178
+      "with_dates": 182
     },
     "campaigns": {
       "spans": [
@@ -3130,19 +3146,19 @@
       ],
       "with_dates": 14
     },
-    "dated": 7791,
+    "dated": 7840,
     "index_lag": {
-      "ahead": 351,
-      "median_days": 47,
+      "ahead": 359,
+      "median_days": 45,
       "p25_days": 2,
-      "p75_days": 130,
-      "pairs": 3500
+      "p75_days": 129,
+      "pairs": 3549
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 232,
+      "checked": 239,
       "lowest": [
         {
           "checked": 4,
@@ -3216,7 +3232,7 @@
         }
       ]
     },
-    "clean": 2621,
+    "clean": 2634,
     "disagreement": {
       "samples": [
         {
@@ -3355,9 +3371,9 @@
           ]
         }
       ],
-      "total": 372
+      "total": 380
     },
-    "malicious": 15685,
-    "unknown": 3156
+    "malicious": 15797,
+    "unknown": 3192
   }
 }
