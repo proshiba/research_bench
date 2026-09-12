@@ -82,9 +82,17 @@ const abuseRecords = readAllRecords(ABUSE_CACHE);
  * `readAllRecords` が何の写しか区別できなくなる。無くても他は動く。
  */
 const relRecords = readAllRecords(REL_CACHE);
-if (!vtRecords.length && !abuseRecords.length) {
+/**
+ * 写し（.cache）が空でも、前回の `vt.jsonl` / `abuseipdb.jsonl` に判定が
+ * 残っていれば 1d 節（下）で引き継げるので続行してよい。まっさらなコンテナで
+ * 100% カバレッジの翌日を迎えると、今日引く分が無く写しも空のまま終わる
+ * （fetch-vt.mjs / fetch-abuseipdb.mjs の「もう引いた」判定どおり）ので、
+ * それを「本当に何も無い」と混同しない。
+ */
+const hasPrevVerdicts = (name) => readJsonl(path.join(IN, name)).some((r) => iocByKey.has(r.ioc));
+if (!vtRecords.length && !abuseRecords.length && !hasPrevVerdicts("vt.jsonl") && !hasPrevVerdicts("abuseipdb.jsonl")) {
   console.error([
-    "写しがありません。先に取得してください。",
+    "写しも前回の判定もありません。先に取得してください。",
     '  VT_API_KEYS="…" node tools/ioc/fetch-vt.mjs',
     '  ABUSEIPDB_API_KEY="…" node tools/ioc/fetch-abuseipdb.mjs',
   ].join("\n"));
