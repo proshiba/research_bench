@@ -232,7 +232,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.056,
+      "ratio": 0.053,
       "shared": 55,
       "source": "actor:APT28",
       "strength": 18,
@@ -1260,18 +1260,21 @@
     },
     {
       "kind": "actor",
-      "ratio": 1.333,
-      "shared": 20,
+      "ratio": 1.933,
+      "shared": 29,
       "source": "actor:APT29",
-      "strength": 28,
+      "strength": 39,
       "target": "actor:APT29 sub-cluster",
       "via": [
         "certificate",
+        "filename",
+        "imphash",
         "ioc",
         "jarm",
         "registered",
         "registrable",
-        "subnet"
+        "subnet",
+        "vhash"
       ]
     },
     {
@@ -1308,6 +1311,18 @@
       "via": [
         "family",
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.012,
+      "shared": 2,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:APT38",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -1397,13 +1412,15 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.12,
-      "shared": 39,
+      "ratio": 0.126,
+      "shared": 41,
       "source": "actor:APT29",
-      "strength": 1,
+      "strength": 5,
       "target": "actor:BadMagic",
       "via": [
-        "filename"
+        "filename",
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -1421,13 +1438,14 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.005,
-      "shared": 1,
+      "ratio": 0.014,
+      "shared": 3,
       "source": "actor:APT29",
-      "strength": 1,
+      "strength": 4,
       "target": "actor:Bohrium",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -1445,13 +1463,14 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.03,
-      "shared": 4,
+      "ratio": 0.038,
+      "shared": 5,
       "source": "actor:APT29",
-      "strength": 1,
+      "strength": 4,
       "target": "actor:Candiru",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -1480,6 +1499,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.043,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:Cinnamon Tempest",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.071,
       "shared": 1,
       "source": "actor:APT29",
@@ -1492,13 +1523,26 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
-      "shared": 2,
+      "ratio": 0.01,
+      "shared": 1,
       "source": "actor:APT29",
       "strength": 1,
-      "target": "actor:Contagious Interview",
+      "target": "actor:Confucius",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.014,
+      "shared": 3,
+      "source": "actor:APT29",
+      "strength": 4,
+      "target": "actor:Contagious Interview",
+      "via": [
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -1578,27 +1622,42 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.408,
-      "shared": 20,
+      "ratio": 2.286,
+      "shared": 112,
       "source": "actor:APT29",
-      "strength": 28,
+      "strength": 39,
       "target": "actor:GTG-20006",
       "via": [
         "certificate",
+        "filename",
+        "imphash",
         "ioc",
         "jarm",
         "registered",
         "registrable",
-        "subnet"
+        "subnet",
+        "vhash"
       ]
     },
     {
       "kind": "actor",
-      "ratio": 0.03,
-      "shared": 1,
+      "ratio": 0.091,
+      "shared": 3,
       "source": "actor:APT29",
       "strength": 3,
       "target": "actor:GTG-50014",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.143,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:GTG-50021",
       "via": [
         "registered"
       ],
@@ -1619,7 +1678,7 @@
     {
       "kind": "actor",
       "ratio": 0.018,
-      "shared": 18,
+      "shared": 19,
       "source": "actor:APT29",
       "strength": 7,
       "target": "actor:Gamaredon",
@@ -1671,13 +1730,14 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.007,
-      "shared": 1,
+      "ratio": 0.021,
+      "shared": 3,
       "source": "actor:APT29",
-      "strength": 1,
+      "strength": 4,
       "target": "actor:GreyVibe",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -1779,6 +1839,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.022,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:JadeProx",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.019,
       "shared": 1,
       "source": "actor:APT29",
@@ -1791,13 +1863,14 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.017,
-      "shared": 1,
+      "ratio": 0.033,
+      "shared": 2,
       "source": "actor:APT29",
-      "strength": 1,
+      "strength": 4,
       "target": "actor:KongTuke",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -1815,19 +1888,20 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.005,
-      "shared": 1,
+      "ratio": 0.009,
+      "shared": 2,
       "source": "actor:APT29",
-      "strength": 1,
+      "strength": 4,
       "target": "actor:Lamberts",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
     {
       "kind": "actor",
-      "ratio": 0.035,
+      "ratio": 0.034,
       "shared": 35,
       "source": "actor:APT29",
       "strength": 22,
@@ -1878,8 +1952,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.013,
-      "shared": 3,
+      "ratio": 0.017,
+      "shared": 4,
       "source": "actor:APT29",
       "strength": 1,
       "target": "actor:MuddyWater",
@@ -1890,13 +1964,26 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.023,
-      "shared": 2,
+      "ratio": 0.009,
+      "shared": 1,
       "source": "actor:APT29",
-      "strength": 1,
+      "strength": 3,
+      "target": "actor:Mustang Panda",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.035,
+      "shared": 3,
+      "source": "actor:APT29",
+      "strength": 4,
       "target": "actor:Myxa VPN",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -1927,6 +2014,41 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:Poisson",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.1,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:ROOTBOY",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.023,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 4,
+      "target": "actor:Rognar",
+      "via": [
+        "imphash"
+      ]
+    },
+    {
+      "kind": "actor",
       "ratio": 0.04,
       "shared": 1,
       "source": "actor:APT29",
@@ -1939,13 +2061,26 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.007,
-      "shared": 3,
+      "ratio": 0.01,
+      "shared": 4,
       "source": "actor:APT29",
-      "strength": 1,
+      "strength": 4,
       "target": "actor:Sandworm Team",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.054,
+      "shared": 2,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:Screening Serpens",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -1958,6 +2093,18 @@
       "target": "actor:Silver Fox",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.02,
+      "shared": 2,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:SourTrade",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -2023,15 +2170,16 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.058,
-      "shared": 26,
+      "ratio": 0.06,
+      "shared": 27,
       "source": "actor:APT29",
-      "strength": 4,
+      "strength": 7,
       "target": "actor:Transparent Tribe",
       "via": [
         "family",
         "filename",
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -2084,8 +2232,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.024,
-      "shared": 2,
+      "ratio": 0.036,
+      "shared": 3,
       "source": "actor:APT29",
       "strength": 4,
       "target": "actor:UNC6671",
@@ -2097,13 +2245,14 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.404,
-      "shared": 19,
+      "ratio": 0.809,
+      "shared": 38,
       "source": "actor:APT29",
-      "strength": 28,
+      "strength": 29,
       "target": "actor:UNC7005",
       "via": [
         "certificate",
+        "filename",
         "ioc",
         "jarm",
         "registered",
@@ -2113,13 +2262,26 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.012,
-      "shared": 1,
+      "ratio": 0.037,
+      "shared": 3,
       "source": "actor:APT29",
-      "strength": 1,
+      "strength": 4,
       "target": "actor:UNK_DeadDrop",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:UTA0560",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -39271,7 +39433,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-09-14T00:03:26.095Z",
+  "generated_from": "2026-09-15T00:04:28.129Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -39293,7 +39455,7 @@
     },
     {
       "id": "actor:APT29",
-      "ioc_count": 997,
+      "ioc_count": 1039,
       "kind": "actor",
       "name": "APT29"
     },
