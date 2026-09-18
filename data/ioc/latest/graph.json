@@ -610,6 +610,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.043,
+      "shared": 1,
+      "source": "actor:APT28",
+      "strength": 1,
+      "target": "actor:FamousSparrow",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.2,
       "shared": 1,
       "source": "actor:APT28",
@@ -5326,6 +5338,18 @@
       "source": "actor:Anonymous",
       "strength": 1,
       "target": "actor:DriveSurge",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.043,
+      "shared": 1,
+      "source": "actor:Anonymous",
+      "strength": 1,
+      "target": "actor:FamousSparrow",
       "via": [
         "jarm"
       ],
@@ -10761,6 +10785,30 @@
       "target": "actor:X3D MINER",
       "via": [
         "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.043,
+      "shared": 1,
+      "source": "actor:FamousSparrow",
+      "strength": 1,
+      "target": "actor:Mustang Panda",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.043,
+      "shared": 1,
+      "source": "actor:FamousSparrow",
+      "strength": 1,
+      "target": "actor:Nomadic Octopus",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -33004,6 +33052,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.043,
+      "shared": 1,
+      "source": "malware:FDMTP",
+      "strength": 1,
+      "target": "malware:SparroWocky",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.017,
       "shared": 1,
       "source": "malware:FDMTP",
@@ -38192,6 +38252,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.043,
+      "shared": 1,
+      "source": "malware:Octopus",
+      "strength": 1,
+      "target": "malware:SparroWocky",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 1,
       "shared": 1,
       "source": "malware:OnyxC2",
@@ -41587,7 +41659,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-09-17T00:03:46.633Z",
+  "generated_from": "2026-09-18T00:04:07.561Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -41912,6 +41984,12 @@
       "ioc_count": 25,
       "kind": "actor",
       "name": "Exilware"
+    },
+    {
+      "id": "actor:FamousSparrow",
+      "ioc_count": 23,
+      "kind": "actor",
+      "name": "FamousSparrow"
     },
     {
       "id": "actor:Fox Kitten",
@@ -45152,6 +45230,12 @@
       "ioc_count": 29,
       "kind": "malware",
       "name": "SparkKitty"
+    },
+    {
+      "id": "malware:SparroWocky",
+      "ioc_count": 23,
+      "kind": "malware",
+      "name": "SparroWocky"
     },
     {
       "id": "malware:SprySOCKS",
