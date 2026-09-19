@@ -170,7 +170,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1457152,
+        "addresses": 1462784,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -326,7 +326,7 @@
           "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218084096,
+        "addresses": 218088448,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -345,7 +345,7 @@
           "UNC3569",
           "UNC5174"
         ],
-        "addresses": 10894336,
+        "addresses": 10893568,
         "asn": 45102,
         "cc": "US",
         "name": "Alibaba (US) Technology Co., Ltd."
@@ -380,7 +380,7 @@
           "The Gentlemen",
           "UNC7005"
         ],
-        "addresses": 37610240,
+        "addresses": 37622784,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
@@ -412,7 +412,7 @@
           "Qilin",
           "TAG-83"
         ],
-        "addresses": 538368,
+        "addresses": 538624,
         "asn": 29802,
         "cc": "US",
         "name": "HIVELOCITY, Inc."
@@ -460,7 +460,7 @@
           "Lazarus",
           "The Gentlemen"
         ],
-        "addresses": 1065216,
+        "addresses": 1065472,
         "asn": 212238,
         "cc": "GB",
         "name": "Datacamp Limited"
@@ -551,7 +551,7 @@
           "Silver Fox",
           "Yx Technology"
         ],
-        "addresses": 3840,
+        "addresses": 3072,
         "asn": 139613,
         "cc": "HK",
         "hosting_ratio": 0,
@@ -623,84 +623,84 @@
         "shared_hosting": false
       }
     ],
-    "total": 1342
+    "total": 1345
   },
   "coverage": {
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 1035,
-          "target": 1035
+          "done": 1036,
+          "target": 1036
         },
         "2": {
-          "done": 357,
-          "target": 357
+          "done": 356,
+          "target": 356
         },
         "5": {
-          "done": 2488,
-          "target": 2488
+          "done": 2492,
+          "target": 2492
         }
       },
-      "done": 3881,
+      "done": 3885,
       "ratio": 1,
-      "target": 3880
+      "target": 3884
     },
-    "newest_fetch": "2026-09-18",
-    "oldest_fetch": "2026-09-18",
+    "newest_fetch": "2026-09-19",
+    "oldest_fetch": "2026-09-19",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 6398,
-          "target": 6398
+          "done": 6445,
+          "target": 6445
         },
         "2": {
-          "done": 357,
-          "target": 357
+          "done": 356,
+          "target": 356
         },
         "3": {
-          "done": 5473,
-          "target": 5473
+          "done": 5479,
+          "target": 5479
         },
         "4": {
-          "done": 5000,
-          "target": 5000
+          "done": 5020,
+          "target": 5020
         },
         "5": {
-          "done": 4574,
-          "target": 4574
+          "done": 4578,
+          "target": 4578
         },
         "6": {
           "done": 1107,
           "target": 1107
         }
       },
-      "done": 22910,
-      "known": 19607,
+      "done": 22986,
+      "known": 19654,
       "ratio": 1,
-      "target": 22909,
-      "unknown": 3303
+      "target": 22985,
+      "unknown": 3332
     }
   },
   "entities": {
-    "actor": 288,
+    "actor": 289,
     "campaign": 21,
-    "case": 503,
-    "malware": 477
+    "case": 504,
+    "malware": 481
   },
   "from": {
-    "collected_at": "2026-09-18T00:04:07.561Z",
+    "collected_at": "2026-09-19T00:04:06.052Z",
     "week": "2026-W38"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 7480,
+      "ioc.domain": 7508,
       "ioc.email": 268,
-      "ioc.endpoint": 279,
-      "ioc.ipv4": 3818,
+      "ioc.endpoint": 297,
+      "ioc.ipv4": 3822,
       "ioc.ipv6": 71,
-      "ioc.md5": 2528,
-      "ioc.sha1": 1530,
-      "ioc.sha256": 4317,
+      "ioc.md5": 2564,
+      "ioc.sha1": 1531,
+      "ioc.sha256": 4324,
       "ioc.sha512": 16,
       "ioc.url": 3174
     },
@@ -712,8 +712,8 @@
       "popular": 78,
       "sample_reported": 1
     },
-    "total": 23481,
-    "usable": 23394
+    "total": 23575,
+    "usable": 23488
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -740,17 +740,17 @@
         "family": 143,
         "filename": 45,
         "imphash": 27,
-        "ioc": 51,
-        "jarm": 806,
-        "registered": 711,
+        "ioc": 52,
+        "jarm": 791,
+        "registered": 725,
         "registrable": 36,
         "resolution": 1,
         "signer": 3,
         "subnet": 22,
-        "vhash": 18
+        "vhash": 19
       },
       "identical_sets": 3,
-      "pairs": 1503,
+      "pairs": 1504,
       "top": [
         {
           "a": "APT29",
@@ -1349,7 +1349,7 @@
           ]
         }
       ],
-      "weak_only": 1419
+      "weak_only": 1418
     },
     "campaign": {
       "by_via": {
@@ -1900,15 +1900,15 @@
         "imphash": 37,
         "ioc": 66,
         "jarm": 618,
-        "registered": 899,
+        "registered": 906,
         "registrable": 49,
         "resolution": 1,
         "signer": 5,
         "subnet": 23,
-        "vhash": 42
+        "vhash": 44
       },
       "identical_sets": 10,
-      "pairs": 1666,
+      "pairs": 1675,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2448,12 +2448,12 @@
           ]
         }
       ],
-      "weak_only": 1544
+      "weak_only": 1551
     }
   },
   "schema": 1,
   "subnets": {
-    "multi_actor": 110,
+    "multi_actor": 111,
     "top": [
       {
         "actors": [
@@ -2482,7 +2482,7 @@
         ],
         "asns": [
           {
-            "addresses": 37610240,
+            "addresses": 37622784,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2500,7 +2500,7 @@
         ],
         "asns": [
           {
-            "addresses": 150272,
+            "addresses": 150528,
             "asn": 262287,
             "name": "Latitude.sh LTDA"
           }
@@ -2556,7 +2556,7 @@
         ],
         "asns": [
           {
-            "addresses": 19712,
+            "addresses": 19456,
             "asn": 44901,
             "name": "Belcloud LTD"
           }
@@ -2734,7 +2734,7 @@
         "subnet": "185.237.166.0/24"
       }
     ],
-    "total": 448
+    "total": 449
   },
   "targets": {
     "abuse": 5,
@@ -2934,7 +2934,7 @@
           "span_days": 4625
         }
       ],
-      "with_dates": 190
+      "with_dates": 191
     },
     "campaigns": {
       "spans": [
@@ -3209,7 +3209,7 @@
       ],
       "with_dates": 14
     },
-    "dated": 8336,
+    "dated": 8351,
     "index_lag": {
       "ahead": 385,
       "median_days": 47,
@@ -3221,7 +3221,7 @@
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 256,
+      "checked": 257,
       "lowest": [
         {
           "checked": 4,
@@ -3295,7 +3295,7 @@
         }
       ]
     },
-    "clean": 2742,
+    "clean": 2744,
     "disagreement": {
       "samples": [
         {
@@ -3436,7 +3436,7 @@
       ],
       "total": 426
     },
-    "malicious": 16538,
-    "unknown": 3303
+    "malicious": 16582,
+    "unknown": 3332
   }
 }
