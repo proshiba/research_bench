@@ -1,0 +1,938 @@
+{
+  "compared_with": ".ioc-prev",
+  "coverage": {
+    "abuseipdb": {
+      "added": 46,
+      "by_stage": {
+        "1": {
+          "added": 18,
+          "done": 1011,
+          "target": 1011
+        },
+        "2": {
+          "added": 13,
+          "done": 358,
+          "target": 358
+        },
+        "5": {
+          "added": 15,
+          "done": 2480,
+          "target": 2480
+        }
+      },
+      "done": 3850,
+      "ratio": 1,
+      "target": 3849
+    },
+    "virustotal": {
+      "added": 382,
+      "by_stage": {
+        "1": {
+          "added": 212,
+          "done": 6201,
+          "target": 6201
+        },
+        "2": {
+          "added": 13,
+          "done": 358,
+          "target": 358
+        },
+        "3": {
+          "added": 56,
+          "done": 5428,
+          "target": 5428
+        },
+        "4": {
+          "added": 71,
+          "done": 4998,
+          "target": 4998
+        },
+        "5": {
+          "added": 23,
+          "done": 4561,
+          "target": 4561
+        },
+        "6": {
+          "added": 7,
+          "done": 1095,
+          "target": 1095
+        }
+      },
+      "done": 22642,
+      "known": 19382,
+      "ratio": 1,
+      "target": 22641,
+      "unknown": 3260
+    }
+  },
+  "grown": {
+    "aliases": [
+      {
+        "aliases": [
+          "bash",
+          "infostl",
+          "macsyncstealer"
+        ],
+        "name": "macstealer"
+      },
+      {
+        "aliases": [
+          "hack",
+          "uacme"
+        ],
+        "name": "tinukebot"
+      },
+      {
+        "aliases": [
+          "hack",
+          "tinukebot"
+        ],
+        "name": "uacme"
+      }
+    ],
+    "entities": [
+      {
+        "ioc_count": 1,
+        "name": "beah"
+      },
+      {
+        "ioc_count": 3,
+        "name": "beaj"
+      },
+      {
+        "ioc_count": 1,
+        "name": "ggrzgaudoqg"
+      },
+      {
+        "ioc_count": 1,
+        "name": "irgramloader"
+      },
+      {
+        "ioc_count": 5,
+        "name": "tinukebot"
+      },
+      {
+        "ioc_count": 4,
+        "name": "uacme"
+      },
+      {
+        "ioc_count": 2,
+        "name": "vbsdropper"
+      }
+    ],
+    "iocs": 317,
+    "shared_certs": [
+      {
+        "iocs": [
+          "ioc.domain|ext-03.jeetbot.cc",
+          "ioc.ipv4|80.74.26.162"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "ext-03.jeetbot.cc",
+        "thumbprint": "4bc41f115c3f017a90f5d7d9c5a9f96db46a51b77b2ec4d39309ed3650484333"
+      },
+      {
+        "iocs": [
+          "ioc.domain|devin-us.com",
+          "ioc.ipv4|103.59.101.28"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "devin-us.com",
+        "thumbprint": "5a9b2f080841849f3a53f7d8287925753604d5ab036fc275ac4b2587812760aa"
+      },
+      {
+        "iocs": [
+          "ioc.domain|applediag.com",
+          "ioc.domain|opendisplay.us",
+          "ioc.ipv4|62.60.226.69"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "applediag.com",
+        "thumbprint": "5f2b084fe36ca7d650f9137c3fc2fb2fa196bdf3844cee516d3b34e6e129d197"
+      },
+      {
+        "iocs": [
+          "ioc.domain|storageprofiler.com",
+          "ioc.ipv4|172.236.51.169"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "storageprofiler.com",
+        "thumbprint": "877a76f5aff00ef7c4ac80bb8d0e122e88ed8304f0a41d428efc94e6dd01fe0a"
+      }
+    ]
+  },
+  "overlaps": {
+    "grew": 1,
+    "new": 181,
+    "new_strong": 8,
+    "top_grew": [],
+    "top_new": [
+      {
+        "a": "AMOS",
+        "b": "AMOS helper",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|aforvm.com",
+            "ioc.domain|arkypc.com",
+            "ioc.domain|grove-12.com",
+            "ioc.domain|ouilov.com",
+            "ioc.ipv4|45.94.47.204"
+          ],
+          "registered": [
+            "2026-04-01"
+          ],
+          "registrable": [
+            "aforvm.com",
+            "arkypc.com",
+            "grove-12.com",
+            "ouilov.com"
+          ]
+        },
+        "kind": "malware",
+        "shared": 10,
+        "strength": 13,
+        "via": [
+          "ioc",
+          "registered",
+          "registrable"
+        ]
+      },
+      {
+        "a": "AMOS helper",
+        "b": "Macsync",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|aforvm.com",
+            "ioc.domain|arkypc.com",
+            "ioc.domain|ouilov.com",
+            "ioc.ipv4|45.94.47.204"
+          ],
+          "registered": [
+            "2026-04-01"
+          ],
+          "registrable": [
+            "aforvm.com",
+            "arkypc.com",
+            "ouilov.com"
+          ]
+        },
+        "kind": "malware",
+        "shared": 8,
+        "strength": 13,
+        "via": [
+          "ioc",
+          "registered",
+          "registrable"
+        ]
+      },
+      {
+        "a": "AMOS helper",
+        "b": "Shub Stealer",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|aforvm.com",
+            "ioc.domain|arkypc.com",
+            "ioc.domain|ouilov.com",
+            "ioc.ipv4|45.94.47.204"
+          ],
+          "registered": [
+            "2026-04-01"
+          ],
+          "registrable": [
+            "aforvm.com",
+            "arkypc.com",
+            "ouilov.com"
+          ]
+        },
+        "kind": "malware",
+        "shared": 8,
+        "strength": 13,
+        "via": [
+          "ioc",
+          "registered",
+          "registrable"
+        ]
+      },
+      {
+        "a": "MacSync Stealer",
+        "b": "Macsync",
+        "evidence": {
+          "ioc": [
+            "ioc.domain|dogtrainersgeorgia.com",
+            "ioc.domain|lalandscapelighting.com",
+            "ioc.domain|marbellaresales.com"
+          ],
+          "registered": [
+            "2025-09-26",
+            "2025-11-28"
+          ],
+          "registrable": [
+            "dogtrainersgeorgia.com",
+            "lalandscapelighting.com",
+            "marbellaresales.com"
+          ]
+        },
+        "kind": "malware",
+        "shared": 8,
+        "strength": 13,
+        "via": [
+          "ioc",
+          "registered",
+          "registrable"
+        ]
+      },
+      {
+        "a": "GTG-50020",
+        "b": "vectra",
+        "evidence": {
+          "subnet": [
+            "178.16.54.0/24"
+          ]
+        },
+        "kind": "actor",
+        "shared": 1,
+        "strength": 5,
+        "via": [
+          "subnet"
+        ]
+      },
+      {
+        "a": "AMOS Stealer",
+        "b": "VectraRAT",
+        "evidence": {
+          "subnet": [
+            "91.92.242.0/24"
+          ]
+        },
+        "kind": "malware",
+        "shared": 1,
+        "strength": 5,
+        "via": [
+          "subnet"
+        ]
+      },
+      {
+        "a": "Atomic macOS Stealer",
+        "b": "VectraRAT",
+        "evidence": {
+          "subnet": [
+            "91.92.242.0/24"
+          ]
+        },
+        "kind": "malware",
+        "shared": 1,
+        "strength": 5,
+        "via": [
+          "subnet"
+        ]
+      },
+      {
+        "a": "Phorpiexラベル付きダウンローダー",
+        "b": "VectraRAT",
+        "evidence": {
+          "subnet": [
+            "178.16.54.0/24"
+          ]
+        },
+        "kind": "malware",
+        "shared": 1,
+        "strength": 5,
+        "via": [
+          "subnet"
+        ]
+      }
+    ],
+    "total": 3404
+  },
+  "schema": 1,
+  "to_check": {
+    "asn_differs": {
+      "samples": [],
+      "total": 0
+    },
+    "cert_excluded": [
+      {
+        "iocs": [
+          "ioc.ipv4|139.60.163.43",
+          "ioc.ipv4|45.66.228.114"
+        ],
+        "issuer": "GlobalSign nv-sa",
+        "subject": "*.yandex.tr",
+        "thumbprint": "004b73abc7082568a07182924623a26973fb7f4ab4ed30a5f022c3fa17c355eb"
+      },
+      {
+        "iocs": [
+          "ioc.domain|www.apluslife.co.kr",
+          "ioc.ipv4|112.175.115.116"
+        ],
+        "issuer": "Sectigo Limited",
+        "subject": "*.apluslife.co.kr",
+        "thumbprint": "0329293309b630888e5b462c95e858176cc7fed05e6152f4507a63bbc4132430"
+      },
+      {
+        "iocs": [
+          "ioc.domain|princessclub.click",
+          "ioc.ipv4|89.37.185.60"
+        ],
+        "issuer": "Apple Inc.",
+        "subject": "www.apple.com",
+        "thumbprint": "04183fea3b7dbc238985724a8b1d8fcb61bf5bb1007551250dbf3a4cf8c2c565"
+      },
+      {
+        "iocs": [
+          "ioc.domain|zimbrastat.com",
+          "ioc.ipv4|64.226.124.190"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "finestra.on3cx.fr",
+        "thumbprint": "12c89594c6255b86428f166b30b8fe4b9b4899308a225c97a7eeaf9337a8c8f0"
+      },
+      {
+        "iocs": [
+          "ioc.domain|lvl99.store",
+          "ioc.domain|onetoken.ink",
+          "ioc.ipv4|159.198.41.140"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "joaanksa.com",
+        "thumbprint": "137121f2df5ac46cc228e1789b0aeac5eb5b8ff3004b7af47762a7684a57bdea"
+      },
+      {
+        "iocs": [
+          "ioc.ipv4|202.61.160.201",
+          "ioc.ipv4|202.61.160.202",
+          "ioc.ipv4|202.61.160.208"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "sjggd.com",
+        "thumbprint": "14cfbbb4c91eb2d21dc468c7ca92216a5c92cdb57fbaddd4a9babf466a577381"
+      },
+      {
+        "iocs": [
+          "ioc.ipv4|107.189.20.32",
+          "ioc.ipv4|176.74.216.14"
+        ],
+        "issuer": "Sectigo Limited",
+        "subject": "github.com",
+        "thumbprint": "17f8fd2e3fd2c113fcb9772d8a4babb8522dd06dd0794915a4ff98b1b6863a00"
+      },
+      {
+        "iocs": [
+          "ioc.domain|istc-cloud.com",
+          "ioc.ipv4|194.156.103.193"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "*.i.istc-cloud.com",
+        "thumbprint": "1beed0ae246e5b4cc084e8fc60d20a934a3fc73235c3eeb60c98b7c9cb8a569c"
+      },
+      {
+        "iocs": [
+          "ioc.domain|gils.ho.ua",
+          "ioc.domain|literat.ho.ua",
+          "ioc.domain|wallex.ho.ua",
+          "ioc.ipv4|91.228.146.11"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "s1.ho.ua",
+        "thumbprint": "1cd0eb5b8b612b5d9af6044f85f664e1d93d4b6f4c89f521106298de261b227b"
+      },
+      {
+        "iocs": [
+          "ioc.domain|driver-hub.net",
+          "ioc.domain|driver-updater.net",
+          "ioc.domain|www.driver-hub.net",
+          "ioc.domain|www.driver-updater.net",
+          "ioc.ipv4|45.45.217.242"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "driversformac.com",
+        "thumbprint": "1d5f98e6e298a1482efad2c679dfd9e43a66ee03b350ba36d56cfd8ffbc5b500"
+      },
+      {
+        "iocs": [
+          "ioc.domain|ru-support.host",
+          "ioc.domain|ru-temp.host",
+          "ioc.ipv4|93.126.60.101"
+        ],
+        "issuer": "GoGetSSL",
+        "subject": "e.mail.ru-cloud.site",
+        "thumbprint": "1e95b2341ee8db85c444320358d8e9cb6ced8e4f783cd431ffd301c0a4b3db8f"
+      },
+      {
+        "iocs": [
+          "ioc.domain|analyticemailmeter.com",
+          "ioc.ipv4|37.120.247.228"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "*.i.analyticemailmeter.com",
+        "thumbprint": "24762445990f0b7b659abe0b09edd1b74876554a887e892b0642ebb7ffe1ae4e"
+      },
+      {
+        "iocs": [
+          "ioc.domain|location.city",
+          "ioc.ipv4|162.241.219.119",
+          "ioc.ipv4|162.241.225.192"
+        ],
+        "issuer": "Sectigo Limited",
+        "subject": "*.bluehost.com",
+        "thumbprint": "2662c99f7ce15a4cca166b12c833750758104c1e56c49720c107ed85a2e7f274"
+      },
+      {
+        "iocs": [
+          "ioc.domain|celticso.ru",
+          "ioc.ipv4|45.61.136.56"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "contentfinder.buzz",
+        "thumbprint": "2a9151c02bce5483a7a0b209b9aa3c2682b32c0988a68671b2647d5b4d7de16d"
+      },
+      {
+        "iocs": [
+          "ioc.ipv4|151.244.30.43",
+          "ioc.ipv4|172.86.116.200"
+        ],
+        "issuer": "invalid2.invalid",
+        "subject": "invalid2.invalid",
+        "thumbprint": "2bf90ddf8d236f6f5356fbafffabd5e2021679b2b8da769bc0817032d4d38eab"
+      }
+    ],
+    "disagreement": {
+      "samples": [
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|api08.chat5188.tk",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|base64.c2iznja.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|cache.c2iznja.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|hbubagent.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|inword.club",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|live-hk.c2iznja.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|micbucket.ams1.vultrobjects.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|newdma.c2iznja.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.domain|turbo.c2iznja.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.ipv4|103.59.101.28",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.ipv4|156.245.245.223",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.ipv4|202.144.192.149",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.ipv4|210.1.231.13",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.ipv4|43.245.198.195",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
+          "ioc": "ioc.ipv4|43.245.198.238",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        }
+      ],
+      "total": 21
+    },
+    "hosting_excluded": [
+      {
+        "actors": [
+          "APT29",
+          "APT38",
+          "GTG-20006",
+          "Rognar"
+        ],
+        "addresses": 3840,
+        "asn": 398256,
+        "cc": "US",
+        "hosting_ratio": 1,
+        "hosting_seen": 5,
+        "name": "Ultahost, Inc."
+      },
+      {
+        "actors": [
+          "APT1",
+          "APT28",
+          "APT29"
+        ],
+        "addresses": 512,
+        "asn": 207560,
+        "cc": "UA",
+        "hosting_ratio": 1,
+        "hosting_seen": 48,
+        "name": "Zubritska Valeriia Nikolaevna"
+      },
+      {
+        "actors": [
+          "PasteSwitch",
+          "UNC7005",
+          "shinyenigma"
+        ],
+        "addresses": 1024,
+        "asn": 214351,
+        "cc": "GB",
+        "hosting_ratio": 1,
+        "hosting_seen": 6,
+        "name": "FEMO IT SOLUTIONS LIMITED"
+      },
+      {
+        "actors": [
+          "APT28",
+          "APT29",
+          "OceanLotus"
+        ],
+        "addresses": 1280,
+        "asn": 214431,
+        "cc": "IR",
+        "hosting_ratio": 1,
+        "hosting_seen": 8,
+        "name": "Mizban Gostar Dade Alvand Ltd"
+      },
+      {
+        "actors": [
+          "Icarus",
+          "PhantomEnigma",
+          "UNC6240"
+        ],
+        "addresses": 1536,
+        "asn": 214961,
+        "cc": "FR",
+        "hosting_ratio": 1,
+        "hosting_seen": 5,
+        "name": "Stellar Group SAS"
+      },
+      {
+        "actors": [
+          "APT34",
+          "APT37",
+          "Lamberts"
+        ],
+        "addresses": 2048,
+        "asn": 60140,
+        "cc": "AE",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "Buzinessware FZCO"
+      },
+      {
+        "actors": [
+          "APT37",
+          "Contagious Interview",
+          "UNK_DeadDrop"
+        ],
+        "addresses": 3584,
+        "asn": 206216,
+        "cc": "US",
+        "hosting_ratio": 1,
+        "hosting_seen": 4,
+        "name": "Advin Services LLC"
+      },
+      {
+        "actors": [
+          "APT34",
+          "BITTER"
+        ],
+        "addresses": 1536,
+        "asn": 206383,
+        "cc": "BG",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "VOXLAN LTD."
+      },
+      {
+        "actors": [
+          "Contagious Interview",
+          "Lazarus"
+        ],
+        "addresses": 3584,
+        "asn": 55639,
+        "cc": "HK",
+        "hosting_ratio": 1,
+        "hosting_seen": 6,
+        "name": "Asia Web Service Ltd"
+      },
+      {
+        "actors": [
+          "APT28",
+          "Sandworm Team"
+        ],
+        "addresses": 3840,
+        "asn": 60602,
+        "cc": "MD",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "Inovare-Prim SRL"
+      },
+      {
+        "actors": [
+          "APT29",
+          "MuddyWater"
+        ],
+        "addresses": 4096,
+        "asn": 201206,
+        "cc": "DE",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "Droptop GmbH"
+      }
+    ],
+    "top_abuse": [
+      {
+        "ioc": "ioc.ipv4|178.16.54.148",
+        "reporters": 86,
+        "reports": 205,
+        "score": 100,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|31.59.129.150",
+        "reporters": 122,
+        "reports": 261,
+        "score": 100,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|34.11.196.206",
+        "reporters": 52,
+        "reports": 61,
+        "score": 100,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|34.14.15.105",
+        "reporters": 62,
+        "reports": 89,
+        "score": 100,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|37.114.144.209",
+        "reporters": 53,
+        "reports": 86,
+        "score": 100,
+        "usage_type": "Fixed Line ISP"
+      },
+      {
+        "ioc": "ioc.ipv6|2a0f:85c1:840:5389::1",
+        "reporters": 67,
+        "reports": 218,
+        "score": 100,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|34.16.200.129",
+        "reporters": 30,
+        "reports": 36,
+        "score": 89,
+        "usage_type": "Data Center/Web Hosting/Transit"
+      },
+      {
+        "ioc": "ioc.ipv4|114.10.43.203",
+        "reporters": 30,
+        "reports": 40,
+        "score": 77,
+        "usage_type": "Fixed Line ISP"
+      }
+    ],
+    "top_malicious": [
+      {
+        "ioc": "ioc.sha256|23bec473632af324b0a271f6b0575ea3d3174af7042ee5d582cb739714a35af8",
+        "label": "trojan.aotera/yogi",
+        "malicious": 55
+      },
+      {
+        "ioc": "ioc.sha256|fdfd0b06cb31d68146dbb5ffb45b82ca1b59a7b4f62f917a990a9c3bd01654ab",
+        "label": "trojan.yogi/clipbanker",
+        "malicious": 55
+      },
+      {
+        "ioc": "ioc.sha256|d4eb6e4cec1e69f3bc94bbe2d743e982863fc8549e49f832846c218e1aba3fcb",
+        "label": "trojan.amatera/dloadr",
+        "malicious": 53
+      },
+      {
+        "ioc": "ioc.sha256|407aaecabee599cb29dbb3cf177ed77b67f65d63f456c7abeda5834c0d36ed5f",
+        "label": "trojan.clipbanker/androm",
+        "malicious": 51
+      },
+      {
+        "ioc": "ioc.sha256|31cf473bb93abef0760d4992d45bafcd936edb7c26193c175f8491f8ffaef0e0",
+        "label": "trojan.dacic/clipbanker",
+        "malicious": 49
+      },
+      {
+        "ioc": "ioc.sha256|5ee86cbcd296e0998ca20ee65a7506fb3baecfb7ce98eede29bff1a6a6e0fc95",
+        "label": "trojan.clipbanker/trojanbanker",
+        "malicious": 49
+      },
+      {
+        "ioc": "ioc.sha256|d4cfab5e052df4c049f258e226d11825cb37b0359be454b83241edd59b295f08",
+        "label": "trojan.clipbanker/aotnet",
+        "malicious": 48
+      },
+      {
+        "ioc": "ioc.sha256|3ab56c9fb6b7c404c1e5b36788959c877ea819fb124c3847fa0498e9915ef9a7",
+        "label": "trojan.tinukebot/uacme",
+        "malicious": 47
+      },
+      {
+        "ioc": "ioc.sha256|e2db5db12564d2a9da7ef3a57aa23d95782f5eaddc8bd35eb7c35ae6b844a0f0",
+        "label": "trojan.uacme/tinukebot",
+        "malicious": 47
+      },
+      {
+        "ioc": "ioc.sha256|279d04c0cfd700c8bcb9acbed528131d3ffef8e25d12713e8649772739aecb92",
+        "label": "trojan.aotera/aotnet",
+        "malicious": 46
+      },
+      {
+        "ioc": "ioc.sha256|b738c03fef5e3d26419e4aab1818a0a7ad206c67fb3eeedcdfb3ef1ee07eb620",
+        "label": "trojan.uacme/tinukebot",
+        "malicious": 45
+      },
+      {
+        "ioc": "ioc.sha256|bff3583d04f0d5603ced9831eb7c45c1923bd90e2f7d5e5d2b32942d38cf6dc5",
+        "label": "hacktool.lazy/uacme",
+        "malicious": 45
+      },
+      {
+        "ioc": "ioc.sha256|7b82f08120e0d9b16cd5b9ec59d24fb68e35735c82311a233d370e7f264af650",
+        "label": "trojan.tinukebot/uacme",
+        "malicious": 44
+      },
+      {
+        "ioc": "ioc.sha256|c708d413720848f8788f43a4f47ddce016fca9af10c9ba4113f47bf2c9244dc5",
+        "label": "trojan.tinukebot/uacme",
+        "malicious": 43
+      },
+      {
+        "ioc": "ioc.sha256|ddbd636f6dfd475dc0c75bf9f6f873fa35b9062dee9d37b3377ae7b9acdcd0c9",
+        "label": "trojan.uacme/tinukebot",
+        "malicious": 43
+      }
+    ],
+    "unknown": {
+      "samples": [
+        "ioc.md5|2965817d063f1e8f9889f9126443d631",
+        "ioc.md5|3e7a2fcef1d038d05b20148c573a6499",
+        "ioc.md5|481c5b5e69a08c3df206c59fd8ddc0dc",
+        "ioc.md5|7402f2f9263782a4c469570035843510",
+        "ioc.md5|88022704ffb1264a6587e6e1b0759600",
+        "ioc.md5|8c00489632ccefdac3612329fe5b5491",
+        "ioc.md5|aeea6d6b3e822c89c332c02f8b97a850",
+        "ioc.md5|b9086413e7b6a0c6a11c25d14c22615f",
+        "ioc.md5|d70ebf20e3d697897bad5bebf72ea271",
+        "ioc.md5|ebdd9595b79b39f53909d862499dbc94",
+        "ioc.md5|f8b5554808428291acc65d1fd2efe01c",
+        "ioc.sha1|0333b608a98f24a9b8c232fac782bc9eaba74829",
+        "ioc.sha1|309c97a2d8e8212b9c51cd485ce5b3c7a1bb6ba5",
+        "ioc.sha1|538819c3cfe8057798c5970d01c24582f7375c40",
+        "ioc.sha1|548a66011314163254520fde266a5e1ffc3f6efc"
+      ],
+      "total": 60
+    }
+  },
+  "tool": "tools/ioc/daily-report.mjs"
+}
