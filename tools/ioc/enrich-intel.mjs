@@ -741,13 +741,42 @@ const certRows = [...certs.values()]
  * 索引から消えた IOC は iocs から落とし、shared はその後の数で数え直す。
  * literal / anchors を持ち越していないので weak_why は当時のまま（多少古びていても
  * 危険側には倒れない: 共有の強さを判断する材料であって安全側の印ではないため）。
+ *
+ * 前回の iocs が索引からまるごと落ちた場合は、vt.jsonl（carry-forward 込み）が
+ * まだその thumbprint を指している ioc で錨を作り直す。さもないと「vt.jsonl は
+ * cert を指すが derived-certs.jsonl には無い」という検査違反が起きる
+ * （実例: yandex.ru の証明書が付いていた IP が索引から落ち、ドメイン側は
+ * 今回未取得で certs には乗らなかった）。
  */
+const vtCertIocs = new Map();
+for (const row of vtRows) {
+  const thumb = row.cert?.thumbprint;
+  if (!thumb) continue;
+  if (!vtCertIocs.has(thumb)) vtCertIocs.set(thumb, { iocs: new Set(), sanCount: 0 });
+  const entry = vtCertIocs.get(thumb);
+  entry.iocs.add(row.ioc);
+  entry.sanCount = Math.max(entry.sanCount, row.cert.san_count || 0);
+}
+
 const freshCertThumbs = new Set(certRows.map((c) => c.thumbprint));
 for (const c of readJsonl(path.join(IN, "derived-certs.jsonl"))) {
   if (freshCertThumbs.has(c.thumbprint)) continue;
-  const iocs = (c.iocs || []).filter((k) => iocByKey.has(k));
+  let iocs = (c.iocs || []).filter((k) => iocByKey.has(k));
+  if (!iocs.length) iocs = [...(vtCertIocs.get(c.thumbprint)?.iocs || [])];
   if (!iocs.length) continue;
   certRows.push({ ...c, iocs, shared: iocs.length > 1 });
+  freshCertThumbs.add(c.thumbprint);
+}
+
+// 上のどちらにも拾われなかった thumbprint（derived-certs.jsonl に一度も
+// 乗ったことが無いまま、carry-forward された vt.jsonl 行だけが指している）も、
+// 骨組みだけの行を残して同じ検査を通す。sans/subject/serial は写しに残っていない。
+for (const [thumb, { iocs, sanCount }] of vtCertIocs) {
+  if (freshCertThumbs.has(thumb)) continue;
+  certRows.push({
+    thumbprint: thumb, san_count: sanCount, sans: [],
+    iocs: [...iocs], shared: iocs.size > 1,
+  });
 }
 certRows.sort(byKeys("thumbprint"));
 
