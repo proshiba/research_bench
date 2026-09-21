@@ -172,7 +172,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1460736,
+        "addresses": 1460992,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -331,7 +331,7 @@
           "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218210560,
+        "addresses": 218208768,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -350,7 +350,7 @@
           "UNC5174",
           "jewelbug"
         ],
-        "addresses": 10893824,
+        "addresses": 10992128,
         "asn": 45102,
         "cc": "US",
         "name": "Alibaba (US) Technology Co., Ltd."
@@ -465,7 +465,7 @@
           "Lazarus",
           "The Gentlemen"
         ],
-        "addresses": 1065472,
+        "addresses": 1065728,
         "asn": 212238,
         "cc": "GB",
         "name": "Datacamp Limited"
@@ -541,36 +541,16 @@
           "GTG-20006",
           "Pepesoft"
         ],
-        "addresses": 239872,
+        "addresses": 240128,
         "asn": 396356,
         "cc": "US",
         "name": "Latitude.sh"
       }
     ],
     "multi_actor": 214,
-    "multi_actor_small": 5,
-    "small": 254,
+    "multi_actor_small": 4,
+    "small": 252,
     "top": [
-      {
-        "actors": [
-          "SQLRCE0",
-          "Silver Fox",
-          "Yx Technology"
-        ],
-        "addresses": 3072,
-        "asn": 139613,
-        "cc": "HK",
-        "hosting_ratio": 0,
-        "hosting_seen": 3,
-        "ips": 3,
-        "malware": [
-          "Flying Eagle",
-          "Night Dragon",
-          "ValleyRAT"
-        ],
-        "name": "HONG KONG LIGHTLAYER TECHNOLOGY CO., LIMITED",
-        "shared_hosting": false
-      },
       {
         "actors": [
           "APT37",
@@ -629,7 +609,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1350
+    "total": 1349
   },
   "coverage": {
     "abuseipdb": {
@@ -651,8 +631,8 @@
       "ratio": 1,
       "target": 3937
     },
-    "newest_fetch": "2026-09-20",
-    "oldest_fetch": "2026-09-20",
+    "newest_fetch": "2026-09-21",
+    "oldest_fetch": "2026-09-21",
     "virustotal": {
       "by_stage": {
         "1": {
@@ -676,15 +656,15 @@
           "target": 4644
         },
         "6": {
-          "done": 1107,
-          "target": 1107
+          "done": 1109,
+          "target": 1109
         }
       },
-      "done": 23186,
-      "known": 19887,
+      "done": 23188,
+      "known": 19888,
       "ratio": 1,
-      "target": 23185,
-      "unknown": 3299
+      "target": 23187,
+      "unknown": 3300
     }
   },
   "entities": {
@@ -694,8 +674,8 @@
     "malware": 474
   },
   "from": {
-    "collected_at": "2026-09-20T00:03:39.640Z",
-    "week": "2026-W38"
+    "collected_at": "2026-09-21T00:04:40.463Z",
+    "week": "2026-W39"
   },
   "iocs": {
     "by_type": {
@@ -708,9 +688,9 @@
       "ioc.sha1": 1534,
       "ioc.sha256": 4466,
       "ioc.sha512": 16,
-      "ioc.url": 3199
+      "ioc.url": 3201
     },
-    "dated": 10278,
+    "dated": 10280,
     "excluded": {
       "bogon": 3,
       "malformed": 0,
@@ -718,8 +698,8 @@
       "popular": 78,
       "sample_reported": 1
     },
-    "total": 23770,
-    "usable": 23683
+    "total": 23772,
+    "usable": 23685
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -741,7 +721,7 @@
   "overlaps": {
     "actor": {
       "by_via": {
-        "asn": 5,
+        "asn": 3,
         "certificate": 7,
         "family": 147,
         "filename": 40,
@@ -1325,7 +1305,7 @@
           ]
         }
       ],
-      "weak_only": 1465
+      "weak_only": 1467
     },
     "campaign": {
       "by_via": {
@@ -1868,7 +1848,7 @@
     },
     "malware": {
       "by_via": {
-        "asn": 7,
+        "asn": 5,
         "certificate": 6,
         "family": 146,
         "filename": 35,
@@ -1883,7 +1863,7 @@
         "vhash": 42
       },
       "identical_sets": 10,
-      "pairs": 1683,
+      "pairs": 1681,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2514,7 +2494,7 @@
         ],
         "asns": [
           {
-            "addresses": 77056,
+            "addresses": 109568,
             "asn": 49981,
             "name": "WorldStream B.V."
           }
@@ -2660,7 +2640,7 @@
         ],
         "asns": [
           {
-            "addresses": 239872,
+            "addresses": 240128,
             "asn": 396356,
             "name": "Latitude.sh"
           }
@@ -3102,13 +3082,13 @@
       ],
       "with_dates": 12
     },
-    "dated": 8511,
+    "dated": 8512,
     "index_lag": {
-      "ahead": 395,
+      "ahead": 396,
       "median_days": 49,
       "p25_days": 2,
       "p75_days": 133,
-      "pairs": 4229
+      "pairs": 4230
     }
   },
   "tool": "tools/ioc/stats.mjs",
@@ -3188,7 +3168,7 @@
         }
       ]
     },
-    "clean": 2751,
+    "clean": 2752,
     "disagreement": {
       "samples": [
         {
@@ -3327,9 +3307,9 @@
           ]
         }
       ],
-      "total": 438
+      "total": 439
     },
     "malicious": 16808,
-    "unknown": 3299
+    "unknown": 3300
   }
 }

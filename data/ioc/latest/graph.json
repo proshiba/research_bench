@@ -17150,15 +17150,15 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.08,
-      "shared": 2,
+      "ratio": 0.04,
+      "shared": 1,
       "source": "actor:SQLRCE0",
-      "strength": 6,
+      "strength": 1,
       "target": "actor:Silver Fox",
       "via": [
-        "asn",
         "jarm"
-      ]
+      ],
+      "weak_only": true
     },
     {
       "kind": "actor",
@@ -17874,15 +17874,15 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.08,
-      "shared": 2,
+      "ratio": 0.04,
+      "shared": 1,
       "source": "actor:Silver Fox",
-      "strength": 6,
+      "strength": 1,
       "target": "actor:Yx Technology",
       "via": [
-        "asn",
         "jarm"
-      ]
+      ],
+      "weak_only": true
     },
     {
       "kind": "actor",
@@ -33860,17 +33860,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.04,
-      "shared": 1,
-      "source": "malware:Flying Eagle",
-      "strength": 5,
-      "target": "malware:ValleyRAT",
-      "via": [
-        "asn"
-      ]
-    },
-    {
-      "kind": "malware",
       "ratio": 0.2,
       "shared": 1,
       "source": "malware:Forg365",
@@ -38137,17 +38126,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.04,
-      "shared": 1,
-      "source": "malware:Night Dragon",
-      "strength": 5,
-      "target": "malware:ValleyRAT",
-      "via": [
-        "asn"
-      ]
-    },
-    {
-      "kind": "malware",
       "ratio": 0.333,
       "shared": 1,
       "source": "malware:NightLedger",
@@ -38748,30 +38726,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.053,
-      "shared": 1,
-      "source": "malware:OTTERCOOKIE",
-      "strength": 1,
-      "target": "malware:Snake Keylogger",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.167,
-      "shared": 1,
-      "source": "malware:OTTERCOOKIE",
-      "strength": 1,
-      "target": "malware:VIPKeyLogger",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 1,
       "shared": 1,
       "source": "malware:OXLOADER",
@@ -38875,6 +38829,30 @@
       "target": "malware:PowerCloud",
       "via": [
         "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.053,
+      "shared": 1,
+      "source": "malware:OtterCookie",
+      "strength": 1,
+      "target": "malware:Snake Keylogger",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "malware:OtterCookie",
+      "strength": 1,
+      "target": "malware:VIPKeyLogger",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -42335,7 +42313,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-09-20T00:03:39.640Z",
+  "generated_from": "2026-09-21T00:04:40.463Z",
   "nodes": [
     {
       "id": "actor:APT-C-06",
@@ -45410,12 +45388,6 @@
       "name": "NukeSped"
     },
     {
-      "id": "malware:OTTERCOOKIE",
-      "ioc_count": 20,
-      "kind": "malware",
-      "name": "OTTERCOOKIE"
-    },
-    {
       "id": "malware:OXLOADER",
       "ioc_count": 12,
       "kind": "malware",
@@ -45450,6 +45422,12 @@
       "ioc_count": 14,
       "kind": "malware",
       "name": "OpenClaw"
+    },
+    {
+      "id": "malware:OtterCookie",
+      "ioc_count": 20,
+      "kind": "malware",
+      "name": "OtterCookie"
     },
     {
       "id": "malware:Overlord",
@@ -46341,5 +46319,5 @@
     }
   ],
   "schema": 1,
-  "week": "2026-W38"
+  "week": "2026-W39"
 }
