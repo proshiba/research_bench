@@ -61,6 +61,13 @@ const IOCS = [
   // 両アクターが持っていても根拠にはならない（§3.8）
   { key: "ioc.url|https://report.example/writeup/", type: "ioc.url", value: "https://report.example/writeup/",
     sources: ["src-a"] },
+  // 報告書の伏せ字や雛形がそのまま指標として載っている索引がある。
+  // **印が付いていれば素通りすること**（IPv4 の malformed と同じ扱い）。
+  // 印が無いまま載っていたら落ちることは、下の壊し方で押さえる
+  { key: "ioc.domain|-news.example.com", type: "ioc.domain", value: "-news.example.com",
+    registrable: "example.com", malformed: true, sources: ["src-a"] },
+  { key: "ioc.url|https://[*.]example.com", type: "ioc.url", value: "https://[*.]example.com",
+    malformed: true, sources: ["src-a"] },
 ];
 
 const LINKS = [
@@ -77,6 +84,9 @@ const LINKS = [
   { ioc: "ioc.url|https://report.example/writeup/", kind: "actor", name: "APT-Test", source: "src-a", rel: "観測アクター" },
   { ioc: "ioc.url|https://report.example/writeup/", kind: "actor", name: "Other Group", source: "src-a", rel: "観測アクター" },
   { ioc: "ioc.domain|c2.example.com", kind: "cve", name: "CVE-2026-0001", source: "src-a", rel: "attrs.関連CVE" },
+  // 本番と同じ形。索引は伏せ字の値にもアクターの辺を張ってくる
+  // （実測: APT43 に `https://[*.]purevpn.com` が 観測アクター として付いていた）
+  { ioc: "ioc.url|https://[*.]example.com", kind: "actor", name: "APT-Test", source: "src-a", rel: "観測アクター" },
 ];
 const ALIASES = { "APT-Test": ["Test Panda"] };
 
@@ -419,6 +429,22 @@ const CASES = [
   }],
   ["ipv4.noise", "noise の印が落ちている", (d) => {
     editLine(d, "iocs.jsonl", "8.8.8.8", (l) => l.replace(/,"noise":"[^"]*"/, ""));
+  }],
+  // 実際に起きた: 索引が報告書の伏せ字（`[*.]example.com`）や雛形
+  // （`[malicious_c2].com`）を指標として載せていて、印が無いまま溜まり
+  // --strict が毎日落ちていた。印を付けるのは collect の仕事（lib/net.mjs）
+  ["domain.format", "壊れたホスト名に印が無い", (d) => {
+    editLine(d, "iocs.jsonl", "legit.example.com", (l) => l.replace(/legit\.example\.com/g, "-legit.example.com"));
+  }],
+  ["url.format", "解けない URL に印が無い", (d) => {
+    editLine(d, "iocs.jsonl", "https://evil.example.com/a",
+      (l) => l.replace(/https:\/\/evil\.example\.com\/a/g, "https://[*.]evil.example.com"));
+  }],
+  ["domain.format", "印が落ちて壊れた値が素通りしかける", (d) => {
+    editLine(d, "iocs.jsonl", "-news.example.com", (l) => l.replace(/"malformed":true,/, ""));
+  }],
+  ["url.format", "URL の印が落ちる", (d) => {
+    editLine(d, "iocs.jsonl", "[*.]example.com", (l) => l.replace(/"malformed":true,/, ""));
   }],
   // 実際に起きた: daily.sh が fetch-psl を呼んでおらず、本番は手書きの控えで
   // registrable を作り続けていた。検査も同じ器で走るので誰も気付かなかった

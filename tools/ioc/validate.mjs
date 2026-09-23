@@ -36,7 +36,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { joinKey, refang } from "../../assets/js/util.js";
 import { byKeys, parseArgs, readJson, readJsonl, stableStringify, writeJson } from "./lib/io.mjs";
-import { classifyIpv4, ipv4ToInt, registrableDomain, subnet24 } from "./lib/net.mjs";
+import {
+  classifyDomain, classifyEmail, classifyIpv4, classifyUrl, ipv4ToInt, registrableDomain, subnet24,
+} from "./lib/net.mjs";
 import { pslVersion } from "./lib/psl.mjs";
 import { ipv6ToHex } from "./lib/asn.mjs";
 import { coverageOf } from "./lib/enrich.mjs";
@@ -327,7 +329,6 @@ function checkDate(name, i, field, v, { oldest = "2000-01-01" } = {}) {
 
 const HEX = /^[0-9a-f]+$/;
 const IPV4 = /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/;
-const HOSTNAME = /^(?=.{1,253}$)(?!-)[a-z0-9-]{1,63}(?<!-)(?:\.(?!-)[a-z0-9-]{1,63}(?<!-))+$/;
 const iocKeys = new Set();
 const sourceIds = new Set();
 
@@ -411,19 +412,24 @@ for (let i = 0; i < iocs.length; i++) {
         err("domain.registrable", `registrable が ${rd} と一致しません: ${r.registrable}`, at("iocs.jsonl", i));
       } else registrableSkipped++;
     }
-    if (!HOSTNAME.test(r.value)) warn("domain.format", `ホスト名として不自然です: ${r.value}`, at("iocs.jsonl", i));
+    // 壊れた値は IPv4 と同じ扱い。**印があれば黙る、無ければ落とす**。
+    // 印は collect が付ける（lib/net.mjs の判定を両側で共有している）
+    if (!classifyDomain(r.value).valid && !r.malformed) {
+      err("domain.format", `ホスト名の形ではないのに印がありません: ${r.value}`, at("iocs.jsonl", i));
+    }
     if (IPV4.test(r.value)) warn("domain.isip", `IP が domain として入っています: ${r.value}`, at("iocs.jsonl", i));
   } else if (r.type === "ioc.url") {
-    try {
-      const u = new URL(r.value);
+    if (!classifyUrl(r.value).valid) {
+      if (!r.malformed) err("url.format", `URL として解けないのに印がありません: ${r.value}`, at("iocs.jsonl", i));
+    } else {
       // 見慣れない scheme は refang の失敗（hxxp の変形など）の兆候になる
-      if (!URL_SCHEMES.has(u.protocol)) warn("url.scheme", `見慣れない scheme です: ${r.value}`, at("iocs.jsonl", i));
-    } catch {
-      warn("url.format", `URL として解けません: ${r.value}`, at("iocs.jsonl", i));
+      if (!URL_SCHEMES.has(new URL(r.value).protocol)) {
+        warn("url.scheme", `見慣れない scheme です: ${r.value}`, at("iocs.jsonl", i));
+      }
     }
   } else if (r.type === "ioc.email") {
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(r.value)) {
-      warn("email.format", `メールアドレスの形ではありません: ${r.value}`, at("iocs.jsonl", i));
+    if (!classifyEmail(r.value).valid && !r.malformed) {
+      err("email.format", `メールアドレスの形ではないのに印がありません: ${r.value}`, at("iocs.jsonl", i));
     }
   }
 

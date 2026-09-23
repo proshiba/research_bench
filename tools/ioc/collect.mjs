@@ -18,7 +18,9 @@
 import path from "node:path";
 import { joinKey, refang } from "../../assets/js/util.js";
 import { byKeys, isoWeek, parseArgs, writeJson, writeJsonl } from "./lib/io.mjs";
-import { classifyIpv4, classifyIpv6, registrableDomain, subnet24 } from "./lib/net.mjs";
+import {
+  classifyDomain, classifyEmail, classifyIpv4, classifyIpv6, classifyUrl, registrableDomain, subnet24,
+} from "./lib/net.mjs";
 import { pslVersion } from "./lib/psl.mjs";
 import { REPO_ROOT, loadAll } from "./lib/sources.mjs";
 import { entityNames, nameKey, pickAliases, splitNames, usableName } from "./lib/names.mjs";
@@ -161,8 +163,15 @@ async function main() {
           if (!c.valid) rec.malformed = true;
           if (c.bogon) rec.bogon = true;
         } else if (e.type === "ioc.domain") {
+          // 報告書の伏せ字や雛形がそのまま指標として載っている索引がある。
+          // **捨てずに印を付ける**（stats と問い合わせ側が excluded で外す）
+          if (!classifyDomain(jk).valid) rec.malformed = true;
           const rd = registrableDomain(jk);
           if (rd) rec.registrable = rd;
+        } else if (e.type === "ioc.url") {
+          if (!classifyUrl(jk).valid) rec.malformed = true;
+        } else if (e.type === "ioc.email") {
+          if (!classifyEmail(jk).valid) rec.malformed = true;
         }
         iocs.set(key, rec);
       }

@@ -81,6 +81,41 @@ export function classifyIpv6(ip) {
   return { valid: true };
 }
 
+/**
+ * ホスト名として使える形か。**collect と validate の両方がこれを使う**
+ * （別々に持つと必ずずれて、印の無い壊れた値が検査だけで落ちる）。
+ *
+ * 実測で通ってしまっていたもの: 先頭ハイフンの `-certificate.net`、
+ * 複数のドメインが繋がった `-apps.storeiosmnbg.comitcgr.liveitly.linkitter.me`。
+ */
+const HOSTNAME = /^(?=.{1,253}$)(?!-)[a-z0-9-]{1,63}(?<!-)(?:\.(?!-)[a-z0-9-]{1,63}(?<!-))+$/;
+
+export function classifyDomain(host) {
+  return { valid: HOSTNAME.test(String(host).trim().toLowerCase()) };
+}
+
+/**
+ * URL として解けるか。**scheme の見慣れなさはここでは見ない**
+ * （`hxxp` の取りこぼしは refang の失敗の兆候なので、検査側の警告に残す）。
+ *
+ * 実測で通ってしまっていたもの: 報告書の伏せ字がそのまま来た
+ * `http://[malicious_c2].com/`、雛形の `https://[domain].com/[sample].exe`、
+ * ワイルドカードの伏せ字 `https://[*.]purevpn.com`。
+ */
+export function classifyUrl(value) {
+  try {
+    new URL(String(value).trim());
+    return { valid: true };
+  } catch {
+    return { valid: false };
+  }
+}
+
+/** メールアドレスの形か。判定は検査側と同じ 1 本に寄せる。 */
+export function classifyEmail(value) {
+  return { valid: /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(value).trim()) };
+}
+
 import { registrableFromPsl, hasPsl } from "./psl.mjs";
 
 /** ドメインの登録可能部分（eTLD+1）。同一登録者の推定に使う。
