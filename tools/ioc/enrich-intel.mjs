@@ -633,6 +633,20 @@ const usableDerivedLinks = derivedLinks.filter((l) => {
   }
 }
 
+/**
+ * 索引の更新でマルウェア実体が消えても、辺（suggested_threat_label）がまだ
+ * 参照しているなら生えた実体として引き継ぐ。**壊れた辺として捨てない**
+ * （実測: 週次の索引更新で malware/Sednit・malware/XAgent が実体を失い、
+ *  持ち越した過去の辺だけが取り残されて検査の derived.link_entity に落ちた）。
+ * familySamples は今日引いた行からしか埋まらないので、持ち越し分はここで補う
+ */
+for (const l of usableDerivedLinks) {
+  if (l.kind !== "malware" || l.rel !== "suggested_threat_label") continue;
+  if (knownNames.has(l.name)) continue;
+  if (!familySamples.has(l.name)) familySamples.set(l.name, new Set());
+  familySamples.get(l.name).add(l.ioc);
+}
+
 /* ---------------- 3. 生えた実体と別名 ---------------- */
 
 const derivedEntities = [...familySamples.entries()]

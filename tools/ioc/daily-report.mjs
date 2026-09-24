@@ -132,6 +132,17 @@ const disagreement = freshVt
 /** VT が知らない IOC。失敗ではなく結果で、索引の独自性の指標になる。 */
 const unknown = freshVt.filter((r) => !r.known).map((r) => r.ioc).sort();
 
+/**
+ * 形が壊れていて印が付いたもの。分析にも問い合わせにも使われないので害は無いが、
+ * **増えたら索引側の取り込みが壊れた合図**なので出典つきで人に渡す。
+ * 実測: 報告書の参考リンクが `https://[*.]tutorialspoint.com` のような伏せ字のまま
+ * APT43 の IOC として 18 件載っていた（アクターの基盤ではなく、記事の引用元）。
+ */
+const malformed = now.iocs.filter((r) => r.malformed)
+  .map((r) => ({ ioc: r.key, sources: r.sources ?? [] }))
+  .sort(byKeys("ioc"));
+const malformedWas = prev?.stats?.iocs?.excluded?.malformed ?? null;
+
 /** 経路表と VT で AS が食い違った IP。時点差なので、どちらかが誤りとは言えない。 */
 const asnDiffers = freshVt.filter((r) => r.asn_differs).map((r) => r.ioc).sort();
 
@@ -177,6 +188,7 @@ const report = {
   to_check: {
     disagreement: { total: disagreement.length, samples: disagreement.slice(0, TOP) },
     unknown: { total: unknown.length, samples: unknown.slice(0, TOP) },
+    malformed: { total: malformed.length, was: malformedWas, samples: malformed.slice(0, TOP) },
     asn_differs: { total: asnDiffers.length, samples: asnDiffers.slice(0, TOP) },
     top_malicious: topMalicious,
     top_abuse: topAbuse,
@@ -244,6 +256,12 @@ if (topMalicious.length) {
 if (topAbuse.length) {
   console.log("    スコアの高い新顔の IP:");
   for (const r of topAbuse.slice(0, 5)) console.log(`      ${String(r.score).padStart(3)} ${r.ioc}  通報 ${r.reports}/${r.reporters} 人  ${r.usage_type || ""}`);
+}
+if (report.to_check.malformed.total) {
+  const m = report.to_check.malformed;
+  const delta = m.was === null ? "" : `（昨日 ${m.was} 件）`;
+  console.log(`    形が壊れていて外した IOC … ${m.total} 件${delta}`);
+  for (const r of m.samples.slice(0, 5)) console.log(`      ${r.ioc}  ${r.sources.join(" ")}`);
 }
 if (report.to_check.cert_excluded.length) {
   console.log(`    錨が無くて外した証明書 … ${report.to_check.cert_excluded.length} 件`);

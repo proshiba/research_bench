@@ -36,6 +36,14 @@ sh tools/ioc/daily.sh --push       # 日次はこれ 1 本（上を通しでや�
 付けて残し、統計側が既定で除く。捨ててしまうと「なぜ消えたか」が後から分からず、
 元データ側の誤りにも気づけない。
 
+**印を付けるのは `collect` の仕事で、検査は印の有無だけを見る。** 形が壊れた値
+（`-certificate.net`、報告書の伏せ字 `https://[*.]example.com`、雛形の
+`[malicious_c2].com`）には `malformed` の印を付ける。検査は**印が無いときだけ落とす**
+——「毎日鳴るが誰も直せない警告」にすると `--strict` がただ通らなくなるため。
+判定は `net.mjs` の `classifyDomain` / `classifyUrl` / `classifyEmail` 1 本を
+collect と validate が共有する（別々に持つと必ずずれる）。外した件数と出典は
+日次レポートの「形が壊れていて外した IOC」に出るので、索引側の取り込みが壊れたら気づける。
+
 **印を付ける根拠は 2 通り持つ。** 帯の一覧（`net.mjs` の `BOGON` / `NOISE`）は
 手で足すので必ず漏れる。実測から決まる印（AbuseIPDB の通報の中身から見つける
 `sample`、VT の人気順位から見つける `popular`）を併せて持つことで、一覧に無いものも
