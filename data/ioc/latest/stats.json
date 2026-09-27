@@ -185,7 +185,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1477120,
+        "addresses": 1476608,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -245,7 +245,7 @@
           "Toy Ghouls",
           "Wizard Spider"
         ],
-        "addresses": 1662720,
+        "addresses": 1662976,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -350,7 +350,7 @@
           "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218123264,
+        "addresses": 218128384,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -422,7 +422,7 @@
           "UNC5174",
           "Winnti Group"
         ],
-        "addresses": 1462784,
+        "addresses": 1466880,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -500,7 +500,7 @@
           "Famous Chollima",
           "Red Heron"
         ],
-        "addresses": 1061120,
+        "addresses": 1061888,
         "asn": 36352,
         "cc": "US",
         "name": "HostPapa"
@@ -661,7 +661,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1404
+    "total": 1405
   },
   "coverage": {
     "abuseipdb": {
@@ -675,74 +675,74 @@
           "target": 399
         },
         "5": {
-          "done": 2627,
-          "target": 2627
+          "done": 2628,
+          "target": 2628
         }
       },
-      "done": 4027,
+      "done": 4028,
       "ratio": 1,
-      "target": 4026
+      "target": 4027
     },
-    "newest_fetch": "2026-09-26",
-    "oldest_fetch": "2026-09-26",
+    "newest_fetch": "2026-09-27",
+    "oldest_fetch": "2026-09-27",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 6324,
-          "target": 6324
+          "done": 6325,
+          "target": 6325
         },
         "2": {
           "done": 399,
           "target": 399
         },
         "3": {
-          "done": 6020,
-          "target": 6020
+          "done": 6045,
+          "target": 6045
         },
         "4": {
-          "done": 6612,
-          "target": 6612
+          "done": 6622,
+          "target": 6622
         },
         "5": {
-          "done": 4887,
-          "target": 4887
+          "done": 4912,
+          "target": 4912
         },
         "6": {
-          "done": 1134,
-          "target": 1134
+          "done": 1135,
+          "target": 1135
         }
       },
-      "done": 25377,
-      "known": 21837,
+      "done": 25439,
+      "known": 21882,
       "ratio": 1,
-      "target": 25376,
-      "unknown": 3540
+      "target": 25438,
+      "unknown": 3557
     }
   },
   "entities": {
     "actor": 336,
     "campaign": 13,
     "case": 509,
-    "malware": 488
+    "malware": 490
   },
   "from": {
-    "collected_at": "2026-09-26T00:30:44.785Z",
+    "collected_at": "2026-09-27T00:05:46.912Z",
     "week": "2026-W39"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 9248,
+      "ioc.domain": 9259,
       "ioc.email": 268,
       "ioc.endpoint": 305,
-      "ioc.ipv4": 3963,
+      "ioc.ipv4": 3964,
       "ioc.ipv6": 72,
-      "ioc.md5": 2664,
+      "ioc.md5": 2685,
       "ioc.sha1": 1563,
-      "ioc.sha256": 4540,
+      "ioc.sha256": 4544,
       "ioc.sha512": 16,
-      "ioc.url": 3364
+      "ioc.url": 3389
     },
-    "dated": 10581,
+    "dated": 10643,
     "excluded": {
       "bogon": 3,
       "malformed": 29,
@@ -750,8 +750,8 @@
       "popular": 167,
       "sample_reported": 1
     },
-    "total": 26003,
-    "usable": 25798
+    "total": 26065,
+    "usable": 25860
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -1841,17 +1841,17 @@
         "family": 147,
         "filename": 36,
         "imphash": 37,
-        "ioc": 67,
-        "jarm": 608,
-        "registered": 1008,
-        "registrable": 51,
+        "ioc": 69,
+        "jarm": 613,
+        "registered": 1021,
+        "registrable": 54,
         "resolution": 1,
         "signer": 6,
         "subnet": 22,
         "vhash": 42
       },
       "identical_sets": 10,
-      "pairs": 1771,
+      "pairs": 1785,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2367,7 +2367,7 @@
           ]
         }
       ],
-      "weak_only": 1647
+      "weak_only": 1659
     }
   },
   "schema": 1,
@@ -2604,7 +2604,7 @@
         ],
         "asns": [
           {
-            "addresses": 1477120,
+            "addresses": 1476608,
             "asn": 20473,
             "name": "The Constant Company, LLC"
           }
@@ -2725,6 +2725,12 @@
         "target": "naver.com"
       },
       {
+        "abuse": 1,
+        "impersonation": 5,
+        "rank": 121,
+        "target": "slack.com"
+      },
+      {
         "abuse": 0,
         "impersonation": 6,
         "rank": 134,
@@ -2735,12 +2741,6 @@
         "impersonation": 5,
         "rank": 500,
         "target": "github.com"
-      },
-      {
-        "abuse": 1,
-        "impersonation": 4,
-        "rank": 121,
-        "target": "slack.com"
       },
       {
         "abuse": 0,
@@ -2779,7 +2779,7 @@
         "target": "onedrive.com"
       }
     ],
-    "impersonation": 330
+    "impersonation": 331
   },
   "timeline": {
     "actors": {
@@ -2984,13 +2984,13 @@
       ],
       "with_dates": 8
     },
-    "dated": 8710,
+    "dated": 8743,
     "index_lag": {
-      "ahead": 415,
-      "median_days": 48,
+      "ahead": 419,
+      "median_days": 47,
       "p25_days": 2,
       "p75_days": 131,
-      "pairs": 4320
+      "pairs": 4353
     }
   },
   "tool": "tools/ioc/stats.mjs",
@@ -3070,7 +3070,7 @@
         }
       ]
     },
-    "clean": 3155,
+    "clean": 3157,
     "disagreement": {
       "samples": [
         {
@@ -3211,7 +3211,7 @@
       ],
       "total": 468
     },
-    "malicious": 18286,
-    "unknown": 3540
+    "malicious": 18329,
+    "unknown": 3557
   }
 }

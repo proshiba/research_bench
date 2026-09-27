@@ -28133,7 +28133,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 1.801,
+      "ratio": 1.704,
       "shared": 317,
       "source": "malware:AMOS",
       "strength": 15,
@@ -31201,6 +31201,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:AnonyMousKIT",
+      "strength": 3,
+      "target": "malware:Mini Shai-Hulud",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.036,
       "shared": 1,
       "source": "malware:AnonyMousKIT",
@@ -31739,6 +31751,18 @@
       "source": "malware:AsyncRAT",
       "strength": 1,
       "target": "malware:Miasma",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:AsyncRAT",
+      "strength": 1,
+      "target": "malware:Mini Shai-Hulud",
       "via": [
         "jarm"
       ],
@@ -37936,6 +37960,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:ErrTraffic",
+      "strength": 3,
+      "target": "malware:Mini Shai-Hulud",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.128,
       "shared": 6,
       "source": "malware:ErrTraffic",
@@ -38432,7 +38468,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.006,
+      "ratio": 0.005,
       "shared": 1,
       "source": "malware:EtherRAT",
       "strength": 3,
@@ -42304,6 +42340,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.036,
+      "shared": 1,
+      "source": "malware:Macsync",
+      "strength": 3,
+      "target": "malware:ManageEngine Endpoint Central悪用",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.167,
       "shared": 1,
       "source": "malware:Macsync",
@@ -42359,6 +42407,18 @@
       "target": "malware:Mistic",
       "via": [
         "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:Macsync",
+      "strength": 3,
+      "target": "malware:NanoCore RATの概要",
+      "via": [
         "registered"
       ],
       "weak_only": true
@@ -42460,6 +42520,19 @@
         "registered",
         "registrable"
       ]
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.182,
+      "shared": 2,
+      "source": "malware:Macsync",
+      "strength": 5,
+      "target": "malware:PamStealer",
+      "via": [
+        "registered",
+        "registrable"
+      ],
+      "weak_only": true
     },
     {
       "kind": "malware",
@@ -42607,7 +42680,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.011,
+      "ratio": 0.01,
       "shared": 2,
       "source": "malware:Macsync",
       "strength": 3,
@@ -42730,8 +42803,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.011,
-      "shared": 2,
+      "ratio": 0.014,
+      "shared": 3,
       "source": "malware:Macsync",
       "strength": 3,
       "target": "malware:ValleyRAT",
@@ -42833,6 +42906,18 @@
       "target": "malware:PHANTOMPULSE",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:ManageEngine Endpoint Central悪用",
+      "strength": 3,
+      "target": "malware:PamStealer",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -42982,15 +43067,18 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.091,
-      "shared": 1,
+      "ratio": 0.313,
+      "shared": 5,
       "source": "malware:Miasma",
-      "strength": 2,
+      "strength": 16,
       "target": "malware:Mini Shai-Hulud",
       "via": [
-        "family"
-      ],
-      "weak_only": true
+        "family",
+        "ioc",
+        "jarm",
+        "registered",
+        "registrable"
+      ]
     },
     {
       "kind": "malware",
@@ -43143,15 +43231,42 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.091,
+      "ratio": 0.063,
       "shared": 1,
       "source": "malware:Mini Shai-Hulud",
-      "strength": 2,
-      "target": "malware:Shai-Hulud",
+      "strength": 3,
+      "target": "malware:NodeRabbit",
       "via": [
-        "family"
+        "registered"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:Mini Shai-Hulud",
+      "strength": 3,
+      "target": "malware:PollCat",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.375,
+      "shared": 6,
+      "source": "malware:Mini Shai-Hulud",
+      "strength": 16,
+      "target": "malware:Shai-Hulud",
+      "via": [
+        "family",
+        "ioc",
+        "jarm",
+        "registered",
+        "registrable"
+      ]
     },
     {
       "kind": "malware",
@@ -43167,7 +43282,43 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.091,
+      "ratio": 0.125,
+      "shared": 1,
+      "source": "malware:Mini Shai-Hulud",
+      "strength": 3,
+      "target": "malware:Troy",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:Mini Shai-Hulud",
+      "strength": 1,
+      "target": "malware:Vidar Stealer",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:Mini Shai-Hulud",
+      "strength": 1,
+      "target": "malware:XMRig",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.083,
       "shared": 1,
       "source": "malware:Mini Shai-Hulud",
       "strength": 2,
@@ -43784,6 +43935,18 @@
       "source": "malware:NanoCore RATの概要",
       "strength": 3,
       "target": "malware:NodeRabbit",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:NanoCore RATの概要",
+      "strength": 3,
+      "target": "malware:PamStealer",
       "via": [
         "registered"
       ],
@@ -45351,6 +45514,18 @@
         "signer",
         "vhash"
       ]
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:PamStealer",
+      "strength": 3,
+      "target": "malware:ValleyRAT",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
     },
     {
       "kind": "malware",
@@ -48395,7 +48570,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-09-26T00:30:44.785Z",
+  "generated_from": "2026-09-27T00:05:46.912Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -51471,7 +51646,7 @@
     },
     {
       "id": "malware:Macsync",
-      "ioc_count": 176,
+      "ioc_count": 215,
       "kind": "malware",
       "name": "Macsync"
     },
@@ -51519,7 +51694,7 @@
     },
     {
       "id": "malware:Mini Shai-Hulud",
-      "ioc_count": 11,
+      "ioc_count": 16,
       "kind": "malware",
       "name": "Mini Shai-Hulud"
     },
@@ -51762,6 +51937,12 @@
       "ioc_count": 10,
       "kind": "malware",
       "name": "PXDropper"
+    },
+    {
+      "id": "malware:PamStealer",
+      "ioc_count": 11,
+      "kind": "malware",
+      "name": "PamStealer"
     },
     {
       "id": "malware:PavinLoader",
@@ -52407,7 +52588,7 @@
     },
     {
       "id": "malware:ValleyRAT",
-      "ioc_count": 344,
+      "ioc_count": 351,
       "kind": "malware",
       "name": "ValleyRAT"
     },
