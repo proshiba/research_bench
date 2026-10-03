@@ -185,7 +185,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1496064,
+        "addresses": 1505792,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -245,7 +245,7 @@
           "Toy Ghouls",
           "Wizard Spider"
         ],
-        "addresses": 1668352,
+        "addresses": 1669632,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -301,7 +301,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4679424,
+        "addresses": 4679936,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -350,7 +350,7 @@
           "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218353152,
+        "addresses": 218307072,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -422,7 +422,7 @@
           "UNC5174",
           "Winnti Group"
         ],
-        "addresses": 1480192,
+        "addresses": 1519872,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -438,7 +438,7 @@
           "Qilin",
           "TAG-83"
         ],
-        "addresses": 540672,
+        "addresses": 541696,
         "asn": 29802,
         "cc": "US",
         "name": "HIVELOCITY, Inc."
@@ -485,7 +485,7 @@
           "Jewelbug",
           "The Gentlemen"
         ],
-        "addresses": 37657344,
+        "addresses": 37655552,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
@@ -515,7 +515,7 @@
           "Famous Chollima",
           "Red Heron"
         ],
-        "addresses": 1061376,
+        "addresses": 1069568,
         "asn": 36352,
         "cc": "US",
         "name": "HostPapa"
@@ -537,6 +537,21 @@
       },
       {
         "actors": [
+          "DriveSurge",
+          "GTG-50020",
+          "PhantomEnigma",
+          "Rognar",
+          "masterblack",
+          "shinyenigma",
+          "vectra"
+        ],
+        "addresses": 5632,
+        "asn": 202412,
+        "cc": "SC",
+        "name": "Omegatech LTD"
+      },
+      {
+        "actors": [
           "APT28",
           "APT43",
           "Anonymous",
@@ -545,25 +560,10 @@
           "Lazarus",
           "The Gentlemen"
         ],
-        "addresses": 1061120,
+        "addresses": 1061376,
         "asn": 212238,
         "cc": "GB",
         "name": "Datacamp Limited"
-      },
-      {
-        "actors": [
-          "APT28",
-          "Anonymous",
-          "Gamaredon",
-          "MuddyWater",
-          "Myxa VPN",
-          "SilkParasite",
-          "UTA0533"
-        ],
-        "addresses": 62720,
-        "asn": 215540,
-        "cc": "GB",
-        "name": "GLOBAL CONNECTIVITY SOLUTIONS LLP"
       }
     ],
     "multi_actor": 212,
@@ -645,7 +645,7 @@
           "SQLRCE0",
           "Yx Technology"
         ],
-        "addresses": 4096,
+        "addresses": 3840,
         "asn": 216300,
         "cc": "GE",
         "ips": 1,
@@ -657,88 +657,88 @@
         "shared_hosting": false
       }
     ],
-    "total": 1408
+    "total": 1416
   },
   "coverage": {
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 1016,
-          "target": 1016
+          "done": 1017,
+          "target": 1017
         },
         "2": {
-          "done": 409,
-          "target": 409
+          "done": 414,
+          "target": 414
         },
         "5": {
-          "done": 2655,
-          "target": 2655
+          "done": 2677,
+          "target": 2677
         }
       },
-      "done": 4081,
+      "done": 4109,
       "ratio": 1,
-      "target": 4080
+      "target": 4108
     },
-    "newest_fetch": "2026-10-02",
-    "oldest_fetch": "2026-10-02",
+    "newest_fetch": "2026-10-03",
+    "oldest_fetch": "2026-10-03",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 6519,
-          "target": 6519
+          "done": 6532,
+          "target": 6532
         },
         "2": {
-          "done": 409,
-          "target": 409
+          "done": 414,
+          "target": 414
         },
         "3": {
-          "done": 6062,
-          "target": 6062
+          "done": 6073,
+          "target": 6073
         },
         "4": {
-          "done": 6635,
-          "target": 6635
+          "done": 6646,
+          "target": 6646
         },
         "5": {
-          "done": 4941,
-          "target": 4941
+          "done": 4964,
+          "target": 4964
         },
         "6": {
-          "done": 1199,
-          "target": 1199
+          "done": 1209,
+          "target": 1209
         }
       },
-      "done": 25766,
-      "known": 22172,
+      "done": 25839,
+      "known": 22244,
       "ratio": 1,
-      "target": 25765,
-      "unknown": 3594
+      "target": 25838,
+      "unknown": 3595
     }
   },
   "entities": {
-    "actor": 339,
+    "actor": 343,
     "campaign": 13,
     "case": 512,
-    "malware": 501
+    "malware": 506
   },
   "from": {
-    "collected_at": "2026-10-02T00:04:58.544Z",
+    "collected_at": "2026-10-03T03:47:22.891Z",
     "week": "2026-W40"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 9316,
+      "ioc.domain": 9334,
       "ioc.email": 268,
       "ioc.endpoint": 310,
-      "ioc.ipv4": 4017,
+      "ioc.ipv4": 4045,
       "ioc.ipv6": 72,
       "ioc.md5": 2690,
       "ioc.sha1": 1567,
-      "ioc.sha256": 4673,
+      "ioc.sha256": 4698,
       "ioc.sha512": 16,
-      "ioc.url": 3468
+      "ioc.url": 3470
     },
-    "dated": 10962,
+    "dated": 11035,
     "excluded": {
       "bogon": 3,
       "malformed": 29,
@@ -746,8 +746,8 @@
       "popular": 167,
       "sample_reported": 1
     },
-    "total": 26397,
-    "usable": 26192
+    "total": 26470,
+    "usable": 26265
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -771,20 +771,20 @@
       "by_via": {
         "asn": 4,
         "certificate": 9,
-        "family": 179,
+        "family": 177,
         "filename": 44,
         "imphash": 32,
-        "ioc": 61,
+        "ioc": 62,
         "jarm": 1008,
-        "registered": 1070,
+        "registered": 1082,
         "registrable": 50,
         "resolution": 2,
         "signer": 6,
-        "subnet": 17,
+        "subnet": 19,
         "vhash": 22
       },
       "identical_sets": 4,
-      "pairs": 1990,
+      "pairs": 2001,
       "top": [
         {
           "a": "APT29 sub-cluster",
@@ -1345,7 +1345,7 @@
           ]
         }
       ],
-      "weak_only": 1890
+      "weak_only": 1899
     },
     "campaign": {
       "by_via": {
@@ -1834,20 +1834,20 @@
       "by_via": {
         "asn": 5,
         "certificate": 6,
-        "family": 156,
+        "family": 154,
         "filename": 36,
         "imphash": 37,
         "ioc": 70,
-        "jarm": 591,
-        "registered": 1077,
+        "jarm": 563,
+        "registered": 1082,
         "registrable": 55,
         "resolution": 1,
         "signer": 6,
-        "subnet": 23,
+        "subnet": 22,
         "vhash": 42
       },
       "identical_sets": 10,
-      "pairs": 1835,
+      "pairs": 1812,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2041,6 +2041,43 @@
           ]
         },
         {
+          "a": "HavocKiller",
+          "b": "The Gentlemen",
+          "evidence": {
+            "family": [
+              "killav"
+            ],
+            "filename": [
+              "2026-04-11_b23b653541bd95bdc4da07a0b07b57bf_icedid_njrat",
+              "SophosInstall.exe",
+              "d421cuu5e.exe"
+            ],
+            "imphash": [
+              "4f64d9cbed3c75a7275d9b867c812a6c"
+            ],
+            "ioc": [
+              "ioc.sha1|f0537cbb773ae12100b36731e7c39f5a9d852b14"
+            ],
+            "signer": [
+              "Sophos Ltd; GlobalSign CodeSigning CA - SHA256 - G2; GlobalSign Root CA - R3"
+            ],
+            "vhash": [
+              "0160be06555d15151d151az66!z"
+            ]
+          },
+          "ratio": 4,
+          "shared": 8,
+          "strength": 28,
+          "via": [
+            "family",
+            "filename",
+            "imphash",
+            "ioc",
+            "signer",
+            "vhash"
+          ]
+        },
+        {
           "a": "AUDIOFIX",
           "b": "MINIRAT",
           "evidence": {
@@ -2089,14 +2126,11 @@
               "cloud-sync.online",
               "datahub.ink",
               "driver-hub.net"
-            ],
-            "subnet": [
-              "208.115.220.0/24"
             ]
           },
-          "ratio": 1.864,
-          "shared": 164,
-          "strength": 31,
+          "ratio": 1.852,
+          "shared": 163,
+          "strength": 26,
           "via": [
             "certificate",
             "family",
@@ -2104,45 +2138,7 @@
             "ioc",
             "jarm",
             "registered",
-            "registrable",
-            "subnet"
-          ]
-        },
-        {
-          "a": "HavocKiller",
-          "b": "The Gentlemen",
-          "evidence": {
-            "family": [
-              "killav"
-            ],
-            "filename": [
-              "2026-04-11_b23b653541bd95bdc4da07a0b07b57bf_icedid_njrat",
-              "SophosInstall.exe",
-              "d421cuu5e.exe"
-            ],
-            "imphash": [
-              "4f64d9cbed3c75a7275d9b867c812a6c"
-            ],
-            "ioc": [
-              "ioc.sha1|f0537cbb773ae12100b36731e7c39f5a9d852b14"
-            ],
-            "signer": [
-              "Sophos Ltd; GlobalSign CodeSigning CA - SHA256 - G2; GlobalSign Root CA - R3"
-            ],
-            "vhash": [
-              "0160be06555d15151d151az66!z"
-            ]
-          },
-          "ratio": 4,
-          "shared": 8,
-          "strength": 28,
-          "via": [
-            "family",
-            "filename",
-            "imphash",
-            "ioc",
-            "signer",
-            "vhash"
+            "registrable"
           ]
         },
         {
@@ -2363,12 +2359,12 @@
           ]
         }
       ],
-      "weak_only": 1709
+      "weak_only": 1686
     }
   },
   "schema": 1,
   "subnets": {
-    "multi_actor": 107,
+    "multi_actor": 110,
     "top": [
       {
         "actors": [
@@ -2547,7 +2543,7 @@
         ],
         "asns": [
           {
-            "addresses": 37657344,
+            "addresses": 37655552,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2617,7 +2613,7 @@
         ],
         "asns": [
           {
-            "addresses": 1496064,
+            "addresses": 1505792,
             "asn": 20473,
             "name": "The Constant Company, LLC"
           }
@@ -2648,7 +2644,7 @@
         "subnet": "185.237.166.0/24"
       }
     ],
-    "total": 477
+    "total": 484
   },
   "targets": {
     "abuse": 7,
@@ -2860,7 +2856,7 @@
           "span_days": 4866
         }
       ],
-      "with_dates": 226
+      "with_dates": 228
     },
     "campaigns": {
       "spans": [
@@ -2979,19 +2975,19 @@
       ],
       "with_dates": 8
     },
-    "dated": 8924,
+    "dated": 8950,
     "index_lag": {
       "ahead": 424,
-      "median_days": 47,
+      "median_days": 46,
       "p25_days": 1,
       "p75_days": 131,
-      "pairs": 4534
+      "pairs": 4560
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 299,
+      "checked": 303,
       "lowest": [
         {
           "checked": 4,
@@ -3065,7 +3061,7 @@
         }
       ]
     },
-    "clean": 3172,
+    "clean": 3181,
     "disagreement": {
       "samples": [
         {
@@ -3204,9 +3200,9 @@
           ]
         }
       ],
-      "total": 471
+      "total": 472
     },
-    "malicious": 18600,
-    "unknown": 3594
+    "malicious": 18654,
+    "unknown": 3595
   }
 }
