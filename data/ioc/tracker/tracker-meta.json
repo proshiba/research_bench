@@ -1,35 +1,32 @@
 {
   "alive": {
-    "cdn": 2053,
-    "dynamic": 289,
-    "total": 3572
+    "cdn": 0,
+    "dynamic": 296,
+    "total": 3594
   },
-  "built_at": "2026-09-28T00:20:46.998Z",
+  "built_at": "2026-10-03T03:30:33.682Z",
   "by_status": {
-    "alive": 3572,
-    "error": 164,
-    "no_answer": 724,
-    "nxdomain": 4384,
+    "alive": 3594,
+    "error": 161,
+    "no_answer": 733,
+    "nxdomain": 4421,
     "parked": 189
   },
-  "days": 42,
-  "domains": 9033,
+  "days": 44,
+  "domains": 9098,
   "events": {
     "by_kind": {
-      "as_change": 2085,
-      "cname_change": 431,
-      "ip_change": 1614,
-      "status": 365
+      "cname_change": 454,
+      "ip_change": 7241,
+      "status": 399
     },
-    "on_last_day": 181,
-    "total": 4495
+    "on_last_day": 235,
+    "total": 8094
   },
   "from": "2026-08-16",
-  "observations": 299580,
-  "routing_table": {
-    "prefixes": 1191707
-  },
+  "observations": 317690,
+  "routing_table": null,
   "schema": 1,
-  "to": "2026-09-28",
+  "to": "2026-10-03",
   "tool": "tools/ioc/track-domains.mjs"
 }
