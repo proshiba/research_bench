@@ -29948,7 +29948,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.111,
+      "ratio": 0.095,
       "shared": 2,
       "source": "malware:AMOS",
       "strength": 3,
@@ -32988,7 +32988,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.042,
       "shared": 1,
       "source": "malware:AnonyMousKIT",
       "strength": 3,
@@ -33797,7 +33797,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.042,
       "shared": 1,
       "source": "malware:AsyncRAT",
       "strength": 1,
@@ -34505,7 +34505,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.056,
+      "ratio": 0.048,
       "shared": 1,
       "source": "malware:BambooToken",
       "strength": 2,
@@ -36206,6 +36206,18 @@
       "target": "malware:Forg365",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.167,
+      "shared": 2,
+      "source": "malware:ChainDrop",
+      "strength": 1,
+      "target": "malware:Shai-Hulud",
+      "via": [
+        "filename"
       ],
       "weak_only": true
     },
@@ -38467,7 +38479,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.042,
       "shared": 1,
       "source": "malware:DCRat",
       "strength": 3,
@@ -40068,7 +40080,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.095,
+      "ratio": 0.083,
       "shared": 2,
       "source": "malware:ErrTraffic",
       "strength": 3,
@@ -44566,7 +44578,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.111,
+      "ratio": 0.095,
       "shared": 2,
       "source": "malware:Macsync",
       "strength": 3,
@@ -46246,7 +46258,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.042,
       "shared": 1,
       "source": "malware:NodeRabbit",
       "strength": 3,
@@ -48001,7 +48013,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.042,
       "shared": 1,
       "source": "malware:PollCat",
       "strength": 3,
@@ -48338,7 +48350,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.056,
+      "ratio": 0.048,
       "shared": 1,
       "source": "malware:PromptMink",
       "strength": 3,
@@ -48484,7 +48496,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.056,
+      "ratio": 0.048,
       "shared": 1,
       "source": "malware:PureHVNC",
       "strength": 6,
@@ -48556,7 +48568,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.111,
+      "ratio": 0.095,
       "shared": 2,
       "source": "malware:PureLogs",
       "strength": 3,
@@ -48568,7 +48580,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.056,
+      "ratio": 0.048,
       "shared": 1,
       "source": "malware:PureLogs",
       "strength": 3,
@@ -48580,7 +48592,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.056,
+      "ratio": 0.048,
       "shared": 1,
       "source": "malware:PureLogs",
       "strength": 6,
@@ -49299,7 +49311,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.042,
       "shared": 1,
       "source": "malware:SectopRAT",
       "strength": 3,
@@ -49395,7 +49407,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.042,
       "shared": 1,
       "source": "malware:Shai-Hulud",
       "strength": 1,
@@ -49407,7 +49419,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.042,
       "shared": 1,
       "source": "malware:Shai-Hulud",
       "strength": 1,
@@ -50443,7 +50455,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-10-08T00:05:05.379Z",
+  "generated_from": "2026-10-09T00:05:21.931Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -54077,7 +54089,7 @@
     },
     {
       "id": "malware:PureLogs",
-      "ioc_count": 18,
+      "ioc_count": 21,
       "kind": "malware",
       "name": "PureLogs"
     },
@@ -54293,7 +54305,7 @@
     },
     {
       "id": "malware:Shai-Hulud",
-      "ioc_count": 21,
+      "ioc_count": 24,
       "kind": "malware",
       "name": "Shai-Hulud"
     },

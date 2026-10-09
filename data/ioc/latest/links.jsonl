@@ -13045,6 +13045,7 @@
 {"id":"actor:apt28","ioc":"ioc.domain|te.info","kind":"actor","name":"APT28","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"case:0f2abaabea8bb9454e5cf979e58eba7de10172dab1f3ebff6a9face304f4ce48","ioc":"ioc.domain|tea.vexexo.com","kind":"case","name":"case:0f2abaabea8bb9454e5cf979e58eba7de10172dab1f3ebff6a9face304f4ce48","rel":"PureRAT/PureHVNC candidate C2","source":"ai-security-analysis"}
 {"id":"family:purelogs","ioc":"ioc.domain|tea.vexexo.com","kind":"malware","name":"PureLogs","rel":"case.ファミリ","source":"ai-security-analysis"}
+{"ioc":"ioc.domain|tea.vexexo.com","kind":"malware","name":"PureLogs","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"actor:apt29","ioc":"ioc.domain|teachingdrive.com","kind":"actor","name":"APT29","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"malware:sunburst","ioc":"ioc.domain|teachingdrive.com","kind":"malware","name":"SUNBURST","rel":"関連","source":"threatactor-intel-analysis"}
 {"ioc":"ioc.domain|team-hw.com","kind":"actor","name":"Gambling Goblin","rel":"attrs.アクター","source":"tech-memo-daily-news"}
@@ -16018,6 +16019,8 @@
 {"id":"case:0d946f5226d79db75e091cac5033f00d9f9c931258b1aabe0947f297cceb9d40","ioc":"ioc.endpoint|102.220.160.93:8041","kind":"case","name":"case:0d946f5226d79db75e091cac5033f00d9f9c931258b1aabe0947f297cceb9d40","rel":"remote_management_relay","source":"ai-security-analysis"}
 {"ioc":"ioc.endpoint|102.220.160.93:8041","kind":"ioc","name":"ioc.ipv4|102.220.160.93","rel":"ホスト","source":"ai-security-analysis"}
 {"id":"family:screenconnect-rmm","ioc":"ioc.endpoint|102.220.160.93:8041","kind":"malware","name":"ScreenConnect RMM","rel":"case.ファミリ","source":"ai-security-analysis"}
+{"id":"case:94420ac4dc985b08bdb97b8a24e499bbcf80906165b139d81ca466871a60adb0","ioc":"ioc.endpoint|103.118.42.120:16808","kind":"case","name":"case:94420ac4dc985b08bdb97b8a24e499bbcf80906165b139d81ca466871a60adb0","rel":"c2_or_infrastructure_as_recorded","source":"ai-security-analysis"}
+{"ioc":"ioc.endpoint|103.118.42.120:16808","kind":"ioc","name":"ioc.ipv4|103.118.42.120","rel":"ホスト","source":"ai-security-analysis"}
 {"id":"case:0a3061ce09d7e3cb2b3d3453432da69ee83b59b782853d1f6462fd177db75a7a","ioc":"ioc.endpoint|103.119.3.160:6666","kind":"case","name":"case:0a3061ce09d7e3cb2b3d3453432da69ee83b59b782853d1f6462fd177db75a7a","rel":"c2_or_network_ioc","source":"ai-security-analysis"}
 {"ioc":"ioc.endpoint|103.119.3.160:6666","kind":"ioc","name":"ioc.ipv4|103.119.3.160","rel":"ホスト","source":"ai-security-analysis"}
 {"id":"family:valleyrat","ioc":"ioc.endpoint|103.119.3.160:6666","kind":"malware","name":"ValleyRAT","rel":"case.ファミリ","source":"ai-security-analysis"}
@@ -17217,6 +17220,7 @@
 {"ioc":"ioc.ipv4|103.113.195.244","kind":"malware","name":"PurpleFox","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260521#11","ioc":"ioc.ipv4|103.115.17.90","kind":"article","name":"article:20260521#11","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.ipv4|103.115.17.90","kind":"malware","name":"PurpleFox","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"case:94420ac4dc985b08bdb97b8a24e499bbcf80906165b139d81ca466871a60adb0","ioc":"ioc.ipv4|103.118.42.120","kind":"case","name":"case:94420ac4dc985b08bdb97b8a24e499bbcf80906165b139d81ca466871a60adb0","rel":"c2_or_infrastructure_as_recorded","source":"ai-security-analysis"}
 {"id":"case:0a3061ce09d7e3cb2b3d3453432da69ee83b59b782853d1f6462fd177db75a7a","ioc":"ioc.ipv4|103.119.3.160","kind":"case","name":"case:0a3061ce09d7e3cb2b3d3453432da69ee83b59b782853d1f6462fd177db75a7a","rel":"c2_or_network_ioc","source":"ai-security-analysis"}
 {"id":"family:valleyrat","ioc":"ioc.ipv4|103.119.3.160","kind":"malware","name":"ValleyRAT","rel":"case.ファミリ","source":"ai-security-analysis"}
 {"ioc":"ioc.ipv4|103.12.149.93","kind":"malware","name":"ValleyRAT","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
@@ -19493,6 +19497,7 @@
 {"id":"article:20261008#9","ioc":"ioc.ipv4|185.136.15.66","kind":"article","name":"article:20261008#9","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"case:0f2abaabea8bb9454e5cf979e58eba7de10172dab1f3ebff6a9face304f4ce48","ioc":"ioc.ipv4|185.139.214.102","kind":"case","name":"case:0f2abaabea8bb9454e5cf979e58eba7de10172dab1f3ebff6a9face304f4ce48","rel":"ip","source":"ai-security-analysis"}
 {"id":"family:purelogs","ioc":"ioc.ipv4|185.139.214.102","kind":"malware","name":"PureLogs","rel":"case.ファミリ","source":"ai-security-analysis"}
+{"ioc":"ioc.ipv4|185.139.214.102","kind":"malware","name":"PureLogs","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"actor:muddywater","ioc":"ioc.ipv4|185.14.248.26","kind":"actor","name":"MuddyWater","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"actor:apt29","ioc":"ioc.ipv4|185.14.29.246","kind":"actor","name":"APT29","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"malware:sunburst","ioc":"ioc.ipv4|185.14.29.246","kind":"malware","name":"SUNBURST","rel":"関連","source":"threatactor-intel-analysis"}
@@ -30696,6 +30701,7 @@
 {"ioc":"ioc.sha256|06564bd863c772ca700b2f4472538fbfa52b96bdaef20c2a1daa11a2a08d61fd","kind":"actor","name":"Earth Sirrush","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20261008#10","ioc":"ioc.sha256|06564bd863c772ca700b2f4472538fbfa52b96bdaef20c2a1daa11a2a08d61fd","kind":"article","name":"article:20261008#10","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|06564bd863c772ca700b2f4472538fbfa52b96bdaef20c2a1daa11a2a08d61fd","kind":"malware","name":"MATCHBOIL","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"case:94420ac4dc985b08bdb97b8a24e499bbcf80906165b139d81ca466871a60adb0","ioc":"ioc.sha256|066ad60271c0969ff6ee9a532c786b4a29a398b935ed1f6d4086b738d6124736","kind":"case","name":"case:94420ac4dc985b08bdb97b8a24e499bbcf80906165b139d81ca466871a60adb0","rel":"hidden_uv_launcher","source":"ai-security-analysis"}
 {"id":"case:b433ecdf855beaaf91d57522eebe9c9e1c3fc756f711bd79ac1b3ecf6c75016c","ioc":"ioc.sha256|066c52ed8ebf63a33ab8290b7c58d0c13f79c14faa8bf12b1b41f643d3ebe281","kind":"case","name":"case:b433ecdf855beaaf91d57522eebe9c9e1c3fc756f711bd79ac1b3ecf6c75016c","rel":"file_ioc","source":"ai-security-analysis"}
 {"id":"family:valleyrat","ioc":"ioc.sha256|066c52ed8ebf63a33ab8290b7c58d0c13f79c14faa8bf12b1b41f643d3ebe281","kind":"malware","name":"ValleyRAT","rel":"case.ファミリ","source":"ai-security-analysis"}
 {"id":"article:20260624#1","ioc":"ioc.sha256|067ad6221b2224d5cdb64e51c5516132d820cf4d7edf9ec170643943e79c04b7","kind":"article","name":"article:20260624#1","rel":"収集元","source":"tech-memo-daily-news"}
@@ -30862,6 +30868,7 @@
 {"ioc":"ioc.sha256|0ae5a7af8edcbeefc964bcdb66f38ad1e237c6815fc435906feba6969938cf03","kind":"actor","name":"Earth Sirrush","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20261008#10","ioc":"ioc.sha256|0ae5a7af8edcbeefc964bcdb66f38ad1e237c6815fc435906feba6969938cf03","kind":"article","name":"article:20261008#10","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260905#8","ioc":"ioc.sha256|0aebc231bec95bf961c683c534be7e2e175e8a4ae8adeae4b71195be8d9233ba","kind":"article","name":"article:20260905#8","rel":"収集元","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|0aed5f24ce625ee6b9422083302766f74b0b9a57e1b18213328b950cc7057e35","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|0af4c52a1d13e4132a1843ce7727abcf0ddd4d1ca6a4b17cdf599ec3f355c241","kind":"actor","name":"UAT-7810","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260708#0","ioc":"ioc.sha256|0af4c52a1d13e4132a1843ce7727abcf0ddd4d1ca6a4b17cdf599ec3f355c241","kind":"article","name":"article:20260708#0","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|0af4c52a1d13e4132a1843ce7727abcf0ddd4d1ca6a4b17cdf599ec3f355c241","kind":"malware","name":"DOGLEASH","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
@@ -31739,6 +31746,7 @@
 {"id":"actor:lazarus","ioc":"ioc.sha256|2230edace3f42a5750f738f28814759b670922f16aa778e97d039d10fe9bab02","kind":"actor","name":"Lazarus","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"case:dfc8e7b7e48faab9a410111ea31001c729ab9b1c83525499f028b5344869be9e","ioc":"ioc.sha256|223c68d8250224d43d2faed546ffa2b2fbc3e0e5e60261f7e758a915495424e0","kind":"case","name":"case:dfc8e7b7e48faab9a410111ea31001c729ab9b1c83525499f028b5344869be9e","rel":"提出検体","source":"ai-security-analysis"}
 {"id":"family:snakekeylogger","ioc":"ioc.sha256|223c68d8250224d43d2faed546ffa2b2fbc3e0e5e60261f7e758a915495424e0","kind":"malware","name":"Snake Keylogger","rel":"case.ファミリ","source":"ai-security-analysis"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|225f5d6c5d70a7e7f3abf62ea0dda1cf8bf8e70565f7db748b0d8fa602da939b","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|226e968101233d788a90000b4f9cd40d0d0178b326592c4f9b8328f43dbcbc17","kind":"malware","name":"ValleyRAT","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260905#8","ioc":"ioc.sha256|2282228ee3213125896fe5092c30dd7473720e80ef73cc5a8a6af9de15180d0e","kind":"article","name":"article:20260905#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|2282228ee3213125896fe5092c30dd7473720e80ef73cc5a8a6af9de15180d0e","kind":"malware","name":"PureHVNC","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
@@ -31901,6 +31909,8 @@
 {"id":"article:20260919#4","ioc":"ioc.sha256|2596bead453fb0ae105e61826d7a8bbca8f4de0e4e61c66fea7a961bbf101e63","kind":"article","name":"article:20260919#4","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|2596bead453fb0ae105e61826d7a8bbca8f4de0e4e61c66fea7a961bbf101e63","kind":"malware","name":"RatHat","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"actor:sidecopy","ioc":"ioc.sha256|259e0acea693e80af641925c2f881842e8aa979d770cc34a1769065028dd9d74","kind":"actor","name":"SideCopy","rel":"観測アクター","source":"threatactor-intel-analysis"}
+{"id":"article:20261009#9","ioc":"ioc.sha256|25a0735d0db7dc40e5d45ce42d9c106067e6a66e184d967cfecfab17c3bcb5ef","kind":"article","name":"article:20261009#9","rel":"収集元","source":"tech-memo-daily-news"}
+{"ioc":"ioc.sha256|25a0735d0db7dc40e5d45ce42d9c106067e6a66e184d967cfecfab17c3bcb5ef","kind":"malware","name":"Shai-Hulud","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|25a87693ff2e67858bb5379f7f30092b1eba127307b0bcf24029d04911b6ebbe","kind":"malware","name":"ValleyRAT","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260821#6","ioc":"ioc.sha256|25ad700976873c76af785cb99b33c48db7df8b81f21d1e9e06b3676b9a9373ae","kind":"article","name":"article:20260821#6","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260822#8","ioc":"ioc.sha256|25ad700976873c76af785cb99b33c48db7df8b81f21d1e9e06b3676b9a9373ae","kind":"article","name":"article:20260822#8","rel":"収集元","source":"tech-memo-daily-news"}
@@ -32096,6 +32106,7 @@
 {"ioc":"ioc.sha256|2add6937baec9f91fe416e1dfd1d1890d105af389e47d99e45fe53c8a2abfdb2","kind":"malware","name":"KREMLIN","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260912#8","ioc":"ioc.sha256|2b29fd7a8e3add75888c3f1e89b0edd0ab9fb24451d3043eec7d481c5e3dce96","kind":"article","name":"article:20260912#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|2b29fd7a8e3add75888c3f1e89b0edd0ab9fb24451d3043eec7d481c5e3dce96","kind":"malware","name":"Mantax Otax","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"case:94420ac4dc985b08bdb97b8a24e499bbcf80906165b139d81ca466871a60adb0","ioc":"ioc.sha256|2b38110165272845b6c272a454a241fc1c0f1b3a5125eadf6855236bfee60236","kind":"case","name":"case:94420ac4dc985b08bdb97b8a24e499bbcf80906165b139d81ca466871a60adb0","rel":"submitted_bundle","source":"ai-security-analysis"}
 {"id":"article:20260731#11","ioc":"ioc.sha256|2b3a2d1754db2dd0429d27c3636d1fd0050846fcd56c1440d4c879c58b536a76","kind":"article","name":"article:20260731#11","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"case:b856a8d469bae6f192b89f05c09a91b89682688a99a6c2bb8381d7d7cd28aab6","ioc":"ioc.sha256|2b3a2d1754db2dd0429d27c3636d1fd0050846fcd56c1440d4c879c58b536a76","kind":"case","name":"case:b856a8d469bae6f192b89f05c09a91b89682688a99a6c2bb8381d7d7cd28aab6","rel":"iso_img","source":"ai-security-analysis"}
 {"id":"family:valleyrat","ioc":"ioc.sha256|2b3a2d1754db2dd0429d27c3636d1fd0050846fcd56c1440d4c879c58b536a76","kind":"malware","name":"ValleyRAT","rel":"case.ファミリ","source":"ai-security-analysis"}
@@ -32314,6 +32325,7 @@
 {"ioc":"ioc.sha256|2f8c9a84946b2167e000c5013981e18ac8dde3e181a202c18d9833c7db7a5eb3","kind":"actor","name":"Silver Fox","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260605#8","ioc":"ioc.sha256|2f8c9a84946b2167e000c5013981e18ac8dde3e181a202c18d9833c7db7a5eb3","kind":"article","name":"article:20260605#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|2f8c9a84946b2167e000c5013981e18ac8dde3e181a202c18d9833c7db7a5eb3","kind":"malware","name":"10FXRAT","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|2f9270269e631bc4fd634d741afcfc3df8f54e43e40b16f38660fe8ce6c26f51","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260912#8","ioc":"ioc.sha256|2fa0f810c447038f5fbdfb0b4b121cf262d2695786ad4464aa424d6a6b90e6f4","kind":"article","name":"article:20260912#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|2fa0f810c447038f5fbdfb0b4b121cf262d2695786ad4464aa424d6a6b90e6f4","kind":"malware","name":"Mantax Otax","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260526#1","ioc":"ioc.sha256|2fa6fc2199d3be55e240500d87e4484f39b9315bf336be25434f6716b8d28ec8","kind":"article","name":"article:20260526#1","rel":"収集元","source":"tech-memo-daily-news"}
@@ -33149,6 +33161,7 @@
 {"id":"family:valleyrat","ioc":"ioc.sha256|4504dee573d0b4655da2362d89532fa30ddffbfb3e95575bfa0aac6684138553","kind":"malware","name":"ValleyRAT","rel":"case.ファミリ","source":"ai-security-analysis"}
 {"id":"article:20260608#0","ioc":"ioc.sha256|450ea44da0c9d96a2e8f4d6bad34f1c35cd35743295b8cd2defa9f7a9884685d","kind":"article","name":"article:20260608#0","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|450ea44da0c9d96a2e8f4d6bad34f1c35cd35743295b8cd2defa9f7a9884685d","kind":"malware","name":"C0XMO","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|4512389444a767f12211beeb5f2ad165aca4a558e88e8f111affb30b77ed6a5a","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"actor:apt37","ioc":"ioc.sha256|4531f0b86b4dad658c7dac48ef6beb3d4df3ffdf9d813732dfb2d650b95695f8","kind":"actor","name":"APT37","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"article:20260713#0","ioc":"ioc.sha256|453333bffdd1850ea2e0647f7c805530b578919978a01b1e2be52d6eb2add946","kind":"article","name":"article:20260713#0","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|453333bffdd1850ea2e0647f7c805530b578919978a01b1e2be52d6eb2add946","kind":"malware","name":"RedHook","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
@@ -33158,6 +33171,7 @@
 {"ioc":"ioc.sha256|4537b1189ce419f1a595cf47216c03f80e9170ce80dad8d9227a1e52f9cb3466","kind":"malware","name":"RedShell","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"actor:turla","ioc":"ioc.sha256|454e6c3d8c1c982cd301b4dd82ec3431935c28adea78ed8160d731ab0bed6cb7","kind":"actor","name":"Turla","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"actor:apt29","ioc":"ioc.sha256|457988aca929192c46ca5440708a6c239a2c40596caf795afcc3d00661cdc86d","kind":"actor","name":"APT29","rel":"観測アクター","source":"threatactor-intel-analysis"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|458e7255438f15aaede02fd7f8fcfdf762aa6e08608b9546fe8aa8aa399c76b7","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"actor:sidecopy","ioc":"ioc.sha256|45918acc04ad790445fd423b348aa88855570d57ebed870741603a7e5473d456","kind":"actor","name":"SideCopy","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"ioc":"ioc.sha256|45b9382d7e91a4178b47c908b9b5f6884de7c5a1ef849fbf01d6c23d06d81b88","kind":"actor","name":"Gambling Goblin","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260904#8","ioc":"ioc.sha256|45b9382d7e91a4178b47c908b9b5f6884de7c5a1ef849fbf01d6c23d06d81b88","kind":"article","name":"article:20260904#8","rel":"収集元","source":"tech-memo-daily-news"}
@@ -34275,6 +34289,7 @@
 {"ioc":"ioc.sha256|634e89d8592d7c9e2bc1c098217a813947b44a4f80bc569e9a15c1e8b0864b91","kind":"malware","name":"Vidar Stealer","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|634e89d8592d7c9e2bc1c098217a813947b44a4f80bc569e9a15c1e8b0864b91","kind":"malware","name":"XMRig","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260630#12","ioc":"ioc.sha256|63565f15a99769bbcd527a4d53e5cc259d80e1254463ef9c878c2074685558ae","kind":"article","name":"article:20260630#12","rel":"収集元","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|635b31b4a19b5673fcbe0fedeb3f7ed2c27fddb739685f19ca5f3d1f1d7f0083","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260822#0","ioc":"ioc.sha256|63622c1ddb3e2a9f11cac192e13ac7494f558516b19d5d8f140f6d0d4d38ea84","kind":"article","name":"article:20260822#0","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|63622c1ddb3e2a9f11cac192e13ac7494f558516b19d5d8f140f6d0d4d38ea84","kind":"malware","name":"SynkLoader","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|6366d59b573d50fd23ff650923c4a8c1c918518a02d0a56f12c23533c45f439d","kind":"actor","name":"UAT-7810","rel":"attrs.アクター","source":"tech-memo-daily-news"}
@@ -34576,6 +34591,7 @@
 {"id":"actor:sidecopy","ioc":"ioc.sha256|6afbb8029cb52890b4d8893029b789dcbcd86aace059e50c4c6ed12dc4364a4a","kind":"actor","name":"SideCopy","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"actor:storm-2603","ioc":"ioc.sha256|6b273c2179518dacb1218201fd37ee2492a5e1713be907e69bf7ea56ceca53a5","kind":"actor","name":"Storm-2603","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"actor:muddywater","ioc":"ioc.sha256|6b4d271a48d118843aee3dee4481fa2930732ed7075db3241a8991418f00d92b","kind":"actor","name":"MuddyWater","rel":"観測アクター","source":"threatactor-intel-analysis"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|6b53369fb868efb92b60af40fbd5906fa3d3d8785a7878b4af6e4efd333a4de8","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"actor:turla","ioc":"ioc.sha256|6b60b27385738cac65584cf7d486913ff997c66d97a94e1dde158c9cd03a4206","kind":"actor","name":"Turla","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"ioc":"ioc.sha256|6b7ff061eebeb9ead8812c410247768a7ba90786aeeb1bafa6412cc5b08237b5","kind":"actor","name":"X3D MINER","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260709#6","ioc":"ioc.sha256|6b7ff061eebeb9ead8812c410247768a7ba90786aeeb1bafa6412cc5b08237b5","kind":"article","name":"article:20260709#6","rel":"収集元","source":"tech-memo-daily-news"}
@@ -34812,6 +34828,7 @@
 {"ioc":"ioc.sha256|71e21094c1ac1cf0275c91ed377965e248bca1c12711f6dd20e2682681fc1192","kind":"malware","name":"Cobalt Strike","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260824#0","ioc":"ioc.sha256|71e7c402b1e489b5f5c187d792abc0e140bcda925d7e0036b228dc964b94bc20","kind":"article","name":"article:20260824#0","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|71e7c402b1e489b5f5c187d792abc0e140bcda925d7e0036b228dc964b94bc20","kind":"malware","name":"ToxicPanda","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|71ec70479ab78efb1e1f9507f8ff7348d5711c837cc50a0120f3a188c340f3f4","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|71f69978667dc421e7edf8885e9f3bde9dd527d9f7974228c9a6eac84c2ab71c","kind":"actor","name":"PhantomEnigma","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260718#6","ioc":"ioc.sha256|71f69978667dc421e7edf8885e9f3bde9dd527d9f7974228c9a6eac84c2ab71c","kind":"article","name":"article:20260718#6","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|7228abe11344f4465a7de1843808d01049dd16391ad4c73d96761368f2744fac","kind":"actor","name":"REF9334","rel":"attrs.アクター","source":"tech-memo-daily-news"}
@@ -35252,6 +35269,7 @@
 {"ioc":"ioc.sha256|7d8e98c0e322110021ae6d89f1a3ea090ef0741cf35b040dd4d0426a502d4845","kind":"actor","name":"APT28","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260829#9","ioc":"ioc.sha256|7d8e98c0e322110021ae6d89f1a3ea090ef0741cf35b040dd4d0426a502d4845","kind":"article","name":"article:20260829#9","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|7d8e98c0e322110021ae6d89f1a3ea090ef0741cf35b040dd4d0426a502d4845","kind":"malware","name":"HOOKEDGE","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|7d9d7e80ed52350616be0215a7ded10aaeb9aaa64e34ff8af7f9177c8c855799","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|7d9f5eb3f704607e6f63681842f48071cc58f2f2e63b16b64a49440cb4b9e6e3","kind":"actor","name":"Gambling Goblin","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260904#8","ioc":"ioc.sha256|7d9f5eb3f704607e6f63681842f48071cc58f2f2e63b16b64a49440cb4b9e6e3","kind":"article","name":"article:20260904#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|7db11cf6a0417d5e20cd6720687ba86045b2fb758a7b585a49f572df2dc40c5e","kind":"actor","name":"GreyVibe","rel":"attrs.アクター","source":"tech-memo-daily-news"}
@@ -35661,6 +35679,7 @@
 {"ioc":"ioc.sha256|88e32dfea6c94b16a89e9c3b66a01f5bc1c99b4abddb48060cbe5c06b77907d3","kind":"malware","name":"ValleyRAT","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260825#8","ioc":"ioc.sha256|88f769cf7c88e3bbbd1b72d8124b9a4b39ba8fe3e80ff76d682493033c34a598","kind":"article","name":"article:20260825#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|88f769cf7c88e3bbbd1b72d8124b9a4b39ba8fe3e80ff76d682493033c34a598","kind":"malware","name":"Amatera Stealer","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|8906dd85b0991fac14e5973b3f3f61d93ef1101504cb5867a004c762ee184ef7","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260617#0","ioc":"ioc.sha256|890ecea4ebe4fea692ad36adf02abeb37c181cb7bdb6122cd52d9aaafe7d6cf3","kind":"article","name":"article:20260617#0","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|890ecea4ebe4fea692ad36adf02abeb37c181cb7bdb6122cd52d9aaafe7d6cf3","kind":"malware","name":"Rokarolla","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"actor:kimsuky","ioc":"ioc.sha256|89107e52073384d9a74fd21b261096061ca7c0dd2ea0919a2c419f15ff1e51ff","kind":"actor","name":"APT43","rel":"観測アクター","source":"threatactor-intel-analysis"}
@@ -36511,6 +36530,7 @@
 {"ioc":"ioc.sha256|9fd9b980270127f5a6ee7137291e6db05eb5221be6b10ea3eceb187aa701440f","kind":"malware","name":"Atlas RAT","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260521#13","ioc":"ioc.sha256|9fda1ddb1acf8dd3685ec31b0b07110855832e3bed28a0f3b81c57fe7fe3ac20","kind":"article","name":"article:20260521#13","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|9fda1ddb1acf8dd3685ec31b0b07110855832e3bed28a0f3b81c57fe7fe3ac20","kind":"malware","name":"Gremlin Stealer","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|9fea0ee3c81047f5e50eeb3a2ab2a7cd70357f3e49944b7079ab3e90c9ea0e8b","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260529#6","ioc":"ioc.sha256|9ff07c9fafa9c03fdf69e4abf6806aa7c938b5480e7e258f227db0719ecd6386","kind":"article","name":"article:20260529#6","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|9ff73802dfbfd20b78ab62ecc1a56bf739ecaf1475806a14ac6ccf02150adaa8","kind":"actor","name":"UAC-0099","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260724#2","ioc":"ioc.sha256|9ff73802dfbfd20b78ab62ecc1a56bf739ecaf1475806a14ac6ccf02150adaa8","kind":"article","name":"article:20260724#2","rel":"収集元","source":"tech-memo-daily-news"}
@@ -37098,6 +37118,7 @@
 {"ioc":"ioc.sha256|affdaed44298e0c847bf27c4dc200373f77f089c46715b8fb22f1f8733c4cf43","kind":"malware","name":"ScreenConnect","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|b02664c71d1a40760ff6eb253d1a9022d93262698d528d95e8983bf848b8827b","kind":"actor","name":"UAT-10147","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260821#5","ioc":"ioc.sha256|b02664c71d1a40760ff6eb253d1a9022d93262698d528d95e8983bf848b8827b","kind":"article","name":"article:20260821#5","rel":"収集元","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|b02ae1d5a0d2a5b28f8baa2afcdc7d7090fab051536303cba3ba1f17860da980","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|b037f45e02a289325a1a5eb0d4db6a9fce9954fd0fdfd07162cb4eb2acbef77d","kind":"actor","name":"UAT-12197","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260911#2","ioc":"ioc.sha256|b037f45e02a289325a1a5eb0d4db6a9fce9954fd0fdfd07162cb4eb2acbef77d","kind":"article","name":"article:20260911#2","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260824#0","ioc":"ioc.sha256|b04ad3e65fa732ad315b259e9daa68089f53807af01919b9df70f2dd3026000b","kind":"article","name":"article:20260824#0","rel":"収集元","source":"tech-memo-daily-news"}
@@ -37150,6 +37171,7 @@
 {"id":"article:20260725#11","ioc":"ioc.sha256|b149e207a3aad68605785710c58e8439aef61f48776c136d5a0ec6682d7dd2c0","kind":"article","name":"article:20260725#11","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|b149e207a3aad68605785710c58e8439aef61f48776c136d5a0ec6682d7dd2c0","kind":"malware","name":"NukeSped","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|b15494c671395c45978800229a26fbfcb1af47337974e120e6885cab21b6578c","kind":"malware","name":"Agent Tesla","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"ioc":"ioc.sha256|b156588295f9cf687f64950146ff29a14ffbe09c1d21f0cfc017c879ca827efa","kind":"malware","name":"PureLogs","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260709#0","ioc":"ioc.sha256|b157a66826d27512c3618817fee924e53d14cabb2c4c7f454affde37350f55f0","kind":"article","name":"article:20260709#0","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|b157a66826d27512c3618817fee924e53d14cabb2c4c7f454affde37350f55f0","kind":"malware","name":"Neteller SDK","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|b157a66826d27512c3618817fee924e53d14cabb2c4c7f454affde37350f55f0","kind":"malware","name":"Skrill","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
@@ -37257,6 +37279,8 @@
 {"id":"article:20261008#10","ioc":"ioc.sha256|b4f2028a631d27827444f668d634d86ccd85430bf2204974213654d14f22bdd2","kind":"article","name":"article:20261008#10","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260701#10","ioc":"ioc.sha256|b4fb231356254426e340ab1dba50fa37a69859fc4e8a2dbdfc3e1db082006847","kind":"article","name":"article:20260701#10","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|b4fb231356254426e340ab1dba50fa37a69859fc4e8a2dbdfc3e1db082006847","kind":"malware","name":"DCRat","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#9","ioc":"ioc.sha256|b50a00900399ba99fb6ce1fc151519cb99d44320ef2a631f2237e1aea0ad6fec","kind":"article","name":"article:20261009#9","rel":"収集元","source":"tech-memo-daily-news"}
+{"ioc":"ioc.sha256|b50a00900399ba99fb6ce1fc151519cb99d44320ef2a631f2237e1aea0ad6fec","kind":"malware","name":"Shai-Hulud","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"actor:agrius","ioc":"ioc.sha256|b5149c1aae5c899a0f3a4be162e24c08d284f67f6b9fb70439ce6d91353a540c","kind":"actor","name":"Agrius","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"actor:apt29","ioc":"ioc.sha256|b53e27c79eed8531b1e05827ace2362603fb9f77f53cee2e34940d570217cbf7","kind":"actor","name":"APT29","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"article:20260824#0","ioc":"ioc.sha256|b55798ac775028ff2751e8cc30957c561df3cddb4f3f4ec86e501cbde154df8c","kind":"article","name":"article:20260824#0","rel":"収集元","source":"tech-memo-daily-news"}
@@ -37519,6 +37543,7 @@
 {"ioc":"ioc.sha256|bb7449ea7fcaa3c4a29a3f10b1141b2f5d91121188ec541f45cec0bb9c8f04f4","kind":"malware","name":"ValleyRAT","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260525#13","ioc":"ioc.sha256|bb78f024c4d8b5a6a128aacb498acad025a234a6b25fde36ff2e14601134555f","kind":"article","name":"article:20260525#13","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|bb78f024c4d8b5a6a128aacb498acad025a234a6b25fde36ff2e14601134555f","kind":"malware","name":"Infostealer","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|bb8f60b3f77d96adc93bf0515b34df7c5f1f560a9f6d0c353b7d849609e3557d","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260520#9","ioc":"ioc.sha256|bb9b0b20d239b2f5fe6da31fc2d13ec4ba6083238df68befd33d7521570d334e","kind":"article","name":"article:20260520#9","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|bb9b0b20d239b2f5fe6da31fc2d13ec4ba6083238df68befd33d7521570d334e","kind":"malware","name":"BadIIS","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|bba58f99e14e3512c04a5a74a079d7851abf935dd258cff4c80874ce7cfc82e3","kind":"actor","name":"vectra","rel":"attrs.アクター","source":"tech-memo-daily-news"}
@@ -37624,6 +37649,7 @@
 {"ioc":"ioc.sha256|bdfccc6ab3e592f6cfc47f6deb910950666fa47b5f87c6a08af7096d90e59d0f","kind":"malware","name":"RatHat","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260508#5","ioc":"ioc.sha256|be153ac4db95db7520049a4c1e5182be07d27d2c11088a2d768e931b9a981c7f","kind":"article","name":"article:20260508#5","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|be153ac4db95db7520049a4c1e5182be07d27d2c11088a2d768e931b9a981c7f","kind":"malware","name":"Beagle","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|be246ca5cb1372394e0443df45454f88ca39eb4a8dcfc4a99cb8865100fb4897","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|be2738c8a2beb55ac484d71c329381f3caabac80664283ad9a24dbab82b5b590","kind":"actor","name":"CameraSwarm","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260820#3","ioc":"ioc.sha256|be2738c8a2beb55ac484d71c329381f3caabac80664283ad9a24dbab82b5b590","kind":"article","name":"article:20260820#3","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|be2738c8a2beb55ac484d71c329381f3caabac80664283ad9a24dbab82b5b590","kind":"malware","name":"p2pwn","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
@@ -37941,6 +37967,7 @@
 {"id":"actor:lazarus","ioc":"ioc.sha256|c54837d0b856205bd4ae01887aae9178f55f16e0e1a1e1ff59bd18dbc8a3dd82","kind":"actor","name":"Lazarus","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"actor:white-company","ioc":"ioc.sha256|c54beaa97e2b78979d6f403b2ce157e9cb54cbae8843b4b16efa188df79c96b3","kind":"actor","name":"The White Company","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"actor:sidecopy","ioc":"ioc.sha256|c54cde89abbc781c3c435b2bc2a71189a78f34cd4dfa3a0e804eea407d14c944","kind":"actor","name":"SideCopy","rel":"観測アクター","source":"threatactor-intel-analysis"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|c550f0860012e0dfab14ed65a9425961e22025e0ab23fd9d69d294a8aa34db2f","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260912#8","ioc":"ioc.sha256|c561e84d8c443c43638c255d4d29d32f76f9672b3a2f4b19bff86e7aa372a3fd","kind":"article","name":"article:20260912#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|c561e84d8c443c43638c255d4d29d32f76f9672b3a2f4b19bff86e7aa372a3fd","kind":"malware","name":"Mantax Otax","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260815#13","ioc":"ioc.sha256|c56331d536c1c8c3ff0ad96490af18231609b686ccf487d36883ba413e2305a5","kind":"article","name":"article:20260815#13","rel":"収集元","source":"tech-memo-daily-news"}
@@ -38014,6 +38041,7 @@
 {"ioc":"ioc.sha256|c732067b3d8763c248051366ab7beeae0d7fbe105884d4d3f8647e3427f36daf","kind":"malware","name":"BadIIS","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260617#0","ioc":"ioc.sha256|c734a665f04eb9ab17047e65940fc35bad0221d59c2fc4fd0d170f2181514034","kind":"article","name":"article:20260617#0","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|c734a665f04eb9ab17047e65940fc35bad0221d59c2fc4fd0d170f2181514034","kind":"malware","name":"Rokarolla","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"ioc":"ioc.sha256|c73e3b98b5f631669fb3d4b114e98ad55d2b015e2c55003c265e0b75e0c31d9e","kind":"malware","name":"PureLogs","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260529#6","ioc":"ioc.sha256|c7425fbe6c3a4937934215c54027d4b67202d12ab490682fae03498870d66d06","kind":"article","name":"article:20260529#6","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260822#6","ioc":"ioc.sha256|c753b7cbd2ffb89ad51dc6f48714204df8955d000520174329dd3785aede4562","kind":"article","name":"article:20260822#6","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|c753b7cbd2ffb89ad51dc6f48714204df8955d000520174329dd3785aede4562","kind":"malware","name":"RedShell","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
@@ -38697,6 +38725,7 @@
 {"ioc":"ioc.sha256|d91c00fad521e76efa89715cca89db487d5676f2c767c883482f9c8f82bd383a","kind":"malware","name":"EKZ","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260825#8","ioc":"ioc.sha256|d9402b049738d4679cb46f09d2511b9ac8f6842ffed29560a7e96046a811e841","kind":"article","name":"article:20260825#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|d9402b049738d4679cb46f09d2511b9ac8f6842ffed29560a7e96046a811e841","kind":"malware","name":"Amatera Stealer","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|d9432e41e0401715bce4ce11f4a7104d94fab1ec89be553ba57a2097e418c1a1","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260602#6","ioc":"ioc.sha256|d9487fdc097f770e5661f9e5dee130068cb179d33716abff1a21c8cb901f25a6","kind":"article","name":"article:20260602#6","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|d9487fdc097f770e5661f9e5dee130068cb179d33716abff1a21c8cb901f25a6","kind":"malware","name":"EtherRAT","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|d948b486c740b66642a5ae29dc1cb80da703ad40296bcda34a1b27216b63a5cd","kind":"actor","name":"Gambling Goblin","rel":"attrs.アクター","source":"tech-memo-daily-news"}
@@ -38745,6 +38774,7 @@
 {"ioc":"ioc.sha256|da33a95b2ed28e2c50da002584eb81e4e94fe4a55e98945146842ed9e23be066","kind":"malware","name":"ValleyRAT","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260605#9","ioc":"ioc.sha256|da39146ef451d1b174a24d00b1e2a45cd38d54e849737f8f35333dcb22175707","kind":"article","name":"article:20260605#9","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|da39146ef451d1b174a24d00b1e2a45cd38d54e849737f8f35333dcb22175707","kind":"malware","name":"Miasma","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|da447fe02e4577da97144a4d92b395078954fde1ff196746413837e1e4a20bcd","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260630#12","ioc":"ioc.sha256|da4b72764ae929050353f3da759c839e2a061a8b9a8dd3c3b2e909d4a8a3291c","kind":"article","name":"article:20260630#12","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"case:e55412555b4699c6d3ce2ac60df81eb1ee0d5aa412a303555c8f64037d5633d0","ioc":"ioc.sha256|da4fa1b8f0e80693cfecefc70afdac3cccc13aeabb44149a3cf2e48aad9a42a1","kind":"case","name":"case:e55412555b4699c6d3ce2ac60df81eb1ee0d5aa412a303555c8f64037d5633d0","rel":"donut_shellcode","source":"ai-security-analysis"}
 {"id":"family:purehvnc","ioc":"ioc.sha256|da4fa1b8f0e80693cfecefc70afdac3cccc13aeabb44149a3cf2e48aad9a42a1","kind":"malware","name":"PureHVNC","rel":"case.ファミリ","source":"ai-security-analysis"}
@@ -39187,6 +39217,7 @@
 {"ioc":"ioc.sha256|e5a9fdff900dd502e8f3dce52d2d1b69aa9afafb5094a28f9037e8770db0e63b","kind":"malware","name":"BTMOB","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|e5bd6c862e3c6f308eccf3b927f07192313476132145b15240593e5b909446aa","kind":"actor","name":"Earth Sirrush","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20261008#10","ioc":"ioc.sha256|e5bd6c862e3c6f308eccf3b927f07192313476132145b15240593e5b909446aa","kind":"article","name":"article:20261008#10","rel":"収集元","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|e5c9a29d5ba0f53a49d8b333bfab17bf9878f94e8c3f325f5afacad44bb26fb5","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|e5d2de8ae98579bfb940290f60e59a502b3065345aaf765456387989c0488b20","kind":"actor","name":"UAT-7810","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260708#0","ioc":"ioc.sha256|e5d2de8ae98579bfb940290f60e59a502b3065345aaf765456387989c0488b20","kind":"article","name":"article:20260708#0","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|e5d2de8ae98579bfb940290f60e59a502b3065345aaf765456387989c0488b20","kind":"malware","name":"DOGLEASH","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
@@ -39325,6 +39356,7 @@
 {"ioc":"ioc.sha256|e9634032df81334e9e960ab8b88ff05a0f7ec9c034dc012f816f09e23c18d41b","kind":"actor","name":"GreyVibe","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260530#8","ioc":"ioc.sha256|e9634032df81334e9e960ab8b88ff05a0f7ec9c034dc012f816f09e23c18d41b","kind":"article","name":"article:20260530#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|e9634032df81334e9e960ab8b88ff05a0f7ec9c034dc012f816f09e23c18d41b","kind":"malware","name":"PrincessClub","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|e96c75cd0c9b35000b4a3ec12d5dd23ca157e94aee7271a0fe8d8d7c9f2e9096","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|e9745f1791b2a6374711756e89c7bf2864e52f9ff467974f2f7bdc667f9f28c6","kind":"malware","name":"Lunex","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"actor:sidecopy","ioc":"ioc.sha256|e97c2c1ce6243327eecf6ca9a827c80650745bdbdb47c1cb72801b67cf21d9dc","kind":"actor","name":"SideCopy","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"ioc":"ioc.sha256|e99c7a66643851b3cf131cfab5254bdbaf95d6efebc922126ce5537da2ce5c37","kind":"actor","name":"REF9334","rel":"attrs.アクター","source":"tech-memo-daily-news"}
@@ -39372,6 +39404,7 @@
 {"ioc":"ioc.sha256|eae055c5736366811d2a4b1f78ff206486e7f7445040122efbe023ecd2d20bcc","kind":"malware","name":"Skrill","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|eb03d9df8985b41e425141ffac4ab4b4988e58f0a1aaa59f60298062aa2b9ed0","kind":"malware","name":"ValleyRAT","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|eb083365dc70d0294e8c4f55a2e78be0edb0f3497f2a06a70c9f474dafab48d8","kind":"cve","name":"CVE-2025-5777","rel":"attrs.関連CVE","source":"vuln-intel-agent"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|eb134bbf73046800c8177383754cf754b8776ec30cf5cc8a13655d259e49a4bf","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|eb1b4be34d05b394fb74efdeb95faecd1d1963be6ecc1b9db2b4757b491f01f0","kind":"actor","name":"terminalfix","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260831#2","ioc":"ioc.sha256|eb1b4be34d05b394fb74efdeb95faecd1d1963be6ecc1b9db2b4757b491f01f0","kind":"article","name":"article:20260831#2","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|eb1b4be34d05b394fb74efdeb95faecd1d1963be6ecc1b9db2b4757b491f01f0","kind":"malware","name":"TerminalFix","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
@@ -39955,6 +39988,7 @@
 {"ioc":"ioc.sha256|facfea68fe95fc81e3b6e04f79fbcba738c79b4de2d0238e4e5a8ba095a2516d","kind":"malware","name":"BadIIS","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260919#4","ioc":"ioc.sha256|fad2f572ff327bbb08f330e9a5c2636d622ca96495c73f88689b855190a62457","kind":"article","name":"article:20260919#4","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|fad2f572ff327bbb08f330e9a5c2636d622ca96495c73f88689b855190a62457","kind":"malware","name":"RatHat","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.sha256|faf174414ddc7099360c4ae4d16497b9846cfae71ffad5bbab820bba657f94d3","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|fb1f4f5a4ef76960577462634f4a104fb307e161fc2791b9231a07a2c751beca","kind":"malware","name":"AdaptixC2","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.sha256|fb3630822b70bacb56aa4cec29b5a0e3e9acb3920809e70310a4003385a6d34a","kind":"actor","name":"KongTuke","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260625#4","ioc":"ioc.sha256|fb3630822b70bacb56aa4cec29b5a0e3e9acb3920809e70310a4003385a6d34a","kind":"article","name":"article:20260625#4","rel":"収集元","source":"tech-memo-daily-news"}
@@ -40163,6 +40197,8 @@
 {"id":"case:d503c1d9574deb89855643ab0d1063bc28331cc3a580fe7286a56bfc8b09afc8","ioc":"ioc.url|http://010013116117/img/msi_pro.png","kind":"case","name":"case:d503c1d9574deb89855643ab0d1063bc28331cc3a580fe7286a56bfc8b09afc8","rel":"c2_or_network_ioc","source":"ai-security-analysis"}
 {"id":"family:remcosrat","ioc":"ioc.url|http://010013116117/img/msi_pro.png","kind":"malware","name":"Remcos RAT","rel":"case.ファミリ","source":"ai-security-analysis"}
 {"id":"actor:apt29","ioc":"ioc.url|http://10.0.0.1/","kind":"actor","name":"APT29","rel":"観測アクター","source":"threatactor-intel-analysis"}
+{"id":"case:94420ac4dc985b08bdb97b8a24e499bbcf80906165b139d81ca466871a60adb0","ioc":"ioc.url|http://103.118.42.120:16808","kind":"case","name":"case:94420ac4dc985b08bdb97b8a24e499bbcf80906165b139d81ca466871a60adb0","rel":"c2_static_config","source":"ai-security-analysis"}
+{"ioc":"ioc.url|http://103.118.42.120:16808","kind":"ioc","name":"ioc.ipv4|103.118.42.120","rel":"ホスト","source":"ai-security-analysis"}
 {"ioc":"ioc.url|http://103.249.117.183/1.bat","kind":"actor","name":"APT43","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260825#9","ioc":"ioc.url|http://103.249.117.183/1.bat","kind":"article","name":"article:20260825#9","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|http://103.249.117.183/receive.php","kind":"actor","name":"APT43","rel":"attrs.アクター","source":"tech-memo-daily-news"}
@@ -43760,6 +43796,7 @@
 {"id":"case:d3fc5ed15a97063e804664d5f379bb7454d103b4defa9ac9e788f1eaa922a675","ioc":"ioc.url|https://fingerprint-verification.info/c9f50548fca3e8676d524f175296e999bfaf439cd6ad7787b8deccb98117397c","kind":"case","name":"case:d3fc5ed15a97063e804664d5f379bb7454d103b4defa9ac9e788f1eaa922a675","rel":"delivery_url","source":"ai-security-analysis"}
 {"ioc":"ioc.url|https://fingerprint-verification.info/c9f50548fca3e8676d524f175296e999bfaf439cd6ad7787b8deccb98117397c","kind":"ioc","name":"ioc.domain|fingerprint-verification.info","rel":"ホスト","source":"ai-security-analysis"}
 {"id":"actor:bitter","ioc":"ioc.url|https://flashnewsservice.org/cloudvault/”}}","kind":"actor","name":"BITTER","rel":"観測アクター","source":"threatactor-intel-analysis"}
+{"id":"article:20261009#8","ioc":"ioc.url|https://flat-wildflower-f954.fondationanimalaidrelief.workers.dev/","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|https://florida-yes.com/download.php?id=ab5e94b3c160f1c1b646b34e7c85d79f","kind":"malware","name":"ValleyRAT","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"actor:kimsuky","ioc":"ioc.url|https://floridas.000webhostapp.com/set.hta","kind":"actor","name":"APT43","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"case:ca15d149f53a51592c80c57e64de73e090777749422525d22b3b096a1ae75a4a","ioc":"ioc.url|https://fluraresto.me/live/","kind":"case","name":"case:ca15d149f53a51592c80c57e64de73e090777749422525d22b3b096a1ae75a4a","rel":"c2_or_network_ioc","source":"ai-security-analysis"}
@@ -44154,6 +44191,7 @@
 {"id":"case:38450cf934121c9f92785beffb73602919014752310960768324029d9ba91e13","ioc":"ioc.url|https://grebiunti.top/live/","kind":"case","name":"case:38450cf934121c9f92785beffb73602919014752310960768324029d9ba91e13","rel":"c2_or_network_ioc","source":"ai-security-analysis"}
 {"ioc":"ioc.url|https://grebiunti.top/live/","kind":"ioc","name":"ioc.domain|grebiunti.top","rel":"ホスト","source":"ai-security-analysis"}
 {"id":"family:latrodectus","ioc":"ioc.url|https://grebiunti.top/live/","kind":"malware","name":"Latrodectus","rel":"case.ファミリ","source":"ai-security-analysis"}
+{"id":"article:20261009#8","ioc":"ioc.url|https://green-firefly-ab28.icy-star-f45c.workers.dev/","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260518#0","ioc":"ioc.url|https://gremlin.craifishi.business/jdjshi!j1x","kind":"article","name":"article:20260518#0","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|https://gremlin.craifishi.business/jdjshi!j1x","kind":"malware","name":"Tycoon2FA","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260825#10","ioc":"ioc.url|https://grove-12.com/api/metrics/run?event=pasted","kind":"article","name":"article:20260825#10","rel":"収集元","source":"tech-memo-daily-news"}
@@ -45251,6 +45289,8 @@
 {"ioc":"ioc.url|https://recordstrace.info/5bc6vvoep9pi3b08","kind":"malware","name":"Node.js Backdoor","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260504#7","ioc":"ioc.url|https://regancontrols.com","kind":"article","name":"article:20260504#7","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|https://regancontrols.com","kind":"malware","name":"EtherRAT","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#9","ioc":"ioc.url|https://registry.npmjs.org/tensorlake/0.5.144","kind":"article","name":"article:20261009#9","rel":"収集元","source":"tech-memo-daily-news"}
+{"ioc":"ioc.url|https://registry.npmjs.org/tensorlake/0.5.144","kind":"malware","name":"Shai-Hulud","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|https://regupdate.eamakfu49dc28wa.workers.dev/vere0zme82cadre","kind":"actor","name":"China-nexus actor","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260820#12","ioc":"ioc.url|https://regupdate.eamakfu49dc28wa.workers.dev/vere0zme82cadre","kind":"article","name":"article:20260820#12","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|https://regupdate.eamakfu49dc28wa.workers.dev/vere0zme82cadre","kind":"malware","name":"QUICAgent","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
@@ -45373,6 +45413,7 @@
 {"ioc":"ioc.url|https://sgp1.vultrobjects.com/downloads/pictory/pictory_premium_ver9.0.4.exe","kind":"actor","name":"Government of Iran cyber actors","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260916#6","ioc":"ioc.url|https://sgp1.vultrobjects.com/downloads/pictory/pictory_premium_ver9.0.4.exe","kind":"article","name":"article:20260916#6","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|https://sgp1.vultrobjects.com/downloads/pictory/pictory_premium_ver9.0.4.exe","kind":"malware","name":"HEAVYGRAM","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"ioc":"ioc.url|https://share.google/6soclgplbcy9aaciu","kind":"malware","name":"PureLogs","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260711#10","ioc":"ioc.url|https://share.google/ylorylokrw3iner8r","kind":"article","name":"article:20260711#10","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|https://share.google/ylorylokrw3iner8r","kind":"malware","name":"Node.js Backdoor","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|https://share.secureinfo.eu/get/ypmxmg58xh/%d0%9c%d0%b0%d1%82%d0%b5%d1%80%d1%96%d0%b0%d0%bb%d0%b8_%d0%ba%d0%be%d0%bd%d1%84%d0%b5%d1%80%d0%b5%d0%bd%d1%86%d1%96%d1%97_%d0%b4%d0%be%d0%bf.zip","kind":"actor","name":"GreyVibe","rel":"attrs.アクター","source":"tech-memo-daily-news"}
@@ -45400,6 +45441,7 @@
 {"id":"actor:bitter","ioc":"ioc.url|https://signal.ct.ws/?i=1","kind":"actor","name":"BITTER","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"article:20260509#8","ioc":"ioc.url|https://silent-harvester.cc","kind":"article","name":"article:20260509#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|https://silent-harvester.cc","kind":"malware","name":"NWHStealer","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
+{"id":"article:20261009#8","ioc":"ioc.url|https://silent-wind-get.icy-star-f45c.workers.dev/","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"id":"article:20260521#11","ioc":"ioc.url|https://simplerwebs.space/anrek.mp4","kind":"article","name":"article:20260521#11","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|https://simplerwebs.space/anrek.mp4","kind":"malware","name":"Emmenhtal Loader","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
 {"id":"article:20260521#11","ioc":"ioc.url|https://simplerwebs.world/mine.json","kind":"article","name":"article:20260521#11","rel":"収集元","source":"tech-memo-daily-news"}
@@ -45431,6 +45473,7 @@
 {"id":"actor:nso-group","ioc":"ioc.url|https://slate.com/technology/2012/08/moroccan-website-mamfakinch-targeted-by-government-grade-spyware-from-hacking-team.html","kind":"actor","name":"NSO Group","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"actor:nso-group","ioc":"ioc.url|https://slate.com/technology/2012/10/ahmed-mansoor-uae-activst-allegedly-tricked-by-phoney-wikileaks-into-downloading-hacking-team-spyware.html","kind":"actor","name":"NSO Group","rel":"観測アクター","source":"threatactor-intel-analysis"}
 {"id":"actor:nso-group","ioc":"ioc.url|https://slate.com/technology/2020/01/evil-list-tech-companies-dangerous-amazon-facebook-google-palantir.html","kind":"actor","name":"NSO Group","rel":"観測アクター","source":"threatactor-intel-analysis"}
+{"id":"article:20261009#8","ioc":"ioc.url|https://small-boat-969c.icy-star-f45c.workers.dev/","kind":"article","name":"article:20261009#8","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|https://small-union-7018.daoahueb.workers.dev/","kind":"actor","name":"UNK_QuietRacket","rel":"attrs.アクター","source":"tech-memo-daily-news"}
 {"id":"article:20260911#4","ioc":"ioc.url|https://small-union-7018.daoahueb.workers.dev/","kind":"article","name":"article:20260911#4","rel":"収集元","source":"tech-memo-daily-news"}
 {"ioc":"ioc.url|https://small-union-7018.daoahueb.workers.dev/","kind":"malware","name":"BlueMoon","rel":"attrs.マルウェア","source":"tech-memo-daily-news"}
