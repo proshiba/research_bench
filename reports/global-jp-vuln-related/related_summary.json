@@ -1,0 +1,148 @@
+{
+ "dataset": "GLOBAL_JP_VULN_RELATED",
+ "generated_at_utc": "2026-10-11T09:06:48Z",
+ "seed": {
+  "source": "global_jp_vuln P1+P2",
+  "count": 612
+ },
+ "method": {
+  "dense_24": {
+   "min_seeds": 3,
+   "min_density": 0.1,
+   "networks": 18
+  },
+  "evidence_signature": {
+   "added": 10,
+   "note": "語 2 つ以上の一致のみ"
+  },
+  "rejected": {
+   "comment_sha256": "通報者の定型文だったため不採用（実測 829 件が偽の関連）"
+  }
+ },
+ "candidates": 571,
+ "checked": {
+  "today": 376,
+  "from_yesterday_cache": 195,
+  "api_calls": 377,
+  "quota_remaining": 9623,
+  "stopped": null
+ },
+ "verdicts": {
+  "関連・強": 170,
+  "関連・中": 179,
+  "関連・弱": 117,
+  "同居のみ": 103,
+  "除外（研究スキャナ）": 2,
+  "判定不能": 0
+ },
+ "networks": [
+  {
+   "net": "172.236.228.0/24",
+   "seeds": 14,
+   "total": 17,
+   "density": 0.824
+  },
+  {
+   "net": "45.79.181.0/24",
+   "seeds": 4,
+   "total": 5,
+   "density": 0.8
+  },
+  {
+   "net": "45.91.64.0/24",
+   "seeds": 3,
+   "total": 5,
+   "density": 0.6
+  },
+  {
+   "net": "71.6.134.0/24",
+   "seeds": 5,
+   "total": 11,
+   "density": 0.455
+  },
+  {
+   "net": "146.70.194.0/24",
+   "seeds": 4,
+   "total": 10,
+   "density": 0.4
+  },
+  {
+   "net": "109.105.209.0/24",
+   "seeds": 6,
+   "total": 16,
+   "density": 0.375
+  },
+  {
+   "net": "85.204.70.0/24",
+   "seeds": 4,
+   "total": 14,
+   "density": 0.286
+  },
+  {
+   "net": "185.177.72.0/24",
+   "seeds": 9,
+   "total": 32,
+   "density": 0.281
+  },
+  {
+   "net": "85.217.149.0/24",
+   "seeds": 18,
+   "total": 75,
+   "density": 0.24
+  },
+  {
+   "net": "194.165.16.0/24",
+   "seeds": 4,
+   "total": 17,
+   "density": 0.235
+  },
+  {
+   "net": "85.203.23.0/24",
+   "seeds": 34,
+   "total": 158,
+   "density": 0.215
+  },
+  {
+   "net": "45.156.128.0/24",
+   "seeds": 20,
+   "total": 107,
+   "density": 0.187
+  },
+  {
+   "net": "46.151.182.0/24",
+   "seeds": 3,
+   "total": 21,
+   "density": 0.143
+  },
+  {
+   "net": "93.123.109.0/24",
+   "seeds": 5,
+   "total": 37,
+   "density": 0.135
+  },
+  {
+   "net": "195.178.110.0/24",
+   "seeds": 7,
+   "total": 53,
+   "density": 0.132
+  },
+  {
+   "net": "185.180.141.0/24",
+   "seeds": 9,
+   "total": 72,
+   "density": 0.125
+  },
+  {
+   "net": "62.60.130.0/24",
+   "seeds": 5,
+   "total": 42,
+   "density": 0.119
+  },
+  {
+   "net": "193.124.20.0/24",
+   "seeds": 3,
+   "total": 26,
+   "density": 0.115
+  }
+ ]
+}
