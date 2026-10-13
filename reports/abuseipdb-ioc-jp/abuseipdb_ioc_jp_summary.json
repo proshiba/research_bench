@@ -1,0 +1,199 @@
+{
+  "collected_at_utc": "2026-10-13T11:32:02.869Z",
+  "config": {
+    "COHORT": "ioc_index",
+    "COPIES_DIR": "data/ioc/.cache/abuseipdb",
+    "DATASET": "ABUSEIPDB_IOC_JP",
+    "INDEX_DIR": "data/ioc/latest",
+    "REPORT_WINDOW_DAYS": 90
+  },
+  "dataset": "ABUSEIPDB_IOC_JP",
+  "evidence_levels": {
+    "E0": 14,
+    "E1": 12,
+    "E2": 1,
+    "E3": 4
+  },
+  "exclusion_reasons": {
+    "日本からの報告なし": 805,
+    "日本報告が走査・総当たりのみで脆弱性カテゴリなし": 23,
+    "日本報告に脆弱性カテゴリなし": 1
+  },
+  "exploited_host_ips": 0,
+  "generated_from": "写しのみ。API は呼んでいない",
+  "ioc_context": {
+    "actor_named": 8,
+    "top_actors": [
+      [
+        "Carbo506",
+        2
+      ],
+      [
+        "GTG-50014",
+        2
+      ],
+      [
+        "Anonymous",
+        1
+      ],
+      [
+        "GhostAction",
+        1
+      ],
+      [
+        "OP-512",
+        1
+      ],
+      [
+        "Sandworm Team",
+        1
+      ]
+    ],
+    "with_malware": 5,
+    "with_role": 1,
+    "with_shared_certificate": 3
+  },
+  "jp_vuln_categories": {
+    "Hacking": 11,
+    "IoT Targeted": 1,
+    "SQL Injection": 3,
+    "Web App Attack": 26
+  },
+  "jp_vuln_reporter_distribution": {
+    "1": 17,
+    "2": 8,
+    "4": 1,
+    "5+": 5
+  },
+  "marks": {
+    "reports_truncated": 1,
+    "research_scanner": 0,
+    "tor": 8,
+    "whitelisted": 0
+  },
+  "population": {
+    "P1": 4,
+    "P2": 11,
+    "P3": 16,
+    "copies_read": 860,
+    "eligible_jp_vuln": 31,
+    "excluded": 829,
+    "included": 31,
+    "jp_reported": 55
+  },
+  "top_countries": [
+    [
+      "NL",
+      12
+    ],
+    [
+      "US",
+      7
+    ],
+    [
+      "DE",
+      3
+    ],
+    [
+      "FR",
+      2
+    ],
+    [
+      "CH",
+      1
+    ],
+    [
+      "CR",
+      1
+    ],
+    [
+      "DK",
+      1
+    ],
+    [
+      "FI",
+      1
+    ],
+    [
+      "HK",
+      1
+    ],
+    [
+      "LV",
+      1
+    ],
+    [
+      "SE",
+      1
+    ]
+  ],
+  "top_isp": [
+    [
+      "TECHOFF SRV LIMITED",
+      4
+    ],
+    [
+      "Artikel10 e.V.",
+      2
+    ],
+    [
+      "FranTech Solutions",
+      2
+    ],
+    [
+      "Pfcloud UG",
+      2
+    ],
+    [
+      "31173 Services AB infrastructure in Amsterdam, NL.",
+      1
+    ],
+    [
+      "Asia Pacific Network Information Centre",
+      1
+    ],
+    [
+      "Chunkserve Mateusz Peplinski",
+      1
+    ],
+    [
+      "Contabo GmbH",
+      1
+    ],
+    [
+      "Cooperativa de Electrificación Rural de San Carlos R.L. (Coopelesca R.L.)",
+      1
+    ],
+    [
+      "Fourplex Telecom LLC",
+      1
+    ],
+    [
+      "Google LLC",
+      1
+    ],
+    [
+      "Interserver, Inc",
+      1
+    ]
+  ],
+  "top_usage_type": [
+    [
+      "Data Center/Web Hosting/Transit",
+      26
+    ],
+    [
+      "Fixed Line ISP",
+      3
+    ],
+    [
+      "University/College/School",
+      2
+    ]
+  ],
+  "window": {
+    "days": 90,
+    "end_utc": "2026-10-13T11:32:02Z",
+    "start_utc": "2026-07-15T11:32:02Z"
+  }
+}
