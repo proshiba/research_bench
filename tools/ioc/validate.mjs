@@ -1372,11 +1372,26 @@ if (abuseRows) {
       }
     }
   }
-  // **分からないものを負に数えないための見張り。**通報があるのに数えていない行を数える
-  const unmeasured = abuseRows.filter((r) => (r.reports || 0) > 0 && !r.jp_measured).length;
+  /**
+   * **分からないものを負に数えないための見張り。**通報があるのに数えていない行を数える。
+   *
+   * ただし `bogon` / `noise` の印が付いた IP は取得側が最初から引かない。
+   * これを混ぜると、見本アドレス（`1.2.3.4` など）が永久に「未測定」として
+   * 残り続けて、覚え書きが読まれなくなる。**引かないと決めたものと、
+   * まだ引けていないものを分けて数える。**
+   */
+  const reportedRows = abuseRows.filter((r) => (r.reports || 0) > 0 && !r.jp_measured);
+  const skipped = reportedRows.filter((r) => {
+    const ioc = iocByKey.get(r.ioc) || derivedIocByKey.get(r.ioc);
+    return !!(ioc?.bogon || ioc?.noise);
+  }).length;
+  const unmeasured = reportedRows.length - skipped;
   if (unmeasured) {
     console.log(`  覚え書き: 通報があるのに日本ぶんを数えていない IP が ${unmeasured} 件あります`
       + "（`fetch-abuseipdb.mjs --reported-only` で埋まります）");
+  }
+  if (skipped) {
+    console.log(`  覚え書き: 引かないと決めた IP（bogon / noise）${skipped} 件は数えていません`);
   }
 }
 
