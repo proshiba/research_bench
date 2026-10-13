@@ -5,12 +5,18 @@
 //                         [--in data/ioc/latest] [--cache data/ioc/.cache/abuseipdb]
 //                         [--limit 1000] [--plan] [--rpm 30] [--daily 1000]
 //                         [--max-age 2592000] [--max-age-days 365]
-//                         [--refresh] [--include-noise] [--relation-ips]
+//                         [--refresh] [--reported-only] [--include-noise] [--relation-ips]
 //
 // `GET /api/v2/check?ipAddress=&maxAgeInDays=365&verbose=` を IP ごとに 1 回。
 // verbose を付けるのは **通報カテゴリの分布**が欲しいため（何をして通報されたか）。
 //
 // bogon と公開 DNS（bogon / noise の印が付いているもの）は引かない。
+//
+// `--reported-only` は **既に通報が 1 件以上ある IP だけ**を引き直す。
+// 畳み込みに後から項目を足したときの穴埋めに使う。通報 0 件の IP には
+// 通報が無いので、通報の中身から作る項目はどう引いても空になる——
+// 全件引き直すと枠の大半をその空振りに使ってしまう。実測 4801 IP のうち
+// 通報があるのは 816 件だけで、残りの 3985 件は引く意味が無い。
 // VT と並行して走らせられる（鍵も枠も別。docs/ioc-enrich-plan.md §4 の段階 0）。
 //
 // 残り枠は応答のヘッダ（X-RateLimit-Remaining）が教えてくれるので、それに従う。
@@ -92,11 +98,20 @@ const stale = (rec) => !rec || now - Date.parse(rec.fetched_at || 0) > MAX_AGE;
  * 写しが消えていても、既に判定を持っている IP には枠を使い直さない。
  * 写しは追跡していないので、別の環境では最初から空になる（fetch-vt.mjs と同じ）。
  */
-const alreadyKnown = args.refresh ? new Set() : new Set(readJsonl(path.join(IN, "abuseipdb.jsonl")).map((r) => r.ioc));
+const prevAbuse = readJsonl(path.join(IN, "abuseipdb.jsonl"));
+const REPORTED_ONLY = !!args["reported-only"];
+/** 通報が 1 件以上ある IP。--reported-only のときの対象 */
+const reported = new Set(prevAbuse.filter((r) => (r.reports || 0) > 0).map((r) => r.ioc));
+const alreadyKnown = args.refresh || REPORTED_ONLY ? new Set() : new Set(prevAbuse.map((r) => r.ioc));
 const queue = buildQueue(targets)
+  .filter((t) => (!REPORTED_ONLY || reported.has(t.ioc)))
   .filter((t) => stale(readRecord(CACHE, t.ioc)) && !alreadyKnown.has(t.ioc));
 
-console.log(`AbuseIPDB の対象 ${targets.length} IP（写し済み ${targets.length - queue.length} / 残り ${queue.length}）`);
+if (REPORTED_ONLY) {
+  console.log(`AbuseIPDB の対象 ${targets.length} IP のうち通報があるのは ${reported.size} 件（引き直すのは ${queue.length} 件）`);
+} else {
+  console.log(`AbuseIPDB の対象 ${targets.length} IP（写し済み ${targets.length - queue.length} / 残り ${queue.length}）`);
+}
 const byStage = tallyStages(targets);
 const remainByStage = tallyStages(queue);
 for (const [s, n] of Object.entries(byStage)) {

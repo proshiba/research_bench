@@ -109,7 +109,7 @@ const VT_FIELDS = {
 const ABUSE_FIELDS = {
   required: ["ioc", "score", "reports", "reporters"],
   optional: ["last_reported_at", "usage_type", "hosting", "isp", "domain", "country",
-    "tor", "whitelisted", "categories", "comments", "hollow", "sample"],
+    "tor", "whitelisted", "categories", "comments", "hollow", "sample", "jp", "jp_measured"],
 };
 const DERIVED_IOC_FIELDS = {
   required: ["key", "type", "value", "origin", "from"],
@@ -1339,6 +1339,44 @@ if (abuseRows) {
         err("abuse.categories", `${k} の件数が 1 以上の整数ではありません: ${v}`, at("abuseipdb.jsonl", i));
       }
     }
+    // 日本ぶんは全体の部分集合でなければならない。多ければ数え方が壊れている
+    if (r.jp !== undefined) {
+      const j = r.jp;
+      for (const f of ["reports", "reporters", "substantive"]) {
+        if (!Number.isInteger(j?.[f]) || j[f] < 0) {
+          err("abuse.jp", `jp.${f} が 0 以上の整数ではありません: ${j?.[f]}`, at("abuseipdb.jsonl", i));
+        }
+      }
+      if (Number.isInteger(j?.reports) && j.reports < 1) {
+        err("abuse.jp", "日本ぶんが 0 件なら jp を付けません", at("abuseipdb.jsonl", i));
+      }
+      if (Number.isInteger(j?.reports) && Number.isInteger(r.reports) && j.reports > r.reports) {
+        err("abuse.jp", `日本の通報が全体を上回っています: ${j.reports} > ${r.reports}`, at("abuseipdb.jsonl", i));
+      }
+      if (Number.isInteger(j?.reporters) && Number.isInteger(r.reporters) && j.reporters > r.reporters) {
+        err("abuse.jp", `日本のレポーターが全体を上回っています: ${j.reporters} > ${r.reporters}`, at("abuseipdb.jsonl", i));
+      }
+      for (const f of ["reporters", "substantive"]) {
+        if (Number.isInteger(j?.[f]) && Number.isInteger(j?.reports) && j[f] > j.reports) {
+          err("abuse.jp", `jp.${f} が jp.reports を上回っています: ${j[f]} > ${j.reports}`, at("abuseipdb.jsonl", i));
+        }
+      }
+      if (j?.last_reported_at !== undefined) checkDate("abuseipdb.jsonl", i, "jp.last_reported_at", j.last_reported_at);
+      for (const [k, v] of Object.entries(j?.categories || {})) {
+        if (!Number.isInteger(v) || v < 1) {
+          err("abuse.jp", `jp のカテゴリ ${k} の件数が 1 以上の整数ではありません: ${v}`, at("abuseipdb.jsonl", i));
+        }
+      }
+      if (!r.jp_measured) {
+        err("abuse.jp", "日本ぶんがあるのに数えた印がありません", at("abuseipdb.jsonl", i));
+      }
+    }
+  }
+  // **分からないものを負に数えないための見張り。**通報があるのに数えていない行を数える
+  const unmeasured = abuseRows.filter((r) => (r.reports || 0) > 0 && !r.jp_measured).length;
+  if (unmeasured) {
+    console.log(`  覚え書き: 通報があるのに日本ぶんを数えていない IP が ${unmeasured} 件あります`
+      + "（`fetch-abuseipdb.mjs --reported-only` で埋まります）");
   }
 }
 

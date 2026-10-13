@@ -831,8 +831,53 @@ for (const rec of abuseRecords) {
   // 上限で切られるので、この 2 つは一致しない。判定に使った方を残さないと検算できない。
   const hollow = reports.filter((r) => HOLLOW.test(String(r?.comment ?? "").trim())).length;
   const sample = reports.length >= SAMPLE_MIN && hollow / reports.length >= SAMPLE_RATIO;
+
+  /**
+   * **日本のレポーターぶんだけを別に数える。**
+   *
+   * `score` と `reports` は世界中の通報の合計なので、「日本から見えているか」が
+   * 分からない。カテゴリも同じで、全体の分布には日本以外の観測が混ざる。
+   * そこで `reporterCountryCode === "JP"` の通報だけを数え直して持つ。
+   *
+   * レポーターの所在は観測者の所在であって、**攻撃先が日本であることを意味しない**。
+   * 日本に監視機器が多いだけでも同じ数字になる。ここでは数えるだけにして、
+   * 解釈はしない。
+   *
+   * `reporterId` は数を数えるためだけに使い、**値は残さない**。
+   * `comment` も本文は残さず、中身があったかどうかだけを数える。
+   */
+  const jpReports = reports.filter((r) => String(r?.reporterCountryCode || "") === "JP");
+  const jpCats = new Map();
+  const jpUsers = new Set();
+  let jpLast = "";
+  let jpSubstantive = 0;
+  for (const r of jpReports) {
+    for (const c of r?.categories || []) {
+      const name = CATEGORY[c] || `分類 ${c}`;
+      jpCats.set(name, (jpCats.get(name) || 0) + 1);
+    }
+    if (r?.reporterId !== undefined && r?.reporterId !== null) jpUsers.add(String(r.reporterId));
+    const day = dayOf(r?.reportedAt);
+    if (day && day > jpLast) jpLast = day;
+    if (!HOLLOW.test(String(r?.comment ?? "").trim())) jpSubstantive++;
+  }
+  const jp = jpReports.length
+    ? {
+      reports: jpReports.length,
+      reporters: jpUsers.size,
+      // 本文のある通報の数。0 なら「通報された事実だけ」で、何をされたかは分からない
+      substantive: jpSubstantive,
+      ...(jpLast ? { last_reported_at: jpLast } : {}),
+      ...(jpCats.size ? { categories: Object.fromEntries([...jpCats].sort()) } : {}),
+    }
+    : undefined;
+
   abuseRows.push({
     ...(hollow ? { comments: reports.length, hollow } : {}),
+    ...(jp ? { jp } : {}),
+    // **引いていないものは「日本から通報なし」ではなく「分からない」。**
+    // 通報が 1 件以上あるのにこの印が無い行は、まだ数えていないという意味。
+    ...(Array.isArray(b.reports) ? { jp_measured: true } : {}),
     // **消さずに印を付ける。**stats 側でこの印の付いた IP を根拠から外す。
     ...(sample ? { sample: true } : {}),
     ioc: rec.ioc,

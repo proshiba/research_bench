@@ -113,6 +113,11 @@ node tools/ioc/stats.mjs --in "$DIR"
 say "検査"
 node tools/ioc/validate.mjs --in "$DIR" --strict
 
+# 外には出ない。写しから数え直すだけなので、毎日やっても枠を使わない
+say "日本のレポーターから通報が上がっている IP"
+node tools/ioc/jp-reports.mjs --in "$DIR" || \
+  echo "! 日本ぶんの集計が落ちました。エンリッチ自体は済んでいます" >&2
+
 # 画面に出すだけだと、何日目に何が出たかが後から追えない。**日付ごとに残す**
 say "昨日から何が変わったか"
 REPORT="$REPORTS/$(date -u +%F).json"
