@@ -14,6 +14,7 @@
 {"aliases":["CALANQUE","CALANQUE ION"],"ioc_count":11,"kind":"actor","name":"APT42","sources":["threatactor-intel-analysis"]}
 {"aliases":["Black Banshee","Earth Kumiho","Emerald Sleet","Kimsuky","PatheticSlug","Sparkling Pisces","Springtail","TA427","Thallium","Velvet Chollima"],"ioc_count":1250,"kind":"actor","name":"APT43","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":21,"kind":"actor","name":"APT44 subcluster","sources":["tech-memo-daily-news"]}
+{"ioc_count":11,"kind":"actor","name":"Adception","sources":["tech-memo-daily-news"]}
 {"aliases":["AMERICIUM","Agonizing Serpens","BlackShadow","Pink Sandstorm"],"ioc_count":84,"kind":"actor","name":"Agrius","sources":["threatactor-intel-analysis"]}
 {"aliases":["AjaxTM","Flying Kitten","Operation Saffron Rose","Operation Woolen-Goldfish","Rocket Kitten"],"ioc_count":2,"kind":"actor","name":"Ajax Security Team","sources":["threatactor-intel-analysis"]}
 {"aliases":["GOLD SAHARA","Howling Scorpius","PUNK SPIDER"],"ioc_count":22,"kind":"actor","name":"Akira","sources":["threatactor-intel-analysis"]}
@@ -42,7 +43,7 @@
 {"ioc_count":3,"kind":"actor","name":"Buhtrap","sources":["threatactor-intel-analysis"]}
 {"ioc_count":17,"kind":"actor","name":"CL-STA-1062","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":18,"kind":"actor","name":"CL-STA-1114","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
-{"aliases":["COLD RELIC","COLDRIVER","SEABORGIUM","Star Blizzard","TA446","UNC4057","callisto"],"ioc_count":135,"kind":"actor","name":"Callisto Group","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
+{"aliases":["COLD RELIC","COLDRIVER","SEABORGIUM","Star Blizzard","TA446","UNC4057","callisto"],"ioc_count":137,"kind":"actor","name":"Callisto Group","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"aliases":["Red Lamassu"],"ioc_count":18,"kind":"actor","name":"Calypso","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":8,"kind":"actor","name":"CameraSwarm","sources":["tech-memo-daily-news"]}
 {"ioc_count":222,"kind":"actor","name":"Candiru","sources":["threatactor-intel-analysis"]}
@@ -115,6 +116,7 @@
 {"ioc_count":1,"kind":"actor","name":"Gekko Jackal","sources":["threatactor-intel-analysis"]}
 {"ioc_count":2,"kind":"actor","name":"Gelsemium","sources":["threatactor-intel-analysis"]}
 {"ioc_count":27,"kind":"actor","name":"Gentlemen RaaS","sources":["tech-memo-daily-news"]}
+{"ioc_count":7,"kind":"actor","name":"GhostAction","sources":["tech-memo-daily-news"]}
 {"ioc_count":2,"kind":"actor","name":"GhostSec","sources":["threatactor-intel-analysis"]}
 {"ioc_count":132,"kind":"actor","name":"Ghostwriter","sources":["threatactor-intel-analysis"]}
 {"ioc_count":3,"kind":"actor","name":"Glocom","sources":["tech-memo-daily-news"]}
@@ -188,7 +190,7 @@
 {"ioc_count":7,"kind":"actor","name":"PCPJack","sources":["tech-memo-daily-news"]}
 {"aliases":["Fallow Squall"],"ioc_count":13,"kind":"actor","name":"PLATINUM","sources":["threatactor-intel-analysis"]}
 {"aliases":["Plaid Rain"],"ioc_count":1,"kind":"actor","name":"POLONIUM","sources":["threatactor-intel-analysis"]}
-{"ioc_count":234,"kind":"actor","name":"PasteSwitch","sources":["tech-memo-daily-news"]}
+{"ioc_count":233,"kind":"actor","name":"PasteSwitch","sources":["tech-memo-daily-news"]}
 {"ioc_count":7,"kind":"actor","name":"Pepesoft","sources":["tech-memo-daily-news"]}
 {"ioc_count":42,"kind":"actor","name":"PhantomEnigma","sources":["tech-memo-daily-news"]}
 {"ioc_count":1,"kind":"actor","name":"Pizzo Spider","sources":["threatactor-intel-analysis"]}
@@ -273,7 +275,7 @@
 {"ioc_count":2,"kind":"actor","name":"UAC-0026","sources":["threatactor-intel-analysis"]}
 {"ioc_count":2,"kind":"actor","name":"UAC-0050","sources":["threatactor-intel-analysis"]}
 {"ioc_count":6,"kind":"actor","name":"UAC-0057","sources":["threatactor-intel-analysis"]}
-{"ioc_count":54,"kind":"actor","name":"UAC-0099","sources":["tech-memo-daily-news"]}
+{"ioc_count":60,"kind":"actor","name":"UAC-0099","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":1,"kind":"actor","name":"UAC-0113","sources":["threatactor-intel-analysis"]}
 {"ioc_count":1,"kind":"actor","name":"UAC-0133","sources":["threatactor-intel-analysis"]}
 {"ioc_count":21,"kind":"actor","name":"UAC-0145","sources":["tech-memo-daily-news"]}
@@ -796,6 +798,7 @@
 {"ioc_count":18,"kind":"article","name":"article:20261010#11","sources":["tech-memo-daily-news"]}
 {"ioc_count":15,"kind":"article","name":"article:20261010#12","sources":["tech-memo-daily-news"]}
 {"ioc_count":803,"kind":"article","name":"article:20261010#8","sources":["tech-memo-daily-news"]}
+{"ioc_count":7,"kind":"article","name":"article:20261012#3","sources":["tech-memo-daily-news"]}
 {"ioc_count":15,"kind":"campaign","name":"APTグループHoneyMyteがCoolClientを強化：バックドアにWindowsカーネルレベルのルートキットを追加","sources":["threatactor-intel-analysis"]}
 {"ioc_count":12,"kind":"campaign","name":"Browser Extension and Google Play Abuse","sources":["threatactor-intel-analysis"]}
 {"ioc_count":1,"kind":"campaign","name":"C0027","sources":["threatactor-intel-analysis"]}
@@ -1327,8 +1330,12 @@
 {"ioc_count":33,"kind":"cve","name":"CVE-2015-5287","sources":["vuln-intel-agent"]}
 {"ioc_count":33,"kind":"cve","name":"CVE-2021-23758","sources":["vuln-intel-agent"]}
 {"ioc_count":2,"kind":"cve","name":"CVE-2021-43798","sources":["vuln-intel-agent"]}
+{"ioc_count":9,"kind":"cve","name":"CVE-2021-44228","sources":["vuln-intel-agent"]}
 {"ioc_count":33,"kind":"cve","name":"CVE-2022-0995","sources":["vuln-intel-agent"]}
 {"ioc_count":33,"kind":"cve","name":"CVE-2022-27925","sources":["vuln-intel-agent"]}
+{"ioc_count":11,"kind":"cve","name":"CVE-2023-22518","sources":["vuln-intel-agent"]}
+{"ioc_count":27,"kind":"cve","name":"CVE-2023-22527","sources":["vuln-intel-agent"]}
+{"ioc_count":8,"kind":"cve","name":"CVE-2023-46604","sources":["vuln-intel-agent"]}
 {"ioc_count":12,"kind":"cve","name":"CVE-2023-4966","sources":["vuln-intel-agent"]}
 {"ioc_count":2,"kind":"cve","name":"CVE-2024-24919","sources":["vuln-intel-agent"]}
 {"ioc_count":6,"kind":"cve","name":"CVE-2024-50623","sources":["vuln-intel-agent"]}
@@ -1336,23 +1343,37 @@
 {"ioc_count":13,"kind":"cve","name":"CVE-2025-31161","sources":["vuln-intel-agent"]}
 {"ioc_count":7,"kind":"cve","name":"CVE-2025-55182","sources":["vuln-intel-agent"]}
 {"ioc_count":7,"kind":"cve","name":"CVE-2025-5777","sources":["vuln-intel-agent"]}
+{"ioc_count":21,"kind":"cve","name":"CVE-2025-8088","sources":["vuln-intel-agent"]}
 {"ioc_count":8,"kind":"cve","name":"CVE-2026-12569","sources":["vuln-intel-agent"]}
 {"ioc_count":4,"kind":"cve","name":"CVE-2026-15409","sources":["vuln-intel-agent"]}
 {"ioc_count":4,"kind":"cve","name":"CVE-2026-15410","sources":["vuln-intel-agent"]}
 {"ioc_count":6,"kind":"cve","name":"CVE-2026-16232","sources":["vuln-intel-agent"]}
 {"ioc_count":13,"kind":"cve","name":"CVE-2026-18556","sources":["vuln-intel-agent"]}
 {"ioc_count":13,"kind":"cve","name":"CVE-2026-18577","sources":["vuln-intel-agent"]}
+{"ioc_count":7,"kind":"cve","name":"CVE-2026-20079","sources":["vuln-intel-agent"]}
+{"ioc_count":30,"kind":"cve","name":"CVE-2026-20122","sources":["vuln-intel-agent"]}
+{"ioc_count":30,"kind":"cve","name":"CVE-2026-20128","sources":["vuln-intel-agent"]}
+{"ioc_count":30,"kind":"cve","name":"CVE-2026-20133","sources":["vuln-intel-agent"]}
+{"ioc_count":5,"kind":"cve","name":"CVE-2026-20316","sources":["vuln-intel-agent"]}
 {"ioc_count":12,"kind":"cve","name":"CVE-2026-21962","sources":["vuln-intel-agent"]}
 {"ioc_count":10,"kind":"cve","name":"CVE-2026-35273","sources":["vuln-intel-agent"]}
+{"ioc_count":10,"kind":"cve","name":"CVE-2026-45321","sources":["vuln-intel-agent"]}
+{"ioc_count":2,"kind":"cve","name":"CVE-2026-48027","sources":["vuln-intel-agent"]}
 {"ioc_count":4,"kind":"cve","name":"CVE-2026-48558","sources":["vuln-intel-agent"]}
 {"ioc_count":18,"kind":"cve","name":"CVE-2026-50751","sources":["vuln-intel-agent"]}
 {"ioc_count":1,"kind":"cve","name":"CVE-2026-59309","sources":["vuln-intel-agent"]}
 {"ioc_count":7,"kind":"cve","name":"CVE-2026-59310","sources":["vuln-intel-agent"]}
 {"ioc_count":10,"kind":"cve","name":"CVE-2026-60137","sources":["vuln-intel-agent"]}
 {"ioc_count":10,"kind":"cve","name":"CVE-2026-63030","sources":["vuln-intel-agent"]}
+{"ioc_count":3,"kind":"cve","name":"CVE-2026-65660","sources":["vuln-intel-agent"]}
 {"ioc_count":45,"kind":"cve","name":"CVE-2026-68820","sources":["vuln-intel-agent"]}
 {"ioc_count":36,"kind":"cve","name":"CVE-2026-72529","sources":["vuln-intel-agent"]}
 {"ioc_count":36,"kind":"cve","name":"CVE-2026-72530","sources":["vuln-intel-agent"]}
+{"ioc_count":12,"kind":"cve","name":"CVE-2026-84869","sources":["vuln-intel-agent"]}
+{"ioc_count":2,"kind":"cve","name":"CVE-2026-86218","sources":["vuln-intel-agent"]}
+{"ioc_count":57,"kind":"cve","name":"CVE-2026-88771","sources":["vuln-intel-agent"]}
+{"ioc_count":32,"kind":"cve","name":"CVE-2026-88772","sources":["vuln-intel-agent"]}
+{"ioc_count":1,"kind":"cve","name":"CVE-2026-88779","sources":["vuln-intel-agent"]}
 {"ioc_count":1,"kind":"cve","name":"CVE-2026-9586","sources":["vuln-intel-agent"]}
 {"ioc_count":21,"kind":"malware","name":"10FXRAT","sources":["tech-memo-daily-news"]}
 {"ioc_count":1,"kind":"malware","name":"@deadcode09284814","sources":["tech-memo-daily-news"]}
@@ -1445,7 +1466,7 @@
 {"ioc_count":4,"kind":"malware","name":"ConnectWise","sources":["tech-memo-daily-news"]}
 {"ioc_count":15,"kind":"malware","name":"CoolClient","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":1,"kind":"malware","name":"CornFlake","sources":["tech-memo-daily-news"]}
-{"ioc_count":28,"kind":"malware","name":"CosmicPulse","sources":["tech-memo-daily-news"]}
+{"ioc_count":28,"kind":"malware","name":"CosmicPulse","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":79,"kind":"malware","name":"CountLoader","sources":["tech-memo-daily-news"]}
 {"ioc_count":10,"kind":"malware","name":"CrashStealer","sources":["tech-memo-daily-news"]}
 {"ioc_count":4,"kind":"malware","name":"Cruciferra","sources":["tech-memo-daily-news"]}
@@ -1577,7 +1598,7 @@
 {"ioc_count":4,"kind":"malware","name":"LunexLoader","sources":["tech-memo-daily-news"]}
 {"ioc_count":6,"kind":"malware","name":"LunexStealer","sources":["tech-memo-daily-news"]}
 {"ioc_count":2,"kind":"malware","name":"LurkProxy","sources":["tech-memo-daily-news"]}
-{"ioc_count":34,"kind":"malware","name":"MATCHBOIL","sources":["tech-memo-daily-news"]}
+{"ioc_count":34,"kind":"malware","name":"MATCHBOIL","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":5,"kind":"malware","name":"MATCHBOIL.V2","sources":["tech-memo-daily-news"]}
 {"ioc_count":88,"kind":"malware","name":"MINIRAT","sources":["tech-memo-daily-news"]}
 {"ioc_count":2,"kind":"malware","name":"MINIRECON","sources":["tech-memo-daily-news"]}
