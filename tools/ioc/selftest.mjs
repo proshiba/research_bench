@@ -238,6 +238,12 @@ function buildEnrichFixture(dir, iocs, links) {
     categories: { "ポートスキャン": 8, "総当たり": 4 },
     // 中身無しはあるが、境目（20 件 / 30%）には届かないので印は付かない
     comments: 12, hollow: 2,
+    // 12 件のうち 3 件が日本から。全体の部分集合でなければならない
+    jp: {
+      reports: 3, reporters: 2, substantive: 2, last_reported_at: "2026-02-11",
+      categories: { "ポートスキャン": 2, "総当たり": 1 },
+    },
+    jp_measured: true,
   }];
 
   // c2.example.com の解決先のうち、索引に無かったほうだけが生える
@@ -599,7 +605,10 @@ const CASES = [
     editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace(/"score":\d+/, '"score":101'));
   }],
   ["abuse.count", "通報者が通報数を上回る", (d) => {
-    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace(/"reporters":\d+/, '"reporters":99'));
+    // **jp の中にも reporters が居る**。鍵は並べ替えて書くので jp が先に来る。
+    // 後ろの "reports" まで含めて、どちらの reporters かを決める
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7",
+      (l) => l.replace(/"reporters":\d+,"reports":\d+,"score"/, '"reporters":99,"reports":12,"score"'));
   }],
   ["abuse.type", "IP でない IOC に通報状況が付く", (d) => {
     editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace("ioc.ipv4|45.32.10.7", "ioc.domain|c2.example.com"));
@@ -629,6 +638,21 @@ const CASES = [
   }],
   ["abuse.sample", "境目に届いていないのに見本アドレスの印が付く", (d) => {
     editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace('"hollow":2', '"hollow":2,"sample":true'));
+  }],
+  ["abuse.jp", "日本の通報が全体を上回る", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace('"reports":3', '"reports":13'));
+  }],
+  ["abuse.jp", "日本のレポーターが全体を上回る", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace('"reporters":2', '"reporters":7'));
+  }],
+  ["abuse.jp", "本文のある通報が日本の通報数を上回る", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace('"substantive":2', '"substantive":5'));
+  }],
+  ["abuse.jp", "日本ぶんがあるのに数えた印が無い", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace(',"jp_measured":true', ""));
+  }],
+  ["abuse.jp", "日本ぶんが 0 件なのに jp が付く", (d) => {
+    editLine(d, "abuseipdb.jsonl", "45.32.10.7", (l) => l.replace('"reports":3', '"reports":0'));
   }],
   ["derived.duplicate", "生えた IOC が索引の IOC と重複する", (d) => {
     // 重複したら索引側を優先する。混ざると「これはどこの主張か」が追えなくなる

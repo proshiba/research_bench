@@ -154,7 +154,13 @@ VT_API_KEYS="k1,k2,k3" node tools/ioc/fetch-vt.mjs
                        [--rpm 4] [--daily 500] [--hourly 240] [--max-age 2592000] [--full]
 
 ABUSEIPDB_API_KEY="k"  node tools/ioc/fetch-abuseipdb.mjs [--limit 1000] [--plan]
+                       [--refresh] [--reported-only]
 ```
+
+`--reported-only` は**既に通報が 1 件以上ある IP だけ**を引き直す。畳み込みに後から
+項目を足したときの穴埋め用。実測 4,801 IP のうち通報があるのは **816 件**で、
+残りの 3,985 件は通報が無いので、通報の中身から作る項目はどう引いても空になる。
+`--refresh` で全件引き直すと枠の大半をその空振りに使う。
 
 **1 IOC につき object を 1 回だけ**引く。関係（`/resolutions` など）はここでは引かない
 （`fetch-vt-rel.mjs` が対象を絞って別に引く）。
@@ -221,7 +227,7 @@ node tools/ioc/enrich-intel.mjs [--in data/ioc/latest] [--out <同じ場所>]
 | 出力 | 中身 |
 | --- | --- |
 | `vt.jsonl` | IOC ごとの判定。VT が知らないものは `known:false` |
-| `abuseipdb.jsonl` | IP ごとの通報状況。**通報数ではなくスコアで判断する** |
+| `abuseipdb.jsonl` | IP ごとの通報状況。**通報数ではなくスコアで判断する**。`jp` に日本のレポーターぶんだけを数え直したものが入る（`jp_measured` が無い行は「日本からの通報なし」ではなく**まだ数えていない**） |
 | `derived-iocs.jsonl` | 写しから生えた IOC（解決先・過去の解決先・通信先の IP）。`origin` で出どころが分かる |
 | `derived-links.jsonl` | 生えた辺（`resolves_to` / `resolved_at` / `contacted` / ファミリ）。過去の解決先には `at`（解決日）が付く |
 | `derived-verdicts.jsonl` | **生えた IOC に付いた判定。** 索引の `vt.jsonl` / `abuseipdb.jsonl` とは分ける（混ぜるとカバレッジの分子だけが増える） |
@@ -828,6 +834,42 @@ node tools/ioc/fetch-dns.mjs --append # 新しい兄弟だけ引き足す
 `glara.info`（役割 `configured_c2`）は索引には apex しか無かったが、`admin` `git` `dev`
 `portal` `config` `api-test` `springboot` `storage` `repositorio` など 63 件が出て、
 **全部が同じ 1 つの IP**（索引が知らない `34.76.205.124`）に解決した。
+
+## 日本のレポーターから通報が上がっている IP（jp-reports.mjs）
+
+```sh
+node tools/ioc/jp-reports.mjs     # 写しだけを見る。外には出ない
+```
+
+`abuseipdb.jsonl` の `jp` を読んで、`data/ioc/reports/jp-reporters.md` と
+`data/ioc/latest/jp-reports.json` を出す。日次に入っている。
+
+### この表が言えること／言えないこと
+
+`reporterCountryCode === "JP"` が意味するのは「**通報した人が日本に居る**」ことだけ。
+次のどれも意味しない。
+
+- 攻撃先が日本である（日本の観測者が海外の資産を見ていることがある）
+- その IP の持ち主が日本を狙っている（**日本に監視機器が多いだけでも同じ数字になる**）
+- 送信元の国籍や所属（クラウド・VPN・NAT・踏み台のどれでもありうる）
+
+なので「日本向け攻撃元」という列は作らない。作れるのは「日本からも見えている」だけ。
+
+### 見る順
+
+数字の大小ではなく人が見る価値の順に並べる。いちばん上に来るのは
+**索引がアクター名を付けていて、日本の観測者が 2 人以上居て、本文のある通報がある**もの。
+脅威情報の記事と日本の現場の観測が同じ IP で一致した、という意味になる。
+
+カテゴリは 4 段に畳む。`STRICT`（SQLi / Web アプリ攻撃 / IoT 狙い）、`BROAD`（侵入。
+範囲が広いので単独では強い根拠にしない）、`AUTH`（総当たり / SSH / FTP）、
+`SCAN_ONLY`（ポートスキャンだけ。これだけなら攻撃と呼ばない）。
+**レポーターの自己申告なので誤分類を含む。**
+
+### 残さないもの
+
+`reporterId` は distinct を数えるためだけに使い、**値は保存しない**。
+通報コメントの本文も保存せず、中身があったかどうか（`substantive`）だけを数える。
 
 ## 公開接尾辞一覧（fetch-psl.mjs）
 
