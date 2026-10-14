@@ -40313,6 +40313,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:DonutLoader",
+      "strength": 2,
+      "target": "malware:LxBaseRAT",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 1.029,
       "shared": 36,
       "source": "malware:DonutLoader",
@@ -44837,6 +44849,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.077,
+      "shared": 1,
+      "source": "malware:LUNCHPOKE",
+      "strength": 2,
+      "target": "malware:ValleyRAT",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.2,
       "shared": 1,
       "source": "malware:LabubaRAT",
@@ -45384,6 +45408,42 @@
       "target": "malware:ValleyRAT",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:LxBaseRAT",
+      "strength": 3,
+      "target": "malware:PlugX",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:LxBaseRAT",
+      "strength": 3,
+      "target": "malware:SilkLurk",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:LxBaseRAT",
+      "strength": 2,
+      "target": "malware:XWorm",
+      "via": [
+        "family"
       ],
       "weak_only": true
     },
@@ -52016,7 +52076,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-10-13T10:02:55.513Z",
+  "generated_from": "2026-10-14T00:05:04.952Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -55139,6 +55199,12 @@
       "name": "LONGLEASH"
     },
     {
+      "id": "malware:LUNCHPOKE",
+      "ioc_count": 13,
+      "kind": "malware",
+      "name": "LUNCHPOKE"
+    },
+    {
       "id": "malware:LabubaRAT",
       "ioc_count": 5,
       "kind": "malware",
@@ -55173,6 +55239,12 @@
       "ioc_count": 45,
       "kind": "malware",
       "name": "Lunex"
+    },
+    {
+      "id": "malware:LxBaseRAT",
+      "ioc_count": 4,
+      "kind": "malware",
+      "name": "LxBaseRAT"
     },
     {
       "id": "malware:MATCHBOIL",
@@ -56184,7 +56256,7 @@
     },
     {
       "id": "malware:ValleyRAT",
-      "ioc_count": 368,
+      "ioc_count": 373,
       "kind": "malware",
       "name": "ValleyRAT"
     },
