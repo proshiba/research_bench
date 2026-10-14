@@ -209,6 +209,23 @@ export function digest(ip, body, cohort, opts = {}) {
     jp_auth_attack_report_count_90d: jpAuth.length,
     jp_scan_only_report_count_90d: jpScanOnly.length,
     jp_exploited_host_report_count_90d: jpExploited.length,
+    /**
+     * **日本の報告のカテゴリを全部数える。**`jp_vuln_category_ids` は脆弱性カテゴリ
+     * しか残さないので、DDoS(4)・フィッシング(7)・詐称(17)・詐欺(3,8)・スパム(10-12)・
+     * 不正ボット(19) が畳んだ時点で消えていた。「日本からの攻撃報告」を脆弱性より
+     * 広く数えたいときに、写しを引き直さないと答えられなくなる。
+     *
+     * `カテゴリ番号:件数` を `;` でつなぐ。番号順なので並べて比較できる。
+     * この項目が無い行は**まだ数えていない**という意味で、「該当なし」ではない。
+     */
+    jp_all_categories: (() => {
+      const m = new Map();
+      for (const r of jp) for (const c of catOf(r)) m.set(c, (m.get(c) || 0) + 1);
+      return [...m].sort((a, b) => a[0] - b[0]).map(([c, n]) => `${c}:${n}`).join(";");
+    })(),
+    /** カテゴリがひとつも付いていない日本の報告。本文だけの通報がここに入る */
+    jp_uncategorized_report_count_90d: jp.filter((r) => !catOf(r).length).length,
+    jp_all_categories_measured: true,
     jp_vuln_category_ids: vulnCats.join(";"),
     jp_vuln_category_names: vulnCats.map((c) => CATEGORIES[c] || `unknown(${c})`).join(";"),
     jp_vuln_report_ratio: jp.length ? Number((jpVuln.length / jp.length).toFixed(4)) : 0,

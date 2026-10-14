@@ -1,0 +1,344 @@
+{
+  "attack_tiers": [
+    "A1",
+    "A2",
+    "A3",
+    "A4"
+  ],
+  "blacklist_snapshot": {
+    "entries": 100000,
+    "fetched_at": "2026-10-10T01:41:57Z",
+    "generated_at": "2026-10-10T01:38:16Z"
+  },
+  "by_worst_tier": {
+    "A1 侵入・脆弱性": 2740,
+    "A2 認証突破": 2223,
+    "A4 詐欺・なりすまし": 4,
+    "A5 偵察のみ": 1514,
+    "B スパム・ボット": 22
+  },
+  "collected_through_utc": "2026-10-14T11:56:53Z",
+  "coverage": {
+    "api_failed": 0,
+    "api_ok": 9763,
+    "blacklist_entries": 100000,
+    "broken_lines": 0,
+    "checks_in_cache": 9763,
+    "jp_categories_measured": 7715,
+    "jp_categories_unmeasured": 2048,
+    "unchecked_candidates": 90237,
+    "unmeasured_with_jp_report": 1574
+  },
+  "dataset": "JP_ATTACK_SOURCES",
+  "evidence_levels": {
+    "E0": 1761,
+    "E1": 271,
+    "E2": 102,
+    "E3": 112
+  },
+  "excluded_scanner_names": {
+    "BinaryEdge": 45,
+    "Censys": 116,
+    "CriminalIP": 2,
+    "Driftnet / internet-measurement.com": 44,
+    "LeakIX": 33,
+    "Shadowserver Foundation": 139,
+    "Shodan": 24,
+    "Stretchoid": 161,
+    "ipip.net": 3,
+    "大学等の研究スキャン": 1
+  },
+  "generated_from": "写しのみ。API は呼んでいない",
+  "jp_categories": {
+    "Bad Web Bot": 838,
+    "Brute-Force": 3668,
+    "DDoS Attack": 752,
+    "Email Spam": 871,
+    "Exploited Host": 361,
+    "FTP Brute-Force": 10,
+    "Fraud VoIP": 3,
+    "Hacking": 1447,
+    "IoT Targeted": 4,
+    "Open Proxy": 57,
+    "Phishing": 3,
+    "Port Scan": 2705,
+    "SQL Injection": 120,
+    "SSH": 2303,
+    "Spoofing": 4,
+    "Web App Attack": 1199,
+    "Web Spam": 322
+  },
+  "jp_reporter_ceiling": {
+    "ips_at_90pct_of_max": 66,
+    "max_jp_reporters": 45,
+    "note": "観測者数は日本のセンサー台数で上限が決まる。狙われ度ではない",
+    "top_values": [
+      "45人:2",
+      "44人:3",
+      "43人:9",
+      "42人:10",
+      "41人:12",
+      "40人:30",
+      "39人:31",
+      "38人:34",
+      "37人:50",
+      "36人:64",
+      "35人:56",
+      "34人:36"
+    ]
+  },
+  "jp_reporter_distribution": {
+    "1": 610,
+    "2": 508,
+    "3": 496,
+    "4": 371,
+    "5+": 2414
+  },
+  "marks": {
+    "exploited_host": 361,
+    "reports_truncated": 43,
+    "research_scanner": 96,
+    "research_scanner_high": 0,
+    "tor": 28,
+    "whitelisted": 0
+  },
+  "population": {
+    "attack_tier_matched": 4967,
+    "excluded_research_scanners": 568,
+    "jp_attack_sources": 4399,
+    "jp_reported_not_attack": 1536,
+    "missed_by_global_jp_vuln": 2153,
+    "tier_judgeable": 7715,
+    "with_jp_report": 6503,
+    "with_jp_report_all_copies": 8077,
+    "with_jp_report_ratio": 0.8273
+  },
+  "threat_index": {
+    "already_present": 2,
+    "top_actors": [],
+    "with_actor": 0
+  },
+  "tier_definition": {
+    "A1": {
+      "categories": [
+        "15 Hacking",
+        "16 SQL Injection",
+        "20 Exploited Host",
+        "21 Web App Attack",
+        "23 IoT Targeted"
+      ],
+      "counted_as_attack": true,
+      "label": "侵入・脆弱性"
+    },
+    "A2": {
+      "categories": [
+        "5 FTP Brute-Force",
+        "18 Brute-Force",
+        "22 SSH"
+      ],
+      "counted_as_attack": true,
+      "label": "認証突破"
+    },
+    "A3": {
+      "categories": [
+        "4 DDoS Attack",
+        "6 Ping of Death"
+      ],
+      "counted_as_attack": true,
+      "label": "サービス妨害"
+    },
+    "A4": {
+      "categories": [
+        "3 Fraud Orders",
+        "7 Phishing",
+        "8 Fraud VoIP",
+        "17 Spoofing"
+      ],
+      "counted_as_attack": true,
+      "label": "詐欺・なりすまし"
+    },
+    "A5": {
+      "categories": [
+        "14 Port Scan"
+      ],
+      "counted_as_attack": false,
+      "label": "偵察のみ"
+    },
+    "B": {
+      "categories": [
+        "10 Web Spam",
+        "11 Email Spam",
+        "12 Blog Spam",
+        "19 Bad Web Bot"
+      ],
+      "counted_as_attack": false,
+      "label": "スパム・ボット"
+    },
+    "C": {
+      "categories": [
+        "1 DNS Compromise",
+        "2 DNS Poisoning",
+        "9 Open Proxy",
+        "13 VPN IP"
+      ],
+      "counted_as_attack": false,
+      "label": "属性・その他"
+    }
+  },
+  "top_countries": [
+    [
+      "US",
+      787
+    ],
+    [
+      "CN",
+      569
+    ],
+    [
+      "NL",
+      421
+    ],
+    [
+      "DE",
+      346
+    ],
+    [
+      "GB",
+      288
+    ],
+    [
+      "KR",
+      226
+    ],
+    [
+      "SG",
+      193
+    ],
+    [
+      "IN",
+      171
+    ],
+    [
+      "HK",
+      147
+    ],
+    [
+      "RU",
+      87
+    ],
+    [
+      "VN",
+      83
+    ],
+    [
+      "FR",
+      81
+    ],
+    [
+      "BR",
+      78
+    ],
+    [
+      "ID",
+      74
+    ],
+    [
+      "TW",
+      65
+    ]
+  ],
+  "top_isp": [
+    [
+      "Infrawatch Limited",
+      528
+    ],
+    [
+      "Microsoft Corporation",
+      199
+    ],
+    [
+      "Korea Telecom",
+      155
+    ],
+    [
+      "UCLOUD INFORMATION TECHNOLOGY (HK) LIMITED",
+      155
+    ],
+    [
+      "VPN Consumer Singapore, Republic of Singapore",
+      102
+    ],
+    [
+      "DigitalOcean, LLC",
+      88
+    ],
+    [
+      "Beijing Volcano Engine Technology Co., Ltd.",
+      84
+    ],
+    [
+      "Google LLC",
+      73
+    ],
+    [
+      "Asia Pacific Network Information Center, Pty. Ltd.",
+      68
+    ],
+    [
+      "China Mobile Communications Corporation",
+      66
+    ],
+    [
+      "Global Communication Net Plc",
+      65
+    ],
+    [
+      "Beijing Baidu Netcom Science and Technology Co., Ltd.",
+      59
+    ],
+    [
+      "Cox Communications",
+      49
+    ],
+    [
+      "Microsoft Limited",
+      46
+    ],
+    [
+      "TechTies Inc.",
+      44
+    ]
+  ],
+  "top_usage_type": [
+    [
+      "Data Center/Web Hosting/Transit",
+      2764
+    ],
+    [
+      "Fixed Line ISP",
+      1506
+    ],
+    [
+      "Mobile ISP",
+      61
+    ],
+    [
+      "University/College/School",
+      23
+    ],
+    [
+      "Commercial",
+      22
+    ],
+    [
+      "Content Delivery Network",
+      8
+    ],
+    [
+      "Government",
+      6
+    ]
+  ],
+  "unknown_categories": [],
+  "window_days": 90
+}

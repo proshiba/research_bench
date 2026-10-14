@@ -2,7 +2,11 @@
 // GLOBAL_JP_VULN — 全世界の送信元 IP のうち、**日本のレポーターが脆弱性攻撃として
 // 報告した**ものを抽出する。防御目的の受動調査のみ。
 //
-//   node build.mjs [--resume] [--blacklist-only] [--max-check N]
+//   node build.mjs [--resume] [--new-only] [--blacklist-only] [--max-check N]
+//
+// `--new-only` は**まだ一度も引いていない候補だけ**を対象にする。既定の選び方は
+// `lastReportedAt` の新しい順なので、放っておくと毎日ほぼ同じ IP を引き直して
+// バックログが前に進まない。母集団を広げたい日はこれを付ける。
 //
 // 対象 IP への接続・走査は一切行わない。AbuseIPDB の公開情報だけを見る。
 // 鍵は環境変数からのみ読み、**どこにも書き出さない**。
@@ -135,15 +139,36 @@ if (budget <= 0) { console.log("枠がありません。終了します。"); pr
 
 const cacheIdx = path.join(CACHE, "checks.jsonl");
 const cached = new Map();
+/**
+ * **一度でも引いた IP。古さを問わない。**
+ *
+ * `--new-only` のときはこれを使って候補から外す。そうしないとバックログが
+ * 前に進まない。既定の選び方は `lastReportedAt` の新しい順で上位
+ * `RECENT_CORE` 件を採るので、24 時間を過ぎた写しが「未取得」に戻った途端、
+ * **毎回ほぼ同じ IP を選び直す**。実測では写しが 16,571 行あるのに固有 IP が
+ * 9,499 件しかなく、未確認の候補 89,840 件は古い報告しか持たないため
+ * 一度も選ばれていなかった。
+ */
+const everChecked = new Set();
 if (fs.existsSync(cacheIdx)) {
   for (const line of fs.readFileSync(cacheIdx, "utf8").split("\n")) {
     if (!line.trim()) continue;
-    try { const r = JSON.parse(line); if (runStart.getTime() - new Date(r.checked_at_utc).getTime() <= CFG.CACHE_TTL_HOURS * 3600000) cached.set(r.ip_address, r); } catch { /* 壊れた行は無視 */ }
+    try {
+      const r = JSON.parse(line);
+      if (r?.ip_address) everChecked.add(r.ip_address);
+      if (runStart.getTime() - new Date(r.checked_at_utc).getTime() <= CFG.CACHE_TTL_HOURS * 3600000) cached.set(r.ip_address, r);
+    } catch { /* 壊れた行は無視 */ }
   }
-  console.log(`24時間以内の有効キャッシュ ${cached.size} 件（再取得しません）`);
+  console.log(`24時間以内の有効キャッシュ ${cached.size} 件（再取得しません）`
+    + ` / 一度でも引いた IP ${everChecked.size} 件`);
 }
 
-const fresh = eligible.filter((e) => !cached.has(e.ip));
+/** `--new-only`: まだ一度も引いていない候補だけを対象にする（バックログを前進させる） */
+const NEW_ONLY = has("--new-only");
+const fresh = eligible.filter((e) => !cached.has(e.ip) && (!NEW_ONLY || !everChecked.has(e.ip)));
+if (NEW_ONLY) {
+  console.log(`--new-only: まだ引いていない候補 ${fresh.length} 件だけを対象にします`);
+}
 const byRecent = [...fresh].sort((a, b) => String(b.last).localeCompare(String(a.last)));
 let selected = [];
 if (byRecent.length <= budget) {
