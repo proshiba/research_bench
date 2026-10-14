@@ -283,6 +283,88 @@ const summary = {
     }];
   })),
 };
+/**
+ * **VT が最近初めて見た IP が規則的な格子に乗っていないか。**
+ *
+ * 実測（2026-10-14）: 2026-09 以降に初見の 15 件が、ホスト番号
+ * {30,31,32} ∪ {62,63,64} ∪ {94,95,96}（起点 30・間隔 32・長さ 3）に
+ * **15/15 すべて乗った**。125 個から 15 個を選んで特定の 9 個組に全部入る
+ * 確率は無視できる大きさなので、これは偶然ではなく**機械が割り当てた形**である。
+ *
+ * ただし `first_seen_date` は「VT がその IP の項目を初めて作った日」であって、
+ * **その IP が動き出した日とは限らない**。誰かがまとめて照会しただけでも同じ日付になる。
+ * 形が機械的であることは言えるが、原因が配備なのか他人の照会なのかは決められない。
+ */
+const freshness = (() => {
+  const host = (ip) => Number(ip.split(".")[3]);
+  const cut = "2026-09";
+  const fresh = rows.filter((r) => r.vt_first_seen && r.vt_first_seen.slice(0, 7) >= cut);
+  // 起点と間隔は決め打ちせず、初見が新しいホスト番号から素直に拾う
+  const nums = uniq(fresh.map((r) => host(r.ip_address))).sort((a, b) => a - b);
+  const steps = {};
+  for (let i = 1; i < nums.length; i++) {
+    const d = nums[i] - nums[i - 1];
+    if (d > 1) steps[d] = (steps[d] || 0) + 1;
+  }
+  const lattice = uniq(nums).sort((a, b) => a - b);
+  return {
+    threshold_month: cut,
+    ips: fresh.length,
+    by_date: Object.fromEntries(tally(fresh, (r) => r.vt_first_seen.slice(0, 10))),
+    host_numbers: lattice,
+    gaps_above_1: steps,
+    /** 格子上のホスト番号なのに初見が古いもの。多いと「格子」の主張が弱くなる */
+    same_host_numbers_but_old: rows
+      .filter((r) => lattice.includes(host(r.ip_address))
+        && r.vt_first_seen && r.vt_first_seen.slice(0, 7) < cut)
+      .map((r) => `${r.ip_address}(${r.vt_first_seen.slice(0, 10)})`).sort(),
+    with_detection: fresh.filter((r) => Number(r.vt_malicious) + Number(r.vt_suspicious) > 0).length,
+    with_certificate: fresh.filter((r) => r.cert_issuer).length,
+    caveat: "first_seen は VT が項目を作った日。IP が動き出した日とは限らない",
+  };
+})();
+summary.vt_freshness = freshness;
+
+/**
+ * 検知を出したエンジンの内訳。**最大 malicious が 2 なら、それは証拠ではなく feed の癖**。
+ * どのエンジンが何件出したかを残して、読む側が外して数え直せるようにする。
+ */
+summary.vt_detection_engines = (() => {
+  const eng = new Map();
+  for (const [ip, v] of vt) {
+    const res = v?.body?.attributes?.last_analysis_results || {};
+    for (const [name, r] of Object.entries(res)) {
+      if (r.category !== "malicious" && r.category !== "suspicious") continue;
+      const k = `${name} [${r.category}${r.result && r.result !== r.category ? "/" + r.result : ""}]`;
+      eng.set(k, (eng.get(k) || 0) + 1);
+    }
+  }
+  return Object.fromEntries([...eng].sort((a, b) => (b[1] - a[1]) || (a[0] < b[0] ? -1 : 1)));
+})();
+
+/** 証明書の CN と SAN。前回の ARTEX は発行者文字列から見つかったので、形を残す */
+summary.certificates = (() => {
+  const out = [];
+  for (const r of rows) {
+    if (!r.cert_issuer && !r.cert_subject_cn) continue;
+    out.push({
+      ip: r.ip_address, issuer: r.cert_issuer, cn: r.cert_subject_cn,
+      not_after: r.cert_not_after, sans: r.cert_sans,
+    });
+  }
+  out.sort((a, b) => ipNum(a.ip) - ipNum(b.ip));
+  const cn = new Map();
+  for (const c of out) if (c.cn) cn.set(c.cn, (cn.get(c.cn) || 0) + 1);
+  return {
+    count: out.length,
+    /** 期限切れが多いなら、それは**今動いているもの**ではなく過去の用途の痕跡 */
+    expired_before_collection: out.filter((c) => c.not_after && new Date(c.not_after).getTime() < NOW).length,
+    distinct_cn: cn.size,
+    by_cn: Object.fromEntries([...cn].sort((a, b) => (b[1] - a[1]) || (a[0] < b[0] ? -1 : 1))),
+    rows: out,
+  };
+})();
+
 const stable = (v) => JSON.stringify(v, (k, x) =>
   (x && typeof x === "object" && !Array.isArray(x)
     ? Object.fromEntries(Object.entries(x).sort(([a], [b]) => (a < b ? -1 : 1)))
