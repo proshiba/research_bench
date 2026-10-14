@@ -20,6 +20,21 @@ export const VULN_ANY = new Set([...STRICT_VULN, ...BROAD_VULN]);
 export const AUTH_ATTACK = new Set([5, 18, 22]);    // 認証総当たり。別種として分ける
 export const SCAN_ONLY = new Set([14]);
 export const EXPLOITED_HOST = 20;                   // 技法ではなく「送信元が侵害されている」補助情報
+export const DOS = new Set([4, 6]);                 // DDoS / Ping of Death
+export const FRAUD = new Set([3, 7, 8, 17]);        // 詐欺注文 / フィッシング / VoIP詐欺 / 詐称
+/**
+ * **「攻撃」として数えるカテゴリ。ここが正。**
+ *
+ * 走査のみ(14)・スパム(10,11,12,19)・属性(1,2,9,13) は入れない。
+ * **VPN を使っていることは攻撃ではない。** まとめて「通報あり」と数えると
+ * VPN 利用者が攻撃元の一覧に入る。
+ *
+ * `jp-attack-sources/tiers.mjs` の A1〜A4 はこれと一致していなければならない
+ * （あちらの validate.mjs が毎回突き合わせる）。
+ */
+export const ATTACK_CATEGORIES = new Set([
+  ...STRICT_VULN, ...BROAD_VULN, EXPLOITED_HOST, ...AUTH_ATTACK, ...DOS, ...FRAUD,
+]);
 
 /* ---------------- 小物 ---------------- */
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -226,6 +241,31 @@ export function digest(ip, body, cohort, opts = {}) {
     /** カテゴリがひとつも付いていない日本の報告。本文だけの通報がここに入る */
     jp_uncategorized_report_count_90d: jp.filter((r) => !catOf(r).length).length,
     jp_all_categories_measured: true,
+    /**
+     * **短い窓での日本の報告件数。**
+     *
+     * `jp_report_count_90d` と `latest_jp_reported_at_90d` だけでは
+     * 「**過去 30 日以内に 2 件以上**」のような条件が計算できない。
+     * 最新の 1 件が 30 日以内かどうかは分かるが、件数は分からないからである。
+     *
+     * 報告 1 件ずつに `reportedAt` が付いているので、**同じ 1 回の取得から
+     * 7 日・30 日の数も出せる**。API 呼び出しは増えない。
+     * 窓の終わりは `checkedAt`（写しの取得時刻）に合わせる。
+     */
+    ...(() => {
+      const end = checkedAt ? new Date(checkedAt).getTime() : Date.now();
+      const out = {};
+      for (const d of [7, 30]) {
+        const from = end - d * 86400000;
+        const inWin = jp.filter((r) => r.reportedAt && new Date(r.reportedAt).getTime() >= from);
+        out[`jp_report_count_${d}d`] = inWin.length;
+        out[`jp_distinct_reporters_${d}d`] = distinct(inWin);
+        out[`jp_attack_report_count_${d}d`] = inWin.filter((r) => hasAny(r, ATTACK_CATEGORIES)).length;
+        out[`jp_vuln_report_count_${d}d`] = inWin.filter((r) => hasAny(r, VULN_ANY)).length;
+      }
+      return out;
+    })(),
+    jp_short_windows_measured: true,
     jp_vuln_category_ids: vulnCats.join(";"),
     jp_vuln_category_names: vulnCats.map((c) => CATEGORIES[c] || `unknown(${c})`).join(";"),
     jp_vuln_report_ratio: jp.length ? Number((jpVuln.length / jp.length).toFixed(4)) : 0,

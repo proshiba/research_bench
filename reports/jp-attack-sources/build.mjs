@@ -97,18 +97,42 @@ for (const l of readJsonl("links.jsonl")) {
 /* ================= 1 IP ずつ ================= */
 
 /**
- * **分母を 2 段に分ける。**
+ * **標準の窓は 30 日。**90 日は文脈として併記するだけ。
  *
- * `jp_report_count_90d` は古い畳み方にも入っているので、「日本からの報告があるか」は
- * **写し全件で数えられる**。一方 `jp_all_categories` は新しい畳み方にしか無いので、
- * **段の内訳は引き直した写しに限られる**。
+ * 90 日窓は緩すぎた。索引側の生の写しでの実測では、日本からの報告がある IP は
+ * 365 日 139 件 → 90 日 55 件 → **30 日 31 件** → 7 日 8 件 と落ちる。
+ * `176.65.139.31` は 90 日で 46 件あるが **30 日では 0 件**で、
+ * 90 日で数えると「もう止まっている送信元」が現役として並ぶ。
  *
- * この 2 つを同じ分母で語ると、引き直していない IP を「攻撃ではない」に数えてしまう。
+ * ## 分母を 3 段に分ける
+ *
+ * 畳み方を 2 回直しているので、写しには 3 世代が混ざる。
+ * **引き直していない IP を「該当なし」に数えてはいけない。**
+ *
+ *   1. `jp_short_windows_measured` あり → **30 日の件数が正確に出る**
+ *   2. `jp_all_categories_measured` だけ → 90 日の段は分かるが 30 日の件数は不明。
+ *      ただし `latest_jp_reported_at_90d` から「**30 日以内に 1 件以上あるか**」は言える。
+ *      「2 件以上」は言えない
+ *   3. どちらも無い → 90 日の件数しか無い
  */
+const PRIMARY_DAYS = CFG.PRIMARY_WINDOW_DAYS;
+const tsOfStr = (s) => (s ? new Date(s).getTime() : 0);
+const SINCE_PRIMARY = NOW - PRIMARY_DAYS * 86400000;
+/** 30 日の件数が正確に出るもの */
+const exact30 = ok.filter((r) => r.jp_short_windows_measured);
+/** 段は分かるが 30 日の件数が無いもの */
+const tierOnly = ok.filter((r) => !r.jp_short_windows_measured && r.jp_all_categories_measured);
 const measured = ok.filter((r) => r.jp_all_categories_measured);
 const unmeasured = ok.filter((r) => !r.jp_all_categories_measured);
-/** 写し全件での「日本からの報告あり」。段の判定はできないが件数は言える */
+/** 写し全件での「日本からの報告あり（90 日）」。文脈用 */
 const jpAnyAll = ok.filter((r) => (r.jp_report_count_90d || 0) > 0);
+/**
+ * **30 日以内に日本からの報告が 1 件以上あるか。**
+ * 正確な件数がある行はそれを使い、無い行は最新日時から推定する（1 件以上のみ）。
+ */
+const hasJp30 = (r) => (r.jp_short_windows_measured
+  ? (r.jp_report_count_30d || 0) > 0
+  : tsOfStr(r.latest_jp_reported_at_90d) >= SINCE_PRIMARY);
 /** 段まで判定できるもの。以降の行はここからしか作らない */
 const jpAny = measured.filter((r) => (r.jp_report_count_90d || 0) > 0);
 
@@ -125,7 +149,20 @@ for (const r of jpAny) {
     is_jp_attack_source: attack,
     worst_tier: worst,
     worst_tier_label: worst ? TIERS[worst].label : "",
-    /* ---- 日本の報告 ---- */
+    /* ---- 標準の窓（30 日） ---- */
+    /**
+     * `counted` = 報告 1 件ずつの日時から数えた正確な値。
+     * `latest_only` = 最新日時からの推定。**「1 件以上」しか言えない。**
+     */
+    jp_30d_method: r.jp_short_windows_measured ? "counted" : "latest_only",
+    jp_has_report_30d: hasJp30(r),
+    jp_report_count_30d: r.jp_short_windows_measured ? (r.jp_report_count_30d ?? 0) : "",
+    jp_distinct_reporters_30d: r.jp_short_windows_measured ? (r.jp_distinct_reporters_30d ?? 0) : "",
+    jp_attack_report_count_30d: r.jp_short_windows_measured ? (r.jp_attack_report_count_30d ?? 0) : "",
+    jp_vuln_report_count_30d: r.jp_short_windows_measured ? (r.jp_vuln_report_count_30d ?? 0) : "",
+    jp_report_count_7d: r.jp_short_windows_measured ? (r.jp_report_count_7d ?? 0) : "",
+    jp_attack_report_count_7d: r.jp_short_windows_measured ? (r.jp_attack_report_count_7d ?? 0) : "",
+    /* ---- 文脈（90 日） ---- */
     jp_report_count_90d: r.jp_report_count_90d ?? 0,
     jp_distinct_reporters_90d: r.jp_distinct_reporters_90d ?? 0,
     latest_jp_reported_at_90d: r.latest_jp_reported_at_90d || "",
@@ -247,11 +284,48 @@ const scanners = allAttacks.filter((r) => r.research_scanner_confidence === "hig
 const attacks = allAttacks.filter((r) => r.research_scanner_confidence !== "high");
 const nonAttacks = rows.filter((r) => !r.is_jp_attack_source);
 const missed = attacks.filter((r) => r.missed_by_global_jp_vuln);
+
+/**
+ * **30 日窓で言い切れるものと、言い切れないものを分ける。**
+ *
+ * `counted` の行は「30 日以内に攻撃報告が N 件」を正確に言える。
+ * `latest_only` の行は「30 日以内に日本から報告が 1 件以上あった」ことと
+ * 「90 日のどこかに攻撃カテゴリがある」ことしか言えず、
+ * **その攻撃報告が 30 日以内だったかは分からない**。混ぜると嘘になる。
+ */
+const confirmed30 = attacks.filter((r) => r.jp_30d_method === "counted"
+  && Number(r.jp_attack_report_count_30d) > 0);
+const pending30 = attacks.filter((r) => r.jp_30d_method === "latest_only" && r.jp_has_report_30d);
+/**
+ * **引き直したら「30 日以内の報告は攻撃ではなかった」と分かった行。**
+ *
+ * 90 日の段では A1〜A4 に当たるのに、30 日以内の日本の報告は走査・スパム・属性
+ * しか無い。**攻撃は 30 日より前に止まっている**という意味で、
+ * 「窓の外」とも「確定」とも違う。混ぜると件数が合わなくなる（検査が見つけた）。
+ */
+const nonAttack30 = attacks.filter((r) => r.jp_30d_method === "counted"
+  && r.jp_has_report_30d && Number(r.jp_attack_report_count_30d) === 0);
+const stale30 = attacks.filter((r) => !r.jp_has_report_30d);
+
+writeCsv("jp_attack_sources_30d_confirmed.csv", confirmed30);
+writeCsv("jp_attack_sources_30d_pending_refetch.csv", pending30);
+writeCsv("jp_attack_sources_30d_not_attack.csv", nonAttack30);
+writeCsv("jp_attack_sources_90d_only.csv", stale30);
 writeCsv("jp_attack_sources_all.csv", attacks);
 writeCsv("jp_attack_sources_tier_a1.csv", attacks.filter((r) => r.worst_tier === "A1"));
 writeCsv("jp_attack_sources_missed_by_vuln_cut.csv", missed);
 writeCsv("jp_attack_sources_excluded_scanners.csv", scanners);
 writeCsv("jp_reported_not_attack.csv", nonAttacks);
+
+/** 「30 日以内に N 件以上」の段ごとの件数。**counted の行だけが分母** */
+const thresholds = (() => {
+  const out = {};
+  for (const n of [1, 2, 3, 5, 10]) {
+    out[`attack_reports_ge_${n}`] = confirmed30.filter((r) => Number(r.jp_attack_report_count_30d) >= n).length;
+    out[`reporters_ge_${n}`] = confirmed30.filter((r) => Number(r.jp_distinct_reporters_30d) >= n).length;
+  }
+  return out;
+})();
 
 const tally = (rs, f) => {
   const m = new Map();
@@ -293,6 +367,25 @@ const summary = {
     excluded_research_scanners: scanners.length,
     jp_reported_not_attack: nonAttacks.length,
     missed_by_global_jp_vuln: missed.length,
+  },
+  /** **標準の窓（30 日）で何が言えるか** */
+  primary_window: {
+    days: PRIMARY_DAYS,
+    since_utc: iso(new Date(SINCE_PRIMARY)),
+    confirmed: confirmed30.length,
+    pending_refetch: pending30.length,
+    reported_but_not_attack_in_window: nonAttack30.length,
+    no_jp_report_in_window: stale30.length,
+    note: "pending_refetch は 30 日以内に日本からの報告があるが、"
+      + "その報告が攻撃カテゴリだったかは引き直さないと分からない",
+  },
+  /** 「30 日以内に N 件以上」。**分母は confirmed の行だけ** */
+  thresholds_30d: { denominator: confirmed30.length, ...thresholds },
+  /** 畳み方の世代。引き直していない IP を「該当なし」に数えないための分母 */
+  digest_generations: {
+    short_windows_measured: exact30.length,
+    tier_only: tierOnly.length,
+    legacy_90d_only: unmeasured.length,
   },
   jp_reporter_ceiling: reporterCeiling,
   excluded_scanner_names: Object.fromEntries(tally(scanners, (r) => r.research_scanner_name)),

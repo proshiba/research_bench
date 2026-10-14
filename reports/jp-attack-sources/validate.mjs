@@ -136,6 +136,58 @@ check(attacks.every((r) => num(r.jp_vuln_report_count_90d) <= num(r.jp_report_co
 check(!S.unknown_categories.length, "どの段にも入らないカテゴリが出ていない",
   S.unknown_categories.join(","));
 
+console.log("\n== 標準の窓（30 日）");
+const P = S.primary_window;
+const TH = S.thresholds_30d;
+const C30 = read("jp_attack_sources_30d_confirmed.csv");
+const PEND = read("jp_attack_sources_30d_pending_refetch.csv");
+const NA30 = read("jp_attack_sources_30d_not_attack.csv");
+const STALE = read("jp_attack_sources_90d_only.csv");
+check(P.days === CFG.PRIMARY_WINDOW_DAYS, "標準の窓が設定と一致", `${P.days} / ${CFG.PRIMARY_WINDOW_DAYS}`);
+check(C30.rows.length === P.confirmed, "確定 CSV の行数が summary と一致");
+check(PEND.rows.length === P.pending_refetch, "引き直し待ち CSV の行数が一致");
+check(STALE.rows.length === P.no_jp_report_in_window, "窓の外 CSV の行数が一致");
+check(NA30.rows.length === P.reported_but_not_attack_in_window,
+  "窓内だが攻撃でない CSV の行数が一致");
+check(C30.rows.length + PEND.rows.length + NA30.rows.length + STALE.rows.length === attacks.length,
+  "確定 + 待ち + 窓内だが攻撃でない + 窓の外 = 主対象（**どれも捨てていない**）",
+  `${C30.rows.length} + ${PEND.rows.length} + ${NA30.rows.length} + ${STALE.rows.length} / ${attacks.length}`);
+check(NA30.rows.every((r) => r.jp_30d_method === "counted" && num(r.jp_attack_report_count_30d) === 0
+  && r.jp_has_report_30d === "true"),
+  "窓内だが攻撃でない行は、数えてあり・攻撃 0 件・窓内に報告ありのすべてを満たす");
+check(C30.rows.every((r) => r.jp_30d_method === "counted"),
+  "**確定 CSV は全行が counted**（推定を混ぜていない）");
+check(C30.rows.every((r) => num(r.jp_attack_report_count_30d) > 0),
+  "確定 CSV は全行が 30 日以内の攻撃報告 1 件以上");
+check(PEND.rows.every((r) => r.jp_30d_method === "latest_only"),
+  "引き直し待ちは全行が latest_only");
+check(PEND.rows.every((r) => r.jp_report_count_30d === ""),
+  "**引き直し待ちの 30 日件数は空欄**（0 と書いて負に数えていない）");
+check(TH.denominator === C30.rows.length, "しきい値の分母が確定 CSV の行数と一致");
+// しきい値は単調減少でなければならない
+let mono = true;
+const ns = [1, 2, 3, 5, 10];
+for (let i = 1; i < ns.length; i++) {
+  if (TH[`attack_reports_ge_${ns[i]}`] > TH[`attack_reports_ge_${ns[i - 1]}`]) { mono = false; break; }
+  if (TH[`reporters_ge_${ns[i]}`] > TH[`reporters_ge_${ns[i - 1]}`]) { mono = false; break; }
+}
+check(mono, "しきい値が単調に減っている（N 件以上は N+1 件以上を含む）");
+check(TH.attack_reports_ge_1 === C30.rows.length, "1 件以上 = 確定 CSV の全行");
+// 30 日 <= 90 日
+check(C30.rows.every((r) => num(r.jp_report_count_30d) <= num(r.jp_report_count_90d)),
+  "30 日の日本の報告 <= 90 日の日本の報告");
+check(C30.rows.every((r) => num(r.jp_report_count_7d) <= num(r.jp_report_count_30d)),
+  "7 日 <= 30 日");
+check(C30.rows.every((r) => num(r.jp_attack_report_count_30d) <= num(r.jp_report_count_30d)),
+  "30 日の攻撃報告 <= 30 日の報告");
+check(S.digest_generations.short_windows_measured >= attacks.filter((r) => r.jp_30d_method === "counted").length,
+  "30 日を数えた写しの数が、主対象のうち counted な行の数以上");
+check(/標準の窓は/.test(md) && /30 日/.test(md), "レポートが標準の窓を書いている");
+check(/引き直していない IP を「該当なし」に数えてはいけない/.test(md),
+  "**未測定を該当なしに数えない方針を書いている**");
+check(/母集団そのものが絞られています/.test(md),
+  "**83% の主因が母集団の選び方であることを書いている**");
+
 console.log("\n== 観測者数の天井（上位の意味を決める）");
 const C = S.jp_reporter_ceiling;
 const maxSeen = Math.max(0, ...attacks.concat(SC.rows).map((r) => num(r.jp_distinct_reporters_90d)));

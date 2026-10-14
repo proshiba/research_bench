@@ -17,7 +17,7 @@
     "A5 偵察のみ": 1514,
     "B スパム・ボット": 22
   },
-  "collected_through_utc": "2026-10-14T11:56:53Z",
+  "collected_through_utc": "2026-10-14T13:17:59Z",
   "coverage": {
     "api_failed": 0,
     "api_ok": 9763,
@@ -30,9 +30,14 @@
     "unmeasured_with_jp_report": 1574
   },
   "dataset": "JP_ATTACK_SOURCES",
+  "digest_generations": {
+    "legacy_90d_only": 2048,
+    "short_windows_measured": 400,
+    "tier_only": 7315
+  },
   "evidence_levels": {
     "E0": 1761,
-    "E1": 271,
+    "E1": 270,
     "E2": 102,
     "E3": 112
   },
@@ -43,21 +48,21 @@
     "Driftnet / internet-measurement.com": 44,
     "LeakIX": 33,
     "Shadowserver Foundation": 139,
-    "Shodan": 24,
+    "Shodan": 25,
     "Stretchoid": 161,
     "ipip.net": 3,
     "大学等の研究スキャン": 1
   },
   "generated_from": "写しのみ。API は呼んでいない",
   "jp_categories": {
-    "Bad Web Bot": 838,
-    "Brute-Force": 3668,
-    "DDoS Attack": 752,
-    "Email Spam": 871,
+    "Bad Web Bot": 837,
+    "Brute-Force": 3667,
+    "DDoS Attack": 751,
+    "Email Spam": 870,
     "Exploited Host": 361,
     "FTP Brute-Force": 10,
     "Fraud VoIP": 3,
-    "Hacking": 1447,
+    "Hacking": 1446,
     "IoT Targeted": 4,
     "Open Proxy": 57,
     "Phishing": 3,
@@ -65,8 +70,8 @@
     "SQL Injection": 120,
     "SSH": 2303,
     "Spoofing": 4,
-    "Web App Attack": 1199,
-    "Web Spam": 322
+    "Web App Attack": 1198,
+    "Web Spam": 321
   },
   "jp_reporter_ceiling": {
     "ips_at_90pct_of_max": 66,
@@ -91,7 +96,7 @@
     "1": 610,
     "2": 508,
     "3": 496,
-    "4": 371,
+    "4": 370,
     "5+": 2414
   },
   "marks": {
@@ -104,8 +109,8 @@
   },
   "population": {
     "attack_tier_matched": 4967,
-    "excluded_research_scanners": 568,
-    "jp_attack_sources": 4399,
+    "excluded_research_scanners": 569,
+    "jp_attack_sources": 4398,
     "jp_reported_not_attack": 1536,
     "missed_by_global_jp_vuln": 2153,
     "tier_judgeable": 7715,
@@ -113,10 +118,32 @@
     "with_jp_report_all_copies": 8077,
     "with_jp_report_ratio": 0.8273
   },
+  "primary_window": {
+    "confirmed": 356,
+    "days": 30,
+    "no_jp_report_in_window": 405,
+    "note": "pending_refetch は 30 日以内に日本からの報告があるが、その報告が攻撃カテゴリだったかは引き直さないと分からない",
+    "pending_refetch": 3628,
+    "reported_but_not_attack_in_window": 9,
+    "since_utc": "2026-09-14T13:17:59Z"
+  },
   "threat_index": {
     "already_present": 2,
     "top_actors": [],
     "with_actor": 0
+  },
+  "thresholds_30d": {
+    "attack_reports_ge_1": 356,
+    "attack_reports_ge_10": 109,
+    "attack_reports_ge_2": 307,
+    "attack_reports_ge_3": 207,
+    "attack_reports_ge_5": 156,
+    "denominator": 356,
+    "reporters_ge_1": 356,
+    "reporters_ge_10": 51,
+    "reporters_ge_2": 261,
+    "reporters_ge_3": 208,
+    "reporters_ge_5": 137
   },
   "tier_definition": {
     "A1": {
@@ -196,7 +223,7 @@
     ],
     [
       "NL",
-      421
+      420
     ],
     [
       "DE",
@@ -312,7 +339,7 @@
   "top_usage_type": [
     [
       "Data Center/Web Hosting/Transit",
-      2764
+      2763
     ],
     [
       "Fixed Line ISP",
@@ -339,6 +366,5 @@
       6
     ]
   ],
-  "unknown_categories": [],
-  "window_days": 90
+  "unknown_categories": []
 }
