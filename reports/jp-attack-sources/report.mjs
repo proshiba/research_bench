@@ -58,7 +58,57 @@ L.push("**365 日 139 件 → 90 日 55 件 → 30 日 31 件 → 7 日 8 件** 
 L.push(code("176.65.139.31") + " は 90 日で 46 件ありますが **30 日では 0 件**で、");
 L.push("90 日で数えると「もう止まっている送信元」が現役として並びます。", "");
 L.push("窓の開始: " + P.since_utc, "");
-L.push("### 過去 " + P.days + " 日以内の日本からの攻撃報告", "");
+/* ---- マルチ / シングル ---- */
+const RC = S.report_class_30d;
+const multi = read("jp_30d_multi_report.csv");
+const single = read("jp_30d_single_report.csv");
+L.push("### 過去 " + P.days + " 日以内の日本からの攻撃報告 — マルチ / シングル", "");
+L.push(T(["区分", "条件", "件数", "読み方"], [
+  ["**マルチレポート**", P.days + "日以内に **2 件以上**", "**" + RC.multi + "**",
+    "**別々の機会、または別々の観測者から見えている**"],
+  ["**シングルレポート**", P.days + "日以内に **1 件**", "**" + RC.single + "**",
+    "1 回しか見えていない。その 1 件の事情に依存する"],
+  ["窓内に攻撃報告なし", "0 件", String(RC.none_in_window),
+    "90 日には攻撃報告があるが、" + P.days + "日以内には無い"],
+  ["判定不能", "件数が不明", String(RC.undecidable),
+    "**引き直していないので分からない。0 ではない**"],
+]), "");
+L.push("CSV は " + code("jp_30d_multi_report.csv") + " と " + code("jp_30d_single_report.csv") + " です。", "");
+L.push("#### マルチのうち、観測者も 2 人以上いるか", "");
+L.push("**同じ 1 人が 2 回通報しただけ**なら、複数の観測者から見えているのとは意味が違います。", "");
+L.push(T(["区分", "件数"], [
+  ["観測者も **2 人以上**", "**" + RC.multi_with_2plus_reporters + "**"],
+  ["観測者は 1 人（同一観測者の複数回）", String(RC.multi_single_reporter_only)],
+]), "");
+if (Object.keys(RC.multi_by_tier).length) {
+  L.push("#### 段ごと", "");
+  L.push(T(["最も重い段", "マルチ", "シングル"],
+    [...new Set([...Object.keys(RC.multi_by_tier), ...Object.keys(RC.single_by_tier)])].sort()
+      .map((k) => [k, String(RC.multi_by_tier[k] || 0), String(RC.single_by_tier[k] || 0)])), "");
+}
+if (multi.length) {
+  const top = multi.slice(0, 40);
+  L.push("#### マルチレポートの上位 " + top.length + " 件", "");
+  L.push("並びは**段の重さ → 証拠の具体性**です。観測者数の多い順ではありません（§4 の理由）。", "");
+  L.push(T(["#", "IP", "段", P.days + "日の攻撃報告", "観測者", "証拠", "最新", "印", "国", "ISP"],
+    top.map((r, i) => [String(i + 1), code(r.ip_address), r.worst_tier,
+      "**" + r.jp_attack_report_count_30d + "**", r.jp_distinct_reporters_30d,
+      r.evidence_level_max === "" ? "—" : "E" + r.evidence_level_max,
+      (r.latest_jp_reported_at_90d || "").slice(0, 10),
+      [r.is_tor === "true" ? "**Tor**" : "", r.research_scanner_flag === "true" ? "走査器" : ""]
+        .filter(Boolean).join(" ") || "—",
+      r.ip_country_code, safe(r.isp, 24)])), "");
+}
+if (single.length) {
+  const top = single.slice(0, 20);
+  L.push("#### シングルレポートの上位 " + top.length + " 件", "");
+  L.push("**1 件しか見えていません。**その 1 件の観測環境に固有の事情である可能性が残ります。", "");
+  L.push(T(["#", "IP", "段", "証拠", "最新", "国", "ISP"],
+    top.map((r, i) => [String(i + 1), code(r.ip_address), r.worst_tier,
+      r.evidence_level_max === "" ? "—" : "E" + r.evidence_level_max,
+      (r.latest_jp_reported_at_90d || "").slice(0, 10), r.ip_country_code, safe(r.isp, 24)])), "");
+}
+L.push("### しきい値ごとの件数", "");
 L.push("**分母は " + TH.denominator + " 件**（報告 1 件ずつの日時から正確に数えられた行だけ）。", "");
 L.push(T(["条件", "IP 数", "観測者で見た場合"],
   [1, 2, 3, 5, 10].map((n) => [

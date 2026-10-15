@@ -188,6 +188,41 @@ check(/引き直していない IP を「該当なし」に数えてはいけな
 check(/母集団そのものが絞られています/.test(md),
   "**83% の主因が母集団の選び方であることを書いている**");
 
+console.log("\n== マルチ / シングルの区分");
+const RC = S.report_class_30d;
+const MULTI = read("jp_30d_multi_report.csv");
+const SINGLE = read("jp_30d_single_report.csv");
+check(MULTI.rows.length === RC.multi, "マルチ CSV の行数が summary と一致",
+  `${MULTI.rows.length} / ${RC.multi}`);
+check(SINGLE.rows.length === RC.single, "シングル CSV の行数が一致");
+check(MULTI.rows.length + SINGLE.rows.length === C30.rows.length,
+  "マルチ + シングル = 30日確定（**取りこぼしが無い**）",
+  `${MULTI.rows.length} + ${SINGLE.rows.length} / ${C30.rows.length}`);
+check(MULTI.rows.every((r) => num(r.jp_attack_report_count_30d) >= 2),
+  "**マルチは全行が 2 件以上**");
+check(SINGLE.rows.every((r) => num(r.jp_attack_report_count_30d) === 1),
+  "**シングルは全行がちょうど 1 件**");
+check(MULTI.rows.every((r) => r.jp_report_class_30d === "マルチレポート"),
+  "マルチ CSV の区分列が一致");
+check(SINGLE.rows.every((r) => r.jp_report_class_30d === "シングルレポート"),
+  "シングル CSV の区分列が一致");
+check(!MULTI.rows.some((r) => SINGLE.rows.some((x) => x.ip_address === r.ip_address)),
+  "マルチとシングルに同じ IP が無い");
+check(PEND.rows.every((r) => r.jp_report_class_30d === "判定不能"),
+  "**引き直し待ちは「判定不能」**（シングルや「なし」に落としていない）");
+check(RC.multi_with_2plus_reporters + RC.multi_single_reporter_only === RC.multi,
+  "マルチの観測者 2 人以上 + 1 人 = マルチ全体");
+check(RC.multi_with_2plus_reporters === MULTI.rows.filter((r) => num(r.jp_distinct_reporters_30d) >= 2).length,
+  "観測者 2 人以上の数が CSV と一致");
+check(RC.multi === TH.attack_reports_ge_2, "マルチの数が「2 件以上」のしきい値と一致",
+  `${RC.multi} / ${TH.attack_reports_ge_2}`);
+check(RC.multi + RC.single === TH.attack_reports_ge_1,
+  "マルチ + シングル = 「1 件以上」のしきい値");
+check(/マルチレポート/.test(md) && /シングルレポート/.test(md),
+  "レポートにマルチ・シングルの区分が書かれている");
+check(/引き直していないので分からない/.test(md),
+  "**判定不能を 0 と書いていないことがレポートに明記されている**");
+
 console.log("\n== 観測者数の天井（上位の意味を決める）");
 const C = S.jp_reporter_ceiling;
 const maxSeen = Math.max(0, ...attacks.concat(SC.rows).map((r) => num(r.jp_distinct_reporters_90d)));

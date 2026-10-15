@@ -2,7 +2,8 @@
 // GLOBAL_JP_VULN — 全世界の送信元 IP のうち、**日本のレポーターが脆弱性攻撃として
 // 報告した**ものを抽出する。防御目的の受動調査のみ。
 //
-//   node build.mjs [--resume] [--new-only] [--blacklist-only] [--max-check N]
+//   node build.mjs [--resume] [--new-only] [--skip-checked-within N]
+//                  [--refresh-blacklist] [--blacklist-only] [--max-check N]
 //
 // `--new-only` は**まだ一度も引いていない候補だけ**を対象にする。既定の選び方は
 // `lastReportedAt` の新しい順なので、放っておくと毎日ほぼ同じ IP を引き直して
@@ -92,12 +93,20 @@ const STATE_FILE = path.join(HERE, "state.json");
 let snap;
 const snapFile = path.join(CACHE, "blacklist-snapshot.json");
 const rawFile = path.join(CACHE, "blacklist-raw.json");
-if ((has("--resume") || fs.existsSync(snapFile)) && fs.existsSync(snapFile)) {
+/**
+ * `--refresh-blacklist`: 写しを無視して Blacklist を引き直す。
+ *
+ * 候補の条件が「`lastReportedAt` が 30 日以内」なので、**写しが古いとその 30 日も
+ * 古くなる**。5 日前の写しを使うと、実質 35 日前までの IP が候補に入る。
+ * 30 日窓で答えたい日はこれを付ける（`/blacklist` の枠は 1 日 100 回）。
+ */
+const REFRESH_BL = has("--refresh-blacklist");
+if (!REFRESH_BL && (has("--resume") || fs.existsSync(snapFile)) && fs.existsSync(snapFile)) {
   snap = JSON.parse(fs.readFileSync(snapFile, "utf8"));
   console.log(`既存スナップショットを使います（${snap.entries.length} 件 / 生成 ${snap.generatedAt}）`);
 } else {
   let body;
-  if (fs.existsSync(rawFile)) {
+  if (!REFRESH_BL && fs.existsSync(rawFile)) {
     body = JSON.parse(fs.readFileSync(rawFile, "utf8"));
     console.log("取得済みの Blacklist 生データを使います");
   } else {
@@ -150,12 +159,20 @@ const cached = new Map();
  * 一度も選ばれていなかった。
  */
 const everChecked = new Set();
+/** IP ごとの**最後に引いた時刻**。`--skip-checked-within` が使う */
+const recentByIp = new Map();
 if (fs.existsSync(cacheIdx)) {
   for (const line of fs.readFileSync(cacheIdx, "utf8").split("\n")) {
     if (!line.trim()) continue;
     try {
       const r = JSON.parse(line);
-      if (r?.ip_address) everChecked.add(r.ip_address);
+      if (r?.ip_address) {
+        everChecked.add(r.ip_address);
+        const at = String(r.checked_at_utc || "");
+        if (at && (!recentByIp.has(r.ip_address) || at > recentByIp.get(r.ip_address))) {
+          recentByIp.set(r.ip_address, at);
+        }
+      }
       if (runStart.getTime() - new Date(r.checked_at_utc).getTime() <= CFG.CACHE_TTL_HOURS * 3600000) cached.set(r.ip_address, r);
     } catch { /* 壊れた行は無視 */ }
   }
@@ -165,9 +182,32 @@ if (fs.existsSync(cacheIdx)) {
 
 /** `--new-only`: まだ一度も引いていない候補だけを対象にする（バックログを前進させる） */
 const NEW_ONLY = has("--new-only");
-const fresh = eligible.filter((e) => !cached.has(e.ip) && (!NEW_ONLY || !everChecked.has(e.ip)));
+/**
+ * `--skip-checked-within N`: **直近 N 日以内に確認した IP を対象から外す。**
+ *
+ * 同じ活動で毎日同じ IP を引き直すと枠が溶ける。N 日より前に引いた IP は
+ * また対象に戻るので、`--new-only`（一度引いたら二度と引かない）より緩い。
+ * 「7 日以内に確認済みは除外」のような指定にそのまま対応する。
+ */
+const SKIP_DAYS = Number(argOf("--skip-checked-within") || 0);
+const lastCheckedAt = new Map();
+if (SKIP_DAYS > 0) {
+  for (const [ip, r] of recentByIp) lastCheckedAt.set(ip, new Date(r).getTime());
+}
+const skipCutoff = runStart.getTime() - SKIP_DAYS * 86400000;
+const skippedRecently = (ip) => SKIP_DAYS > 0
+  && lastCheckedAt.has(ip) && lastCheckedAt.get(ip) >= skipCutoff;
+
+const fresh = eligible.filter((e) => !cached.has(e.ip)
+  && (!NEW_ONLY || !everChecked.has(e.ip))
+  && !skippedRecently(e.ip));
 if (NEW_ONLY) {
   console.log(`--new-only: まだ引いていない候補 ${fresh.length} 件だけを対象にします`);
+}
+if (SKIP_DAYS > 0) {
+  const skipped = eligible.filter((e) => skippedRecently(e.ip)).length;
+  console.log(`--skip-checked-within ${SKIP_DAYS}: 直近 ${SKIP_DAYS} 日以内に確認した`
+    + ` ${skipped} 件を対象から外しました（残り ${fresh.length} 件）`);
 }
 const byRecent = [...fresh].sort((a, b) => String(b.last).localeCompare(String(a.last)));
 let selected = [];

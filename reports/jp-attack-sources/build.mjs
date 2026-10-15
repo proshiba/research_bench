@@ -156,6 +156,22 @@ for (const r of jpAny) {
      */
     jp_30d_method: r.jp_short_windows_measured ? "counted" : "latest_only",
     jp_has_report_30d: hasJp30(r),
+    /**
+     * **マルチ / シングルの区分。**30 日以内の日本からの攻撃報告の件数で分ける。
+     *
+     *   マルチレポート   2 件以上。**別々の機会に、または別々の観測者から見えている**
+     *   シングルレポート 1 件。1 回しか見えていないので、その 1 件の事情に依存する
+     *   窓内に攻撃報告なし 0 件
+     *   判定不能         引き直していないので件数が分からない（**0 ではない**）
+     *
+     * 件数が無い行を「シングル」や「なし」に落としてはいけない。分からないものは
+     * 分からないまま置く。
+     */
+    jp_report_class_30d: (() => {
+      if (!r.jp_short_windows_measured) return "判定不能";
+      const n = r.jp_attack_report_count_30d ?? 0;
+      return n >= 2 ? "マルチレポート" : n === 1 ? "シングルレポート" : "窓内に攻撃報告なし";
+    })(),
     jp_report_count_30d: r.jp_short_windows_measured ? (r.jp_report_count_30d ?? 0) : "",
     jp_distinct_reporters_30d: r.jp_short_windows_measured ? (r.jp_distinct_reporters_30d ?? 0) : "",
     jp_attack_report_count_30d: r.jp_short_windows_measured ? (r.jp_attack_report_count_30d ?? 0) : "",
@@ -307,6 +323,11 @@ const nonAttack30 = attacks.filter((r) => r.jp_30d_method === "counted"
   && r.jp_has_report_30d && Number(r.jp_attack_report_count_30d) === 0);
 const stale30 = attacks.filter((r) => !r.jp_has_report_30d);
 
+/** **マルチ（2 件以上）とシングル（1 件）を別の表に出す。** ご依頼の主な切り口 */
+const multi30 = confirmed30.filter((r) => r.jp_report_class_30d === "マルチレポート");
+const single30 = confirmed30.filter((r) => r.jp_report_class_30d === "シングルレポート");
+writeCsv("jp_30d_multi_report.csv", multi30);
+writeCsv("jp_30d_single_report.csv", single30);
 writeCsv("jp_attack_sources_30d_confirmed.csv", confirmed30);
 writeCsv("jp_attack_sources_30d_pending_refetch.csv", pending30);
 writeCsv("jp_attack_sources_30d_not_attack.csv", nonAttack30);
@@ -381,6 +402,21 @@ const summary = {
   },
   /** 「30 日以内に N 件以上」。**分母は confirmed の行だけ** */
   thresholds_30d: { denominator: confirmed30.length, ...thresholds },
+  /** **マルチ / シングルの区分。**ご依頼の主な切り口 */
+  report_class_30d: {
+    multi: multi30.length,
+    single: single30.length,
+    none_in_window: nonAttack30.length,
+    undecidable: pending30.length,
+    multi_by_tier: Object.fromEntries(tally(multi30, (r) => `${r.worst_tier} ${r.worst_tier_label}`)),
+    single_by_tier: Object.fromEntries(tally(single30, (r) => `${r.worst_tier} ${r.worst_tier_label}`)),
+    multi_by_evidence: Object.fromEntries(tally(multi30, (r) => (r.evidence_level_max === "" ? "—" : `E${r.evidence_level_max}`))),
+    multi_top_countries: tally(multi30, (r) => r.ip_country_code).slice(0, 12),
+    multi_top_isp: tally(multi30, (r) => r.isp).slice(0, 12),
+    /** マルチのうち、観測者も 2 人以上いるもの。**同じ 1 人の連投ではない** */
+    multi_with_2plus_reporters: multi30.filter((r) => Number(r.jp_distinct_reporters_30d) >= 2).length,
+    multi_single_reporter_only: multi30.filter((r) => Number(r.jp_distinct_reporters_30d) === 1).length,
+  },
   /** 畳み方の世代。引き直していない IP を「該当なし」に数えないための分母 */
   digest_generations: {
     short_windows_measured: exact30.length,
@@ -429,6 +465,12 @@ console.log(`  うち**主対象**（高確度の研究スキャナ ${scanners.l
 console.log(`  攻撃ではない（偵察のみ・スパム・属性）: ${nonAttacks.length} 件`);
 console.log(`  **GLOBAL_JP_VULN の脆弱性限定では落ちていた: ${missed.length} 件**`);
 for (const [k, v] of Object.entries(summary.by_worst_tier)) console.log(`    ${k.padEnd(18)} ${String(v).padStart(5)}`);
+console.log(`\n過去 ${PRIMARY_DAYS} 日以内の日本からの攻撃報告:`);
+console.log(`  **マルチレポート（2 件以上）: ${multi30.length} 件**`
+  + `（うち観測者も 2 人以上 ${summary.report_class_30d.multi_with_2plus_reporters} 件）`);
+console.log(`  **シングルレポート（1 件）  : ${single30.length} 件**`);
+console.log(`  窓内に攻撃報告なし         : ${nonAttack30.length} 件`);
+console.log(`  判定不能（引き直し待ち）   : ${pending30.length} 件`);
 if (summary.coverage.jp_categories_unmeasured) {
   console.log(`  覚え書き: カテゴリの内訳をまだ数えていない IP ${summary.coverage.jp_categories_unmeasured} 件`
     + `（うち日本の報告あり ${summary.coverage.unmeasured_with_jp_report} 件）`);
