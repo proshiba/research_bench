@@ -2,7 +2,12 @@
 // GLOBAL_JP_VULN — 全世界の送信元 IP のうち、**日本のレポーターが脆弱性攻撃として
 // 報告した**ものを抽出する。防御目的の受動調査のみ。
 //
-//   node build.mjs [--resume] [--blacklist-only] [--max-check N]
+//   node build.mjs [--resume] [--new-only] [--skip-checked-within N]
+//                  [--refresh-blacklist] [--blacklist-only] [--max-check N]
+//
+// `--new-only` は**まだ一度も引いていない候補だけ**を対象にする。既定の選び方は
+// `lastReportedAt` の新しい順なので、放っておくと毎日ほぼ同じ IP を引き直して
+// バックログが前に進まない。母集団を広げたい日はこれを付ける。
 //
 // 対象 IP への接続・走査は一切行わない。AbuseIPDB の公開情報だけを見る。
 // 鍵は環境変数からのみ読み、**どこにも書き出さない**。
@@ -37,8 +42,7 @@ const HEADERS = { Key: KEY, Accept: "application/json" };
 
 /* ---------------- 判定規則は rules.mjs に集約（build と関連調査で共有） ---------------- */
 import {
-  CATEGORIES, STRICT_VULN, BROAD_VULN, VULN_ANY, AUTH_ATTACK, SCAN_ONLY, EXPLOITED_HOST,
-  sleep, iso, sha256, uniq, mulberry32, sanitize, forDisplay, grade, detectScanner,
+  CATEGORIES, digest, score, classify, tsOf, sleep, iso, uniq, mulberry32,
 } from "./rules.mjs";
 
 /* ---------------- API ---------------- */
@@ -89,12 +93,20 @@ const STATE_FILE = path.join(HERE, "state.json");
 let snap;
 const snapFile = path.join(CACHE, "blacklist-snapshot.json");
 const rawFile = path.join(CACHE, "blacklist-raw.json");
-if ((has("--resume") || fs.existsSync(snapFile)) && fs.existsSync(snapFile)) {
+/**
+ * `--refresh-blacklist`: 写しを無視して Blacklist を引き直す。
+ *
+ * 候補の条件が「`lastReportedAt` が 30 日以内」なので、**写しが古いとその 30 日も
+ * 古くなる**。5 日前の写しを使うと、実質 35 日前までの IP が候補に入る。
+ * 30 日窓で答えたい日はこれを付ける（`/blacklist` の枠は 1 日 100 回）。
+ */
+const REFRESH_BL = has("--refresh-blacklist");
+if (!REFRESH_BL && (has("--resume") || fs.existsSync(snapFile)) && fs.existsSync(snapFile)) {
   snap = JSON.parse(fs.readFileSync(snapFile, "utf8"));
   console.log(`既存スナップショットを使います（${snap.entries.length} 件 / 生成 ${snap.generatedAt}）`);
 } else {
   let body;
-  if (fs.existsSync(rawFile)) {
+  if (!REFRESH_BL && fs.existsSync(rawFile)) {
     body = JSON.parse(fs.readFileSync(rawFile, "utf8"));
     console.log("取得済みの Blacklist 生データを使います");
   } else {
@@ -136,15 +148,67 @@ if (budget <= 0) { console.log("枠がありません。終了します。"); pr
 
 const cacheIdx = path.join(CACHE, "checks.jsonl");
 const cached = new Map();
+/**
+ * **一度でも引いた IP。古さを問わない。**
+ *
+ * `--new-only` のときはこれを使って候補から外す。そうしないとバックログが
+ * 前に進まない。既定の選び方は `lastReportedAt` の新しい順で上位
+ * `RECENT_CORE` 件を採るので、24 時間を過ぎた写しが「未取得」に戻った途端、
+ * **毎回ほぼ同じ IP を選び直す**。実測では写しが 16,571 行あるのに固有 IP が
+ * 9,499 件しかなく、未確認の候補 89,840 件は古い報告しか持たないため
+ * 一度も選ばれていなかった。
+ */
+const everChecked = new Set();
+/** IP ごとの**最後に引いた時刻**。`--skip-checked-within` が使う */
+const recentByIp = new Map();
 if (fs.existsSync(cacheIdx)) {
   for (const line of fs.readFileSync(cacheIdx, "utf8").split("\n")) {
     if (!line.trim()) continue;
-    try { const r = JSON.parse(line); if (runStart.getTime() - new Date(r.checked_at_utc).getTime() <= CFG.CACHE_TTL_HOURS * 3600000) cached.set(r.ip_address, r); } catch { /* 壊れた行は無視 */ }
+    try {
+      const r = JSON.parse(line);
+      if (r?.ip_address) {
+        everChecked.add(r.ip_address);
+        const at = String(r.checked_at_utc || "");
+        if (at && (!recentByIp.has(r.ip_address) || at > recentByIp.get(r.ip_address))) {
+          recentByIp.set(r.ip_address, at);
+        }
+      }
+      if (runStart.getTime() - new Date(r.checked_at_utc).getTime() <= CFG.CACHE_TTL_HOURS * 3600000) cached.set(r.ip_address, r);
+    } catch { /* 壊れた行は無視 */ }
   }
-  console.log(`24時間以内の有効キャッシュ ${cached.size} 件（再取得しません）`);
+  console.log(`24時間以内の有効キャッシュ ${cached.size} 件（再取得しません）`
+    + ` / 一度でも引いた IP ${everChecked.size} 件`);
 }
 
-const fresh = eligible.filter((e) => !cached.has(e.ip));
+/** `--new-only`: まだ一度も引いていない候補だけを対象にする（バックログを前進させる） */
+const NEW_ONLY = has("--new-only");
+/**
+ * `--skip-checked-within N`: **直近 N 日以内に確認した IP を対象から外す。**
+ *
+ * 同じ活動で毎日同じ IP を引き直すと枠が溶ける。N 日より前に引いた IP は
+ * また対象に戻るので、`--new-only`（一度引いたら二度と引かない）より緩い。
+ * 「7 日以内に確認済みは除外」のような指定にそのまま対応する。
+ */
+const SKIP_DAYS = Number(argOf("--skip-checked-within") || 0);
+const lastCheckedAt = new Map();
+if (SKIP_DAYS > 0) {
+  for (const [ip, r] of recentByIp) lastCheckedAt.set(ip, new Date(r).getTime());
+}
+const skipCutoff = runStart.getTime() - SKIP_DAYS * 86400000;
+const skippedRecently = (ip) => SKIP_DAYS > 0
+  && lastCheckedAt.has(ip) && lastCheckedAt.get(ip) >= skipCutoff;
+
+const fresh = eligible.filter((e) => !cached.has(e.ip)
+  && (!NEW_ONLY || !everChecked.has(e.ip))
+  && !skippedRecently(e.ip));
+if (NEW_ONLY) {
+  console.log(`--new-only: まだ引いていない候補 ${fresh.length} 件だけを対象にします`);
+}
+if (SKIP_DAYS > 0) {
+  const skipped = eligible.filter((e) => skippedRecently(e.ip)).length;
+  console.log(`--skip-checked-within ${SKIP_DAYS}: 直近 ${SKIP_DAYS} 日以内に確認した`
+    + ` ${skipped} 件を対象から外しました（残り ${fresh.length} 件）`);
+}
 const byRecent = [...fresh].sort((a, b) => String(b.last).localeCompare(String(a.last)));
 let selected = [];
 if (byRecent.length <= budget) {
@@ -184,74 +248,7 @@ const failures = [];
 let used = 1, stopped = null, doneN = 0;   // probe で 1 回使っている
 const cohortOf = new Map(selected.map((s) => [s.ip, s.cohort]));
 
-function digest(ip, body, cohort) {
-  const d = body?.data || {};
-  const reports = Array.isArray(d.reports) ? d.reports : [];
-  const jp = reports.filter((r) => r.reporterCountryCode === "JP");
-  const catOf = (r) => (r.categories || []).map(Number);
-  const hasAny = (r, set) => catOf(r).some((c) => set.has(c));
-
-  // **日本の報告 1 件ずつで判定する**（IP 全体の和集合ではない）
-  const jpVuln = jp.filter((r) => hasAny(r, VULN_ANY));
-  const jpStrict = jp.filter((r) => hasAny(r, STRICT_VULN));
-  const jpBroad = jp.filter((r) => hasAny(r, BROAD_VULN));
-  const jpAuth = jp.filter((r) => hasAny(r, AUTH_ATTACK));
-  const jpExploited = jp.filter((r) => catOf(r).includes(EXPLOITED_HOST));
-  const jpScanOnly = jp.filter((r) => !hasAny(r, VULN_ANY) && (hasAny(r, SCAN_ONLY) || catOf(r).length === 0));
-
-  // 証拠は **日本の脆弱性報告のコメントからだけ**取る
-  const graded = jpVuln.map((r) => {
-    const clean = sanitize(r.comment);
-    const g = grade(clean);
-    return { level: g.level, terms: g.terms, clean, at: iso(r.reportedAt),
-      reporter: r.reporterId ?? null, sha: r.comment ? sha256(String(r.comment)) : "" };
-  }).sort((a, b) => b.level - a.level || String(b.at).localeCompare(String(a.at)));
-  const top = graded.filter((g) => g.level === (graded[0]?.level ?? 0)).slice(0, 3);
-
-  const vulnCats = uniq(jpVuln.flatMap(catOf).filter((c) => VULN_ANY.has(c))).sort((a, b) => a - b);
-  const latest = (xs) => xs.map((r) => r.reportedAt).filter(Boolean).sort().pop() || "";
-  const distinct = (xs) => uniq(xs.map((r) => r.reporterId).filter((x) => x != null)).length;
-  const sc = detectScanner(d);
-
-  return {
-    ip_address: ip, selection_cohort: cohort, api_status: "ok", http_status: 200, error_message: "",
-    checked_at_utc: iso(new Date()),
-    abuse_confidence_score: d.abuseConfidenceScore ?? "", ip_country_code: d.countryCode || "",
-    usage_type: d.usageType || "", isp: d.isp || "", domain: d.domain || "",
-    hostnames: (d.hostnames || []).join(";"), is_tor: d.isTor === true, is_whitelisted: d.isWhitelisted === true,
-    total_reports_90d: d.totalReports ?? 0, distinct_reporters_90d: d.numDistinctUsers ?? "",
-    latest_reported_at_90d: iso(latest(reports)), reports_truncated: reports.length >= 10000,
-    returned_reports: reports.length,
-    jp_report_count_90d: jp.length, jp_distinct_reporters_90d: distinct(jp),
-    latest_jp_reported_at_90d: iso(latest(jp)),
-    jp_vuln_report_count_90d: jpVuln.length, jp_vuln_distinct_reporters_90d: distinct(jpVuln),
-    latest_jp_vuln_reported_at_90d: iso(latest(jpVuln)),
-    jp_strict_vuln_report_count_90d: jpStrict.length, jp_strict_vuln_distinct_reporters_90d: distinct(jpStrict),
-    jp_broad_vuln_report_count_90d: jpBroad.length,
-    jp_auth_attack_report_count_90d: jpAuth.length,
-    jp_scan_only_report_count_90d: jpScanOnly.length,
-    jp_exploited_host_report_count_90d: jpExploited.length,
-    jp_vuln_category_ids: vulnCats.join(";"),
-    jp_vuln_category_names: vulnCats.map((c) => CATEGORIES[c] || `unknown(${c})`).join(";"),
-    jp_vuln_report_ratio: jp.length ? Number((jpVuln.length / jp.length).toFixed(4)) : 0,
-    jp_vuln_days: uniq(jpVuln.map((r) => iso(r.reportedAt).slice(0, 10)).filter(Boolean)).length,
-    evidence_level_max: graded.length ? graded[0].level : "",
-    evidence_terms: uniq(graded.flatMap((g) => g.terms)).join(";"),
-    evidence_example_1: top[0] ? forDisplay(top[0].clean) : "",
-    evidence_example_2: top[1] ? forDisplay(top[1].clean) : "",
-    evidence_example_3: top[2] ? forDisplay(top[2].clean) : "",
-    evidence_comment_sha256: top.map((g) => g.sha).filter(Boolean).join(";"),
-    evidence_latest_at: graded.find((g) => g.at)?.at || "",
-    evidence_reporter_count: uniq(graded.map((g) => g.reporter).filter((x) => x != null)).length,
-    evidence_reporter_concentration: (() => {
-      const c = {}; for (const g of graded) if (g.reporter != null) c[g.reporter] = (c[g.reporter] || 0) + 1;
-      const vals = Object.values(c); return vals.length ? Math.max(...vals) / graded.length : 0;
-    })(),
-    research_scanner_flag: sc.flag, research_scanner_name: sc.name,
-    research_scanner_confidence: sc.confidence, research_scanner_evidence: sc.evidence,
-  };
-}
-
+// digest / score / classify は rules.mjs に移した（判定を 2 箇所に持たない）
 const queue = [...selected];
 async function worker() {
   for (;;) {
@@ -268,7 +265,7 @@ async function worker() {
       failures.push({ ip_address: e.ip, endpoint: "check", http_status: r.httpStatus ?? "", error_message: String(r.error).slice(0, 200), at_utc: iso(new Date()) });
       rec = { ip_address: e.ip, selection_cohort: e.cohort, api_status: "error",
         http_status: r.httpStatus ?? "", error_message: String(r.error).slice(0, 200), checked_at_utc: iso(new Date()) };
-    } else rec = digest(e.ip, r.body, e.cohort);
+    } else rec = digest(e.ip, r.body, e.cohort, { checkedAt: iso(new Date()) });
     await new Promise((res) => ck.write(JSON.stringify(rec) + "\n", res));
     cached.set(e.ip, rec);
     if (++doneN % 200 === 0) process.stdout.write(`\r  ${doneN}/${selected.length}  残量 ${quota.check.remaining ?? "?"}      `);
@@ -279,59 +276,14 @@ ck.end();
 console.log(`\n/check ${doneN} 件 / API ${used} 回` + (stopped ? `  — 中断: ${stopped}` : ""));
 
 /* ================= 評価と優先度 ================= */
-const d7 = runStart.getTime() - 7 * 86400000;
-const d30 = runStart.getTime() - 30 * 86400000;
-const tsOf = (s) => (s ? new Date(s).getTime() : 0);
-
-function score(r) {
-  const why = [], add = (p, t) => { why.push(`${p > 0 ? "+" : ""}${p} ${t}`); return p; };
-  let s = 0;
-  const lv = Number(r.evidence_level_max || 0);
-  if (tsOf(r.latest_jp_vuln_reported_at_90d) >= d7) s += add(20, "日本の脆弱性報告が7日以内");
-  else if (tsOf(r.latest_jp_vuln_reported_at_90d) >= d30) s += add(12, "30日以内");
-  if (r.jp_strict_vuln_distinct_reporters_90d >= 2) s += add(20, "strictの日本レポーター2人以上");
-  if (r.jp_strict_vuln_distinct_reporters_90d >= 5) s += add(10, "同5人以上");
-  if (lv === 3) s += add(25, "E3 具体的な攻撃証拠");
-  else if (lv === 2) s += add(15, "E2 製品・脆弱性固有の探索");
-  const cats = String(r.jp_vuln_category_ids || "").split(";").filter(Boolean).map(Number);
-  if (cats.includes(16) || cats.includes(23)) s += add(8, "SQLi または IoT Targeted");
-  if (cats.includes(21)) s += add(5, "Web App Attack");
-  if (r.jp_vuln_days >= 2) s += add(5, "複数日に分散");
-  if (r.jp_exploited_host_report_count_90d > 0) s += add(3, "Exploited Host");
-  if (r.research_scanner_flag && r.research_scanner_confidence === "high") s += add(-50, "研究スキャナ（高確度）");
-  if (lv === 0) s += add(-15, "E0 のみ");
-  if (cats.length === 1 && cats[0] === 15) s += add(-10, "Hacking(15) のみ");
-  if (Number(r.evidence_reporter_concentration || 0) >= 0.9 && r.jp_vuln_report_count_90d >= 3) s += add(-10, "単一レポーターへ極端に集中");
-  return { score: Math.max(0, Math.min(100, s)), reasons: why.join(" / ") };
-}
-
-function classify(r) {
-  if (r.api_status !== "ok") return { priority: "EXCLUDED_PRIMARY", reason: "APIエラー" };
-  if (r.jp_vuln_report_count_90d === 0) {
-    if (r.jp_report_count_90d === 0) return { priority: "EXCLUDED_PRIMARY", reason: "日本からの報告なし" };
-    if (r.jp_auth_attack_report_count_90d > 0 || r.jp_scan_only_report_count_90d > 0)
-      return { priority: "EXCLUDED_PRIMARY", reason: "日本報告が走査・総当たりのみで脆弱性カテゴリなし" };
-    return { priority: "EXCLUDED_PRIMARY", reason: "日本報告に脆弱性カテゴリなし" };
-  }
-  if (r.research_scanner_flag && r.research_scanner_confidence === "high")
-    return { priority: "EXCLUDED_PRIMARY", reason: `既知研究スキャナ（${r.research_scanner_name}）` };
-
-  const lv = Number(r.evidence_level_max || 0);
-  const recent30 = tsOf(r.latest_jp_vuln_reported_at_90d) >= d30;
-  const strict2 = r.jp_strict_vuln_distinct_reporters_90d >= 2;
-  const e3multi = lv === 3 && r.jp_vuln_report_count_90d >= 2;
-  const e3multiReporter = lv === 3 && r.evidence_reporter_count >= 2;
-  if ((recent30 && strict2 && lv >= 2) || e3multi || e3multiReporter) return { priority: "P1", reason: "" };
-  if (strict2 || (r.jp_strict_vuln_report_count_90d > 0 && lv >= 2)
-    || (r.jp_broad_vuln_report_count_90d > 0 && lv >= 2)) return { priority: "P2", reason: "" };
-  return { priority: "P3", reason: "" };
-}
-
+/** 窓の終わり。rules.mjs の score/classify と analysis_tags がここから日数を数える */
+const NOW = runStart.getTime();
+const d7 = NOW - 7 * 86400000;
 const rows = [];
 for (const [ip, rec] of cached) {
   if (!cohortOf.has(ip) && !rec.selection_cohort) continue;
-  const { priority, reason } = classify(rec);
-  const { score: ps, reasons } = rec.api_status === "ok" ? score(rec) : { score: 0, reasons: "" };
+  const { priority, reason } = classify(rec, NOW);
+  const { score: ps, reasons } = rec.api_status === "ok" ? score(rec, NOW) : { score: 0, reasons: "" };
   const excluded = priority === "EXCLUDED_PRIMARY";
   rows.push({
     ...rec,

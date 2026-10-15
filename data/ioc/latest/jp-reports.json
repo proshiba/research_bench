@@ -3,7 +3,7 @@
     "その他": 17,
     "侵入（範囲広い）": 16,
     "脆弱性狙い": 49,
-    "認証狙い": 25,
+    "認証狙い": 26,
     "走査のみ": 32
   },
   "clustered_24": [
@@ -194,7 +194,7 @@
     "DDoS": 6,
     "IoT 狙い": 1,
     "SQL インジェクション": 9,
-    "SSH": 32,
+    "SSH": 33,
     "Web アプリ攻撃": 47,
     "Web スパム": 15,
     "オープンプロキシ": 19,
@@ -203,28 +203,28 @@
     "メールスパム": 4,
     "不正ボット": 32,
     "侵入": 35,
-    "総当たり": 53,
+    "総当たり": 54,
     "詐欺注文": 1,
     "踏み台": 2
   },
-  "jp_reported": 139,
-  "jp_reported_with_actor": 52,
+  "jp_reported": 140,
+  "jp_reported_with_actor": 53,
   "jp_reporter_distribution": {
     "1": 77,
-    "2": 23,
+    "2": 24,
     "3": 15,
     "4": 6,
     "5+": 18
   },
   "marks": {
-    "hosting": 125,
+    "hosting": 126,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 770,
+    "reported_ips": 782,
     "unmeasured": 0
   },
   "rows": [
@@ -732,6 +732,40 @@
       ],
       "reporters": 50,
       "reports": 71,
+      "roles": [],
+      "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "UAT-6275"
+      ],
+      "articles": [
+        "article:20261015#11"
+      ],
+      "auth": [
+        "SSH",
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "IN",
+      "hosting": true,
+      "ioc": "ioc.ipv4|64.227.130.177",
+      "ip": "64.227.130.177",
+      "isp": "DigitalOcean, LLC",
+      "jp_categories": [
+        "SSH",
+        "総当たり"
+      ],
+      "jp_last": "2025-11-12",
+      "jp_reporters": 2,
+      "jp_reports": 3,
+      "jp_substantive": 3,
+      "kind": "認証狙い",
+      "malware": [],
+      "reporters": 100,
+      "reports": 182,
       "roles": [],
       "score": 0,
       "strict": [],
@@ -4842,7 +4876,7 @@
     ],
     [
       "DigitalOcean, LLC",
-      7
+      8
     ],
     [
       "Contabo GmbH",
