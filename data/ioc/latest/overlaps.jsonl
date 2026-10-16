@@ -232,6 +232,7 @@
 {"a":"APT29","a_iocs":1097,"b":"Yx Technology","b_iocs":25,"evidence":{"registered":["2025-08-28"]},"kind":"actor","ratio":0.04,"shared":1,"strength":3,"via":["registered"],"weak_only":true}
 {"a":"APT29","a_iocs":1097,"b":"ZIRCONIUM","b_iocs":26,"evidence":{"jarm":["29d29d15d29d29d00042d42d000000038eaaf490bec8dc33757f165ce01762"]},"kind":"actor","ratio":0.038,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"APT29","a_iocs":1097,"b":"ZooPark","b_iocs":74,"evidence":{"jarm":["27d27d27d00027d00042d43d00041dba951fb796b4b956c9799ba19149e94a","2ad2ad16d2ad2ad00042d42d0000009435214b849738c4ebab4534b5d158dd"]},"kind":"actor","ratio":0.027,"shared":2,"strength":1,"via":["jarm"],"weak_only":true}
+{"a":"APT29","a_iocs":1097,"b":"skynox7","b_iocs":8,"evidence":{"family":["virtool"]},"kind":"actor","ratio":0.125,"shared":1,"strength":2,"via":["family"],"weak_only":true}
 {"a":"APT29 sub-cluster","a_iocs":15,"b":"APT37","b_iocs":380,"evidence":{"registered":["2026-07-23"]},"kind":"actor","ratio":0.067,"shared":1,"strength":3,"via":["registered"],"weak_only":true}
 {"a":"APT29 sub-cluster","a_iocs":15,"b":"AnonyMousTeam","b_iocs":28,"evidence":{"registered":["2026-07-23"]},"kind":"actor","ratio":0.067,"shared":1,"strength":3,"via":["registered"],"weak_only":true}
 {"a":"APT29 sub-cluster","a_iocs":15,"b":"Candiru","b_iocs":221,"evidence":{"jarm":["29d2ad00029d29d00042d43d0000002059a3b916699461c5923779b77cf06b"]},"kind":"actor","ratio":0.067,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
@@ -3917,6 +3918,7 @@
 {"a":"NWHStealer","a_iocs":19,"b":"Overlord","b_iocs":99,"evidence":{"registered":["2026-05-03","2026-05-04"]},"kind":"malware","ratio":0.105,"shared":2,"strength":3,"via":["registered"],"weak_only":true}
 {"a":"NWHStealer","a_iocs":19,"b":"PavinLoader","b_iocs":28,"evidence":{"registered":["2026-04-27"]},"kind":"malware","ratio":0.053,"shared":1,"strength":3,"via":["registered"],"weak_only":true}
 {"a":"NadMesh","a_iocs":3,"b":"PINHOLE","b_iocs":10,"evidence":{"asn":["AS402253"]},"kind":"malware","ratio":0.333,"shared":1,"strength":5,"via":["asn"]}
+{"a":"NadMesh","a_iocs":3,"b":"Pawns.app","b_iocs":8,"evidence":{"asn":["AS402253"]},"kind":"malware","ratio":0.333,"shared":1,"strength":5,"via":["asn"]}
 {"a":"NadMesh","a_iocs":3,"b":"SharkLoader","b_iocs":13,"evidence":{"registered":["2026-06-26"]},"kind":"malware","ratio":0.333,"shared":1,"strength":3,"via":["registered"],"weak_only":true}
 {"a":"NanoCore RATの概要","a_iocs":24,"b":"NodeRabbit","b_iocs":51,"evidence":{"registered":["2026-08-27"]},"kind":"malware","ratio":0.042,"shared":1,"strength":3,"via":["registered"],"weak_only":true}
 {"a":"NanoCore RATの概要","a_iocs":24,"b":"PamStealer","b_iocs":11,"evidence":{"registered":["2026-07-06"]},"kind":"malware","ratio":0.091,"shared":1,"strength":3,"via":["registered"],"weak_only":true}
@@ -4043,6 +4045,7 @@
 {"a":"PHANTOMPULSE","a_iocs":8,"b":"Shub Stealer","b_iocs":143,"evidence":{"ioc":["ioc.domain|0x666.info","ioc.url|https://t.me/ax03bot"],"registered":["2026-04-01"],"registrable":["0x666.info"]},"kind":"malware","ratio":0.5,"shared":4,"strength":13,"via":["ioc","registered","registrable"]}
 {"a":"PHANTOMPULSE","a_iocs":8,"b":"StealC","b_iocs":47,"evidence":{"registered":["2026-02-19"]},"kind":"malware","ratio":0.125,"shared":1,"strength":3,"via":["registered"],"weak_only":true}
 {"a":"PHANTOMPULSE","a_iocs":8,"b":"TinyEgg","b_iocs":15,"evidence":{"registered":["2026-04-01"]},"kind":"malware","ratio":0.125,"shared":1,"strength":3,"via":["registered"],"weak_only":true}
+{"a":"PINHOLE","a_iocs":10,"b":"Pawns.app","b_iocs":8,"evidence":{"asn":["AS402253"]},"kind":"malware","ratio":0.125,"shared":1,"strength":5,"via":["asn"]}
 {"a":"PNG/registry cache loader","a_iocs":3,"b":"ValleyRAT","b_iocs":373,"evidence":{"jarm":["29d29d00029d29d21c42d42d000000c1fc3d47ef34532079f4922fcb05ef65"]},"kind":"malware","ratio":0.333,"shared":1,"strength":1,"via":["jarm"],"weak_only":true}
 {"a":"PXDropper","a_iocs":10,"b":"PoisonX RAT","b_iocs":3,"evidence":{"filename":["8a037b87_.exe","k4xrk9r.exe","opl.exe","winctrl","winctrl.exe"],"imphash":["def488e48bc8999f86a10e7af5918faf"],"ioc":["ioc.sha256|5f3ba5a54f05a2be7191c1f4cc834a27bbb5a376420f99246e1fff3c9d33d869"],"signer":["Apple Inc.; VeriSign Class 3 Code Signing 2004 CA; VeriSign Class 3 Public Primary CA"],"vhash":["036076656d155d05155028z743z8hz2fz"]},"kind":"malware","ratio":3.667,"shared":11,"strength":26,"via":["filename","imphash","ioc","signer","vhash"]}
 {"a":"PamStealer","a_iocs":11,"b":"ValleyRAT","b_iocs":373,"evidence":{"registered":["2026-07-06"]},"kind":"malware","ratio":0.091,"shared":1,"strength":3,"via":["registered"],"weak_only":true}
