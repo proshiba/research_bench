@@ -2928,6 +2928,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.125,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 2,
+      "target": "actor:skynox7",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.067,
       "shared": 1,
       "source": "actor:APT29 sub-cluster",
@@ -47646,6 +47658,17 @@
       "ratio": 0.333,
       "shared": 1,
       "source": "malware:NadMesh",
+      "strength": 5,
+      "target": "malware:Pawns.app",
+      "via": [
+        "asn"
+      ]
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "malware:NadMesh",
       "strength": 3,
       "target": "malware:SharkLoader",
       "via": [
@@ -49150,6 +49173,17 @@
         "registered"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.125,
+      "shared": 1,
+      "source": "malware:PINHOLE",
+      "strength": 5,
+      "target": "malware:Pawns.app",
+      "via": [
+        "asn"
+      ]
     },
     {
       "kind": "malware",
@@ -52298,7 +52332,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-10-15T00:05:07.566Z",
+  "generated_from": "2026-10-16T00:05:06.987Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -53679,6 +53713,12 @@
       "ioc_count": 24,
       "kind": "actor",
       "name": "shinyenigma"
+    },
+    {
+      "id": "actor:skynox7",
+      "ioc_count": 8,
+      "kind": "actor",
+      "name": "skynox7"
     },
     {
       "id": "actor:terminalfix",
@@ -55845,6 +55885,12 @@
       "ioc_count": 28,
       "kind": "malware",
       "name": "PavinLoader"
+    },
+    {
+      "id": "malware:Pawns.app",
+      "ioc_count": 8,
+      "kind": "malware",
+      "name": "Pawns.app"
     },
     {
       "id": "malware:Penquin",

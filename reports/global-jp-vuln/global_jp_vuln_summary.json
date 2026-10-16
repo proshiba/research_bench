@@ -1,249 +1,246 @@
 {
  "dataset": "GLOBAL_JP_VULN",
- "generated_at_utc": "2026-10-15T06:26:59Z",
+ "generated_at_utc": "2026-10-16T05:07:33Z",
  "window": {
   "days": 90,
-  "start_utc": "2026-07-17T06:26:59Z",
-  "end_utc": "2026-10-15T06:26:59Z"
+  "start_utc": "2026-07-18T05:07:33Z",
+  "end_utc": "2026-10-16T05:07:33Z"
  },
  "blacklist": {
   "confidenceMinimum": 75,
   "limit": 100000,
   "ipVersion": 4,
-  "generated_at": "2026-10-15T06:26:50Z",
+  "generated_at": "2026-10-16T05:07:33Z",
   "entries": 100000,
   "truncated_at_tier_max": true,
-  "eligible_30d": 99284
+  "eligible_30d": 98880
  },
  "checks": {
-  "selected": 9428,
-  "succeeded": 18662,
+  "selected": 9494,
+  "succeeded": 18922,
   "failed": 0,
-  "cache_reused": 9234,
-  "api_calls_check": 9429,
-  "quota_remaining": 501,
+  "cache_reused": 9428,
+  "api_calls_check": 9495,
+  "quota_remaining": 509,
   "stopped_reason": null
  },
  "population": {
-  "eligible_jp_vuln": 5805,
-  "included": 4754,
-  "P1": 365,
-  "P2": 933,
-  "P3": 3456,
-  "excluded": 13908
+  "eligible_jp_vuln": 4549,
+  "included": 3690,
+  "P1": 294,
+  "P2": 907,
+  "P3": 2489,
+  "excluded": 15232
  },
  "evidence_levels": {
-  "E3": 266,
-  "E2": 242,
-  "E1": 693,
-  "E0": 3553
+  "E3": 199,
+  "E2": 209,
+  "E1": 821,
+  "E0": 2461
  },
  "jp_vuln_categories": {
-  "15 Hacking": 2890,
-  "16 SQL Injection": 322,
-  "21 Web App Attack": 2808,
-  "23 IoT Targeted": 9
+  "15 Hacking": 1779,
+  "16 SQL Injection": 324,
+  "21 Web App Attack": 2709,
+  "23 IoT Targeted": 10
  },
  "jp_vuln_reporter_distribution": {
-  "1": 2840,
-  "2": 1099,
-  "3": 341,
-  "4": 147,
-  "5+": 327
+  "1": 2318,
+  "2": 750,
+  "3": 266,
+  "4": 121,
+  "5+": 235
  },
  "research_scanners": {
-  "flagged": 2603,
-  "high_confidence_excluded": 2333,
+  "flagged": 2078,
+  "high_confidence_excluded": 1941,
   "by_name": {
-   "名称に scanner を含む": 161,
-   "BitSight": 101,
-   "SecurityTrails": 8,
-   "LeakIX": 46,
-   "Stretchoid": 795,
-   "Censys": 432,
-   "Shadowserver Foundation": 535,
-   "Shodan": 64,
-   "Driftnet / internet-measurement.com": 278,
-   "CriminalIP": 26,
-   "BinaryEdge": 129,
-   "ipip.net": 19,
+   "名称に scanner を含む": 32,
+   "BitSight": 102,
+   "SecurityTrails": 3,
+   "LeakIX": 23,
+   "Stretchoid": 847,
+   "Censys": 206,
+   "Shadowserver Foundation": 451,
+   "Driftnet / internet-measurement.com": 293,
+   "BinaryEdge": 32,
+   "CriminalIP": 20,
+   "Shodan": 43,
+   "Driftnet": 1,
    "Rapid7 Project Sonar": 3,
-   "Alpha Strike Labs": 2,
-   "大学等の研究スキャン": 4
+   "Alpha Strike Labs": 5,
+   "ipip.net": 16,
+   "大学等の研究スキャン": 1
   }
  },
- "exploited_host_ips": 564,
+ "exploited_host_ips": 136,
  "top_countries": [
   [
    "US",
-   1237
+   1203
   ],
   [
    "NL",
-   431
+   359
   ],
   [
    "DE",
-   363
+   268
   ],
   [
    "SG",
-   336
+   217
   ],
   [
    "GB",
-   277
+   190
   ],
   [
    "CN",
-   224
-  ],
-  [
-   "HK",
-   203
-  ],
-  [
-   "IN",
-   140
-  ],
-  [
-   "KR",
-   135
+   166
   ],
   [
    "FR",
-   129
+   118
   ],
   [
-   "ID",
-   112
+   "HK",
+   114
   ],
   [
-   "VN",
-   93
+   "IN",
+   80
   ],
   [
-   "CA",
-   92
+   "KR",
+   79
+  ],
+  [
+   "BE",
+   72
   ],
   [
    "BR",
-   81
+   64
   ],
   [
    "JP",
-   79
+   64
+  ],
+  [
+   "ID",
+   62
+  ],
+  [
+   "VN",
+   44
   ]
  ],
  "top_isp": [
   [
-   "Infrawatch Limited",
-   440
+   "Google LLC",
+   220
   ],
   [
    "Microsoft Corporation",
-   338
+   196
   ],
   [
-   "Google LLC",
-   188
-  ],
-  [
-   "UCLOUD INFORMATION TECHNOLOGY (HK) LIMITED",
-   188
+   "Infrawatch Limited",
+   181
   ],
   [
    "DigitalOcean, LLC",
-   168
-  ],
-  [
-   "VPN Consumer Singapore, Republic of Singapore",
    164
   ],
   [
-   "Asia Pacific Network Information Center, Pty. Ltd.",
-   116
-  ],
-  [
-   "Linode",
-   79
-  ],
-  [
-   "Microsoft Limited",
-   72
-  ],
-  [
-   "TECHOFF SRV LIMITED",
-   70
-  ],
-  [
-   "ACEVILLE PTE.LTD.",
-   61
-  ],
-  [
-   "NL MODAT",
-   58
-  ],
-  [
-   "Rethem Hosting LLC",
-   57
-  ],
-  [
-   "Korea Telecom",
-   54
+   "UCLOUD INFORMATION TECHNOLOGY (HK) LIMITED",
+   143
   ],
   [
    "Amazon Data Services Northern Virginia",
-   53
+   115
+  ],
+  [
+   "Asia Pacific Network Information Center, Pty. Ltd.",
+   102
+  ],
+  [
+   "Amazon Technologies Inc.",
+   92
+  ],
+  [
+   "Linode",
+   64
+  ],
+  [
+   "ACEVILLE PTE.LTD.",
+   60
+  ],
+  [
+   "Rethem Hosting LLC",
+   59
+  ],
+  [
+   "TECHOFF SRV LIMITED",
+   56
+  ],
+  [
+   "VPN Consumer Singapore, Republic of Singapore",
+   49
+  ],
+  [
+   "INAP-CHI-1",
+   48
+  ],
+  [
+   "SURF B.V.",
+   48
   ]
  ],
  "top_usage_type": [
   [
    "Data Center/Web Hosting/Transit",
-   3762
+   3020
   ],
   [
    "Fixed Line ISP",
-   866
+   540
   ],
   [
    "University/College/School",
-   44
+   59
   ],
   [
    "Commercial",
-   35
-  ],
-  [
-   "Mobile ISP",
-   22
-  ],
-  [
-   "Content Delivery Network",
-   10
+   23
   ],
   [
    "?",
-   10
+   18
   ],
   [
-   "Government",
-   5
+   "Content Delivery Network",
+   17
+  ],
+  [
+   "Mobile ISP",
+   13
   ]
  ],
  "exclusion_reasons": {
-  "既知研究スキャナ（LeakIX）": 46,
-  "既知研究スキャナ（Stretchoid）": 376,
-  "既知研究スキャナ（Censys）": 215,
-  "既知研究スキャナ（Shadowserver Foundation）": 244,
-  "既知研究スキャナ（Shodan）": 42,
-  "既知研究スキャナ（Driftnet / internet-measurement.com）": 93,
-  "既知研究スキャナ（CriminalIP）": 3,
-  "既知研究スキャナ（BinaryEdge）": 29,
-  "既知研究スキャナ（ipip.net）": 3,
-  "日本からの報告なし": 4491,
-  "日本報告が走査・総当たりのみで脆弱性カテゴリなし": 8291,
-  "日本報告に脆弱性カテゴリなし": 75
+  "既知研究スキャナ（LeakIX）": 23,
+  "既知研究スキャナ（Stretchoid）": 355,
+  "既知研究スキャナ（Censys）": 139,
+  "既知研究スキャナ（Shadowserver Foundation）": 156,
+  "既知研究スキャナ（Driftnet / internet-measurement.com）": 148,
+  "既知研究スキャナ（BinaryEdge）": 7,
+  "既知研究スキャナ（CriminalIP）": 2,
+  "既知研究スキャナ（Shodan）": 28,
+  "既知研究スキャナ（Driftnet）": 1,
+  "日本からの報告なし": 6539,
+  "日本報告が走査・総当たりのみで脆弱性カテゴリなし": 7746,
+  "日本報告に脆弱性カテゴリなし": 88
  },
  "config": {
   "DATASET": "GLOBAL_JP_VULN",

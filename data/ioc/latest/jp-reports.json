@@ -4,7 +4,7 @@
     "侵入（範囲広い）": 16,
     "脆弱性狙い": 49,
     "認証狙い": 26,
-    "走査のみ": 32
+    "走査のみ": 33
   },
   "clustered_24": [
     {
@@ -199,7 +199,7 @@
     "Web スパム": 15,
     "オープンプロキシ": 19,
     "フィッシング": 4,
-    "ポートスキャン": 84,
+    "ポートスキャン": 85,
     "メールスパム": 4,
     "不正ボット": 32,
     "侵入": 35,
@@ -207,10 +207,10 @@
     "詐欺注文": 1,
     "踏み台": 2
   },
-  "jp_reported": 140,
-  "jp_reported_with_actor": 53,
+  "jp_reported": 141,
+  "jp_reported_with_actor": 54,
   "jp_reporter_distribution": {
-    "1": 77,
+    "1": 78,
     "2": 24,
     "3": 15,
     "4": 6,
@@ -224,7 +224,7 @@
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 782,
+    "reported_ips": 783,
     "unmeasured": 0
   },
   "rows": [
@@ -1817,6 +1817,37 @@
       "score": 1,
       "strict": [],
       "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "skynox7"
+      ],
+      "articles": [
+        "article:20261016#1"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "CH",
+      "ioc": "ioc.ipv4|209.99.190.80",
+      "ip": "209.99.190.80",
+      "isp": "SKN Subnet & Telecom Ltd",
+      "jp_categories": [
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-09-28",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "走査のみ",
+      "malware": [
+        "Pawns.app"
+      ],
+      "reporters": 17,
+      "reports": 19,
+      "roles": [],
+      "score": 65,
+      "strict": [],
+      "usage_type": "Fixed Line ISP"
     },
     {
       "actors": [
@@ -4853,12 +4884,12 @@
       4
     ],
     [
-      "PL",
+      "CH",
       3
     ],
     [
-      "CH",
-      2
+      "PL",
+      3
     ],
     [
       "DK",
