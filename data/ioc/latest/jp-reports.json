@@ -4,7 +4,7 @@
     "侵入（範囲広い）": 16,
     "脆弱性狙い": 49,
     "認証狙い": 26,
-    "走査のみ": 33
+    "走査のみ": 34
   },
   "clustered_24": [
     {
@@ -199,7 +199,7 @@
     "Web スパム": 15,
     "オープンプロキシ": 19,
     "フィッシング": 4,
-    "ポートスキャン": 85,
+    "ポートスキャン": 86,
     "メールスパム": 4,
     "不正ボット": 32,
     "侵入": 35,
@@ -207,24 +207,24 @@
     "詐欺注文": 1,
     "踏み台": 2
   },
-  "jp_reported": 141,
+  "jp_reported": 142,
   "jp_reported_with_actor": 54,
   "jp_reporter_distribution": {
     "1": 78,
-    "2": 24,
+    "2": 25,
     "3": 15,
     "4": 6,
     "5+": 18
   },
   "marks": {
-    "hosting": 126,
+    "hosting": 127,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 783,
+    "reported_ips": 786,
     "unmeasured": 0
   },
   "rows": [
@@ -3288,6 +3288,34 @@
     },
     {
       "actors": [],
+      "articles": [],
+      "auth": [],
+      "broad": [],
+      "country": "DE",
+      "hosting": true,
+      "ioc": "ioc.ipv4|23.132.164.3",
+      "ip": "23.132.164.3",
+      "isp": "10GIG.HOST",
+      "jp_categories": [
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-05-10",
+      "jp_reporters": 2,
+      "jp_reports": 8,
+      "jp_substantive": 8,
+      "kind": "走査のみ",
+      "malware": [
+        "Remcos"
+      ],
+      "reporters": 90,
+      "reports": 354,
+      "roles": [],
+      "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
       "articles": [
         "article:20260905#8"
       ],
@@ -4861,7 +4889,7 @@
     ],
     [
       "DE",
-      15
+      16
     ],
     [
       "FR",
