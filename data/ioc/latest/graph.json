@@ -419,7 +419,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.036,
+      "ratio": 0.035,
       "shared": 8,
       "source": "actor:APT28",
       "strength": 4,
@@ -576,6 +576,18 @@
       "via": [
         "jarm",
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "actor:APT28",
+      "strength": 1,
+      "target": "actor:Discover-Tech",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -1972,8 +1984,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.032,
-      "shared": 7,
+      "ratio": 0.04,
+      "shared": 9,
       "source": "actor:APT29",
       "strength": 4,
       "target": "actor:Candiru",
@@ -3296,7 +3308,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.014,
+      "ratio": 0.013,
       "shared": 3,
       "source": "actor:APT37",
       "strength": 4,
@@ -5260,7 +5272,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.005,
+      "ratio": 0.004,
       "shared": 1,
       "source": "actor:APT43",
       "strength": 3,
@@ -5367,6 +5379,18 @@
         "jarm",
         "registered",
         "registrable"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "actor:APT43",
+      "strength": 1,
+      "target": "actor:Discover-Tech",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -6673,8 +6697,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.027,
-      "shared": 6,
+      "ratio": 0.031,
+      "shared": 7,
       "source": "actor:Anonymous",
       "strength": 4,
       "target": "actor:Candiru",
@@ -7858,7 +7882,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.032,
+      "ratio": 0.031,
       "shared": 7,
       "source": "actor:BITTER",
       "strength": 4,
@@ -9581,6 +9605,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "actor:Callisto Group",
+      "strength": 3,
+      "target": "actor:Discover-Tech",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.143,
       "shared": 1,
       "source": "actor:Callisto Group",
@@ -9666,8 +9702,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.122,
-      "shared": 6,
+      "ratio": 0.143,
+      "shared": 7,
       "source": "actor:Callisto Group",
       "strength": 22,
       "target": "actor:GTG-20006",
@@ -9861,6 +9897,18 @@
       "target": "actor:Pumpkin Sandstorm",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.008,
+      "shared": 1,
+      "source": "actor:Callisto Group",
+      "strength": 3,
+      "target": "actor:REF9334",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -10334,7 +10382,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.032,
+      "ratio": 0.031,
       "shared": 7,
       "source": "actor:Candiru",
       "strength": 4,
@@ -10384,7 +10432,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.005,
+      "ratio": 0.004,
       "shared": 1,
       "source": "actor:Candiru",
       "strength": 1,
@@ -10408,13 +10456,14 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.023,
-      "shared": 5,
+      "ratio": 0.026,
+      "shared": 6,
       "source": "actor:Candiru",
-      "strength": 1,
+      "strength": 4,
       "target": "actor:Flax Typhoon",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -10457,8 +10506,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.041,
-      "shared": 9,
+      "ratio": 0.044,
+      "shared": 10,
       "source": "actor:Candiru",
       "strength": 4,
       "target": "actor:Gamaredon",
@@ -10568,7 +10617,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.014,
+      "ratio": 0.013,
       "shared": 3,
       "source": "actor:Candiru",
       "strength": 1,
@@ -10604,7 +10653,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.005,
+      "ratio": 0.004,
       "shared": 1,
       "source": "actor:Candiru",
       "strength": 1,
@@ -10725,7 +10774,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.005,
+      "ratio": 0.004,
       "shared": 1,
       "source": "actor:Candiru",
       "strength": 1,
@@ -10737,7 +10786,20 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.005,
+      "ratio": 0.015,
+      "shared": 2,
+      "source": "actor:Candiru",
+      "strength": 4,
+      "target": "actor:UAT-11587",
+      "via": [
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.004,
       "shared": 1,
       "source": "actor:Candiru",
       "strength": 1,
@@ -12374,6 +12436,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "actor:Cytrox",
+      "strength": 1,
+      "target": "actor:Discover-Tech",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.03,
       "shared": 1,
       "source": "actor:Cytrox",
@@ -13227,6 +13301,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "actor:DPRK IT Worker Schemes",
+      "strength": 1,
+      "target": "actor:Discover-Tech",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.005,
       "shared": 1,
       "source": "actor:DPRK IT Worker Schemes",
@@ -13675,6 +13761,66 @@
       "target": "actor:Transparent Tribe",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "actor:Discover-Tech",
+      "strength": 3,
+      "target": "actor:GTG-20006",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "actor:Discover-Tech",
+      "strength": 1,
+      "target": "actor:Gamaredon",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "actor:Discover-Tech",
+      "strength": 1,
+      "target": "actor:Lazarus",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "actor:Discover-Tech",
+      "strength": 3,
+      "target": "actor:REF9334",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "actor:Discover-Tech",
+      "strength": 1,
+      "target": "actor:Silver Fox",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -16971,6 +17117,18 @@
       "source": "actor:GTG-20006",
       "strength": 3,
       "target": "actor:Poisson",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.02,
+      "shared": 1,
+      "source": "actor:GTG-20006",
+      "strength": 3,
+      "target": "actor:REF9334",
       "via": [
         "registered"
       ],
@@ -30007,6 +30165,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:10FXRAT",
+      "strength": 1,
+      "target": "malware:Candiru",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.048,
       "shared": 1,
       "source": "malware:10FXRAT",
@@ -31465,7 +31635,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.095,
+      "ratio": 0.071,
       "shared": 2,
       "source": "malware:AMOS",
       "strength": 3,
@@ -33238,7 +33408,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.111,
+      "ratio": 0.083,
       "shared": 1,
       "source": "malware:Agent Tesla",
       "strength": 2,
@@ -34481,7 +34651,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.111,
+      "ratio": 0.083,
       "shared": 1,
       "source": "malware:AnonyMousKIT",
       "strength": 1,
@@ -34644,6 +34814,19 @@
       "target": "malware:BlueMoon",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.1,
+      "shared": 2,
+      "source": "malware:Antino",
+      "strength": 4,
+      "target": "malware:Candiru",
+      "via": [
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -34922,6 +35105,18 @@
       "target": "malware:BraZetsu",
       "via": [
         "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:AsyncRAT",
+      "strength": 1,
+      "target": "malware:Candiru",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -36048,7 +36243,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.036,
       "shared": 1,
       "source": "malware:BambooToken",
       "strength": 2,
@@ -37382,6 +37577,212 @@
       "target": "malware:ValleyRAT",
       "via": [
         "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.053,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:ChonkyChicken",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:Cobalt Strike",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 3,
+      "target": "malware:CosmicPulse",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:Cyclops Blink",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.2,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 3,
+      "target": "malware:FishHub",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.176,
+      "shared": 3,
+      "source": "malware:Candiru",
+      "strength": 4,
+      "target": "malware:Hirudo",
+      "via": [
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 3,
+      "target": "malware:KREMLIN",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:Latrodectus",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.5,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:MINIRECON",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:MiniJunk V2",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:MiniUpdate",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.1,
+      "shared": 2,
+      "source": "malware:Candiru",
+      "strength": 4,
+      "target": "malware:SUNBURST",
+      "via": [
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:SynkLoader",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:ThreatNeedle",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:TinyEgg",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:ValleyRAT",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:mirai",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -38911,6 +39312,18 @@
       "source": "malware:CosmicPulse",
       "strength": 3,
       "target": "malware:Infostealer",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.036,
+      "shared": 1,
+      "source": "malware:CosmicPulse",
+      "strength": 3,
+      "target": "malware:KREMLIN",
       "via": [
         "registered"
       ],
@@ -40573,6 +40986,18 @@
       "via": [
         "ioc"
       ]
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.083,
+      "shared": 1,
+      "source": "malware:DonutLoader",
+      "strength": 2,
+      "target": "malware:Remcos",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
     },
     {
       "kind": "malware",
@@ -43851,7 +44276,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.111,
+      "ratio": 0.083,
       "shared": 1,
       "source": "malware:Gunra",
       "strength": 1,
@@ -45215,7 +45640,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.167,
+      "ratio": 0.063,
       "shared": 1,
       "source": "malware:Latrodectus",
       "strength": 3,
@@ -45690,6 +46115,18 @@
       "target": "malware:PlugX",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:LxBaseRAT",
+      "strength": 2,
+      "target": "malware:Remcos",
+      "via": [
+        "family"
       ],
       "weak_only": true
     },
@@ -46346,7 +46783,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.095,
+      "ratio": 0.071,
       "shared": 2,
       "source": "malware:Macsync",
       "strength": 3,
@@ -50036,6 +50473,18 @@
       "shared": 1,
       "source": "malware:PrincessClub",
       "strength": 3,
+      "target": "malware:PureLogs",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:PrincessClub",
+      "strength": 3,
       "target": "malware:ROOFDECK",
       "via": [
         "registered"
@@ -50177,7 +50626,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.038,
       "shared": 1,
       "source": "malware:PromptMink",
       "strength": 3,
@@ -50323,7 +50772,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.036,
       "shared": 1,
       "source": "malware:PureHVNC",
       "strength": 6,
@@ -50334,7 +50783,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 3,
+      "ratio": 1.125,
       "shared": 18,
       "source": "malware:PureHVNC",
       "strength": 21,
@@ -50372,7 +50821,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.167,
+      "ratio": 0.063,
       "shared": 1,
       "source": "malware:PureLogs",
       "strength": 6,
@@ -50395,7 +50844,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.095,
+      "ratio": 0.071,
       "shared": 2,
       "source": "malware:PureLogs",
       "strength": 3,
@@ -50407,7 +50856,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.036,
       "shared": 1,
       "source": "malware:PureLogs",
       "strength": 3,
@@ -50419,23 +50868,25 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
-      "shared": 1,
+      "ratio": 0.071,
+      "shared": 2,
       "source": "malware:PureLogs",
-      "strength": 6,
+      "strength": 9,
       "target": "malware:ValleyRAT",
       "via": [
+        "registered",
         "vhash"
       ]
     },
     {
       "kind": "malware",
-      "ratio": 0.167,
-      "shared": 1,
+      "ratio": 0.125,
+      "shared": 2,
       "source": "malware:PureRAT",
-      "strength": 6,
+      "strength": 8,
       "target": "malware:ValleyRAT",
       "via": [
+        "family",
         "vhash"
       ]
     },
@@ -50646,7 +51097,19 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.111,
+      "ratio": 0.083,
+      "shared": 1,
+      "source": "malware:Remcos",
+      "strength": 2,
+      "target": "malware:XWorm",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.083,
       "shared": 1,
       "source": "malware:Remcos",
       "strength": 1,
@@ -52332,7 +52795,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-10-16T00:05:06.987Z",
+  "generated_from": "2026-10-18T00:02:48.587Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -52546,7 +53009,7 @@
     },
     {
       "id": "actor:Candiru",
-      "ioc_count": 222,
+      "ioc_count": 228,
       "kind": "actor",
       "name": "Candiru"
     },
@@ -52663,6 +53126,12 @@
       "ioc_count": 6,
       "kind": "actor",
       "name": "DeadLock"
+    },
+    {
+      "id": "actor:Discover-Tech",
+      "ioc_count": 9,
+      "kind": "actor",
+      "name": "Discover-Tech"
     },
     {
       "id": "actor:Donot Team",
@@ -54909,6 +55378,12 @@
       "name": "CLOSEDQUORUM"
     },
     {
+      "id": "malware:Candiru",
+      "ioc_count": 20,
+      "kind": "malware",
+      "name": "Candiru"
+    },
+    {
       "id": "malware:Canis",
       "ioc_count": 13,
       "kind": "malware",
@@ -55213,6 +55688,12 @@
       "ioc_count": 12,
       "kind": "malware",
       "name": "FastViewer Android Malware"
+    },
+    {
+      "id": "malware:FishHub",
+      "ioc_count": 5,
+      "kind": "malware",
+      "name": "FishHub"
     },
     {
       "id": "malware:Flying Eagle",
@@ -56008,13 +56489,13 @@
     },
     {
       "id": "malware:PureLogs",
-      "ioc_count": 21,
+      "ioc_count": 28,
       "kind": "malware",
       "name": "PureLogs"
     },
     {
       "id": "malware:PureRAT",
-      "ioc_count": 6,
+      "ioc_count": 16,
       "kind": "malware",
       "name": "PureRAT"
     },
@@ -56092,7 +56573,7 @@
     },
     {
       "id": "malware:Remcos",
-      "ioc_count": 9,
+      "ioc_count": 12,
       "kind": "malware",
       "name": "Remcos"
     },
