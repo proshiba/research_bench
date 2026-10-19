@@ -6,8 +6,8 @@
   "cache": {
     "abuseipdb": {
       "dir": "data/ioc/.cache/abuseipdb",
-      "records": 4,
-      "sha256": "1caba5bb3623f12df17b5bc636b266f46134b59a700d8b839c5d793221beabd2"
+      "records": 1,
+      "sha256": "0fd9af09a12a97c0cee43e4bc5591add06ced9b787586f18797c045489c64766"
     },
     "virustotal": {
       "dir": "data/ioc/.cache/vt",
@@ -17,12 +17,12 @@
         "ip_addresses": 1,
         "urls": 1
       },
-      "records": 45,
-      "sha256": "47b54ba8805a7984d578e4c8aef59a8ed0be91fe5cf88e845d190cfda56497ca"
+      "records": 1,
+      "sha256": "e746585079cc1119387734d9cc2d1dff47bff47118c384e92e93dd6bc00ebadb"
     }
   },
   "counts": {
-    "abuseipdb": 4878,
+    "abuseipdb": 4879,
     "derived_aliases": 276,
     "derived_certs": 7219,
     "derived_entities": 589,
@@ -30,7 +30,7 @@
     "derived_links": 27987,
     "derived_verdicts": 166,
     "shared_certs": 201,
-    "vt": 27800
+    "vt": 27801
   },
   "coverage": {
     "abuseipdb": {
@@ -44,16 +44,16 @@
           "target": 473
         },
         "5": {
-          "done": 3377,
-          "target": 3377
+          "done": 3378,
+          "target": 3378
         }
       },
-      "done": 4878,
+      "done": 4879,
       "ratio": 1,
-      "target": 4877
+      "target": 4878
     },
-    "newest_fetch": "2026-10-18",
-    "oldest_fetch": "2026-10-18",
+    "newest_fetch": "2026-10-19",
+    "oldest_fetch": "2026-10-19",
     "virustotal": {
       "by_stage": {
         "1": {
@@ -73,18 +73,18 @@
           "target": 6982
         },
         "5": {
-          "done": 5724,
-          "target": 5724
+          "done": 5725,
+          "target": 5725
         },
         "6": {
           "done": 1497,
           "target": 1497
         }
       },
-      "done": 27800,
-      "known": 23991,
+      "done": 27801,
+      "known": 23992,
       "ratio": 1,
-      "target": 27799,
+      "target": 27800,
       "unknown": 3809
     }
   },
