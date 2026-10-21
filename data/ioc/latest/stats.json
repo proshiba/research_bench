@@ -143,6 +143,7 @@
     "hosting_like": [
       {
         "actors": [
+          "AIA0002",
           "APT28",
           "APT29",
           "APT37",
@@ -173,7 +174,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1479936,
+        "addresses": 1482240,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -235,7 +236,7 @@
           "UAT-6275",
           "Void Balaur"
         ],
-        "addresses": 3142912,
+        "addresses": 3147008,
         "asn": 14061,
         "cc": "US",
         "name": "DigitalOcean LLC"
@@ -263,7 +264,7 @@
           "Toy Ghouls",
           "Wizard Spider"
         ],
-        "addresses": 1671168,
+        "addresses": 1670400,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -340,7 +341,7 @@
           "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218548480,
+        "addresses": 218528768,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -361,7 +362,7 @@
           "UNC5174",
           "UNC7017"
         ],
-        "addresses": 11088640,
+        "addresses": 11087616,
         "asn": 45102,
         "cc": "US",
         "name": "Alibaba (US) Technology Co., Ltd."
@@ -418,7 +419,7 @@
           "UNC5174",
           "Winnti Group"
         ],
-        "addresses": 1497088,
+        "addresses": 1496576,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -450,7 +451,7 @@
           "Red Heron",
           "UAT-6275"
         ],
-        "addresses": 1078016,
+        "addresses": 1078272,
         "asn": 36352,
         "cc": "US",
         "name": "HostPapa"
@@ -466,7 +467,7 @@
           "Nie",
           "UNG0002"
         ],
-        "addresses": 12721920,
+        "addresses": 12703488,
         "asn": 45090,
         "cc": "CN",
         "name": "Tencent Cloud"
@@ -514,7 +515,7 @@
           "Lazarus",
           "The Gentlemen"
         ],
-        "addresses": 1062144,
+        "addresses": 1061632,
         "asn": 212238,
         "cc": "GB",
         "name": "Datacamp Limited"
@@ -545,7 +546,7 @@
           "Jewelbug",
           "The Gentlemen"
         ],
-        "addresses": 37739776,
+        "addresses": 37743360,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
@@ -568,7 +569,7 @@
     ],
     "multi_actor": 225,
     "multi_actor_small": 8,
-    "small": 296,
+    "small": 298,
     "top": [
       {
         "actors": [
@@ -694,7 +695,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1486
+    "total": 1491
   },
   "coverage": {
     "abuseipdb": {
@@ -704,29 +705,29 @@
           "target": 1030
         },
         "2": {
-          "done": 473,
-          "target": 473
+          "done": 476,
+          "target": 476
         },
         "5": {
-          "done": 3379,
-          "target": 3379
+          "done": 3387,
+          "target": 3387
         }
       },
-      "done": 4883,
+      "done": 4894,
       "ratio": 1,
-      "target": 4882
+      "target": 4893
     },
-    "newest_fetch": "2026-10-20",
-    "oldest_fetch": "2026-10-20",
+    "newest_fetch": "2026-10-21",
+    "oldest_fetch": "2026-10-21",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 6705,
-          "target": 6705
+          "done": 6708,
+          "target": 6708
         },
         "2": {
-          "done": 473,
-          "target": 473
+          "done": 476,
+          "target": 476
         },
         "3": {
           "done": 6461,
@@ -737,29 +738,29 @@
           "target": 6984
         },
         "5": {
-          "done": 5728,
-          "target": 5728
+          "done": 5736,
+          "target": 5736
         },
         "6": {
           "done": 1497,
           "target": 1497
         }
       },
-      "done": 27849,
-      "known": 24022,
+      "done": 27863,
+      "known": 24035,
       "ratio": 1,
-      "target": 27848,
-      "unknown": 3827
+      "target": 27862,
+      "unknown": 3828
     }
   },
   "entities": {
-    "actor": 358,
+    "actor": 360,
     "campaign": 13,
     "case": 514,
-    "malware": 527
+    "malware": 528
   },
   "from": {
-    "collected_at": "2026-10-20T00:27:36.251Z",
+    "collected_at": "2026-10-21T00:03:12.792Z",
     "week": "2026-W43"
   },
   "iocs": {
@@ -767,15 +768,15 @@
       "ioc.domain": 9875,
       "ioc.email": 268,
       "ioc.endpoint": 311,
-      "ioc.ipv4": 4819,
+      "ioc.ipv4": 4830,
       "ioc.ipv6": 72,
       "ioc.md5": 2867,
       "ioc.sha1": 1594,
-      "ioc.sha256": 5071,
+      "ioc.sha256": 5074,
       "ioc.sha512": 16,
       "ioc.url": 3588
     },
-    "dated": 12869,
+    "dated": 12883,
     "excluded": {
       "bogon": 3,
       "malformed": 29,
@@ -783,8 +784,8 @@
       "popular": 167,
       "sample_reported": 1
     },
-    "total": 28481,
-    "usable": 28276
+    "total": 28495,
+    "usable": 28290
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -2629,7 +2630,7 @@
         ],
         "asns": [
           {
-            "addresses": 37739776,
+            "addresses": 37743360,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2663,7 +2664,7 @@
         ],
         "asns": [
           {
-            "addresses": 238080,
+            "addresses": 240640,
             "asn": 396356,
             "name": "Latitude.sh"
           }
@@ -2904,7 +2905,7 @@
           "span_days": 5666
         }
       ],
-      "with_dates": 238
+      "with_dates": 239
     },
     "campaigns": {
       "spans": [
@@ -3023,19 +3024,19 @@
       ],
       "with_dates": 8
     },
-    "dated": 9414,
+    "dated": 9416,
     "index_lag": {
       "ahead": 440,
       "median_days": 50,
       "p25_days": 1,
       "p75_days": 145,
-      "pairs": 4955
+      "pairs": 4957
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 317,
+      "checked": 319,
       "lowest": [
         {
           "checked": 4,
@@ -3109,7 +3110,7 @@
         }
       ]
     },
-    "clean": 3366,
+    "clean": 3369,
     "disagreement": {
       "samples": [
         {
@@ -3248,9 +3249,9 @@
           ]
         }
       ],
-      "total": 536
+      "total": 537
     },
-    "malicious": 20219,
-    "unknown": 3827
+    "malicious": 20227,
+    "unknown": 3828
   }
 }

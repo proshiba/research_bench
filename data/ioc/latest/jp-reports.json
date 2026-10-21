@@ -2,7 +2,7 @@
   "by_kind": {
     "その他": 17,
     "侵入（範囲広い）": 16,
-    "脆弱性狙い": 49,
+    "脆弱性狙い": 50,
     "認証狙い": 26,
     "走査のみ": 34
   },
@@ -195,36 +195,36 @@
     "IoT 狙い": 1,
     "SQL インジェクション": 9,
     "SSH": 33,
-    "Web アプリ攻撃": 47,
-    "Web スパム": 15,
-    "オープンプロキシ": 19,
+    "Web アプリ攻撃": 48,
+    "Web スパム": 16,
+    "オープンプロキシ": 20,
     "フィッシング": 4,
-    "ポートスキャン": 86,
+    "ポートスキャン": 87,
     "メールスパム": 4,
     "不正ボット": 32,
     "侵入": 35,
-    "総当たり": 54,
+    "総当たり": 55,
     "詐欺注文": 1,
     "踏み台": 2
   },
-  "jp_reported": 142,
+  "jp_reported": 143,
   "jp_reported_with_actor": 54,
   "jp_reporter_distribution": {
     "1": 78,
-    "2": 25,
+    "2": 26,
     "3": 15,
     "4": 6,
     "5+": 18
   },
   "marks": {
-    "hosting": 127,
+    "hosting": 128,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 787,
+    "reported_ips": 794,
     "unmeasured": 0
   },
   "rows": [
@@ -2683,6 +2683,42 @@
     {
       "actors": [],
       "articles": [
+        "article:20261021#0"
+      ],
+      "auth": [
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "DE",
+      "hosting": true,
+      "ioc": "ioc.ipv4|103.237.102.191",
+      "ip": "103.237.102.191",
+      "isp": "Frankfurt.Gutleutstrasse 310, Frankfurt DE 60327",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "Web スパム",
+        "オープンプロキシ",
+        "ポートスキャン",
+        "総当たり"
+      ],
+      "jp_last": "2026-09-08",
+      "jp_reporters": 2,
+      "jp_reports": 3,
+      "jp_substantive": 3,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 152,
+      "reports": 299,
+      "roles": [],
+      "score": 100,
+      "strict": [
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20261008#7"
       ],
       "auth": [],
@@ -4889,7 +4925,7 @@
     ],
     [
       "DE",
-      16
+      17
     ],
     [
       "FR",
