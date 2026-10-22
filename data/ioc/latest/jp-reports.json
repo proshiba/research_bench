@@ -2,7 +2,7 @@
   "by_kind": {
     "その他": 17,
     "侵入（範囲広い）": 16,
-    "脆弱性狙い": 49,
+    "脆弱性狙い": 52,
     "認証狙い": 26,
     "走査のみ": 34
   },
@@ -195,36 +195,36 @@
     "IoT 狙い": 1,
     "SQL インジェクション": 9,
     "SSH": 33,
-    "Web アプリ攻撃": 47,
-    "Web スパム": 15,
-    "オープンプロキシ": 19,
+    "Web アプリ攻撃": 50,
+    "Web スパム": 17,
+    "オープンプロキシ": 20,
     "フィッシング": 4,
-    "ポートスキャン": 86,
+    "ポートスキャン": 87,
     "メールスパム": 4,
-    "不正ボット": 32,
+    "不正ボット": 34,
     "侵入": 35,
-    "総当たり": 54,
+    "総当たり": 56,
     "詐欺注文": 1,
     "踏み台": 2
   },
-  "jp_reported": 142,
+  "jp_reported": 145,
   "jp_reported_with_actor": 54,
   "jp_reporter_distribution": {
-    "1": 78,
-    "2": 25,
+    "1": 79,
+    "2": 26,
     "3": 15,
     "4": 6,
-    "5+": 18
+    "5+": 19
   },
   "marks": {
-    "hosting": 127,
+    "hosting": 129,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 786,
+    "reported_ips": 798,
     "unmeasured": 0
   },
   "rows": [
@@ -2242,7 +2242,8 @@
     {
       "actors": [],
       "articles": [
-        "article:20260924#1"
+        "article:20260924#1",
+        "article:20261022#5"
       ],
       "auth": [
         "総当たり"
@@ -2356,7 +2357,8 @@
     {
       "actors": [],
       "articles": [
-        "article:20260924#1"
+        "article:20260924#1",
+        "article:20261022#5"
       ],
       "auth": [
         "総当たり"
@@ -2464,6 +2466,41 @@
       "score": 100,
       "strict": [
         "IoT 狙い",
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261022#5"
+      ],
+      "auth": [
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|45.61.188.240",
+      "ip": "45.61.188.240",
+      "isp": "FranTech Solutions",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "Web スパム",
+        "不正ボット",
+        "総当たり"
+      ],
+      "jp_last": "2026-10-13",
+      "jp_reporters": 6,
+      "jp_reports": 8,
+      "jp_substantive": 8,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 371,
+      "reports": 1178,
+      "roles": [],
+      "score": 100,
+      "strict": [
         "Web アプリ攻撃"
       ],
       "usage_type": "Data Center/Web Hosting/Transit"
@@ -2673,6 +2710,42 @@
       "malware": [],
       "reporters": 74,
       "reports": 261,
+      "roles": [],
+      "score": 100,
+      "strict": [
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261021#0"
+      ],
+      "auth": [
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "DE",
+      "hosting": true,
+      "ioc": "ioc.ipv4|103.237.102.191",
+      "ip": "103.237.102.191",
+      "isp": "Frankfurt.Gutleutstrasse 310, Frankfurt DE 60327",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "Web スパム",
+        "オープンプロキシ",
+        "ポートスキャン",
+        "総当たり"
+      ],
+      "jp_last": "2026-09-08",
+      "jp_reporters": 2,
+      "jp_reports": 3,
+      "jp_substantive": 3,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 153,
+      "reports": 302,
       "roles": [],
       "score": 100,
       "strict": [
@@ -3402,6 +3475,36 @@
       "score": 9,
       "strict": [],
       "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261021#0"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "CM",
+      "ioc": "ioc.ipv4|102.244.78.57",
+      "ip": "102.244.78.57",
+      "isp": "Orange Cameroun SA",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "不正ボット"
+      ],
+      "jp_last": "2026-10-21",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 121,
+      "reports": 235,
+      "roles": [],
+      "score": 100,
+      "strict": [
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Mobile ISP"
     },
     {
       "actors": [],
@@ -4885,11 +4988,11 @@
     ],
     [
       "US",
-      34
+      35
     ],
     [
       "DE",
-      16
+      17
     ],
     [
       "FR",
@@ -4962,6 +5065,10 @@
       3
     ],
     [
+      "FranTech Solutions",
+      3
+    ],
+    [
       "Pfcloud UG",
       3
     ],
@@ -4971,10 +5078,6 @@
     ],
     [
       "Artikel10 e.V.",
-      2
-    ],
-    [
-      "Dobson Technologies - Transport and Telecom Solutions, LLC",
       2
     ]
   ]
