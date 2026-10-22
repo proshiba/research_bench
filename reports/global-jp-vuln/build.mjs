@@ -4,6 +4,7 @@
 //
 //   node build.mjs [--resume] [--new-only] [--skip-checked-within N]
 //                  [--refresh-blacklist] [--blacklist-only] [--max-check N]
+//                  [--candidate-days N] [--ledger <path>]
 //
 // `--new-only` は**まだ一度も引いていない候補だけ**を対象にする。既定の選び方は
 // `lastReportedAt` の新しい順なので、放っておくと毎日ほぼ同じ IP を引き直して
@@ -30,6 +31,8 @@ import net from "node:net";
 import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
+/** 台帳のパスはリポジトリ基準で受ける（ルーチンから相対パスで渡せるように） */
+const REPO_ROOT_FOR_LEDGER = path.resolve(HERE, "../..");
 const CACHE = path.join(HERE, ".cache");
 const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "config.json"), "utf8"));
 const args = process.argv.slice(2);
@@ -134,9 +137,41 @@ console.log(`Blacklist ${snap.entries.length} 件 / 生成 ${snap.generatedAt}`)
 if (has("--blacklist-only")) process.exit(0);
 
 /* ================= フェーズ 2: Check 対象の選定 ================= */
-const cutoff30 = runStart.getTime() - 30 * 86400000;
-const eligible = snap.entries.filter((e) => e.score >= 75 && e.last && new Date(e.last).getTime() >= cutoff30);
-console.log(`候補（30日以内 かつ 信頼度75以上）: ${eligible.length} 件`);
+/**
+ * `--candidate-days N`: 候補を「最終通報が N 日以内」に絞る。既定は 30。
+ *
+ * 30 日だと候補が 98,880 件あり、1 日 9,000 件では**一巡に 11 日**かかる。
+ * 11 日前に引いた行の「過去 30 日」はもう古いので、30 日窓の一覧としては成立しない。
+ * **1 日に絞ると候補は 51,245 件**になり、今まさに動いている送信元だけが残る。
+ *
+ * 信頼度は Blacklist 側の下限（75）のままで、ここでは絞らない。
+ */
+const CAND_DAYS = Number(argOf("--candidate-days") || CFG.CANDIDATE_LAST_REPORTED_DAYS || 30);
+/**
+ * **窓の基準は「今」ではなく Blacklist を作った時刻。**
+ *
+ * `lastReportedAt` は Blacklist に載った時点の値なので、写しが古いと
+ * 今の時刻から測った窓には誰も入らない。実際 6 日前の写しに `--candidate-days 1`
+ * を掛けたら**候補 0 件**になり、取得が静かに空振りした。
+ *
+ * 写しの生成時刻を基準にすれば、写しが古くても「その時点で N 日以内だったもの」
+ * という一貫した意味になる。古さそのものは下で警告する。
+ */
+const snapAt = new Date(snap.generatedAt).getTime();
+const candCutoff = (Number.isFinite(snapAt) ? snapAt : runStart.getTime()) - CAND_DAYS * 86400000;
+const eligible = snap.entries.filter((e) => e.score >= CFG.BLACKLIST_CONFIDENCE_MINIMUM
+  && e.last && new Date(e.last).getTime() >= candCutoff);
+console.log(`候補（生成時点から${CAND_DAYS}日以内 かつ 信頼度${CFG.BLACKLIST_CONFIDENCE_MINIMUM}以上）: ${eligible.length} 件`);
+/** 写しが窓より古いと、候補が実質「もっと古いもの」になる。黙って進めない */
+const snapAgeDays = (runStart.getTime() - snapAt) / 86400000;
+if (Number.isFinite(snapAgeDays) && snapAgeDays > Math.max(1, CAND_DAYS)) {
+  console.log(`  ! Blacklist の写しが ${snapAgeDays.toFixed(1)} 日前で、窓（${CAND_DAYS} 日）より古いです。`
+    + "--refresh-blacklist を付けて取り直してください");
+}
+if (!eligible.length) {
+  console.error("候補が 0 件です。写しが古いか条件が厳しすぎます。取得せずに止めます。");
+  process.exit(1);
+}
 
 // 残量はヘッダが正。先に 1 回だけ /check を叩いて今日の残りを知る
 const probe = await callApi("https://api.abuseipdb.com/api/v2/check?ipAddress=8.8.8.8&maxAgeInDays=1", "check");
@@ -178,6 +213,40 @@ if (fs.existsSync(cacheIdx)) {
   }
   console.log(`24時間以内の有効キャッシュ ${cached.size} 件（再取得しません）`
     + ` / 一度でも引いた IP ${everChecked.size} 件`);
+}
+
+/**
+ * `--ledger <path>`: **引いた IP を git に残る台帳から読む。**
+ *
+ * `.cache/` は git 管理外なので、ルーチンが新しいクローンで走ると
+ * `checks.jsonl` が空から始まる。すると `--skip-checked-within` が何も
+ * 除外できず、**毎日ほぼ同じ IP を引き直す**。
+ *
+ * 実測（10-17〜10-22 のルーチン出力）では前日と 39〜46% が同じ IP で、
+ * 5 日ぶんの和集合は 12,846 件だった（毎日新規なら約 24,765 件のはず）。
+ * 枠の半分が引き直しに消えていた。
+ *
+ * 台帳は `{ip, at}` だけなので小さい（10 万件で 3.9 MB）。写し本体は
+ * 62.8 MB あるので git には置かない。**「引いたかどうか」だけを残す。**
+ */
+const LEDGER = argOf("--ledger");
+let ledgerLoaded = 0;
+if (LEDGER) {
+  const lf = path.resolve(REPO_ROOT_FOR_LEDGER, LEDGER);
+  if (fs.existsSync(lf)) {
+    for (const line of fs.readFileSync(lf, "utf8").split("\n")) {
+      if (!line.trim()) continue;
+      try {
+        const r = JSON.parse(line);
+        if (!r?.ip) continue;
+        everChecked.add(r.ip);
+        const at = String(r.at || "");
+        if (at && (!recentByIp.has(r.ip) || at > recentByIp.get(r.ip))) recentByIp.set(r.ip, at);
+        ledgerLoaded++;
+      } catch { /* 壊れた行は数えない */ }
+    }
+  }
+  console.log(`台帳 ${path.relative(REPO_ROOT_FOR_LEDGER, lf)}: ${ledgerLoaded} 件を読みました`);
 }
 
 /** `--new-only`: まだ一度も引いていない候補だけを対象にする（バックログを前進させる） */
@@ -412,6 +481,26 @@ fs.writeFileSync(STATE_FILE, JSON.stringify({
   last_run: { selected: selected.length, api_calls_check: used, stopped_reason: stopped,
     quota_remaining: quota.check.remaining, quota_reset_utc: quota.check.reset ? iso(new Date(quota.check.reset * 1000)) : null },
 }, null, 1));
+
+/**
+ * **台帳に追記する。** これが無いと、新しいクローンで走るたびに
+ * 「引いたかどうか」を忘れて同じ IP を引き直す。
+ *
+ * 1 IP 1 行で、同じ IP が複数行あっても読み込み側が新しい方を採る。
+ * 行が増えすぎないよう、**既にある IP は日付が変わったときだけ書く**。
+ */
+if (LEDGER) {
+  const lf = path.resolve(REPO_ROOT_FOR_LEDGER, LEDGER);
+  fs.mkdirSync(path.dirname(lf), { recursive: true });
+  const today = iso(runStart).slice(0, 10);
+  const lines = [];
+  for (const ip of cached.keys()) {
+    if (recentByIp.get(ip) === today) continue;   // 今日ぶんは既に台帳にある
+    lines.push(JSON.stringify({ at: today, ip }));
+  }
+  if (lines.length) fs.appendFileSync(lf, lines.join("\n") + "\n");
+  console.log(`台帳に ${lines.length} 件を追記しました（累計 ${ledgerLoaded + lines.length} 件）`);
+}
 
 console.log(`\nP1 ${pri("P1")} / P2 ${pri("P2")} / P3 ${pri("P3")} / 除外 ${pri("EXCLUDED_PRIMARY")}`);
 console.log(`採用 ${included.length} 行 / 日本の脆弱性報告あり ${rows.filter((r) => r.global_jp_vuln_eligible).length} 件`);
