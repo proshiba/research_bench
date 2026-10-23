@@ -1,6 +1,6 @@
 {
   "by_kind": {
-    "その他": 17,
+    "その他": 19,
     "侵入（範囲広い）": 16,
     "脆弱性狙い": 52,
     "認証狙い": 26,
@@ -197,9 +197,9 @@
     "SSH": 33,
     "Web アプリ攻撃": 50,
     "Web スパム": 17,
-    "オープンプロキシ": 20,
+    "オープンプロキシ": 22,
     "フィッシング": 4,
-    "ポートスキャン": 87,
+    "ポートスキャン": 89,
     "メールスパム": 4,
     "不正ボット": 34,
     "侵入": 35,
@@ -207,24 +207,24 @@
     "詐欺注文": 1,
     "踏み台": 2
   },
-  "jp_reported": 145,
-  "jp_reported_with_actor": 54,
+  "jp_reported": 147,
+  "jp_reported_with_actor": 56,
   "jp_reporter_distribution": {
-    "1": 79,
+    "1": 81,
     "2": 26,
     "3": 15,
     "4": 6,
     "5+": 19
   },
   "marks": {
-    "hosting": 129,
+    "hosting": 131,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 798,
+    "reported_ips": 807,
     "unmeasured": 0
   },
   "rows": [
@@ -1667,6 +1667,37 @@
     },
     {
       "actors": [
+        "Storm-0940"
+      ],
+      "articles": [
+        "article:20261023#6"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "AU",
+      "hosting": true,
+      "ioc": "ioc.ipv4|144.172.64.99",
+      "ip": "144.172.64.99",
+      "isp": "FranTech Solutions",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-10-13",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 2,
+      "reports": 2,
+      "roles": [],
+      "score": 11,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
         "PhantomEnigma"
       ],
       "articles": [
@@ -1721,6 +1752,37 @@
       "malware": [],
       "reporters": 4,
       "reports": 6,
+      "roles": [],
+      "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "Storm-0940"
+      ],
+      "articles": [
+        "article:20261023#6"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|187.15.89.186",
+      "ip": "187.15.89.186",
+      "isp": "Packethub United States",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-09-01",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 1,
+      "reports": 1,
       "roles": [],
       "score": 0,
       "strict": [],
@@ -4983,11 +5045,11 @@
   "tool": "jp-reports",
   "top_countries": [
     [
-      "NL",
-      35
+      "US",
+      36
     ],
     [
-      "US",
+      "NL",
       35
     ],
     [
@@ -5053,6 +5115,10 @@
       4
     ],
     [
+      "FranTech Solutions",
+      4
+    ],
+    [
       "TECHOFF SRV LIMITED",
       4
     ],
@@ -5062,10 +5128,6 @@
     ],
     [
       "Cloudflare, Inc.",
-      3
-    ],
-    [
-      "FranTech Solutions",
       3
     ],
     [
