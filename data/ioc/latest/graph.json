@@ -24617,15 +24617,15 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.08,
-      "shared": 2,
+      "ratio": 0.04,
+      "shared": 1,
       "source": "actor:SQLRCE0",
-      "strength": 6,
+      "strength": 1,
       "target": "actor:Silver Fox",
       "via": [
-        "asn",
         "jarm"
-      ]
+      ],
+      "weak_only": true
     },
     {
       "kind": "actor",
@@ -25421,15 +25421,15 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.08,
-      "shared": 2,
+      "ratio": 0.04,
+      "shared": 1,
       "source": "actor:Silver Fox",
-      "strength": 6,
+      "strength": 1,
       "target": "actor:Yx Technology",
       "via": [
-        "asn",
         "jarm"
-      ]
+      ],
+      "weak_only": true
     },
     {
       "kind": "actor",
@@ -43502,17 +43502,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.04,
-      "shared": 1,
-      "source": "malware:Flying Eagle",
-      "strength": 5,
-      "target": "malware:ValleyRAT",
-      "via": [
-        "asn"
-      ]
-    },
-    {
-      "kind": "malware",
       "ratio": 0.2,
       "shared": 1,
       "source": "malware:Forg365",
@@ -48591,17 +48580,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.04,
-      "shared": 1,
-      "source": "malware:Night Dragon",
-      "strength": 5,
-      "target": "malware:ValleyRAT",
-      "via": [
-        "asn"
-      ]
-    },
-    {
-      "kind": "malware",
       "ratio": 0.333,
       "shared": 1,
       "source": "malware:NightLedger",
@@ -53103,7 +53081,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-10-22T00:03:08.392Z",
+  "generated_from": "2026-10-23T00:03:04.248Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
