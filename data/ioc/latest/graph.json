@@ -919,6 +919,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.032,
+      "shared": 1,
+      "source": "actor:APT28",
+      "strength": 3,
+      "target": "actor:INC Ransomware",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.5,
       "shared": 2,
       "source": "actor:APT28",
@@ -1713,6 +1725,18 @@
       "via": [
         "jarm",
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "actor:APT28",
+      "strength": 1,
+      "target": "actor:plymouth",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -8042,6 +8066,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.032,
+      "shared": 1,
+      "source": "actor:BITTER",
+      "strength": 3,
+      "target": "actor:INC Ransomware",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.009,
       "shared": 1,
       "source": "actor:BITTER",
@@ -13933,6 +13969,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.032,
+      "shared": 1,
+      "source": "actor:DragonForce",
+      "strength": 1,
+      "target": "actor:INC Ransomware",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.031,
       "shared": 1,
       "source": "actor:DragonForce",
@@ -15816,6 +15864,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.032,
+      "shared": 1,
+      "source": "actor:Flax Typhoon",
+      "strength": 1,
+      "target": "actor:INC Ransomware",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.026,
       "shared": 3,
       "source": "actor:Flax Typhoon",
@@ -16284,6 +16344,18 @@
       "target": "actor:masterblack",
       "via": [
         "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "actor:Flax Typhoon",
+      "strength": 1,
+      "target": "actor:plymouth",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -19300,6 +19372,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.032,
+      "shared": 1,
+      "source": "actor:GreyVibe",
+      "strength": 3,
+      "target": "actor:INC Ransomware",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.007,
       "shared": 1,
       "source": "actor:GreyVibe",
@@ -19914,6 +19998,90 @@
       "target": "actor:Sidewinder",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.032,
+      "shared": 1,
+      "source": "actor:INC Ransomware",
+      "strength": 3,
+      "target": "actor:PasteSwitch",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.032,
+      "shared": 1,
+      "source": "actor:INC Ransomware",
+      "strength": 3,
+      "target": "actor:Silver Fox",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.032,
+      "shared": 1,
+      "source": "actor:INC Ransomware",
+      "strength": 3,
+      "target": "actor:SourTrade",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.032,
+      "shared": 1,
+      "source": "actor:INC Ransomware",
+      "strength": 1,
+      "target": "actor:UAT-6275",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.097,
+      "shared": 3,
+      "source": "actor:INC Ransomware",
+      "strength": 3,
+      "target": "actor:UNK_DeadDrop",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "actor:INC Ransomware",
+      "strength": 3,
+      "target": "actor:UTG-Q-1000",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "actor:INC Ransomware",
+      "strength": 1,
+      "target": "actor:terminalfix",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -30647,6 +30815,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "malware:ACRStealer",
+      "strength": 3,
+      "target": "malware:Ghost C2",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.067,
       "shared": 1,
       "source": "malware:ACRStealer",
@@ -31784,7 +31964,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.043,
+      "ratio": 0.042,
       "shared": 2,
       "source": "malware:AMOS",
       "strength": 3,
@@ -33778,7 +33958,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.043,
+      "ratio": 0.042,
       "shared": 2,
       "source": "malware:Amadey",
       "strength": 8,
@@ -35532,6 +35712,18 @@
       "target": "malware:Rapuncel",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.071,
+      "shared": 1,
+      "source": "malware:AsyncRAT",
+      "strength": 1,
+      "target": "malware:RevSocks",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -37806,6 +37998,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.071,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 1,
+      "target": "malware:RevSocks",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.1,
       "shared": 2,
       "source": "malware:Candiru",
@@ -39183,6 +39387,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.071,
+      "shared": 1,
+      "source": "malware:Cobalt Strike",
+      "strength": 1,
+      "target": "malware:RevSocks",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.038,
       "shared": 1,
       "source": "malware:Cobalt Strike",
@@ -40084,7 +40300,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.043,
+      "ratio": 0.042,
       "shared": 2,
       "source": "malware:CountLoader",
       "strength": 3,
@@ -40401,6 +40617,18 @@
       "source": "malware:Cyclops Blink",
       "strength": 1,
       "target": "malware:Qilin",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.071,
+      "shared": 1,
+      "source": "malware:Cyclops Blink",
+      "strength": 1,
+      "target": "malware:RevSocks",
       "via": [
         "jarm"
       ],
@@ -41868,6 +42096,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "malware:ErrTraffic",
+      "strength": 3,
+      "target": "malware:Ghost C2",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.133,
       "shared": 2,
       "source": "malware:ErrTraffic",
@@ -42241,7 +42481,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.064,
+      "ratio": 0.063,
       "shared": 3,
       "source": "malware:ErrTraffic",
       "strength": 3,
@@ -44086,6 +44326,30 @@
       "via": [
         "jarm",
         "registrable"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "malware:Ghost C2",
+      "strength": 3,
+      "target": "malware:Gryxa",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "malware:Ghost C2",
+      "strength": 3,
+      "target": "malware:Overlord",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -46568,6 +46832,18 @@
       "target": "malware:npm-supply-chain",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.5,
+      "shared": 1,
+      "source": "malware:MINIRECON",
+      "strength": 1,
+      "target": "malware:RevSocks",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -50575,7 +50851,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.077,
+      "ratio": 0.071,
       "shared": 1,
       "source": "malware:PowerShower",
       "strength": 7,
@@ -51492,6 +51768,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.071,
+      "shared": 1,
+      "source": "malware:RevSocks",
+      "strength": 1,
+      "target": "malware:SynkLoader",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.125,
       "shared": 1,
       "source": "malware:Rhadamanthys",
@@ -51681,7 +51969,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.043,
+      "ratio": 0.042,
       "shared": 2,
       "source": "malware:SUNBURST",
       "strength": 1,
@@ -52453,6 +52741,17 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.1,
+      "shared": 1,
+      "source": "malware:Stadia",
+      "strength": 5,
+      "target": "malware:StealC",
+      "via": [
+        "asn"
+      ]
+    },
+    {
+      "kind": "malware",
       "ratio": 0.143,
       "shared": 1,
       "source": "malware:Starland RAT",
@@ -53081,7 +53380,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-10-23T00:03:04.248Z",
+  "generated_from": "2026-10-25T00:03:58.029Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -53664,6 +53963,12 @@
       "ioc_count": 9,
       "kind": "actor",
       "name": "Higaisa"
+    },
+    {
+      "id": "actor:INC Ransomware",
+      "ioc_count": 31,
+      "kind": "actor",
+      "name": "INC Ransomware"
     },
     {
       "id": "actor:Icarus",
@@ -54474,6 +54779,12 @@
       "ioc_count": 24,
       "kind": "actor",
       "name": "masterblack"
+    },
+    {
+      "id": "actor:plymouth",
+      "ioc_count": 11,
+      "kind": "actor",
+      "name": "plymouth"
     },
     {
       "id": "actor:shinyenigma",
@@ -56084,6 +56395,12 @@
       "name": "Ghost"
     },
     {
+      "id": "malware:Ghost C2",
+      "ioc_count": 3,
+      "kind": "malware",
+      "name": "Ghost C2"
+    },
+    {
       "id": "malware:GoFlateLoader",
       "ioc_count": 11,
       "kind": "malware",
@@ -56925,7 +57242,7 @@
     },
     {
       "id": "malware:RevSocks",
-      "ioc_count": 13,
+      "ioc_count": 14,
       "kind": "malware",
       "name": "RevSocks"
     },
@@ -57170,6 +57487,12 @@
       "name": "SpyGlace"
     },
     {
+      "id": "malware:Stadia",
+      "ioc_count": 10,
+      "kind": "malware",
+      "name": "Stadia"
+    },
+    {
       "id": "malware:Starland RAT",
       "ioc_count": 7,
       "kind": "malware",
@@ -57177,7 +57500,7 @@
     },
     {
       "id": "malware:StealC",
-      "ioc_count": 49,
+      "ioc_count": 50,
       "kind": "malware",
       "name": "StealC"
     },

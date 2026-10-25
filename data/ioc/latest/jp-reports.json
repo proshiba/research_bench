@@ -3,7 +3,7 @@
     "その他": 19,
     "侵入（範囲広い）": 16,
     "脆弱性狙い": 52,
-    "認証狙い": 26,
+    "認証狙い": 27,
     "走査のみ": 34
   },
   "clustered_24": [
@@ -203,28 +203,28 @@
     "メールスパム": 4,
     "不正ボット": 34,
     "侵入": 35,
-    "総当たり": 56,
+    "総当たり": 57,
     "詐欺注文": 1,
     "踏み台": 2
   },
-  "jp_reported": 147,
-  "jp_reported_with_actor": 56,
+  "jp_reported": 148,
+  "jp_reported_with_actor": 57,
   "jp_reporter_distribution": {
-    "1": 81,
+    "1": 82,
     "2": 26,
     "3": 15,
     "4": 6,
     "5+": 19
   },
   "marks": {
-    "hosting": 131,
+    "hosting": 132,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 807,
+    "reported_ips": 809,
     "unmeasured": 0
   },
   "rows": [
@@ -1440,6 +1440,40 @@
       "score": 0,
       "strict": [],
       "usage_type": "Fixed Line ISP"
+    },
+    {
+      "actors": [
+        "INC Ransomware"
+      ],
+      "articles": [
+        "article:20261024#8"
+      ],
+      "auth": [
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "LT",
+      "hosting": true,
+      "ioc": "ioc.ipv4|45.227.254.43",
+      "ip": "45.227.254.43",
+      "isp": "XWIN UNIVERSAL LTD",
+      "jp_categories": [
+        "総当たり"
+      ],
+      "jp_last": "2025-10-29",
+      "jp_reporters": 1,
+      "jp_reports": 2,
+      "jp_substantive": 2,
+      "kind": "認証狙い",
+      "malware": [
+        "Phantom"
+      ],
+      "reporters": 143,
+      "reports": 357,
+      "roles": [],
+      "score": 4,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
     },
     {
       "actors": [
