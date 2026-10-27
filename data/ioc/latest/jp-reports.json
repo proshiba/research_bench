@@ -2,8 +2,8 @@
   "by_kind": {
     "その他": 19,
     "侵入（範囲広い）": 16,
-    "脆弱性狙い": 52,
-    "認証狙い": 27,
+    "脆弱性狙い": 54,
+    "認証狙い": 28,
     "走査のみ": 34
   },
   "clustered_24": [
@@ -193,38 +193,38 @@
   "jp_categories": {
     "DDoS": 6,
     "IoT 狙い": 1,
-    "SQL インジェクション": 9,
+    "SQL インジェクション": 10,
     "SSH": 33,
-    "Web アプリ攻撃": 50,
+    "Web アプリ攻撃": 51,
     "Web スパム": 17,
-    "オープンプロキシ": 22,
+    "オープンプロキシ": 23,
     "フィッシング": 4,
-    "ポートスキャン": 89,
-    "メールスパム": 4,
-    "不正ボット": 34,
+    "ポートスキャン": 91,
+    "メールスパム": 5,
+    "不正ボット": 35,
     "侵入": 35,
-    "総当たり": 57,
+    "総当たり": 58,
     "詐欺注文": 1,
     "踏み台": 2
   },
-  "jp_reported": 148,
-  "jp_reported_with_actor": 57,
+  "jp_reported": 151,
+  "jp_reported_with_actor": 58,
   "jp_reporter_distribution": {
     "1": 82,
-    "2": 26,
-    "3": 15,
-    "4": 6,
+    "2": 27,
+    "3": 16,
+    "4": 7,
     "5+": 19
   },
   "marks": {
-    "hosting": 132,
+    "hosting": 135,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 809,
+    "reported_ips": 814,
     "unmeasured": 0
   },
   "rows": [
@@ -383,6 +383,39 @@
         "Web アプリ攻撃"
       ],
       "tor": true,
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "MALFEX"
+      ],
+      "articles": [],
+      "auth": [],
+      "broad": [],
+      "country": "BR",
+      "hosting": true,
+      "ioc": "ioc.ipv4|45.89.30.194",
+      "ip": "45.89.30.194",
+      "isp": "BB Host",
+      "jp_categories": [
+        "SQL インジェクション",
+        "ポートスキャン"
+      ],
+      "jp_last": "2025-12-22",
+      "jp_reporters": 3,
+      "jp_reports": 4,
+      "jp_substantive": 4,
+      "kind": "脆弱性狙い",
+      "malware": [
+        "function-flag"
+      ],
+      "reporters": 90,
+      "reports": 155,
+      "roles": [],
+      "score": 0,
+      "strict": [
+        "SQL インジェクション"
+      ],
       "usage_type": "Data Center/Web Hosting/Transit"
     },
     {
@@ -2643,6 +2676,39 @@
     {
       "actors": [],
       "articles": [
+        "article:20261027#5"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "BD",
+      "hosting": true,
+      "ioc": "ioc.ipv4|104.28.208.84",
+      "ip": "104.28.208.84",
+      "isp": "Cloudflare, Inc.",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "オープンプロキシ",
+        "ポートスキャン",
+        "不正ボット"
+      ],
+      "jp_last": "2026-10-04",
+      "jp_reporters": 4,
+      "jp_reports": 4,
+      "jp_substantive": 4,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 239,
+      "reports": 652,
+      "roles": [],
+      "score": 100,
+      "strict": [
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260529#1"
       ],
       "auth": [],
@@ -3424,6 +3490,37 @@
       ],
       "reporters": 9,
       "reports": 43,
+      "roles": [],
+      "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261027#5"
+      ],
+      "auth": [
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "JP",
+      "hosting": true,
+      "ioc": "ioc.ipv4|144.48.4.242",
+      "ip": "144.48.4.242",
+      "isp": "Beyotta Network LLP",
+      "jp_categories": [
+        "メールスパム",
+        "総当たり"
+      ],
+      "jp_last": "2026-01-19",
+      "jp_reporters": 2,
+      "jp_reports": 2,
+      "jp_substantive": 2,
+      "kind": "認証狙い",
+      "malware": [],
+      "reporters": 8,
+      "reports": 9,
       "roles": [],
       "score": 0,
       "strict": [],
@@ -5103,11 +5200,11 @@
       6
     ],
     [
-      "ID",
-      4
+      "JP",
+      5
     ],
     [
-      "JP",
+      "ID",
       4
     ],
     [
@@ -5145,6 +5242,10 @@
       5
     ],
     [
+      "Cloudflare, Inc.",
+      4
+    ],
+    [
       "Datacamp Limited",
       4
     ],
@@ -5158,10 +5259,6 @@
     ],
     [
       "31173 Services AB infrastructure in Amsterdam, NL.",
-      3
-    ],
-    [
-      "Cloudflare, Inc.",
       3
     ],
     [
