@@ -12960,8 +12960,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.026,
-      "shared": 5,
+      "ratio": 0.031,
+      "shared": 6,
       "source": "actor:Cytrox",
       "strength": 4,
       "target": "actor:Sidewinder",
@@ -34010,6 +34010,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.033,
+      "shared": 1,
+      "source": "malware:Amadey",
+      "strength": 3,
+      "target": "malware:ScreenConnect",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.5,
       "shared": 1,
       "source": "malware:Amadey",
@@ -40554,6 +40566,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.033,
+      "shared": 1,
+      "source": "malware:CountLoader",
+      "strength": 3,
+      "target": "malware:ScreenConnect",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.03,
       "shared": 1,
       "source": "malware:CountLoader",
@@ -43149,6 +43173,18 @@
       "source": "malware:EtherRAT",
       "strength": 1,
       "target": "malware:SafePay",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.033,
+      "shared": 1,
+      "source": "malware:EtherRAT",
+      "strength": 1,
+      "target": "malware:ScreenConnect",
       "via": [
         "jarm"
       ],
@@ -46827,7 +46863,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.033,
       "shared": 1,
       "source": "malware:Lunex",
       "strength": 3,
@@ -49302,7 +49338,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.033,
       "shared": 1,
       "source": "malware:Node.js Backdoor",
       "strength": 3,
@@ -52512,7 +52548,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.033,
       "shared": 1,
       "source": "malware:ScreenConnect",
       "strength": 3,
@@ -52524,13 +52560,28 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
-      "shared": 1,
+      "ratio": 0.433,
+      "shared": 13,
       "source": "malware:ScreenConnect",
-      "strength": 2,
+      "strength": 21,
       "target": "malware:ValleyRAT",
       "via": [
-        "family"
+        "family",
+        "filename",
+        "imphash",
+        "ioc",
+        "vhash"
+      ]
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:ScreenConnect",
+      "strength": 1,
+      "target": "malware:ms_upd.exe",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -53802,7 +53853,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-10-27T00:03:25.757Z",
+  "generated_from": "2026-10-28T00:03:17.517Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -57748,7 +57799,7 @@
     },
     {
       "id": "malware:ScreenConnect",
-      "ioc_count": 21,
+      "ioc_count": 30,
       "kind": "malware",
       "name": "ScreenConnect"
     },
