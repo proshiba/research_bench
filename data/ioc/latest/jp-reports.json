@@ -3,7 +3,7 @@
     "その他": 19,
     "侵入（範囲広い）": 16,
     "脆弱性狙い": 54,
-    "認証狙い": 28,
+    "認証狙い": 29,
     "走査のみ": 34
   },
   "clustered_24": [
@@ -200,31 +200,31 @@
     "オープンプロキシ": 23,
     "フィッシング": 4,
     "ポートスキャン": 91,
-    "メールスパム": 5,
+    "メールスパム": 6,
     "不正ボット": 35,
     "侵入": 35,
-    "総当たり": 58,
+    "総当たり": 59,
     "詐欺注文": 1,
     "踏み台": 2
   },
-  "jp_reported": 151,
+  "jp_reported": 152,
   "jp_reported_with_actor": 58,
   "jp_reporter_distribution": {
-    "1": 82,
+    "1": 83,
     "2": 27,
     "3": 16,
     "4": 7,
     "5+": 19
   },
   "marks": {
-    "hosting": 135,
+    "hosting": 136,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 814,
+    "reported_ips": 815,
     "unmeasured": 0
   },
   "rows": [
@@ -4361,6 +4361,37 @@
     },
     {
       "actors": [],
+      "articles": [],
+      "auth": [
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "HK",
+      "hosting": true,
+      "ioc": "ioc.ipv4|2.59.152.21",
+      "ip": "2.59.152.21",
+      "isp": "HDTIDC LIMITED",
+      "jp_categories": [
+        "メールスパム",
+        "総当たり"
+      ],
+      "jp_last": "2025-11-17",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "認証狙い",
+      "malware": [
+        "ScreenConnect"
+      ],
+      "reporters": 2,
+      "reports": 2,
+      "roles": [],
+      "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
       "articles": [
         "article:20261008#11"
       ],
@@ -5188,11 +5219,11 @@
       17
     ],
     [
-      "FR",
-      7
+      "HK",
+      8
     ],
     [
-      "HK",
+      "FR",
       7
     ],
     [
