@@ -38140,6 +38140,19 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.286,
+      "shared": 2,
+      "source": "malware:CROSSROAD",
+      "strength": 3,
+      "target": "malware:ManageEngine DCAgent",
+      "via": [
+        "jarm",
+        "registrable"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.214,
       "shared": 3,
       "source": "malware:CROSSROAD",
@@ -44655,6 +44668,19 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.286,
+      "shared": 2,
+      "source": "malware:Ghost",
+      "strength": 3,
+      "target": "malware:ManageEngine DCAgent",
+      "via": [
+        "jarm",
+        "registrable"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.125,
       "shared": 1,
       "source": "malware:Ghost",
@@ -47920,6 +47946,32 @@
       "target": "malware:xlabs_v1",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.286,
+      "shared": 2,
+      "source": "malware:ManageEngine DCAgent",
+      "strength": 3,
+      "target": "malware:ValleyRAT",
+      "via": [
+        "jarm",
+        "registrable"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.286,
+      "shared": 2,
+      "source": "malware:ManageEngine DCAgent",
+      "strength": 3,
+      "target": "malware:XMRig",
+      "via": [
+        "jarm",
+        "registrable"
       ],
       "weak_only": true
     },
@@ -53853,7 +53905,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-10-28T00:03:17.517Z",
+  "generated_from": "2026-10-29T00:03:16.158Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -57166,6 +57218,12 @@
       "ioc_count": 215,
       "kind": "malware",
       "name": "Macsync"
+    },
+    {
+      "id": "malware:ManageEngine DCAgent",
+      "ioc_count": 7,
+      "kind": "malware",
+      "name": "ManageEngine DCAgent"
     },
     {
       "id": "malware:ManageEngine Endpoint Central悪用",
