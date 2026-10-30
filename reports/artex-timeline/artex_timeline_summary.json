@@ -1,0 +1,194 @@
+{
+  "baseline_collected_at_utc": "2026-10-14T05:21:34.943Z",
+  "bulk_feeds": [
+    {
+      "category_names": "Exploited Host",
+      "comment_excerpt": "ICS Labs threat intelligence (ICS Feeds): Exploited Host. Last observed 2026-10-17 UTC.",
+      "country": "BR",
+      "days": "2026-10-17;2026-10-20;2026-10-24",
+      "distinct_ips": 44,
+      "reporter": "BR-R01",
+      "reports": 44
+    }
+  ],
+  "by_day": [
+    {
+      "artex_ips": 0,
+      "category_names": "Hacking;Port Scan",
+      "clusters": "sub2api",
+      "day": "2026-09-30",
+      "distinct_ips": 1,
+      "distinct_reporters": 1,
+      "reports": 1,
+      "sub2api_ips": 1
+    },
+    {
+      "artex_ips": 11,
+      "category_names": "Exploited Host",
+      "clusters": "ARTEX",
+      "day": "2026-10-17",
+      "distinct_ips": 11,
+      "distinct_reporters": 1,
+      "reports": 11,
+      "sub2api_ips": 0
+    },
+    {
+      "artex_ips": 1,
+      "category_names": "Exploited Host",
+      "clusters": "ARTEX",
+      "day": "2026-10-20",
+      "distinct_ips": 1,
+      "distinct_reporters": 1,
+      "reports": 1,
+      "sub2api_ips": 0
+    },
+    {
+      "artex_ips": 0,
+      "category_names": "Hacking;Web App Attack",
+      "clusters": "sub2api",
+      "day": "2026-10-23",
+      "distinct_ips": 1,
+      "distinct_reporters": 1,
+      "reports": 1,
+      "sub2api_ips": 1
+    },
+    {
+      "artex_ips": 31,
+      "category_names": "Exploited Host",
+      "clusters": "ARTEX;sub2api",
+      "day": "2026-10-24",
+      "distinct_ips": 32,
+      "distinct_reporters": 1,
+      "reports": 32,
+      "sub2api_ips": 1
+    }
+  ],
+  "clusters": [
+    {
+      "explicit": null,
+      "name": "ARTEX",
+      "note": "ARTEX が起動していると利用者が観測した範囲。.0/.126/.127 を除く",
+      "ranges": [
+        "38.11.173.0/25",
+        "38.11.221.0/25"
+      ]
+    },
+    {
+      "explicit": [
+        "198.200.59.85",
+        "198.200.59.86",
+        "198.200.59.87",
+        "198.200.59.88",
+        "198.200.59.89"
+      ],
+      "name": "sub2api",
+      "note": "sub2api があり、同じリチャージ URL(198.200.59.85) がセットされていると利用者が観測",
+      "ranges": null
+    }
+  ],
+  "collected_at_utc": "2026-10-30T08:12:37.118Z",
+  "dataset": "ARTEX_TIMELINE",
+  "fetch_window_days": 365,
+  "generated_from": "写しのみ。API は呼んでいない",
+  "per_cluster": {
+    "ARTEX": {
+      "baseline_available": 250,
+      "distinct_reporters": 1,
+      "in_threat_index": 0,
+      "ips": 250,
+      "isp": {
+        "Cogent Communications, LLC": 250
+      },
+      "jp_reports": 0,
+      "max_score_now": 3,
+      "newly_reported": 43,
+      "rdns_domains": {},
+      "total_reports_now": 43,
+      "with_rdns": 0,
+      "with_reports_baseline": 0,
+      "with_reports_now": 43
+    },
+    "sub2api": {
+      "baseline_available": 0,
+      "distinct_reporters": 3,
+      "in_threat_index": 0,
+      "ips": 5,
+      "isp": {
+        "PEG TECH INC": 5
+      },
+      "jp_reports": 0,
+      "max_score_now": 18,
+      "newly_reported": 0,
+      "rdns_domains": {
+        "visiblooths.net": 5
+      },
+      "total_reports_now": 3,
+      "with_rdns": 5,
+      "with_reports_baseline": 0,
+      "with_reports_now": 1
+    }
+  },
+  "reporters": [
+    {
+      "category_names": "Exploited Host",
+      "clusters": "ARTEX;sub2api",
+      "comment_excerpt": "ICS Labs threat intelligence (ICS Feeds): Exploited Host. Last observed 2026-10-17 UTC.",
+      "comment_shape": "ICS Labs threat intelligence (ICS Feeds): Exploited Host. Last observed <date> UTC.",
+      "country": "BR",
+      "days": "2026-10-17;2026-10-20;2026-10-24",
+      "distinct_comment_shapes": 1,
+      "distinct_days": 3,
+      "distinct_ips": 44,
+      "looks_like_bulk_feed": true,
+      "reporter": "BR-R01",
+      "reports": 44
+    },
+    {
+      "category_names": "Hacking;Web App Attack",
+      "clusters": "sub2api",
+      "comment_excerpt": "",
+      "comment_shape": "",
+      "country": "MY",
+      "days": "2026-10-23",
+      "distinct_comment_shapes": 1,
+      "distinct_days": 1,
+      "distinct_ips": 1,
+      "looks_like_bulk_feed": false,
+      "reporter": "MY-R02",
+      "reports": 1
+    },
+    {
+      "category_names": "Hacking;Port Scan",
+      "clusters": "sub2api",
+      "comment_excerpt": "Connection to port 443 with data transfer. Data preview:",
+      "comment_shape": "Connection to port <n> with data transfer. Data preview:",
+      "country": "NL",
+      "days": "2026-09-30",
+      "distinct_comment_shapes": 1,
+      "distinct_days": 1,
+      "distinct_ips": 1,
+      "looks_like_bulk_feed": false,
+      "reporter": "NL-R03",
+      "reports": 1
+    }
+  ],
+  "reports": {
+    "by_category": {
+      "Exploited Host": 44,
+      "Hacking": 2,
+      "Port Scan": 1,
+      "Web App Attack": 1
+    },
+    "by_reporter_country": {
+      "BR": 44,
+      "MY": 1,
+      "NL": 1
+    },
+    "distinct_ips": 44,
+    "distinct_reporters": 3,
+    "empty_comments": 1,
+    "first": "2026-09-30T12:55:25+00:00",
+    "last": "2026-10-24T00:05:25+00:00",
+    "total": 46
+  }
+}
