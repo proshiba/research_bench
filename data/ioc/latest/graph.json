@@ -43600,6 +43600,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.083,
+      "shared": 1,
+      "source": "malware:Exvicy",
+      "strength": 3,
+      "target": "malware:NIK C2",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.011,
       "shared": 1,
       "source": "malware:Exvicy",
@@ -47394,6 +47406,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.083,
+      "shared": 1,
+      "source": "malware:Machete",
+      "strength": 3,
+      "target": "malware:NIK C2",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.056,
       "shared": 1,
       "source": "malware:Machete",
@@ -48991,6 +49015,18 @@
       "target": "malware:VShell",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.083,
+      "shared": 1,
+      "source": "malware:NIK C2",
+      "strength": 3,
+      "target": "malware:Rapuncel",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -53905,7 +53941,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-10-29T00:03:16.158Z",
+  "generated_from": "2026-10-30T00:02:59.649Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -57344,6 +57380,12 @@
       "ioc_count": 3,
       "kind": "malware",
       "name": "NFCShare"
+    },
+    {
+      "id": "malware:NIK C2",
+      "ioc_count": 12,
+      "kind": "malware",
+      "name": "NIK C2"
     },
     {
       "id": "malware:NWHStealer",

@@ -1,0 +1,21 @@
+{
+  "DATASET": "ARTEX_TIMELINE",
+  "FETCH_WINDOW_DAYS": 365,
+  "CLUSTERS": [
+    {
+      "name": "ARTEX",
+      "note": "ARTEX が起動していると利用者が観測した範囲。.0/.126/.127 を除く",
+      "ranges": ["38.11.173.0/25", "38.11.221.0/25"],
+      "host_range": [1, 125]
+    },
+    {
+      "name": "sub2api",
+      "note": "sub2api があり、同じリチャージ URL(198.200.59.85) がセットされていると利用者が観測",
+      "explicit": ["198.200.59.85", "198.200.59.86", "198.200.59.87", "198.200.59.88", "198.200.59.89"]
+    }
+  ],
+  "BASELINE": "reports/artex-38-11/.cache/abuseipdb",
+  "INDEX_DIR": "data/ioc/latest",
+  "ABUSE_CONCURRENCY": 6,
+  "ABUSE_MIN_INTERVAL_MS": 120
+}
