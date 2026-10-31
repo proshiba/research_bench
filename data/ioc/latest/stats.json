@@ -29,19 +29,6 @@
       },
       {
         "actors": [
-          "Icarus",
-          "PhantomEnigma",
-          "UNC6240"
-        ],
-        "addresses": 1792,
-        "asn": 214961,
-        "cc": "FR",
-        "hosting_ratio": 1,
-        "hosting_seen": 8,
-        "name": "Stellar Group SAS"
-      },
-      {
-        "actors": [
           "APT34",
           "APT43",
           "Lamberts"
@@ -52,6 +39,19 @@
         "hosting_ratio": 1,
         "hosting_seen": 3,
         "name": "Buzinessware FZCO"
+      },
+      {
+        "actors": [
+          "Icarus",
+          "PhantomEnigma",
+          "UNC6240"
+        ],
+        "addresses": 2048,
+        "asn": 214961,
+        "cc": "FR",
+        "hosting_ratio": 1,
+        "hosting_seen": 8,
+        "name": "Stellar Group SAS"
       },
       {
         "actors": [
@@ -117,18 +117,6 @@
       },
       {
         "actors": [
-          "APT28",
-          "Sandworm Team"
-        ],
-        "addresses": 3328,
-        "asn": 60602,
-        "cc": "MD",
-        "hosting_ratio": 1,
-        "hosting_seen": 3,
-        "name": "Inovare-Prim SRL"
-      },
-      {
-        "actors": [
           "DPRK IT Worker Schemes",
           "Lazarus"
         ],
@@ -138,6 +126,18 @@
         "hosting_ratio": 1,
         "hosting_seen": 6,
         "name": "Asia Web Service Ltd"
+      },
+      {
+        "actors": [
+          "APT28",
+          "Sandworm Team"
+        ],
+        "addresses": 3584,
+        "asn": 60602,
+        "cc": "MD",
+        "hosting_ratio": 1,
+        "hosting_seen": 3,
+        "name": "Inovare-Prim SRL"
       },
       {
         "actors": [
@@ -277,7 +277,7 @@
           "Toy Ghouls",
           "Wizard Spider"
         ],
-        "addresses": 1666816,
+        "addresses": 1667072,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -355,7 +355,7 @@
           "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218589696,
+        "addresses": 218557440,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -434,7 +434,7 @@
           "UNC5174",
           "Winnti Group"
         ],
-        "addresses": 1506560,
+        "addresses": 1506304,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -467,7 +467,7 @@
           "Qilin",
           "TAG-83"
         ],
-        "addresses": 516096,
+        "addresses": 519168,
         "asn": 29802,
         "cc": "US",
         "name": "HIVELOCITY, Inc."
@@ -483,7 +483,7 @@
           "Red Heron",
           "UAT-6275"
         ],
-        "addresses": 1088512,
+        "addresses": 1088000,
         "asn": 36352,
         "cc": "US",
         "name": "HostPapa"
@@ -562,7 +562,7 @@
           "Jewelbug",
           "The Gentlemen"
         ],
-        "addresses": 37711360,
+        "addresses": 37704192,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
@@ -577,7 +577,7 @@
           "shinyenigma",
           "vectra"
         ],
-        "addresses": 1769984,
+        "addresses": 1770496,
         "asn": 6461,
         "cc": "US",
         "name": "Zayo Bandwidth"
@@ -585,7 +585,7 @@
     ],
     "multi_actor": 228,
     "multi_actor_small": 8,
-    "small": 296,
+    "small": 295,
     "top": [
       {
         "actors": [
@@ -707,7 +707,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1494
+    "total": 1493
   },
   "coverage": {
     "abuseipdb": {
@@ -717,20 +717,20 @@
           "target": 1052
         },
         "2": {
-          "done": 476,
-          "target": 476
+          "done": 480,
+          "target": 480
         },
         "5": {
-          "done": 3420,
-          "target": 3420
+          "done": 3416,
+          "target": 3416
         }
       },
       "done": 4949,
       "ratio": 1,
       "target": 4948
     },
-    "newest_fetch": "2026-10-30",
-    "oldest_fetch": "2026-10-30",
+    "newest_fetch": null,
+    "oldest_fetch": null,
     "virustotal": {
       "by_stage": {
         "1": {
@@ -738,8 +738,8 @@
           "target": 6918
         },
         "2": {
-          "done": 476,
-          "target": 476
+          "done": 480,
+          "target": 480
         },
         "3": {
           "done": 6499,
@@ -750,8 +750,8 @@
           "target": 7006
         },
         "5": {
-          "done": 5778,
-          "target": 5778
+          "done": 5774,
+          "target": 5774
         },
         "6": {
           "done": 1659,
@@ -772,7 +772,7 @@
     "malware": 544
   },
   "from": {
-    "collected_at": "2026-10-30T00:02:59.649Z",
+    "collected_at": "2026-10-31T00:03:19.072Z",
     "week": "2026-W44"
   },
   "iocs": {
@@ -2643,7 +2643,7 @@
         ],
         "asns": [
           {
-            "addresses": 37711360,
+            "addresses": 37704192,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
