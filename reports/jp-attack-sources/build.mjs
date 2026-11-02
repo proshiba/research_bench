@@ -67,6 +67,30 @@ const NOW = new Date(anchorIso).getTime();
 
 /* ================= 母集団の素性 ================= */
 
+/**
+ * **台帳から本当の進捗を読む。**
+ *
+ * その日の写しは 9,000 件で固定なので、写しだけ見ていると「進んでいない」ように
+ * 見える。累計でどこまで引いたかは台帳にしかない。
+ */
+const ledgerStat = (() => {
+  const f = path.resolve(ROOT, "reports/jp-attack-sources/state/checked-ledger.jsonl");
+  if (!fs.existsSync(f)) return { distinct: 0, days: 0, lines: 0 };
+  const ips = new Set(), days = new Set();
+  let lines = 0;
+  for (const line of fs.readFileSync(f, "utf8").split("\n")) {
+    if (!line.trim()) continue;
+    try {
+      const r = JSON.parse(line);
+      if (!r?.ip) continue;
+      ips.add(r.ip);
+      if (r.at) days.add(r.at);
+      lines++;
+    } catch { /* 壊れた行は数えない */ }
+  }
+  return { distinct: ips.size, days: days.size, lines };
+})();
+
 const snapFile = path.resolve(ROOT, CFG.BLACKLIST_SNAPSHOT);
 let snap = null;
 if (fs.existsSync(snapFile)) {
@@ -372,7 +396,18 @@ const summary = {
     jp_categories_unmeasured: unmeasured.length,
     unmeasured_with_jp_report: unmeasured.filter((r) => (r.jp_report_count_90d || 0) > 0).length,
     blacklist_entries: snap?.entries ?? null,
-    unchecked_candidates: snap ? Math.max(0, snap.entries - checks.length) : null,
+    /**
+     * **これは「未確認の候補」ではない。**その日の写し（9,000 件）しか見ていないので、
+     * 毎日ほぼ同じ値（100,000 − 9,000 = 91,000）になる。
+     *
+     * 本当に何件まで進んだかは台帳（`state/checked-ledger.jsonl`）の固有 IP 数で、
+     * 2026-11-02 時点で 82,972 件。この列を進捗と読むと「止まっている」ように見える
+     * （実際 2026-11-02 にそう誤読された）。名前に but_see_ledger を付けて区別する。
+     */
+    blacklist_minus_todays_copies_but_see_ledger: snap
+      ? Math.max(0, snap.entries - checks.length) : null,
+    ledger_distinct_ips: ledgerStat.distinct,
+    ledger_days: ledgerStat.days,
   },
   population: {
     /** 写し全件が分母。古い畳み方でもこの数は出せる */
@@ -471,6 +506,9 @@ console.log(`  **マルチレポート（2 件以上）: ${multi30.length} 件**
 console.log(`  **シングルレポート（1 件）  : ${single30.length} 件**`);
 console.log(`  窓内に攻撃報告なし         : ${nonAttack30.length} 件`);
 console.log(`  判定不能（引き直し待ち）   : ${pending30.length} 件`);
+console.log(`\n累計の進捗（台帳）: ${ledgerStat.distinct} IP を ${ledgerStat.days} 日かけて確認`);
+console.log("  ※ 上の「写し」はその日に引いた分だけです。**前日より件数が増えていないのは異常ではありません。**");
+console.log("     各日の CSV はその日の母集団の一覧で、累積ではありません");
 if (summary.coverage.jp_categories_unmeasured) {
   console.log(`  覚え書き: カテゴリの内訳をまだ数えていない IP ${summary.coverage.jp_categories_unmeasured} 件`
     + `（うち日本の報告あり ${summary.coverage.unmeasured_with_jp_report} 件）`);
