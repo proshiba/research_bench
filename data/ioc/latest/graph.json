@@ -1729,6 +1729,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "actor:APT28",
+      "strength": 1,
+      "target": "actor:Xingjiabi",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.038,
       "shared": 1,
       "source": "actor:APT28",
@@ -1846,12 +1858,11 @@
     {
       "kind": "actor",
       "ratio": 0.005,
-      "shared": 6,
+      "shared": 5,
       "source": "actor:APT29",
-      "strength": 6,
+      "strength": 4,
       "target": "actor:APT43",
       "via": [
-        "family",
         "jarm",
         "registered"
       ],
@@ -2117,13 +2128,12 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.019,
-      "shared": 2,
+      "ratio": 0.01,
+      "shared": 1,
       "source": "actor:APT29",
-      "strength": 5,
+      "strength": 3,
       "target": "actor:Earth Sirrush",
       "via": [
-        "family",
         "registered"
       ],
       "weak_only": true
@@ -2142,13 +2152,12 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.08,
-      "shared": 2,
+      "ratio": 0.04,
+      "shared": 1,
       "source": "actor:APT29",
-      "strength": 3,
+      "strength": 1,
       "target": "actor:Exilware",
       "via": [
-        "family",
         "jarm"
       ],
       "weak_only": true
@@ -5493,18 +5502,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.01,
-      "shared": 1,
-      "source": "actor:APT43",
-      "strength": 2,
-      "target": "actor:Earth Sirrush",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.006,
       "shared": 2,
       "source": "actor:APT43",
@@ -5517,8 +5514,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.08,
-      "shared": 2,
+      "ratio": 0.04,
+      "shared": 1,
       "source": "actor:APT43",
       "strength": 2,
       "target": "actor:Exilware",
@@ -7779,6 +7776,18 @@
       "source": "actor:Arid Viper",
       "strength": 1,
       "target": "actor:Wizard Spider",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "actor:Arid Viper",
+      "strength": 1,
+      "target": "actor:Xingjiabi",
       "via": [
         "jarm"
       ],
@@ -10511,6 +10520,18 @@
       "source": "actor:Calypso",
       "strength": 1,
       "target": "actor:Transparent Tribe",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.2,
+      "shared": 1,
+      "source": "actor:Calypso",
+      "strength": 1,
+      "target": "actor:momo",
       "via": [
         "jarm"
       ],
@@ -13336,6 +13357,19 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.667,
+      "shared": 2,
+      "source": "actor:Cytrox",
+      "strength": 4,
+      "target": "actor:Xingjiabi",
+      "via": [
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.04,
       "shared": 1,
       "source": "actor:Cytrox",
@@ -13365,6 +13399,18 @@
       "source": "actor:Cytrox",
       "strength": 3,
       "target": "actor:ZooPark",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.2,
+      "shared": 1,
+      "source": "actor:Cytrox",
+      "strength": 3,
+      "target": "actor:momo",
       "via": [
         "registered"
       ],
@@ -14742,18 +14788,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.04,
-      "shared": 1,
-      "source": "actor:Earth Sirrush",
-      "strength": 2,
-      "target": "actor:Exilware",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.01,
       "shared": 1,
       "source": "actor:Earth Sirrush",
@@ -15680,6 +15714,18 @@
       "source": "actor:Exvicy",
       "strength": 3,
       "target": "actor:masterblack",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.2,
+      "shared": 1,
+      "source": "actor:Exvicy",
+      "strength": 3,
+      "target": "actor:momo",
       "via": [
         "registered"
       ],
@@ -16654,6 +16700,18 @@
       "source": "actor:Flax Typhoon",
       "strength": 1,
       "target": "actor:Wizard Spider",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.667,
+      "shared": 2,
+      "source": "actor:Flax Typhoon",
+      "strength": 1,
+      "target": "actor:Xingjiabi",
       "via": [
         "jarm"
       ],
@@ -19035,6 +19093,18 @@
       "target": "actor:XSS forum",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.2,
+      "shared": 1,
+      "source": "actor:Gamaredon",
+      "strength": 3,
+      "target": "actor:momo",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -23401,6 +23471,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "actor:Moonstone Sleet",
+      "strength": 3,
+      "target": "actor:Xingjiabi",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.022,
       "shared": 1,
       "source": "actor:MuddyWater",
@@ -24831,6 +24913,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "actor:PasteSwitch",
+      "strength": 3,
+      "target": "actor:Xingjiabi",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.115,
       "shared": 3,
       "source": "actor:PasteSwitch",
@@ -25354,6 +25448,18 @@
       "source": "actor:Rognar",
       "strength": 3,
       "target": "actor:UNC6671",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.2,
+      "shared": 1,
+      "source": "actor:Rognar",
+      "strength": 3,
+      "target": "actor:momo",
       "via": [
         "registered"
       ],
@@ -26835,6 +26941,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.2,
+      "shared": 1,
+      "source": "actor:TeamPCP",
+      "strength": 3,
+      "target": "actor:momo",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.143,
       "shared": 1,
       "source": "actor:The Gentlemen",
@@ -26995,6 +27113,18 @@
       "source": "actor:Tortoiseshell",
       "strength": 3,
       "target": "actor:ZIRCONIUM",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.2,
+      "shared": 1,
+      "source": "actor:Tortoiseshell",
+      "strength": 3,
+      "target": "actor:momo",
       "via": [
         "registered"
       ],
@@ -27342,6 +27472,18 @@
       "source": "actor:UNC4899",
       "strength": 3,
       "target": "actor:Void Balaur",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "actor:UNC4899",
+      "strength": 3,
+      "target": "actor:Xingjiabi",
       "via": [
         "registered"
       ],
@@ -27725,6 +27867,30 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "actor:Wizard Spider",
+      "strength": 1,
+      "target": "actor:Xingjiabi",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "actor:Xingjiabi",
+      "strength": 1,
+      "target": "actor:plymouth",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.048,
       "shared": 1,
       "source": "actor:longlegs",
@@ -27732,6 +27898,18 @@
       "target": "actor:masterblack",
       "via": [
         "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.2,
+      "shared": 1,
+      "source": "actor:masterblack",
+      "strength": 3,
+      "target": "actor:momo",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -38279,18 +38457,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.04,
-      "shared": 1,
-      "source": "malware:BraZetsu",
-      "strength": 2,
-      "target": "malware:MATCHBOIL",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.08,
       "shared": 2,
       "source": "malware:BraZetsu",
@@ -38315,13 +38481,12 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.08,
-      "shared": 2,
+      "ratio": 0.04,
+      "shared": 1,
       "source": "malware:BraZetsu",
-      "strength": 3,
+      "strength": 1,
       "target": "malware:SUNBURST",
       "via": [
-        "family",
         "jarm"
       ],
       "weak_only": true
@@ -47836,18 +48001,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.029,
-      "shared": 1,
-      "source": "malware:MATCHBOIL",
-      "strength": 2,
-      "target": "malware:SUNBURST",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.083,
       "shared": 1,
       "source": "malware:MATCHBOIL",
@@ -54795,7 +54948,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-11-01T00:03:19.620Z",
+  "generated_from": "2026-11-02T00:04:02.767Z",
   "nodes": [
     {
       "id": "actor:APT-C-27",
@@ -56178,6 +56331,12 @@
       "name": "XSS forum"
     },
     {
+      "id": "actor:Xingjiabi",
+      "ioc_count": 3,
+      "kind": "actor",
+      "name": "Xingjiabi"
+    },
+    {
       "id": "actor:Yx Technology",
       "ioc_count": 25,
       "kind": "actor",
@@ -56218,6 +56377,12 @@
       "ioc_count": 24,
       "kind": "actor",
       "name": "masterblack"
+    },
+    {
+      "id": "actor:momo",
+      "ioc_count": 5,
+      "kind": "actor",
+      "name": "momo"
     },
     {
       "id": "actor:plymouth",
@@ -59359,5 +59524,5 @@
     }
   ],
   "schema": 1,
-  "week": "2026-W44"
+  "week": "2026-W45"
 }
