@@ -297,14 +297,28 @@ L.push("### 母集団の偏り", "");
 L.push("- **Blacklist が上限で打ち切られています。**"
   + (S.blacklist_snapshot ? " スナップショットは " + S.blacklist_snapshot.generated_at
     + " 生成の " + S.blacklist_snapshot.entries + " 件" : ""));
-L.push("- **候補のうち確認できたのは " + S.coverage.checks_in_cache + " 件**です。"
-  + (S.coverage.unchecked_candidates !== null
-    ? "未確認が約 " + S.coverage.unchecked_candidates + " 件残っています。" : ""));
+L.push("- **この一覧はその日に引いた " + S.coverage.checks_in_cache + " 件ぶんで、累積ではありません。**");
+L.push("  **前日より件数が増えていないのは異常ではありません。**");
+if (S.coverage.ledger_distinct_ips) {
+  L.push("- 累計でどこまで進んだかは台帳にあります: **"
+    + S.coverage.ledger_distinct_ips + " IP を " + S.coverage.ledger_days + " 日かけて確認**");
+}
 L.push("- **既定の選び方は " + code("lastReportedAt") + " の新しい順**なので、");
-L.push("  **古い報告しか持たない IP は一度も見ていません。** 母集団を広げる日は");
-L.push("  " + code("../global-jp-vuln/build.mjs --new-only") + " を使います");
+L.push("  **古い報告しか持たない IP は一度も見ていません**");
 L.push("- したがって件数はすべて**この母集団での数**であり、世界全体の数ではありません");
 L.push("");
+L.push("### 候補の窓が件数を大きく動かします", "");
+L.push("候補を「最終通報が何日以内か」で絞っており、**ここを変えると件数の性質が変わります**。");
+L.push("2026-10-22 に 1 日へ絞ったところ、母集団が「今まさに通報された新しい IP」に寄り、");
+L.push("報告がまだ積み上がっていない IP が主になりました。実測:", "");
+L.push(T(["", "候補 30 日のとき", "候補 1 日のとき"], [
+  ["マルチレポート", "3,348", "1,339"],
+  ["30 日の攻撃報告の中央値", "4 件", "1 件"],
+  ["30 日の観測者の中央値", "3 人", "1 人"],
+  ["90 日の全報告の中央値", "899 件", "334 件"],
+]), "");
+L.push("**2026-11-02 から候補 3 日に戻しました**（候補 約 68,000〜72,000 件 / 一巡 約 7.6 日）。");
+L.push("30 日窓の中に一巡が収まりつつ、報告が 2〜3 日積み上がった IP も拾える釣り合いです。", "");
 L.push("### 分からないものを負に数えていません", "");
 L.push("- カテゴリの内訳をまだ数えていない IP が **" + S.coverage.jp_categories_unmeasured + " 件**あります");
 L.push("  （うち日本からの報告があるもの " + S.coverage.unmeasured_with_jp_report + " 件）。");
