@@ -15,15 +15,15 @@ AbuseIPDB をもとに、**日本の人が攻撃として報告した送信元 I
 `176.65.139.31` は 90 日で 46 件ありますが **30 日では 0 件**で、
 90 日で数えると「もう止まっている送信元」が現役として並びます。
 
-窓の開始: 2026-10-03T02:51:44Z
+窓の開始: 2026-10-05T02:52:20Z
 
 ### 過去 30 日以内の日本からの攻撃報告 — マルチ / シングル
 
 | 区分 | 条件 | 件数 | 読み方 |
 | --- | --- | --- | --- |
-| **マルチレポート** | 30日以内に **2 件以上** | **1339** | **別々の機会、または別々の観測者から見えている** |
-| **シングルレポート** | 30日以内に **1 件** | **1168** | 1 回しか見えていない。その 1 件の事情に依存する |
-| 窓内に攻撃報告なし | 0 件 | 110 | 90 日には攻撃報告があるが、30日以内には無い |
+| **マルチレポート** | 30日以内に **2 件以上** | **1664** | **別々の機会、または別々の観測者から見えている** |
+| **シングルレポート** | 30日以内に **1 件** | **939** | 1 回しか見えていない。その 1 件の事情に依存する |
+| 窓内に攻撃報告なし | 0 件 | 113 | 90 日には攻撃報告があるが、30日以内には無い |
 | 判定不能 | 件数が不明 | 0 | **引き直していないので分からない。0 ではない** |
 
 CSV は `jp_30d_multi_report.csv` と `jp_30d_single_report.csv` です。
@@ -34,16 +34,17 @@ CSV は `jp_30d_multi_report.csv` と `jp_30d_single_report.csv` です。
 
 | 区分 | 件数 |
 | --- | --- |
-| 観測者も **2 人以上** | **1123** |
-| 観測者は 1 人（同一観測者の複数回） | 216 |
+| 観測者も **2 人以上** | **1491** |
+| 観測者は 1 人（同一観測者の複数回） | 173 |
 
 #### 段ごと
 
 | 最も重い段 | マルチ | シングル |
 | --- | --- | --- |
-| A1 侵入・脆弱性 | 562 | 546 |
-| A2 認証突破 | 765 | 598 |
-| A3 サービス妨害 | 12 | 24 |
+| A1 侵入・脆弱性 | 825 | 379 |
+| A2 認証突破 | 831 | 544 |
+| A3 サービス妨害 | 8 | 15 |
+| A4 詐欺・なりすまし | 0 | 1 |
 
 #### マルチレポートの上位 40 件
 
@@ -51,46 +52,46 @@ CSV は `jp_30d_multi_report.csv` と `jp_30d_single_report.csv` です。
 
 | # | IP | 段 | 30日の攻撃報告 | 観測者 | 証拠 | 最新 | 印 | 国 | ISP |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | `195.178.110.247` | A1 | **20** | 13 | E3 | 2026-10-27 | — | NL | TECHOFF SRV LIMITED |
-| 2 | `129.213.151.234` | A1 | **10** | 11 | E3 | 2026-11-01 | — | US | Oracle Public Cloud |
-| 3 | `45.115.26.203` | A1 | **23** | 15 | E3 | 2026-11-01 | — | NL | SolidCore Hosting LTD |
-| 4 | `41.223.139.111` | A1 | **20** | 17 | E3 | 2026-11-01 | — | NG | American University of N |
-| 5 | `45.138.12.25` | A1 | **21** | 15 | E3 | 2026-11-01 | — | PL | TC DATACENTER LIMITED MA |
-| 6 | `45.91.64.6` | A1 | **4** | 5 | E3 | 2026-10-14 | — | RU | F6 |
-| 7 | `193.32.204.199` | A1 | **11** | 7 | E3 | 2026-10-15 | — | FI | Vigilant Cyber SAS |
-| 8 | `34.62.82.165` | A1 | **16** | 11 | E3 | 2026-10-30 | — | BE | Google LLC |
-| 9 | `195.178.110.132` | A1 | **23** | 10 | E3 | 2026-11-01 | — | NL | TECHOFF SRV LIMITED |
-| 10 | `188.246.240.3` | A1 | **48** | 8 | E3 | 2026-10-28 | — | KZ | Kar-Tel LLC |
-| 11 | `125.141.72.225` | A1 | **7** | 6 | E3 | 2026-10-29 | — | KR | Korea Telecom |
-| 12 | `165.154.1.144` | A1 | **10** | 10 | E3 | 2026-10-13 | — | HK | UCLOUD INFORMATION TECHN |
-| 13 | `106.15.236.209` | A1 | **9** | 5 | E3 | 2026-11-01 | — | CN | Aliyun Computing Co., LT |
-| 14 | `195.178.110.102` | A1 | **19** | 7 | E3 | 2026-11-01 | — | NL | TECHOFF SRV LIMITED |
-| 15 | `20.92.72.133` | A1 | **19** | 9 | E3 | 2026-11-01 | — | AU | Microsoft Corporation |
-| 16 | `80.82.77.202` | A1 | **7** | 3 | E3 | 2026-10-17 | — | NL | FiberXpress BV |
-| 17 | `45.156.128.169` | A1 | **3** | 4 | E3 | 2026-10-23 | 走査器 | NL | INAP-AMS-1 |
-| 18 | `91.92.240.200` | A1 | **14** | 7 | E3 | 2026-11-01 | — | DE |  |
-| 19 | `152.32.208.106` | A1 | **4** | 4 | E3 | 2026-10-30 | — | US | UCLOUD INFORMATION TECHN |
-| 20 | `152.32.141.154` | A1 | **2** | 4 | E3 | 2026-10-29 | — | NG | UCLOUD INFORMATION TECHN |
-| 21 | `91.92.41.32` | A1 | **6** | 5 | E3 | 2026-10-30 | — | DE | SINO WORLDWIDE TRADING L |
-| 22 | `158.23.85.214` | A1 | **6** | 5 | E3 | 2026-11-01 | — | MX | Microsoft Singapore Pte. |
-| 23 | `165.154.179.62` | A1 | **3** | 3 | E3 | 2026-10-29 | — | RU | UCLOUD INFORMATION TECHN |
-| 24 | `45.156.129.107` | A1 | **2** | 2 | E3 | 2026-10-31 | 走査器 | US | INAP-CHI-1 |
-| 25 | `163.52.135.193` | A1 | **5** | 4 | E3 | 2026-11-01 | — | ID | CV Griya Cloud Server |
-| 26 | `168.76.254.75` | A1 | **2** | 2 | E3 | 2026-10-11 | — | HK | Free State Education Dep |
-| 27 | `49.235.131.69` | A1 | **3** | 4 | E3 | 2026-11-01 | — | CN | Tencent cloud computing  |
-| 28 | `23.132.164.90` | A1 | **5** | 3 | E3 | 2026-10-28 | — | DE | 10GIG.HOST |
-| 29 | `185.194.178.66` | A1 | **2** | 3 | E3 | 2026-10-24 | — | FR | Rackmarkt SL |
-| 30 | `35.247.154.230` | A1 | **3** | 3 | E3 | 2026-10-28 | — | SG | Google LLC |
-| 31 | `82.21.92.221` | A1 | **3** | 3 | E3 | 2026-10-26 | — | US | HOSTKEY B.V. |
-| 32 | `36.255.97.51` | A1 | **3** | 2 | E3 | 2026-10-17 | — | DE | Cyber Security PH |
-| 33 | `43.228.125.242` | A1 | **3** | 2 | E3 | 2026-10-23 | — | SG | 1 Serangoon North Ave 6, |
-| 34 | `185.194.178.102` | A1 | **2** | 2 | E3 | 2026-10-24 | — | FR | Rackmarkt SL |
-| 35 | `185.194.178.47` | A1 | **2** | 2 | E3 | 2026-11-02 | — | FR | Rackmarkt SL |
-| 36 | `193.37.32.62` | A1 | **2** | 2 | E3 | 2026-10-25 | — | SG | VPN Consumer Singapore,  |
-| 37 | `195.178.110.94` | A1 | **31** | 14 | E2 | 2026-11-01 | — | NL | TECHOFF SRV LIMITED |
-| 38 | `93.123.109.165` | A1 | **29** | 12 | E2 | 2026-11-01 | — | NL | TECHOFF SRV LIMITED |
-| 39 | `64.89.161.85` | A1 | **9** | 5 | E2 | 2026-11-01 | — | DE | Blatant Technologies, LL |
-| 40 | `94.183.174.99` | A1 | **6** | 7 | E2 | 2026-10-09 | — | DE | Pf Cloud |
+| 1 | `103.159.51.70` | A1 | **106** | 14 | E3 | 2026-10-27 | — | VN | NHAN HOA BUSINESS SOLUTI |
+| 2 | `163.7.1.156` | A1 | **21** | 13 | E3 | 2026-10-27 | — | ID | BYTEPLUS |
+| 3 | `196.189.236.67` | A1 | **108** | 28 | E3 | 2026-11-03 | — | ET | Ethio Telecom |
+| 4 | `58.182.58.128` | A1 | **45** | 27 | E3 | 2026-11-02 | — | SG | Asia Pacific Network Inf |
+| 5 | `38.148.20.75` | A1 | **13** | 12 | E3 | 2026-10-28 | — | US | Sumofiber |
+| 6 | `223.123.65.54` | A1 | **11** | 11 | E3 | 2026-10-20 | — | PK | CMPak Limited |
+| 7 | `45.148.10.125` | A1 | **10** | 9 | E3 | 2026-10-31 | — | NL | TECHOFF SRV LIMITED |
+| 8 | `152.32.236.102` | A1 | **51** | 20 | E3 | 2026-11-04 | — | US | UCLOUD INFORMATION TECHN |
+| 9 | `168.228.151.152` | A1 | **18** | 12 | E3 | 2026-10-12 | — | BR | CONECTA TOCANTINS INTERN |
+| 10 | `93.123.109.247` | A1 | **33** | 16 | E3 | 2026-11-03 | — | NL | TECHOFF SRV LIMITED |
+| 11 | `103.160.205.37` | A1 | **75** | 15 | E3 | 2026-11-03 | — | ID | PT Akbar Prima Media |
+| 12 | `20.196.208.116` | A1 | **23** | 15 | E3 | 2026-10-19 | — | KR | Microsoft Corporation |
+| 13 | `193.47.62.29` | A1 | **21** | 15 | E3 | 2026-11-03 | — | NL | BESTDC LIMITED |
+| 14 | `118.145.104.105` | A1 | **8** | 6 | E3 | 2026-11-01 | — | CN | Beijing Volcano Engine T |
+| 15 | `171.237.170.148` | A1 | **50** | 13 | E3 | 2026-11-02 | — | VN | Viettel Group |
+| 16 | `45.148.10.95` | A1 | **8** | 7 | E3 | 2026-10-30 | — | NL | TECHOFF SRV LIMITED |
+| 17 | `20.198.89.82` | A1 | **22** | 13 | E3 | 2026-10-25 | — | IN | Microsoft Corporation |
+| 18 | `20.200.208.154` | A1 | **19** | 13 | E3 | 2026-10-25 | — | KR | Microsoft Corporation |
+| 19 | `45.138.12.89` | A1 | **16** | 13 | E3 | 2026-11-03 | — | PL | TC DATACENTER LIMITED MA |
+| 20 | `34.38.113.44` | A1 | **12** | 6 | E3 | 2026-10-27 | — | BE | Google LLC |
+| 21 | `120.211.74.131` | A1 | **16** | 12 | E3 | 2026-10-20 | — | CN | China Mobile Communicati |
+| 22 | `172.110.223.173` | A1 | **7** | 8 | E3 | 2026-11-03 | — | US | Dedires LLC |
+| 23 | `62.60.130.173` | A1 | **12** | 8 | E3 | 2026-11-03 | — | LT | CIPHER OPERATIONS DOO BE |
+| 24 | `217.60.76.167` | A1 | **8** | 5 | E3 | 2026-11-03 | — | DE | 10GIG.host |
+| 25 | `118.33.119.34` | A1 | **5** | 4 | E3 | 2026-11-02 | — | KR | Korea Telecom |
+| 26 | `89.248.171.24` | A1 | **13** | 7 | E3 | 2026-10-20 | — | NL | FiberXpress BV |
+| 27 | `31.57.34.150` | A1 | **10** | 10 | E3 | 2026-11-01 | — | NL | Blockchain Creek |
+| 28 | `45.225.135.21` | A1 | **6** | 4 | E3 | 2026-10-27 | — | NL | RACK SPHERE HOSTING S.A. |
+| 29 | `77.90.185.122` | A1 | **11** | 8 | E3 | 2026-11-02 | — | LT | Limited Network LTD |
+| 30 | `130.12.180.166` | A1 | **17** | 7 | E3 | 2026-11-01 | — | DE | Virtualine Technologies |
+| 31 | `107.150.101.128` | A1 | **2** | 2 | E3 | 2026-10-17 | — | US | UCLOUD |
+| 32 | `81.71.158.242` | A1 | **3** | 4 | E3 | 2026-10-30 | — | CN | Tencent Cloud Computing  |
+| 33 | `103.91.144.89` | A1 | **10** | 6 | E3 | 2026-10-25 | — | US | Hostsymbol Pte. Ltd. |
+| 34 | `170.106.194.247` | A1 | **6** | 6 | E3 | 2026-11-04 | — | US | Tencent Building, Kejizh |
+| 35 | `106.63.26.15` | A1 | **2** | 2 | E3 | 2026-10-19 | — | CN | Chinatelecom Cloudy comp |
+| 36 | `20.217.203.17` | A1 | **8** | 5 | E3 | 2026-11-04 | — | IL | Microsoft Corporation |
+| 37 | `139.196.120.45` | A1 | **4** | 4 | E3 | 2026-11-04 | — | CN | Aliyun Computing Co., LT |
+| 38 | `172.196.51.49` | A1 | **5** | 3 | E3 | 2026-11-04 | — | NZ | Microsoft Limited |
+| 39 | `135.233.115.176` | A1 | **2** | 2 | E3 | 2026-10-15 | — | US | Microsoft Limited |
+| 40 | `172.212.226.229` | A1 | **4** | 3 | E3 | 2026-11-01 | — | US | Microsoft Limited |
 
 #### シングルレポートの上位 20 件
 
@@ -98,38 +99,38 @@ CSV は `jp_30d_multi_report.csv` と `jp_30d_single_report.csv` です。
 
 | # | IP | 段 | 証拠 | 最新 | 国 | ISP |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | `79.72.3.119` | A1 | E3 | 2026-10-04 | SA | Oracle Svenska AB |
-| 2 | `118.194.248.4` | A1 | E3 | 2026-10-24 | KR | UCLOUD INFORMATION TECHN |
-| 3 | `128.1.46.183` | A1 | E3 | 2026-10-27 | RU | UCLOUD |
-| 4 | `45.156.128.153` | A1 | E3 | 2026-10-25 | NL | INAP-AMS-1 |
-| 5 | `43.228.157.24` | A1 | E3 | 2026-10-15 | DE | Cyber-Security-SG |
-| 6 | `185.194.178.56` | A1 | E3 | 2026-10-24 | FR | Rackmarkt SL |
-| 7 | `34.6.252.64` | A1 | E3 | 2026-11-01 | NL | Google LLC |
-| 8 | `34.176.204.108` | A1 | E3 | 2026-10-31 | CL | Google LLC |
-| 9 | `54.84.161.62` | A1 | E3 | 2026-10-17 | US | Amazon Technologies Inc. |
-| 10 | `98.88.70.84` | A1 | E3 | 2026-10-29 | US | Amazon Data Services Nor |
-| 11 | `192.253.209.58` | A1 | E3 | 2026-10-07 | US | VPN Consumer New Jersey, |
-| 12 | `45.156.128.152` | A1 | E2 | 2026-10-25 | NL | INAP-AMS-1 |
-| 13 | `45.156.128.177` | A1 | E2 | 2026-10-15 | NL | INAP-AMS-1 |
-| 14 | `45.156.128.158` | A1 | E2 | 2026-10-08 | NL | INAP-AMS-1 |
-| 15 | `109.105.209.18` | A1 | E2 | 2026-10-08 | US | ICG-ZEN-LAX-1 |
-| 16 | `45.156.129.117` | A1 | E2 | 2026-10-18 | US | INAP-CHI-1 |
-| 17 | `185.226.196.24` | A1 | E2 | 2026-10-12 | US | ICG-3-ZEN-LAX |
-| 18 | `45.156.128.178` | A1 | E2 | 2026-10-15 | NL | INAP-AMS-1 |
-| 19 | `185.194.178.63` | A1 | E2 | 2026-10-24 | FR | Rackmarkt SL |
-| 20 | `185.194.178.99` | A1 | E2 | 2026-10-24 | FR | Rackmarkt SL |
+| 1 | `77.90.185.230` | A1 | E3 | 2026-10-06 | LT | Limited Network LTD |
+| 2 | `123.58.209.112` | A1 | E3 | 2026-10-31 | HK | UCLOUD INFORMATION TECHN |
+| 3 | `20.118.219.222` | A1 | E3 | 2026-10-28 | US | Microsoft Corporation |
+| 4 | `173.254.205.174` | A1 | E3 | 2026-10-28 | US | HostPapa |
+| 5 | `172.208.50.59` | A1 | E3 | 2026-10-28 | US | Microsoft Limited |
+| 6 | `20.12.243.82` | A1 | E3 | 2026-10-28 | US | Microsoft Corporation |
+| 7 | `106.63.26.147` | A1 | E3 | 2026-10-20 | CN | Chinatelecom Cloudy comp |
+| 8 | `20.98.163.31` | A1 | E3 | 2026-10-17 | US | Microsoft Corporation |
+| 9 | `52.70.138.176` | A1 | E3 | 2026-11-02 | US | Amazon Technologies Inc. |
+| 10 | `149.104.79.137` | A1 | E3 | 2026-11-02 | FR | LIGHT NODE LIMITED |
+| 11 | `192.241.150.94` | A1 | E3 | 2026-11-03 | US | DigitalOcean, LLC |
+| 12 | `192.253.209.116` | A1 | E3 | 2026-10-21 | US | VPN Consumer New Jersey, |
+| 13 | `20.112.236.30` | A1 | E2 | 2026-10-20 | US | Microsoft Corporation |
+| 14 | `97.107.131.17` | A1 | E2 | 2026-11-02 | US | Linode |
+| 15 | `45.156.129.136` | A1 | E2 | 2026-10-23 | US | INAP-CHI-1 |
+| 16 | `45.156.128.111` | A1 | E2 | 2026-10-23 | NL | INAP-AMS-1 |
+| 17 | `185.194.178.59` | A1 | E2 | 2026-10-24 | FR | Rackmarkt SL |
+| 18 | `203.101.186.93` | A1 | E2 | 2026-10-15 | PK | Broadband Services |
+| 19 | `43.134.163.220` | A1 | E2 | 2026-10-27 | SG | Asia Pacific Network Inf |
+| 20 | `113.138.242.19` | A1 | E2 | 2026-10-17 | CN | CHINANET SHAANXI PROVINC |
 
 ### しきい値ごとの件数
 
-**分母は 2507 件**（報告 1 件ずつの日時から正確に数えられた行だけ）。
+**分母は 2603 件**（報告 1 件ずつの日時から正確に数えられた行だけ）。
 
 | 条件 | IP 数 | 観測者で見た場合 |
 | --- | --- | --- |
-| **1 件以上** | **2507** | 1 人以上: 2507 |
-| **2 件以上** | **1339** | 2 人以上: 1300 |
-| **3 件以上** | **887** | 3 人以上: 791 |
-| **5 件以上** | **519** | 5 人以上: 358 |
-| **10 件以上** | **313** | 10 人以上: 190 |
+| **1 件以上** | **2603** | 1 人以上: 2603 |
+| **2 件以上** | **1664** | 2 人以上: 1690 |
+| **3 件以上** | **1304** | 3 人以上: 1238 |
+| **5 件以上** | **1019** | 5 人以上: 801 |
+| **10 件以上** | **767** | 10 人以上: 519 |
 
 全件は `jp_attack_sources_30d_confirmed.csv` です。
 
@@ -140,9 +141,9 @@ CSV は `jp_30d_multi_report.csv` と `jp_30d_single_report.csv` です。
 
 | 区分 | 件数 | 何が言えるか |
 | --- | --- | --- |
-| **30日で確定**（`counted`） | **2507** | **「30日以内に攻撃報告が N 件」を正確に言える** |
+| **30日で確定**（`counted`） | **2603** | **「30日以内に攻撃報告が N 件」を正確に言える** |
 | 引き直し待ち（`latest_only`） | 0 | 「30日以内に日本から報告が 1 件以上」までは言える。**その報告が攻撃カテゴリだったかは分からない** |
-| 窓の外 | 674 | 90 日には攻撃報告があるが、30日以内に日本からの報告が無い |
+| 窓の外 | 533 | 90 日には攻撃報告があるが、30日以内に日本からの報告が無い |
 
 なぜ引き直しが要るのか: `jp_report_count_30d` は畳み方を直したあとに
 足した項目で、**生の報告配列を残していない**ため手元の写しからは計算できません。
@@ -153,7 +154,7 @@ CSV は `jp_30d_multi_report.csv` と `jp_30d_single_report.csv` です。
 
 ## 0b. 「日本からの報告がある」だけでは絞り込みになりません
 
-写しのある **9000 IP のうち 4754 件（53%）に日本からの報告があります**（90 日窓）。
+写しのある **9000 IP のうち 5458 件（61%）に日本からの報告があります**（90 日窓）。
 
 **これは窓のせいだけではありません。** 母集団そのものが絞られています。
 
@@ -197,29 +198,28 @@ AbuseIPDB の 23 カテゴリは「攻撃」から「属性」まで混ざって
 | --- | --- |
 | 写しのある IP（API 成功） | 9000 |
 | うち**段まで判定できた** | **9000** |
-| うち日本からの報告あり | 4754 |
-| うち攻撃段（A1〜A4）に当たった | 3614 |
-| （除外）高確度の研究スキャナ | −323 |
-| **主対象** | **3291** |
-| 攻撃ではない（偵察のみ・スパム・属性） | 1140 |
+| うち日本からの報告あり | 5458 |
+| うち攻撃段（A1〜A4）に当たった | 4012 |
+| （除外）高確度の研究スキャナ | −763 |
+| **主対象** | **3249** |
+| 攻撃ではない（偵察のみ・スパム・属性） | 1446 |
 
 ### 研究スキャナを主対象から外しました（削除はしていません）
 
-攻撃段に当たった 3614 件のうち **323 件（9%）がインターネット全域を計測している正規のプロジェクト**でした。
+攻撃段に当たった 4012 件のうち **763 件（19%）がインターネット全域を計測している正規のプロジェクト**でした。
 日本のセンサーがこれを「攻撃」として通報するのは自然ですが、攻撃元の一覧に混ぜると母集団が汚れます。
 
 | 名乗り | 件数 |
 | --- | --- |
-| Driftnet / internet-measurement.com | 101 |
-| Stretchoid | 76 |
-| Shadowserver Foundation | 43 |
-| Censys | 40 |
-| BinaryEdge | 35 |
-| Shodan | 13 |
-| LeakIX | 9 |
-| CriminalIP | 3 |
+| Stretchoid | 312 |
+| Driftnet / internet-measurement.com | 156 |
+| Shadowserver Foundation | 118 |
+| Censys | 88 |
+| BinaryEdge | 53 |
+| Shodan | 14 |
+| LeakIX | 12 |
+| CriminalIP | 8 |
 | ipip.net | 2 |
-| 大学等の研究スキャン | 1 |
 
 全件は `jp_attack_sources_excluded_scanners.csv` に残しています。
 判定は hostname・domain・ISP の**名乗り**で行っており、クラウドの AS に属するというだけでは判定していません。
@@ -231,12 +231,12 @@ AbuseIPDB の 23 カテゴリは「攻撃」から「属性」まで混ざって
 
 | 最も重い段 | IP 数 |
 | --- | --- |
-| A1 侵入・脆弱性 | 1691 |
+| A1 侵入・脆弱性 | 2098 |
 | A2 認証突破 | 1883 |
-| A3 サービス妨害 | 39 |
+| A3 サービス妨害 | 30 |
 | A4 詐欺・なりすまし | 1 |
-| A5 偵察のみ | 1118 |
-| B スパム・ボット | 22 |
+| A5 偵察のみ | 1390 |
+| B スパム・ボット | 56 |
 
 ## 3. 脆弱性だけに絞ると落ちていたもの
 
@@ -244,44 +244,44 @@ AbuseIPDB の 23 カテゴリは「攻撃」から「属性」まで混ざって
 採っていました。そのため **DDoS・フィッシング・詐称・詐欺・認証突破**で日本から報告されている
 IP が落ちていました。
 
-**今回の切り方で新たに入ったのは 1853 件**です。
+**今回の切り方で新たに入ったのは 1766 件**です。
 
 | IP | 段 | 日本の報告 | 観測者 | 最新 | カテゴリ | 国 | ISP |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `2.57.122.53` | A2 | 195 | 38 | 2026-10-27 | Port Scan;Brute-Force;SSH | RO | TECHOFF SRV LIMITED |
-| `98.71.8.129` | A2 | 154 | 31 | 2026-11-02 | Port Scan;Brute-Force;SSH | IE | Microsoft Corporation |
-| `188.253.7.4` | A2 | 107 | 28 | 2026-10-17 | Port Scan;Brute-Force;SSH | TW | Akari Networks (Taipei) |
-| `172.173.200.62` | A2 | 163 | 26 | 2026-11-01 | Port Scan;Brute-Force;SSH | US | Microsoft Limited |
-| `124.193.81.23` | A2 | 128 | 25 | 2026-10-31 | Port Scan;Brute-Force;SSH | CN | Beijing Teletron Telecom |
-| `116.110.217.246` | A2 | 41 | 25 | 2026-09-14 | Port Scan;Brute-Force;SSH | VN | Viettel Group |
-| `197.153.57.103` | A2 | 117 | 24 | 2026-09-24 | Port Scan;Brute-Force;SSH | MA | MEDITELECOM |
-| `42.51.42.209` | A2 | 62 | 24 | 2026-10-30 | Port Scan;Brute-Force;SSH | CN | Henan Telcom Union Techn |
-| `183.201.208.25` | A2 | 82 | 23 | 2026-11-01 | Port Scan;Brute-Force;SSH | CN | China Mobile Communicati |
-| `115.191.22.111` | A2 | 57 | 23 | 2026-10-17 | Port Scan;Brute-Force;SSH | CN | Beijing Volcano Engine T |
-| `117.34.85.168` | A2 | 106 | 22 | 2026-10-01 | Port Scan;Brute-Force;SSH | CN | CHINANET Shanxi(SN) prov |
-| `152.200.181.42` | A2 | 172 | 21 | 2026-11-01 | Port Scan;Brute-Force;SSH | CO | COLOMBIA TELECOMUNICACIO |
-| `93.152.221.43` | A2 | 134 | 21 | 2026-11-02 | Open Proxy;Port Scan;Brute-For | DE | TechTies Inc. |
-| `77.239.124.75` | A2 | 106 | 21 | 2026-11-02 | Port Scan;Brute-Force;SSH | NL | ROCKET & MARINICA LTD |
-| `103.255.200.90` | A2 | 80 | 21 | 2026-11-01 | Port Scan;Brute-Force;SSH | CN | Bei Jing Cloud Times Tec |
-| `114.219.157.97` | A2 | 65 | 21 | 2026-10-30 | Port Scan;Brute-Force;SSH | CN | Chinanet Jiangsu Provinc |
-| `129.121.142.210` | A2 | 47 | 21 | 2026-10-30 | Port Scan;Brute-Force;SSH | US | Oso Grande IP Services,  |
-| `50.6.200.71` | A2 | 36 | 21 | 2026-11-01 | Port Scan;Brute-Force;SSH | US | Newfold Digital, Inc. |
-| `179.43.182.115` | A2 | 34 | 21 | 2026-11-02 | Port Scan;Brute-Force;SSH | CH | PRIVATE LAYER INC |
-| `50.6.204.157` | A2 | 29 | 21 | 2026-11-02 | Port Scan;Brute-Force;SSH | US | Newfold Digital, Inc. |
+| `136.228.161.66` | A2 | 140 | 37 | 2026-11-03 | Port Scan;Brute-Force;SSH | MM | Myanma Post & Telecommun |
+| `154.92.17.128` | A2 | 86 | 37 | 2026-11-03 | Port Scan;Brute-Force;SSH | HK | Yisu Cloud Ltd |
+| `117.247.23.131` | A2 | 200 | 34 | 2026-11-03 | Port Scan;Brute-Force;SSH | IN | Broadband Multiplay Proj |
+| `152.32.163.183` | A2 | 155 | 32 | 2026-11-03 | Port Scan;Brute-Force;SSH | VN | UCLOUD INFORMATION TECHN |
+| `103.239.252.132` | A2 | 111 | 30 | 2026-11-02 | Port Scan;Brute-Force;SSH | BD | Carnival Internet |
+| `106.75.25.139` | A2 | 146 | 29 | 2026-11-03 | Port Scan;Brute-Force;SSH | CN | Shanghai UCloud Informat |
+| `4.221.162.168` | A2 | 145 | 29 | 2026-11-04 | Port Scan;Brute-Force;SSH | ZA | Microsoft Corporation |
+| `59.36.75.227` | A2 | 106 | 29 | 2026-11-02 | Port Scan;Brute-Force;SSH | CN | CHINANET Guangdong provi |
+| `121.204.171.142` | A2 | 75 | 29 | 2026-10-31 | Port Scan;Brute-Force;SSH | CN | CHINANET Fujian province |
+| `118.196.142.135` | A2 | 99 | 28 | 2026-10-27 | Port Scan;Brute-Force;SSH | CN | Beijing Volcano Engine T |
+| `101.96.202.177` | A2 | 87 | 28 | 2026-10-31 | Port Scan;Brute-Force;SSH | CN | Beijing Volcano Engine T |
+| `49.75.185.71` | A2 | 103 | 27 | 2026-11-03 | Port Scan;Brute-Force;SSH | CN | CHINANET jiangsu provinc |
+| `101.96.225.252` | A2 | 95 | 27 | 2026-11-03 | Port Scan;Brute-Force;SSH | CN | Beijing Volcano Engine T |
+| `66.116.254.116` | A2 | 54 | 27 | 2026-11-02 | Port Scan;Brute-Force;SSH | IN | P.D.R Solutions FZC |
+| `69.6.221.18` | A2 | 54 | 27 | 2026-11-03 | Port Scan;Brute-Force;SSH | BR | Newfold Digital, Inc. |
+| `109.160.32.127` | A2 | 193 | 26 | 2026-11-03 | Port Scan;Brute-Force;SSH | NL | Global Communication Net |
+| `58.242.118.12` | A2 | 120 | 26 | 2026-11-03 | Port Scan;Brute-Force;SSH | CN | ANHUI UNICOM |
+| `109.160.32.48` | A2 | 281 | 25 | 2026-11-04 | Port Scan;Brute-Force;SSH | NL | Global Communication Net |
+| `103.108.67.180` | A2 | 141 | 25 | 2026-11-03 | Port Scan;Brute-Force;SSH | HK | HUANGYUN INTERNET TEC LI |
+| `209.38.120.71` | A2 | 104 | 25 | 2026-10-06 | Port Scan;Brute-Force;SSH | IN | DigitalOcean, LLC |
 
 （上位 20 件。全件は `jp_attack_sources_missed_by_vuln_cut.csv`）
 
 ## 4. 日本の観測者の数 — **多いほど重要、ではありません**
 
-観測者数は **44 人で天井**になり、分布はそこへ滑らかに向かいます。
+観測者数は **51 人で天井**になり、分布はそこへ滑らかに向かいます。
 
 ```
-上位の値と件数: 44人:1  43人:1  42人:1  41人:2  39人:6  38人:1  37人:2  36人:1  35人:3  34人:2  33人:2  32人:2
+上位の値と件数: 51人:1  47人:1  46人:2  45人:5  44人:7  43人:8  42人:20  41人:24  40人:21  39人:20  38人:20  37人:15
 ```
 つまりこの数が測っているのは「どれだけ狙われたか」ではなく、
 **「日本にある AbuseIPDB のセンサーのうち何台が見たか」**です。
 
-**44 人ということは「日本のほぼ全センサーが見た」**で、それは
+**51 人ということは「日本のほぼ全センサーが見た」**で、それは
 **インターネット全域を騒がしく走査している先**を意味します。標的型の逆です。
 実際、観測者数の上位は証拠段階が全件 E0（具体的な攻撃証跡なし）でした。
 
@@ -293,20 +293,20 @@ E3/E2 が付いているものはコメントに攻撃の中身が書かれて�
 
 | 日本の観測者 | IP 数 |
 | --- | --- |
-| 1 人 | 1246 |
-| 2 人 | 706 |
-| 3 人 | 402 |
-| 4 人 | 251 |
-| 5+ 人 | 686 |
+| 1 人 | 939 |
+| 2 人 | 568 |
+| 3 人 | 350 |
+| 4 人 | 247 |
+| 5+ 人 | 1145 |
 
 ### 代わりに使える絞り込み — 証拠段階
 
 | 段階 | 意味 | IP 数 |
 | --- | --- | --- |
-| E3 | **CVE番号・SQLiペイロード・RCE要求・Webシェル等の具体的な攻撃証跡** | 56 |
-| E2 | 製品・脆弱性に固有の探索 | 64 |
-| E1 | 一般的な攻撃的探索 | 366 |
-| E0 | 根拠不足（カテゴリのみ、コメントなし） | 952 |
+| E3 | **CVE番号・SQLiペイロード・RCE要求・Webシェル等の具体的な攻撃証跡** | 59 |
+| E2 | 製品・脆弱性に固有の探索 | 57 |
+| E1 | 一般的な攻撃的探索 | 205 |
+| E0 | 根拠不足（カテゴリのみ、コメントなし） | 1162 |
 
 **証拠段階は日本の脆弱性報告のコメントからだけ取っています。**
 DDoS や認証突破しかない IP では空欄になるので、E0 が多いことは
@@ -318,20 +318,21 @@ DDoS や認証突破しかない IP では空欄になるので、E0 が多い�
 
 | カテゴリ | IP 数 |
 | --- | --- |
-| Brute-Force | 2313 |
-| SSH | 1467 |
-| Port Scan | 1332 |
-| Web App Attack | 1052 |
-| Bad Web Bot | 678 |
-| Hacking | 583 |
-| Email Spam | 469 |
-| DDoS Attack | 286 |
-| Web Spam | 217 |
-| SQL Injection | 135 |
-| Open Proxy | 58 |
-| IoT Targeted | 53 |
-| Exploited Host | 49 |
-| FTP Brute-Force | 7 |
+| Brute-Force | 2505 |
+| Port Scan | 1733 |
+| SSH | 1714 |
+| Hacking | 877 |
+| Web App Attack | 834 |
+| Bad Web Bot | 528 |
+| DDoS Attack | 487 |
+| Email Spam | 410 |
+| Exploited Host | 194 |
+| Web Spam | 159 |
+| SQL Injection | 112 |
+| IoT Targeted | 46 |
+| Open Proxy | 39 |
+| FTP Brute-Force | 5 |
+| Fraud VoIP | 2 |
 | Phishing | 2 |
 | Spoofing | 1 |
 
@@ -342,108 +343,108 @@ DDoS や認証突破しかない IP では空欄になるので、E0 が多い�
 
 | # | IP | 段 | 日本の報告 | 観測者 | 証拠 | 最新 | 印 | 国 | ISP |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | `85.239.149.72` | A1 | 88 | 27 | E3 | 2026-09-15 | — | DE | DEDIK SERVICES LIMITED |
-| 2 | `79.72.3.119` | A1 | 53 | 26 | E3 | 2026-10-04 | — | SA | Oracle Svenska AB |
-| 3 | `195.178.110.247` | A1 | 56 | 20 | E3 | 2026-10-27 | — | NL | TECHOFF SRV LIMITED |
-| 4 | `129.213.151.234` | A1 | 52 | 19 | E3 | 2026-11-01 | — | US | Oracle Public Cloud |
-| 5 | `45.115.26.203` | A1 | 47 | 17 | E3 | 2026-11-01 | — | NL | SolidCore Hosting LTD |
-| 6 | `41.223.139.111` | A1 | 20 | 17 | E3 | 2026-11-01 | — | NG | American University of N |
-| 7 | `45.138.12.25` | A1 | 33 | 16 | E3 | 2026-11-01 | — | PL | TC DATACENTER LIMITED MA |
-| 8 | `45.91.64.6` | A1 | 88 | 14 | E3 | 2026-10-14 | — | RU | F6 |
-| 9 | `193.32.204.199` | A1 | 63 | 14 | E3 | 2026-10-15 | — | FI | Vigilant Cyber SAS |
-| 10 | `34.62.82.165` | A1 | 31 | 14 | E3 | 2026-10-30 | — | BE | Google LLC |
-| 11 | `195.178.110.132` | A1 | 58 | 13 | E3 | 2026-11-01 | — | NL | TECHOFF SRV LIMITED |
-| 12 | `213.209.159.175` | A1 | 26 | 12 | E3 | 2026-10-11 | — | DE | Feo Prest SRL |
-| 13 | `188.246.240.3` | A1 | 55 | 10 | E3 | 2026-10-28 | — | KZ | Kar-Tel LLC |
-| 14 | `125.141.72.225` | A1 | 18 | 10 | E3 | 2026-10-29 | — | KR | Korea Telecom |
-| 15 | `165.154.1.144` | A1 | 10 | 10 | E3 | 2026-10-13 | — | HK | UCLOUD INFORMATION TECHN |
-| 16 | `106.15.236.209` | A1 | 56 | 9 | E3 | 2026-11-01 | — | CN | Aliyun Computing Co., LT |
-| 17 | `195.178.110.102` | A1 | 47 | 9 | E3 | 2026-11-01 | — | NL | TECHOFF SRV LIMITED |
-| 18 | `20.92.72.133` | A1 | 20 | 9 | E3 | 2026-11-01 | — | AU | Microsoft Corporation |
-| 19 | `80.82.77.202` | A1 | 34 | 8 | E3 | 2026-10-17 | — | NL | FiberXpress BV |
-| 20 | `45.156.128.169` | A1 | 11 | 8 | E3 | 2026-10-23 | 走査器 | NL | INAP-AMS-1 |
-| 21 | `91.92.240.200` | A1 | 14 | 7 | E3 | 2026-11-01 | — | DE |  |
-| 22 | `101.36.114.252` | A1 | 9 | 7 | E3 | 2026-10-27 | — | KR | UCLOUD INFORMATION TECHN |
-| 23 | `168.144.80.239` | A1 | 45 | 6 | E3 | 2026-09-17 | — | IN | DigitalOcean, LLC |
-| 24 | `118.194.248.4` | A1 | 9 | 6 | E3 | 2026-10-24 | — | KR | UCLOUD INFORMATION TECHN |
-| 25 | `128.1.46.183` | A1 | 9 | 6 | E3 | 2026-10-27 | — | RU | UCLOUD |
-| 26 | `152.32.208.106` | A1 | 9 | 6 | E3 | 2026-10-30 | — | US | UCLOUD INFORMATION TECHN |
-| 27 | `45.156.128.153` | A1 | 7 | 6 | E3 | 2026-10-25 | 走査器 | NL | INAP-AMS-1 |
-| 28 | `152.32.141.154` | A1 | 7 | 6 | E3 | 2026-10-29 | — | NG | UCLOUD INFORMATION TECHN |
-| 29 | `91.92.41.32` | A1 | 8 | 5 | E3 | 2026-10-30 | — | DE | SINO WORLDWIDE TRADING L |
-| 30 | `158.23.85.214` | A1 | 6 | 5 | E3 | 2026-11-01 | — | MX | Microsoft Singapore Pte. |
-| 31 | `106.63.26.6` | A1 | 9 | 4 | E3 | 2026-09-25 | — | CN | Chinatelecom Cloudy comp |
-| 32 | `165.154.179.62` | A1 | 6 | 4 | E3 | 2026-10-29 | — | RU | UCLOUD INFORMATION TECHN |
-| 33 | `45.156.129.107` | A1 | 5 | 4 | E3 | 2026-10-31 | 走査器 | US | INAP-CHI-1 |
-| 34 | `163.52.135.193` | A1 | 5 | 4 | E3 | 2026-11-01 | — | ID | CV Griya Cloud Server |
-| 35 | `168.76.254.75` | A1 | 5 | 4 | E3 | 2026-10-11 | — | HK | Free State Education Dep |
-| 36 | `49.235.131.69` | A1 | 4 | 4 | E3 | 2026-11-01 | — | CN | Tencent cloud computing  |
-| 37 | `23.132.164.90` | A1 | 6 | 3 | E3 | 2026-10-28 | — | DE | 10GIG.HOST |
-| 38 | `185.194.178.66` | A1 | 4 | 3 | E3 | 2026-10-24 | — | FR | Rackmarkt SL |
-| 39 | `35.247.154.230` | A1 | 3 | 3 | E3 | 2026-10-28 | — | SG | Google LLC |
-| 40 | `82.21.92.221` | A1 | 3 | 3 | E3 | 2026-10-26 | — | US | HOSTKEY B.V. |
+| 1 | `103.159.51.70` | A1 | 250 | 37 | E3 | 2026-10-27 | — | VN | NHAN HOA BUSINESS SOLUTI |
+| 2 | `163.7.1.156` | A1 | 72 | 33 | E3 | 2026-10-27 | — | ID | BYTEPLUS |
+| 3 | `196.189.236.67` | A1 | 125 | 30 | E3 | 2026-11-03 | — | ET | Ethio Telecom |
+| 4 | `58.182.58.128` | A1 | 51 | 29 | E3 | 2026-11-02 | — | SG | Asia Pacific Network Inf |
+| 5 | `38.148.20.75` | A1 | 45 | 23 | E3 | 2026-10-28 | — | US | Sumofiber |
+| 6 | `223.123.65.54` | A1 | 73 | 21 | E3 | 2026-10-20 | — | PK | CMPak Limited |
+| 7 | `45.148.10.125` | A1 | 52 | 20 | E3 | 2026-10-31 | — | NL | TECHOFF SRV LIMITED |
+| 8 | `152.32.236.102` | A1 | 51 | 20 | E3 | 2026-11-04 | — | US | UCLOUD INFORMATION TECHN |
+| 9 | `168.228.151.152` | A1 | 28 | 17 | E3 | 2026-10-12 | — | BR | CONECTA TOCANTINS INTERN |
+| 10 | `93.123.109.247` | A1 | 33 | 16 | E3 | 2026-11-03 | — | NL | TECHOFF SRV LIMITED |
+| 11 | `103.160.205.37` | A1 | 78 | 15 | E3 | 2026-11-03 | — | ID | PT Akbar Prima Media |
+| 12 | `20.196.208.116` | A1 | 25 | 15 | E3 | 2026-10-19 | — | KR | Microsoft Corporation |
+| 13 | `193.47.62.29` | A1 | 21 | 15 | E3 | 2026-11-03 | — | NL | BESTDC LIMITED |
+| 14 | `118.145.104.105` | A1 | 26 | 14 | E3 | 2026-11-01 | — | CN | Beijing Volcano Engine T |
+| 15 | `171.237.170.148` | A1 | 51 | 13 | E3 | 2026-11-02 | — | VN | Viettel Group |
+| 16 | `45.148.10.95` | A1 | 34 | 13 | E3 | 2026-10-30 | — | NL | TECHOFF SRV LIMITED |
+| 17 | `20.198.89.82` | A1 | 23 | 13 | E3 | 2026-10-25 | — | IN | Microsoft Corporation |
+| 18 | `20.200.208.154` | A1 | 20 | 13 | E3 | 2026-10-25 | — | KR | Microsoft Corporation |
+| 19 | `45.138.12.89` | A1 | 17 | 13 | E3 | 2026-11-03 | — | PL | TC DATACENTER LIMITED MA |
+| 20 | `34.38.113.44` | A1 | 31 | 12 | E3 | 2026-10-27 | — | BE | Google LLC |
+| 21 | `120.211.74.131` | A1 | 23 | 12 | E3 | 2026-10-20 | — | CN | China Mobile Communicati |
+| 22 | `172.110.223.173` | A1 | 71 | 11 | E3 | 2026-11-03 | — | US | Dedires LLC |
+| 23 | `62.60.130.173` | A1 | 38 | 11 | E3 | 2026-11-03 | — | LT | CIPHER OPERATIONS DOO BE |
+| 24 | `217.60.76.167` | A1 | 25 | 11 | E3 | 2026-11-03 | — | DE | 10GIG.host |
+| 25 | `118.33.119.34` | A1 | 21 | 11 | E3 | 2026-11-02 | — | KR | Korea Telecom |
+| 26 | `89.248.171.24` | A1 | 24 | 10 | E3 | 2026-10-20 | — | NL | FiberXpress BV |
+| 27 | `195.178.110.70` | A1 | 16 | 10 | E3 | 2026-09-07 | — | NL | TECHOFF SRV LIMITED |
+| 28 | `31.57.34.150` | A1 | 12 | 10 | E3 | 2026-11-01 | — | NL | Blockchain Creek |
+| 29 | `45.225.135.21` | A1 | 111 | 9 | E3 | 2026-10-27 | — | NL | RACK SPHERE HOSTING S.A. |
+| 30 | `77.90.185.230` | A1 | 19 | 8 | E3 | 2026-10-06 | — | LT | Limited Network LTD |
+| 31 | `77.90.185.122` | A1 | 12 | 8 | E3 | 2026-11-02 | — | LT | Limited Network LTD |
+| 32 | `130.12.180.166` | A1 | 17 | 7 | E3 | 2026-11-01 | — | DE | Virtualine Technologies |
+| 33 | `107.150.101.128` | A1 | 15 | 7 | E3 | 2026-10-17 | — | US | UCLOUD |
+| 34 | `194.163.170.0` | A1 | 9 | 7 | E3 | 2026-09-14 | — | FR | Contabo GmbH |
+| 35 | `81.71.158.242` | A1 | 11 | 6 | E3 | 2026-10-30 | — | CN | Tencent Cloud Computing  |
+| 36 | `103.91.144.89` | A1 | 10 | 6 | E3 | 2026-10-25 | — | US | Hostsymbol Pte. Ltd. |
+| 37 | `123.58.209.112` | A1 | 7 | 6 | E3 | 2026-10-31 | — | HK | UCLOUD INFORMATION TECHN |
+| 38 | `170.106.194.247` | A1 | 6 | 6 | E3 | 2026-11-04 | — | US | Tencent Building, Kejizh |
+| 39 | `106.63.26.15` | A1 | 13 | 5 | E3 | 2026-10-19 | — | CN | Chinatelecom Cloudy comp |
+| 40 | `20.217.203.17` | A1 | 8 | 5 | E3 | 2026-11-04 | — | IL | Microsoft Corporation |
 
 ## 7. 印（消さずに付けてあります）
 
 | 印 | 意味 | 件数 |
 | --- | --- | --- |
-| Tor 出口 | **誰でも通れる。**付いたアクター名はその出口を借りた誰かの話 | 141 |
+| Tor 出口 | **誰でも通れる。**付いたアクター名はその出口を借りた誰かの話 | 50 |
 | AbuseIPDB の除外一覧 | AbuseIPDB 側が除外している | 0 |
-| 研究スキャナと名乗る | 名乗りで判定。クラウドに居るだけでは判定しない | 43 |
+| 研究スキャナと名乗る | 名乗りで判定。クラウドに居るだけでは判定しない | 38 |
 | 同（高確度） | 主対象から外すべきもの | 0 |
-| 報告配列が上限で切れた | 確認数が下限値になっている | 2 |
-| 踏み台の報告あり | **送信元自体が侵害されている可能性。**持ち主も被害者かもしれない | 49 |
+| 報告配列が上限で切れた | 確認数が下限値になっている | 7 |
+| 踏み台の報告あり | **送信元自体が侵害されている可能性。**持ち主も被害者かもしれない | 194 |
 
 ## 8. 送信元の分布（攻撃と数えた分）
 
 | 国 | IP 数 |
 | --- | --- |
-| US | 760 |
-| CN | 359 |
-| NL | 185 |
-| DE | 168 |
-| KR | 154 |
-| SG | 138 |
-| HK | 121 |
-| FR | 103 |
-| BR | 91 |
-| IN | 81 |
-| MY | 80 |
-| RU | 78 |
+| US | 753 |
+| CN | 445 |
+| NL | 243 |
+| DE | 153 |
+| KR | 109 |
+| IN | 104 |
+| BR | 99 |
+| SG | 96 |
+| FR | 76 |
+| HK | 73 |
+| RU | 73 |
+| ID | 70 |
 | UA | 68 |
-| BE | 67 |
-| PK | 63 |
+| VN | 52 |
+| AR | 49 |
 
 **所在地は攻撃者の国籍や所属を意味しません。** クラウド、VPN、Tor、NAT、
 侵害されたホスト、IP の再割り当てをいずれも含みます。
 
 | ISP | IP 数 |
 | --- | --- |
-| Google LLC | 169 |
-| UCLOUD INFORMATION TECHNOLOGY (HK) L | 102 |
-| Korea Telecom | 96 |
-| DigitalOcean, LLC | 92 |
-| China Mobile Communications Corporat | 54 |
-| Alibaba Cloud LLC | 49 |
-| Amazon Data Services Northern Virgin | 49 |
-| DiGi Telecommunications Sdn Bhd | 48 |
-| Asia Pacific Network Information Cen | 44 |
-| Cox Communications | 44 |
-| Alibaba Cloud - US | 41 |
-| Tencent cloud computing (Beijing) Co | 41 |
-| Amazon Technologies Inc. | 40 |
-| Cox Communications Inc. | 37 |
-| VPN Consumer Singapore, Republic of  | 35 |
+| Microsoft Corporation | 150 |
+| DigitalOcean, LLC | 102 |
+| Beijing Volcano Engine Technology Co | 75 |
+| UCLOUD INFORMATION TECHNOLOGY (HK) L | 72 |
+| Google LLC | 62 |
+| Cox Communications | 58 |
+| Korea Telecom | 58 |
+| Beijing Baidu Netcom Science and Tec | 49 |
+| Microsoft Limited | 48 |
+| Asia Pacific Network Information Cen | 42 |
+| Amazon Data Services Northern Virgin | 38 |
+| China Mobile Communications Corporat | 36 |
+| Amazon Technologies Inc. | 33 |
+| Tencent cloud computing (Beijing) Co | 33 |
+| Alibaba Cloud LLC | 32 |
 
 | 種別 | IP 数 |
 | --- | --- |
-| Data Center/Web Hosting/Transit | 1794 |
-| Fixed Line ISP | 1382 |
-| Mobile ISP | 51 |
-| University/College/School | 29 |
-| Commercial | 22 |
-| Content Delivery Network | 7 |
-| Government | 6 |
+| Data Center/Web Hosting/Transit | 1797 |
+| Fixed Line ISP | 1351 |
+| Mobile ISP | 48 |
+| University/College/School | 22 |
+| Commercial | 21 |
+| Content Delivery Network | 6 |
+| Government | 4 |
 
 ## 9. 脅威情報の索引との重なり
 
@@ -454,18 +455,35 @@ DDoS や認証突破しかない IP では空欄になるので、E0 が多い�
 
 | アクター | IP 数 |
 | --- | --- |
-| GhostAction | 1 |
+| Anonymous | 1 |
 
 ## 10. 偏りと制約
 
 ### 母集団の偏り
 
-- **Blacklist が上限で打ち切られています。** スナップショットは 2026-11-02T02:48:18Z 生成の 100000 件
-- **候補のうち確認できたのは 9000 件**です。未確認が約 91000 件残っています。
+- **Blacklist が上限で打ち切られています。** スナップショットは 2026-11-04T02:48:32Z 生成の 100000 件
+- **この一覧はその日に引いた 9000 件ぶんで、累積ではありません。**
+  **前日より件数が増えていないのは異常ではありません。**
+- 累計でどこまで進んだかは台帳にあります: **88616 IP を 22 日かけて確認**
 - **既定の選び方は `lastReportedAt` の新しい順**なので、
-  **古い報告しか持たない IP は一度も見ていません。** 母集団を広げる日は
-  `../global-jp-vuln/build.mjs --new-only` を使います
+  **古い報告しか持たない IP は一度も見ていません**
 - したがって件数はすべて**この母集団での数**であり、世界全体の数ではありません
+
+### 候補の窓が件数を大きく動かします
+
+候補を「最終通報が何日以内か」で絞っており、**ここを変えると件数の性質が変わります**。
+2026-10-22 に 1 日へ絞ったところ、母集団が「今まさに通報された新しい IP」に寄り、
+報告がまだ積み上がっていない IP が主になりました。実測:
+
+|  | 候補 30 日のとき | 候補 1 日のとき |
+| --- | --- | --- |
+| マルチレポート | 3,348 | 1,339 |
+| 30 日の攻撃報告の中央値 | 4 件 | 1 件 |
+| 30 日の観測者の中央値 | 3 人 | 1 人 |
+| 90 日の全報告の中央値 | 899 件 | 334 件 |
+
+**2026-11-02 から候補 3 日に戻しました**（候補 約 68,000〜72,000 件 / 一巡 約 7.6 日）。
+30 日窓の中に一巡が収まりつつ、報告が 2〜3 日積み上がった IP も拾える釣り合いです。
 
 ### 分からないものを負に数えていません
 
