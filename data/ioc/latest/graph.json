@@ -237,7 +237,7 @@
     {
       "kind": "actor",
       "ratio": 0.057,
-      "shared": 62,
+      "shared": 64,
       "source": "actor:APT28",
       "strength": 18,
       "target": "actor:APT29",
@@ -1871,8 +1871,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.005,
-      "shared": 6,
+      "ratio": 0.006,
+      "shared": 7,
       "source": "actor:APT29",
       "strength": 4,
       "target": "actor:APT43",
@@ -1932,8 +1932,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.024,
-      "shared": 11,
+      "ratio": 0.026,
+      "shared": 12,
       "source": "actor:APT29",
       "strength": 4,
       "target": "actor:BITTER",
@@ -2118,6 +2118,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 1,
+      "target": "actor:DeadLock",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.036,
       "shared": 1,
       "source": "actor:APT29",
@@ -2161,6 +2173,18 @@
       "target": "actor:Equation Group",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:EvilTokens",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -2307,6 +2331,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.007,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:GreyVibe",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.057,
       "shared": 2,
       "source": "actor:APT29",
@@ -2406,7 +2442,7 @@
     {
       "kind": "actor",
       "ratio": 0.035,
-      "shared": 38,
+      "shared": 39,
       "source": "actor:APT29",
       "strength": 32,
       "target": "actor:Lazarus",
@@ -2484,8 +2520,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.017,
-      "shared": 2,
+      "ratio": 0.026,
+      "shared": 3,
       "source": "actor:APT29",
       "strength": 3,
       "target": "actor:Mustang Panda",
@@ -2534,8 +2570,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
-      "shared": 2,
+      "ratio": 0.017,
+      "shared": 4,
       "source": "actor:APT29",
       "strength": 4,
       "target": "actor:PasteSwitch",
@@ -2588,6 +2624,18 @@
       "source": "actor:APT29",
       "strength": 3,
       "target": "actor:SQLRCE0",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.045,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:STAC4749",
       "via": [
         "registered"
       ],
@@ -2656,6 +2704,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.021,
+      "shared": 1,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:Silver Dragon",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.011,
       "shared": 2,
       "source": "actor:APT29",
@@ -2669,8 +2729,20 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.01,
+      "ratio": 0.091,
       "shared": 1,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:SlippyNunchucks",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.02,
+      "shared": 2,
       "source": "actor:APT29",
       "strength": 3,
       "target": "actor:SourTrade",
@@ -2717,13 +2789,26 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.005,
+      "ratio": 0.011,
       "shared": 1,
       "source": "actor:APT29",
-      "strength": 1,
+      "strength": 3,
+      "target": "actor:The Gentlemen",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.009,
+      "shared": 2,
+      "source": "actor:APT29",
+      "strength": 4,
       "target": "actor:Tortoiseshell",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -2860,6 +2945,18 @@
       "target": "actor:UNK_DeadDrop",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.118,
+      "shared": 2,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:UNK_DoubleCheck",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -5949,6 +6046,18 @@
       "target": "actor:Silver Fox",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "actor:APT43",
+      "strength": 3,
+      "target": "actor:SlippyNunchucks",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -10136,6 +10245,18 @@
       "source": "actor:Callisto Group",
       "strength": 3,
       "target": "actor:Silver Fox",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "actor:Callisto Group",
+      "strength": 3,
+      "target": "actor:SlippyNunchucks",
       "via": [
         "registered"
       ],
@@ -18209,6 +18330,18 @@
       "ratio": 0.111,
       "shared": 1,
       "source": "actor:GTG-84005",
+      "strength": 1,
+      "target": "actor:SlippyNunchucks",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "actor:GTG-84005",
       "strength": 3,
       "target": "actor:UNK_DeadDrop",
       "via": [
@@ -20033,6 +20166,18 @@
       "target": "actor:Silver Dragon",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "actor:GreyVibe",
+      "strength": 1,
+      "target": "actor:SlippyNunchucks",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -22743,6 +22888,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "actor:Lazarus",
+      "strength": 3,
+      "target": "actor:SlippyNunchucks",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.01,
       "shared": 1,
       "source": "actor:Lazarus",
@@ -24868,8 +25025,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.059,
-      "shared": 1,
+      "ratio": 0.118,
+      "shared": 2,
       "source": "actor:PasteSwitch",
       "strength": 3,
       "target": "actor:UNK_DoubleCheck",
@@ -25259,18 +25416,6 @@
       "source": "actor:REF9334",
       "strength": 2,
       "target": "actor:UAT-10147",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.007,
-      "shared": 1,
-      "source": "actor:REF9334",
-      "strength": 2,
-      "target": "actor:UAT-11587",
       "via": [
         "family"
       ],
@@ -26341,6 +26486,18 @@
       "target": "actor:unknown Chinese-speaking APT",
       "via": [
         "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "actor:SlippyNunchucks",
+      "strength": 3,
+      "target": "actor:UNC6671",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -30483,6 +30640,18 @@
     },
     {
       "kind": "case",
+      "ratio": 1,
+      "shared": 1,
+      "source": "case:case:9394627e9c44cf2226ddf50012e5cf47ccf7d3bd8afa2395c635a93637e23502",
+      "strength": 1,
+      "target": "case:case:a706e51e945bc050debfb443130276bd71a9bf19ffaaa0615abf871f6fbb4e54",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "case",
       "ratio": 0.5,
       "shared": 1,
       "source": "case:case:93df03d7db7df23317ee87ebe3946ddff4364e45de5217b0c90c7925b22c8f04",
@@ -30592,6 +30761,18 @@
         "registered",
         "registrable"
       ]
+    },
+    {
+      "kind": "case",
+      "ratio": 0.5,
+      "shared": 1,
+      "source": "case:case:9b990729e29eb355bd0d5004b73b0ec8e9a659c5577c1c633604424b0290ab12",
+      "strength": 1,
+      "target": "case:case:a706e51e945bc050debfb443130276bd71a9bf19ffaaa0615abf871f6fbb4e54",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
     },
     {
       "kind": "case",
@@ -30731,6 +30912,30 @@
       "source": "case:case:a459ce4bfb5d649410231bd4776c194b0891c8c5328bafc22184fe3111c0b3e7",
       "strength": 1,
       "target": "case:case:fc21a125287c3539e11408587bcaa6f3b54784d9d458facbc54994f05d7ef1b0",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "case",
+      "ratio": 1,
+      "shared": 1,
+      "source": "case:case:a706e51e945bc050debfb443130276bd71a9bf19ffaaa0615abf871f6fbb4e54",
+      "strength": 1,
+      "target": "case:case:add013bf7ffc8a89789a7fd0ae0ff799c620af9b2755b214880b6a56768fd48c",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "case",
+      "ratio": 1,
+      "shared": 1,
+      "source": "case:case:a706e51e945bc050debfb443130276bd71a9bf19ffaaa0615abf871f6fbb4e54",
+      "strength": 1,
+      "target": "case:case:c86f319f64d25f23ac29d9b53c9764f06a150634ee8e2d836424d460e5a99b52",
       "via": [
         "jarm"
       ],
@@ -33303,6 +33508,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.053,
+      "shared": 1,
+      "source": "malware:AMOS helper",
+      "strength": 2,
+      "target": "malware:K2F",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.125,
       "shared": 1,
       "source": "malware:AMOS helper",
@@ -34357,13 +34574,12 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
-      "shared": 3,
+      "ratio": 0.032,
+      "shared": 2,
       "source": "malware:Agent Tesla",
-      "strength": 6,
+      "strength": 4,
       "target": "malware:Antino",
       "via": [
-        "family",
         "jarm",
         "registered"
       ],
@@ -34555,13 +34771,12 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.107,
-      "shared": 3,
+      "ratio": 0.071,
+      "shared": 2,
       "source": "malware:Agent Tesla",
-      "strength": 12,
+      "strength": 10,
       "target": "malware:Formbook",
       "via": [
-        "family",
         "ioc",
         "registrable"
       ]
@@ -34573,18 +34788,6 @@
       "source": "malware:Agent Tesla",
       "strength": 2,
       "target": "malware:GuLoader",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.016,
-      "shared": 1,
-      "source": "malware:Agent Tesla",
-      "strength": 2,
-      "target": "malware:KREMLIN",
       "via": [
         "family"
       ],
@@ -36280,18 +36483,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.036,
-      "shared": 1,
-      "source": "malware:Antino",
-      "strength": 2,
-      "target": "malware:Formbook",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.118,
       "shared": 2,
       "source": "malware:Antino",
@@ -36312,18 +36503,6 @@
       "target": "malware:Infostealer",
       "via": [
         "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.007,
-      "shared": 1,
-      "source": "malware:Antino",
-      "strength": 2,
-      "target": "malware:KREMLIN",
-      "via": [
-        "family"
       ],
       "weak_only": true
     },
@@ -38701,6 +38880,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:BlueMoon",
+      "strength": 3,
+      "target": "malware:DarkSword",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 2,
       "shared": 2,
       "source": "malware:BlueMoon",
@@ -38709,6 +38900,18 @@
       "via": [
         "registered",
         "registrable"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.053,
+      "shared": 1,
+      "source": "malware:BlueMoon",
+      "strength": 2,
+      "target": "malware:K2F",
+      "via": [
+        "family"
       ],
       "weak_only": true
     },
@@ -40366,6 +40569,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:Chaos",
+      "strength": 3,
+      "target": "malware:DarkSword",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.083,
       "shared": 1,
       "source": "malware:Chaos",
@@ -41443,6 +41658,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:CosmicPulse",
+      "strength": 3,
+      "target": "malware:DarkVigil",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.036,
       "shared": 1,
       "source": "malware:CosmicPulse",
@@ -41688,6 +41915,18 @@
       "source": "malware:CountLoader",
       "strength": 3,
       "target": "malware:DOUBLECUP",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:CountLoader",
+      "strength": 3,
+      "target": "malware:DarkSword",
       "via": [
         "registered"
       ],
@@ -43001,6 +43240,114 @@
       "source": "malware:DOUBLECUP",
       "strength": 3,
       "target": "malware:TWINLOOT",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "malware:DarkSword",
+      "strength": 1,
+      "target": "malware:DeadLock",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.083,
+      "shared": 1,
+      "source": "malware:DarkSword",
+      "strength": 3,
+      "target": "malware:FastViewer Android Malware",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:DarkVigil",
+      "strength": 3,
+      "target": "malware:DonutLoader",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:DarkVigil",
+      "strength": 3,
+      "target": "malware:Overlord",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:DarkVigil",
+      "strength": 3,
+      "target": "malware:PavinLoader",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:DarkVigil",
+      "strength": 1,
+      "target": "malware:PhantomRelay",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:DarkVigil",
+      "strength": 1,
+      "target": "malware:PhantomRelayLite",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:DarkVigil",
+      "strength": 1,
+      "target": "malware:RedLine Stealer",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:DarkVigil",
+      "strength": 3,
+      "target": "malware:SUNBURST",
       "via": [
         "registered"
       ],
@@ -45948,18 +46295,6 @@
       "target": "malware:Infostealer",
       "via": [
         "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.036,
-      "shared": 1,
-      "source": "malware:Formbook",
-      "strength": 2,
-      "target": "malware:KREMLIN",
-      "via": [
-        "family"
       ],
       "weak_only": true
     },
@@ -56342,7 +56677,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-11-04T00:02:56.491Z",
+  "generated_from": "2026-11-05T00:02:52.894Z",
   "nodes": [
     {
       "id": "actor:3AM ransomware affiliate",
@@ -56364,7 +56699,7 @@
     },
     {
       "id": "actor:APT29",
-      "ioc_count": 1107,
+      "ioc_count": 1139,
       "kind": "actor",
       "name": "APT29"
     },
@@ -57315,6 +57650,12 @@
       "ioc_count": 174,
       "kind": "actor",
       "name": "Silver Fox"
+    },
+    {
+      "id": "actor:SlippyNunchucks",
+      "ioc_count": 11,
+      "kind": "actor",
+      "name": "SlippyNunchucks"
     },
     {
       "id": "actor:Smishing Triad",
@@ -58415,6 +58756,12 @@
       "name": "case:a4a0b87c94132e0433ae48e2151f31e8cdb02113cd0f3aa81a903adc854a64d9"
     },
     {
+      "id": "case:case:a706e51e945bc050debfb443130276bd71a9bf19ffaaa0615abf871f6fbb4e54",
+      "ioc_count": 2,
+      "kind": "case",
+      "name": "case:a706e51e945bc050debfb443130276bd71a9bf19ffaaa0615abf871f6fbb4e54"
+    },
+    {
       "id": "case:case:a74a948afc694949bf99f9bee9215cc759c082cded0ab1b8f6be345630bfd81e",
       "ioc_count": 2,
       "kind": "case",
@@ -59225,6 +59572,18 @@
       "name": "DOUBLECUP"
     },
     {
+      "id": "malware:DarkSword",
+      "ioc_count": 16,
+      "kind": "malware",
+      "name": "DarkSword"
+    },
+    {
+      "id": "malware:DarkVigil",
+      "ioc_count": 11,
+      "kind": "malware",
+      "name": "DarkVigil"
+    },
+    {
       "id": "malware:DeadLock",
       "ioc_count": 6,
       "kind": "malware",
@@ -59613,6 +59972,12 @@
       "ioc_count": 4,
       "kind": "malware",
       "name": "JiProxy UDP relay（暫定）"
+    },
+    {
+      "id": "malware:K2F",
+      "ioc_count": 19,
+      "kind": "malware",
+      "name": "K2F"
     },
     {
       "id": "malware:KEYPLUG",
