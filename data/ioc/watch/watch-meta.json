@@ -1,0 +1,63 @@
+{
+  "built_at": "2026-11-06T01:09:47.257Z",
+  "bulk_shapes": 1,
+  "day_range": [
+    "2026-10-30",
+    "2026-11-06"
+  ],
+  "days": 2,
+  "events": {
+    "by_kind": {
+      "already_independent_at_first_sight": 1,
+      "already_reported_at_first_sight": 44,
+      "backdated_report": 14,
+      "first_independent_report": 8,
+      "first_report": 21,
+      "new_category": 1,
+      "reporters_up": 1
+    },
+    "total": 90
+  },
+  "events_on_last_day": 45,
+  "generated_from": "observations/*.jsonl のみ。API も写しも見ていない",
+  "ips": 255,
+  "not_observed_last_fetch": 0,
+  "observed_days": [
+    {
+      "day": "2026-10-30",
+      "ips": 255
+    },
+    {
+      "day": "2026-11-06",
+      "ips": 255
+    }
+  ],
+  "per_cluster": {
+    "ARTEX": {
+      "categories": {
+        "Exploited Host": 57,
+        "Web App Attack": 8
+      },
+      "ips": 250,
+      "max_score": 12,
+      "total_reports": 65,
+      "with_independent_report": 8,
+      "with_jp_report": 0,
+      "with_reports": 64
+    },
+    "sub2api": {
+      "categories": {
+        "Exploited Host": 1,
+        "Hacking": 1,
+        "Port Scan": 1,
+        "Web App Attack": 1
+      },
+      "ips": 5,
+      "max_score": 16,
+      "total_reports": 3,
+      "with_independent_report": 1,
+      "with_jp_report": 0,
+      "with_reports": 1
+    }
+  }
+}

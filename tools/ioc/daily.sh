@@ -7,6 +7,7 @@
 #   0. 索引を取り直す（--collect のときだけ。既定は週次なので毎日はやらない）
 #   1. 経路表の写しを更新する（BGPTOOLS_CONTACT があるときだけ）
 #   2. 攻撃者ドメインの生存確認（--track のときだけ。DNS は枠を使わない）
+#   2.5 名指しした監視クラスタを AbuseIPDB で引く（watchlist.json があるときだけ）
 #   3. VT と AbuseIPDB を、その日の枠を使い切るまで引く（並行）
 #   4. 写しから作り直す（enrich-intel → enrich-asn → stats）
 #   5. 検査する。**通らなければここで止まる**
@@ -30,6 +31,26 @@ REPORTS=${IOC_REPORTS:-data/ioc/reports}
 TRACKER=${IOC_TRACKER:-data/ioc/tracker}
 # 生存ドメインの検体を引き直す件数。**VT の枠を先に少しだけ取る**（下記）
 TRACK_SAMPLES=${IOC_TRACK_SAMPLES:-120}
+# 名指しで毎日追う IP の監視。観測は 1 日 1 ファイルで積み上がる
+#
+# ## なぜ索引に足すのでは駄目なのか
+#
+# `iocs.jsonl` は 4 つの外部索引から毎日再生成されるので、**手で足した行は翌日消える**。
+# `fetch-abuseipdb.mjs` は各 IP を一度だけ引く設計（`alreadyKnown`）で、
+# 毎日追う用途とは真逆。接ぎ木すると本線の枠配分が壊れる。だから別立てにする。
+#
+# ## 枠の配分（/check は 1 日 10,000 回・UTC 0 時リセット）
+#
+#   本線のエンリッチ（索引ぶん）  約 100
+#   この監視                      255（既定の上限 400）
+#   日本向け攻撃元の収集          9,000
+#   予備                          残り 645 ほど
+#
+# **監視は本線の後、9,000 件の掃き出しより先**に回す。件数が小さく、
+# 「初めてフィード以外の通報が付いた日」を逃さないことの価値が高い。
+# 実測で、その日（10-31）に気付くまで 6 日かかった。
+WATCH=${IOC_WATCH:-data/ioc/watch}
+WATCH_MAX=${IOC_WATCH_MAX:-400}
 COLLECT=0
 TRACK=0
 COMMIT=0
@@ -91,6 +112,20 @@ if [ "$TRACK" = 1 ]; then
 fi
 
 # 外に出るのはこの 2 つだけ。どちらも写しを残す。鍵も枠も別なので並行して走らせる
+# 名指しした監視クラスタ。**宣言が無ければ何もしない**
+if [ -f "$WATCH/watchlist.json" ] && [ -n "$ABUSEIPDB_API_KEY$ABUSEIPDB_API_KEYS" ]; then
+  say "監視クラスタ（AbuseIPDB）"
+  # **ここが落ちても本線を止めない。**観測が 1 日抜けるだけで、翌日続きから引く
+  if node tools/ioc/fetch-watch.mjs --watch "$WATCH" --max-check "$WATCH_MAX"; then
+    node tools/ioc/track-watch.mjs --watch "$WATCH"
+    node tools/ioc/watch-report.mjs --watch "$WATCH" --out "$REPORTS"
+    node tools/ioc/validate-watch.mjs --watch "$WATCH" || \
+      echo "! 監視の検査が通りませんでした。観測は残っています" >&2
+  else
+    echo "! 監視クラスタの取得が落ちました。本線は続けます" >&2
+  fi
+fi
+
 say "VirusTotal / AbuseIPDB"
 node tools/ioc/fetch-vt.mjs --in "$DIR" &
 VT=$!
@@ -133,6 +168,10 @@ if [ "$COMMIT" = 1 ]; then
   # 検査が通ってからでないとコミットしない。壊れた一式が明日の基準になるのを防ぐ
   git add "$DIR" "$REPORTS"
   if [ "$TRACK" = 1 ]; then git add "$TRACKER"; fi
+  # **監視の観測も必ず入れる。**写しは git 管理外なので、ここで残らないと
+  # 翌日には前日が無く、「初めて通報が付いた日」が永久に出せなくなる。
+  # 日本向け収集の台帳を入れ忘れて 7 日ルールが効いていなかったのと同じ失敗
+  if [ -d "$WATCH" ]; then git add "$WATCH"; fi
   if git diff --cached --quiet; then
     echo "  変化がありません。コミットしません"
   else
