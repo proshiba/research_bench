@@ -41,16 +41,34 @@ const MAX_AGE_H = (() => {
   return Number.isFinite(v) && v > 0 ? v : 20;
 })();
 
-/** 対象の組み立て。クラスタ名を一緒に持つ */
+/**
+ * 対象の組み立て。**クラスタは 1 つで、役割を IP に付ける。**
+ *
+ * 2026-11-06 に利用者の指摘で訂正した。元は ARTEX と sub2api を別クラスタとして
+ * 扱っていたが、実際は**全 255 IP に sub2api があり、同じリチャージ URL が
+ * セットされている 1 つのクラスタ**で、うち 250 IP で ARTEX も動いている。
+ */
 export const targets = [];
-for (const cl of CFG.CLUSTERS) {
-  if (cl.explicit) for (const ip of cl.explicit) targets.push({ ip, cluster: cl.name });
-  if (cl.ranges) {
-    for (const r of cl.ranges) {
+const roleByIp = new Map();
+for (const g of CFG.GROUPS) {
+  const roles = g.roles || [];
+  const push = (ip) => {
+    if (roleByIp.has(ip)) {
+      // 同じ IP が複数の group に出たら役割を足す。行は増やさない
+      const cur = roleByIp.get(ip);
+      cur.roles = [...new Set([...cur.roles, ...roles])].sort();
+      return;
+    }
+    const rec = { ip, cluster: CFG.CLUSTER.name, roles: [...new Set(roles)].sort() };
+    roleByIp.set(ip, rec);
+    targets.push(rec);
+  };
+  if (g.explicit) for (const ip of g.explicit) push(ip);
+  if (g.ranges) {
+    for (const r of g.ranges) {
       const base = r.split("/")[0].split(".").slice(0, 3).join(".");
-      for (let i = cl.host_range[0]; i <= cl.host_range[1]; i++) {
-        targets.push({ ip: `${base}.${i}`, cluster: cl.name });
-      }
+      const [lo, hi] = g.host_range || [1, 254];
+      for (let i = lo; i <= hi; i++) push(`${base}.${i}`);
     }
   }
 }
@@ -74,7 +92,10 @@ const stale = (ip) => {
 const need = targets.filter((t) => stale(t.ip));
 const byCluster = {};
 for (const t of targets) byCluster[t.cluster] = (byCluster[t.cluster] || 0) + 1;
+const byRole = {};
+for (const t of targets) for (const r of t.roles) byRole[r] = (byRole[r] || 0) + 1;
 console.log(`対象 ${targets.length} IP ${JSON.stringify(byCluster)}`);
+console.log(`  役割 ${JSON.stringify(byRole)}`);
 console.log(`  写しが ${MAX_AGE_H} 時間以内 ${targets.length - need.length} / 引くのは ${need.length}`
   + (REFRESH ? "（--refresh で全部引き直す）" : ""));
 if (PLAN) { console.log("  → 引かずに終わります（--plan）"); process.exit(0); }
@@ -117,7 +138,8 @@ const worker = async (slotIdx) => {
     const f = slot(t.ip);
     fs.mkdirSync(path.dirname(f), { recursive: true });
     fs.writeFileSync(f, JSON.stringify({
-      ip: t.ip, cluster: t.cluster, source: "abuseipdb", endpoint: "check", status: 200,
+      ip: t.ip, cluster: t.cluster, roles: t.roles,
+      source: "abuseipdb", endpoint: "check", status: 200,
       max_age_days: CFG.FETCH_WINDOW_DAYS, fetched_at: new Date().toISOString(), body: body.data,
     }, null, 1) + "\n");
     if (++done % 50 === 0) process.stdout.write(`\r  ${done}/${need.length}  残量 ${remaining ?? "?"}    `);
@@ -131,7 +153,7 @@ if (failures.length) {
   console.log(`  ! 失敗 ${failures.length} 件を fetch_failures.json に残しました`);
 }
 fs.writeFileSync(path.join(HERE, "fetch_meta.json"), JSON.stringify({
-  dataset: CFG.DATASET, targets: targets.length, by_cluster: byCluster,
+  dataset: CFG.DATASET, targets: targets.length, by_cluster: byCluster, by_role: byRole,
   fetch_window_days: CFG.FETCH_WINDOW_DAYS,
   copies: targets.filter((t) => fs.existsSync(slot(t.ip))).length,
   /** **引き直した件数と使い回した件数を分けて残す。**「写し 255 件」だけでは

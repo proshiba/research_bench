@@ -15,112 +15,101 @@
     {
       "artex_ips": 0,
       "category_names": "Hacking;Port Scan",
-      "clusters": "sub2api",
+      "clusters": "sub2api-198.200.59.85",
       "day": "2026-09-30",
       "distinct_ips": 1,
       "distinct_reporters": 1,
       "independent_reports": 1,
       "new_since_prev": 0,
+      "recharge_host_ips": 1,
       "reports": 1,
-      "sub2api_ips": 1
+      "sub2api_only_ips": 0
     },
     {
       "artex_ips": 11,
       "category_names": "Exploited Host",
-      "clusters": "ARTEX",
+      "clusters": "sub2api-198.200.59.85",
       "day": "2026-10-17",
       "distinct_ips": 11,
       "distinct_reporters": 1,
       "independent_reports": 0,
       "new_since_prev": 0,
+      "recharge_host_ips": 0,
       "reports": 11,
-      "sub2api_ips": 0
+      "sub2api_only_ips": 0
     },
     {
       "artex_ips": 1,
       "category_names": "Exploited Host",
-      "clusters": "ARTEX",
+      "clusters": "sub2api-198.200.59.85",
       "day": "2026-10-20",
       "distinct_ips": 1,
       "distinct_reporters": 1,
       "independent_reports": 0,
       "new_since_prev": 0,
+      "recharge_host_ips": 0,
       "reports": 1,
-      "sub2api_ips": 0
+      "sub2api_only_ips": 0
     },
     {
       "artex_ips": 0,
       "category_names": "Hacking;Web App Attack",
-      "clusters": "sub2api",
+      "clusters": "sub2api-198.200.59.85",
       "day": "2026-10-23",
       "distinct_ips": 1,
       "distinct_reporters": 1,
       "independent_reports": 1,
       "new_since_prev": 0,
+      "recharge_host_ips": 1,
       "reports": 1,
-      "sub2api_ips": 1
+      "sub2api_only_ips": 0
     },
     {
       "artex_ips": 31,
       "category_names": "Exploited Host",
-      "clusters": "ARTEX;sub2api",
+      "clusters": "sub2api-198.200.59.85",
       "day": "2026-10-24",
       "distinct_ips": 32,
       "distinct_reporters": 1,
       "independent_reports": 0,
       "new_since_prev": 0,
+      "recharge_host_ips": 1,
       "reports": 32,
-      "sub2api_ips": 1
+      "sub2api_only_ips": 0
     },
     {
       "artex_ips": 14,
       "category_names": "Exploited Host",
-      "clusters": "ARTEX",
+      "clusters": "sub2api-198.200.59.85",
       "day": "2026-10-27",
       "distinct_ips": 14,
       "distinct_reporters": 1,
       "independent_reports": 0,
       "new_since_prev": 14,
+      "recharge_host_ips": 0,
       "reports": 14,
-      "sub2api_ips": 0
+      "sub2api_only_ips": 0
     },
     {
       "artex_ips": 8,
       "category_names": "Web App Attack",
-      "clusters": "ARTEX",
+      "clusters": "sub2api-198.200.59.85",
       "day": "2026-10-31",
       "distinct_ips": 8,
       "distinct_reporters": 1,
       "independent_reports": 8,
       "new_since_prev": 8,
+      "recharge_host_ips": 0,
       "reports": 8,
-      "sub2api_ips": 0
+      "sub2api_only_ips": 0
     }
   ],
-  "clusters": [
-    {
-      "explicit": null,
-      "name": "ARTEX",
-      "note": "ARTEX が起動していると利用者が観測した範囲。.0/.126/.127 を除く",
-      "ranges": [
-        "38.11.173.0/25",
-        "38.11.221.0/25"
-      ]
-    },
-    {
-      "explicit": [
-        "198.200.59.85",
-        "198.200.59.86",
-        "198.200.59.87",
-        "198.200.59.88",
-        "198.200.59.89"
-      ],
-      "name": "sub2api",
-      "note": "sub2api があり、同じリチャージ URL(198.200.59.85) がセットされていると利用者が観測",
-      "ranges": null
-    }
-  ],
+  "cluster": {
+    "name": "sub2api-198.200.59.85",
+    "note": "全 255 IP に sub2api があり、同じリチャージ URL (198.200.59.85) がセットされていると利用者が観測。うち 250 IP では ARTEX も起動している"
+  },
   "collected_at_utc": "2026-11-06T00:11:34.802Z",
+  "correction_note": "2026-11-06 に利用者の指摘で 2 クラスタから 1 クラスタへ訂正。38.11.173/221 側にも sub2api があり、同じリチャージ URL (198.200.59.85) がセットされている。役割は IP に付ける印で、クラスタではない",
   "dataset": "ARTEX_TIMELINE",
   "date_field_semantics": {
     "backdate_days_max": 7.32,
@@ -147,11 +136,49 @@
   },
   "fetch_window_days": 365,
   "generated_from": "写しのみ。API は呼んでいない",
+  "groups": [
+    {
+      "explicit": null,
+      "note": "ARTEX も起動していると利用者が観測した範囲。.0/.126/.127 を除く",
+      "ranges": [
+        "38.11.173.0/25",
+        "38.11.221.0/25"
+      ],
+      "roles": [
+        "sub2api",
+        "artex"
+      ]
+    },
+    {
+      "explicit": [
+        "198.200.59.85"
+      ],
+      "note": "リチャージ URL のホスト自身。198.200.59.85 は自分を指している",
+      "ranges": null,
+      "roles": [
+        "sub2api",
+        "recharge_host"
+      ]
+    },
+    {
+      "explicit": [
+        "198.200.59.86",
+        "198.200.59.87",
+        "198.200.59.88",
+        "198.200.59.89"
+      ],
+      "note": "リチャージ URL のホストと同じ /29 に並ぶ sub2api。ARTEX は観測されていない",
+      "ranges": null,
+      "roles": [
+        "sub2api"
+      ]
+    }
+  ],
   "independent_reporters": [
     {
       "backdate_days_max": "0.00",
       "category_names": "Web App Attack",
-      "clusters": "ARTEX",
+      "clusters": "sub2api-198.200.59.85",
       "comment_excerpt": "Web application attack detected.",
       "country": "IN",
       "days": "2026-10-31",
@@ -165,7 +192,7 @@
     {
       "backdate_days_max": "",
       "category_names": "Hacking;Web App Attack",
-      "clusters": "sub2api",
+      "clusters": "sub2api-198.200.59.85",
       "comment_excerpt": "",
       "country": "MY",
       "days": "2026-10-23",
@@ -179,7 +206,7 @@
     {
       "backdate_days_max": "",
       "category_names": "Hacking;Port Scan",
-      "clusters": "sub2api",
+      "clusters": "sub2api-198.200.59.85",
       "comment_excerpt": "Connection to port 443 with data transfer. Data preview:",
       "country": "NL",
       "days": "2026-09-30",
@@ -192,53 +219,69 @@
     }
   ],
   "per_cluster": {
-    "ARTEX": {
+    "sub2api-198.200.59.85": {
       "baseline_available": 0,
-      "distinct_reporters": 2,
+      "distinct_reporters": 4,
       "in_threat_index": 0,
-      "ips": 250,
+      "ips": 255,
       "isp": {
-        "Cogent Communications, LLC": 250
-      },
-      "jp_reports": 0,
-      "max_score_now": 12,
-      "new_independent_reports_since_prev": 8,
-      "new_reports_since_prev": 22,
-      "newly_reported": 0,
-      "newly_reported_since_prev": 21,
-      "prev_available": 250,
-      "rdns_domains": {},
-      "total_reports_now": 65,
-      "with_independent_report": 8,
-      "with_rdns": 0,
-      "with_reports_baseline": 0,
-      "with_reports_now": 64,
-      "with_reports_prev": 43
-    },
-    "sub2api": {
-      "baseline_available": 0,
-      "distinct_reporters": 3,
-      "in_threat_index": 0,
-      "ips": 5,
-      "isp": {
+        "Cogent Communications, LLC": 250,
         "PEG TECH INC": 5
       },
       "jp_reports": 0,
       "max_score_now": 16,
-      "new_independent_reports_since_prev": 0,
-      "new_reports_since_prev": 0,
+      "new_independent_reports_since_prev": 8,
+      "new_reports_since_prev": 22,
       "newly_reported": 0,
-      "newly_reported_since_prev": 0,
-      "prev_available": 5,
+      "newly_reported_since_prev": 21,
+      "prev_available": 255,
       "rdns_domains": {
         "visiblooths.net": 5
       },
-      "total_reports_now": 3,
-      "with_independent_report": 1,
+      "total_reports_now": 68,
+      "with_independent_report": 9,
       "with_rdns": 5,
       "with_reports_baseline": 0,
+      "with_reports_now": 65,
+      "with_reports_prev": 44
+    }
+  },
+  "per_role": {
+    "artex": {
+      "ips": 250,
+      "jp_reports": 0,
+      "max_score_now": 12,
+      "reported_pct": 25.6,
+      "too_small_for_pct": false,
+      "total_reports_now": 65,
+      "with_independent_report": 8,
+      "with_rdns": 0,
+      "with_reports_now": 64,
+      "with_reports_prev": 43
+    },
+    "recharge_host": {
+      "ips": 1,
+      "jp_reports": 0,
+      "max_score_now": 16,
+      "reported_pct": 100,
+      "too_small_for_pct": true,
+      "total_reports_now": 3,
+      "with_independent_report": 1,
+      "with_rdns": 1,
       "with_reports_now": 1,
       "with_reports_prev": 1
+    },
+    "sub2api": {
+      "ips": 255,
+      "jp_reports": 0,
+      "max_score_now": 16,
+      "reported_pct": 25.5,
+      "too_small_for_pct": false,
+      "total_reports_now": 68,
+      "with_independent_report": 9,
+      "with_rdns": 5,
+      "with_reports_now": 65,
+      "with_reports_prev": 44
     }
   },
   "prev_snapshot_date": "2026-10-30",
@@ -248,7 +291,7 @@
       "backdate_days_median": "1.05",
       "backdate_measurable_ips": 56,
       "category_names": "Exploited Host",
-      "clusters": "ARTEX;sub2api",
+      "clusters": "sub2api-198.200.59.85",
       "comment_excerpt": "ICS Labs threat intelligence (ICS Feeds): Exploited Host. Last observed 2026-10-17 UTC.",
       "comment_shape": "ICS Labs threat intelligence (ICS Feeds): Exploited Host. Last observed <date> UTC.",
       "country": "BR",
@@ -268,7 +311,7 @@
       "backdate_days_median": "0.00",
       "backdate_measurable_ips": 7,
       "category_names": "Web App Attack",
-      "clusters": "ARTEX",
+      "clusters": "sub2api-198.200.59.85",
       "comment_excerpt": "Web application attack detected.",
       "comment_shape": "Web application attack detected.",
       "country": "IN",
@@ -288,7 +331,7 @@
       "backdate_days_median": "",
       "backdate_measurable_ips": 0,
       "category_names": "Hacking;Web App Attack",
-      "clusters": "sub2api",
+      "clusters": "sub2api-198.200.59.85",
       "comment_excerpt": "",
       "comment_shape": "",
       "country": "MY",
@@ -308,7 +351,7 @@
       "backdate_days_median": "",
       "backdate_measurable_ips": 0,
       "category_names": "Hacking;Port Scan",
-      "clusters": "sub2api",
+      "clusters": "sub2api-198.200.59.85",
       "comment_excerpt": "Connection to port 443 with data transfer. Data preview:",
       "comment_shape": "Connection to port <n> with data transfer. Data preview:",
       "country": "NL",

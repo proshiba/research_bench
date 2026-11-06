@@ -37,7 +37,12 @@ const T = (head, body) => [
   ...body.map((r) => "| " + r.join(" | ") + " |"),
 ].join("\n");
 
-const A = S.per_cluster.ARTEX, U = S.per_cluster.sub2api;
+/** **クラスタは 1 つ。**内訳は役割で見る */
+const C = S.per_cluster[S.cluster.name];
+const R = S.per_role;
+const ART = R.artex, RCH = R.recharge_host;
+/** sub2api だけ（ARTEX もリチャージホストでもない）= .86〜.89 */
+const ONLY = Object.entries(S.per_role_set || {}).length ? null : null;
 const D = S.date_field_semantics;
 const PREV = S.prev_snapshot_date;
 const feedReports = S.bulk_feeds.reduce((s, f) => s + f.reports, 0);
@@ -46,31 +51,38 @@ const newEvents = events.filter((e) => e.new_since_prev === "true");
 const newIndep = newEvents.filter((e) => !S.bulk_feeds.some((f) => f.reporter === e.reporter));
 
 const L = [];
-L.push("# ARTEX / sub2api クラスタ — AbuseIPDB 上の通報の時系列", "");
+L.push("# " + S.cluster.name + " — AbuseIPDB 上の通報の時系列", "");
 L.push("> **この文書は Claude（AI）が自動生成したものです。人の確認を前提としてください。**", "");
 L.push("取得 " + String(S.collected_at_utc).slice(0, 16) + " UTC"
   + (PREV ? " ／ 前回 " + PREV + " との差を主に見ています。" : "") , "");
-L.push(T(["クラスタ", "対象", "利用者の観測"], S.clusters.map((c) => [
-  "**" + c.name + "**",
-  c.ranges ? c.ranges.map(code).join(" と ") + " の " + code(".1〜.125")
-    : c.explicit.map(code).join(" "),
-  safe(c.note, 70)])), "");
+L.push("**1 つのクラスタです。** " + safe(S.cluster.note, 160), "");
+L.push(T(["役割", "対象", "利用者の観測"], S.groups.map((g) => [
+  g.roles.map(code).join(" "),
+  g.ranges ? g.ranges.map(code).join(" と ") + " の " + code(".1〜.125")
+    : g.explicit.map(code).join(" "),
+  safe(g.note, 70)])), "");
+if (S.correction_note) {
+  L.push("> **訂正（2026-11-06）** — " + safe(S.correction_note, 240), "");
+}
 L.push("**対象 IP への接続・走査・認証試行は一切行っていません。** AbuseIPDB の公開情報と");
 L.push("手元の索引だけを見ています。この集計自体は API も呼んでいません。", "");
 
 /* ---- 前回からの差 ---- */
 L.push("## 0. 前回（" + PREV + "）から変わったこと", "");
 L.push(T(["", PREV, S.collected_at_utc.slice(0, 10), "差"], [
-  ["ARTEX：通報がある IP", String(A.with_reports_prev), String(A.with_reports_now),
-    "**+" + (A.with_reports_now - A.with_reports_prev) + "**"],
-  ["ARTEX：フィード以外の通報がある IP", "**0**", "**" + A.with_independent_report + "**",
-    "**+" + A.with_independent_report + "**"],
-  ["sub2api：通報がある IP", String(U.with_reports_prev), String(U.with_reports_now),
-    String(U.with_reports_now - U.with_reports_prev)],
-  ["日本からの通報", "0", String(A.jp_reports + U.jp_reports), "0"],
+  ["通報がある IP（255 中）", String(C.with_reports_prev), String(C.with_reports_now),
+    "**+" + (C.with_reports_now - C.with_reports_prev) + "**"],
+  ["**フィード以外の通報がある IP**", "**1**", "**" + C.with_independent_report + "**",
+    "**+" + (C.with_independent_report - 1) + "**"],
+  ["うち " + code("artex") + " の 250 IP", String(ART.with_reports_prev), String(ART.with_reports_now),
+    "**+" + (ART.with_reports_now - ART.with_reports_prev) + "**"],
+  ["うち " + code("recharge_host") + "（" + code("198.200.59.85") + "）",
+    String(RCH.with_reports_prev), String(RCH.with_reports_now), "0"],
+  ["日本からの通報", "0", String(C.jp_reports), "0"],
 ]), "");
 L.push("**一番大きい変化は 2 行目です。** 前回は ARTEX 250 IP の通報が**全部フィードの");
-L.push("一括登録**で、被害者側の観測が 1 件もありませんでした。今回は " + A.with_independent_report + " IP に付いています。", "");
+L.push("一括登録**で、被害者側の観測は " + code("198.200.59.85") + " の 1 IP だけでした。");
+L.push("今回は " + C.with_independent_report + " IP に付いています。", "");
 L.push("前回に無かった通報は " + newEvents.length + " 件で、内訳は**フィード "
   + (newEvents.length - newIndep.length) + " 件 / フィード以外 " + newIndep.length + " 件**です。", "");
 
@@ -78,7 +90,7 @@ L.push("前回に無かった通報は " + newEvents.length + " 件で、内訳�
 L.push("## 1. 結論", "");
 L.push(T(["問い", "答え"], [
   ["ARTEX は「複数の観測者が攻撃を見た」状態になったか",
-    "**部分的にそう言えるようになった。**" + A.with_independent_report + " / " + A.ips
+    "**部分的にそう言えるようになった。**" + C.with_independent_report + " / " + C.ips
     + " IP にフィード以外の通報。ただし通報者は 1 人"],
   ["それは何として通報されたか",
     "**Web App Attack（カテゴリ 21）**。前回まで ARTEX に付いていたのは Exploited Host（20）だけだった"],
@@ -87,9 +99,10 @@ L.push(T(["問い", "答え"], [
   ["攻撃に使われた時期は特定できたか",
     "**観測日ベースでは " + S.reports.first_observed.slice(0, 10) + " 〜 " + S.reports.last_observed.slice(0, 10)
     + "。**ただしさかのぼり投稿があるので確定しない（3 節）"],
-  ["sub2api は", "**5 IP のうち " + U.with_reports_now + " 件だけ**（" + code("198.200.59.85")
-    + "）。前回から変化なし。通報 3 件 / 通報者 " + U.distinct_reporters + " 人"],
-  ["日本からの通報は", "**両クラスタとも 0 件**"],
+  ["リチャージ URL のホストは",
+    "**" + code("198.200.59.85") + " が最初（09-30）で最多**（通報 3 件 / 通報者 3 人）。"
+    + "前回から変化なし。隣の " + code(".86〜.89") + " は**一度も通報されていない**"],
+  ["日本からの通報は", "**0 件**"],
 ]), "");
 
 /* ---- フィードと被害者側の区別 ---- */
@@ -136,15 +149,15 @@ if (F.underpowered) {
 L.push("言えるのは次の 2 つです。", "");
 L.push("- **フィード掲載は「誰かがこの IP を悪性と判断した」という情報であって、無価値ではありません**");
 L.push("- **ただし「被害者が攻撃を観測した」とは別の情報です。**両者を足して");
-L.push("  「" + A.with_reports_now + " IP が攻撃元として報告されている」と読むと、中身を取り違えます", "");
+L.push("  「" + C.with_reports_now + " IP が攻撃元として報告されている」と読むと、中身を取り違えます", "");
 L.push("### カテゴリ 20（Exploited Host）は攻撃手法ではありません", "");
 L.push("「この送信元自体が侵害されている可能性」を示す補助情報です。踏み台にされた");
 L.push("正規ホストであれば、**送信元の持ち主も被害者**です。「この IP が攻撃してきた」とは違います。");
 L.push("今回新しく出た **カテゴリ 21（Web App Attack）は攻撃手法そのもの**で、意味が違います。", "");
 if (newIndep.length) {
   L.push("### 今回新しく出たフィード以外の通報", "");
-  L.push(T(["観測時刻", "IP", "クラスタ", "通報者", "カテゴリ", "本文"],
-    newIndep.map((e) => [e.reported_at.slice(0, 19), code(e.ip_address), e.cluster,
+  L.push(T(["観測時刻", "IP", "役割", "通報者", "カテゴリ", "本文"],
+    newIndep.map((e) => [e.reported_at.slice(0, 19), code(e.ip_address), e.roles,
       "`" + e.reporter + "`", safe(e.category_names, 24),
       e.comment_empty === "true" ? "（空）" : code(safe(e.comment_excerpt, 40))])), "");
   L.push("**8 件が 10 秒間に収まっています。** 1 台の検知器が、同じ窓で来た 8 つの送信元を");
@@ -213,7 +226,7 @@ L.push(T(["観測日", "通報", "IP", "通報者", "ARTEX", "sub2api", "前回�
     String(d.new_since_prev), String(d.independent_reports), safe(d.category_names, 30)])), "");
 L.push("読み方:", "");
 L.push("- **2026-09-30** — " + code("198.200.59.85") + " に最初の通報（NL、Port Scan + Hacking）。");
-L.push("  **ARTEX クラスタより 2 週間以上早い**");
+L.push("  **ARTEX が動いているホストより 2 週間以上早い。**クラスタの中心が先に通報された");
 L.push("- **2026-10-14** — この日に ARTEX 250 件を調べた時点では**通報 0 件**");
 L.push("  （出典 " + code("reports/artex-38-11/artex_38_11_report_ja.md") + "。当時の写しは");
 L.push("  git 管理外で残っていないため、今回の集計では再確認していません）");
@@ -227,36 +240,45 @@ L.push("**フィードの観測は 10-27 で止まっています**（投稿は 
 L.push("フィード以外の観測も 10-31 が最後で、それ以降 " + code("reports[]")
   + " に新しい観測日はありません。", "");
 
-/* ---- クラスタの素性 ---- */
-L.push("## 5. 2 つのクラスタの素性", "");
-L.push(T(["観点", "ARTEX（" + A.ips + " IP）", "sub2api（" + U.ips + " IP）"], [
-  ["AbuseIPDB の ISP", Object.keys(A.isp).map((s) => safe(s, 30)).join(" / "),
-    Object.keys(U.isp).map((s) => safe(s, 30)).join(" / ")],
-  ["rDNS を持つ", String(A.with_rdns) + " / " + A.ips, "**" + U.with_rdns + " / " + U.ips + "**"],
-  ["rDNS の登録ドメイン", Object.keys(A.rdns_domains).filter(Boolean).join(" ") || "—",
-    Object.keys(U.rdns_domains).filter(Boolean).map(code).join(" ")],
-  ["脅威情報の索引に既出", String(A.in_threat_index), String(U.in_threat_index)],
-]), "");
-L.push("**AbuseIPDB だけでは 2 つのクラスタは繋がりません。** ISP の答えが Cogent と PEG TECH で");
-L.push("割れています。繋がりの根拠は 10-14 に確認した経路表（どちらも AS54600 PEG TECH INC）で、");
-L.push("**今回は再確認していません**（手元の索引に 3 帯とも 0 件のため）。", "");
-L.push("ARTEX 側の ISP が Cogent と出るのは食い違いではなく、ARIN RDAP に下位割当（SWIP）の");
-L.push("登録が無いためです（10-14 に確認）。", "");
-const sub = byIp.filter((r) => r.cluster === "sub2api");
-L.push("### sub2api の rDNS は機械が付けた形です（今回も同じ）", "");
-L.push(T(["IP", "rDNS", "通報", "スコア", "最終観測", "最終投稿"], sub.map((r) => [
-  code(r.ip_address), code(r.hostnames || "—"), r.reports_now, r.score_now,
+/* ---- 役割ごとの素性 ---- */
+L.push("## 5. 役割ごとの素性", "");
+L.push("**クラスタは 1 つなので、「2 つのクラスタが繋がるか」という問いはもう立ちません。**");
+L.push("全 255 IP が同じリチャージ URL (" + code("198.200.59.85") + ") を指しているという");
+L.push("利用者の観測が、そのまま繋がりの根拠です。比べるのは役割ごとの違いです。", "");
+L.push(T(["役割", "IP", "通報あり", "割合", "**フィード以外**", "最大スコア", "rDNS を持つ"],
+  Object.entries(R).map(([role, v]) => [
+    code(role), String(v.ips), String(v.with_reports_now),
+    v.too_small_for_pct ? "**母数不足**" : v.reported_pct + "%",
+    "**" + v.with_independent_report + "**", String(v.max_score_now),
+    String(v.with_rdns) + " / " + v.ips])), "");
+L.push("**母数が小さい役割の割合は読めません。** " + code("recharge_host") + " は 1 IP なので、");
+L.push("「1 件中 1 件」という意味しかありません。", "");
+const sub = byIp.filter((r) => r.ip_address.startsWith("198.200.59."));
+L.push("### リチャージ URL のホストとその隣", "");
+L.push(T(["IP", "役割", "rDNS", "通報", "通報者", "スコア", "最終観測", "最終投稿"], sub.map((r) => [
+  code(r.ip_address), r.roles, code(r.hostnames || "—"), r.reports_now, r.reporters_now, r.score_now,
   r.last_observed_at.slice(0, 10) || "—", r.last_submitted_at.slice(0, 10) || "—"])), "");
-L.push("5 件すべてが " + code("visiblooths.net") + " の下で、5 文字の無意味な名前です。");
-L.push("**リチャージ URL の共有とは別の筋で、同じ持ち主であることを裏づけます。**", "");
-L.push("一方 **ARTEX 側は " + A.ips + " 件すべて rDNS が空**で、素性を出していません。", "");
-L.push(code("198.200.59.85") + " のスコアは前回 18 から " + (byIp.find((r) => r.ip_address === "198.200.59.85")?.score_now)
-  + " に下がりました。通報は 3 件のままです。**時間が経つとスコアは減衰します。**", "");
+L.push("- **" + code("198.200.59.85") + " がこのクラスタで最初に通報された IP です**（2026-09-30）。");
+L.push("  ARTEX が動いているホストより 2 週間以上早く、**フィード以外の通報者が 2 人**付いています");
+L.push("- **隣の " + code(".86〜.89") + " は一度も通報されていません。**");
+L.push("  同じ /29 に並び、同じ命名規則の rDNS を持ち、同じ sub2api が動いているのに差が出ています。");
+L.push("  **ただし 4 IP なので、差と呼べるだけの数ではありません**");
+L.push("- スコアは前回 18 から " + (byIp.find((r) => r.ip_address === "198.200.59.85")?.score_now)
+  + " に下がりました。通報は 3 件のままです。**時間が経つとスコアは減衰します**", "");
+L.push("### rDNS の出方が役割で割れています", "");
+L.push("5 件すべてが " + code("visiblooths.net") + " の下で、" + code("murves") + " "
+  + code("moxley") + " " + code("dyres") + " " + code("sozel") + " " + code("olarm"));
+L.push("という 5 文字の無意味な名前です。一方 **" + code("artex") + " の "
+  + ART.ips + " 件はすべて rDNS が空**で、素性を出していません。", "");
+L.push("AbuseIPDB の ISP の答えも割れています（" + code("artex") + " 側は Cogent、");
+L.push(code("198.200.59.x") + " は PEG TECH）。これは食い違いではなく、ARIN RDAP に");
+L.push("下位割当（SWIP）の登録が無いためです（10-14 に確認）。経路表ではどちらも");
+L.push("AS54600 PEG TECH INC でしたが、**今回は再確認していません**（手元の索引に 3 帯とも 0 件）。", "");
 
 /* ---- 通報された ARTEX の IP ---- */
-const rep = byIp.filter((r) => r.cluster === "ARTEX" && Number(r.reports_now) > 0);
+const rep = byIp.filter((r) => r.roles.split(";").includes("artex") && Number(r.reports_now) > 0);
 if (rep.length) {
-  L.push("## 6. 通報が付いた ARTEX の " + rep.length + " IP", "");
+  L.push("## 6. 通報が付いた " + code("artex") + " の " + rep.length + " IP", "");
   const ind = new Set(newIndep.map((e) => e.ip_address));
   for (const pfx of ["38.11.173", "38.11.221"]) {
     const h = rep.filter((r) => r.ip_address.startsWith(pfx + "."))
@@ -287,17 +309,22 @@ L.push("  立てたばかりの基盤や、通報しない被害者しか居な�
 L.push("- AbuseIPDB のカテゴリと観測時刻は**レポーターの自己申告**です");
 L.push("- IP の所在地・ISP・AS は、運用者の国籍や所属を示しません");
 L.push("- 母集団は**渡された 255 IP だけ**です。同じ AS の他の帯は見ていません");
-L.push("- 2 クラスタを繋ぐ経路の根拠は 10-14 のもので、**今回再確認していません**");
+L.push("- **" + code(".86〜.89") + " に通報が無いことに意味があるとは言えません。** 4 IP では");
+L.push("  差と呼べる数になりません");
+L.push("- 経路表（AS54600）の確認は 10-14 のもので、**今回再確認していません**。");
+L.push("  ただしクラスタの繋がりは利用者の観測（同じリチャージ URL）が根拠なので、これには依りません");
 L.push("");
 L.push("## 8. 次に打てる手（提案）", "");
-L.push("- **索引に登録して毎日追う。** 両クラスタとも索引に 0 件なので、今は新しい通報が");
-L.push("  付いても気付けません。今回 " + code("IN-R04") + " の通報に気付くまで 6 日かかりました");
+L.push("- ~~索引に登録して毎日追う~~ → **2026-11-06 に実装しました**（"
+  + code("data/ioc/watch/") + "）。");
+L.push("  " + code("IN-R04") + " の通報に気付くまで 6 日かかったので、翌日に出るようにしました");
 L.push("- **" + code("lastReportedAt") + " の動きを毎日記録する。** 投稿が続いている間は");
 L.push("  フィードがまだこの帯を追っています。" + code("reports[]") + " だけ見ていると止まったように見えます");
-L.push("- **" + code("198.200.59.85") + " だけを重点監視する。** 利用者が特定したリチャージ URL の");
-L.push("  ホストで、フィード以外の通報が 2 人分付いている唯一の IP です");
+L.push("- **" + code("198.200.59.85") + " を重点的に見る。** クラスタの中心で、最初に通報され、");
+L.push("  フィード以外の通報者が 2 人付いています。**ここが落ちるとクラスタ全体のリチャージが止まります**");
 L.push("- **" + code("visiblooths.net") + " を証明書の記録（CT ログ）で追う。** 同じ命名規則の");
-L.push("  兄弟ホストが他の帯にも居るなら、クラスタの広がりが分かります");
+L.push("  兄弟ホストが他の帯にも居るなら、クラスタの広がりが分かります。");
+L.push("  " + code(".85〜.89") + " の 5 件が同じ命名規則なので、他にも並んでいる可能性があります");
 L.push("- 同じ AS54600 の他の帯を同じ手順で調べ、この 3 帯が特別かどうかを確かめる");
 L.push("");
 L.push("## 9. 残していないもの", "");

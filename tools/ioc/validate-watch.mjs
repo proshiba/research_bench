@@ -50,6 +50,26 @@ check(state.every((r) => wantIps.has(r.ip)), "state に宣言外の IP が混ざ
 const stale = state.filter((r) => !wantIps.has(r.ip));
 check(stale.length === 0, "宣言から外れた IP が state に残っていない",
   stale.slice(0, 3).map((r) => r.ip).join(" "));
+/* ---- 役割（クラスタを 1 つにした代わりの切り口） ---- */
+const roleOf = new Map(targets.map((t) => [t.ip, t.roles]));
+check(targets.every((t) => Array.isArray(t.roles)), "宣言の全 IP に役割の配列がある");
+check(state.every((r) => (roleOf.get(r.ip) || []).join(";") === r.roles),
+  "**state の役割が宣言から再現できる**",
+  state.filter((r) => (roleOf.get(r.ip) || []).join(";") !== r.roles)
+    .slice(0, 3).map((r) => r.ip).join(" "));
+const declRoles = {};
+for (const t of targets) for (const r of t.roles) declRoles[r] = (declRoles[r] || 0) + 1;
+check(M.per_role && Object.keys(M.per_role).length === Object.keys(declRoles).length
+  && Object.entries(declRoles).every(([r, n]) => M.per_role[r]?.ips === n),
+"役割ごとの IP 数が宣言から再現できる", JSON.stringify(declRoles));
+/** 全 IP が同じクラスタか。**分かれていたら宣言を疑う** */
+const clusters = [...new Set(state.map((r) => r.cluster))];
+console.log(`      クラスタ ${clusters.length} 個（${clusters.join(" ")}） / 役割 ${JSON.stringify(declRoles)}`);
+/** 母数が小さい役割の割合を読まないよう、印が出ているか */
+const small = Object.entries(M.per_role || {}).filter(([, v]) => v.ips < 10);
+check(small.length === 0 || md === "" || /母数不足/.test(md),
+  "母数が小さい役割に「母数不足」の印が出ている",
+  small.map(([r, v]) => `${r}:${v.ips}`).join(" "));
 
 console.log("\n== 観測の形");
 const allRows = days.flatMap((d) => d.rows);
@@ -70,6 +90,19 @@ check(bdOk.length === 0 || bdOk.every((r) => r.backdate_days >= -0.01),
   bdOk.filter((r) => r.backdate_days < -0.01).slice(0, 3).map((r) => r.ip).join(" "));
 check(allRows.every((r) => r.reports === (r.by_report || []).length),
   "reports の数と by_report の行数が一致");
+/**
+ * **観測に宣言を書いていないこと。**
+ *
+ * `cluster` と `roles` は watchlist.json 側の宣言で、API から測った事実ではない。
+ * 観測に書き込むと、宣言を訂正した途端に過去の観測が嘘になる。実際
+ * 「ARTEX と sub2api は別クラスタ」→「全 255 IP が同じクラスタ」の訂正で
+ * 積んだ観測を書き換えることになった。**結合にすれば履歴を触らずに済む。**
+ */
+check(allRows.every((r) => !("cluster" in r) && !("roles" in r)),
+  "**観測に cluster / roles が入っていない**（宣言は結合する）",
+  allRows.filter((r) => "cluster" in r || "roles" in r).slice(0, 3).map((r) => r.ip).join(" "));
+check(state.every((r) => "cluster" in r && "roles" in r),
+  "state には cluster / roles が結合されている");
 /** 観測時刻が取得時刻より先なら、通報者の申告が壊れている。**知らせる** */
 const future = allRows.filter((r) => r.last_observed_at && r.fetched_at
   && Date.parse(r.last_observed_at) > Date.parse(r.fetched_at) + 60000);

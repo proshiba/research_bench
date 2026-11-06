@@ -56,7 +56,10 @@ const AGE_DAYS = Number(wl.max_age_days || 365);
 const targets = expandWatchlist(wl);
 const byCluster = {};
 for (const t of targets) byCluster[t.cluster] = (byCluster[t.cluster] || 0) + 1;
+const byRole = {};
+for (const t of targets) for (const r of t.roles || []) byRole[r] = (byRole[r] || 0) + 1;
 console.log(`監視対象 ${targets.length} IP ${JSON.stringify(byCluster)}（窓 ${AGE_DAYS} 日）`);
+console.log(`  役割 ${JSON.stringify(byRole)}`);
 
 /** 写しが古いか。**鮮度を見ないと「変化なし」という嘘が出る** */
 const stale = (ioc) => {
@@ -132,7 +135,8 @@ if (queue.length) {
       // **第 3 引数は写しの鍵。`slot.key`（API キー）を渡してはいけない。**
       // 渡すとファイル名が API キーのハッシュになり、写しが IOC から引けなくなる
       writeRecord(CACHE, {
-        ioc: "ioc.ipv4|" + t.ip, ip: t.ip, cluster: t.cluster,
+        // 写しには宣言を入れない（観測と同じ理由。watchlist.json が真）
+        ioc: "ioc.ipv4|" + t.ip, ip: t.ip,
         endpoint: "check", status: 200, max_age_days: AGE_DAYS,
         fetched_at: new Date().toISOString(), body: r.body,
       });
@@ -156,7 +160,7 @@ for (const t of targets) {
   const rec = readRecord(CACHE, "ioc.ipv4|" + t.ip);
   if (!rec?.body) { missing.push(t.ip); continue; }
   rows.push(distill({
-    ip: t.ip, cluster: t.cluster, body: rec.body,
+    ip: t.ip, body: rec.body,
     fetchedAt: rec.fetched_at, maxAgeDays: rec.max_age_days ?? AGE_DAYS,
   }));
 }
@@ -177,6 +181,7 @@ writeJson(path.join(WATCH, "fetch-meta.json"), {
   day: DAY,
   targets: targets.length,
   by_cluster: byCluster,
+  by_role: byRole,
   max_age_days: AGE_DAYS,
   observed: rows.length,
   not_observed: missing.length,

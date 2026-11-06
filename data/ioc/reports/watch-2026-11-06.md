@@ -18,108 +18,134 @@
 
 **初めてフィード以外の通報が付いた**（いちばん重い）
 
-| IP | クラスタ | 前回の観測 | 内容 |
+| IP | 役割 | 前回の観測 | 内容 |
 | --- | --- | --- | --- |
-| `38.11.173.21` | ARTEX | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:43+00:00 / reports=1 |
-| `38.11.173.22` | ARTEX | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:45+00:00 / reports=1 |
-| `38.11.173.107` | ARTEX | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:46+00:00 / reports=1 |
-| `38.11.173.122` | ARTEX | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:47+00:00 / reports=1 |
-| `38.11.221.61` | ARTEX | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:49+00:00 / reports=1 |
-| `38.11.221.65` | ARTEX | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:50+00:00 / reports=1 |
-| `38.11.221.104` | ARTEX | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:52+00:00 / reports=1 |
-| `38.11.221.111` | ARTEX | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:53+00:00 / reports=1 |
+| `38.11.173.21` | artex;sub2api | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:43+00:00 / reports=1 |
+| `38.11.173.22` | artex;sub2api | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:45+00:00 / reports=1 |
+| `38.11.173.107` | artex;sub2api | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:46+00:00 / reports=1 |
+| `38.11.173.122` | artex;sub2api | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:47+00:00 / reports=1 |
+| `38.11.221.61` | artex;sub2api | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:49+00:00 / reports=1 |
+| `38.11.221.65` | artex;sub2api | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:50+00:00 / reports=1 |
+| `38.11.221.104` | artex;sub2api | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:52+00:00 / reports=1 |
+| `38.11.221.111` | artex;sub2api | 2026-10-30 | categories=21 / countries=IN / observed_at=2026-10-31T05:35:53+00:00 / reports=1 |
 
 ### `first_report` — 21 件
 
 初めて通報が付いた
 
-| IP | クラスタ | 前回の観測 | 内容 |
+| IP | 役割 | 前回の観測 | 内容 |
 | --- | --- | --- | --- |
-| `38.11.173.21` | ARTEX | 2026-10-30 | categories=21 / reports=1 |
-| `38.11.173.22` | ARTEX | 2026-10-30 | categories=21 / reports=1 |
-| `38.11.173.78` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.173.90` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.173.92` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.173.97` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.173.98` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.173.101` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.173.105` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.173.112` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.173.116` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.173.119` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.173.122` | ARTEX | 2026-10-30 | categories=21 / reports=1 |
-| `38.11.221.59` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.221.61` | ARTEX | 2026-10-30 | categories=21 / reports=1 |
-| `38.11.221.65` | ARTEX | 2026-10-30 | categories=21 / reports=1 |
-| `38.11.221.89` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.221.104` | ARTEX | 2026-10-30 | categories=21 / reports=1 |
-| `38.11.221.110` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
-| `38.11.221.111` | ARTEX | 2026-10-30 | categories=21 / reports=1 |
-| `38.11.221.118` | ARTEX | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.173.21` | artex;sub2api | 2026-10-30 | categories=21 / reports=1 |
+| `38.11.173.22` | artex;sub2api | 2026-10-30 | categories=21 / reports=1 |
+| `38.11.173.78` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.173.90` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.173.92` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.173.97` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.173.98` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.173.101` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.173.105` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.173.112` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.173.116` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.173.119` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.173.122` | artex;sub2api | 2026-10-30 | categories=21 / reports=1 |
+| `38.11.221.59` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.221.61` | artex;sub2api | 2026-10-30 | categories=21 / reports=1 |
+| `38.11.221.65` | artex;sub2api | 2026-10-30 | categories=21 / reports=1 |
+| `38.11.221.89` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.221.104` | artex;sub2api | 2026-10-30 | categories=21 / reports=1 |
+| `38.11.221.110` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
+| `38.11.221.111` | artex;sub2api | 2026-10-30 | categories=21 / reports=1 |
+| `38.11.221.118` | artex;sub2api | 2026-10-30 | categories=20 / reports=1 |
 
 ### `reporters_up` — 1 件
 
 通報者の数が増えた
 
-| IP | クラスタ | 前回の観測 | 内容 |
+| IP | 役割 | 前回の観測 | 内容 |
 | --- | --- | --- | --- |
-| `38.11.173.107` | ARTEX | 2026-10-30 | from=1 / to=2 |
+| `38.11.173.107` | artex;sub2api | 2026-10-30 | from=1 / to=2 |
 
 ### `new_category` — 1 件
 
 これまで無かったカテゴリが付いた
 
-| IP | クラスタ | 前回の観測 | 内容 |
+| IP | 役割 | 前回の観測 | 内容 |
 | --- | --- | --- | --- |
-| `38.11.173.107` | ARTEX | 2026-10-30 | categories=21 / category_names=Web App Attack |
+| `38.11.173.107` | artex;sub2api | 2026-10-30 | categories=21 / category_names=Web App Attack |
 
 ### `backdated_report` — 14 件
 
 過去の日付の通報が後から増えた（さかのぼり投稿）
 
-| IP | クラスタ | 前回の観測 | 内容 |
+| IP | 役割 | 前回の観測 | 内容 |
 | --- | --- | --- | --- |
-| `38.11.173.78` | ARTEX | 2026-10-30 | backdate_days=5.33 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:55+00:00 |
-| `38.11.173.90` | ARTEX | 2026-10-30 | backdate_days=7.29 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:05:12+00:00 |
-| `38.11.173.92` | ARTEX | 2026-10-30 | backdate_days=7.32 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:04:23+00:00 |
-| `38.11.173.97` | ARTEX | 2026-10-30 | backdate_days=7.27 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:05:26+00:00 |
-| `38.11.173.98` | ARTEX | 2026-10-30 | backdate_days=5.33 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:54+00:00 |
-| `38.11.173.101` | ARTEX | 2026-10-30 | backdate_days=5.33 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:53+00:00 |
-| `38.11.173.105` | ARTEX | 2026-10-30 | backdate_days=7.32 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:04:37+00:00 |
-| `38.11.173.112` | ARTEX | 2026-10-30 | backdate_days=6.27 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:39+00:00 |
-| `38.11.173.116` | ARTEX | 2026-10-30 | backdate_days=7.31 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:04:43+00:00 |
-| `38.11.173.119` | ARTEX | 2026-10-30 | backdate_days=6.31 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:05:55+00:00 |
-| `38.11.221.59` | ARTEX | 2026-10-30 | backdate_days=6.29 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:21+00:00 |
-| `38.11.221.89` | ARTEX | 2026-10-30 | backdate_days=6.26 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:41+00:00 |
-| `38.11.221.110` | ARTEX | 2026-10-30 | backdate_days=5.33 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:47+00:00 |
-| `38.11.221.118` | ARTEX | 2026-10-30 | backdate_days=7.26 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:05:31+00:00 |
+| `38.11.173.78` | artex;sub2api | 2026-10-30 | backdate_days=5.33 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:55+00:00 |
+| `38.11.173.90` | artex;sub2api | 2026-10-30 | backdate_days=7.29 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:05:12+00:00 |
+| `38.11.173.92` | artex;sub2api | 2026-10-30 | backdate_days=7.32 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:04:23+00:00 |
+| `38.11.173.97` | artex;sub2api | 2026-10-30 | backdate_days=7.27 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:05:26+00:00 |
+| `38.11.173.98` | artex;sub2api | 2026-10-30 | backdate_days=5.33 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:54+00:00 |
+| `38.11.173.101` | artex;sub2api | 2026-10-30 | backdate_days=5.33 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:53+00:00 |
+| `38.11.173.105` | artex;sub2api | 2026-10-30 | backdate_days=7.32 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:04:37+00:00 |
+| `38.11.173.112` | artex;sub2api | 2026-10-30 | backdate_days=6.27 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:39+00:00 |
+| `38.11.173.116` | artex;sub2api | 2026-10-30 | backdate_days=7.31 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:04:43+00:00 |
+| `38.11.173.119` | artex;sub2api | 2026-10-30 | backdate_days=6.31 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:05:55+00:00 |
+| `38.11.221.59` | artex;sub2api | 2026-10-30 | backdate_days=6.29 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:21+00:00 |
+| `38.11.221.89` | artex;sub2api | 2026-10-30 | backdate_days=6.26 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:41+00:00 |
+| `38.11.221.110` | artex;sub2api | 2026-10-30 | backdate_days=5.33 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:06:47+00:00 |
+| `38.11.221.118` | artex;sub2api | 2026-10-30 | backdate_days=7.26 / bulk=true / categories=20 / cc=BR / observed_at=2026-10-27T18:05:31+00:00 |
 
 ## クラスタの現況
 
 | クラスタ | IP | 通報あり | **フィード以外の通報あり** | 日本から | 最大スコア | 通報の総数 |
 | --- | --- | --- | --- | --- | --- | --- |
-| **ARTEX** | 250 | 64 | **8** | 0 | 12 | 65 |
-| **sub2api** | 5 | 1 | **1** | 0 | 16 | 3 |
+| **sub2api-198.200.59.85** | 255 | 65 | **9** | 0 | 16 | 68 |
 
-- **ARTEX** — ARTEX が起動していると利用者が観測した範囲。.0/.126/.127 を除く（`38.11.173.0/25` `38.11.221.0/25`） / 追跡開始 2026-10-14
-- **sub2api** — sub2api があり、同じリチャージ URL(198.200.59.85) がセットされていると利用者が観測 / 追跡開始 2026-10-14
+- **sub2api-198.200.59.85** — 全 255 IP に sub2api があり、同じリチャージ URL (198.200.59.85) がセットされていると利用者が観測。うち 250 IP では ARTEX も起動している。**1 つのクラスタ**
+  - `sub2api` `artex` — `38.11.173.0/25` と `38.11.221.0/25` の `.1〜.125`
+    ARTEX も起動していると利用者が観測した範囲。.0/.126/.127 を除く
+  - `sub2api` `recharge_host` — `198.200.59.85`
+    リチャージ URL のホスト自身。198.200.59.85 は自分を指している
+  - `sub2api` — `198.200.59.86` `198.200.59.87` `198.200.59.88` `198.200.59.89`
+    リチャージ URL のホストと同じ /29 に並ぶ sub2api。ARTEX は観測されていない
+  - **訂正** — 2026-11-06 に利用者の指摘で 2 クラスタから 1 クラスタへ訂正。38.11.173/221 側にも sub2api があり、同じリチャージ URL がセットされている
+
+### 役割ごと
+
+クラスタは 1 つなので、違いを見るのはこちらです。
+
+| 役割 | IP | 通報あり | 割合 | **フィード以外** | 最大スコア |
+| --- | --- | --- | --- | --- | --- |
+| `artex` | 250 | 64 | 25.6% | **8** | 12 |
+| `recharge_host` | 1 | 1 | **母数不足** | **1** | 16 |
+| `sub2api` | 255 | 65 | 25.5% | **9** | 16 |
+
+**母数が小さい役割の割合は読めません。** `recharge_host` は 1 IP しか
+ないので、100% は「1 件中 1 件」という意味しかありません。
+
+役割の組み合わせごと:
+
+| 役割の組 | IP | 通報あり | **フィード以外** | 最大スコア |
+| --- | --- | --- | --- | --- |
+| `artex;sub2api` | 250 | 64 | **8** | 12 |
+| `recharge_host;sub2api` | 1 | 1 | **1** | 16 |
+| `sub2api` | 4 | 0 | **0** | 0 |
 
 ## フィード以外の通報が付いている IP（9 件）
 
 **ここが「被害者が攻撃を観測した」に最も近い行です。** フィードの一括登録は
 「誰かが悪性と判断した」情報で、別種のものです。
 
-| IP | クラスタ | 初めて付いた日 | 通報 | 通報者 | 国 | カテゴリ | スコア |
+| IP | 役割 | 初めて付いた日 | 通報 | 通報者 | 国 | カテゴリ | スコア |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `38.11.173.21` | ARTEX | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
-| `38.11.173.22` | ARTEX | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
-| `38.11.173.107` | ARTEX | 2026-11-06 | 1 / 2 | 2 | IN | Exploited Host;Web App Attack | 12 |
-| `38.11.173.122` | ARTEX | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
-| `38.11.221.61` | ARTEX | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
-| `38.11.221.65` | ARTEX | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
-| `38.11.221.104` | ARTEX | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
-| `38.11.221.111` | ARTEX | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
-| `198.200.59.85` | sub2api | 2026-10-30 | 2 / 3 | 3 | MY;NL | Port Scan;Hacking;Exploited Ho | 16 |
+| `38.11.173.21` | artex;sub2api | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
+| `38.11.173.22` | artex;sub2api | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
+| `38.11.173.107` | artex;sub2api | 2026-11-06 | 1 / 2 | 2 | IN | Exploited Host;Web App Attack | 12 |
+| `38.11.173.122` | artex;sub2api | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
+| `38.11.221.61` | artex;sub2api | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
+| `38.11.221.65` | artex;sub2api | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
+| `38.11.221.104` | artex;sub2api | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
+| `38.11.221.111` | artex;sub2api | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 3 |
+| `198.200.59.85` | recharge_host;sub2api | 2026-10-30 | 2 / 3 | 3 | MY;NL | Port Scan;Hacking;Exploited Ho | 16 |
 
 ## 本文の形（一括登録の印）
 

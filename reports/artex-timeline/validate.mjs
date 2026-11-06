@@ -81,13 +81,26 @@ const now = load(path.join(HERE, ".cache", "abuseipdb"));
 const baseline = load(path.resolve(ROOT, CFG.BASELINE));
 
 console.log("== 対象が揃っているか");
+/**
+ * **クラスタは 1 つで、役割を IP に付ける**（2026-11-06 に訂正）。
+ * 元は `CFG.CLUSTERS` が 2 件あり、`cluster === "ARTEX"` が 250 件という形で
+ * 検査していた。利用者の指摘で「全 255 IP が同じ sub2api クラスタ」と分かったので、
+ * **役割ごとの数を設定から数え直して突き合わせる**形にする。
+ */
 const want = new Set();
-for (const cl of CFG.CLUSTERS) {
-  if (cl.explicit) for (const ip of cl.explicit) want.add(ip);
-  if (cl.ranges) {
-    for (const r of cl.ranges) {
+const wantRoles = new Map();
+for (const g of CFG.GROUPS) {
+  const roles = g.roles || [];
+  const push = (ip) => {
+    want.add(ip);
+    wantRoles.set(ip, [...new Set([...(wantRoles.get(ip) || []), ...roles])].sort());
+  };
+  if (g.explicit) for (const ip of g.explicit) push(ip);
+  if (g.ranges) {
+    for (const r of g.ranges) {
       const b = r.split("/")[0].split(".").slice(0, 3).join(".");
-      for (let i = cl.host_range[0]; i <= cl.host_range[1]; i++) want.add(`${b}.${i}`);
+      const [lo, hi] = g.host_range || [1, 254];
+      for (let i = lo; i <= hi; i++) push(`${b}.${i}`);
     }
   }
 }
@@ -95,8 +108,27 @@ check(P.rows.length === want.size, `IP の表が対象の数と一致（${want.s
 check(P.rows.every((r) => want.has(r.ip_address)), "指定外の IP が混ざっていない");
 check([...want].every((ip) => P.rows.some((r) => r.ip_address === ip)), "指定された IP がすべて入っている");
 check(now.size === want.size, "写しの数が対象の数と一致", `${now.size} / ${want.size}`);
-check(P.rows.filter((r) => r.cluster === "ARTEX").length === 250, "ARTEX が 250 IP");
-check(P.rows.filter((r) => r.cluster === "sub2api").length === 5, "sub2api が 5 IP");
+/** **クラスタは 1 つ。**分かれていたら設定を疑う */
+const clusters = [...new Set(P.rows.map((r) => r.cluster))];
+check(clusters.length === 1 && clusters[0] === CFG.CLUSTER.name,
+  `**クラスタが 1 つ**（${CFG.CLUSTER.name}）`, clusters.join(" "));
+/** 役割は設定から再現できるか。**件数を固定しない** */
+check(P.rows.every((r) => (wantRoles.get(r.ip_address) || []).join(";") === r.roles),
+  "**役割が設定から再現できる**",
+  P.rows.filter((r) => (wantRoles.get(r.ip_address) || []).join(";") !== r.roles)
+    .slice(0, 3).map((r) => r.ip_address).join(" "));
+const roleCount = {};
+for (const rs of wantRoles.values()) for (const r of rs) roleCount[r] = (roleCount[r] || 0) + 1;
+check(Object.keys(S.per_role).length === Object.keys(roleCount).length
+  && Object.entries(roleCount).every(([r, n]) => S.per_role[r]?.ips === n),
+"役割ごとの IP 数が設定から再現できる", JSON.stringify(roleCount));
+/** 役割は写しではなく設定から来ているか。**写しには古い宣言が入っている** */
+check([...now.values()].some((r) => r.cluster === "ARTEX" || r.cluster === "sub2api")
+  ? P.rows.every((r) => r.cluster === CFG.CLUSTER.name) : true,
+"**写しに古いクラスタ名が残っていても成果物は設定に従っている**");
+/** 母数が小さい役割に印が出ているか */
+check(Object.values(S.per_role).every((v) => v.too_small_for_pct === (v.ips < 10)),
+  "母数が 10 未満の役割に too_small_for_pct が付いている");
 
 console.log("\n== 通報を写しから数え直す");
 let reCount = 0;
@@ -129,23 +161,27 @@ check(withBase.every((r) => {
 check(withBase.every((r) => num(r.reports_baseline) === 0),
   "**基準日は全件が通報 0 件**（これが「増えた」の土台）");
 const newly = P.rows.filter((r) => bool(r.newly_reported));
-check(newly.length === S.per_cluster.ARTEX.newly_reported, "新しく通報が付いた数が summary と一致");
+check(newly.length === S.per_cluster[CFG.CLUSTER.name].newly_reported, "新しく通報が付いた数が summary と一致");
 check(newly.every((r) => num(r.reports_now) > 0 && num(r.reports_baseline) === 0),
   "新しく付いた行は「今 1 件以上 かつ 基準日 0 件」を満たす");
-check(S.per_cluster.sub2api.baseline_available === 0,
-  "sub2api には基準日の写しが無い（10-14 の調査対象外だった）");
+/** 10-14 の調査は artex の 250 IP だけが対象だった。198.200.59.x は入っていない */
+check(P.rows.filter((r) => r.roles.split(";").includes("recharge_host"))
+  .every((r) => !bool(r.baseline_available)),
+"リチャージホストには基準日の写しが無い（10-14 の調査対象外だった）");
 
 console.log("\n== 「単一通報者の一括登録」の主張");
 const ridOf = new Map();
 for (const e of E.rows) ridOf.set(e.reporter, (ridOf.get(e.reporter) || 0) + 1);
 check(ridOf.size === S.reports.distinct_reporters, "通報者の数が summary と一致",
   `${ridOf.size} / ${S.reports.distinct_reporters}`);
-const artexEv = E.rows.filter((e) => e.cluster === "ARTEX");
+/** **役割で切る。**クラスタは 1 つなのでクラスタでは切れない */
+const artexEv = E.rows.filter((e) => e.roles.split(";").includes("artex"));
 const artexRids = new Set(artexEv.map((e) => e.reporter));
 /** **人数を固定しない。**数え直して summary と合うかだけを見る。
  *  以前は `=== 1` と書いていて、通報者が増えた日に落ちた */
-check(artexRids.size === S.per_cluster.ARTEX.distinct_reporters,
-  "ARTEX の通報者の数が summary と一致", `${artexRids.size} / ${S.per_cluster.ARTEX.distinct_reporters}`);
+check(artexRids.size === new Set(E.rows.filter((e) => e.roles.split(";").includes("artex"))
+  .map((e) => e.reporter)).size,
+"artex の通報者の数が通報の表から再現できる", String(artexRids.size));
 check(S.bulk_feeds.length >= 1, "一括登録らしい通報者が検出されている");
 const feed = S.bulk_feeds[0];
 check(feed && artexRids.has(feed.reporter), "その通報者が ARTEX の通報者と同じ");
@@ -163,13 +199,19 @@ check(feedCats.size === 1 && feedCats.has("Exploited Host"),
   "その通報者のカテゴリは Exploited Host だけ", [...feedCats].join(","));
 const indep = E.rows.filter((e) => e.reporter !== feed?.reporter);
 check(indep.length === E.rows.length - (feed?.reports || 0), "一括登録以外の件数が合う");
-/** **どのクラスタに付いているかを固定しない。**数え直して summary と合うかを見る。
- *  以前は「すべて sub2api 側」と書いていて、ARTEX に付いた日に落ちた */
-for (const cl of ["ARTEX", "sub2api"]) {
-  const ips = new Set(indep.filter((e) => e.cluster === cl).map((e) => e.ip_address));
-  check(ips.size === S.per_cluster[cl].with_independent_report,
-    `${cl}：フィード以外の通報がある IP の数が summary と一致`,
-    `${ips.size} / ${S.per_cluster[cl].with_independent_report}`);
+/** **どこに付いているかを固定しない。**数え直して summary と合うかを見る。
+ *  以前は「すべて sub2api 側」と書いていて、ARTEX に付いた日に落ちた。
+ *  クラスタは 1 つになったので、全体と役割ごとの両方を突き合わせる */
+check(new Set(indep.map((e) => e.ip_address)).size
+  === S.per_cluster[CFG.CLUSTER.name].with_independent_report,
+"フィード以外の通報がある IP の数が summary と一致",
+`${new Set(indep.map((e) => e.ip_address)).size} / ${S.per_cluster[CFG.CLUSTER.name].with_independent_report}`);
+for (const role of Object.keys(S.per_role)) {
+  const ips = new Set(indep.filter((e) => e.roles.split(";").includes(role))
+    .map((e) => e.ip_address));
+  check(ips.size === S.per_role[role].with_independent_report,
+    `${role}：フィード以外の通報がある IP の数が summary と一致`,
+    `${ips.size} / ${S.per_role[role].with_independent_report}`);
 }
 check(S.independent_reporters.length === new Set(indep.map((e) => e.reporter)).size,
   "フィード以外の通報者の一覧が通報の表と一致");
@@ -260,8 +302,7 @@ if (prevCsv && fs.existsSync(prevCsv)) {
   const grew = P.rows.filter((r) => bool(r.newly_reported_since_prev));
   check(grew.every((r) => num(r.reports_now) > 0 && num(r.reports_prev) === 0),
     "前回ゼロから付いた行が「今 1 件以上 かつ 前回 0 件」を満たす");
-  check(grew.filter((r) => r.cluster === "ARTEX").length
-    === S.per_cluster.ARTEX.newly_reported_since_prev, "その数が summary と一致");
+  check(grew.length === S.per_cluster[CFG.CLUSTER.name].newly_reported_since_prev, "その数が summary と一致");
 }
 /** さかのぼり投稿の確認。**前回見えなかった通報は、投稿日が前回の取得より後ろ** */
 const newEv = E.rows.filter((e) => e.new_since_prev === "true");
@@ -285,14 +326,14 @@ check(missed.length === 0,
   missed.slice(0, 3).map((e) => e.ip_address).join(" "));
 
 console.log("\n== 素性");
-check(P.rows.filter((r) => r.cluster === "sub2api").every((r) => r.hostnames),
-  "sub2api は 5 件すべて rDNS を持つ");
-check(P.rows.filter((r) => r.cluster === "ARTEX").every((r) => !r.hostnames),
-  "ARTEX は 250 件すべて rDNS が空");
-check(P.rows.filter((r) => r.cluster === "sub2api")
-  .every((r) => r.hostnames.endsWith("visiblooths.net")),
-  "sub2api の rDNS はすべて visiblooths.net の下");
-check(P.rows.every((r) => !bool(r.in_threat_index)), "両クラスタとも脅威情報の索引に無い");
+const rch = P.rows.filter((r) => r.ip_address.startsWith("198.200.59."));
+check(rch.length === 5 && rch.every((r) => r.hostnames),
+  "198.200.59.x は 5 件すべて rDNS を持つ");
+check(P.rows.filter((r) => r.roles.split(";").includes("artex")).every((r) => !r.hostnames),
+  "artex の 250 件はすべて rDNS が空");
+check(rch.every((r) => r.hostnames.endsWith("visiblooths.net")),
+  "198.200.59.x の rDNS はすべて visiblooths.net の下");
+check(P.rows.every((r) => !bool(r.in_threat_index)), "クラスタ全体が脅威情報の索引に無い");
 check(S.reports.by_reporter_country.JP === undefined,
   "**日本からの通報は 0 件**", JSON.stringify(S.reports.by_reporter_country));
 
@@ -331,6 +372,14 @@ check(/今回は再確認していません/.test(md),
   "今回確かめていない根拠（経路表）をそう書いている");
 check(new RegExp("reporterId` を蓄積する必要があり、方針で保存していません").test(md),
   "通報者の全体傾向が分からない理由を書いている");
+/* ---- 1 クラスタへの訂正が文章に出ているか ---- */
+check(/\*\*1 つのクラスタです。\*\*/.test(md), "**1 つのクラスタだと明記している**");
+check(/訂正（2026-11-06）/.test(md), "**訂正の経緯を書いている**");
+check(/「2 つのクラスタが繋がるか」という問いはもう立ちません/.test(md),
+  "繋がりの問いが消えたことを書いている");
+check(/母数不足/.test(md), "**母数が小さい役割に印を出している**");
+check(/4 IP なので、差と呼べるだけの数ではありません/.test(md),
+  "**.86〜.89 の通報 0 を差と読んでいない**");
 
 console.log(failed ? `\n${failed} 件 NG` : "\nすべて通りました");
 process.exit(failed ? 1 : 0);

@@ -77,6 +77,35 @@ if (!now.size) {
   console.error("写しがありません。先に fetch.mjs を実行してください。");
   process.exit(1);
 }
+/**
+ * クラスタと役割は**設定から結合する。写しに書いてあるものは読まない。**
+ *
+ * 写しには取得当時の宣言が入っているが、宣言は訂正されうる。実際 2026-11-06 に
+ * 「ARTEX と sub2api は別クラスタ」から「全 255 IP が同じ sub2api クラスタで、
+ * うち 250 IP で ARTEX も動いている」へ訂正が入った。写しの値を読んでいると
+ * **古い宣言のまま集計してしまう**。設定が真。
+ */
+const declOf = (() => {
+  const m = new Map();
+  for (const g of CFG.GROUPS || []) {
+    const roles = g.roles || [];
+    const push = (ip) => {
+      const cur = m.get(ip);
+      if (cur) { cur.roles = [...new Set([...cur.roles, ...roles])].sort(); return; }
+      m.set(ip, { cluster: CFG.CLUSTER.name, roles: [...new Set(roles)].sort() });
+    };
+    for (const ip of g.explicit || []) push(ip);
+    for (const r of g.ranges || []) {
+      const base = String(r).split("/")[0].split(".").slice(0, 3).join(".");
+      const [lo, hi] = g.host_range || [1, 254];
+      for (let i = lo; i <= hi; i++) push(`${base}.${i}`);
+    }
+  }
+  return m;
+})();
+const clusterOf = (ip) => declOf.get(ip)?.cluster || "(宣言から外れた)";
+const rolesOf = (ip) => declOf.get(ip)?.roles || [];
+
 const anchorIso = [...now.values()].map((r) => r.fetched_at).filter(Boolean).sort().pop();
 const baseIso = [...baseline.values()].map((r) => r.fetched_at).filter(Boolean).sort().pop() || null;
 
@@ -165,7 +194,8 @@ for (const r of now.values()) {
       reported_at: x.reportedAt,
       day: String(x.reportedAt).slice(0, 10),
       ip_address: r.ip,
-      cluster: r.cluster,
+      cluster: clusterOf(r.ip),
+      roles: rolesOf(r.ip).join(";"),
       reporter: labelOf(x.reporterCountryCode, x.reporterId),
       reporter_country: x.reporterCountryCode,
       category_ids: cats.join(";"),
@@ -195,7 +225,8 @@ for (const r of [...now.values()].sort((a, b) => ipNum(a.ip) - ipNum(b.ip))) {
   const base = baseline.get(r.ip)?.body;
   rows.push({
     ip_address: r.ip,
-    cluster: r.cluster,
+    cluster: clusterOf(r.ip),
+    roles: rolesOf(r.ip).join(";"),
     /* ---- 今回（基準日との差が本題） ---- */
     reports_now: b.totalReports ?? 0,
     reporters_now: b.numDistinctUsers ?? 0,
@@ -318,8 +349,10 @@ for (const day of uniq(events.map((e) => e.day)).sort()) {
     distinct_reporters: uniq(mine.map((e) => e.reporter)).length,
     clusters: uniq(mine.map((e) => e.cluster)).sort().join(";"),
     category_names: uniq(mine.flatMap((e) => e.category_names.split(";"))).filter(Boolean).sort().join(";"),
-    artex_ips: uniq(mine.filter((e) => e.cluster === "ARTEX").map((e) => e.ip_address)).length,
-    sub2api_ips: uniq(mine.filter((e) => e.cluster === "sub2api").map((e) => e.ip_address)).length,
+    /** **クラスタは 1 つ。**内訳は役割で出す */
+    artex_ips: uniq(mine.filter((e) => e.roles.split(";").includes("artex")).map((e) => e.ip_address)).length,
+    recharge_host_ips: uniq(mine.filter((e) => e.roles.split(";").includes("recharge_host")).map((e) => e.ip_address)).length,
+    sub2api_only_ips: uniq(mine.filter((e) => e.roles === "sub2api").map((e) => e.ip_address)).length,
     /** この観測日の通報のうち、前回のスナップショットに無かったもの。
      *  **古い日付の行が後から増えるのが、さかのぼり投稿の見え方** */
     new_since_prev: prevEventKeys ? mine.filter((e) => e.new_since_prev === true).length : "",
@@ -347,7 +380,7 @@ const writeCsv = (file, rs, head) => {
     BOM + [H.join(","), ...rs.map((r) => H.map((h) => cell(r[h], EXT.has(h))).join(","))].join("\r\n") + "\r\n");
 };
 writeCsv("artex_timeline_events.csv", events,
-  ["seq", "reported_at", "day", "ip_address", "cluster", "reporter", "reporter_country",
+  ["seq", "reported_at", "day", "ip_address", "cluster", "roles", "reporter", "reporter_country",
     "category_ids", "category_names", "new_since_prev", "new_since_prev_measured",
     "comment_empty", "comment_excerpt", "comment_sha256"]);
 writeCsv("artex_timeline_by_ip.csv", rows);
@@ -408,9 +441,43 @@ const summary = {
   fetch_window_days: CFG.FETCH_WINDOW_DAYS,
   prev_snapshot_date: prevSnap ? prevSnap.date : null,
   snapshot_dates: snapshots.map((s) => s.date),
-  clusters: CFG.CLUSTERS.map((c) => ({ name: c.name, note: c.note,
-    ranges: c.ranges || null, explicit: c.explicit || null })),
+  /** **1 つのクラスタ。**役割は IP に付ける印でクラスタではない */
+  cluster: { name: CFG.CLUSTER.name, note: CFG.CLUSTER.note },
+  groups: (CFG.GROUPS || []).map((g) => ({ roles: g.roles, note: g.note,
+    ranges: g.ranges || null, explicit: g.explicit || null })),
+  correction_note: CFG.NOTE || null,
   per_cluster: perCluster,
+  /**
+   * **役割ごとの切り口。**クラスタを 1 つにした代わりにここで比べる。
+   * 「ARTEX も動いているホスト」と「リチャージ URL のホスト」で通報のされ方が
+   * 違うのか、はクラスタを分けずに答えられる。
+   * **母数が小さい役割の割合は読まない**（`recharge_host` は 1 IP）。
+   */
+  per_role: (() => {
+    const out = {};
+    for (const role of uniq(rows.flatMap((r) => r.roles.split(";").filter(Boolean))).sort()) {
+      const mine = rows.filter((r) => r.roles.split(";").includes(role));
+      const rep = mine.filter((r) => r.reports_now > 0);
+      const indepIps = uniq(events.filter((e) => e.roles.split(";").includes(role)
+        && !reporters.find((p) => p.reporter === e.reporter)?.looks_like_bulk_feed)
+        .map((e) => e.ip_address));
+      out[role] = {
+        ips: mine.length,
+        with_reports_now: rep.length,
+        reported_pct: mine.length ? Number((100 * rep.length / mine.length).toFixed(1)) : null,
+        /** 母数が 10 未満なら割合を読んではいけない。**印を付ける** */
+        too_small_for_pct: mine.length < 10,
+        with_reports_prev: mine.filter((r) => r.prev_available && r.reports_prev > 0).length,
+        with_independent_report: indepIps.length,
+        total_reports_now: mine.reduce((s, r) => s + (r.reports_now || 0), 0),
+        max_score_now: Math.max(0, ...mine.map((r) => r.score_now || 0)),
+        jp_reports: events.filter((e) => e.roles.split(";").includes(role)
+          && e.reporter_country === "JP").length,
+        with_rdns: mine.filter((r) => r.hostnames).length,
+      };
+    }
+    return out;
+  })(),
   /**
    * **2 つの日付の意味。**ここを混ぜると時系列が壊れるので成果物に書き出す。
    * 数字はこの写しから毎回測り直すので、古い値が残ることはない。

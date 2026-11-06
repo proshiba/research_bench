@@ -24,21 +24,46 @@
 // **印であって判定ではない。**該当しても行は捨てない。
 import { sanitize, forDisplay } from "../../../reports/global-jp-vuln/rules.mjs";
 
-/** 監視対象を IP の一覧に展開する。`ranges` + `host_range`、または `explicit` */
+/**
+ * 監視対象を IP の一覧に展開する。
+ *
+ * クラスタの中を `groups` で分け、各 group が `roles` を持つ。`ranges` +
+ * `host_range`、または `explicit` で IP を書く（`groups` が無い古い形も読む）。
+ *
+ * ## 役割はクラスタではない（2026-11-06 に訂正）
+ *
+ * 最初は ARTEX と sub2api を**別のクラスタ**として扱っていた。実際は
+ * **全 255 IP に sub2api があり、同じリチャージ URL がセットされている 1 つの
+ * クラスタ**で、そのうち 250 IP では ARTEX も起動している、という構造だった。
+ *
+ * 別クラスタとして持つと「2 つのクラスタは繋がるか」という本来不要な問いが立ち、
+ * 集計も分断される。**役割は IP に付ける印にして、クラスタは 1 つにする。**
+ */
 export function expandWatchlist(wl) {
   const out = [];
-  const seen = new Set();
+  const byIp = new Map();
   for (const cl of wl.clusters || []) {
-    const push = (ip) => {
-      if (seen.has(ip)) return; // 同じ IP が 2 つのクラスタに居ても 1 回しか引かない
-      seen.add(ip);
-      out.push({ ip, cluster: cl.name });
-    };
-    for (const ip of cl.explicit || []) push(ip);
-    for (const r of cl.ranges || []) {
-      const base = String(r).split("/")[0].split(".").slice(0, 3).join(".");
-      const [lo, hi] = cl.host_range || [1, 254];
-      for (let i = lo; i <= hi; i++) push(`${base}.${i}`);
+    // `groups` が無ければクラスタ自身を 1 つの group として読む（古い形との互換）
+    const groups = Array.isArray(cl.groups) && cl.groups.length ? cl.groups : [cl];
+    for (const g of groups) {
+      const roles = Array.isArray(g.roles) ? g.roles : [];
+      const push = (ip) => {
+        // 同じ IP が複数の group に出たら**役割を足し合わせる**。行は増やさない
+        if (byIp.has(ip)) {
+          const cur = byIp.get(ip);
+          cur.roles = [...new Set([...cur.roles, ...roles])].sort();
+          return;
+        }
+        const rec = { ip, cluster: cl.name, roles: [...new Set(roles)].sort() };
+        byIp.set(ip, rec);
+        out.push(rec);
+      };
+      for (const ip of g.explicit || []) push(ip);
+      for (const r of g.ranges || []) {
+        const base = String(r).split("/")[0].split(".").slice(0, 3).join(".");
+        const [lo, hi] = g.host_range || cl.host_range || [1, 254];
+        for (let i = lo; i <= hi; i++) push(`${base}.${i}`);
+      }
     }
   }
   out.sort((a, b) => ipNum(a.ip) - ipNum(b.ip));
@@ -83,8 +108,17 @@ export const shapeOf = (s) => sanitize(s)
  * 受け取った時刻（投稿）。** 混ぜると時系列が壊れる。2026-11-06 に実測:
  * フィード本文の `Last observed <日付>` が `reportedAt` と 58/58 件一致し、
  * `lastReportedAt` は 57/65 件でそれより後ろ（中央 1.04 日・最大 7.32 日）。
+ *
+ * ## 観測には宣言を書かない（2026-11-06 に直した）
+ *
+ * 最初は `cluster` を観測の行に入れていた。これは **API から測った事実ではなく
+ * `watchlist.json` 側の宣言**なので、宣言を訂正した途端に**過去の観測が嘘になる**。
+ * 実際 2 クラスタ → 1 クラスタの訂正で、積んだ観測を書き換える必要が生じた。
+ *
+ * **観測は測ったものだけを持つ。**クラスタと役割は突き合わせ時に宣言から結合する。
+ * そうすれば宣言の訂正で履歴を触らずに済む。
  */
-export function distill({ ip, cluster, body, fetchedAt, maxAgeDays }) {
+export function distill({ ip, body, fetchedAt, maxAgeDays }) {
   const b = body || {};
   const reports = Array.isArray(b.reports) ? b.reports : [];
   const rows = reports.map((x) => ({
@@ -102,7 +136,7 @@ export function distill({ ip, cluster, body, fetchedAt, maxAgeDays }) {
   return {
     ioc: "ioc.ipv4|" + ip,
     ip,
-    cluster,
+    // **cluster / roles は入れない。**宣言なので watchlist.json から結合する
     fetched_at: fetchedAt,
     max_age_days: maxAgeDays,
     score: b.abuseConfidenceScore ?? 0,

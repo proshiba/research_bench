@@ -34,7 +34,7 @@ import path from "node:path";
 import { parseArgs, readJson, writeJson, writeJsonl, readJsonl } from "./lib/io.mjs";
 import { REPO_ROOT } from "./lib/sources.mjs";
 import { CATEGORIES } from "../../reports/global-jp-vuln/rules.mjs";
-import { bulkShapes, reportKey, ipNum } from "./lib/watch.mjs";
+import { bulkShapes, reportKey, ipNum, expandWatchlist } from "./lib/watch.mjs";
 
 const args = parseArgs(process.argv.slice(2));
 const WATCH = path.resolve(REPO_ROOT, args.watch || "data/ioc/watch");
@@ -57,6 +57,20 @@ const days = dayFiles.map((f) => ({
   day: f.slice(0, 10),
   rows: readJsonl(path.join(obsDir, f)),
 }));
+
+/**
+ * クラスタと役割は**宣言から結合する**。観測には入っていない。
+ *
+ * 観測に書き込むと、宣言を訂正した途端に過去の観測が嘘になる。実際
+ * 2026-11-06 に「ARTEX と sub2api は別クラスタ」から「全 255 IP が同じ
+ * sub2api クラスタで、うち 250 IP で ARTEX も動いている」へ訂正が入った。
+ * 結合にしてあれば履歴を触らずに済む。
+ *
+ * 宣言から外れた IP の観測は残るが、`cluster` が付かない。**捨てずに印を付ける。**
+ */
+const decl = new Map(expandWatchlist(wl).map((t) => [t.ip, t]));
+const clusterOf = (ip) => decl.get(ip)?.cluster || "(宣言から外れた)";
+const rolesOf = (ip) => decl.get(ip)?.roles || [];
 
 /* ---------------- 本文の形ごとの広がり（一括登録の印） ---------------- */
 
@@ -108,7 +122,7 @@ for (const [ip, series] of seriesOf) {
   for (const cur of series) {
     const curIndep = independentOf(cur.by_report);
     const add = (kind, detail) => events.push({
-      day: cur.day, ip, cluster: cur.cluster, kind,
+      day: cur.day, ip, cluster: clusterOf(ip), roles: rolesOf(ip).join(";"), kind,
       /** 前回の観測日。**連日とは限らない**ので明示する */
       since: prev ? prev.day : "",
       ...detail,
@@ -181,7 +195,7 @@ for (const [ip, series] of seriesOf) {
   const last = series[series.length - 1];
   const lastIndep = independentOf(last.by_report);
   state.push({
-    ioc: last.ioc, ip, cluster: last.cluster,
+    ioc: last.ioc, ip, cluster: clusterOf(ip), roles: rolesOf(ip).join(";"),
     observed_days: series.length,
     first_seen_day: series[0].day,
     last_seen_day: last.day,
@@ -229,18 +243,36 @@ const tally = (rs, f) => {
   }
   return Object.fromEntries([...m].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)));
 };
+const slice = (mine) => ({
+  ips: mine.length,
+  with_reports: mine.filter((r) => r.reports > 0).length,
+  with_independent_report: mine.filter((r) => r.independent_reports > 0).length,
+  with_jp_report: mine.filter((r) => r.jp_reports > 0).length,
+  max_score: Math.max(0, ...mine.map((r) => r.score)),
+  total_reports: mine.reduce((s, r) => s + r.reports, 0),
+  /** 母数つきで出す。**割合だけだと 1/5 と 50/250 が同じに見える** */
+  reported_pct: mine.length ? Number((100 * mine.filter((r) => r.reports > 0).length / mine.length).toFixed(1)) : null,
+  categories: tally(mine, (r) => r.category_names.split(";")),
+});
 const perCluster = {};
 for (const c of [...new Set(state.map((r) => r.cluster))].sort()) {
-  const mine = state.filter((r) => r.cluster === c);
-  perCluster[c] = {
-    ips: mine.length,
-    with_reports: mine.filter((r) => r.reports > 0).length,
-    with_independent_report: mine.filter((r) => r.independent_reports > 0).length,
-    with_jp_report: mine.filter((r) => r.jp_reports > 0).length,
-    max_score: Math.max(0, ...mine.map((r) => r.score)),
-    total_reports: mine.reduce((s, r) => s + r.reports, 0),
-    categories: tally(mine, (r) => r.category_names.split(";")),
-  };
+  perCluster[c] = slice(state.filter((r) => r.cluster === c));
+}
+/**
+ * **役割ごとの切り口。**クラスタを 1 つにした代わりに、ここで比べる。
+ *
+ * 「ARTEX も動いているホスト」と「リチャージ URL のホスト」で通報のされ方が
+ * 違うのか、という問いはクラスタを分けずに答えられる。**母数が小さい役割では
+ * 割合を読まないこと**（`recharge_host` は 1 IP しかない）。
+ */
+const perRole = {};
+for (const role of [...new Set(state.flatMap((r) => r.roles.split(";").filter(Boolean)))].sort()) {
+  perRole[role] = slice(state.filter((r) => r.roles.split(";").includes(role)));
+}
+/** 役割の組み合わせごと。どの IP がどの組か分かるように */
+const perRoleSet = {};
+for (const rs of [...new Set(state.map((r) => r.roles))].sort()) {
+  perRoleSet[rs || "(役割なし)"] = slice(state.filter((r) => r.roles === rs));
 }
 const lastDay = days[days.length - 1].day;
 const meta = readJson(path.join(WATCH, "fetch-meta.json")) || {};
@@ -252,6 +284,8 @@ writeJson(path.join(WATCH, "watch-meta.json"), {
   observed_days: days.map((d) => ({ day: d.day, ips: d.rows.length })),
   ips: state.length,
   per_cluster: perCluster,
+  per_role: perRole,
+  per_role_set: perRoleSet,
   events: { total: events.length, by_kind: tally(events, (e) => e.kind) },
   events_on_last_day: events.filter((e) => e.day === lastDay).length,
   bulk_shapes: [...shapes.values()].filter((s) => s.bulk).length,
@@ -265,12 +299,17 @@ for (const [c, v] of Object.entries(perCluster)) {
     + ` / **フィード以外の通報あり ${v.with_independent_report}**`
     + ` / 日本から ${v.with_jp_report} / 最大スコア ${v.max_score}`);
 }
+console.log("  役割ごと（母数が小さい役割の割合は読まない）:");
+for (const [r, v] of Object.entries(perRole)) {
+  console.log(`    ${r.padEnd(14)} ${String(v.ips).padStart(3)} IP / 通報あり ${String(v.with_reports).padStart(3)}`
+    + `（${v.reported_pct}%）/ フィード以外 ${v.with_independent_report} / 最大スコア ${v.max_score}`);
+}
 console.log(`変化 ${events.length} 件 ${JSON.stringify(tally(events, (e) => e.kind))}`);
 const today = events.filter((e) => e.day === lastDay);
 if (today.length) {
   console.log(`  ${lastDay} の変化 ${today.length} 件:`);
   for (const e of today.slice(0, 20)) {
-    console.log(`    ${e.kind.padEnd(34)} ${e.ip.padEnd(16)} ${e.cluster}`);
+    console.log(`    ${e.kind.padEnd(34)} ${e.ip.padEnd(16)} ${e.roles}`);
   }
   if (today.length > 20) console.log(`    … 他 ${today.length - 20} 件`);
 } else {

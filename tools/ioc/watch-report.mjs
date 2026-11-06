@@ -73,12 +73,12 @@ if (!today.length) {
     if (k === "already_reported_at_first_sight" || k === "already_independent_at_first_sight") continue;
     L.push("### " + code(k) + " — " + list.length + " 件", "");
     L.push(KIND[k] || "", "");
-    const head = ["IP", "クラスタ", "前回の観測", "内容"];
+    const head = ["IP", "役割", "前回の観測", "内容"];
     L.push(T(head, list.sort((a, b) => ipNum(a.ip) - ipNum(b.ip)).slice(0, 60).map((e) => {
       const rest = Object.entries(e).filter(([kk]) =>
-        !["day", "ip", "cluster", "kind", "since"].includes(kk))
+        !["day", "ip", "cluster", "roles", "kind", "since"].includes(kk))
         .map(([kk, v]) => kk + "=" + safe(v, 34)).join(" / ");
-      return [code(e.ip), e.cluster, e.since || "—", rest || "—"];
+      return [code(e.ip), e.roles || "—", e.since || "—", rest || "—"];
     })), "");
     if (list.length > 60) L.push("（他 " + (list.length - 60) + " 件は " + code("events.jsonl") + " に）", "");
   }
@@ -92,11 +92,36 @@ L.push(T(["クラスタ", "IP", "通報あり", "**フィード以外の通報�
     "**" + v.with_independent_report + "**", String(v.with_jp_report),
     String(v.max_score), String(v.total_reports)])), "");
 for (const cl of wl.clusters || []) {
-  L.push("- **" + cl.name + "** — " + safe(cl.note, 90)
-    + (cl.ranges ? "（" + cl.ranges.map(code).join(" ") + "）" : "")
-    + (cl.since ? " / 追跡開始 " + cl.since : ""));
+  L.push("- **" + cl.name + "** — " + safe(cl.note, 140));
+  for (const g of cl.groups || []) {
+    const where = g.ranges ? g.ranges.map(code).join(" と ") + " の " + code(".1〜.125")
+      : (g.explicit || []).map(code).join(" ");
+    L.push("  - " + (g.roles || []).map(code).join(" ") + " — " + where);
+    if (g.note) L.push("    " + safe(g.note, 110));
+  }
+  if (cl.corrected) L.push("  - **訂正** — " + safe(cl.corrected, 140));
 }
 L.push("");
+
+/* ---- 役割ごと ---- */
+if (M.per_role) {
+  L.push("### 役割ごと", "");
+  L.push("クラスタは 1 つなので、違いを見るのはこちらです。", "");
+  L.push(T(["役割", "IP", "通報あり", "割合", "**フィード以外**", "最大スコア"],
+    Object.entries(M.per_role).map(([r, v]) => [
+      code(r), String(v.ips), String(v.with_reports),
+      v.ips >= 10 ? v.reported_pct + "%" : "**母数不足**",
+      "**" + v.with_independent_report + "**", String(v.max_score)])), "");
+  L.push("**母数が小さい役割の割合は読めません。** " + code("recharge_host") + " は 1 IP しか");
+  L.push("ないので、100% は「1 件中 1 件」という意味しかありません。", "");
+  if (M.per_role_set) {
+    L.push("役割の組み合わせごと:", "");
+    L.push(T(["役割の組", "IP", "通報あり", "**フィード以外**", "最大スコア"],
+      Object.entries(M.per_role_set).map(([r, v]) => [
+        code(r), String(v.ips), String(v.with_reports),
+        "**" + v.with_independent_report + "**", String(v.max_score)])), "");
+  }
+}
 
 /* ---- フィード以外の通報が付いている IP ---- */
 const indep = state.filter((r) => r.independent_reports > 0)
@@ -105,9 +130,9 @@ L.push("## フィード以外の通報が付いている IP（" + indep.length +
 L.push("**ここが「被害者が攻撃を観測した」に最も近い行です。** フィードの一括登録は");
 L.push("「誰かが悪性と判断した」情報で、別種のものです。", "");
 if (indep.length) {
-  L.push(T(["IP", "クラスタ", "初めて付いた日", "通報", "通報者", "国", "カテゴリ", "スコア"],
+  L.push(T(["IP", "役割", "初めて付いた日", "通報", "通報者", "国", "カテゴリ", "スコア"],
     indep.slice(0, 80).map((r) => [
-      code(r.ip), r.cluster, r.first_independent_report_day || "監視開始前",
+      code(r.ip), r.roles || "—", r.first_independent_report_day || "監視開始前",
       String(r.independent_reports) + " / " + r.reports, String(r.reporters),
       r.independent_countries || "—", safe(r.category_names, 30), String(r.score)])), "");
 } else {
