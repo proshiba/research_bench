@@ -232,6 +232,73 @@ if (inFeed) {
     `${inFeed.share_of_targets_pct}% / ${S.reporters.find((r) => r.reporter === feed?.reporter)?.share_of_targets_pct}%`);
 }
 
+console.log("\n== クラスタ全体の統計（255 IP をひとまとまりとして見た数字）");
+const K = S.cluster_stats;
+/** 母数を写しから数え直す。**割合だけ合っていても母数が違えば意味が変わる** */
+check(K.ips_in_cluster === P.rows.length, "クラスタの IP 数が IP の表と一致",
+  `${K.ips_in_cluster} / ${P.rows.length}`);
+check(K.ips_ever_reported === P.rows.filter((r) => num(r.reports_now) > 0).length,
+  "通報がある IP の数が IP の表から再現できる");
+check(K.ips_never_reported === K.ips_in_cluster - K.ips_ever_reported,
+  "通報なしの数が母数から引いて合う");
+check(K.ips_ever_reported + K.ips_never_reported + K.ips_not_measured === K.ips_in_cluster,
+  "**通報あり + 通報なし + 未取得 が母数に等しい**（取りこぼしが無い）");
+check(K.reports_total === E.rows.length, "通報の総数が通報の表と一致");
+/** **クラスタとして見たときの観測者の数。**ここが個別 IP の表と一番違う */
+check(K.distinct_reporters_cluster_wide === new Set(E.rows.map((e) => e.reporter)).size,
+  "**観測者の数が通報の表から再現できる**",
+  `${K.distinct_reporters_cluster_wide} / ${new Set(E.rows.map((e) => e.reporter)).size}`);
+check(K.feed_reporters + K.independent_reporters === K.distinct_reporters_cluster_wide,
+  "フィードと被害者側の人数が観測者の総数に等しい");
+check(K.reporter_footprints.every((f) =>
+  f.ips === new Set(E.rows.filter((e) => e.reporter === f.reporter).map((e) => e.ip_address)).size),
+"各観測者が見た IP の数が通報の表から再現できる");
+check(K.max_reporter_footprint_pct === Math.max(0, ...K.reporter_footprints.map((f) => f.pct_of_cluster)),
+  "最大の footprint が一覧の最大と一致");
+check(K.max_reporter_footprint_pct < 100,
+  "**どの観測者もクラスタ全体を見ていない**", `${K.max_reporter_footprint_pct}%`);
+/** 同じ観測者の再通報。**0 なら厚みは観測者の数で決まる** */
+const pairCount = new Map();
+for (const e of E.rows) {
+  const k = e.ip_address + "|" + e.reporter;
+  pairCount.set(k, (pairCount.get(k) || 0) + 1);
+}
+check(K.ip_reporter_pairs_with_repeat === [...pairCount.values()].filter((v) => v > 1).length,
+  "同じ観測者の再通報の数が通報の表から再現できる");
+/** 累計が単調に増え、最後が通報がある IP の数と一致するか */
+const cum = K.cumulative_by_day;
+check(cum.every((d, i) => i === 0 || cum[i - 1].cumulative_ips <= d.cumulative_ips),
+  "累計 IP が単調に増えている");
+check(cum.length === 0 || cum[cum.length - 1].cumulative_ips === K.ips_ever_reported,
+  "**累計の最後が通報がある IP の数と一致**",
+  cum.length ? `${cum[cum.length - 1].cumulative_ips} / ${K.ips_ever_reported}` : "");
+check(cum.every((d) => d.ips_that_day > 0), "観測日はすべて 1 件以上");
+/** スコアの分布を数え直す */
+const histSum = Object.values(K.score.histogram).reduce((a, b) => a + b, 0);
+check(histSum === K.ips_in_cluster, "**スコアの分布の合計が母数に等しい**",
+  `${histSum} / ${K.ips_in_cluster}`);
+check(K.score.max === Math.max(0, ...P.rows.map((r) => num(r.score_now))),
+  "最大スコアが IP の表と一致");
+check(K.score.ips_at_zero === P.rows.filter((r) => num(r.score_now) === 0).length,
+  "スコア 0 の IP の数が IP の表と一致");
+check(K.score.ips_at_or_above_50 <= K.score.ips_at_or_above_25,
+  "50 以上の件数が 25 以上の件数を超えていない");
+/** 帯ごとの母数と内訳 */
+const pfxSum = Object.values(K.by_prefix).reduce((a, v) => a + v.ips, 0);
+check(pfxSum === K.ips_in_cluster, "帯ごとの IP 数の合計が母数に等しい", `${pfxSum} / ${K.ips_in_cluster}`);
+check(Object.values(K.by_prefix).every((v) => v.too_small_for_pct === (v.ips < 10)),
+  "母数が 10 未満の帯に too_small_for_pct が付いている");
+check(Object.values(K.by_prefix).every((v) => v.with_reports <= v.ips
+  && v.feed_report_ips <= v.ips && v.independent_report_ips <= v.ips),
+"帯ごとの内訳が母数を超えていない");
+/** カテゴリは IP の数で数えているか。**通報の件数と混ぜていないか** */
+check(Object.entries(K.categories_by_ip_count).every(([c, n]) =>
+  n === new Set(E.rows.filter((e) => e.category_names.split(";").includes(c))
+    .map((e) => e.ip_address)).size),
+"カテゴリごとの IP 数が通報の表から再現できる");
+check(Object.values(K.categories_by_ip_count).every((n) => n <= K.ips_in_cluster),
+  "カテゴリごとの IP 数が母数を超えていない");
+
 console.log("\n== 時系列");
 check(D.rows.length === S.by_day.length, "日ごとの表の行数が summary と一致");
 const days = D.rows.map((r) => r.day);
@@ -378,6 +445,18 @@ check(/訂正（2026-11-06）/.test(md), "**訂正の経緯を書いている**"
 check(/「2 つのクラスタが繋がるか」という問いはもう立ちません/.test(md),
   "繋がりの問いが消えたことを書いている");
 check(/母数不足/.test(md), "**母数が小さい役割に印を出している**");
+/* ---- クラスタ全体の統計が文章に出ているか ---- */
+check(/## 2\. クラスタ全体の統計/.test(md), "クラスタ全体の統計の節がある");
+check(/クラスタとして見れば\*\*それを見た観測者は 1 人\*\*/.test(md),
+  "**観測者の数え方が個別 IP と違うと書いている**");
+check(/どの観測者もクラスタの .+% までしか見ていません/.test(md),
+  "**全体像を持つ観測者が居ないと書いている**");
+check(/このクラスタは丸ごと通り抜けます/.test(md),
+  "**スコア閾値では弾けないと書いている**");
+check(/ただしこの偏りはフィードにしか出ていません/.test(md),
+  "**帯の偏りをフィード由来と切り分けている**");
+check(/「使い回していない」とは言えません/.test(md),
+  "日ごとの集合が交わらないことを過剰に読んでいない");
 check(/4 IP なので、差と呼べるだけの数ではありません/.test(md),
   "**.86〜.89 の通報 0 を差と読んでいない**");
 

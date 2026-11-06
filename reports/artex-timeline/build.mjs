@@ -395,6 +395,154 @@ const tally = (rs, f) => {
   }
   return [...m].sort((a, b) => (b[1] - a[1]) || (a[0] < b[0] ? -1 : 1));
 };
+/* ================= クラスタ 1 個として見た統計 ================= */
+
+/**
+ * **個別 IP ではなく、255 IP をひとまとまりとして見たときの数字。**
+ *
+ * 個別 IP の表と何が違うか: いちばん効くのは**通報者の数え方**。
+ * IP ごとに見ると「58 IP が通報されている」だが、クラスタとして見れば
+ * **それを見た観測者は 1 人**。攻撃元としての広がりと、観測の厚みは別の話で、
+ * 個別 IP の表はそこを混ぜてしまう。
+ *
+ * 母数を必ず付ける。割合だけだと 1/5 と 50/250 が同じに見える。
+ */
+const clusterStats = (() => {
+  const N = rows.length;
+  const repIps = rows.filter((r) => r.reports_now > 0);
+  const feedNames = new Set(reporters.filter((r) => r.looks_like_bulk_feed).map((r) => r.reporter));
+  const indepEv = events.filter((e) => !feedNames.has(e.reporter));
+  const indepIps = uniq(indepEv.map((e) => e.ip_address));
+  const obsDays = uniq(events.map((e) => e.day)).sort();
+  const span = obsDays.length
+    ? Math.round((Date.parse(obsDays[obsDays.length - 1]) - Date.parse(obsDays[0])) / 86400000) + 1 : 0;
+  const scores = rows.map((r) => r.score_now).sort((a, b) => a - b);
+  const med = (a) => (a.length ? a[Math.floor(a.length / 2)] : null);
+
+  /** 観測日ごとに「その日までに通報された IP の累計」。**プールの消費のしかた** */
+  const seen = new Set();
+  const cumulative = obsDays.map((d) => {
+    for (const e of events.filter((x) => x.day === d)) seen.add(e.ip_address);
+    return { day: d, ips_that_day: uniq(events.filter((x) => x.day === d).map((x) => x.ip_address)).length,
+      cumulative_ips: seen.size, cumulative_pct: Number((100 * seen.size / N).toFixed(1)) };
+  });
+
+  /** 同じ IP が 2 つ以上の観測日に出てくるか。**出てこなければ日ごとの集合は交わらない** */
+  const daysPerIp = new Map();
+  for (const e of events) {
+    if (!daysPerIp.has(e.ip_address)) daysPerIp.set(e.ip_address, new Set());
+    daysPerIp.get(e.ip_address).add(e.day);
+  }
+  const multiDay = [...daysPerIp].filter(([, s]) => s.size > 1);
+
+  /** 帯ごとの使われ方。**255 のうちどこが使われているか** */
+  const byPrefix = {};
+  for (const pfx of uniq(rows.map((r) => r.ip_address.split(".").slice(0, 3).join(".")))) {
+    const mine = rows.filter((r) => r.ip_address.startsWith(pfx + "."));
+    const rep = mine.filter((r) => r.reports_now > 0);
+    const hosts = rep.map((r) => Number(r.ip_address.split(".")[3])).sort((a, b) => a - b);
+    // 連続している区間の数。多ければ散っている、少なければ固まっている
+    let runs = 0;
+    for (let i = 0; i < hosts.length; i++) if (i === 0 || hosts[i] !== hosts[i - 1] + 1) runs++;
+    /**
+     * **フィードぶんと被害者側を分けて数える。**
+     *
+     * 帯ごとの差が出たとき、それが「実際に使われた量の差」なのか
+     * 「1 つのフィードの集め方の差」なのかは、これを分けないと言えない。
+     */
+    const feedIps = uniq(events.filter((e) => feedNames.has(e.reporter)
+      && e.ip_address.startsWith(pfx + ".")).map((e) => e.ip_address)).length;
+    byPrefix[pfx] = {
+      ips: mine.length, with_reports: rep.length,
+      pct: mine.length ? Number((100 * rep.length / mine.length).toFixed(1)) : null,
+      too_small_for_pct: mine.length < 10,
+      host_min: hosts[0] ?? null, host_max: hosts[hosts.length - 1] ?? null,
+      /** 連続している区間の数。**多ければ散っている** */
+      contiguous_runs: runs,
+      feed_report_ips: feedIps,
+      independent_report_ips: indepIps.filter((ip) => ip.startsWith(pfx + ".")).length,
+    };
+  }
+
+  return {
+    note: "255 IP をひとまとまりとして見た数字。個別 IP の表とは数え方が違う（とくに通報者の数）",
+    /* ---- 規模と広がり ---- */
+    ips_in_cluster: N,
+    ips_ever_reported: repIps.length,
+    ips_ever_reported_pct: Number((100 * repIps.length / N).toFixed(1)),
+    ips_never_reported: N - repIps.length,
+    /** **引けていない IP は「通報なし」ではなく「分からない」。**ここでは 0 */
+    ips_not_measured: 0,
+    reports_total: events.length,
+    /* ---- 観測者（クラスタとして見るとここが変わる） ---- */
+    distinct_reporters_cluster_wide: reporters.length,
+    feed_reporters: feedNames.size,
+    independent_reporters: reporters.length - feedNames.size,
+    /** **どの観測者もクラスタの一部しか見ていない。**最大の footprint */
+    max_reporter_footprint_pct: Math.max(0, ...reporters.map((r) => r.share_of_targets_pct)),
+    reporter_footprints: reporters.map((r) => ({
+      reporter: r.reporter, country: r.country, ips: r.distinct_ips,
+      pct_of_cluster: r.share_of_targets_pct, bulk_feed: r.looks_like_bulk_feed,
+      reports_per_ip: Number((r.reports / r.distinct_ips).toFixed(2)),
+    })).sort((a, b) => b.ips - a.ips),
+    /* ---- フィード以外（被害者側の観測） ---- */
+    ips_with_independent_report: indepIps.length,
+    ips_with_independent_report_pct: Number((100 * indepIps.length / N).toFixed(1)),
+    independent_reports_total: indepEv.length,
+    /* ---- 通報の厚み ---- */
+    reports_per_reported_ip: repIps.length
+      ? Number((events.length / repIps.length).toFixed(2)) : null,
+    ips_with_more_than_one_report: repIps.filter((r) => r.reports_now > 1).length,
+    max_reports_on_one_ip: Math.max(0, ...repIps.map((r) => r.reports_now)),
+    /** 同じ観測者が同じ IP を 2 回以上通報した例。**0 なら厚みは観測者の数で決まる** */
+    ip_reporter_pairs_with_repeat: (() => {
+      const m = new Map();
+      for (const e of events) {
+        const k = e.ip_address + "|" + e.reporter;
+        m.set(k, (m.get(k) || 0) + 1);
+      }
+      return [...m.values()].filter((v) => v > 1).length;
+    })(),
+    /* ---- 時間 ---- */
+    first_observed: obsDays[0] || null,
+    last_observed: obsDays[obsDays.length - 1] || null,
+    observation_window_days: span,
+    days_with_any_observation: obsDays.length,
+    days_with_any_observation_pct: span ? Number((100 * obsDays.length / span).toFixed(1)) : null,
+    days_quiet_since_last_observation: obsDays.length
+      ? Math.round((Date.parse(anchorIso) - Date.parse(obsDays[obsDays.length - 1])) / 86400000) : null,
+    cumulative_by_day: cumulative,
+    /** 2 日以上に跨って通報された IP。**少なければ日ごとの集合がほぼ交わらない** */
+    ips_reported_on_multiple_days: multiDay.length,
+    /* ---- カテゴリ（クラスタ全体で、IP の数で数える） ---- */
+    categories_by_ip_count: Object.fromEntries(
+      uniq(events.flatMap((e) => e.category_names.split(";")).filter(Boolean)).sort()
+        .map((c) => [c, uniq(events.filter((e) => e.category_names.split(";").includes(c))
+          .map((e) => e.ip_address)).length])),
+    /* ---- スコア（255 全体の分布。通報がある IP だけではない） ---- */
+    score: {
+      max: scores[scores.length - 1] ?? 0,
+      median_all_255: med(scores),
+      median_reported_only: med(repIps.map((r) => r.score_now).sort((a, b) => a - b)),
+      ips_at_zero: scores.filter((v) => v === 0).length,
+      ips_at_or_above_25: scores.filter((v) => v >= 25).length,
+      ips_at_or_above_50: scores.filter((v) => v >= 50).length,
+      /** 値ごとの数。**四分位だけだと分布の形が見えない** */
+      histogram: Object.fromEntries(uniq(scores).sort((a, b) => a - b)
+        .map((v) => [String(v), scores.filter((x) => x === v).length])),
+      /** 通報があるのにスコアが 0 の IP。**減衰したか、通報が窓から外れた** */
+      reported_but_zero: repIps.filter((r) => r.score_now === 0).length,
+      note: "スコアは通報が増えなくても時間で下がる。横に比べるときは取得日を揃えること",
+    },
+    /* ---- アドレス空間の使い方 ---- */
+    by_prefix: byPrefix,
+    /* ---- 日本 ---- */
+    jp_reports: events.filter((e) => e.reporter_country === "JP").length,
+    jp_reporters: uniq(events.filter((e) => e.reporter_country === "JP").map((e) => e.reporter)).length,
+    reporter_countries: Object.fromEntries(tally(events, (e) => e.reporter_country)),
+  };
+})();
+
 const perCluster = {};
 for (const c of uniq(rows.map((r) => r.cluster))) {
   const mine = rows.filter((r) => r.cluster === c);
@@ -446,6 +594,8 @@ const summary = {
   groups: (CFG.GROUPS || []).map((g) => ({ roles: g.roles, note: g.note,
     ranges: g.ranges || null, explicit: g.explicit || null })),
   correction_note: CFG.NOTE || null,
+  /** **255 IP をひとまとまりとして見た統計。**個別 IP の表とは数え方が違う */
+  cluster_stats: clusterStats,
   per_cluster: perCluster,
   /**
    * **役割ごとの切り口。**クラスタを 1 つにした代わりにここで比べる。
@@ -586,6 +736,16 @@ for (const [c, v] of Object.entries(perCluster)) {
     + ` / 通報者 ${v.distinct_reporters} 人 / フィード以外の通報がある IP ${v.with_independent_report}`
     + ` / 日本から ${v.jp_reports}`);
 }
+const K = summary.cluster_stats;
+console.log(`クラスタ全体: ${K.ips_in_cluster} IP / 通報あり ${K.ips_ever_reported}`
+  + `（${K.ips_ever_reported_pct}%）/ 通報 ${K.reports_total} 件`
+  + ` / **観測者 ${K.distinct_reporters_cluster_wide} 人**（うちフィード ${K.feed_reporters}）`);
+console.log(`  観測の窓 ${K.first_observed}〜${K.last_observed}（${K.observation_window_days} 日のうち`
+  + ` ${K.days_with_any_observation} 日に観測 = ${K.days_with_any_observation_pct}%）`
+  + ` / 最後の観測から ${K.days_quiet_since_last_observation} 日`);
+console.log(`  どの観測者もクラスタの ${K.max_reporter_footprint_pct}% までしか見ていない`
+  + ` / 通報が 2 件以上の IP ${K.ips_with_more_than_one_report} 件`
+  + ` / 同じ観測者の再通報 ${K.ip_reporter_pairs_with_repeat} 件`);
 const dfs = summary.date_field_semantics;
 console.log(`日付: 観測より投稿が後 ${dfs.submitted_after_observed} 件 / 前 ${dfs.submitted_before_observed} 件`
   + ` / さかのぼり 中央 ${dfs.backdate_days_median} 日・最大 ${dfs.backdate_days_max} 日`

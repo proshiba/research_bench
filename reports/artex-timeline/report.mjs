@@ -98,7 +98,7 @@ L.push(T(["問い", "答え"], [
     "**言える。**観測時刻と投稿時刻のずれが 0 秒で、対象は 255 IP の 3.1% だけ（フィードは最大 7.32 日ずれ・22.7%）"],
   ["攻撃に使われた時期は特定できたか",
     "**観測日ベースでは " + S.reports.first_observed.slice(0, 10) + " 〜 " + S.reports.last_observed.slice(0, 10)
-    + "。**ただしさかのぼり投稿があるので確定しない（3 節）"],
+    + "。**ただしさかのぼり投稿があるので確定しない（4 節）"],
   ["リチャージ URL のホストは",
     "**" + code("198.200.59.85") + " が最初（09-30）で最多**（通報 3 件 / 通報者 3 人）。"
     + "前回から変化なし。隣の " + code(".86〜.89") + " は**一度も通報されていない**"],
@@ -106,7 +106,119 @@ L.push(T(["問い", "答え"], [
 ]), "");
 
 /* ---- フィードと被害者側の区別 ---- */
-L.push("## 2. 「複数 IP が報告されている」の中身", "");
+/* ---- クラスタ全体の統計 ---- */
+const K = S.cluster_stats;
+L.push("## 2. クラスタ全体の統計", "");
+L.push("**255 IP をひとまとまりとして見た数字です。**個別 IP の表とは数え方が違います。");
+L.push("いちばん変わるのは**観測者の数え方**で、IP ごとに見れば「58 IP が通報されている」");
+L.push("ですが、クラスタとして見れば**それを見た観測者は 1 人**です。", "");
+
+L.push("### 規模と広がり", "");
+L.push(T(["項目", "値", "母数"], [
+  ["クラスタの IP", "**" + K.ips_in_cluster + "**", "—"],
+  ["一度でも通報された IP", "**" + K.ips_ever_reported + "**（" + K.ips_ever_reported_pct + "%）",
+    String(K.ips_in_cluster)],
+  ["一度も通報されていない IP", String(K.ips_never_reported), String(K.ips_in_cluster)],
+  ["引けていない IP（= 分からない）", String(K.ips_not_measured), String(K.ips_in_cluster)],
+  ["通報の総数", "**" + K.reports_total + "**", "—"],
+  ["フィード以外の通報がある IP", "**" + K.ips_with_independent_report + "**（"
+    + K.ips_with_independent_report_pct + "%）", String(K.ips_in_cluster)],
+  ["フィード以外の通報の総数", String(K.independent_reports_total), "—"],
+  ["日本からの通報", "**" + K.jp_reports + "**", "—"],
+]), "");
+
+L.push("### 観測者（クラスタとして見るとここが一番変わる）", "");
+L.push(T(["観測者", "所在", "見た IP", "クラスタの", "1 IP あたりの通報", "フィード"],
+  K.reporter_footprints.map((r) => [
+    code(r.reporter), r.country, String(r.ips), r.pct_of_cluster + "%",
+    String(r.reports_per_ip), r.bulk_feed ? "**はい**" : "—"])), "");
+L.push("- **このクラスタ全体を通報した観測者は " + K.distinct_reporters_cluster_wide
+  + " 人しか居ません。** うち " + K.feed_reporters + " 人がフィードの一括登録で、");
+L.push("  被害者側は " + K.independent_reporters + " 人です");
+L.push("- **どの観測者もクラスタの " + K.max_reporter_footprint_pct + "% までしか見ていません。**");
+L.push("  全体像を持っている観測者は居ません");
+L.push("- **1 IP あたりの通報はどの観測者も 1.0 です。**");
+L.push("  同じ観測者が同じ IP を 2 回以上通報した例は " + K.ip_reporter_pairs_with_repeat + " 件");
+L.push("");
+L.push("ここから、**クラスタの通報の厚みは観測者の数で決まっています**。");
+L.push("通報 " + K.reports_total + " 件は「IP と観測者の組の数」とほぼ同じで（1 IP あたり "
+  + K.reports_per_reported_ip + " 件）、");
+L.push("通報が 2 件以上ある IP は " + K.ips_with_more_than_one_report + " 件、最大でも "
+  + K.max_reports_on_one_ip + " 件です。", "");
+
+L.push("### 時間の構造", "");
+L.push(T(["項目", "値"], [
+  ["最初の観測", K.first_observed],
+  ["最後の観測", "**" + K.last_observed + "**"],
+  ["観測の窓", K.observation_window_days + " 日"],
+  ["観測があった日", "**" + K.days_with_any_observation + " 日**（窓の "
+    + K.days_with_any_observation_pct + "%）"],
+  ["最後の観測から", "**" + K.days_quiet_since_last_observation + " 日**"],
+  ["2 日以上に跨って通報された IP", K.ips_reported_on_multiple_days + " 件"],
+]), "");
+L.push("**プールの消費のしかた**（その日までに通報された IP の累計）:", "");
+L.push(T(["観測日", "その日の IP", "累計 IP", "クラスタの"],
+  K.cumulative_by_day.map((d) => [d.day, String(d.ips_that_day),
+    String(d.cumulative_ips), d.cumulative_pct + "%"])), "");
+L.push("- **累計は " + K.cumulative_by_day[K.cumulative_by_day.length - 1].cumulative_pct
+  + "% で止まっています。** 32 日の窓で、クラスタの 1/4 までしか通報に現れていません");
+L.push("- **日ごとの集合はほぼ交わりません**（2 日以上に跨る IP は "
+  + K.ips_reported_on_multiple_days + " 件だけ）。");
+L.push("  ただし**同じ観測者の再通報が 1 行に増えない**ので、「使い回していない」とは言えません");
+L.push("- 10-24 の 32 IP のように**一日に固まる**ことがあります。");
+L.push("  10-31 の 8 IP は 10 秒間に収まっており、1 台の検知器がまとめて出した形です");
+L.push("");
+
+L.push("### カテゴリ（IP の数で数える）", "");
+L.push(T(["カテゴリ", "付いている IP", "クラスタの"],
+  Object.entries(K.categories_by_ip_count).sort((a, b) => b[1] - a[1]).map(([c, n]) => [
+    c, String(n), Number((100 * n / K.ips_in_cluster).toFixed(1)) + "%"])), "");
+L.push("**Exploited Host（20）は攻撃手法ではありません**（3 節）。攻撃手法として数えられるのは");
+L.push("Web App Attack（21）の " + (K.categories_by_ip_count["Web App Attack"] || 0) + " IP と、");
+L.push("Hacking（15）・Port Scan（14）の各 1 IP です。", "");
+
+L.push("### スコア（255 IP 全体の分布）", "");
+L.push(T(["スコア", "IP の数"], Object.entries(K.score.histogram).map(([v, n]) =>
+  [v, String(n)])), "");
+L.push(T(["項目", "値"], [
+  ["最大", "**" + K.score.max + "**"],
+  ["中央値（255 全体）", String(K.score.median_all_255)],
+  ["中央値（通報がある 65 件）", String(K.score.median_reported_only)],
+  ["スコア 0 の IP", String(K.score.ips_at_zero) + " / " + K.ips_in_cluster],
+  ["25 以上の IP", "**" + K.score.ips_at_or_above_25 + "**"],
+  ["50 以上の IP", "**" + K.score.ips_at_or_above_50 + "**"],
+]), "");
+L.push("**クラスタの最大スコアは " + K.score.max + " で、25 以上の IP は 1 件もありません。**");
+L.push("AbuseIPDB のスコアだけを閾値にして弾く運用では、**このクラスタは丸ごと通り抜けます**。");
+L.push("スコアは通報が増えなくても時間で下がるので、横に比べるときは取得日を揃えてください。", "");
+
+L.push("### アドレス空間の使われ方", "");
+L.push(T(["帯", "IP", "通報あり", "割合", "フィード", "被害者側", "連続区間", "ホスト番号"],
+  Object.entries(K.by_prefix).sort().map(([p, v]) => [
+    code(p + ".x"), String(v.ips), String(v.with_reports),
+    v.too_small_for_pct ? "**母数不足**" : v.pct + "%",
+    String(v.feed_report_ips), String(v.independent_report_ips),
+    String(v.contiguous_runs),
+    v.host_min === null ? "—" : v.host_min + "〜" + v.host_max])), "");
+(() => {
+  const a = K.by_prefix["38.11.173"], b = K.by_prefix["38.11.221"];
+  if (!a || !b) return;
+  L.push("- " + code("38.11.173.x") + " が " + code("38.11.221.x") + " の **"
+    + (b.with_reports ? (a.with_reports / b.with_reports).toFixed(1) : "—")
+    + " 倍**通報されています（" + a.with_reports + " / " + b.with_reports + "、母数は同じ 125）");
+  L.push("- **ただしこの偏りはフィードにしか出ていません。** フィードは "
+    + a.feed_report_ips + " 対 " + b.feed_report_ips + " で偏っていますが、");
+  L.push("  被害者側は **" + a.independent_report_ips + " 対 "
+    + b.independent_report_ips + " で均等**です。");
+  L.push("  **「" + code("38.11.173") + " のほうが多く使われている」とは読めません。**");
+  L.push("  フィードの集め方の偏りである可能性が残ります（被害者側は 8 IP しかないので、");
+  L.push("  均等であること自体も強い証拠ではありません）");
+  L.push("- 連続区間が " + a.contiguous_runs + " / " + b.contiguous_runs
+    + " と多く、**まとまったブロックではなく散っています**");
+})();
+L.push("");
+
+L.push("## 3. 「複数 IP が報告されている」の中身", "");
 L.push("通報 " + S.reports.total + " 件のうち **" + feedReports + " 件が単一の通報者**で、");
 L.push("日付以外は同じ定型文です。残り " + (S.reports.total - feedReports) + " 件が他の "
   + indepAll.length + " 人によるものです。", "");
@@ -165,7 +277,7 @@ if (newIndep.length) {
 }
 
 /* ---- 日付が 2 種類ある ---- */
-L.push("## 3. 日付が 2 種類あります（今回判明。前回のレポートは誤っていました）", "");
+L.push("## 4. 日付が 2 種類あります（今回判明。前回のレポートは誤っていました）", "");
 L.push(T(["フィールド", "意味", "活動日として読めるか"], [
   [code("reportedAt"), "通報者が申告した**観測**時刻", "**読める**"],
   [code("lastReportedAt"), "AbuseIPDB が最後に通報を**受け取った**時刻（投稿）", "**読めない**"],
@@ -219,7 +331,7 @@ L.push(code("lastReportedAt") + " が別に持っていました。一致は「�
 L.push("「" + code("reportedAt") + " の正体が分かる」手がかりでした。", "");
 
 /* ---- 時系列 ---- */
-L.push("## 4. 時系列（観測日ベース）", "");
+L.push("## 5. 時系列（観測日ベース）", "");
 L.push(T(["観測日", "通報", "IP", "通報者", "ARTEX", "sub2api", "前回に無かった", "フィード以外", "カテゴリ"],
   S.by_day.map((d) => [d.day, String(d.reports), String(d.distinct_ips),
     String(d.distinct_reporters), String(d.artex_ips), String(d.sub2api_ips),
@@ -241,7 +353,7 @@ L.push("フィード以外の観測も 10-31 が最後で、それ以降 " + cod
   + " に新しい観測日はありません。", "");
 
 /* ---- 役割ごとの素性 ---- */
-L.push("## 5. 役割ごとの素性", "");
+L.push("## 6. 役割ごとの素性", "");
 L.push("**クラスタは 1 つなので、「2 つのクラスタが繋がるか」という問いはもう立ちません。**");
 L.push("全 255 IP が同じリチャージ URL (" + code("198.200.59.85") + ") を指しているという");
 L.push("利用者の観測が、そのまま繋がりの根拠です。比べるのは役割ごとの違いです。", "");
@@ -278,7 +390,7 @@ L.push("AS54600 PEG TECH INC でしたが、**今回は再確認していませ�
 /* ---- 通報された ARTEX の IP ---- */
 const rep = byIp.filter((r) => r.roles.split(";").includes("artex") && Number(r.reports_now) > 0);
 if (rep.length) {
-  L.push("## 6. 通報が付いた " + code("artex") + " の " + rep.length + " IP", "");
+  L.push("## 7. 通報が付いた " + code("artex") + " の " + rep.length + " IP", "");
   const ind = new Set(newIndep.map((e) => e.ip_address));
   for (const pfx of ["38.11.173", "38.11.221"]) {
     const h = rep.filter((r) => r.ip_address.startsWith(pfx + "."))
@@ -294,7 +406,7 @@ if (rep.length) {
 }
 
 /* ---- 言えないこと ---- */
-L.push("## 7. この調査で言えないこと", "");
+L.push("## 8. この調査で言えないこと", "");
 L.push("- **ARTEX や sub2api が動いているかは確認していません。** 能動調査をしていないので、");
 L.push("  待ち受けているサービスも見ていません。利用者から渡された前提のままです");
 L.push("- **「攻撃に使われた時期」は確定しません。** さかのぼり投稿があるので、");
@@ -314,7 +426,7 @@ L.push("  差と呼べる数になりません");
 L.push("- 経路表（AS54600）の確認は 10-14 のもので、**今回再確認していません**。");
 L.push("  ただしクラスタの繋がりは利用者の観測（同じリチャージ URL）が根拠なので、これには依りません");
 L.push("");
-L.push("## 8. 次に打てる手（提案）", "");
+L.push("## 9. 次に打てる手（提案）", "");
 L.push("- ~~索引に登録して毎日追う~~ → **2026-11-06 に実装しました**（"
   + code("data/ioc/watch/") + "）。");
 L.push("  " + code("IN-R04") + " の通報に気付くまで 6 日かかったので、翌日に出るようにしました");
@@ -327,7 +439,7 @@ L.push("  兄弟ホストが他の帯にも居るなら、クラスタの広が�
 L.push("  " + code(".85〜.89") + " の 5 件が同じ命名規則なので、他にも並んでいる可能性があります");
 L.push("- 同じ AS54600 の他の帯を同じ手順で調べ、この 3 帯が特別かどうかを確かめる");
 L.push("");
-L.push("## 9. 残していないもの", "");
+L.push("## 10. 残していないもの", "");
 L.push("- " + code("reporterId") + " の値は保存していません（" + code("BR-R01") + " のような識別子に置き換え、");
 L.push("  同じ人かどうかだけが分かるようにしています）");
 L.push("- 通報コメントの原文は保存せず、無害化して短く切ったものと SHA-256 だけ残しています");

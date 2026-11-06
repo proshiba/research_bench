@@ -108,6 +108,177 @@
     "name": "sub2api-198.200.59.85",
     "note": "全 255 IP に sub2api があり、同じリチャージ URL (198.200.59.85) がセットされていると利用者が観測。うち 250 IP では ARTEX も起動している"
   },
+  "cluster_stats": {
+    "by_prefix": {
+      "198.200.59": {
+        "contiguous_runs": 1,
+        "feed_report_ips": 1,
+        "host_max": 85,
+        "host_min": 85,
+        "independent_report_ips": 1,
+        "ips": 5,
+        "pct": 20,
+        "too_small_for_pct": true,
+        "with_reports": 1
+      },
+      "38.11.173": {
+        "contiguous_runs": 14,
+        "feed_report_ips": 42,
+        "host_max": 123,
+        "host_min": 18,
+        "independent_report_ips": 4,
+        "ips": 125,
+        "pct": 36,
+        "too_small_for_pct": false,
+        "with_reports": 45
+      },
+      "38.11.221": {
+        "contiguous_runs": 17,
+        "feed_report_ips": 15,
+        "host_max": 123,
+        "host_min": 3,
+        "independent_report_ips": 4,
+        "ips": 125,
+        "pct": 15.2,
+        "too_small_for_pct": false,
+        "with_reports": 19
+      }
+    },
+    "categories_by_ip_count": {
+      "Exploited Host": 58,
+      "Hacking": 1,
+      "Port Scan": 1,
+      "Web App Attack": 9
+    },
+    "cumulative_by_day": [
+      {
+        "cumulative_ips": 1,
+        "cumulative_pct": 0.4,
+        "day": "2026-09-30",
+        "ips_that_day": 1
+      },
+      {
+        "cumulative_ips": 12,
+        "cumulative_pct": 4.7,
+        "day": "2026-10-17",
+        "ips_that_day": 11
+      },
+      {
+        "cumulative_ips": 13,
+        "cumulative_pct": 5.1,
+        "day": "2026-10-20",
+        "ips_that_day": 1
+      },
+      {
+        "cumulative_ips": 13,
+        "cumulative_pct": 5.1,
+        "day": "2026-10-23",
+        "ips_that_day": 1
+      },
+      {
+        "cumulative_ips": 44,
+        "cumulative_pct": 17.3,
+        "day": "2026-10-24",
+        "ips_that_day": 32
+      },
+      {
+        "cumulative_ips": 58,
+        "cumulative_pct": 22.7,
+        "day": "2026-10-27",
+        "ips_that_day": 14
+      },
+      {
+        "cumulative_ips": 65,
+        "cumulative_pct": 25.5,
+        "day": "2026-10-31",
+        "ips_that_day": 8
+      }
+    ],
+    "days_quiet_since_last_observation": 6,
+    "days_with_any_observation": 7,
+    "days_with_any_observation_pct": 21.9,
+    "distinct_reporters_cluster_wide": 4,
+    "feed_reporters": 1,
+    "first_observed": "2026-09-30",
+    "independent_reporters": 3,
+    "independent_reports_total": 10,
+    "ip_reporter_pairs_with_repeat": 0,
+    "ips_ever_reported": 65,
+    "ips_ever_reported_pct": 25.5,
+    "ips_in_cluster": 255,
+    "ips_never_reported": 190,
+    "ips_not_measured": 0,
+    "ips_reported_on_multiple_days": 2,
+    "ips_with_independent_report": 9,
+    "ips_with_independent_report_pct": 3.5,
+    "ips_with_more_than_one_report": 2,
+    "jp_reporters": 0,
+    "jp_reports": 0,
+    "last_observed": "2026-10-31",
+    "max_reporter_footprint_pct": 22.7,
+    "max_reports_on_one_ip": 3,
+    "note": "255 IP をひとまとまりとして見た数字。個別 IP の表とは数え方が違う（とくに通報者の数）",
+    "observation_window_days": 32,
+    "reporter_countries": {
+      "BR": 58,
+      "IN": 8,
+      "MY": 1,
+      "NL": 1
+    },
+    "reporter_footprints": [
+      {
+        "bulk_feed": true,
+        "country": "BR",
+        "ips": 58,
+        "pct_of_cluster": 22.7,
+        "reporter": "BR-R01",
+        "reports_per_ip": 1
+      },
+      {
+        "bulk_feed": false,
+        "country": "IN",
+        "ips": 8,
+        "pct_of_cluster": 3.1,
+        "reporter": "IN-R04",
+        "reports_per_ip": 1
+      },
+      {
+        "bulk_feed": false,
+        "country": "MY",
+        "ips": 1,
+        "pct_of_cluster": 0.4,
+        "reporter": "MY-R02",
+        "reports_per_ip": 1
+      },
+      {
+        "bulk_feed": false,
+        "country": "NL",
+        "ips": 1,
+        "pct_of_cluster": 0.4,
+        "reporter": "NL-R03",
+        "reports_per_ip": 1
+      }
+    ],
+    "reports_per_reported_ip": 1.05,
+    "reports_total": 68,
+    "score": {
+      "histogram": {
+        "0": 190,
+        "2": 42,
+        "3": 21,
+        "12": 1,
+        "16": 1
+      },
+      "ips_at_or_above_25": 0,
+      "ips_at_or_above_50": 0,
+      "ips_at_zero": 190,
+      "max": 16,
+      "median_all_255": 0,
+      "median_reported_only": 2,
+      "note": "スコアは通報が増えなくても時間で下がる。横に比べるときは取得日を揃えること",
+      "reported_but_zero": 0
+    }
+  },
   "collected_at_utc": "2026-11-06T00:11:34.802Z",
   "correction_note": "2026-11-06 に利用者の指摘で 2 クラスタから 1 クラスタへ訂正。38.11.173/221 側にも sub2api があり、同じリチャージ URL (198.200.59.85) がセットされている。役割は IP に付ける印で、クラスタではない",
   "dataset": "ARTEX_TIMELINE",
