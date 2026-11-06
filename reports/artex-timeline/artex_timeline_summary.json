@@ -1,14 +1,14 @@
 {
-  "baseline_collected_at_utc": "2026-10-14T05:21:34.943Z",
+  "baseline_collected_at_utc": null,
   "bulk_feeds": [
     {
       "category_names": "Exploited Host",
       "comment_excerpt": "ICS Labs threat intelligence (ICS Feeds): Exploited Host. Last observed 2026-10-17 UTC.",
       "country": "BR",
-      "days": "2026-10-17;2026-10-20;2026-10-24",
-      "distinct_ips": 44,
+      "days": "2026-10-17;2026-10-20;2026-10-24;2026-10-27",
+      "distinct_ips": 58,
       "reporter": "BR-R01",
-      "reports": 44
+      "reports": 58
     }
   ],
   "by_day": [
@@ -19,6 +19,8 @@
       "day": "2026-09-30",
       "distinct_ips": 1,
       "distinct_reporters": 1,
+      "independent_reports": 1,
+      "new_since_prev": 0,
       "reports": 1,
       "sub2api_ips": 1
     },
@@ -29,6 +31,8 @@
       "day": "2026-10-17",
       "distinct_ips": 11,
       "distinct_reporters": 1,
+      "independent_reports": 0,
+      "new_since_prev": 0,
       "reports": 11,
       "sub2api_ips": 0
     },
@@ -39,6 +43,8 @@
       "day": "2026-10-20",
       "distinct_ips": 1,
       "distinct_reporters": 1,
+      "independent_reports": 0,
+      "new_since_prev": 0,
       "reports": 1,
       "sub2api_ips": 0
     },
@@ -49,6 +55,8 @@
       "day": "2026-10-23",
       "distinct_ips": 1,
       "distinct_reporters": 1,
+      "independent_reports": 1,
+      "new_since_prev": 0,
       "reports": 1,
       "sub2api_ips": 1
     },
@@ -59,8 +67,34 @@
       "day": "2026-10-24",
       "distinct_ips": 32,
       "distinct_reporters": 1,
+      "independent_reports": 0,
+      "new_since_prev": 0,
       "reports": 32,
       "sub2api_ips": 1
+    },
+    {
+      "artex_ips": 14,
+      "category_names": "Exploited Host",
+      "clusters": "ARTEX",
+      "day": "2026-10-27",
+      "distinct_ips": 14,
+      "distinct_reporters": 1,
+      "independent_reports": 0,
+      "new_since_prev": 14,
+      "reports": 14,
+      "sub2api_ips": 0
+    },
+    {
+      "artex_ips": 8,
+      "category_names": "Web App Attack",
+      "clusters": "ARTEX",
+      "day": "2026-10-31",
+      "distinct_ips": 8,
+      "distinct_reporters": 1,
+      "independent_reports": 8,
+      "new_since_prev": 8,
+      "reports": 8,
+      "sub2api_ips": 0
     }
   ],
   "clusters": [
@@ -86,27 +120,100 @@
       "ranges": null
     }
   ],
-  "collected_at_utc": "2026-10-30T08:12:37.118Z",
+  "collected_at_utc": "2026-11-06T00:11:34.802Z",
   "dataset": "ARTEX_TIMELINE",
+  "date_field_semantics": {
+    "backdate_days_max": 7.32,
+    "backdate_days_median": 1.04,
+    "backdate_measurable_ips": 63,
+    "caveat": "さかのぼり投稿があるので、過去の日付の集計は確定しない。同じ日を後日引き直すと通報が増えうる（10-30 に 0 件だった 14 IP が 11-06 には 10-27 観測の通報を持っていた）",
+    "ips_with_reports": 65,
+    "last_reported_at": "AbuseIPDB が最後に通報を受け取った時刻（投稿日）。活動日ではない",
+    "observed_in_future": 0,
+    "reported_at": "通報者が申告した観測時刻。さかのぼれる。活動日として読むのはこちら",
+    "submitted_after_observed": 57,
+    "submitted_before_observed": 0
+  },
+  "feed_listing_vs_independent": {
+    "feed_listed_ips": 58,
+    "feed_listed_pct": 3.4,
+    "feed_listed_with_independent": 2,
+    "independent_ips_total": 9,
+    "not_listed_ips": 197,
+    "not_listed_pct": 3.6,
+    "not_listed_with_independent": 7,
+    "note": "この母集団だけの測定。他の母集団では別の結果が出うる",
+    "underpowered": true
+  },
   "fetch_window_days": 365,
   "generated_from": "写しのみ。API は呼んでいない",
+  "independent_reporters": [
+    {
+      "backdate_days_max": "0.00",
+      "category_names": "Web App Attack",
+      "clusters": "ARTEX",
+      "comment_excerpt": "Web application attack detected.",
+      "country": "IN",
+      "days": "2026-10-31",
+      "distinct_ips": 8,
+      "files_immediately": true,
+      "files_immediately_measured": true,
+      "reporter": "IN-R04",
+      "reports": 8,
+      "share_of_targets_pct": 3.1
+    },
+    {
+      "backdate_days_max": "",
+      "category_names": "Hacking;Web App Attack",
+      "clusters": "sub2api",
+      "comment_excerpt": "",
+      "country": "MY",
+      "days": "2026-10-23",
+      "distinct_ips": 1,
+      "files_immediately": false,
+      "files_immediately_measured": false,
+      "reporter": "MY-R02",
+      "reports": 1,
+      "share_of_targets_pct": 0.4
+    },
+    {
+      "backdate_days_max": "",
+      "category_names": "Hacking;Port Scan",
+      "clusters": "sub2api",
+      "comment_excerpt": "Connection to port 443 with data transfer. Data preview:",
+      "country": "NL",
+      "days": "2026-09-30",
+      "distinct_ips": 1,
+      "files_immediately": false,
+      "files_immediately_measured": false,
+      "reporter": "NL-R03",
+      "reports": 1,
+      "share_of_targets_pct": 0.4
+    }
+  ],
   "per_cluster": {
     "ARTEX": {
-      "baseline_available": 250,
-      "distinct_reporters": 1,
+      "baseline_available": 0,
+      "distinct_reporters": 2,
       "in_threat_index": 0,
       "ips": 250,
       "isp": {
         "Cogent Communications, LLC": 250
       },
       "jp_reports": 0,
-      "max_score_now": 3,
-      "newly_reported": 43,
+      "max_score_now": 12,
+      "new_independent_reports_since_prev": 8,
+      "new_reports_since_prev": 22,
+      "newly_reported": 0,
+      "newly_reported_since_prev": 21,
+      "prev_available": 250,
       "rdns_domains": {},
-      "total_reports_now": 43,
+      "total_reports_now": 65,
+      "with_independent_report": 8,
       "with_rdns": 0,
       "with_reports_baseline": 0,
-      "with_reports_now": 43
+      "with_reports_now": 64,
+      "with_reports_prev": 43
     },
     "sub2api": {
       "baseline_available": 0,
@@ -117,33 +224,69 @@
         "PEG TECH INC": 5
       },
       "jp_reports": 0,
-      "max_score_now": 18,
+      "max_score_now": 16,
+      "new_independent_reports_since_prev": 0,
+      "new_reports_since_prev": 0,
       "newly_reported": 0,
+      "newly_reported_since_prev": 0,
+      "prev_available": 5,
       "rdns_domains": {
         "visiblooths.net": 5
       },
       "total_reports_now": 3,
+      "with_independent_report": 1,
       "with_rdns": 5,
       "with_reports_baseline": 0,
-      "with_reports_now": 1
+      "with_reports_now": 1,
+      "with_reports_prev": 1
     }
   },
+  "prev_snapshot_date": "2026-10-30",
   "reporters": [
     {
+      "backdate_days_max": "7.32",
+      "backdate_days_median": "1.05",
+      "backdate_measurable_ips": 56,
       "category_names": "Exploited Host",
       "clusters": "ARTEX;sub2api",
       "comment_excerpt": "ICS Labs threat intelligence (ICS Feeds): Exploited Host. Last observed 2026-10-17 UTC.",
       "comment_shape": "ICS Labs threat intelligence (ICS Feeds): Exploited Host. Last observed <date> UTC.",
       "country": "BR",
-      "days": "2026-10-17;2026-10-20;2026-10-24",
+      "days": "2026-10-17;2026-10-20;2026-10-24;2026-10-27",
       "distinct_comment_shapes": 1,
-      "distinct_days": 3,
-      "distinct_ips": 44,
+      "distinct_days": 4,
+      "distinct_ips": 58,
+      "files_immediately": false,
+      "files_immediately_measured": true,
       "looks_like_bulk_feed": true,
       "reporter": "BR-R01",
-      "reports": 44
+      "reports": 58,
+      "share_of_targets_pct": 22.7
     },
     {
+      "backdate_days_max": "0.00",
+      "backdate_days_median": "0.00",
+      "backdate_measurable_ips": 7,
+      "category_names": "Web App Attack",
+      "clusters": "ARTEX",
+      "comment_excerpt": "Web application attack detected.",
+      "comment_shape": "Web application attack detected.",
+      "country": "IN",
+      "days": "2026-10-31",
+      "distinct_comment_shapes": 1,
+      "distinct_days": 1,
+      "distinct_ips": 8,
+      "files_immediately": true,
+      "files_immediately_measured": true,
+      "looks_like_bulk_feed": false,
+      "reporter": "IN-R04",
+      "reports": 8,
+      "share_of_targets_pct": 3.1
+    },
+    {
+      "backdate_days_max": "",
+      "backdate_days_median": "",
+      "backdate_measurable_ips": 0,
       "category_names": "Hacking;Web App Attack",
       "clusters": "sub2api",
       "comment_excerpt": "",
@@ -153,11 +296,17 @@
       "distinct_comment_shapes": 1,
       "distinct_days": 1,
       "distinct_ips": 1,
+      "files_immediately": false,
+      "files_immediately_measured": false,
       "looks_like_bulk_feed": false,
       "reporter": "MY-R02",
-      "reports": 1
+      "reports": 1,
+      "share_of_targets_pct": 0.4
     },
     {
+      "backdate_days_max": "",
+      "backdate_days_median": "",
+      "backdate_measurable_ips": 0,
       "category_names": "Hacking;Port Scan",
       "clusters": "sub2api",
       "comment_excerpt": "Connection to port 443 with data transfer. Data preview:",
@@ -167,28 +316,38 @@
       "distinct_comment_shapes": 1,
       "distinct_days": 1,
       "distinct_ips": 1,
+      "files_immediately": false,
+      "files_immediately_measured": false,
       "looks_like_bulk_feed": false,
       "reporter": "NL-R03",
-      "reports": 1
+      "reports": 1,
+      "share_of_targets_pct": 0.4
     }
   ],
   "reports": {
     "by_category": {
-      "Exploited Host": 44,
+      "Exploited Host": 58,
       "Hacking": 2,
       "Port Scan": 1,
-      "Web App Attack": 1
+      "Web App Attack": 9
     },
     "by_reporter_country": {
-      "BR": 44,
+      "BR": 58,
+      "IN": 8,
       "MY": 1,
       "NL": 1
     },
-    "distinct_ips": 44,
-    "distinct_reporters": 3,
+    "distinct_ips": 65,
+    "distinct_reporters": 4,
     "empty_comments": 1,
-    "first": "2026-09-30T12:55:25+00:00",
-    "last": "2026-10-24T00:05:25+00:00",
-    "total": 46
-  }
+    "first_observed": "2026-09-30T12:55:25+00:00",
+    "last_observed": "2026-10-31T05:35:53+00:00",
+    "last_submitted": "2026-11-04T01:50:35+00:00",
+    "new_since_prev": 22,
+    "new_since_prev_measured": true,
+    "total": 68
+  },
+  "snapshot_dates": [
+    "2026-10-30"
+  ]
 }

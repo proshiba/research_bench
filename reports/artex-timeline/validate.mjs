@@ -5,6 +5,20 @@
 //
 // この調査の結論は「通報が増えたが、中身は単一通報者の一括登録だった」なので、
 // **その主張が成り立つかを写しから計算し直す**のを重く見る。
+//
+// ## 2026-11-06 に 2 つの検査を書き換えた
+//
+// 元の検査は結論そのものを固定していた:
+//
+//     check(artexRids.size === 1, "ARTEX の通報はすべて単一の通報者")
+//     check(indep.every((e) => e.cluster === "sub2api"), "ARTEX には独立した通報が無い")
+//
+// 11-06 にこの 2 つが落ちた。**落ちたのが正しい。**ARTEX に初めてフィード以外の
+// 通報が付いたからである。検査が「10-30 時点の世界」を正しさとして焼き込んでいた。
+//
+// 事実が変わったら落ちるべき検査と、壊れたら落ちるべき検査は別物である。
+// 前者は**数え直して summary と突き合わせる**形に直した。後者（鍵が漏れていない、
+// reporterId が出ていない、並び順、合計の一致）はそのまま残す。
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -128,7 +142,10 @@ check(ridOf.size === S.reports.distinct_reporters, "通報者の数が summary �
   `${ridOf.size} / ${S.reports.distinct_reporters}`);
 const artexEv = E.rows.filter((e) => e.cluster === "ARTEX");
 const artexRids = new Set(artexEv.map((e) => e.reporter));
-check(artexRids.size === 1, "**ARTEX の通報はすべて単一の通報者**", `${artexRids.size} 人`);
+/** **人数を固定しない。**数え直して summary と合うかだけを見る。
+ *  以前は `=== 1` と書いていて、通報者が増えた日に落ちた */
+check(artexRids.size === S.per_cluster.ARTEX.distinct_reporters,
+  "ARTEX の通報者の数が summary と一致", `${artexRids.size} / ${S.per_cluster.ARTEX.distinct_reporters}`);
 check(S.bulk_feeds.length >= 1, "一括登録らしい通報者が検出されている");
 const feed = S.bulk_feeds[0];
 check(feed && artexRids.has(feed.reporter), "その通報者が ARTEX の通報者と同じ");
@@ -146,8 +163,32 @@ check(feedCats.size === 1 && feedCats.has("Exploited Host"),
   "その通報者のカテゴリは Exploited Host だけ", [...feedCats].join(","));
 const indep = E.rows.filter((e) => e.reporter !== feed?.reporter);
 check(indep.length === E.rows.length - (feed?.reports || 0), "一括登録以外の件数が合う");
-check(indep.every((e) => e.cluster === "sub2api"),
-  "**一括登録以外の通報はすべて sub2api 側**（= ARTEX には独立した通報が無い）");
+/** **どのクラスタに付いているかを固定しない。**数え直して summary と合うかを見る。
+ *  以前は「すべて sub2api 側」と書いていて、ARTEX に付いた日に落ちた */
+for (const cl of ["ARTEX", "sub2api"]) {
+  const ips = new Set(indep.filter((e) => e.cluster === cl).map((e) => e.ip_address));
+  check(ips.size === S.per_cluster[cl].with_independent_report,
+    `${cl}：フィード以外の通報がある IP の数が summary と一致`,
+    `${ips.size} / ${S.per_cluster[cl].with_independent_report}`);
+}
+check(S.independent_reporters.length === new Set(indep.map((e) => e.reporter)).size,
+  "フィード以外の通報者の一覧が通報の表と一致");
+/** フィードと被害者側を分けている根拠そのものを数え直す。
+ *  **ここが崩れたら 2 節の主張が崩れる** */
+const inFeed = S.independent_reporters.find((r) => r.files_immediately);
+if (inFeed) {
+  const his = P.rows.filter((r) => r.reporters === inFeed.reporter && bool(r.backdate_derivable));
+  check(his.length > 0 && his.every((r) => Number(r.backdate_days) < 1 / 24),
+    `**${inFeed.reporter} はさかのぼっていない**（観測と投稿のずれが全件 1 時間未満）`,
+    `${his.length} IP`);
+  check(Number(feed?.reports ? S.reporters.find((r) => r.reporter === feed.reporter)?.backdate_days_max : 0) > 1,
+    "**フィード側はさかのぼっている**（1 日超）",
+    String(S.reporters.find((r) => r.reporter === feed?.reporter)?.backdate_days_max));
+  check(inFeed.share_of_targets_pct
+    < Number(S.reporters.find((r) => r.reporter === feed?.reporter)?.share_of_targets_pct),
+    "フィードより対象が狭い（選択的である）",
+    `${inFeed.share_of_targets_pct}% / ${S.reporters.find((r) => r.reporter === feed?.reporter)?.share_of_targets_pct}%`);
+}
 
 console.log("\n== 時系列");
 check(D.rows.length === S.by_day.length, "日ごとの表の行数が summary と一致");
@@ -158,15 +199,90 @@ check(D.rows.reduce((s, r) => s + num(r.reports), 0) === E.rows.length,
 check(E.rows.every((e, i) => i === 0 || E.rows[i - 1].reported_at <= e.reported_at),
   "通報の表が時刻の昇順に並んでいる");
 check(E.rows.every((e, i) => num(e.seq) === i + 1), "seq が 1 から連番");
-// 「Last observed が通報日と同じ」の確認
+
+console.log("\n== 日付が 2 種類あること（観測 vs 投稿）");
+/** 本文の「Last observed」が `reportedAt` と一致する ＝ `reportedAt` は観測日。
+ *  **以前はこの一致を「独立した時系列情報を持たない」と読んでいた。逆だった。** */
 const lo = E.rows.filter((e) => /Last observed/.test(e.comment_excerpt));
 const loSame = lo.filter((e) => {
   const m = e.comment_excerpt.match(/Last observed (\d{4}-\d{2}-\d{2})/);
   return m && m[1] === e.day;
 });
 check(lo.length > 0 && loSame.length === lo.length,
-  "**Last observed の日付が通報日と全件一致**（独立した時系列情報を持たない）",
+  "**Last observed の日付が reportedAt と全件一致**（= reportedAt は通報者申告の観測日）",
   `${loSame.length} / ${lo.length}`);
+const Dd = S.date_field_semantics;
+check(Dd && Dd.ips_with_reports === P.rows.filter((r) => num(r.reports_now) > 0).length,
+  "通報がある IP の数が summary と一致");
+/** 投稿が観測より前に来た例があれば、2 つの意味づけが崩れる */
+const inverted = P.rows.filter((r) => r.last_observed_at && r.last_submitted_at
+  && Date.parse(r.last_submitted_at) < Date.parse(r.last_observed_at) - 1000);
+check(inverted.length === 0 && Dd.submitted_before_observed === 0,
+  "**投稿が観測より前になった IP が 0 件**（投稿 ≥ 観測の関係が崩れていない）",
+  inverted.slice(0, 3).map((r) => r.ip_address).join(" "));
+check(Dd.submitted_after_observed
+  === P.rows.filter((r) => r.last_observed_at && r.last_submitted_at
+    && Date.parse(r.last_submitted_at) > Date.parse(r.last_observed_at) + 1000).length,
+  "さかのぼりがある IP の数が summary と一致");
+/** 取得時刻より先の観測日は通報者の申告が壊れている印。**0 でなければ知らせる** */
+check(Dd.observed_in_future === 0, "取得時刻より先の観測日が無い", String(Dd.observed_in_future));
+check(P.rows.filter((r) => bool(r.backdate_derivable))
+  .every((r) => num(r.reports_now) === 1 && r.last_submitted_at && r.first_observed_at),
+  "**さかのぼりを算出したのは通報 1 件の IP だけ**（複数件では一対一に決まらない）");
+check(P.rows.filter((r) => !bool(r.backdate_derivable)).every((r) => r.backdate_days === ""),
+  "算出できない IP のさかのぼり欄は空（0 と書いていない）");
+check(R.rows.every((r) => bool(r.files_immediately_measured) || r.files_immediately === "false"),
+  "測れていない通報者の『見てすぐ出す』が true になっていない");
+
+console.log("\n== 前回のスナップショットとの差");
+const snapDir = path.join(HERE, "snapshots");
+check(fs.existsSync(snapDir), "snapshots/ がある（写しが消えても基準が残る）");
+/** **今回ぶんを「前回」に選んでいないか。**
+ *  選ぶと自分自身と比べて差分が全部 0 になる。2 回実行の md5 比較で一度踏んだ */
+check(S.prev_snapshot_date < String(S.collected_at_utc).slice(0, 10),
+  "**前回の基準が今回の取得日より前**（自分自身と比べていない）",
+  `基準 ${S.prev_snapshot_date} / 取得 ${String(S.collected_at_utc).slice(0, 10)}`);
+check(!S.snapshot_dates.includes(String(S.collected_at_utc).slice(0, 10)),
+  "候補のスナップショットに今回ぶんが混ざっていない", S.snapshot_dates.join(" "));
+check(S.prev_snapshot_date && P.rows.every((r) => r.prev_snapshot_date === S.prev_snapshot_date),
+  `前回の基準日が全行で揃っている（${S.prev_snapshot_date}）`);
+const prevCsv = S.prev_snapshot_date
+  ? path.join(snapDir, `${S.prev_snapshot_date}_by_ip.csv`) : null;
+check(prevCsv && fs.existsSync(prevCsv), "前回の by_ip CSV が読める");
+if (prevCsv && fs.existsSync(prevCsv)) {
+  const prevRows = parseCsv(fs.readFileSync(prevCsv, "utf8")).rows;
+  const pm = new Map(prevRows.map((r) => [r.ip_address, r]));
+  check(P.rows.filter((r) => bool(r.prev_available)).length === pm.size,
+    "前回の行がある IP の数が CSV と一致", `${P.rows.filter((r) => bool(r.prev_available)).length} / ${pm.size}`);
+  check(P.rows.filter((r) => bool(r.prev_available))
+    .every((r) => num(r.reports_prev) === num(pm.get(r.ip_address).reports_now)),
+    "**前回の通報数が前回の CSV から再現できる**");
+  const grew = P.rows.filter((r) => bool(r.newly_reported_since_prev));
+  check(grew.every((r) => num(r.reports_now) > 0 && num(r.reports_prev) === 0),
+    "前回ゼロから付いた行が「今 1 件以上 かつ 前回 0 件」を満たす");
+  check(grew.filter((r) => r.cluster === "ARTEX").length
+    === S.per_cluster.ARTEX.newly_reported_since_prev, "その数が summary と一致");
+}
+/** さかのぼり投稿の確認。**前回見えなかった通報は、投稿日が前回の取得より後ろ** */
+const newEv = E.rows.filter((e) => e.new_since_prev === "true");
+check(E.rows.every((e) => e.new_since_prev_measured === "true"),
+  "前回との突き合わせが全行で測れている（前回のイベント CSV がある）");
+check(newEv.length === S.reports.new_since_prev, "前回に無かった通報の数が summary と一致",
+  `${newEv.length} / ${S.reports.new_since_prev}`);
+const oldDated = newEv.filter((e) => e.day < S.prev_snapshot_date);
+check(oldDated.length > 0,
+  "**前回より古い観測日の通報が後から増えている**（= さかのぼり投稿が実在する）",
+  `${oldDated.length} 件`);
+/** その行の投稿日が前回の取得日以降であることまで確かめる。
+ *  そうでなければ「前回の取得が取りこぼした」ことになり、話が変わる */
+const missed = oldDated.filter((e) => {
+  const row = P.rows.find((r) => r.ip_address === e.ip_address);
+  return !row || !row.last_submitted_at
+    || row.last_submitted_at.slice(0, 10) < S.prev_snapshot_date;
+});
+check(missed.length === 0,
+  "**古い日付で増えた通報は投稿日が前回の取得以降**（前回の取得の取りこぼしではない）",
+  missed.slice(0, 3).map((e) => e.ip_address).join(" "));
 
 console.log("\n== 素性");
 check(P.rows.filter((r) => r.cluster === "sub2api").every((r) => r.hostnames),
@@ -202,9 +318,19 @@ check(/Exploited Host（カテゴリ 20）/.test(md) || /カテゴリ 20（Explo
 check(/通報が無いことは無害の証明ではありません/.test(md), "通報 0 を無害と言い換えていない");
 check(/ARTEX や sub2api が動いているかは確認していません/.test(md),
   "**ツールの稼働を確認したと書いていない**");
-check(/攻撃に使われた時期」は特定できていません/.test(md),
+check(/「攻撃に使われた時期」は確定しません/.test(md),
   "**時期を特定できたと書いていない**");
 check(/運用者の国籍や所属を示しません/.test(md), "所在地の解釈に注意を書いている");
+check(/レポーターの自己申告/.test(md), "カテゴリと観測時刻が自己申告だと書いている");
+check(/lastReportedAt` を活動日として図に載せてはいけません/.test(md),
+  "**投稿日を活動日として読むなと書いている**");
+check(/過去の日付の集計は確定しません/.test(md),
+  "**後日引き直すと過去の通報が増えると書いている**");
+check(/前回のレポートの誤り/.test(md), "**前回の誤りを明記している**");
+check(/今回は再確認していません/.test(md),
+  "今回確かめていない根拠（経路表）をそう書いている");
+check(new RegExp("reporterId` を蓄積する必要があり、方針で保存していません").test(md),
+  "通報者の全体傾向が分からない理由を書いている");
 
 console.log(failed ? `\n${failed} 件 NG` : "\nすべて通りました");
 process.exit(failed ? 1 : 0);
