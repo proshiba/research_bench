@@ -173,9 +173,23 @@ L.push("### カテゴリ（IP の数で数える）", "");
 L.push(T(["カテゴリ", "付いている IP", "クラスタの"],
   Object.entries(K.categories_by_ip_count).sort((a, b) => b[1] - a[1]).map(([c, n]) => [
     c, String(n), Number((100 * n / K.ips_in_cluster).toFixed(1)) + "%"])), "");
-L.push("**Exploited Host（20）は攻撃手法ではありません**（3 節）。攻撃手法として数えられるのは");
-L.push("Web App Attack（21）の " + (K.categories_by_ip_count["Web App Attack"] || 0) + " IP と、");
-L.push("Hacking（15）・Port Scan（14）の各 1 IP です。", "");
+L.push("**この表は足せません。** 1 つの IP に複数のカテゴリが付きます");
+L.push("（" + code("198.200.59.85") + " には 14・15・20・21 の 4 つ）。");
+L.push("足すと 11 になりますが、**重複しない IP は " + K.category_partition_by_ip.attack_technique_ips
+  + " 件**です。", "");
+L.push("重複しない区分で数え直すと:", "");
+L.push(T(["区分", "IP", "クラスタの"], [
+  ["**攻撃手法が付いている**（Web App Attack / Hacking など）",
+    "**" + K.category_partition_by_ip.attack_technique_ips + "**",
+    Number((100 * K.category_partition_by_ip.attack_technique_ips / K.ips_in_cluster).toFixed(1)) + "%"],
+  ["偵察のみ（Port Scan だけ）", String(K.category_partition_by_ip.reconnaissance_only_ips), "—"],
+  ["Exploited Host だけ", String(K.category_partition_by_ip.exploited_host_only_ips),
+    Number((100 * K.category_partition_by_ip.exploited_host_only_ips / K.ips_in_cluster).toFixed(1)) + "%"],
+  ["合計（= 通報がある IP）", String(K.category_partition_by_ip.sum), K.ips_ever_reported_pct + "%"],
+]), "");
+L.push("**Exploited Host（20）は攻撃手法ではありません**（3 節）。それだけが付いている "
+  + K.category_partition_by_ip.exploited_host_only_ips + " IP は");
+L.push("「この送信元自体が侵害されている可能性」を言っているだけで、攻撃を観測した記録ではありません。", "");
 
 L.push("### スコア（255 IP 全体の分布）", "");
 L.push(T(["スコア", "IP の数"], Object.entries(K.score.histogram).map(([v, n]) =>

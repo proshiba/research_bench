@@ -26,6 +26,7 @@ ABUSEIPDB_API_KEY=k node fetch.mjs   # **ここだけが外に出る**（255 件
 node build.mjs      # 写しから CSV と summary.json。API は呼ばない
 node report.mjs     # CSV から日本語レポート
 node validate.mjs   # 成果物を読み直して検査（118 項目）
+node deck.mjs       # クラスタ全体の統計を pptx にする（グラフ入り）
 
 # 再調査するときは写しの鮮度に注意（下記）
 ABUSEIPDB_API_KEY=k node fetch.mjs --refresh
@@ -45,6 +46,27 @@ ABUSEIPDB_API_KEY=k node fetch.mjs --refresh
 | 何として通報されたか | フィードぶんは **Exploited Host（20）だけ**。11-06 に付いたのは **Web App Attack（21）** |
 | リチャージ URL のホストは | **`198.200.59.85` が最初（09-30）で最多**（通報 3 件 / 通報者 3 人）。隣の `.86`〜`.89` は**一度も通報されていない**（ただし 4 IP では差と呼べない） |
 | 日本からの通報 | **0 件** |
+
+## スライド（pptx）
+
+`node deck.mjs` で `artex_timeline_deck.pptx` を作る。**成果物しか読まない。**
+数字は `artex_timeline_summary.json` と CSV から読み、ここで数え直さない
+（数え直すと、レポートと食い違ったときにどちらが正しいか分からなくなる）。
+
+必要なもの: `npm install -g pptxgenjs`。見つからなければ理由を言って止まる。
+
+グラフの系列色は 2 色だけ。**フィードの一括登録 `#2E6B9E` と被害者側の観測
+`#B3202C`** で、この調査の要点をそのまま色にしている。dataviz の検証器に通してあり、
+明度帯・彩度の下限・色覚の分離（最悪 ΔE 18.5 deutan）・通常視の下限（ΔE 26.5）・
+地に対するコントラストがすべて PASS。「通報なし」は系列ではなく**軌道**として
+薄い灰で描く（灰を系列にすると彩度の下限を割り、分離が測れない）。
+
+### pptx だけはバイト一致しない
+
+他の成果物は同じ写しから同じバイト列が出るが、pptx は出ない。2 回生成して
+中を比べると、違うのは **生成時刻（`docProps/core.xml`）と節のランダムな GUID
+（`ppt/presentation.xml`）だけ**で、スライドの中身・グラフのデータ・文言は一致する。
+pptxgenjs 側の作りで止められない。**検査でハッシュを比べないこと。**
 
 ## クラスタ全体の統計（2026-11-06 時点）
 

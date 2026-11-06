@@ -298,6 +298,18 @@ check(Object.entries(K.categories_by_ip_count).every(([c, n]) =>
 "カテゴリごとの IP 数が通報の表から再現できる");
 check(Object.values(K.categories_by_ip_count).every((n) => n <= K.ips_in_cluster),
   "カテゴリごとの IP 数が母数を超えていない");
+/** **カテゴリごとの数は足せない。**重複しない区分が通報がある IP に一致するか */
+const CP = K.category_partition_by_ip;
+check(CP.sum === K.ips_ever_reported,
+  "**カテゴリの重複しない区分の合計が通報がある IP に等しい**",
+  `${CP.sum} / ${K.ips_ever_reported}`);
+check(CP.attack_technique_ips + CP.reconnaissance_only_ips + CP.exploited_host_only_ips === CP.sum,
+  "区分の内訳が合計に等しい");
+check(CP.attack_technique_ips
+  <= Object.values(K.categories_by_ip_count).reduce((a, b) => a + b, 0),
+"攻撃手法の IP 数がカテゴリごとの合計を超えていない（重複を足していない印）");
+check(/この表は足せません/.test(md) || md === "",
+  "**カテゴリの表が足せないと書いている**");
 
 console.log("\n== 時系列");
 check(D.rows.length === S.by_day.length, "日ごとの表の行数が summary と一致");

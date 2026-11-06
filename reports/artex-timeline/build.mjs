@@ -519,6 +519,38 @@ const clusterStats = (() => {
       uniq(events.flatMap((e) => e.category_names.split(";")).filter(Boolean)).sort()
         .map((c) => [c, uniq(events.filter((e) => e.category_names.split(";").includes(c))
           .map((e) => e.ip_address)).length])),
+    /**
+     * **カテゴリごとの IP 数は足せない。**1 つの IP に複数のカテゴリが付く。
+     *
+     * 実測: 198.200.59.85 には 14・15・20・21 が付き、38.11.173.107 には 20 と 21。
+     * カテゴリごとの数を足すと 11 になるが、**重複しない IP は 9 件**。
+     * 足して読まれないよう、重複しない区分をここで出す。
+     */
+    category_partition_by_ip: (() => {
+      const catsOf = (ip) => new Set(events.filter((e) => e.ip_address === ip)
+        .flatMap((e) => e.category_ids.split(";")).filter(Boolean).map(Number));
+      const repIpList = repIps.map((r) => r.ip_address);
+      const technique = repIpList.filter((ip) => {
+        const c = catsOf(ip);
+        return [...c].some((x) => x !== 20 && x !== 14);
+      });
+      const scanOnly = repIpList.filter((ip) => {
+        const c = catsOf(ip);
+        return c.has(14) && ![...c].some((x) => x !== 20 && x !== 14);
+      });
+      const auxOnly = repIpList.filter((ip) => {
+        const c = catsOf(ip);
+        return c.size > 0 && [...c].every((x) => x === 20);
+      });
+      return {
+        attack_technique_ips: technique.length,
+        reconnaissance_only_ips: scanOnly.length,
+        exploited_host_only_ips: auxOnly.length,
+        /** **区分の合計が「通報がある IP」に一致すること。**検査が確かめる */
+        sum: technique.length + scanOnly.length + auxOnly.length,
+        note: "重複しない区分。カテゴリごとの IP 数（categories_by_ip_count）は足せない",
+      };
+    })(),
     /* ---- スコア（255 全体の分布。通報がある IP だけではない） ---- */
     score: {
       max: scores[scores.length - 1] ?? 0,
