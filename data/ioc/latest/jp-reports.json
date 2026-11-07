@@ -1,7 +1,7 @@
 {
   "by_kind": {
     "その他": 19,
-    "侵入（範囲広い）": 17,
+    "侵入（範囲広い）": 18,
     "脆弱性狙い": 55,
     "認証狙い": 29,
     "走査のみ": 34
@@ -202,15 +202,15 @@
     "ポートスキャン": 91,
     "メールスパム": 6,
     "不正ボット": 35,
-    "侵入": 37,
+    "侵入": 38,
     "総当たり": 59,
     "詐欺注文": 1,
     "踏み台": 2
   },
-  "jp_reported": 154,
+  "jp_reported": 155,
   "jp_reported_with_actor": 60,
   "jp_reporter_distribution": {
-    "1": 85,
+    "1": 86,
     "2": 27,
     "3": 16,
     "4": 7,
@@ -224,7 +224,7 @@
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 825,
+    "reported_ips": 839,
     "unmeasured": 0
   },
   "rows": [
@@ -1809,7 +1809,8 @@
         "Storm-0940"
       ],
       "articles": [
-        "article:20261023#6"
+        "article:20261023#6",
+        "article:20261107#10"
       ],
       "auth": [],
       "broad": [],
@@ -4342,6 +4343,35 @@
     },
     {
       "actors": [],
+      "articles": [
+        "article:20261107#10"
+      ],
+      "auth": [],
+      "broad": [
+        "侵入"
+      ],
+      "country": "SG",
+      "ioc": "ioc.ipv4|45.87.53.6",
+      "ip": "45.87.53.6",
+      "isp": "HongKong Starfax Limited",
+      "jp_categories": [
+        "侵入"
+      ],
+      "jp_last": "2026-06-18",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "侵入（範囲広い）",
+      "malware": [],
+      "reporters": 4,
+      "reports": 4,
+      "roles": [],
+      "score": 11,
+      "strict": [],
+      "usage_type": "Fixed Line ISP"
+    },
+    {
+      "actors": [],
       "articles": [],
       "auth": [],
       "broad": [
@@ -5300,7 +5330,7 @@
     ],
     [
       "SG",
-      6
+      7
     ],
     [
       "JP",
