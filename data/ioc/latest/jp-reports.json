@@ -3,7 +3,7 @@
     "その他": 19,
     "侵入（範囲広い）": 18,
     "脆弱性狙い": 55,
-    "認証狙い": 29,
+    "認証狙い": 31,
     "走査のみ": 34
   },
   "clustered_24": [
@@ -194,37 +194,37 @@
     "DDoS": 6,
     "IoT 狙い": 1,
     "SQL インジェクション": 10,
-    "SSH": 34,
+    "SSH": 36,
     "Web アプリ攻撃": 52,
     "Web スパム": 17,
     "オープンプロキシ": 23,
     "フィッシング": 4,
-    "ポートスキャン": 91,
+    "ポートスキャン": 92,
     "メールスパム": 6,
     "不正ボット": 35,
     "侵入": 38,
-    "総当たり": 59,
+    "総当たり": 61,
     "詐欺注文": 1,
     "踏み台": 2
   },
-  "jp_reported": 155,
+  "jp_reported": 157,
   "jp_reported_with_actor": 60,
   "jp_reporter_distribution": {
-    "1": 86,
+    "1": 88,
     "2": 27,
     "3": 16,
     "4": 7,
     "5+": 19
   },
   "marks": {
-    "hosting": 138,
+    "hosting": 139,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 839,
+    "reported_ips": 845,
     "unmeasured": 0
   },
   "rows": [
@@ -4494,6 +4494,36 @@
     },
     {
       "actors": [],
+      "articles": [],
+      "auth": [
+        "SSH",
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "HK",
+      "hosting": true,
+      "ioc": "ioc.ipv4|20.255.63.133",
+      "ip": "20.255.63.133",
+      "isp": "Microsoft Corporation",
+      "jp_categories": [
+        "SSH",
+        "総当たり"
+      ],
+      "jp_last": "2026-11-07",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "認証狙い",
+      "malware": [],
+      "reporters": 3,
+      "reports": 3,
+      "roles": [],
+      "score": 18,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
       "articles": [
         "article:20261008#11"
       ],
@@ -4551,6 +4581,36 @@
       "score": 22,
       "strict": [],
       "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [],
+      "auth": [
+        "SSH",
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "ES",
+      "ioc": "ioc.ipv4|79.116.138.30",
+      "ip": "79.116.138.30",
+      "isp": "Digi Spain Telecom",
+      "jp_categories": [
+        "SSH",
+        "ポートスキャン",
+        "総当たり"
+      ],
+      "jp_last": "2026-11-06",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "認証狙い",
+      "malware": [],
+      "reporters": 50,
+      "reports": 58,
+      "roles": [],
+      "score": 100,
+      "strict": [],
+      "usage_type": "Fixed Line ISP"
     },
     {
       "actors": [],
@@ -5322,7 +5382,7 @@
     ],
     [
       "HK",
-      8
+      9
     ],
     [
       "FR",
