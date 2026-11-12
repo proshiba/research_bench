@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// ARTEX_38_11 — 指定された 250 IP の**レピュテーションの写しを取る工程**。
+// ARTEX_38_11 — 指定されたクラスタの**レピュテーションの写しを取る工程**。
 // **ここだけが外に出る。** 取ったものは .cache/ に置き、分析は写しからしか読まない。
 //
 //   ABUSEIPDB_API_KEY=k VT_API_KEYS=k1,k2 node fetch.mjs [--abuse] [--vt] [--plan]
@@ -22,10 +22,25 @@
 //
 // AbuseIPDB は `maxAgeInDays=365` で引く。90 日の窓は写しから切り出せるが、
 // その逆はできない。**広く取って狭める。**
+//
+// ## 対象の宣言は持たない（2026-11-12 に直した）
+//
+// 元はここに `RANGES` と `HOST_RANGE` を書いていた。2026-11-06 に利用者の指摘で
+// 「ARTEX と sub2api は別クラスタではなく、同じリチャージ URL を持つ 1 つの
+// クラスタ（255 IP）」と訂正が入ったとき、**この工程だけ 250 IP のまま
+// 取り残された**。宣言を 2 箇所に持てば必ずこうなる。
+//
+// `data/ioc/watch/watchlist.json` を唯一の出所として読む。
+//
+// ## 写しの鮮度を見る
+//
+// 元は「写しがあれば引かない」だけだった。レピュテーションは時間で変わるので、
+// 古い写しを読み直すと**「変化なし」という嘘**が出る。既定 20 時間で古いと見る。
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { expandWatchlist } from "../../tools/ioc/lib/watch.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const CACHE = path.join(HERE, ".cache");
@@ -38,12 +53,37 @@ const DO_VT = has("--vt") || (!has("--abuse") && !has("--vt"));
 
 /* ---------------- 対象 ---------------- */
 
-const targets = [];
-for (const r of CFG.RANGES) {
-  const base = r.split("/")[0].split(".").slice(0, 3).join(".");
-  for (let i = CFG.HOST_RANGE[0]; i <= CFG.HOST_RANGE[1]; i++) targets.push(`${base}.${i}`);
-}
-console.log(`対象 ${targets.length} IP（${CFG.RANGES.join(" / ")} の .${CFG.HOST_RANGE[0]}〜.${CFG.HOST_RANGE[1]}）`);
+const ROOT = path.resolve(HERE, "../..");
+const WL = JSON.parse(fs.readFileSync(path.resolve(ROOT, CFG.WATCHLIST), "utf8"));
+const decl = expandWatchlist(WL);
+/**
+ * **対照群。**宣言の外にある近隣 IP。
+ *
+ * 「この 255 IP が怪しい」のか「この界隈が丸ごと載っている」のかは、
+ * 対象だけ見ても分からない。実測で VT の SOCRadar が 255/255 全部に
+ * 付けていた（＝個別 IP の情報を持たない帯単位の掲載）。
+ * 宣言の外にも同じように付いているなら、それは界隈の話である。
+ */
+const control = (CFG.CONTROL_IPS || []).filter((ip) => !decl.some((t) => t.ip === ip));
+const targets = [...decl.map((t) => t.ip), ...control];
+const byRole = {};
+for (const t of decl) for (const r of t.roles) byRole[r] = (byRole[r] || 0) + 1;
+console.log(`対象 ${decl.length} IP（宣言 ${CFG.WATCHLIST} / クラスタ ${WL.clusters[0].name}）`
+  + (control.length ? ` + 対照群 ${control.length} IP` : ""));
+console.log(`  役割 ${JSON.stringify(byRole)}`);
+
+/** 写しが古いか。**鮮度を見ないと「変化なし」という嘘が出る** */
+const freshFor = (kind) => Number(
+  kind === "virustotal" ? (CFG.VT_MAX_AGE_HOURS || 20) : (CFG.ABUSE_MAX_AGE_HOURS || 20));
+const stale = (kind, ip) => {
+  const f = slot(kind, ip);
+  if (!fs.existsSync(f)) return true;
+  try {
+    const r = JSON.parse(fs.readFileSync(f, "utf8"));
+    const t = Date.parse(r.fetched_at || r.checked_at || 0);
+    return !Number.isFinite(t) || Date.now() - t > freshFor(kind) * 3600000;
+  } catch { return true; }
+};
 
 const sha = (s) => crypto.createHash("sha256").update(s).digest("hex");
 const slot = (kind, ip) => {
@@ -57,8 +97,8 @@ const save = (kind, ip, rec) => {
   fs.writeFileSync(f, JSON.stringify(rec, null, 1) + "\n");
 };
 
-const needAbuse = targets.filter((ip) => !saved("abuseipdb", ip));
-const needVt = targets.filter((ip) => !saved("virustotal", ip));
+const needAbuse = targets.filter((ip) => stale("abuseipdb", ip));
+const needVt = targets.filter((ip) => stale("virustotal", ip));
 console.log(`  AbuseIPDB: 写し済み ${targets.length - needAbuse.length} / 引くのは ${needAbuse.length}`);
 console.log(`  VirusTotal: 写し済み ${targets.length - needVt.length} / 引くのは ${needVt.length}`);
 if (PLAN) { console.log("  → 引かずに終わります（--plan）"); process.exit(0); }

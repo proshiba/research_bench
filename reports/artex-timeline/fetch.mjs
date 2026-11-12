@@ -32,7 +32,12 @@ import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const CACHE = path.join(HERE, ".cache", "abuseipdb");
+const ROOT = path.resolve(HERE, "../..");
 const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "config.json"), "utf8"));
+const WL = JSON.parse(fs.readFileSync(path.resolve(ROOT, CFG.WATCHLIST), "utf8"));
+/** **対象の宣言は持たない。**監視の watchlist.json が唯一の出所 */
+const CLUSTER_DECL = WL.clusters[0];
+
 const PLAN = process.argv.includes("--plan");
 const REFRESH = process.argv.includes("--refresh");
 const MAX_AGE_H = (() => {
@@ -50,7 +55,7 @@ const MAX_AGE_H = (() => {
  */
 export const targets = [];
 const roleByIp = new Map();
-for (const g of CFG.GROUPS) {
+for (const g of CLUSTER_DECL.groups) {
   const roles = g.roles || [];
   const push = (ip) => {
     if (roleByIp.has(ip)) {
@@ -59,7 +64,7 @@ for (const g of CFG.GROUPS) {
       cur.roles = [...new Set([...cur.roles, ...roles])].sort();
       return;
     }
-    const rec = { ip, cluster: CFG.CLUSTER.name, roles: [...new Set(roles)].sort() };
+    const rec = { ip, cluster: CLUSTER_DECL.name, roles: [...new Set(roles)].sort() };
     roleByIp.set(ip, rec);
     targets.push(rec);
   };

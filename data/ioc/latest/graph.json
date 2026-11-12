@@ -36103,7 +36103,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.029,
+      "ratio": 0.024,
       "shared": 1,
       "source": "malware:Amadey",
       "strength": 3,
@@ -36251,6 +36251,18 @@
       "source": "malware:Amatera",
       "strength": 3,
       "target": "malware:NetSupport Manager",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.083,
+      "shared": 1,
+      "source": "malware:Amatera",
+      "strength": 3,
+      "target": "malware:Sliver",
       "via": [
         "registered"
       ],
@@ -38840,7 +38852,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.083,
+      "ratio": 0.063,
       "shared": 1,
       "source": "malware:BTMOB",
       "strength": 1,
@@ -39200,6 +39212,18 @@
       "source": "malware:BambooToken",
       "strength": 1,
       "target": "malware:Showboat",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:BambooToken",
+      "strength": 1,
+      "target": "malware:Sliver",
       "via": [
         "jarm"
       ],
@@ -39702,7 +39726,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.083,
+      "ratio": 0.063,
       "shared": 1,
       "source": "malware:BirdCall",
       "strength": 1,
@@ -43286,7 +43310,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.029,
+      "ratio": 0.024,
       "shared": 1,
       "source": "malware:CountLoader",
       "strength": 3,
@@ -43754,7 +43778,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.167,
+      "ratio": 0.125,
       "shared": 2,
       "source": "malware:Cyclops Blink",
       "strength": 1,
@@ -46064,7 +46088,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.029,
+      "ratio": 0.024,
       "shared": 1,
       "source": "malware:EtherRAT",
       "strength": 1,
@@ -50412,7 +50436,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.029,
+      "ratio": 0.024,
       "shared": 1,
       "source": "malware:Lunex",
       "strength": 3,
@@ -53092,6 +53116,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "malware:NetSupport Manager",
+      "strength": 3,
+      "target": "malware:Sliver",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.01,
       "shared": 1,
       "source": "malware:NetSupport Manager",
@@ -53224,7 +53260,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.029,
+      "ratio": 0.024,
       "shared": 1,
       "source": "malware:Node.js Backdoor",
       "strength": 3,
@@ -56638,7 +56674,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.4,
+      "ratio": 0.341,
       "shared": 14,
       "source": "malware:ScreenConnect",
       "strength": 22,
@@ -56666,7 +56702,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.083,
+      "ratio": 0.063,
       "shared": 1,
       "source": "malware:ScreenConnect RMM",
       "strength": 1,
@@ -58043,7 +58079,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-11-11T00:03:12.459Z",
+  "generated_from": "2026-11-12T00:04:35.373Z",
   "nodes": [
     {
       "id": "actor:3AM ransomware affiliate",
@@ -62205,7 +62241,7 @@
     },
     {
       "id": "malware:ScreenConnect",
-      "ioc_count": 35,
+      "ioc_count": 41,
       "kind": "malware",
       "name": "ScreenConnect"
     },
@@ -62313,7 +62349,7 @@
     },
     {
       "id": "malware:Sliver",
-      "ioc_count": 12,
+      "ioc_count": 16,
       "kind": "malware",
       "name": "Sliver"
     },

@@ -1,27 +1,34 @@
 {
   "abuseipdb": {
-    "ips_with_any_report_365d": 0,
-    "ips_with_score_above_0": 0,
-    "max_score": 0,
+    "ips_with_any_report_365d": 112,
+    "ips_with_score_above_0": 112,
+    "max_score": 15,
     "research_scanner": 0,
     "tor": 0,
-    "total_reports_365d": 0,
+    "total_reports_365d": 117,
     "whitelisted": 0
   },
   "by_range": {
+    "198.200.59.0/24": {
+      "ips": 5,
+      "with_certificate": 0,
+      "with_detection": 5,
+      "with_jp_report": 0,
+      "with_report": 1
+    },
     "38.11.173.0/24": {
       "ips": 125,
       "with_certificate": 21,
-      "with_detection": 31,
+      "with_detection": 125,
       "with_jp_report": 0,
-      "with_report": 0
+      "with_report": 67
     },
     "38.11.221.0/24": {
       "ips": 125,
       "with_certificate": 25,
-      "with_detection": 27,
+      "with_detection": 125,
       "with_jp_report": 0,
-      "with_report": 0
+      "with_report": 44
     }
   },
   "certificates": {
@@ -364,21 +371,484 @@
       }
     ]
   },
-  "collected_at_utc": "2026-10-14T05:21:34.943Z",
+  "cluster": "sub2api-198.200.59.85",
+  "collected_at_utc": "2026-11-12T00:58:12.040Z",
+  "control": {
+    "available": true,
+    "by_engine": {
+      "AlphaSOC": {
+        "cluster": 81,
+        "cluster_pct": 31.8,
+        "control": 0,
+        "control_pct": 0,
+        "control_too_small_for_pct": false
+      },
+      "ArcSight Threat Intelligence": {
+        "cluster": 3,
+        "cluster_pct": 1.2,
+        "control": 0,
+        "control_pct": 0,
+        "control_too_small_for_pct": false
+      },
+      "CRDF": {
+        "cluster": 42,
+        "cluster_pct": 16.5,
+        "control": 0,
+        "control_pct": 0,
+        "control_too_small_for_pct": false
+      },
+      "CyRadar": {
+        "cluster": 1,
+        "cluster_pct": 0.4,
+        "control": 0,
+        "control_pct": 0,
+        "control_too_small_for_pct": false
+      },
+      "Forcepoint ThreatSeeker": {
+        "cluster": 188,
+        "cluster_pct": 73.7,
+        "control": 0,
+        "control_pct": 0,
+        "control_too_small_for_pct": false
+      },
+      "Fortinet": {
+        "cluster": 198,
+        "cluster_pct": 77.6,
+        "control": 0,
+        "control_pct": 0,
+        "control_too_small_for_pct": false
+      },
+      "GreyNoise": {
+        "cluster": 1,
+        "cluster_pct": 0.4,
+        "control": 0,
+        "control_pct": 0,
+        "control_too_small_for_pct": false
+      },
+      "Gridinsoft": {
+        "cluster": 41,
+        "cluster_pct": 16.1,
+        "control": 0,
+        "control_pct": 0,
+        "control_too_small_for_pct": false
+      },
+      "SOCRadar": {
+        "cluster": 255,
+        "cluster_pct": 100,
+        "control": 0,
+        "control_pct": 0,
+        "control_too_small_for_pct": false
+      },
+      "Seclookup": {
+        "cluster": 2,
+        "cluster_pct": 0.8,
+        "control": 0,
+        "control_pct": 0,
+        "control_too_small_for_pct": false
+      },
+      "URLQuery": {
+        "cluster": 10,
+        "cluster_pct": 3.9,
+        "control": 0,
+        "control_pct": 0,
+        "control_too_small_for_pct": false
+      },
+      "alphaMountain.ai": {
+        "cluster": 201,
+        "cluster_pct": 78.8,
+        "control": 2,
+        "control_pct": 9.1,
+        "control_too_small_for_pct": false
+      }
+    },
+    "cluster_malicious_median": 4,
+    "comparable": {
+      "as_owners_cluster": [
+        "PEG TECH INC"
+      ],
+      "as_owners_control": [
+        "PEG TECH INC"
+      ],
+      "engines_evaluated_median_cluster": 92,
+      "engines_evaluated_median_control": 92,
+      "with_vt_record": 22
+    },
+    "control_malicious_median": 0,
+    "control_with_abuse_report": 0,
+    "control_with_detection": 2,
+    "in_use_signals": {
+      "cluster_certificate_last_seen_median": "2025-06-21",
+      "cluster_with_certificate": 46,
+      "cluster_with_certificate_pct": 18,
+      "control_certificate_last_seen_median": "2026-08-18",
+      "control_with_certificate": 14,
+      "control_with_certificate_pct": 63.6,
+      "note": "ARTEX は 8787/tcp なので、443 の証明書は ARTEX ではなく別の用途の痕跡。対照群が空き住所ではないことを示す材料であって、現在稼働の証明ではない"
+    },
+    "ips": 22,
+    "note": "宣言の外にある近隣 IP。『この 255 IP が怪しい』のか『この界隈が丸ごと載っている』のかを分けるための対照群。クラスタは各 /25 の .1〜.125 なので、同じ /24 の .126 以降は宣言の外にある。能動調査はしない点は対象と同じ",
+    "rows": [
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": false,
+        "has_rdns": false,
+        "ip": "38.11.173.130",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": false,
+        "has_rdns": false,
+        "ip": "38.11.173.150",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2025-03-12",
+        "engines_evaluated": 92,
+        "flagged_by": "alphaMountain.ai",
+        "has_certificate": true,
+        "has_rdns": false,
+        "ip": "38.11.173.170",
+        "malicious": 0,
+        "suspicious": 1,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": false,
+        "has_rdns": false,
+        "ip": "38.11.173.190",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2026-10-10",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": false,
+        "ip": "38.11.173.210",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2024-04-06",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": false,
+        "ip": "38.11.173.230",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2024-04-06",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": false,
+        "ip": "38.11.173.250",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2026-11-11",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": false,
+        "ip": "38.11.221.130",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2026-10-28",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": false,
+        "ip": "38.11.221.150",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2023-12-21",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": false,
+        "ip": "38.11.221.170",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2023-12-30",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": false,
+        "ip": "38.11.221.190",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2023-12-30",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": false,
+        "ip": "38.11.221.210",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2026-08-18",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": false,
+        "ip": "38.11.221.230",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2023-12-21",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": false,
+        "ip": "38.11.221.250",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": false,
+        "has_rdns": false,
+        "ip": "38.11.172.10",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": false,
+        "has_rdns": false,
+        "ip": "38.11.172.100",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "",
+        "engines_evaluated": 92,
+        "flagged_by": "alphaMountain.ai",
+        "has_certificate": false,
+        "has_rdns": false,
+        "ip": "38.11.174.10",
+        "malicious": 1,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2026-08-24",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": false,
+        "ip": "38.11.174.100",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2026-11-08",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": true,
+        "ip": "198.200.59.10",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "2026-10-28",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": true,
+        "has_rdns": true,
+        "ip": "198.200.59.50",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": false,
+        "has_rdns": true,
+        "ip": "198.200.59.120",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      },
+      {
+        "abuse_reports": 0,
+        "abuse_score": 0,
+        "as_owner": "PEG TECH INC",
+        "certificate_last_seen": "",
+        "engines_evaluated": 92,
+        "flagged_by": "",
+        "has_certificate": false,
+        "has_rdns": true,
+        "ip": "198.200.59.200",
+        "malicious": 0,
+        "suspicious": 0,
+        "vt_record": true
+      }
+    ]
+  },
   "coverage": {
-    "abuseipdb_checked": 250,
+    "abuseipdb_checked": 255,
     "abuseipdb_missing": 0,
-    "targets": 250,
-    "virustotal_checked": 250,
+    "targets": 255,
+    "virustotal_checked": 255,
     "virustotal_missing": 0,
     "virustotal_unknown_404": 0
   },
   "dataset": "ARTEX_38_11",
+  "declared_in": "data/ioc/watch/watchlist.json",
   "fetch_window_days": 365,
   "generated_from": "写しのみ。API は呼んでいない",
-  "host_range": [
-    1,
-    125
+  "groups": [
+    {
+      "explicit": null,
+      "note": "8787 に ARTEX、sub2api あり。.0/.126/.127 を除く",
+      "ranges": [
+        "38.11.173.0/25",
+        "38.11.221.0/25"
+      ],
+      "roles": [
+        "artex",
+        "sub2api"
+      ]
+    },
+    {
+      "explicit": [
+        "198.200.59.85"
+      ],
+      "note": "リチャージ URL のホスト自身。198.200.59.85 は自分を指している。ここでも 8787 に ARTEX",
+      "ranges": null,
+      "roles": [
+        "artex",
+        "sub2api",
+        "recharge_host"
+      ]
+    },
+    {
+      "explicit": [
+        "198.200.59.86",
+        "198.200.59.87",
+        "198.200.59.88",
+        "198.200.59.89"
+      ],
+      "note": "リチャージ URL のホストと同じ /29。ここでも 8787 に ARTEX",
+      "ranges": null,
+      "roles": [
+        "artex",
+        "sub2api"
+      ]
+    }
   ],
   "infrastructure": {
     "cert_issuers": {
@@ -389,22 +859,24 @@
       "US R3 Let's Encrypt": 3
     },
     "country": {
-      "US": 250
+      "US": 255
     },
     "isp": {
-      "Cogent Communications, LLC": 250
+      "Cogent Communications, LLC": 250,
+      "PEG TECH INC": 5
     },
     "usage_type": {
-      "Data Center/Web Hosting/Transit": 250
+      "Data Center/Web Hosting/Transit": 255
     },
     "vt_as": {
-      "AS54600 PEG TECH INC": 250
+      "AS54600 PEG TECH INC": 255
     },
     "vt_network": {
+      "198.200.32.0/19": 5,
       "38.11.160.0/19": 125,
       "38.11.192.0/19": 125
     },
-    "with_rdns": 0
+    "with_rdns": 5
   },
   "japan": {
     "ips_with_any_jp_report_365d": 0,
@@ -412,18 +884,62 @@
     "ips_with_jp_vuln_report_90d": 0,
     "total_jp_reports_365d": 0
   },
-  "ranges": [
-    "38.11.173.0/24",
-    "38.11.221.0/24"
-  ],
+  "per_role": {
+    "artex": {
+      "detected_pct": 100,
+      "ips": 255,
+      "max_malicious": 7,
+      "max_score": 15,
+      "reported_pct": 43.9,
+      "too_small_for_pct": false,
+      "with_detection": 255,
+      "with_report": 112
+    },
+    "recharge_host": {
+      "detected_pct": null,
+      "ips": 1,
+      "max_malicious": 5,
+      "max_score": 15,
+      "reported_pct": null,
+      "too_small_for_pct": true,
+      "with_detection": 1,
+      "with_report": 1
+    },
+    "sub2api": {
+      "detected_pct": 100,
+      "ips": 255,
+      "max_malicious": 7,
+      "max_score": 15,
+      "reported_pct": 43.9,
+      "too_small_for_pct": false,
+      "with_detection": 255,
+      "with_report": 112
+    }
+  },
   "report_window": {
     "days": 90,
-    "end_utc": "2026-10-14T05:21:34Z",
-    "start_utc": "2026-07-16T05:21:34Z"
+    "end_utc": "2026-11-12T00:58:12Z",
+    "start_utc": "2026-08-14T00:58:12Z"
   },
   "threat_index": {
     "already_present": 0,
     "prior_artex_certificates": [
+      {
+        "iocs": [
+          "ioc.ipv4|104.250.149.212"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "artexmx.org",
+        "thumbprint": "575701c5e6477bf3a4a34a5815ebea4eb2a297e930347a1586e8ca2faf1cf202"
+      },
+      {
+        "iocs": [
+          "ioc.ipv4|101.42.4.91"
+        ],
+        "issuer": "ARTEX",
+        "subject": "101.42.4.91",
+        "thumbprint": "8774c87cf71ee6ee8fb0a97ebf8282905ec49cd2600c13d4db833dc9ec8316b8"
+      },
       {
         "iocs": [
           "ioc.ipv4|38.244.50.120"
@@ -431,31 +947,58 @@
         "issuer": "ARTEX",
         "subject": "38.244.50.120",
         "thumbprint": "c7a884afcd7f91408921890d9617bef6bfac3dae992bc25bb9c48c0395a60842"
+      },
+      {
+        "iocs": [
+          "ioc.domain|artex.nhhh.de"
+        ],
+        "issuer": "Let's Encrypt",
+        "subject": "artex.nhhh.de",
+        "thumbprint": "c7dd281a3a1ffd725b81d157db2dfeb9a9f10dde36b4577775f1a36ca7fa187b"
       }
     ],
     "with_actor": 0
   },
   "verdicts": {
-    "日本以外からの通報・検知あり": 58,
-    "通報・検知なし（無害の証明ではない）": 192
+    "日本以外からの通報・検知あり": 255
   },
   "virustotal": {
     "ips_with_artex_in_certificate": 0,
     "ips_with_certificate": 46,
-    "ips_with_detection": 58,
-    "max_malicious": 2,
+    "ips_with_detection": 255,
+    "max_malicious": 7,
     "reputation_below_0": 1
   },
+  "vs_baseline": {
+    "abuse_reports_up": 111,
+    "abuse_score_up": 111,
+    "available": true,
+    "baseline_date": "2026-10-14",
+    "baseline_ips": 250,
+    "ips_in_both": 250,
+    "ips_new_since_baseline": 5,
+    "newly_detected": 196,
+    "newly_reported": 111,
+    "vt_malicious_down": 0,
+    "vt_malicious_up": 244
+  },
   "vt_detection_engines": {
-    "AlphaSOC [suspicious]": 7,
-    "CRDF [malicious]": 35,
-    "Gridinsoft [suspicious]": 40,
-    "SOCRadar [suspicious]": 34,
-    "Seclookup [malicious]": 1,
-    "URLQuery [suspicious]": 7,
-    "alphaMountain.ai [malicious/phishing]": 11,
-    "alphaMountain.ai [malicious]": 4,
-    "alphaMountain.ai [suspicious]": 7
+    "AlphaSOC [suspicious]": 81,
+    "ArcSight Threat Intelligence [malicious/malware]": 3,
+    "CRDF [malicious]": 42,
+    "CyRadar [malicious]": 1,
+    "Forcepoint ThreatSeeker [malicious]": 188,
+    "Fortinet [malicious/malware]": 198,
+    "GreyNoise [malicious]": 1,
+    "Gridinsoft [suspicious]": 41,
+    "SOCRadar [malicious/phishing]": 5,
+    "SOCRadar [malicious]": 212,
+    "SOCRadar [suspicious]": 38,
+    "Seclookup [malicious]": 2,
+    "URLQuery [suspicious]": 10,
+    "alphaMountain.ai [malicious/phishing]": 7,
+    "alphaMountain.ai [malicious]": 183,
+    "alphaMountain.ai [suspicious]": 13
   },
   "vt_freshness": {
     "by_date": {
@@ -487,6 +1030,6 @@
     ],
     "threshold_month": "2026-09",
     "with_certificate": 0,
-    "with_detection": 3
+    "with_detection": 15
   }
 }
