@@ -52,6 +52,10 @@ import { CATEGORIES, sanitize, forDisplay, sha256, uniq, iso } from "../global-j
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "../..");
 const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "config.json"), "utf8"));
+const WL = JSON.parse(fs.readFileSync(path.resolve(ROOT, CFG.WATCHLIST), "utf8"));
+/** **対象の宣言は持たない。**監視の watchlist.json が唯一の出所 */
+const CLUSTER_DECL = WL.clusters[0];
+
 
 const load = (base) => {
   const m = new Map();
@@ -72,7 +76,15 @@ const load = (base) => {
 };
 const now = load(path.join(HERE, ".cache", "abuseipdb"));
 /** 2026-10-14 の調査で取った写し。**比較の基準**になる */
-const baseline = load(path.resolve(ROOT, CFG.BASELINE));
+/**
+ * 10-14 の写しによる基準。**既定では使わない。**
+ *
+ * 元は `artex-38-11/.cache/abuseipdb` を指していたが、あちらは生きた
+ * キャッシュで引き直される。2026-11-12 に引き直された時点で、今日の写しを
+ * 「10-14 の基準」と表示してしまった。**他の工程のキャッシュを基準にしない。**
+ * 比較は `snapshots/` の CSV で行う（git に残るため）。
+ */
+const baseline = CFG.BASELINE ? load(path.resolve(ROOT, CFG.BASELINE)) : new Map();
 if (!now.size) {
   console.error("写しがありません。先に fetch.mjs を実行してください。");
   process.exit(1);
@@ -87,12 +99,12 @@ if (!now.size) {
  */
 const declOf = (() => {
   const m = new Map();
-  for (const g of CFG.GROUPS || []) {
+  for (const g of CLUSTER_DECL.groups || []) {
     const roles = g.roles || [];
     const push = (ip) => {
       const cur = m.get(ip);
       if (cur) { cur.roles = [...new Set([...cur.roles, ...roles])].sort(); return; }
-      m.set(ip, { cluster: CFG.CLUSTER.name, roles: [...new Set(roles)].sort() });
+      m.set(ip, { cluster: CLUSTER_DECL.name, roles: [...new Set(roles)].sort() });
     };
     for (const ip of g.explicit || []) push(ip);
     for (const r of g.ranges || []) {
@@ -622,8 +634,8 @@ const summary = {
   prev_snapshot_date: prevSnap ? prevSnap.date : null,
   snapshot_dates: snapshots.map((s) => s.date),
   /** **1 つのクラスタ。**役割は IP に付ける印でクラスタではない */
-  cluster: { name: CFG.CLUSTER.name, note: CFG.CLUSTER.note },
-  groups: (CFG.GROUPS || []).map((g) => ({ roles: g.roles, note: g.note,
+  cluster: { name: CLUSTER_DECL.name, note: CLUSTER_DECL.note },
+  groups: (CLUSTER_DECL.groups || []).map((g) => ({ roles: g.roles, note: g.note,
     ranges: g.ranges || null, explicit: g.explicit || null })),
   correction_note: CFG.NOTE || null,
   /** **255 IP をひとまとまりとして見た統計。**個別 IP の表とは数え方が違う */

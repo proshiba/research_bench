@@ -26,6 +26,10 @@ import { fileURLToPath } from "node:url";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "../..");
 const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "config.json"), "utf8"));
+const WL = JSON.parse(fs.readFileSync(path.resolve(ROOT, CFG.WATCHLIST), "utf8"));
+/** **対象の宣言は持たない。**監視の watchlist.json が唯一の出所 */
+const CLUSTER_DECL = WL.clusters[0];
+
 
 function parseCsv(text) {
   if (text.charCodeAt(0) === 0xfeff) text = text.slice(1);
@@ -78,7 +82,15 @@ const load = (base) => {
   return m;
 };
 const now = load(path.join(HERE, ".cache", "abuseipdb"));
-const baseline = load(path.resolve(ROOT, CFG.BASELINE));
+/**
+ * 10-14 の写しによる基準。**既定では使わない。**
+ *
+ * 元は `artex-38-11/.cache/abuseipdb` を指していたが、あちらは生きた
+ * キャッシュで引き直される。2026-11-12 に引き直された時点で、今日の写しを
+ * 「10-14 の基準」と表示してしまった。**他の工程のキャッシュを基準にしない。**
+ * 比較は `snapshots/` の CSV で行う（git に残るため）。
+ */
+const baseline = CFG.BASELINE ? load(path.resolve(ROOT, CFG.BASELINE)) : new Map();
 
 console.log("== 対象が揃っているか");
 /**
@@ -89,7 +101,7 @@ console.log("== 対象が揃っているか");
  */
 const want = new Set();
 const wantRoles = new Map();
-for (const g of CFG.GROUPS) {
+for (const g of CLUSTER_DECL.groups) {
   const roles = g.roles || [];
   const push = (ip) => {
     want.add(ip);
@@ -110,8 +122,8 @@ check([...want].every((ip) => P.rows.some((r) => r.ip_address === ip)), "指定�
 check(now.size === want.size, "写しの数が対象の数と一致", `${now.size} / ${want.size}`);
 /** **クラスタは 1 つ。**分かれていたら設定を疑う */
 const clusters = [...new Set(P.rows.map((r) => r.cluster))];
-check(clusters.length === 1 && clusters[0] === CFG.CLUSTER.name,
-  `**クラスタが 1 つ**（${CFG.CLUSTER.name}）`, clusters.join(" "));
+check(clusters.length === 1 && clusters[0] === CLUSTER_DECL.name,
+  `**クラスタが 1 つ**（${CLUSTER_DECL.name}）`, clusters.join(" "));
 /** 役割は設定から再現できるか。**件数を固定しない** */
 check(P.rows.every((r) => (wantRoles.get(r.ip_address) || []).join(";") === r.roles),
   "**役割が設定から再現できる**",
@@ -124,7 +136,7 @@ check(Object.keys(S.per_role).length === Object.keys(roleCount).length
 "役割ごとの IP 数が設定から再現できる", JSON.stringify(roleCount));
 /** 役割は写しではなく設定から来ているか。**写しには古い宣言が入っている** */
 check([...now.values()].some((r) => r.cluster === "ARTEX" || r.cluster === "sub2api")
-  ? P.rows.every((r) => r.cluster === CFG.CLUSTER.name) : true,
+  ? P.rows.every((r) => r.cluster === CLUSTER_DECL.name) : true,
 "**写しに古いクラスタ名が残っていても成果物は設定に従っている**");
 /** 母数が小さい役割に印が出ているか */
 check(Object.values(S.per_role).every((v) => v.too_small_for_pct === (v.ips < 10)),
@@ -161,7 +173,7 @@ check(withBase.every((r) => {
 check(withBase.every((r) => num(r.reports_baseline) === 0),
   "**基準日は全件が通報 0 件**（これが「増えた」の土台）");
 const newly = P.rows.filter((r) => bool(r.newly_reported));
-check(newly.length === S.per_cluster[CFG.CLUSTER.name].newly_reported, "新しく通報が付いた数が summary と一致");
+check(newly.length === S.per_cluster[CLUSTER_DECL.name].newly_reported, "新しく通報が付いた数が summary と一致");
 check(newly.every((r) => num(r.reports_now) > 0 && num(r.reports_baseline) === 0),
   "新しく付いた行は「今 1 件以上 かつ 基準日 0 件」を満たす");
 /** 10-14 の調査は artex の 250 IP だけが対象だった。198.200.59.x は入っていない */
@@ -203,9 +215,9 @@ check(indep.length === E.rows.length - (feed?.reports || 0), "一括登録以外
  *  以前は「すべて sub2api 側」と書いていて、ARTEX に付いた日に落ちた。
  *  クラスタは 1 つになったので、全体と役割ごとの両方を突き合わせる */
 check(new Set(indep.map((e) => e.ip_address)).size
-  === S.per_cluster[CFG.CLUSTER.name].with_independent_report,
+  === S.per_cluster[CLUSTER_DECL.name].with_independent_report,
 "フィード以外の通報がある IP の数が summary と一致",
-`${new Set(indep.map((e) => e.ip_address)).size} / ${S.per_cluster[CFG.CLUSTER.name].with_independent_report}`);
+`${new Set(indep.map((e) => e.ip_address)).size} / ${S.per_cluster[CLUSTER_DECL.name].with_independent_report}`);
 for (const role of Object.keys(S.per_role)) {
   const ips = new Set(indep.filter((e) => e.roles.split(";").includes(role))
     .map((e) => e.ip_address));
@@ -381,7 +393,7 @@ if (prevCsv && fs.existsSync(prevCsv)) {
   const grew = P.rows.filter((r) => bool(r.newly_reported_since_prev));
   check(grew.every((r) => num(r.reports_now) > 0 && num(r.reports_prev) === 0),
     "前回ゼロから付いた行が「今 1 件以上 かつ 前回 0 件」を満たす");
-  check(grew.length === S.per_cluster[CFG.CLUSTER.name].newly_reported_since_prev, "その数が summary と一致");
+  check(grew.length === S.per_cluster[CLUSTER_DECL.name].newly_reported_since_prev, "その数が summary と一致");
 }
 /** さかのぼり投稿の確認。**前回見えなかった通報は、投稿日が前回の取得より後ろ** */
 const newEv = E.rows.filter((e) => e.new_since_prev === "true");
@@ -408,8 +420,15 @@ console.log("\n== 素性");
 const rch = P.rows.filter((r) => r.ip_address.startsWith("198.200.59."));
 check(rch.length === 5 && rch.every((r) => r.hostnames),
   "198.200.59.x は 5 件すべて rDNS を持つ");
-check(P.rows.filter((r) => r.roles.split(";").includes("artex")).every((r) => !r.hostnames),
-  "artex の 250 件はすべて rDNS が空");
+/**
+ * rDNS の有無は**帯の性質**であって役割ではない。
+ * 元は `artex` の役割で切っていたが、2026-11-12 に artex が全 255 IP へ広がった
+ * 時点で落ちた（198.200.59.85-89 は rDNS を持つ）。**帯で切る。**
+ */
+check(P.rows.filter((r) => r.ip_address.startsWith("38.11.")).every((r) => !r.hostnames),
+  "38.11.x の 250 件はすべて rDNS が空",
+  P.rows.filter((r) => r.ip_address.startsWith("38.11.") && r.hostnames)
+    .slice(0, 3).map((r) => r.ip_address).join(" "));
 check(rch.every((r) => r.hostnames.endsWith("visiblooths.net")),
   "198.200.59.x の rDNS はすべて visiblooths.net の下");
 check(P.rows.every((r) => !bool(r.in_threat_index)), "クラスタ全体が脅威情報の索引に無い");

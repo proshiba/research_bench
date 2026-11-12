@@ -13,7 +13,7 @@
   ],
   "by_day": [
     {
-      "artex_ips": 0,
+      "artex_ips": 1,
       "category_names": "Hacking;Port Scan",
       "clusters": "sub2api-198.200.59.85",
       "day": "2026-09-30",
@@ -52,7 +52,7 @@
       "sub2api_only_ips": 0
     },
     {
-      "artex_ips": 0,
+      "artex_ips": 1,
       "category_names": "Hacking;Web App Attack",
       "clusters": "sub2api-198.200.59.85",
       "day": "2026-10-23",
@@ -65,7 +65,7 @@
       "sub2api_only_ips": 0
     },
     {
-      "artex_ips": 31,
+      "artex_ips": 32,
       "category_names": "Exploited Host",
       "clusters": "sub2api-198.200.59.85",
       "day": "2026-10-24",
@@ -106,7 +106,7 @@
   ],
   "cluster": {
     "name": "sub2api-198.200.59.85",
-    "note": "全 255 IP に sub2api があり、同じリチャージ URL (198.200.59.85) がセットされていると利用者が観測。うち 250 IP では ARTEX も起動している"
+    "note": "全 255 IP で 8787/tcp に ARTEX が上がっており、sub2api があり、同じリチャージ URL (198.200.59.85) がセットされている。**1 つのクラスタ**。名前は変えていない（他の成果物が同じ名前で宣言しているため）"
   },
   "cluster_stats": {
     "by_prefix": {
@@ -287,7 +287,7 @@
     }
   },
   "collected_at_utc": "2026-11-06T00:11:34.802Z",
-  "correction_note": "2026-11-06 に利用者の指摘で 2 クラスタから 1 クラスタへ訂正。38.11.173/221 側にも sub2api があり、同じリチャージ URL (198.200.59.85) がセットされている。役割は IP に付ける印で、クラスタではない",
+  "correction_note": "対象の宣言は持たない。data/ioc/watch/watchlist.json を唯一の出所として読む。宣言を複数箇所に持つと訂正から取り残される。実際 2026-11-06 の 1 クラスタ化で artex-38-11 が、2026-11-12 の『全 255 IP で 8787 に ARTEX』で artex-timeline が取り残された",
   "dataset": "ARTEX_TIMELINE",
   "date_field_semantics": {
     "backdate_days_max": 7.32,
@@ -317,23 +317,24 @@
   "groups": [
     {
       "explicit": null,
-      "note": "ARTEX も起動していると利用者が観測した範囲。.0/.126/.127 を除く",
+      "note": "8787 に ARTEX、sub2api あり。.0/.126/.127 を除く",
       "ranges": [
         "38.11.173.0/25",
         "38.11.221.0/25"
       ],
       "roles": [
-        "sub2api",
-        "artex"
+        "artex",
+        "sub2api"
       ]
     },
     {
       "explicit": [
         "198.200.59.85"
       ],
-      "note": "リチャージ URL のホスト自身。198.200.59.85 は自分を指している",
+      "note": "リチャージ URL のホスト自身。198.200.59.85 は自分を指している。ここでも 8787 に ARTEX",
       "ranges": null,
       "roles": [
+        "artex",
         "sub2api",
         "recharge_host"
       ]
@@ -345,9 +346,10 @@
         "198.200.59.88",
         "198.200.59.89"
       ],
-      "note": "リチャージ URL のホストと同じ /29 に並ぶ sub2api。ARTEX は観測されていない",
+      "note": "リチャージ URL のホストと同じ /29。ここでも 8787 に ARTEX",
       "ranges": null,
       "roles": [
+        "artex",
         "sub2api"
       ]
     }
@@ -426,16 +428,16 @@
   },
   "per_role": {
     "artex": {
-      "ips": 250,
+      "ips": 255,
       "jp_reports": 0,
-      "max_score_now": 12,
-      "reported_pct": 25.6,
+      "max_score_now": 16,
+      "reported_pct": 25.5,
       "too_small_for_pct": false,
-      "total_reports_now": 65,
-      "with_independent_report": 8,
-      "with_rdns": 0,
-      "with_reports_now": 64,
-      "with_reports_prev": 43
+      "total_reports_now": 68,
+      "with_independent_report": 9,
+      "with_rdns": 5,
+      "with_reports_now": 65,
+      "with_reports_prev": 44
     },
     "recharge_host": {
       "ips": 1,

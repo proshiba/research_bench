@@ -204,7 +204,10 @@ for (const ip of targets) {
     vt_tags: (va?.tags || []).join(";"),
     vt_first_seen: va?.first_seen_date ? iso(new Date(va.first_seen_date * 1000)) : "",
     vt_last_analysis: va?.last_analysis_date ? iso(new Date(va.last_analysis_date * 1000)) : "",
-    /* ---- 証明書（前回の ARTEX はここから見つかった） ---- */
+    /* ---- 証明書（443 の痕跡。**ARTEX は 8787 なので別物**） ---- */
+    /** VT が最後にその証明書を見た日。**使われている形跡を測る材料** */
+    cert_last_seen: va?.last_https_certificate_date
+      ? iso(new Date(va.last_https_certificate_date * 1000)).slice(0, 10) : "",
     cert_issuer: va?.last_https_certificate
       ? Object.values(va.last_https_certificate.issuer || {}).join(" ") : "",
     cert_subject_cn: va?.last_https_certificate?.subject?.CN || "",
@@ -337,6 +340,11 @@ const summary = {
         vt_record: !!va,
         engines_evaluated: Object.keys(res).length,
         as_owner: va?.as_owner || "",
+        /** **使われている形跡。**「白いのは空き住所だからでは」を潰すために測る */
+        has_certificate: !!va?.last_https_certificate,
+        certificate_last_seen: va?.last_https_certificate_date
+          ? iso(new Date(va.last_https_certificate_date * 1000)).slice(0, 10) : "",
+        has_rdns: !!(b?.hostnames || []).length,
         malicious: va?.last_analysis_stats?.malicious ?? 0,
         suspicious: va?.last_analysis_stats?.suspicious ?? 0,
         flagged_by: Object.entries(res)
@@ -360,6 +368,32 @@ const summary = {
         as_owners_control: uniq(cRows.map((r) => r.as_owner)).filter(Boolean),
         as_owners_cluster: uniq(rows.map((r) => r.vt_as_owner)).filter(Boolean),
       },
+      /**
+       * **対照群が「使われている」か。**
+       *
+       * 白い理由が「空き住所」なら比較にならない。443 の証明書を最近まで
+       * 見せているなら、少なくとも何かが動いていた住所である。
+       * ARTEX は 8787 なので、**443 の証明書は ARTEX とは別の用途**を指す。
+       * 実測（2026-11-12）: 対照群は 22 件中 14 件が証明書を持ち中央値は
+       * 2026-08、クラスタは 255 件中 47 件で中央値 2025-06。
+       * **対照群のほうが 443 では生きている。**
+       */
+      in_use_signals: (() => {
+        const cCert = cRows.filter((r) => r.has_certificate);
+        const kCert = rows.filter((r) => r.cert_issuer);
+        const med = (a) => { const x = a.slice().sort(); return x.length ? x[Math.floor(x.length / 2)] : null; };
+        return {
+          control_with_certificate: cCert.length,
+          control_with_certificate_pct: cRows.length
+            ? Number((100 * cCert.length / cRows.length).toFixed(1)) : null,
+          control_certificate_last_seen_median: med(cCert.map((r) => r.certificate_last_seen).filter(Boolean)),
+          cluster_with_certificate: kCert.length,
+          cluster_with_certificate_pct: Number((100 * kCert.length / rows.length).toFixed(1)),
+          cluster_certificate_last_seen_median: med(rows.map((r) => r.cert_last_seen).filter(Boolean)),
+          note: "ARTEX は 8787/tcp なので、443 の証明書は ARTEX ではなく別の用途の痕跡。"
+            + "対照群が空き住所ではないことを示す材料であって、現在稼働の証明ではない",
+        };
+      })(),
       control_with_detection: cRows.filter((r) => r.malicious + r.suspicious > 0).length,
       control_with_abuse_report: cRows.filter((r) => r.abuse_reports > 0).length,
       control_malicious_median: med(cRows.map((r) => r.malicious)),
