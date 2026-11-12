@@ -21,29 +21,43 @@ const T = (head, body) => [
 ].join("\n");
 
 const L = [];
-L.push("# ARTEX_38_11 — 指定 250 IP のレピュテーション調査", "");
+L.push("# " + S.cluster + " — " + S.coverage.targets + " IP のレピュテーション調査", "");
 L.push("> **この文書は Claude（AI）が自動生成したものです。人の確認を前提としてください。**", "");
-L.push("対象は " + S.ranges.map(code).join(" と ") + " の "
-  + code("." + S.host_range[0] + "〜." + S.host_range[1]) + "（" + S.coverage.targets + " IP）。");
-L.push("**ペンテスト用ツール ARTEX が動いている**との情報を前提に、レピュテーションを調べたものです。", "");
+L.push("**1 つのクラスタです。** 対象は " + code(S.declared_in) + " の宣言（"
+  + S.coverage.targets + " IP）。", "");
+L.push(T(["役割", "対象"], S.groups.map((g) => [g.roles.map(code).join(" "),
+  g.ranges ? g.ranges.map(code).join(" と ") + " の " + code(".1〜.125") : g.explicit.map(code).join(" ")])), "");
+L.push("**ペンテスト用ツール ARTEX が動いている**（250 IP）、**sub2api があり同じリチャージ URL が");
+L.push("セットされている**（全 255 IP）との利用者の観測を前提に、レピュテーションを調べたものです。", "");
 L.push("**対象 IP への接続・走査・認証試行は一切行っていません。** ポートスキャンもせず、HTTP も叩かず、");
 L.push("ping も打っていません。AbuseIPDB と VirusTotal、公開レジストリの情報だけを見ています。", "");
 
 /* ---- 結論を先に ---- */
 L.push("## 0. 結論", "");
+const B = S.vs_baseline, CT = S.control;
+L.push("**前回（" + B.baseline_date + "）から大きく変わりました。**", "");
 L.push(T(["問い", "答え"], [
-  ["**日本向けの攻撃観測はあるか**", "**AbuseIPDB 上には 1 件も無い**（" + S.coverage.targets + " IP 全件）"],
-  ["AbuseIPDB の通報は", "**0 件**。スコアも全件 0"],
-  ["VirusTotal の検知は", S.virustotal.ips_with_detection + " IP にあるが、**最大 "
-    + S.virustotal.max_malicious + " エンジン**。feed の癖の域"],
+  ["**日本向けの攻撃観測はあるか**", "**AbuseIPDB 上には 1 件も無い**（" + S.coverage.targets + " IP 全件、前回と同じ）"],
+  ["AbuseIPDB の通報は", "**" + S.abuseipdb.ips_with_any_report_365d + " IP に付いた**（前回 0 件）。"
+    + "最大スコア " + S.abuseipdb.max_score + "。新しく通報が付いたのは " + B.newly_reported + " IP"],
+  ["VirusTotal の検知は", "**" + S.virustotal.ips_with_detection + " IP**（前回 58 IP）。"
+    + "悪性エンジンの最大 " + S.virustotal.max_malicious + "（前回 2）。新しく検知が付いたのは " + B.newly_detected + " IP"],
+  ["それは帯ごと載せられただけか", "**違う。**宣言の外の近隣 " + CT.ips + " IP では検知 "
+    + CT.control_with_detection + " 件・通報 " + CT.control_with_abuse_report + " 件（§5）"],
   ["ARTEX の痕跡は", "**証明書には無い**（" + S.certificates.count + " 件調べて 0 件）"],
   ["素性は", "Cogent の " + code("38.0.0.0/8") + " を **AS54600 PEG TECH INC** が借りた帯。下位割当の登録なし"],
-  ["唯一の構造的な手がかり", "**15 IP が規則的な格子に乗って 2026-10-01 前後に VT へ現れた**（§4）"],
 ]), "");
-L.push("### 「通報 0」は無害の証明ではありません", "");
-L.push("これが意味するのは「**誰も通報していない**」ことだけです。次のどれもありえます。", "");
+L.push("### 4 週間で「白」から「広く印が付いた」へ", "");
+L.push("前回は通報 0・検知も最大 2 エンジンで、**立てたばかりの基盤の見た目**でした。");
+L.push("今回は通報が " + S.abuseipdb.ips_with_any_report_365d + " IP、悪性エンジンの中央値が "
+  + CT.cluster_malicious_median + " です。", "");
+L.push("**ただし通報の中身は薄いままです。** 通報がある IP の大半が 1 件だけで、最大スコアも "
+  + S.abuseipdb.max_score + " です。");
+L.push("数が増えたのは「多くの観測者が見た」ではなく「**多くの IP に 1 件ずつ付いた**」形です。", "");
+L.push("### 「通報 0」は無害の証明ではありません（前回の注意は今も有効）", "");
+L.push("日本からの通報は今回も 0 件ですが、これが意味するのは「**日本の観測者がまだ通報していない**」");
+L.push("ことだけです。次のどれもありえます。", "");
 L.push("- ペンテスト用ツールの正当な利用で、通報される行為をしていない");
-L.push("- 通報される前の段階にある（**立てたばかりの攻撃基盤は、まさにこの見た目になります**）");
 L.push("- 攻撃先が AbuseIPDB に通報する習慣を持たない");
 L.push("- 観測されているが通報されていない");
 L.push("");
@@ -56,7 +70,9 @@ L.push("```");
 L.push("193.32.204.199   HTTP 200 | スコア 100 | 通報 5297 | レポーター 971 | reports 配列 5297");
 L.push("38.11.173.54     HTTP 200 | スコア   0 | 通報    0 | レポーター   0 | reports 配列    0");
 L.push("```");
-L.push("**0 件は本物です。**", "");
+L.push("**（これは " + B.baseline_date + " の確認。当時の 0 件は本物でした。）**");
+L.push("今回は通報が " + S.abuseipdb.ips_with_any_report_365d + " IP に付いているので、");
+L.push("計測器が黙っているのではないことは結果そのものから分かります。", "");
 L.push(T(["項目", "件数"], [
   ["対象", String(S.coverage.targets)],
   ["AbuseIPDB を引けた", String(S.coverage.abuseipdb_checked)],
@@ -76,8 +92,11 @@ L.push(T(["項目", "件数"], [
   ["日本からの通報の総数", String(S.japan.total_jp_reports_365d)],
 ]), "");
 L.push("**日本からの通報は 1 件もありません。** ただしこれは「日本を狙っていない」ではなく、");
-L.push("「**日本の観測者がまだ通報していない**」という意味です。そもそも世界中の誰からも");
-L.push("通報が無いので、日本に限った話ではありません。", "");
+L.push("「**日本の観測者がまだ通報していない**」という意味です。", "");
+L.push("前回は世界中の誰からも通報が無かったので「日本に限った話ではない」と書きましたが、");
+L.push("**今はそうではありません。** 世界では " + S.abuseipdb.ips_with_any_report_365d
+  + " IP に通報が付いており、");
+L.push("その中に日本の観測者が 1 人も居ない、という状態です。", "");
 L.push("なお " + code("reporterCountryCode") + " が言えるのは「通報した人が日本に居る」ことだけで、");
 L.push("攻撃先が日本であることは意味しません。日本に観測者が多いだけでも同じ数字になります。", "");
 
@@ -132,17 +151,45 @@ if (F.same_host_numbers_but_old.length) {
 }
 
 /* ---- VT 検知 ---- */
-L.push("## 5. VirusTotal の検知は証拠として弱い", "");
-L.push(S.virustotal.ips_with_detection + " IP に検知が付いていますが、**最大でも "
-  + S.virustotal.max_malicious + " エンジン**です（評価は約 90 エンジン）。内訳:", "");
-L.push(T(["エンジン [判定]", "件数"], Object.entries(S.vt_detection_engines)
-  .map(([k, v]) => [safe(k, 54), String(v)])), "");
-L.push("**Gridinsoft・CRDF・SOCRadar・alphaMountain.ai に集中**しています。");
-L.push("この 4 つは帯単位で広く印を付ける feed で、1〜2 エンジンだけの判定は");
-L.push("**その IP についての証拠ではなく、feed の癖**と読むべきものです。", "");
-L.push("証明書を持つかどうかと検知の有無に関係はありませんでした");
-L.push("（検知あり 58 件のうち証明書あり 26% / 検知なし 192 件のうち 17%）。");
-L.push("検知があるホスト番号も散らばっており、固まりを作りません。", "");
+L.push("## 5. 検知は帯ごとの掲載ではなく、宣言した 255 IP に沿っている", "");
+L.push("**ここが今回いちばん重要な確認です。**", "");
+L.push(S.virustotal.ips_with_detection + " IP に検知が付いていますが、エンジンごとに見ると "
+  + code("SOCRadar") + " は");
+L.push("**255/255 すべてに付けています**。それだけ見れば「帯ごと載せただけ」に見えます。", "");
+L.push("そこで**宣言の外にある近隣 " + CT.ips + " IP を同じ手順で引きました**（対照群）。", "");
+L.push("### まず、同じ土俵に乗っているか", "");
+L.push(T(["観点", "クラスタ", "対照群"], [
+  ["VT にレコードがある", String(S.coverage.virustotal_checked) + " / " + S.coverage.targets,
+    String(CT.comparable.with_vt_record) + " / " + CT.ips],
+  ["評価したエンジン数（中央値）", String(CT.comparable.engines_evaluated_median_cluster),
+    String(CT.comparable.engines_evaluated_median_control)],
+  ["所有 AS", CT.comparable.as_owners_cluster.map(safe).join(" / "),
+    CT.comparable.as_owners_control.map(safe).join(" / ")],
+]), "");
+L.push("**同じ AS・同じエンジン数で評価されています。**比較が成り立つ土俵です。", "");
+L.push("### エンジンごとの当たり方", "");
+L.push(T(["エンジン", "クラスタ（255）", "対照群（" + CT.ips + "）"],
+  Object.entries(CT.by_engine).sort((a, b) => b[1].cluster - a[1].cluster).slice(0, 10)
+    .map(([k, v]) => [safe(k, 30), v.cluster + " / 255（" + v.cluster_pct + "%）",
+      v.control + " / " + CT.ips + (v.control_too_small_for_pct ? "" : "（" + v.control_pct + "%）")])), "");
+L.push("**宣言の外では、ほぼ全部のエンジンが 0 件です。**");
+L.push("悪性エンジン数の中央値はクラスタ " + CT.cluster_malicious_median + " に対して対照群 "
+  + CT.control_malicious_median + "、");
+L.push("AbuseIPDB の通報も対照群は " + CT.control_with_abuse_report + " / " + CT.ips + " 件です。", "");
+L.push("対照群には**同じ /24 の " + code(".130") + " 〜 " + code(".250") + " が含まれます**。");
+L.push("つまり境界は " + code(".125") + " にあり、**利用者が申告したクラスタの境界と一致しています**。", "");
+L.push("### ここから言えること / 言えないこと", "");
+L.push("- **言える**: 検知は「この界隈が丸ごと載っている」のではなく、"
+  + "**宣言した 255 IP に沿って付いている**");
+L.push("- **言える**: " + code("SOCRadar") + " の 255/255 も帯単位の掲載ではない"
+  + "（帯単位なら対照群にも付くはずで、0 件だった）");
+L.push("- **言えない**: 対照群が白いのは「使われていないから」かもしれません。"
+  + "**能動調査をしていないので、住所が空いているのか使われていて綺麗なのかは区別できません**");
+L.push("- **言えない**: エンジンが " + CT.cluster_malicious_median + " 個付いていても、"
+  + "それが**独立した 4 つの観測とは限りません**。");
+L.push("  1 つの掲載が複数ベンダへ伝わった可能性は残ります（名前は "
+  + code("vt_flagged_by") + " 列に残してあります）");
+L.push("");
 
 /* ---- 証明書 ---- */
 L.push("## 6. 証明書 — ARTEX の痕跡は無く、過去は中国語圏の商用ホスティング", "");
@@ -180,20 +227,31 @@ L.push("## 7. /24 ごと", "");
 L.push(T(["/24", "IP", "通報あり", "日本からの通報", "検知あり", "証明書あり"],
   Object.entries(S.by_range).map(([k, v]) => [code(k), String(v.ips), String(v.with_report),
     String(v.with_jp_report), String(v.with_detection), String(v.with_certificate)])), "");
-L.push("**2 つの /24 はほぼ同じ姿**です。通報 0、日本からの通報 0、検知が 31 対 27、証明書が 21 対 25。", "");
+L.push("役割ごとに見ると:", "");
+L.push(T(["役割", "IP", "通報あり", "割合", "検知あり", "最大スコア", "最大悪性"],
+  Object.entries(S.per_role).map(([k, v]) => [code(k), String(v.ips), String(v.with_report),
+    v.too_small_for_pct ? "**母数不足**" : v.reported_pct + "%", String(v.with_detection),
+    String(v.max_score), String(v.max_malicious)])), "");
+L.push("**母数が小さい役割の割合は読めません。** " + code("recharge_host") + " は 1 IP です。", "");
 
 L.push("## 8. この調査で言えないこと", "");
 L.push("- **ARTEX が動いているかどうかは確認できていません。** 能動調査をしていないので、");
 L.push("  待ち受けているサービスも証明書の現況も見ていません。渡された前提のままです");
-L.push("- **通報・検知が無いことは無害の証明ではありません**（§0）");
+L.push("- **通報・検知が無いことは無害の証明ではありません**（§0）。");
+L.push("  対照群が白いのも同じで、**空き住所なのか使われていて綺麗なのかは区別できません**");
+L.push("- **エンジンの数は独立した観測の数ではありません**（§5）");
 L.push("- VT の " + code("first_seen_date") + " は配備日ではありません（§4）");
 L.push("- AbuseIPDB のカテゴリはレポーターの自己申告です（今回は該当なし）");
 L.push("- IP の所在地・ISP・AS は、運用者の国籍や所属を示しません");
-L.push("- 母集団は**渡された 250 IP だけ**です。同じ AS の他の帯は見ていません");
+L.push("- 母集団は**渡された " + S.coverage.targets + " IP と対照群 " + CT.ips
+  + " IP だけ**です。同じ AS の他の帯はほとんど見ていません");
 L.push("");
 L.push("## 9. 次に打てる手（提案）", "");
-L.push("- **索引へ登録して継続観測する。** 今は索引に 0 件なので、通報や検知が付いても気付けません。");
-L.push("  日次のエンリッチに載せれば、最初の通報が付いた日が分かります");
+L.push("- **対照群を広げる。** 今回の " + CT.ips + " IP で境界は見えましたが、"
+  + "「空き住所だから白い」可能性を潰すには、");
+L.push("  **同じ AS で使われていることが分かっている帯**を対照に取る必要があります");
+L.push("- **" + code("vt_flagged_by") + " を日ごとに記録する。** エンジンが増えた日が分かれば、"
+  + "1 つの掲載が伝播したのか別々に付いたのかを分けられます");
 L.push("- **格子上の 15 IP だけを重点監視する。** 他と区別されている唯一の手がかりです");
 L.push("- 証明書の記録（CT ログ）から、この帯に最近発行された証明書を探す。VT の");
 L.push("  " + code("last_https_certificate") + " は古いものしか返しておらず、CT なら新しいものが見えます");

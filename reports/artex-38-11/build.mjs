@@ -25,6 +25,7 @@ import {
   CATEGORIES, VULN_ANY, STRICT_VULN, AUTH_ATTACK, SCAN_ONLY, EXPLOITED_HOST,
   sanitize, forDisplay, grade, sha256, uniq, iso, detectScanner,
 } from "../global-jp-vuln/rules.mjs";
+import { expandWatchlist } from "../../tools/ioc/lib/watch.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "../..");
@@ -33,11 +34,42 @@ const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "config.json"), "utf8"));
 
 /* ---------------- 対象と写し ---------------- */
 
-const targets = [];
-for (const r of CFG.RANGES) {
-  const base = r.split("/")[0].split(".").slice(0, 3).join(".");
-  for (let i = CFG.HOST_RANGE[0]; i <= CFG.HOST_RANGE[1]; i++) targets.push(`${base}.${i}`);
-}
+/**
+ * **対象の宣言は持たない。**`data/ioc/watch/watchlist.json` を唯一の出所として読む。
+ * ここに別の宣言を置いていたせいで、1 クラスタ 255 IP への訂正から取り残された
+ * （2026-11-12 に直した）。
+ */
+const WL = JSON.parse(fs.readFileSync(path.resolve(ROOT, CFG.WATCHLIST), "utf8"));
+const decl = expandWatchlist(WL);
+const targets = decl.map((t) => t.ip);
+/** **対照群は 255 件の統計に混ぜない。**別に数えて比べる */
+const CONTROL = (CFG.CONTROL_IPS || []).filter((ip) => !targets.includes(ip));
+const rolesOf = new Map(decl.map((t) => [t.ip, t.roles]));
+const CLUSTER = WL.clusters[0].name;
+
+/** 前回（2026-10-14）の成果 CSV。**写しは消えるが CSV は git に残る** */
+const parseCsv = (text) => {
+  if (!text) return [];
+  if (text.charCodeAt(0) === 0xfeff) text = text.slice(1);
+  const rs = []; let row = [], field = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else q = false; } else field += c; }
+    else if (c === '"') q = true;
+    else if (c === ",") { row.push(field); field = ""; }
+    else if (c === "\n") { row.push(field); field = ""; rs.push(row); row = []; }
+    else if (c !== "\r") field += c;
+  }
+  if (field.length || row.length) { row.push(field); rs.push(row); }
+  const h = (rs.shift() || []).map((x) => String(x).replace(/^\ufeff/, ""));
+  return rs.filter((r) => r.length > 1).map((r) => Object.fromEntries(h.map((k, i) => [k, r[i] ?? ""])));
+};
+const baseline = (() => {
+  const f = CFG.BASELINE_CSV ? path.join(HERE, CFG.BASELINE_CSV) : null;
+  if (!f || !fs.existsSync(f)) return new Map();
+  return new Map(parseCsv(fs.readFileSync(f, "utf8")).map((r) => [r.ip_address, r]));
+})();
+const baselineDate = String(CFG.BASELINE_CSV || "").match(/(\d{4}-\d{2}-\d{2})/)?.[1] || "";
 const loadCopies = (kind) => {
   const dir = path.join(CACHE, kind);
   const m = new Map();
@@ -114,6 +146,8 @@ for (const ip of targets) {
   rows.push({
     ip_address: ip,
     range: `${ip.split(".").slice(0, 3).join(".")}.0/24`,
+    /** 役割は宣言から結合する。**クラスタは 1 つ** */
+    roles: (rolesOf.get(ip) || []).join(";"),
     /* ---- AbuseIPDB ---- */
     abuse_checked: !!b,
     abuse_confidence_score: b ? (b.abuseConfidenceScore ?? 0) : "",
@@ -151,6 +185,15 @@ for (const ip of targets) {
     vt_known: v ? v.status === 200 : "",
     vt_malicious: va ? (st.malicious ?? 0) : "",
     vt_suspicious: va ? (st.suspicious ?? 0) : "",
+    /**
+     * **どのエンジンが付けたか。**件数だけでは「4 エンジンが独立に見た」のか
+     * 「1 つの掲載が 4 ベンダに伝わった」のか分からない。名前が要る。
+     */
+    vt_flagged_by: va ? Object.entries(va.last_analysis_results || {})
+      .filter(([, v]) => v.category === "malicious" || v.category === "suspicious")
+      .map(([k]) => k).sort().join(";") : "",
+    /** 同じ土俵で評価されたかを見るための母数 */
+    vt_engines_evaluated: va ? Object.keys(va.last_analysis_results || {}).length : "",
     vt_harmless: va ? (st.harmless ?? 0) : "",
     vt_undetected: va ? (st.undetected ?? 0) : "",
     vt_reputation: va ? (va.reputation ?? 0) : "",
@@ -219,8 +262,11 @@ const tally = (rs, f) => {
 };
 const summary = {
   dataset: CFG.DATASET,
-  ranges: CFG.RANGES,
-  host_range: CFG.HOST_RANGE,
+  /** **1 つのクラスタ。**役割は IP に付ける印でクラスタではない */
+  cluster: CLUSTER,
+  declared_in: CFG.WATCHLIST,
+  groups: (WL.clusters[0].groups || []).map((g) => ({ roles: g.roles, note: g.note,
+    ranges: g.ranges || null, explicit: g.explicit || null })),
   generated_from: "写しのみ。API は呼んでいない",
   collected_at_utc: anchorIso,
   fetch_window_days: CFG.FETCH_WINDOW_DAYS,
@@ -271,8 +317,111 @@ const summary = {
     /** 前回の ARTEX 調査の痕跡。今回の 250 件とは別物 */
     prior_artex_certificates: artexCerts,
   },
+  /**
+   * **対照群との比較。**宣言の外にある近隣 IP。
+   *
+   * 「この 255 IP が怪しい」のか「この界隈が丸ごと載っている」のかは、
+   * 対象だけ見ても分からない。VT の SOCRadar は 255/255 全部に付けており、
+   * それだけ見れば帯単位の掲載に見える。**宣言の外を引いて初めて分かる。**
+   *
+   * 対照群も同じ土俵に乗っているかを必ず併記する（VT にレコードがあるか、
+   * 評価したエンジン数が同程度か、同じ AS か）。乗っていなければ比較にならない。
+   */
+  control: (() => {
+    if (!CONTROL.length) return { available: false };
+    const cRows = CONTROL.map((ip) => {
+      const b = abuse.get(ip)?.body, va = vt.get(ip)?.body?.attributes;
+      const res = va?.last_analysis_results || {};
+      return {
+        ip,
+        vt_record: !!va,
+        engines_evaluated: Object.keys(res).length,
+        as_owner: va?.as_owner || "",
+        malicious: va?.last_analysis_stats?.malicious ?? 0,
+        suspicious: va?.last_analysis_stats?.suspicious ?? 0,
+        flagged_by: Object.entries(res)
+          .filter(([, v]) => v.category === "malicious" || v.category === "suspicious")
+          .map(([k]) => k).sort(),
+        abuse_reports: b?.totalReports ?? 0,
+        abuse_score: b?.abuseConfidenceScore ?? 0,
+      };
+    });
+    const med = (a) => { const x = a.slice().sort((p, q) => p - q); return x.length ? x[Math.floor(x.length / 2)] : null; };
+    const engineNames = uniq(rows.flatMap((r) => String(r.vt_flagged_by || "").split(";")).filter(Boolean));
+    return {
+      available: true,
+      note: CFG.CONTROL_NOTE || "",
+      ips: cRows.length,
+      /** **同じ土俵か。**ここが崩れていれば下の比較は読めない */
+      comparable: {
+        with_vt_record: cRows.filter((r) => r.vt_record).length,
+        engines_evaluated_median_control: med(cRows.map((r) => r.engines_evaluated)),
+        engines_evaluated_median_cluster: med(rows.map((r) => Number(r.vt_engines_evaluated) || 0)),
+        as_owners_control: uniq(cRows.map((r) => r.as_owner)).filter(Boolean),
+        as_owners_cluster: uniq(rows.map((r) => r.vt_as_owner)).filter(Boolean),
+      },
+      control_with_detection: cRows.filter((r) => r.malicious + r.suspicious > 0).length,
+      control_with_abuse_report: cRows.filter((r) => r.abuse_reports > 0).length,
+      control_malicious_median: med(cRows.map((r) => r.malicious)),
+      cluster_malicious_median: med(rows.map((r) => Number(r.vt_malicious) || 0)),
+      /** エンジンごとの当たり方。**帯単位の掲載なら対照群にも同じ率で付く** */
+      by_engine: Object.fromEntries(engineNames.map((e) => {
+        const inC = rows.filter((r) => String(r.vt_flagged_by || "").split(";").includes(e)).length;
+        const inX = cRows.filter((r) => r.flagged_by.includes(e)).length;
+        return [e, {
+          cluster: inC, cluster_pct: Number((100 * inC / rows.length).toFixed(1)),
+          control: inX,
+          control_pct: cRows.length ? Number((100 * inX / cRows.length).toFixed(1)) : null,
+          control_too_small_for_pct: cRows.length < 10,
+        }];
+      })),
+      rows: cRows.map((r) => ({ ...r, flagged_by: r.flagged_by.join(";") })),
+    };
+  })(),
   verdicts: Object.fromEntries(tally(rows, (r) => r.reputation_verdict)),
-  by_range: Object.fromEntries(CFG.RANGES.map((rg) => {
+  /** 役割ごと。**母数が小さい役割の割合は読まない** */
+  per_role: Object.fromEntries(uniq(decl.flatMap((t) => t.roles)).sort().map((role) => {
+    const sub = rows.filter((r) => (rolesOf.get(r.ip_address) || []).includes(role));
+    const rep = sub.filter((r) => Number(r.abuse_total_reports_365d) > 0);
+    const det = sub.filter((r) => Number(r.vt_malicious) + Number(r.vt_suspicious) > 0);
+    return [role, {
+      ips: sub.length,
+      with_report: rep.length,
+      with_detection: det.length,
+      too_small_for_pct: sub.length < 10,
+      reported_pct: sub.length >= 10 ? Number((100 * rep.length / sub.length).toFixed(1)) : null,
+      detected_pct: sub.length >= 10 ? Number((100 * det.length / sub.length).toFixed(1)) : null,
+      max_score: Math.max(0, ...sub.map((r) => Number(r.abuse_confidence_score) || 0)),
+      max_malicious: Math.max(0, ...sub.map((r) => Number(r.vt_malicious) || 0)),
+    }];
+  })),
+  /**
+   * **前回（10-14）からの差。**写しは消えるが成果 CSV は git に残るので、
+   * そちらを基準にする。前回は 250 IP だったので、5 IP は「前回なし」になる。
+   */
+  vs_baseline: (() => {
+    if (!baseline.size) return { available: false, note: "基準の CSV が無い" };
+    const inBase = rows.filter((r) => baseline.has(r.ip_address));
+    const n = (v) => (v === "" || v === undefined ? 0 : Number(v));
+    const grew = (f) => inBase.filter((r) => n(r[f]) > n(baseline.get(r.ip_address)[f]));
+    return {
+      available: true,
+      baseline_date: baselineDate,
+      baseline_ips: baseline.size,
+      ips_in_both: inBase.length,
+      ips_new_since_baseline: rows.length - inBase.length,
+      abuse_reports_up: grew("abuse_total_reports_365d").length,
+      abuse_score_up: grew("abuse_confidence_score").length,
+      vt_malicious_up: grew("vt_malicious").length,
+      vt_malicious_down: inBase.filter((r) =>
+        n(r.vt_malicious) < n(baseline.get(r.ip_address).vt_malicious)).length,
+      newly_reported: inBase.filter((r) => n(r.abuse_total_reports_365d) > 0
+        && n(baseline.get(r.ip_address).abuse_total_reports_365d) === 0).length,
+      newly_detected: inBase.filter((r) => n(r.vt_malicious) > 0
+        && n(baseline.get(r.ip_address).vt_malicious) === 0).length,
+    };
+  })(),
+  by_range: Object.fromEntries(uniq(rows.map((r) => r.range)).sort().map((rg) => {
     const sub = rows.filter((r) => r.range === rg);
     return [rg, {
       ips: sub.length,

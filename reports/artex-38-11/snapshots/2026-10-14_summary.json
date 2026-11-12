@@ -1,0 +1,492 @@
+{
+  "abuseipdb": {
+    "ips_with_any_report_365d": 0,
+    "ips_with_score_above_0": 0,
+    "max_score": 0,
+    "research_scanner": 0,
+    "tor": 0,
+    "total_reports_365d": 0,
+    "whitelisted": 0
+  },
+  "by_range": {
+    "38.11.173.0/24": {
+      "ips": 125,
+      "with_certificate": 21,
+      "with_detection": 31,
+      "with_jp_report": 0,
+      "with_report": 0
+    },
+    "38.11.221.0/24": {
+      "ips": 125,
+      "with_certificate": 25,
+      "with_detection": 27,
+      "with_jp_report": 0,
+      "with_report": 0
+    }
+  },
+  "certificates": {
+    "by_cn": {
+      "020chun.com": 21,
+      "bbc.lizhenjx.com": 1,
+      "v.lizhenjx.com": 2,
+      "www.024heyi.com": 6,
+      "www.51xueba.cn": 4,
+      "www.andajidian.com": 2,
+      "www.auscoo.com": 4,
+      "www.clwdmm.com": 1,
+      "www.cotxnetworks.cn": 5
+    },
+    "count": 46,
+    "distinct_cn": 9,
+    "expired_before_collection": 46,
+    "rows": [
+      {
+        "cn": "www.51xueba.cn",
+        "ip": "38.11.173.65",
+        "issuer": "US R3 Let's Encrypt",
+        "not_after": "2024-03-19 07:15:48",
+        "sans": "51xueba.cn;www.51xueba.cn"
+      },
+      {
+        "cn": "www.auscoo.com",
+        "ip": "38.11.173.66",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2024-10-30 15:12:24",
+        "sans": "auscoo.com;www.auscoo.com"
+      },
+      {
+        "cn": "www.51xueba.cn",
+        "ip": "38.11.173.67",
+        "issuer": "US R3 Let's Encrypt",
+        "not_after": "2024-03-19 07:15:48",
+        "sans": "51xueba.cn;www.51xueba.cn"
+      },
+      {
+        "cn": "www.024heyi.com",
+        "ip": "38.11.173.68",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2024-09-24 06:18:23",
+        "sans": "024heyi.com;www.024heyi.com"
+      },
+      {
+        "cn": "www.andajidian.com",
+        "ip": "38.11.173.69",
+        "issuer": "US Let's Encrypt R3",
+        "not_after": "2024-07-28 01:11:43",
+        "sans": "andajidian.com;nhzsj.com;ukxueche.com;wcam.org.cn;www.51xueba.cn;www.andajidian.com;www.nhzsj.com;www.ukxueche.com;www.wcam.org.cn"
+      },
+      {
+        "cn": "www.024heyi.com",
+        "ip": "38.11.173.70",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2024-09-24 06:18:23",
+        "sans": "024heyi.com;www.024heyi.com"
+      },
+      {
+        "cn": "www.andajidian.com",
+        "ip": "38.11.173.71",
+        "issuer": "US Let's Encrypt R3",
+        "not_after": "2024-07-28 01:11:43",
+        "sans": "andajidian.com;nhzsj.com;ukxueche.com;wcam.org.cn;www.51xueba.cn;www.andajidian.com;www.nhzsj.com;www.ukxueche.com;www.wcam.org.cn"
+      },
+      {
+        "cn": "www.024heyi.com",
+        "ip": "38.11.173.72",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2024-09-24 06:18:23",
+        "sans": "024heyi.com;www.024heyi.com"
+      },
+      {
+        "cn": "www.auscoo.com",
+        "ip": "38.11.173.74",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2024-10-30 15:12:24",
+        "sans": "auscoo.com;www.auscoo.com"
+      },
+      {
+        "cn": "www.51xueba.cn",
+        "ip": "38.11.173.75",
+        "issuer": "US Let's Encrypt R3",
+        "not_after": "2024-03-19 07:15:48",
+        "sans": "51xueba.cn;www.51xueba.cn"
+      },
+      {
+        "cn": "www.cotxnetworks.cn",
+        "ip": "38.11.173.76",
+        "issuer": "US Let's Encrypt R10",
+        "not_after": "2024-10-06 05:36:56",
+        "sans": "cotxnetworks.cn;www.cotxnetworks.cn"
+      },
+      {
+        "cn": "www.51xueba.cn",
+        "ip": "38.11.173.77",
+        "issuer": "US R3 Let's Encrypt",
+        "not_after": "2024-03-19 07:15:48",
+        "sans": "51xueba.cn;www.51xueba.cn"
+      },
+      {
+        "cn": "www.024heyi.com",
+        "ip": "38.11.173.78",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2024-09-24 06:18:23",
+        "sans": "024heyi.com;www.024heyi.com"
+      },
+      {
+        "cn": "www.024heyi.com",
+        "ip": "38.11.173.81",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2024-09-24 06:18:23",
+        "sans": "024heyi.com;www.024heyi.com"
+      },
+      {
+        "cn": "www.024heyi.com",
+        "ip": "38.11.173.83",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2024-09-24 06:18:23",
+        "sans": "024heyi.com;www.024heyi.com"
+      },
+      {
+        "cn": "www.auscoo.com",
+        "ip": "38.11.173.87",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2024-10-30 15:12:24",
+        "sans": "auscoo.com;www.auscoo.com"
+      },
+      {
+        "cn": "www.auscoo.com",
+        "ip": "38.11.173.89",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2024-10-30 15:12:24",
+        "sans": "auscoo.com;www.auscoo.com"
+      },
+      {
+        "cn": "www.cotxnetworks.cn",
+        "ip": "38.11.173.90",
+        "issuer": "US Let's Encrypt R10",
+        "not_after": "2024-10-06 05:36:56",
+        "sans": "cotxnetworks.cn;www.cotxnetworks.cn"
+      },
+      {
+        "cn": "www.cotxnetworks.cn",
+        "ip": "38.11.173.91",
+        "issuer": "US Let's Encrypt R10",
+        "not_after": "2024-10-06 05:36:56",
+        "sans": "cotxnetworks.cn;www.cotxnetworks.cn"
+      },
+      {
+        "cn": "www.cotxnetworks.cn",
+        "ip": "38.11.173.92",
+        "issuer": "US Let's Encrypt R10",
+        "not_after": "2024-10-06 05:36:56",
+        "sans": "cotxnetworks.cn;www.cotxnetworks.cn"
+      },
+      {
+        "cn": "www.cotxnetworks.cn",
+        "ip": "38.11.173.93",
+        "issuer": "US Let's Encrypt R10",
+        "not_after": "2024-10-06 05:36:56",
+        "sans": "cotxnetworks.cn;www.cotxnetworks.cn"
+      },
+      {
+        "cn": "v.lizhenjx.com",
+        "ip": "38.11.221.17",
+        "issuer": "CN TrustAsia Technologies, Inc. LiteSSL RSA CA 2025",
+        "not_after": "2026-08-26 23:59:59",
+        "sans": "v.lizhenjx.com"
+      },
+      {
+        "cn": "v.lizhenjx.com",
+        "ip": "38.11.221.24",
+        "issuer": "CN TrustAsia Technologies, Inc. LiteSSL RSA CA 2025",
+        "not_after": "2026-08-26 23:59:59",
+        "sans": "v.lizhenjx.com"
+      },
+      {
+        "cn": "bbc.lizhenjx.com",
+        "ip": "38.11.221.26",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-02-20 13:43:07",
+        "sans": "bbc.lizhenjx.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.33",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "www.clwdmm.com",
+        "ip": "38.11.221.35",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-05-24 11:39:21",
+        "sans": "clwdmm.com;www.clwdmm.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.36",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.38",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.39",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.41",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.42",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.44",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.45",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.47",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.48",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.49",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.50",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.51",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.53",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.54",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.55",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.56",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.57",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.58",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.60",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      },
+      {
+        "cn": "020chun.com",
+        "ip": "38.11.221.61",
+        "issuer": "US Let's Encrypt R11",
+        "not_after": "2025-10-12 11:44:56",
+        "sans": "020chun.com;www.020chun.com"
+      }
+    ]
+  },
+  "collected_at_utc": "2026-10-14T05:21:34.943Z",
+  "coverage": {
+    "abuseipdb_checked": 250,
+    "abuseipdb_missing": 0,
+    "targets": 250,
+    "virustotal_checked": 250,
+    "virustotal_missing": 0,
+    "virustotal_unknown_404": 0
+  },
+  "dataset": "ARTEX_38_11",
+  "fetch_window_days": 365,
+  "generated_from": "写しのみ。API は呼んでいない",
+  "host_range": [
+    1,
+    125
+  ],
+  "infrastructure": {
+    "cert_issuers": {
+      "CN TrustAsia Technologies, Inc. LiteSSL RSA CA 2025": 2,
+      "US Let's Encrypt R10": 5,
+      "US Let's Encrypt R11": 33,
+      "US Let's Encrypt R3": 3,
+      "US R3 Let's Encrypt": 3
+    },
+    "country": {
+      "US": 250
+    },
+    "isp": {
+      "Cogent Communications, LLC": 250
+    },
+    "usage_type": {
+      "Data Center/Web Hosting/Transit": 250
+    },
+    "vt_as": {
+      "AS54600 PEG TECH INC": 250
+    },
+    "vt_network": {
+      "38.11.160.0/19": 125,
+      "38.11.192.0/19": 125
+    },
+    "with_rdns": 0
+  },
+  "japan": {
+    "ips_with_any_jp_report_365d": 0,
+    "ips_with_jp_report_90d": 0,
+    "ips_with_jp_vuln_report_90d": 0,
+    "total_jp_reports_365d": 0
+  },
+  "ranges": [
+    "38.11.173.0/24",
+    "38.11.221.0/24"
+  ],
+  "report_window": {
+    "days": 90,
+    "end_utc": "2026-10-14T05:21:34Z",
+    "start_utc": "2026-07-16T05:21:34Z"
+  },
+  "threat_index": {
+    "already_present": 0,
+    "prior_artex_certificates": [
+      {
+        "iocs": [
+          "ioc.ipv4|38.244.50.120"
+        ],
+        "issuer": "ARTEX",
+        "subject": "38.244.50.120",
+        "thumbprint": "c7a884afcd7f91408921890d9617bef6bfac3dae992bc25bb9c48c0395a60842"
+      }
+    ],
+    "with_actor": 0
+  },
+  "verdicts": {
+    "日本以外からの通報・検知あり": 58,
+    "通報・検知なし（無害の証明ではない）": 192
+  },
+  "virustotal": {
+    "ips_with_artex_in_certificate": 0,
+    "ips_with_certificate": 46,
+    "ips_with_detection": 58,
+    "max_malicious": 2,
+    "reputation_below_0": 1
+  },
+  "vt_detection_engines": {
+    "AlphaSOC [suspicious]": 7,
+    "CRDF [malicious]": 35,
+    "Gridinsoft [suspicious]": 40,
+    "SOCRadar [suspicious]": 34,
+    "Seclookup [malicious]": 1,
+    "URLQuery [suspicious]": 7,
+    "alphaMountain.ai [malicious/phishing]": 11,
+    "alphaMountain.ai [malicious]": 4,
+    "alphaMountain.ai [suspicious]": 7
+  },
+  "vt_freshness": {
+    "by_date": {
+      "2026-09-29": 1,
+      "2026-09-30": 1,
+      "2026-10-01": 12,
+      "2026-10-02": 1
+    },
+    "caveat": "first_seen は VT が項目を作った日。IP が動き出した日とは限らない",
+    "gaps_above_1": {
+      "30": 2
+    },
+    "host_numbers": [
+      30,
+      31,
+      32,
+      62,
+      63,
+      64,
+      94,
+      95,
+      96
+    ],
+    "ips": 15,
+    "same_host_numbers_but_old": [
+      "38.11.221.94(2023-12-10)",
+      "38.11.221.95(2023-12-10)",
+      "38.11.221.96(2023-12-10)"
+    ],
+    "threshold_month": "2026-09",
+    "with_certificate": 0,
+    "with_detection": 3
+  }
+}

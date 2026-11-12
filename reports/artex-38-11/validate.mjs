@@ -9,8 +9,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { expandWatchlist } from "../../tools/ioc/lib/watch.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(HERE, "../..");
 const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "config.json"), "utf8"));
 
 function parseCsv(text) {
@@ -45,7 +47,13 @@ const all = A.rows;
 const md = fs.readFileSync(path.join(HERE, "artex_38_11_report_ja.md"), "utf8");
 
 console.log("== 分母が埋まっているか（負の答えはここで決まる）");
-const expect = CFG.RANGES.length * (CFG.HOST_RANGE[1] - CFG.HOST_RANGE[0] + 1);
+/**
+ * **対象は宣言から数え直す。**ここに別の宣言を持つと、訂正から取り残される
+ * （2026-11-06 の 1 クラスタ化で実際そうなった）。
+ */
+const WL = JSON.parse(fs.readFileSync(path.resolve(ROOT, CFG.WATCHLIST), "utf8"));
+const declared = expandWatchlist(WL);
+const expect = declared.length;
 check(all.length === expect, `CSV の行数が対象の数と一致（${expect}）`, String(all.length));
 check(S.coverage.targets === expect, "summary の対象数が一致");
 check(S.coverage.abuseipdb_checked === expect,
@@ -55,13 +63,33 @@ check(S.coverage.abuseipdb_missing === 0, "AbuseIPDB の取り漏らしが 0");
 check(all.every((r) => bool(r.abuse_checked)), "全行に AbuseIPDB を引いた印が付いている");
 const ips = new Set(all.map((r) => r.ip_address));
 check(ips.size === expect, "IP に重複が無い");
-const want = new Set();
-for (const rg of CFG.RANGES) {
-  const b = rg.split("/")[0].split(".").slice(0, 3).join(".");
-  for (let i = CFG.HOST_RANGE[0]; i <= CFG.HOST_RANGE[1]; i++) want.add(`${b}.${i}`);
-}
+const want = new Set(declared.map((t) => t.ip));
 check([...want].every((ip) => ips.has(ip)), "指定された IP がすべて入っている");
 check([...ips].every((ip) => want.has(ip)), "指定外の IP が混ざっていない");
+/** **対照群は 255 件の統計に混ぜない。**写しにはあるが行には入らない */
+const CONTROL = new Set((CFG.CONTROL_IPS || []).filter((ip) => !want.has(ip)));
+check([...CONTROL].every((ip) => !ips.has(ip)),
+  "**対照群が本体の行に混ざっていない**（母数が狂うため）",
+  [...CONTROL].filter((ip) => ips.has(ip)).slice(0, 3).join(" "));
+check(S.control?.available === true && S.control.ips === CONTROL.size,
+  `対照群の件数が summary と一致（${CONTROL.size}）`, String(S.control?.ips));
+/** 対照群が同じ土俵に乗っているか。**乗っていなければ §5 の比較が読めない** */
+if (S.control?.available) {
+  const c = S.control.comparable;
+  check(c.with_vt_record === S.control.ips,
+    "**対照群は全件 VT にレコードがある**（データが無いから白い、ではない）",
+    `${c.with_vt_record}/${S.control.ips}`);
+  check(Math.abs(c.engines_evaluated_median_control - c.engines_evaluated_median_cluster) <= 5,
+    "**対照群とクラスタで評価エンジン数が同程度**",
+    `${c.engines_evaluated_median_control} / ${c.engines_evaluated_median_cluster}`);
+  check(c.as_owners_control.length > 0
+    && c.as_owners_control.every((o) => c.as_owners_cluster.includes(o)),
+  "**対照群とクラスタが同じ AS**（別の事業者と比べていない）",
+  `${c.as_owners_control.join(",")} / ${c.as_owners_cluster.join(",")}`);
+  /** エンジンごとの当たり方を写しから数え直す */
+  check(Object.values(S.control.by_engine).every((v) => v.control <= S.control.ips
+    && v.cluster <= expect), "エンジンごとの件数が母数を超えていない");
+}
 
 console.log("\n== 写しから数え直して一致するか");
 const cache = (kind) => {
@@ -79,7 +107,11 @@ const cache = (kind) => {
   return m;
 };
 const ab = cache("abuseipdb"), vt = cache("virustotal");
-check(ab.size === expect, "AbuseIPDB の写しの数が一致", String(ab.size));
+/** 写しには対照群も入る。**本体の行数と混同しない** */
+check(ab.size === expect + CONTROL.size,
+  `AbuseIPDB の写しの数が一致（対象 ${expect} + 対照群 ${CONTROL.size}）`, String(ab.size));
+check([...want].every((ip) => ab.has(ip)), "対象が全件 写しにある");
+check([...CONTROL].every((ip) => ab.has(ip)), "対照群が全件 写しにある");
 let bad = [];
 let jpTotal = 0, repTotal = 0;
 for (const r of all) {
@@ -160,6 +192,19 @@ check(/ARTEX が動いているかどうかは確認できていません/.test(
 check(/reporterCountryCode/.test(md) && /攻撃先が日本であることは意味しません/.test(md),
   "日本のレポーター＝日本向け攻撃と断定していない");
 check(!/日本向け攻撃元/.test(md), "「日本向け攻撃元」と断定していない");
+
+/* ---- 今回の主張（対照群）が文章に出ているか ---- */
+check(/宣言の外にある近隣/.test(md) || /対照群/.test(md), "対照群を使ったと書いている");
+check(/空き住所なのか使われていて綺麗なのかは区別できません/.test(md),
+  "**対照群が白い理由を『無害』と言い換えていない**");
+check(/独立した 4 つの観測とは限りません/.test(md) || /独立した観測の数ではありません/.test(md),
+  "**エンジンの数を独立した観測の数と読んでいない**");
+check(/同じ AS・同じエンジン数で評価されています/.test(md),
+  "対照群が同じ土俵だと示している");
+check(new RegExp("境界は `\\.125` にあり").test(md) || /境界と一致/.test(md),
+  "境界が宣言と一致することを書いている");
+check(/前回の注意は今も有効/.test(md) || /無害の証明ではありません/.test(md),
+  "前回の注意を引き継いでいる");
 
 console.log(failed ? `\n${failed} 件 NG` : "\nすべて通りました");
 process.exit(failed ? 1 : 0);
