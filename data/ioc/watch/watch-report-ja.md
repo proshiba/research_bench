@@ -1,4 +1,4 @@
-# 監視クラスタの現況 — 2026-11-11
+# 監視クラスタの現況 — 2026-11-12
 
 > **この文書は Claude（AI）が自動生成したものです。人の確認を前提としてください。**
 
@@ -6,72 +6,7 @@
 
 ## 今日の変化
 
-| 変化 | 件数 | 意味 |
-| --- | --- | --- |
-| `first_report` | 24 | 初めて通報が付いた |
-| `backdated_report` | 24 | 過去の日付の通報が後から増えた（さかのぼり投稿） |
-
-### `first_report` — 24 件
-
-初めて通報が付いた
-
-| IP | 役割 | 前回の観測 | 内容 |
-| --- | --- | --- | --- |
-| `38.11.173.11` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.173.12` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.173.13` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.173.25` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.173.53` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.173.56` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.173.64` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.17` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.26` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.28` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.31` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.35` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.37` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.45` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.51` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.64` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.73` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.76` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.90` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.92` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.97` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.99` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.108` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-| `38.11.221.116` | artex;sub2api | 2026-11-09 | categories=20 / reports=1 |
-
-### `backdated_report` — 24 件
-
-過去の日付の通報が後から増えた（さかのぼり投稿）
-
-| IP | 役割 | 前回の観測 | 内容 |
-| --- | --- | --- | --- |
-| `38.11.173.11` | artex;sub2api | 2026-11-09 | backdate_days=4.5 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:03+00:00 |
-| `38.11.173.12` | artex;sub2api | 2026-11-09 | backdate_days=4.5 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:34:58+00:00 |
-| `38.11.173.13` | artex;sub2api | 2026-11-09 | backdate_days=4.51 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:34:37+00:00 |
-| `38.11.173.25` | artex;sub2api | 2026-11-09 | backdate_days=4.51 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:34:40+00:00 |
-| `38.11.173.53` | artex;sub2api | 2026-11-09 | backdate_days=4.5 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:34:57+00:00 |
-| `38.11.173.56` | artex;sub2api | 2026-11-09 | backdate_days=4.46 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:41+00:00 |
-| `38.11.173.64` | artex;sub2api | 2026-11-09 | backdate_days=4.49 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:11+00:00 |
-| `38.11.221.17` | artex;sub2api | 2026-11-09 | backdate_days=4.48 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:24+00:00 |
-| `38.11.221.26` | artex;sub2api | 2026-11-09 | backdate_days=4.5 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:01+00:00 |
-| `38.11.221.28` | artex;sub2api | 2026-11-09 | backdate_days=4.45 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:49+00:00 |
-| `38.11.221.31` | artex;sub2api | 2026-11-09 | backdate_days=4.51 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:34:37+00:00 |
-| `38.11.221.35` | artex;sub2api | 2026-11-09 | backdate_days=4.44 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:50+00:00 |
-| `38.11.221.37` | artex;sub2api | 2026-11-09 | backdate_days=4.51 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:34:46+00:00 |
-| `38.11.221.45` | artex;sub2api | 2026-11-09 | backdate_days=4.49 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:12+00:00 |
-| `38.11.221.51` | artex;sub2api | 2026-11-09 | backdate_days=4.5 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:34:50+00:00 |
-| `38.11.221.64` | artex;sub2api | 2026-11-09 | backdate_days=4.46 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:40+00:00 |
-| `38.11.221.73` | artex;sub2api | 2026-11-09 | backdate_days=4.49 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:15+00:00 |
-| `38.11.221.76` | artex;sub2api | 2026-11-09 | backdate_days=4.51 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:34:36+00:00 |
-| `38.11.221.90` | artex;sub2api | 2026-11-09 | backdate_days=4.44 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:52+00:00 |
-| `38.11.221.92` | artex;sub2api | 2026-11-09 | backdate_days=4.44 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:54+00:00 |
-| `38.11.221.97` | artex;sub2api | 2026-11-09 | backdate_days=4.49 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:14+00:00 |
-| `38.11.221.99` | artex;sub2api | 2026-11-09 | backdate_days=4.49 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:09+00:00 |
-| `38.11.221.108` | artex;sub2api | 2026-11-09 | backdate_days=4.5 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:35:00+00:00 |
-| `38.11.221.116` | artex;sub2api | 2026-11-09 | backdate_days=4.5 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-04T14:34:53+00:00 |
+**変化はありません。** 監視は動いており、255 IP ぶんの観測を取っています（2026-11-12）。
 
 ## クラスタの現況
 
@@ -152,6 +87,7 @@ ARTEX では被害者側の通報が 8 IP で、閾値 10 を
 | 2026-11-08 | 255 |
 | 2026-11-09 | 255 |
 | 2026-11-11 | 255 |
+| 2026-11-12 | 255 |
 
 連日とは限りません。変化の行の「前回の観測」が、その変化をどれだけの
 間隔で見たかを示します。
