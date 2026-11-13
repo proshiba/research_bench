@@ -33408,8 +33408,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.163,
-      "shared": 14,
+      "ratio": 0.151,
+      "shared": 13,
       "source": "malware:AMOS",
       "strength": 11,
       "target": "malware:ErrTraffic",
@@ -33437,18 +33437,6 @@
       "source": "malware:AMOS",
       "strength": 3,
       "target": "malware:Exvicy",
-      "via": [
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.03,
-      "shared": 1,
-      "source": "malware:AMOS",
-      "strength": 3,
-      "target": "malware:Formbook",
       "via": [
         "registered"
       ],
@@ -33504,8 +33492,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.083,
-      "shared": 6,
+      "ratio": 0.069,
+      "shared": 5,
       "source": "malware:AMOS",
       "strength": 3,
       "target": "malware:Infostealer",
@@ -33540,8 +33528,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 1.688,
-      "shared": 314,
+      "ratio": 1.683,
+      "shared": 313,
       "source": "malware:AMOS",
       "strength": 15,
       "target": "malware:Macsync",
@@ -33820,8 +33808,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.125,
-      "shared": 2,
+      "ratio": 0.063,
+      "shared": 1,
       "source": "malware:AMOS",
       "strength": 3,
       "target": "malware:PrincessClub",
@@ -33940,8 +33928,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.196,
-      "shared": 314,
+      "ratio": 2.189,
+      "shared": 313,
       "source": "malware:AMOS",
       "strength": 15,
       "target": "malware:Shub Stealer",
@@ -34135,14 +34123,13 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.714,
-      "shared": 5,
+      "ratio": 0.571,
+      "shared": 4,
       "source": "malware:AMOS",
-      "strength": 13,
+      "strength": 10,
       "target": "malware:macos-stealer-v2",
       "via": [
         "ioc",
-        "registered",
         "registrable"
       ]
     },
@@ -36426,6 +36413,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.029,
+      "shared": 1,
+      "source": "malware:Amatera Stealer",
+      "strength": 3,
+      "target": "malware:SCKit",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.048,
       "shared": 1,
       "source": "malware:Amatera Stealer",
@@ -36755,6 +36754,18 @@
       "source": "malware:AnimateClipper",
       "strength": 3,
       "target": "malware:Prinz Eugen",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.021,
+      "shared": 1,
+      "source": "malware:AnimateClipper",
+      "strength": 3,
+      "target": "malware:SCKit",
       "via": [
         "registered"
       ],
@@ -38510,7 +38521,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.008,
+      "ratio": 0.007,
       "shared": 1,
       "source": "malware:AsyncRAT",
       "strength": 1,
@@ -41217,6 +41228,18 @@
       "shared": 1,
       "source": "malware:Canis",
       "strength": 3,
+      "target": "malware:SCKit",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.077,
+      "shared": 1,
+      "source": "malware:Canis",
+      "strength": 3,
       "target": "malware:SessionGate",
       "via": [
         "registered"
@@ -43298,6 +43321,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.021,
+      "shared": 1,
+      "source": "malware:CountLoader",
+      "strength": 3,
+      "target": "malware:SCKit",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.111,
       "shared": 1,
       "source": "malware:CountLoader",
@@ -45318,18 +45353,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.03,
-      "shared": 1,
-      "source": "malware:ErrTraffic",
-      "strength": 3,
-      "target": "malware:Formbook",
-      "via": [
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.2,
       "shared": 1,
       "source": "malware:ErrTraffic",
@@ -45402,8 +45425,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.042,
-      "shared": 3,
+      "ratio": 0.028,
+      "shared": 2,
       "source": "malware:ErrTraffic",
       "strength": 3,
       "target": "malware:Infostealer",
@@ -45438,8 +45461,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.151,
-      "shared": 13,
+      "ratio": 0.14,
+      "shared": 12,
       "source": "malware:ErrTraffic",
       "strength": 3,
       "target": "malware:Macsync",
@@ -45618,8 +45641,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.188,
-      "shared": 3,
+      "ratio": 0.125,
+      "shared": 2,
       "source": "malware:ErrTraffic",
       "strength": 4,
       "target": "malware:PrincessClub",
@@ -45739,8 +45762,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.151,
-      "shared": 13,
+      "ratio": 0.14,
+      "shared": 12,
       "source": "malware:ErrTraffic",
       "strength": 3,
       "target": "malware:Shub Stealer",
@@ -45889,18 +45912,6 @@
       "source": "malware:ErrTraffic",
       "strength": 3,
       "target": "malware:XCSSET",
-      "via": [
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.143,
-      "shared": 1,
-      "source": "malware:ErrTraffic",
-      "strength": 3,
-      "target": "malware:macos-stealer-v2",
       "via": [
         "registered"
       ],
@@ -46957,6 +46968,18 @@
       "shared": 1,
       "source": "malware:FakeUpdates",
       "strength": 3,
+      "target": "malware:SCKit",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.053,
+      "shared": 1,
+      "source": "malware:FakeUpdates",
+      "strength": 3,
       "target": "malware:SourTrade",
       "via": [
         "registered"
@@ -47301,18 +47324,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.03,
-      "shared": 1,
-      "source": "malware:Formbook",
-      "strength": 3,
-      "target": "malware:Infostealer",
-      "via": [
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.5,
       "shared": 2,
       "source": "malware:Formbook",
@@ -47349,18 +47360,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.03,
-      "shared": 1,
-      "source": "malware:Formbook",
-      "strength": 3,
-      "target": "malware:Macsync",
-      "via": [
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.043,
       "shared": 1,
       "source": "malware:Formbook",
@@ -47368,18 +47367,6 @@
       "target": "malware:PowerShower",
       "via": [
         "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.063,
-      "shared": 1,
-      "source": "malware:Formbook",
-      "strength": 3,
-      "target": "malware:PrincessClub",
-      "via": [
-        "registered"
       ],
       "weak_only": true
     },
@@ -47417,18 +47404,6 @@
       "target": "malware:SUNBURST",
       "via": [
         "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.03,
-      "shared": 1,
-      "source": "malware:Formbook",
-      "strength": 3,
-      "target": "malware:Shub Stealer",
-      "via": [
-        "registered"
       ],
       "weak_only": true
     },
@@ -47525,18 +47500,6 @@
       "target": "malware:XWorm",
       "via": [
         "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.143,
-      "shared": 1,
-      "source": "malware:Formbook",
-      "strength": 3,
-      "target": "malware:macos-stealer-v2",
-      "via": [
-        "registered"
       ],
       "weak_only": true
     },
@@ -48459,11 +48422,11 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.05,
+      "ratio": 0.021,
       "shared": 1,
       "source": "malware:HOOKEDGE",
       "strength": 2,
-      "target": "malware:Sckit",
+      "target": "malware:SCKit",
       "via": [
         "family"
       ],
@@ -48943,8 +48906,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.083,
-      "shared": 6,
+      "ratio": 0.069,
+      "shared": 5,
       "source": "malware:Infostealer",
       "strength": 3,
       "target": "malware:Macsync",
@@ -49027,18 +48990,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.063,
-      "shared": 1,
-      "source": "malware:Infostealer",
-      "strength": 3,
-      "target": "malware:PrincessClub",
-      "via": [
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.038,
       "shared": 1,
       "source": "malware:Infostealer",
@@ -49075,8 +49026,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.083,
-      "shared": 6,
+      "ratio": 0.069,
+      "shared": 5,
       "source": "malware:Infostealer",
       "strength": 3,
       "target": "malware:Shub Stealer",
@@ -49128,18 +49079,6 @@
       "source": "malware:Infostealer",
       "strength": 3,
       "target": "malware:WarpRAT",
-      "via": [
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.143,
-      "shared": 1,
-      "source": "malware:Infostealer",
-      "strength": 3,
-      "target": "malware:macos-stealer-v2",
       "via": [
         "registered"
       ],
@@ -51315,8 +51254,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.125,
-      "shared": 2,
+      "ratio": 0.063,
+      "shared": 1,
       "source": "malware:Macsync",
       "strength": 3,
       "target": "malware:PrincessClub",
@@ -51423,8 +51362,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 2.196,
-      "shared": 314,
+      "ratio": 2.189,
+      "shared": 313,
       "source": "malware:Macsync",
       "strength": 15,
       "target": "malware:Shub Stealer",
@@ -51587,18 +51526,6 @@
       "source": "malware:Macsync",
       "strength": 3,
       "target": "malware:linuxFile",
-      "via": [
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.143,
-      "shared": 1,
-      "source": "malware:Macsync",
-      "strength": 3,
-      "target": "malware:macos-stealer-v2",
       "via": [
         "registered"
       ],
@@ -53104,6 +53031,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.021,
+      "shared": 1,
+      "source": "malware:NetSupport Manager",
+      "strength": 3,
+      "target": "malware:SCKit",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.01,
       "shared": 1,
       "source": "malware:NetSupport Manager",
@@ -53660,6 +53599,18 @@
       "source": "malware:NukeSped",
       "strength": 3,
       "target": "malware:PromptMink",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.021,
+      "shared": 1,
+      "source": "malware:NukeSped",
+      "strength": 3,
+      "target": "malware:SCKit",
       "via": [
         "registered"
       ],
@@ -55411,8 +55362,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.125,
-      "shared": 2,
+      "ratio": 0.063,
+      "shared": 1,
       "source": "malware:PrincessClub",
       "strength": 3,
       "target": "malware:Shub Stealer",
@@ -55453,18 +55404,6 @@
       "source": "malware:PrincessClub",
       "strength": 3,
       "target": "malware:WordlistLoader",
-      "via": [
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.143,
-      "shared": 1,
-      "source": "malware:PrincessClub",
-      "strength": 3,
-      "target": "malware:macos-stealer-v2",
       "via": [
         "registered"
       ],
@@ -55923,6 +55862,18 @@
       "source": "malware:ROOFDECK",
       "strength": 3,
       "target": "malware:Shub Stealer",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.056,
+      "shared": 1,
+      "source": "malware:Rapuncel",
+      "strength": 3,
+      "target": "malware:SCKit",
       "via": [
         "registered"
       ],
@@ -56395,6 +56346,42 @@
       "target": "malware:ValleyRAT",
       "via": [
         "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.056,
+      "shared": 1,
+      "source": "malware:SCKit",
+      "strength": 2,
+      "target": "malware:ScreenConnect RMM",
+      "via": [
+        "registrable"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.042,
+      "shared": 1,
+      "source": "malware:SCKit",
+      "strength": 2,
+      "target": "malware:Shai-Hulud",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.111,
+      "shared": 1,
+      "source": "malware:SCKit",
+      "strength": 3,
+      "target": "malware:TukTuk",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -57126,18 +57113,6 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.143,
-      "shared": 1,
-      "source": "malware:Shub Stealer",
-      "strength": 3,
-      "target": "malware:macos-stealer-v2",
-      "via": [
-        "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
       "ratio": 0.071,
       "shared": 1,
       "source": "malware:Shub Stealer",
@@ -57826,7 +57801,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.023,
+      "ratio": 0.022,
       "shared": 3,
       "source": "malware:ValleyRAT",
       "strength": 6,
@@ -58079,7 +58054,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-11-12T00:04:35.373Z",
+  "generated_from": "2026-11-13T00:03:46.536Z",
   "nodes": [
     {
       "id": "actor:3AM ransomware affiliate",
@@ -62198,6 +62173,12 @@
       "name": "RustSL"
     },
     {
+      "id": "malware:SCKit",
+      "ioc_count": 47,
+      "kind": "malware",
+      "name": "SCKit"
+    },
+    {
       "id": "malware:SHEETCORD",
       "ioc_count": 2,
       "kind": "malware",
@@ -62232,12 +62213,6 @@
       "ioc_count": 1,
       "kind": "malware",
       "name": "SalatStealer"
-    },
-    {
-      "id": "malware:Sckit",
-      "ioc_count": 20,
-      "kind": "malware",
-      "name": "Sckit"
     },
     {
       "id": "malware:ScreenConnect",
@@ -62727,7 +62702,7 @@
     },
     {
       "id": "malware:XMRig",
-      "ioc_count": 129,
+      "ioc_count": 138,
       "kind": "malware",
       "name": "XMRig"
     },
