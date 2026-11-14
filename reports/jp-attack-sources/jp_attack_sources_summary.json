@@ -7,18 +7,18 @@
   ],
   "blacklist_snapshot": {
     "entries": 100000,
-    "fetched_at": "2026-11-13T02:49:29Z",
-    "generated_at": "2026-11-13T02:49:30Z"
+    "fetched_at": "2026-11-14T02:49:58Z",
+    "generated_at": "2026-11-14T02:49:58Z"
   },
   "by_worst_tier": {
-    "A1 侵入・脆弱性": 1594,
-    "A2 認証突破": 1995,
-    "A3 サービス妨害": 112,
-    "A4 詐欺・なりすまし": 3,
-    "A5 偵察のみ": 1289,
-    "B スパム・ボット": 36
+    "A1 侵入・脆弱性": 1652,
+    "A2 認証突破": 1593,
+    "A3 サービス妨害": 151,
+    "A4 詐欺・なりすまし": 4,
+    "A5 偵察のみ": 931,
+    "B スパム・ボット": 43
   },
-  "collected_through_utc": "2026-11-13T02:53:22Z",
+  "collected_through_utc": "2026-11-14T02:53:08Z",
   "coverage": {
     "api_failed": 0,
     "api_ok": 9000,
@@ -28,8 +28,8 @@
     "checks_in_cache": 9000,
     "jp_categories_measured": 9000,
     "jp_categories_unmeasured": 0,
-    "ledger_days": 31,
-    "ledger_distinct_ips": 110354,
+    "ledger_days": 32,
+    "ledger_distinct_ips": 113065,
     "unmeasured_with_jp_report": 0
   },
   "dataset": "JP_ATTACK_SOURCES",
@@ -39,243 +39,238 @@
     "tier_only": 0
   },
   "evidence_levels": {
-    "E0": 933,
-    "E1": 259,
-    "E2": 48,
-    "E3": 79
+    "E0": 851,
+    "E1": 400,
+    "E2": 102,
+    "E3": 97
   },
   "excluded_scanner_names": {
-    "BinaryEdge": 45,
-    "Censys": 30,
+    "BinaryEdge": 113,
+    "Censys": 2,
     "CriminalIP": 4,
-    "Driftnet / internet-measurement.com": 109,
-    "LeakIX": 6,
-    "Shadowserver Foundation": 91,
-    "Shodan": 4,
-    "Stretchoid": 77,
+    "Driftnet / internet-measurement.com": 104,
+    "Shadowserver Foundation": 28,
+    "Stretchoid": 16,
     "ipip.net": 1
   },
   "generated_from": "写しのみ。API は呼んでいない",
   "jp_categories": {
-    "Bad Web Bot": 560,
-    "Brute-Force": 2419,
-    "DDoS Attack": 352,
-    "Email Spam": 683,
-    "Exploited Host": 58,
-    "FTP Brute-Force": 7,
+    "Bad Web Bot": 738,
+    "Brute-Force": 2108,
+    "DDoS Attack": 464,
+    "DNS Poisoning": 1,
+    "Email Spam": 296,
+    "Exploited Host": 66,
+    "FTP Brute-Force": 6,
     "Fraud VoIP": 3,
-    "Hacking": 555,
-    "IoT Targeted": 61,
-    "Open Proxy": 58,
-    "Port Scan": 1494,
-    "SQL Injection": 108,
-    "SSH": 1420,
-    "Web App Attack": 950,
-    "Web Spam": 161
+    "Hacking": 622,
+    "IoT Targeted": 67,
+    "Open Proxy": 46,
+    "Port Scan": 1295,
+    "SQL Injection": 127,
+    "SSH": 1295,
+    "Spoofing": 3,
+    "Web App Attack": 1020,
+    "Web Spam": 243
   },
   "jp_reporter_ceiling": {
-    "ips_at_90pct_of_max": 10,
+    "ips_at_90pct_of_max": 4,
     "max_jp_reporters": 47,
     "note": "観測者数は日本のセンサー台数で上限が決まる。狙われ度ではない",
     "top_values": [
       "47人:1",
-      "45人:2",
-      "44人:1",
-      "43人:2",
-      "42人:4",
-      "41人:4",
-      "40人:5",
-      "39人:8",
-      "38人:5",
-      "37人:5",
-      "36人:7",
-      "35人:4"
+      "46人:1",
+      "43人:1",
+      "42人:1",
+      "41人:2",
+      "40人:4",
+      "39人:3",
+      "38人:2",
+      "37人:1",
+      "36人:3",
+      "35人:1",
+      "34人:3"
     ]
   },
   "jp_reporter_distribution": {
-    "1": 1133,
-    "2": 772,
-    "3": 424,
-    "4": 248,
-    "5+": 760
+    "1": 1287,
+    "2": 722,
+    "3": 336,
+    "4": 173,
+    "5+": 614
   },
   "marks": {
-    "exploited_host": 58,
-    "reports_truncated": 13,
-    "research_scanner": 45,
+    "exploited_host": 66,
+    "reports_truncated": 2,
+    "research_scanner": 66,
     "research_scanner_high": 0,
-    "tor": 113,
+    "tor": 230,
     "whitelisted": 0
   },
   "population": {
-    "attack_tier_matched": 3704,
-    "excluded_research_scanners": 367,
-    "jp_attack_sources": 3337,
-    "jp_reported_not_attack": 1325,
-    "missed_by_global_jp_vuln": 2018,
+    "attack_tier_matched": 3400,
+    "excluded_research_scanners": 268,
+    "jp_attack_sources": 3132,
+    "jp_reported_not_attack": 974,
+    "missed_by_global_jp_vuln": 1682,
     "tier_judgeable": 9000,
-    "with_jp_report": 5029,
-    "with_jp_report_all_copies": 5029,
-    "with_jp_report_ratio": 0.5588
+    "with_jp_report": 4374,
+    "with_jp_report_all_copies": 4374,
+    "with_jp_report_ratio": 0.486
   },
   "primary_window": {
-    "confirmed": 2592,
+    "confirmed": 2223,
     "days": 30,
-    "no_jp_report_in_window": 644,
+    "no_jp_report_in_window": 863,
     "note": "pending_refetch は 30 日以内に日本からの報告があるが、その報告が攻撃カテゴリだったかは引き直さないと分からない",
     "pending_refetch": 0,
-    "reported_but_not_attack_in_window": 101,
-    "since_utc": "2026-10-14T02:53:22Z"
+    "reported_but_not_attack_in_window": 46,
+    "since_utc": "2026-10-15T02:53:08Z"
   },
   "report_class_30d": {
-    "multi": 1435,
+    "multi": 1192,
     "multi_by_evidence": {
       "E0": 368,
-      "E1": 79,
-      "E2": 26,
-      "E3": 62,
-      "—": 900
+      "E1": 82,
+      "E2": 56,
+      "E3": 57,
+      "—": 629
     },
     "multi_by_tier": {
-      "A1 侵入・脆弱性": 535,
-      "A2 認証突破": 863,
-      "A3 サービス妨害": 36,
+      "A1 侵入・脆弱性": 563,
+      "A2 認証突破": 536,
+      "A3 サービス妨害": 92,
       "A4 詐欺・なりすまし": 1
     },
-    "multi_single_reporter_only": 263,
+    "multi_single_reporter_only": 193,
     "multi_top_countries": [
       [
         "US",
-        319
+        316
       ],
       [
         "CN",
-        215
-      ],
-      [
-        "NL",
-        119
-      ],
-      [
-        "IN",
-        63
-      ],
-      [
-        "KR",
-        60
+        117
       ],
       [
         "DE",
-        55
+        70
       ],
       [
-        "RU",
-        49
-      ],
-      [
-        "SG",
-        47
+        "NL",
+        70
       ],
       [
         "BE",
-        39
-      ],
-      [
-        "HK",
-        39
-      ],
-      [
-        "BR",
-        36
+        65
       ],
       [
         "FR",
+        60
+      ],
+      [
+        "IN",
+        42
+      ],
+      [
+        "SG",
+        38
+      ],
+      [
+        "BR",
+        37
+      ],
+      [
+        "KR",
+        34
+      ],
+      [
+        "HK",
+        33
+      ],
+      [
+        "RU",
         32
       ]
     ],
     "multi_top_isp": [
       [
-        "Cox Communications",
-        63
-      ],
-      [
-        "Korea Telecom",
-        43
-      ],
-      [
         "Google LLC",
-        39
-      ],
-      [
-        "Cox Communications Inc.",
-        37
-      ],
-      [
-        "DigitalOcean, LLC",
-        37
-      ],
-      [
-        "UCLOUD INFORMATION TECHNOLOGY (HK) LIMITED",
-        29
-      ],
-      [
-        "China Mobile Communications Corporation",
-        28
+        70
       ],
       [
         "Amazon Data Services Northern Virginia",
-        27
+        67
+      ],
+      [
+        "Amazon Technologies Inc.",
+        53
       ],
       [
         "Microsoft Corporation",
+        28
+      ],
+      [
+        "DigitalOcean, LLC",
+        27
+      ],
+      [
+        "Tencent cloud computing (Beijing) Co., Ltd.",
+        27
+      ],
+      [
+        "Korea Telecom",
         25
       ],
       [
-        "Beijing Volcano Engine Technology Co., Ltd.",
-        23
+        "Tencent Building, Kejizhongyi Avenue",
+        24
       ],
       [
-        "Tencent Building, Kejizhongyi Avenue",
+        "Contabo GmbH",
         21
       ],
       [
-        "Beijing Baidu Netcom Science and Technology Co., Ltd.",
+        "Rackmarkt SL",
         20
+      ],
+      [
+        "UCLOUD INFORMATION TECHNOLOGY (HK) LIMITED",
+        19
+      ],
+      [
+        "Cloudflare, Inc.",
+        18
       ]
     ],
-    "multi_with_2plus_reporters": 1172,
-    "none_in_window": 101,
-    "single": 1157,
+    "multi_with_2plus_reporters": 999,
+    "none_in_window": 46,
+    "single": 1031,
     "single_by_tier": {
-      "A1 侵入・脆弱性": 458,
-      "A2 認証突破": 624,
-      "A3 サービス妨害": 74,
+      "A1 侵入・脆弱性": 407,
+      "A2 認証突破": 568,
+      "A3 サービス妨害": 55,
       "A4 詐欺・なりすまし": 1
     },
     "undecidable": 0
   },
   "threat_index": {
-    "already_present": 4,
-    "top_actors": [
-      [
-        "Sandworm Team",
-        1
-      ]
-    ],
-    "with_actor": 1
+    "already_present": 3,
+    "top_actors": [],
+    "with_actor": 0
   },
   "thresholds_30d": {
-    "attack_reports_ge_1": 2592,
-    "attack_reports_ge_10": 333,
-    "attack_reports_ge_2": 1435,
-    "attack_reports_ge_3": 996,
-    "attack_reports_ge_5": 627,
-    "denominator": 2592,
-    "reporters_ge_1": 2592,
-    "reporters_ge_10": 167,
-    "reporters_ge_2": 1398,
-    "reporters_ge_3": 852,
-    "reporters_ge_5": 374
+    "attack_reports_ge_1": 2223,
+    "attack_reports_ge_10": 245,
+    "attack_reports_ge_2": 1192,
+    "attack_reports_ge_3": 768,
+    "attack_reports_ge_5": 447,
+    "denominator": 2223,
+    "reporters_ge_1": 2223,
+    "reporters_ge_10": 129,
+    "reporters_ge_2": 1122,
+    "reporters_ge_3": 644,
+    "reporters_ge_5": 340
   },
   "tier_definition": {
     "A1": {
@@ -347,155 +342,155 @@
   "top_countries": [
     [
       "US",
-      779
+      829
     ],
     [
       "CN",
-      338
+      266
     ],
     [
       "NL",
-      308
+      188
     ],
     [
       "DE",
-      148
-    ],
-    [
-      "KR",
-      137
+      180
     ],
     [
       "SG",
-      118
-    ],
-    [
-      "RU",
-      104
+      108
     ],
     [
       "IN",
-      101
-    ],
-    [
-      "HK",
-      86
+      103
     ],
     [
       "FR",
-      73
+      102
     ],
     [
-      "BE",
-      70
+      "KR",
+      100
     ],
     [
       "BR",
-      67
+      85
     ],
     [
-      "UA",
+      "BE",
+      75
+    ],
+    [
+      "HK",
+      63
+    ],
+    [
+      "RU",
       62
     ],
     [
       "MY",
-      61
+      58
     ],
     [
       "PK",
-      51
+      58
+    ],
+    [
+      "UA",
+      53
     ]
   ],
   "top_isp": [
     [
-      "UCLOUD INFORMATION TECHNOLOGY (HK) LIMITED",
-      120
+      "Google LLC",
+      117
+    ],
+    [
+      "Amazon Data Services Northern Virginia",
+      96
+    ],
+    [
+      "Amazon Technologies Inc.",
+      95
     ],
     [
       "DigitalOcean, LLC",
-      104
-    ],
-    [
-      "Cox Communications",
-      100
-    ],
-    [
-      "Korea Telecom",
-      99
-    ],
-    [
-      "Google LLC",
       91
     ],
     [
       "Microsoft Corporation",
-      71
+      68
+    ],
+    [
+      "Korea Telecom",
+      65
     ],
     [
       "Tencent Building, Kejizhongyi Avenue",
-      59
+      58
     ],
     [
-      "Amazon Data Services Northern Virginia",
-      57
+      "Tencent cloud computing (Beijing) Co., Ltd.",
+      50
     ],
     [
-      "Cox Communications Inc.",
-      57
-    ],
-    [
-      "China Mobile Communications Corporation",
-      54
-    ],
-    [
-      "Internet Utilities NA LLC",
+      "Quintex Alliance Consulting",
       42
     ],
     [
-      "Amazon Technologies Inc.",
-      40
+      "Cloudflare, Inc.",
+      41
     ],
     [
-      "IPXO",
-      37
+      "DiGi Telecommunications Sdn Bhd",
+      41
     ],
     [
-      "GTT Communications Inc.",
-      34
+      "UCLOUD INFORMATION TECHNOLOGY (HK) LIMITED",
+      39
     ],
     [
-      "Triathlon Trading FZCO",
-      34
+      "Contabo GmbH",
+      36
+    ],
+    [
+      "Cox Communications",
+      31
+    ],
+    [
+      "China Mobile Communications Corporation",
+      30
     ]
   ],
   "top_usage_type": [
     [
       "Data Center/Web Hosting/Transit",
-      1769
+      1835
     ],
     [
       "Fixed Line ISP",
-      1472
-    ],
-    [
-      "Mobile ISP",
-      44
+      1175
     ],
     [
       "University/College/School",
-      29
+      56
+    ],
+    [
+      "Mobile ISP",
+      50
     ],
     [
       "Commercial",
-      10
-    ],
-    [
-      "Content Delivery Network",
       8
     ],
     [
       "Government",
       5
+    ],
+    [
+      "Content Delivery Network",
+      3
     ]
   ],
   "unknown_categories": []
