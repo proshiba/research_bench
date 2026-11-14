@@ -1,4 +1,4 @@
-# 監視クラスタの現況 — 2026-11-13
+# 監視クラスタの現況 — 2026-11-14
 
 > **この文書は Claude（AI）が自動生成したものです。人の確認を前提としてください。**
 
@@ -6,38 +6,7 @@
 
 ## 今日の変化
 
-| 変化 | 件数 | 意味 |
-| --- | --- | --- |
-| `first_report` | 7 | 初めて通報が付いた |
-| `backdated_report` | 7 | 過去の日付の通報が後から増えた（さかのぼり投稿） |
-
-### `first_report` — 7 件
-
-初めて通報が付いた
-
-| IP | 役割 | 前回の観測 | 内容 |
-| --- | --- | --- | --- |
-| `38.11.173.33` | artex;sub2api | 2026-11-12 | categories=20 / reports=1 |
-| `38.11.173.38` | artex;sub2api | 2026-11-12 | categories=20 / reports=1 |
-| `38.11.173.40` | artex;sub2api | 2026-11-12 | categories=20 / reports=1 |
-| `38.11.221.12` | artex;sub2api | 2026-11-12 | categories=20 / reports=1 |
-| `38.11.221.78` | artex;sub2api | 2026-11-12 | categories=20 / reports=1 |
-| `38.11.221.103` | artex;sub2api | 2026-11-12 | categories=20 / reports=1 |
-| `38.11.221.121` | artex;sub2api | 2026-11-12 | categories=20 / reports=1 |
-
-### `backdated_report` — 7 件
-
-過去の日付の通報が後から増えた（さかのぼり投稿）
-
-| IP | 役割 | 前回の観測 | 内容 |
-| --- | --- | --- | --- |
-| `38.11.173.33` | artex;sub2api | 2026-11-12 | backdate_days=0.34 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-11T17:16:17+00:00 |
-| `38.11.173.38` | artex;sub2api | 2026-11-12 | backdate_days=0.35 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-11T17:16:00+00:00 |
-| `38.11.173.40` | artex;sub2api | 2026-11-12 | backdate_days=0.34 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-11T17:16:04+00:00 |
-| `38.11.221.12` | artex;sub2api | 2026-11-12 | backdate_days=0.34 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-11T17:16:09+00:00 |
-| `38.11.221.78` | artex;sub2api | 2026-11-12 | backdate_days=0.34 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-11T17:16:16+00:00 |
-| `38.11.221.103` | artex;sub2api | 2026-11-12 | backdate_days=0.34 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-11T17:16:17+00:00 |
-| `38.11.221.121` | artex;sub2api | 2026-11-12 | backdate_days=0.34 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-11T17:16:06+00:00 |
+**変化はありません。** 監視は動いており、255 IP ぶんの観測を取っています（2026-11-14）。
 
 ## クラスタの現況
 
@@ -118,6 +87,7 @@ ARTEX では被害者側の通報が 8 IP で、閾値 10 を
 | 2026-11-11 | 255 |
 | 2026-11-12 | 255 |
 | 2026-11-13 | 255 |
+| 2026-11-14 | 255 |
 
 連日とは限りません。変化の行の「前回の観測」が、その変化をどれだけの
 間隔で見たかを示します。
