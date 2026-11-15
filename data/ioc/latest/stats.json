@@ -188,7 +188,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1492992,
+        "addresses": 1495040,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -254,7 +254,7 @@
           "VAPOR PANDA",
           "Wizard Spider"
         ],
-        "addresses": 1682944,
+        "addresses": 1683200,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -314,7 +314,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4632832,
+        "addresses": 4632576,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -387,7 +387,7 @@
           "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218603008,
+        "addresses": 218612480,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -482,7 +482,7 @@
           "Storm-0940",
           "The Gentlemen"
         ],
-        "addresses": 1117952,
+        "addresses": 1118976,
         "asn": 212238,
         "cc": "GB",
         "name": "Datacamp Limited"
@@ -531,7 +531,7 @@
           "Nie",
           "UNG0002"
         ],
-        "addresses": 12712960,
+        "addresses": 12726272,
         "asn": 45090,
         "cc": "CN",
         "name": "Tencent Cloud"
@@ -594,15 +594,15 @@
           "Jewelbug",
           "The Gentlemen"
         ],
-        "addresses": 37626880,
+        "addresses": 37626624,
         "asn": 174,
         "cc": "US",
         "name": "Cogent Communications, LLC"
       }
     ],
-    "multi_actor": 236,
+    "multi_actor": 237,
     "multi_actor_small": 9,
-    "small": 296,
+    "small": 295,
     "top": [
       {
         "actors": [
@@ -737,7 +737,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1522
+    "total": 1521
   },
   "coverage": {
     "abuseipdb": {
@@ -751,16 +751,16 @@
           "target": 494
         },
         "5": {
-          "done": 3567,
-          "target": 3567
+          "done": 3574,
+          "target": 3574
         }
       },
-      "done": 5139,
+      "done": 5146,
       "ratio": 1,
-      "target": 5138
+      "target": 5145
     },
-    "newest_fetch": null,
-    "oldest_fetch": null,
+    "newest_fetch": "2026-11-15",
+    "oldest_fetch": "2026-11-15",
     "virustotal": {
       "by_stage": {
         "1": {
@@ -772,53 +772,53 @@
           "target": 494
         },
         "3": {
-          "done": 6589,
-          "target": 6589
+          "done": 6602,
+          "target": 6602
         },
         "4": {
-          "done": 7110,
-          "target": 7110
+          "done": 7113,
+          "target": 7113
         },
         "5": {
-          "done": 6013,
-          "target": 6013
+          "done": 6024,
+          "target": 6024
         },
         "6": {
-          "done": 1722,
-          "target": 1722
+          "done": 1725,
+          "target": 1725
         }
       },
-      "done": 29246,
-      "known": 25145,
+      "done": 29276,
+      "known": 25168,
       "ratio": 1,
-      "target": 29245,
-      "unknown": 4101
+      "target": 29275,
+      "unknown": 4108
     }
   },
   "entities": {
     "actor": 379,
     "campaign": 13,
     "case": 518,
-    "malware": 610
+    "malware": 614
   },
   "from": {
-    "collected_at": "2026-11-14T00:04:05.348Z",
+    "collected_at": "2026-11-15T00:03:23.659Z",
     "week": "2026-W46"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 10303,
+      "ioc.domain": 10306,
       "ioc.email": 268,
       "ioc.endpoint": 317,
-      "ioc.ipv4": 5073,
+      "ioc.ipv4": 5080,
       "ioc.ipv6": 74,
       "ioc.md5": 2931,
       "ioc.sha1": 1660,
-      "ioc.sha256": 5470,
+      "ioc.sha256": 5486,
       "ioc.sha512": 16,
-      "ioc.url": 3773
+      "ioc.url": 3777
     },
-    "dated": 14253,
+    "dated": 14283,
     "excluded": {
       "bogon": 3,
       "malformed": 30,
@@ -826,8 +826,8 @@
       "popular": 173,
       "sample_reported": 1
     },
-    "total": 29885,
-    "usable": 29673
+    "total": 29915,
+    "usable": 29703
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -1429,7 +1429,7 @@
         "filename": 0,
         "imphash": 0,
         "ioc": 1,
-        "jarm": 5,
+        "jarm": 4,
         "registered": 2,
         "registrable": 1,
         "resolution": 0,
@@ -1438,7 +1438,7 @@
         "vhash": 0
       },
       "identical_sets": 0,
-      "pairs": 7,
+      "pairs": 6,
       "top": [
         {
           "a": "Browser Extension and Google Play Abuse",
@@ -1542,25 +1542,9 @@
             "jarm"
           ],
           "weak_only": true
-        },
-        {
-          "a": "Operation DarkHorse",
-          "b": "Smoke Screen / Stealth Power",
-          "evidence": {
-            "jarm": [
-              "29d29d00029d29d00042d43d00041d598ac0c1012db967bb1ad0ff2491b3ae"
-            ]
-          },
-          "ratio": 0.014,
-          "shared": 1,
-          "strength": 1,
-          "via": [
-            "jarm"
-          ],
-          "weak_only": true
         }
       ],
-      "weak_only": 6
+      "weak_only": 5
     },
     "case": {
       "by_via": {
@@ -1570,7 +1554,7 @@
         "filename": 8,
         "imphash": 6,
         "ioc": 132,
-        "jarm": 133,
+        "jarm": 127,
         "registered": 58,
         "registrable": 68,
         "resolution": 0,
@@ -1579,7 +1563,7 @@
         "vhash": 10
       },
       "identical_sets": 156,
-      "pairs": 259,
+      "pairs": 254,
       "top": [
         {
           "a": "case:3f09145757282e6a59cd69319ac3b9da3265022a1d4f92a1646f8ddbaad89333",
@@ -1918,7 +1902,7 @@
           ]
         }
       ],
-      "weak_only": 121
+      "weak_only": 116
     },
     "malware": {
       "by_via": {
@@ -2692,7 +2676,7 @@
         ],
         "asns": [
           {
-            "addresses": 37626880,
+            "addresses": 37626624,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2738,7 +2722,7 @@
         "subnet": "213.145.86.0/24"
       }
     ],
-    "total": 593
+    "total": 594
   },
   "targets": {
     "abuse": 7,
@@ -3069,13 +3053,13 @@
       ],
       "with_dates": 8
     },
-    "dated": 9854,
+    "dated": 9867,
     "index_lag": {
-      "ahead": 484,
-      "median_days": 53,
+      "ahead": 486,
+      "median_days": 52,
       "p25_days": 1,
       "p75_days": 159,
-      "pairs": 5389
+      "pairs": 5402
     }
   },
   "tool": "tools/ioc/stats.mjs",
@@ -3296,7 +3280,7 @@
       ],
       "total": 723
     },
-    "malicious": 21040,
-    "unknown": 4101
+    "malicious": 21062,
+    "unknown": 4108
   }
 }

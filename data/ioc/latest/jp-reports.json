@@ -1,6 +1,6 @@
 {
   "by_kind": {
-    "その他": 19,
+    "その他": 20,
     "侵入（範囲広い）": 18,
     "脆弱性狙い": 56,
     "認証狙い": 31,
@@ -201,30 +201,30 @@
     "フィッシング": 4,
     "ポートスキャン": 93,
     "メールスパム": 6,
-    "不正ボット": 36,
+    "不正ボット": 37,
     "侵入": 38,
     "総当たり": 62,
     "詐欺注文": 1,
     "踏み台": 2
   },
-  "jp_reported": 159,
+  "jp_reported": 160,
   "jp_reported_with_actor": 60,
   "jp_reporter_distribution": {
-    "1": 89,
+    "1": 90,
     "2": 27,
     "3": 17,
     "4": 7,
     "5+": 19
   },
   "marks": {
-    "hosting": 141,
+    "hosting": 142,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 865,
+    "reported_ips": 868,
     "unmeasured": 0
   },
   "rows": [
@@ -233,7 +233,8 @@
         "GhostAction"
       ],
       "articles": [
-        "article:20261012#3"
+        "article:20261012#3",
+        "article:20261114#5"
       ],
       "auth": [
         "総当たり"
@@ -5117,6 +5118,36 @@
     {
       "actors": [],
       "articles": [
+        "article:20261114#4"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|185.241.211.197",
+      "ip": "185.241.211.197",
+      "isp": "1337 Services GmbH",
+      "jp_categories": [
+        "不正ボット"
+      ],
+      "jp_last": "2026-10-02",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [
+        "SCKit"
+      ],
+      "reporters": 41,
+      "reports": 62,
+      "roles": [],
+      "score": 57,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260608#2"
       ],
       "auth": [],
@@ -5433,7 +5464,7 @@
   "top_countries": [
     [
       "US",
-      38
+      39
     ],
     [
       "NL",
@@ -5522,11 +5553,11 @@
       3
     ],
     [
-      "Advin Services LLC",
+      "1337 Services GmbH",
       2
     ],
     [
-      "Artikel10 e.V.",
+      "Advin Services LLC",
       2
     ]
   ]
