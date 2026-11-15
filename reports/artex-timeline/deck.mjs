@@ -314,8 +314,8 @@ s.addText("sub2api-198.200.59.85", { placeholder: "title" });
 s.addText([
   { text: `${K.ips_in_cluster} IP を 1 つのクラスタとして見た数字`,
     options: { fontSize: 18, color: "FFFFFF", breakLine: true, paraSpaceAfter: 8 } },
-  { text: "全 IP に sub2api があり、同じリチャージ URL (198.200.59.85) がセットされている。"
-    + "うち 250 IP では ARTEX も起動している（利用者の観測）",
+  // **宣言をここに書き写さない。**訂正から取り残される（2026-11-12 に実際そうなった）
+  { text: `${S.cluster.note}（利用者の観測）`,
     options: { fontSize: 14, color: "C9CED6", breakLine: true, paraSpaceAfter: 8 } },
   { text: `取得 ${String(S.collected_at_utc).slice(0, 10)} ／ 対象 IP への接続・走査・認証試行は一切していない`,
     options: { fontSize: 12, color: "9BA3AF", italic: true } },

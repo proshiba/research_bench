@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>推移と通報理由 — sub2api-198.200.59.85</title>
+<style>
+/* 系列色は dataviz の参照カテゴリ順スロット 1〜4。検証器に明色・暗色の両方で通してある。
+   「通報なし」は系列ではなく軌道なので --track は系列色に数えない。 */
+:root{
+  color-scheme: light;
+  --bg:#ffffff; --surface:#f4f6f8; --ink:#14181f; --ink-2:#5c6673; --ink-3:#8a94a3;
+  --rule:#e3e7ec; --grid:#eceff3; --track:#e8eaed;
+  --c1:#2a78d6; --c2:#eb6834; --c3:#1baf7a; --c4:#eda100; --c0:#8a94a3;
+  --maxw:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#14181f; --surface:#1b2029; --ink:#eef1f5; --ink-2:#b4bdc9; --ink-3:#8a94a3;
+    --rule:#2a313c; --grid:#232933; --track:#2a313c;
+    --c1:#3987e5; --c2:#d95926; --c3:#199e70; --c4:#c98500; --c0:#8a94a3;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#14181f; --surface:#1b2029; --ink:#eef1f5; --ink-2:#b4bdc9; --ink-3:#8a94a3;
+  --rule:#2a313c; --grid:#232933; --track:#2a313c;
+  --c1:#3987e5; --c2:#d95926; --c3:#199e70; --c4:#c98500; --c0:#8a94a3;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:16px/1.75 "Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",
+    "Yu Gothic","Meiryo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 16px 72px}
+h1{font-size:2.3rem; line-height:1.25; margin:.1em 0 .3em; letter-spacing:.01em}
+h2{font-size:1.45rem; margin:2.6em 0 .2em; padding-bottom:.35em; border-bottom:1px solid var(--rule)}
+h3{font-size:1.12rem; margin:0 0 .15em}
+p{margin:.5em 0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.92em;
+  background:var(--surface); padding:.1em .35em; border-radius:4px}
+.hd{padding:48px 0 8px}
+.eyebrow{color:var(--ink-2); font-size:.85rem; letter-spacing:.14em; margin:0}
+.lead{font-size:1.05rem; max-width:72ch}
+.meta{color:var(--ink-2); font-size:.86rem; max-width:80ch}
+.pts{margin:.6em 0 0; padding-left:1.25em; max-width:80ch}
+.pts li{margin:.45em 0}
+.stats{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); margin:18px 0 6px}
+.stat{background:var(--surface); border-radius:10px; padding:16px 18px}
+.num{font-size:2.6rem; font-weight:700; line-height:1.1; letter-spacing:-.01em}
+.num.alt{color:var(--c2)}
+.den{font-size:1rem; font-weight:400; color:var(--ink-2)}
+.lab{font-weight:700; font-size:.95rem; margin-top:.2em}
+.sub{color:var(--ink-2); font-size:.84rem}
+.fig{margin:28px 0 8px; padding:0}
+.fig figcaption{margin-bottom:.4em}
+.fig .note{color:var(--ink-2); font-size:.88rem; margin:.1em 0 0; max-width:80ch}
+.plot{margin-top:10px}
+.plot svg{width:100%; height:auto; display:block}
+.legend{display:flex; flex-wrap:wrap; gap:16px; margin-top:10px}
+.key{display:inline-flex; align-items:center; gap:7px; font-size:.86rem; color:var(--ink-2)}
+.sw{width:12px; height:12px; border-radius:3px; display:inline-block}
+.sw.c1{background:var(--c1)} .sw.c2{background:var(--c2)}
+.sw.c3{background:var(--c3)} .sw.c4{background:var(--c4)} .sw.c0{background:var(--c0)}
+.mark.c1{fill:var(--c1)} .mark.c2{fill:var(--c2)}
+.mark.c3{fill:var(--c3)} .mark.c4{fill:var(--c4)} .mark.c0{fill:var(--c0)}
+.mark{transition:opacity .12s}
+.plot:hover .mark{opacity:.55}
+.plot .mark:hover{opacity:1}
+.track{fill:var(--track)}
+.grid{stroke:var(--grid); stroke-width:1}
+text{font-family:inherit}
+.axis{fill:var(--ink-3); font-size:12px}
+.cat{fill:var(--ink-2); font-size:13px}
+.val{fill:var(--ink); font-size:12px; font-weight:600}
+.val .pct{fill:var(--ink-2); font-weight:400}
+.tbl{margin-top:12px}
+.tbl summary{cursor:pointer; color:var(--ink-2); font-size:.86rem; width:max-content}
+.tbl table{border-collapse:collapse; margin-top:8px; font-size:.88rem; width:100%}
+.tbl th,.tbl td{border-bottom:1px solid var(--rule); padding:6px 10px; text-align:right}
+.tbl thead th{color:var(--ink-2); font-weight:600; border-bottom:1px solid var(--ink-3)}
+.tbl th[scope=row], .tbl thead th:first-child{text-align:left}
+.cols{display:grid; gap:24px; grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); margin-top:10px}
+.limits{background:var(--surface); border-radius:12px; padding:4px 24px 20px; margin-top:2.6em}
+.limits h2{border-bottom:none; margin-top:1.2em}
+.ft{margin-top:3em; padding-top:1.2em; border-top:1px solid var(--rule); color:var(--ink-2); font-size:.88rem}
+#tip{position:fixed; z-index:9; pointer-events:none; background:var(--ink); color:var(--bg);
+  padding:6px 10px; border-radius:6px; font-size:.82rem; line-height:1.4; opacity:0;
+  transition:opacity .1s; max-width:280px}
+#tip b{display:block; font-weight:600}
+.themer{position:fixed; top:12px; right:12px; z-index:10; background:var(--surface); color:var(--ink-2);
+  border:1px solid var(--rule); border-radius:999px; padding:6px 14px; font:inherit; font-size:.8rem; cursor:pointer}
+@media print{
+  .themer,#tip{display:none}
+  .tbl[open] summary{display:none}
+  body{background:#fff; color:#000}
+  section{break-inside:avoid-page}
+}
+@media (max-width:640px){
+  h1{font-size:1.7rem} h2{font-size:1.2rem} .num{font-size:2.1rem}
+  .wrap{padding:0 16px 48px}
+}
+</style>
+</head>
+<body>
+<button class="themer" id="themer" type="button">明暗を切り替え</button>
+<div class="wrap">
+<header class="hd">
+  <p class="eyebrow">AbuseIPDB 上の通報 — 推移と通報理由</p>
+  <h1>sub2api-198.200.59.85</h1>
+  <p class="lead">255 IP を 1 つのクラスタとして見た推移。
+    全 IP で 8787/tcp に ARTEX が上がっており、sub2api があり、
+    同じリチャージ URL (198.200.59.85) がセットされている（利用者が個別に確認済み）。</p>
+  <p class="meta">出所 <code>data/ioc/watch/observations/</code>（9 取得日 ×
+    255 IP、2026-10-30〜2026-11-15）／
+    <strong>対象 IP への接続・走査・認証試行は一切していない</strong>／
+    この文書は Claude（AI）が自動生成したもので、人の確認を前提とする</p>
+</header>
+
+<section>
+  <h2>1. 要点</h2>
+  <div class="stats">
+    
+<div class="stat">
+  <div class="num ">124</div>
+  <div class="lab">通報の総数</div>
+  <div class="sub">2026-11-15 時点。フィード 114 / それ以外 10</div>
+</div>
+    
+<div class="stat">
+  <div class="num ">119<span class="den"> / 255</span></div>
+  <div class="lab">通報のある IP</div>
+  <div class="sub">46.7%。2026-10-30 は 44 IP だった</div>
+</div>
+    
+<div class="stat">
+  <div class="num alt">114<span class="den"> / 124 件</span></div>
+  <div class="lab">最も多い理由: Exploited Host</div>
+  <div class="sub">うち 114 件がフィードの一括登録</div>
+</div>
+    
+<div class="stat">
+  <div class="num alt">10</div>
+  <div class="lab">フィード以外の通報</div>
+  <div class="sub">9 IP。被害者の観測に最も近い行</div>
+</div>
+  </div>
+  <ul class="pts">
+    <li><strong>「推移」には 2 つの意味があり、混ぜてはいけない。</strong>
+      活動の推移（図 1、申告された観測日ごと）と、こちらに見えていた量の推移（図 2、取得日ごと）は別物。
+      図 2 の増加（44 → 119 IP）は
+      <strong>攻撃が増えたのではなく、さかのぼり投稿が届いたぶん</strong>が大半。</li>
+    <li><strong>最も多い理由は Exploited Host（114 / 124 件）だが、
+      そのうち 114 件
+      すべてが 1 つのフィードの一括登録。</strong>
+      理由の分布は「このホストが何をしたか」ではなく<strong>そのフィードの分類語彙</strong>を映している。</li>
+    <li><strong>直近 14 日（観測日 2026-11-01 より後）の通報
+      56 件は Exploited Host だけ。</strong>
+      被害者側の理由（Web App Attack など）が付いたのは 2026-09-30・2026-10-23・2026-10-31 で止まっている。</li>
+    <li>申告された観測の最後は <strong>2026-11-11</strong>（4 日前）。
+      ただし投稿は遅れて届くので、<strong>直近の窓はまだ埋まっていない</strong>。</li>
+    <li>日本からの通報は 0 件。<strong>これは「日本向けではない」という意味ではない</strong>
+      — AbuseIPDB に登録がないことしか言えない。</li>
+  </ul>
+</section>
+
+<section>
+  <h2>2. 活動の推移（申告された観測日ごと）</h2>
+  <p class="lead">通報者が「いつ観測したか」と申告した日で数えたもの。
+    <strong>活動の形として読むのはこちら。</strong></p>
+  
+<figure class="fig" id="fig-activity">
+  <figcaption><h3>観測日ごとの通報数 — 10 日に 124 件</h3><p class="note">縦軸は通報の件数。色は出所。<strong>フィードの一括登録は「誰かが悪性と判断した」情報で、観測ではない。</strong>日付が飛んでいるのは、その間の観測が申告されていないという意味。</p></figcaption>
+  <div class="legend"><span class="key"><i class="sw c1"></i>フィードの一括登録（ICS Labs）</span><span class="key"><i class="sw c2"></i>フィード以外の通報</span></div>
+  <div class="plot"><svg viewBox="0 0 760 320" role="img" preserveAspectRatio="xMidYMid meet"><line class="grid" x1="40" y1="260" x2="744" y2="260"/><text class="axis" x="31" y="264" text-anchor="end">0</text><line class="grid" x1="40" y1="201.5" x2="744" y2="201.5"/><text class="axis" x="31" y="205.5" text-anchor="end">10</text><line class="grid" x1="40" y1="143" x2="744" y2="143"/><text class="axis" x="31" y="147" text-anchor="end">20</text><line class="grid" x1="40" y1="84.5" x2="744" y2="84.5"/><text class="axis" x="31" y="88.5" text-anchor="end">30</text><line class="grid" x1="40" y1="26" x2="744" y2="26"/><text class="axis" x="31" y="30" text-anchor="end">40</text><text class="axis" x="40" y="277" text-anchor="end" transform="rotate(-42 40 277)">09-30</text><text class="axis" x="157.33333333333331" y="277" text-anchor="end" transform="rotate(-42 157.33333333333331 277)">10-07</text><text class="axis" x="274.66666666666663" y="277" text-anchor="end" transform="rotate(-42 274.66666666666663 277)">10-14</text><text class="axis" x="392" y="277" text-anchor="end" transform="rotate(-42 392 277)">10-21</text><text class="axis" x="509.3333333333333" y="277" text-anchor="end" transform="rotate(-42 509.3333333333333 277)">10-28</text><text class="axis" x="626.6666666666666" y="277" text-anchor="end" transform="rotate(-42 626.6666666666666 277)">11-04</text><text class="axis" x="744" y="277" text-anchor="end" transform="rotate(-42 744 277)">11-11</text><path class="mark c2" d="M33.61488372093023 260 v-1.8499999999999996 a4 4 0 0 1 4 -4 h4.770232558139536 a4 4 0 0 1 4 4 v1.8499999999999996 Z" data-tip="2026-09-30 フィード以外の通報" data-val="1 件"/><path class="mark c1" d="M318.5672646733112 260 v-60.349999999999994 a4 4 0 0 1 4 -4 h4.770232558139536 a4 4 0 0 1 4 4 v60.349999999999994 Z" data-tip="2026-10-17 フィードの一括登録" data-val="11 件"/><path class="mark c1" d="M368.85297895902545 260 v-1.8499999999999996 a4 4 0 0 1 4 -4 h4.770232558139536 a4 4 0 0 1 4 4 v1.8499999999999996 Z" data-tip="2026-10-20 フィードの一括登録" data-val="1 件"/><path class="mark c2" d="M419.1386932447397 260 v-1.8499999999999996 a4 4 0 0 1 4 -4 h4.770232558139536 a4 4 0 0 1 4 4 v1.8499999999999996 Z" data-tip="2026-10-23 フィード以外の通報" data-val="1 件"/><path class="mark c1" d="M435.9005980066445 260 v-183.2 a4 4 0 0 1 4 -4 h4.770232558139536 a4 4 0 0 1 4 4 v183.2 Z" data-tip="2026-10-24 フィードの一括登録" data-val="32 件"/><path class="mark c1" d="M486.18631229235876 260 v-77.9 a4 4 0 0 1 4 -4 h4.770232558139536 a4 4 0 0 1 4 4 v77.9 Z" data-tip="2026-10-27 フィードの一括登録" data-val="14 件"/><path class="mark c2" d="M553.2339313399779 260 v-42.8 a4 4 0 0 1 4 -4 h4.770232558139536 a4 4 0 0 1 4 4 v42.8 Z" data-tip="2026-10-31 フィード以外の通報" data-val="8 件"/><path class="mark c1" d="M620.2815503875969 260 v-165.65 a4 4 0 0 1 4 -4 h4.770232558139536 a4 4 0 0 1 4 4 v165.65 Z" data-tip="2026-11-04 フィードの一括登録" data-val="29 件"/><path class="mark c1" d="M637.0434551495017 260 v-113 a4 4 0 0 1 4 -4 h4.770232558139536 a4 4 0 0 1 4 4 v113 Z" data-tip="2026-11-05 フィードの一括登録" data-val="20 件"/><path class="mark c1" d="M737.6148837209303 260 v-36.95 a4 4 0 0 1 4 -4 h4.770232558139536 a4 4 0 0 1 4 4 v36.95 Z" data-tip="2026-11-11 フィードの一括登録" data-val="7 件"/><text class="val" x="442.2857142857143" y="65.80000000000001" text-anchor="middle">32</text><text class="val" x="626.6666666666666" y="83.35" text-anchor="middle">29</text><text class="val" x="643.4285714285714" y="121" text-anchor="middle">20</text><text class="val" x="492.57142857142856" y="171.1" text-anchor="middle">14</text><text class="val" x="324.95238095238096" y="188.65" text-anchor="middle">11</text><text class="val" x="559.6190476190476" y="206.2" text-anchor="middle">8</text><text class="val" x="736.5" y="212.05" text-anchor="middle">7</text><text class="val" x="47.5" y="247.15" text-anchor="middle">1</text><text class="val" x="375.23809523809524" y="247.15" text-anchor="middle">1</text><text class="val" x="425.5238095238095" y="247.15" text-anchor="middle">1</text></svg></div>
+  <details class="tbl"><summary>数字で見る</summary><table><thead><tr><th>観測日</th><th>通報</th><th>うちフィード</th><th>うちフィード以外</th><th>IP</th><th>通報者の国</th></tr></thead><tbody><tr><th scope="row">2026-09-30</th><td>1</td><td>0</td><td>1</td><td>1</td><td>NL</td></tr><tr><th scope="row">2026-10-17</th><td>11</td><td>11</td><td>0</td><td>11</td><td>BR</td></tr><tr><th scope="row">2026-10-20</th><td>1</td><td>1</td><td>0</td><td>1</td><td>BR</td></tr><tr><th scope="row">2026-10-23</th><td>1</td><td>0</td><td>1</td><td>1</td><td>MY</td></tr><tr><th scope="row">2026-10-24</th><td>32</td><td>32</td><td>0</td><td>32</td><td>BR</td></tr><tr><th scope="row">2026-10-27</th><td>14</td><td>14</td><td>0</td><td>14</td><td>BR</td></tr><tr><th scope="row">2026-10-31</th><td>8</td><td>0</td><td>8</td><td>8</td><td>IN</td></tr><tr><th scope="row">2026-11-04</th><td>29</td><td>29</td><td>0</td><td>29</td><td>BR</td></tr><tr><th scope="row">2026-11-05</th><td>20</td><td>20</td><td>0</td><td>20</td><td>BR</td></tr><tr><th scope="row">2026-11-11</th><td>7</td><td>7</td><td>0</td><td>7</td><td>BR</td></tr></tbody></table></details>
+</figure>
+  <p class="meta">山は 2026-10-24
+    （32 件）。
+    フィード以外の通報があった日は 3 日しかない。</p>
+</section>
+
+<section>
+  <h2>3. こちらに見えていた量の推移（取得日ごと）</h2>
+  <p class="lead">同じ 255 IP を取得日ごとに引き直したもの。
+    <strong>これは活動ではなく、こちらの視界。</strong></p>
+  
+<figure class="fig" id="fig-view">
+  <figcaption><h3>取得日ごとに見えていた通報数 — 46 → 124 件</h3><p class="note">母数はどの日も 255 IP で同じ。<strong>増えたのは対象が増えたからではない。</strong>棒が無い日（10-31・11-01・11-02・11-03・11-04・11-05・11-07・11-10）は取得していない日。0 件ではない。2026-10-30 の写しは当時の CSV からの復元で、形の畳み方が取得ぶんと厳密には一致しない。</p></figcaption>
+  <div class="legend"><span class="key"><i class="sw c1"></i>フィードの一括登録（ICS Labs）</span><span class="key"><i class="sw c2"></i>フィード以外の通報</span></div>
+  <div class="plot"><svg viewBox="0 0 760 320" role="img" preserveAspectRatio="xMidYMid meet"><line class="grid" x1="40" y1="260" x2="744" y2="260"/><text class="axis" x="31" y="264" text-anchor="end">0</text><line class="grid" x1="40" y1="182" x2="744" y2="182"/><text class="axis" x="31" y="186" text-anchor="end">50</text><line class="grid" x1="40" y1="104" x2="744" y2="104"/><text class="axis" x="31" y="108" text-anchor="end">100</text><line class="grid" x1="40" y1="26" x2="744" y2="26"/><text class="axis" x="31" y="30" text-anchor="end">150</text><text class="axis" x="40" y="277" text-anchor="end" transform="rotate(-42 40 277)">10-30</text><text class="axis" x="172" y="277" text-anchor="end" transform="rotate(-42 172 277)">11-02</text><text class="axis" x="304" y="277" text-anchor="end" transform="rotate(-42 304 277)">11-05</text><text class="axis" x="436" y="277" text-anchor="end" transform="rotate(-42 436 277)">11-08</text><text class="axis" x="568" y="277" text-anchor="end" transform="rotate(-42 568 277)">11-11</text><text class="axis" x="744" y="277" text-anchor="end" transform="rotate(-42 744 277)">11-15</text><path class="mark c1" d="M23.84941176470588 260 v-64.64 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v64.64 Z" data-tip="2026-10-30 取得 フィードの一括登録" data-val="44 件"/><path class="mark c2" d="M23.84941176470588 189.36 v0 a1.12 1.12 0 0 1 1.12 -1.12 h30.061176470588236 a1.12 1.12 0 0 1 1.12 1.12 v0 Z" data-tip="2026-10-30 取得 フィード以外の通報" data-val="2 件"/><path class="mark c1" d="M331.8494117647059 260 v-86.48 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v86.48 Z" data-tip="2026-11-06 取得 フィードの一括登録" data-val="58 件"/><path class="mark c2" d="M331.8494117647059 167.52 v-9.6 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v9.6 Z" data-tip="2026-11-06 取得 フィード以外の通報" data-val="10 件"/><path class="mark c1" d="M419.8494117647059 260 v-117.68 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v117.68 Z" data-tip="2026-11-08 取得 フィードの一括登録" data-val="78 件"/><path class="mark c2" d="M419.8494117647059 136.32 v-9.6 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v9.6 Z" data-tip="2026-11-08 取得 フィード以外の通報" data-val="10 件"/><path class="mark c1" d="M463.8494117647059 260 v-125.47999999999999 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v125.47999999999999 Z" data-tip="2026-11-09 取得 フィードの一括登録" data-val="83 件"/><path class="mark c2" d="M463.8494117647059 128.51999999999998 v-9.6 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v9.6 Z" data-tip="2026-11-09 取得 フィード以外の通報" data-val="10 件"/><path class="mark c1" d="M551.8494117647059 260 v-162.92 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v162.92 Z" data-tip="2026-11-11 取得 フィードの一括登録" data-val="107 件"/><path class="mark c2" d="M551.8494117647059 91.07999999999998 v-9.6 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v9.6 Z" data-tip="2026-11-11 取得 フィード以外の通報" data-val="10 件"/><path class="mark c1" d="M595.8494117647059 260 v-162.92 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v162.92 Z" data-tip="2026-11-12 取得 フィードの一括登録" data-val="107 件"/><path class="mark c2" d="M595.8494117647059 91.07999999999998 v-9.6 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v9.6 Z" data-tip="2026-11-12 取得 フィード以外の通報" data-val="10 件"/><path class="mark c1" d="M639.8494117647059 260 v-173.84 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v173.84 Z" data-tip="2026-11-13 取得 フィードの一括登録" data-val="114 件"/><path class="mark c2" d="M639.8494117647059 80.16 v-9.6 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v9.6 Z" data-tip="2026-11-13 取得 フィード以外の通報" data-val="10 件"/><path class="mark c1" d="M683.8494117647059 260 v-173.84 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v173.84 Z" data-tip="2026-11-14 取得 フィードの一括登録" data-val="114 件"/><path class="mark c2" d="M683.8494117647059 80.16 v-9.6 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v9.6 Z" data-tip="2026-11-14 取得 フィード以外の通報" data-val="10 件"/><path class="mark c1" d="M727.8494117647059 260 v-173.84 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v173.84 Z" data-tip="2026-11-15 取得 フィードの一括登録" data-val="114 件"/><path class="mark c2" d="M727.8494117647059 80.16 v-9.6 a4 4 0 0 1 4 -4 h24.30117647058824 a4 4 0 0 1 4 4 v9.6 Z" data-tip="2026-11-15 取得 フィード以外の通報" data-val="10 件"/><text class="val" x="656" y="59.56" text-anchor="middle">124</text><text class="val" x="700" y="59.56" text-anchor="middle">124</text><text class="val" x="729.5" y="59.56" text-anchor="middle">124</text><text class="val" x="568" y="70.47999999999999" text-anchor="middle">117</text><text class="val" x="612" y="70.47999999999999" text-anchor="middle">117</text><text class="val" x="480" y="107.91999999999999" text-anchor="middle">93</text><text class="val" x="436" y="115.72" text-anchor="middle">88</text><text class="val" x="348" y="146.92000000000002" text-anchor="middle">68</text><text class="val" x="51" y="181.24" text-anchor="middle">46</text></svg></div>
+  <details class="tbl"><summary>数字で見る</summary><table><thead><tr><th>取得日</th><th>通報</th><th>通報のある IP</th><th>255 IP 中</th><th>観測日の数</th><th>最後の観測日</th><th>最大スコア</th><th>備考</th></tr></thead><tbody><tr><th scope="row">2026-10-30</th><td>46</td><td>44</td><td>17.3%</td><td>5</td><td>2026-10-24</td><td>18</td><td>CSV から復元</td></tr><tr><th scope="row">2026-11-06</th><td>68</td><td>65</td><td>25.5%</td><td>7</td><td>2026-10-31</td><td>16</td><td></td></tr><tr><th scope="row">2026-11-08</th><td>88</td><td>83</td><td>32.5%</td><td>8</td><td>2026-11-05</td><td>15</td><td></td></tr><tr><th scope="row">2026-11-09</th><td>93</td><td>88</td><td>34.5%</td><td>9</td><td>2026-11-05</td><td>15</td><td></td></tr><tr><th scope="row">2026-11-11</th><td>117</td><td>112</td><td>43.9%</td><td>9</td><td>2026-11-05</td><td>15</td><td></td></tr><tr><th scope="row">2026-11-12</th><td>117</td><td>112</td><td>43.9%</td><td>9</td><td>2026-11-05</td><td>15</td><td></td></tr><tr><th scope="row">2026-11-13</th><td>124</td><td>119</td><td>46.7%</td><td>10</td><td>2026-11-11</td><td>14</td><td></td></tr><tr><th scope="row">2026-11-14</th><td>124</td><td>119</td><td>46.7%</td><td>10</td><td>2026-11-11</td><td>14</td><td></td></tr><tr><th scope="row">2026-11-15</th><td>124</td><td>119</td><td>46.7%</td><td>10</td><td>2026-11-11</td><td>14</td><td></td></tr></tbody></table></details>
+</figure>
+  <p class="meta"><strong>最大スコアは 18 → 14 と下がっている。</strong>
+    通報が増えてもスコアは時間で減衰するので、横に比べるときは取得日を揃えること。</p>
+
+  
+<figure class="fig" id="fig-lag">
+  <figcaption><h3>投稿の遅れ — フィードは中央 1.49 日・最大 7.32 日</h3><p class="note">通報が 1 件の IP でしか測れない（115 / 119 IP）。<strong>母数が違う 2 系列なので割合ではなく件数で出している</strong>（フィード 110 / それ以外 5）。</p></figcaption>
+  <div class="legend"><span class="key"><i class="sw c1"></i>フィードの一括登録（ICS Labs）</span><span class="key"><i class="sw c2"></i>フィード以外の通報</span></div>
+  <div class="plot"><svg viewBox="0 0 760 290" role="img" preserveAspectRatio="xMidYMid meet"><line class="grid" x1="40" y1="246" x2="746" y2="246"/><text class="axis" x="31" y="250" text-anchor="end">0</text><line class="grid" x1="40" y1="191" x2="746" y2="191"/><text class="axis" x="31" y="195" text-anchor="end">10</text><line class="grid" x1="40" y1="136" x2="746" y2="136"/><text class="axis" x="31" y="140" text-anchor="end">20</text><line class="grid" x1="40" y1="81" x2="746" y2="81"/><text class="axis" x="31" y="85" text-anchor="end">30</text><line class="grid" x1="40" y1="26" x2="746" y2="26"/><text class="axis" x="31" y="30" text-anchor="end">40</text><text class="val" x="87.714" y="239" text-anchor="middle">0</text><path class="mark c2" d="M111.6 246 v-23.5 a4 4 0 0 1 4 -4 h35.772 a4 4 0 0 1 4 4 v23.5 Z" data-tip="1 時間未満 フィード以外" data-val="5 IP"/><text class="val" x="133.486" y="211.5" text-anchor="middle">5</text><text class="axis" x="110.6" y="267" text-anchor="middle">1 時間未満</text><path class="mark c1" d="M207.028 246 v-177.5 a4 4 0 0 1 4 -4 h35.772 a4 4 0 0 1 4 4 v177.5 Z" data-tip="1 日未満 フィード" data-val="33 IP"/><text class="val" x="228.914" y="57.5" text-anchor="middle">33</text><text class="val" x="274.686" y="239" text-anchor="middle">0</text><text class="axis" x="251.79999999999998" y="267" text-anchor="middle">1 日未満</text><path class="mark c1" d="M348.228 246 v-161 a4 4 0 0 1 4 -4 h35.772 a4 4 0 0 1 4 4 v161 Z" data-tip="1〜2 日 フィード" data-val="30 IP"/><text class="val" x="370.11400000000003" y="74" text-anchor="middle">30</text><text class="val" x="415.886" y="239" text-anchor="middle">0</text><text class="axis" x="393" y="267" text-anchor="middle">1〜2 日</text><path class="mark c1" d="M489.42799999999994 246 v-45.5 a4 4 0 0 1 4 -4 h35.772 a4 4 0 0 1 4 4 v45.5 Z" data-tip="2〜4 日 フィード" data-val="9 IP"/><text class="val" x="511.31399999999996" y="189.5" text-anchor="middle">9</text><text class="val" x="557.0859999999999" y="239" text-anchor="middle">0</text><text class="axis" x="534.1999999999999" y="267" text-anchor="middle">2〜4 日</text><path class="mark c1" d="M630.6279999999999 246 v-205 a4 4 0 0 1 4 -4 h35.772 a4 4 0 0 1 4 4 v205 Z" data-tip="4 日以上 フィード" data-val="38 IP"/><text class="val" x="652.5139999999999" y="30" text-anchor="middle">38</text><text class="val" x="698.286" y="239" text-anchor="middle">0</text><text class="axis" x="675.4" y="267" text-anchor="middle">4 日以上</text></svg></div>
+  <details class="tbl"><summary>数字で見る</summary><table><thead><tr><th>遅れ</th><th>フィード</th><th>フィード以外</th></tr></thead><tbody><tr><th scope="row">1 時間未満</th><td>0</td><td>5</td></tr><tr><th scope="row">1 日未満</th><td>33</td><td>0</td></tr><tr><th scope="row">1〜2 日</th><td>30</td><td>0</td></tr><tr><th scope="row">2〜4 日</th><td>9</td><td>0</td></tr><tr><th scope="row">4 日以上</th><td>38</td><td>0</td></tr><tr><th scope="row">合計</th><td>110</td><td>5</td></tr><tr><th scope="row">中央値（日）</th><td>1.492</td><td>0.000</td></tr><tr><th scope="row">最大（日）</th><td>7.324</td><td>0.000</td></tr></tbody></table></details>
+</figure>
+  <p class="meta">これが図 1 と図 2 の差の正体。<strong>フィード以外の通報は
+    5 件すべて遅れ 0.00 日（即日）</strong>で、フィードは
+    38 件が 4 日以上遅れている。
+    遅れの分布そのものが、一括登録と一次観測を分ける材料になっている。</p>
+
+  <h3 id="matrix">同じ観測日が、取得日ごとに何件に見えていたか</h3>
+  <p class="meta"><strong>過去の日の集計は確定しない。</strong><code>·</code> はその取得日にまだ無かったという意味。</p>
+  <details class="tbl"><summary>数字で見る</summary><table><thead><tr><th>観測日</th><th>10-30</th><th>11-06</th><th>11-08</th><th>11-09</th><th>11-11</th><th>11-12</th><th>11-13</th><th>11-14</th><th>11-15</th><th>確定（現時点）</th></tr></thead><tbody><tr><th scope="row">2026-09-30</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><th scope="row">2026-10-17</th><td>11</td><td>11</td><td>11</td><td>11</td><td>11</td><td>11</td><td>11</td><td>11</td><td>11</td><td>11</td></tr><tr><th scope="row">2026-10-20</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><th scope="row">2026-10-23</th><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><th scope="row">2026-10-24</th><td>32</td><td>32</td><td>32</td><td>32</td><td>32</td><td>32</td><td>32</td><td>32</td><td>32</td><td>32</td></tr><tr><th scope="row">2026-10-27</th><td>·</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td><td>14</td></tr><tr><th scope="row">2026-10-31</th><td>·</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td></tr><tr><th scope="row">2026-11-04</th><td>·</td><td>·</td><td>·</td><td>5</td><td>29</td><td>29</td><td>29</td><td>29</td><td>29</td><td>29</td></tr><tr><th scope="row">2026-11-05</th><td>·</td><td>·</td><td>20</td><td>20</td><td>20</td><td>20</td><td>20</td><td>20</td><td>20</td><td>20</td></tr><tr><th scope="row">2026-11-11</th><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>7</td><td>7</td><td>7</td><td>7</td></tr></tbody></table></details>
+</section>
+
+<section>
+  <h2>4. 通報理由 — 全体と直近</h2>
+  <p class="lead"><strong>1 件の通報が複数の理由を持つことがあるので、理由の合計は通報数を超える。</strong>
+    割合の分母は通報数。</p>
+  <div class="cols">
+    <div>
+      
+<figure class="fig" id="fig-reason-all">
+  <figcaption><h3>全体 — 2026-09-30〜2026-11-11 の 124 件</h3><p class="note">色は理由に固定していて、順位では塗り替えない。</p></figcaption>
+  <div class="legend"><span class="key"><i class="sw c1"></i>Exploited Host</span><span class="key"><i class="sw c2"></i>Web App Attack</span><span class="key"><i class="sw c3"></i>Hacking</span><span class="key"><i class="sw c4"></i>Port Scan</span></div>
+  <div class="plot"><svg viewBox="0 0 760 224" role="img" preserveAspectRatio="xMidYMid meet"><line class="grid" x1="170" y1="8" x2="170" y2="192"/><text class="axis" x="170" y="211" text-anchor="middle">0</text><line class="grid" x1="273.6" y1="8" x2="273.6" y2="192"/><text class="axis" x="273.6" y="211" text-anchor="middle">25</text><line class="grid" x1="377.2" y1="8" x2="377.2" y2="192"/><text class="axis" x="377.2" y="211" text-anchor="middle">50</text><line class="grid" x1="480.8" y1="8" x2="480.8" y2="192"/><text class="axis" x="480.8" y="211" text-anchor="middle">75</text><line class="grid" x1="584.4" y1="8" x2="584.4" y2="192"/><text class="axis" x="584.4" y="211" text-anchor="middle">100</text><line class="grid" x1="688" y1="8" x2="688" y2="192"/><text class="axis" x="688" y="211" text-anchor="middle">125</text><text class="cat" x="158" y="33" text-anchor="end">Exploited Host</text><rect class="track" x="170" y="17" width="518" height="24" rx="4"/><path class="mark c1" d="M170 17 h468.416 a4 4 0 0 1 4 4 v16 a4 4 0 0 1 -4 4 h-468.416 Z" data-tip="Exploited Host" data-val="114 / 124 件（91.9%）"/><text class="val" x="650.4159999999999" y="33">114<tspan class="pct"> (92%)</tspan></text><text class="cat" x="158" y="79" text-anchor="end">Web App Attack</text><rect class="track" x="170" y="63" width="518" height="24" rx="4"/><path class="mark c2" d="M170 63 h33.296 a4 4 0 0 1 4 4 v16 a4 4 0 0 1 -4 4 h-33.296 Z" data-tip="Web App Attack" data-val="9 / 124 件（7.3%）"/><text class="val" x="215.296" y="79">9<tspan class="pct"> (7%)</tspan></text><text class="cat" x="158" y="125" text-anchor="end">Hacking</text><rect class="track" x="170" y="109" width="518" height="24" rx="4"/><path class="mark c3" d="M170 109 h4.288 a4 4 0 0 1 4 4 v16 a4 4 0 0 1 -4 4 h-4.288 Z" data-tip="Hacking" data-val="2 / 124 件（1.6%）"/><text class="val" x="186.288" y="125">2<tspan class="pct"> (2%)</tspan></text><text class="cat" x="158" y="171" text-anchor="end">Port Scan</text><rect class="track" x="170" y="155" width="518" height="24" rx="4"/><path class="mark c4" d="M170 155 h0.14400000000000013 a4 4 0 0 1 4 4 v16 a4 4 0 0 1 -4 4 h-0.14400000000000013 Z" data-tip="Port Scan" data-val="1 / 124 件（0.8%）"/><text class="val" x="182.144" y="171">1<tspan class="pct"> (1%)</tspan></text></svg></div>
+  <details class="tbl"><summary>数字で見る</summary><table><thead><tr><th>理由</th><th>件数</th><th>通報数に対する割合</th></tr></thead><tbody><tr><th scope="row">Exploited Host</th><td>114</td><td>91.9%</td></tr><tr><th scope="row">Web App Attack</th><td>9</td><td>7.3%</td></tr><tr><th scope="row">Hacking</th><td>2</td><td>1.6%</td></tr><tr><th scope="row">Port Scan</th><td>1</td><td>0.8%</td></tr></tbody></table></details>
+</figure>
+    </div>
+    <div>
+      
+<figure class="fig" id="fig-reason-recent">
+  <figcaption><h3>直近 14 日 — 観測日 2026-11-01 より後の 56 件</h3><p class="note"><strong>この窓はまだ埋まっていない。</strong>さかのぼり投稿があるので、後日引き直すと増えうる。横軸は左の図と同じ目盛り（括弧内はこの窓に対する割合）。</p></figcaption>
+  <div class="legend"><span class="key"><i class="sw c1"></i>Exploited Host</span></div>
+  <div class="plot"><svg viewBox="0 0 760 86" role="img" preserveAspectRatio="xMidYMid meet"><line class="grid" x1="170" y1="8" x2="170" y2="54"/><text class="axis" x="170" y="73" text-anchor="middle">0</text><line class="grid" x1="273.6" y1="8" x2="273.6" y2="54"/><text class="axis" x="273.6" y="73" text-anchor="middle">25</text><line class="grid" x1="377.2" y1="8" x2="377.2" y2="54"/><text class="axis" x="377.2" y="73" text-anchor="middle">50</text><line class="grid" x1="480.8" y1="8" x2="480.8" y2="54"/><text class="axis" x="480.8" y="73" text-anchor="middle">75</text><line class="grid" x1="584.4" y1="8" x2="584.4" y2="54"/><text class="axis" x="584.4" y="73" text-anchor="middle">100</text><line class="grid" x1="688" y1="8" x2="688" y2="54"/><text class="axis" x="688" y="73" text-anchor="middle">125</text><text class="cat" x="158" y="33" text-anchor="end">Exploited Host</text><rect class="track" x="170" y="17" width="518" height="24" rx="4"/><path class="mark c1" d="M170 17 h228.064 a4 4 0 0 1 4 4 v16 a4 4 0 0 1 -4 4 h-228.064 Z" data-tip="Exploited Host" data-val="56 / 56 件（100.0%）"/><text class="val" x="410.06399999999996" y="33">56<tspan class="pct"> (100%)</tspan></text></svg></div>
+  <details class="tbl"><summary>数字で見る</summary><table><thead><tr><th>理由</th><th>件数</th><th>通報数に対する割合</th></tr></thead><tbody><tr><th scope="row">Exploited Host</th><td>56</td><td>100.0%</td></tr><tr><th scope="row">直近 7 日（2026-11-08 より後）</th><td>7</td><td>Exploited Host 7</td></tr></tbody></table></details>
+</figure>
+    </div>
+  </div>
+
+  
+<figure class="fig" id="fig-reason-source">
+  <figcaption><h3>その理由を付けたのは誰か</h3><p class="note"><strong>ここがこの節の要。</strong>「最も多い理由」は、1 つのフィードが全対象に同じ語を貼った結果になりうる。右の数字は フィード / フィード以外。</p></figcaption>
+  <div class="legend"><span class="key"><i class="sw c1"></i>フィードの一括登録（ICS Labs）</span><span class="key"><i class="sw c2"></i>フィード以外の通報</span></div>
+  <div class="plot"><svg viewBox="0 0 760 180" role="img" preserveAspectRatio="xMidYMid meet"><text class="cat" x="158" y="29" text-anchor="end">Exploited Host</text><rect class="track" x="170" y="13" width="500" height="24" rx="4"/><path class="mark c1" d="M170 13 h496 a4 4 0 0 1 4 4 v16 a4 4 0 0 1 -4 4 h-496 Z" data-tip="Exploited Host フィードの一括登録" data-val="114 件"/><text class="val" x="678" y="29">114 / 0</text><text class="cat" x="158" y="71" text-anchor="end">Web App Attack</text><rect class="track" x="170" y="55" width="500" height="24" rx="4"/><path class="mark c2" d="M170 55 h35.473684210526315 a4 4 0 0 1 4 4 v16 a4 4 0 0 1 -4 4 h-35.473684210526315 Z" data-tip="Web App Attack フィード以外の通報" data-val="9 件"/><text class="val" x="217.4736842105263" y="71">0 / 9</text><text class="cat" x="158" y="113" text-anchor="end">Hacking</text><rect class="track" x="170" y="97" width="500" height="24" rx="4"/><path class="mark c2" d="M170 97 h4.771929824561404 a4 4 0 0 1 4 4 v16 a4 4 0 0 1 -4 4 h-4.771929824561404 Z" data-tip="Hacking フィード以外の通報" data-val="2 件"/><text class="val" x="186.7719298245614" y="113">0 / 2</text><text class="cat" x="158" y="155" text-anchor="end">Port Scan</text><rect class="track" x="170" y="139" width="500" height="24" rx="4"/><path class="mark c2" d="M170 139 h0.38596491228070207 a4 4 0 0 1 4 4 v16 a4 4 0 0 1 -4 4 h-0.38596491228070207 Z" data-tip="Port Scan フィード以外の通報" data-val="1 件"/><text class="val" x="182.3859649122807" y="155">0 / 1</text></svg></div>
+  <details class="tbl"><summary>数字で見る</summary><table><thead><tr><th>理由</th><th>フィードの一括登録</th><th>フィード以外</th><th>合計</th></tr></thead><tbody><tr><th scope="row">Exploited Host</th><td>114</td><td>0</td><td>114</td></tr><tr><th scope="row">Web App Attack</th><td>0</td><td>9</td><td>9</td></tr><tr><th scope="row">Hacking</th><td>0</td><td>2</td><td>2</td></tr><tr><th scope="row">Port Scan</th><td>0</td><td>1</td><td>1</td></tr></tbody></table></details>
+</figure>
+
+  <h3>通報者の内訳</h3>
+  <p class="meta">通報者 ID そのものは保存していない。国と出所だけで束ねている。</p>
+  <details class="tbl"><summary>数字で見る</summary><table><thead><tr><th>通報者の国</th><th>出所</th><th>通報</th><th>対象 IP</th><th>観測日の数</th><th>付けた理由</th></tr></thead><tbody><tr><th scope="row">BR</th><td>フィードの一括登録</td><td>114</td><td>114</td><td>7</td><td>Exploited Host</td></tr><tr><th scope="row">IN</th><td>フィード以外</td><td>8</td><td>8</td><td>1</td><td>Web App Attack</td></tr><tr><th scope="row">NL</th><td>フィード以外</td><td>1</td><td>1</td><td>1</td><td>Port Scan・Hacking</td></tr><tr><th scope="row">MY</th><td>フィード以外</td><td>1</td><td>1</td><td>1</td><td>Hacking・Web App Attack</td></tr></tbody></table></details>
+</section>
+
+<section class="limits">
+  <h2>5. この頁から言えないこと</h2>
+  <ul class="pts">
+    <li><strong>通報の有無は「攻撃したか」ではない。</strong>通報は第三者の申告で、
+      こちらが検証したものではない。フィードの一括登録はとくに、
+      「誰かが悪性と判断した」という情報であって観測ではない。</li>
+    <li><strong>直近の窓は確定していない。</strong>投稿は中央
+      1.49 日・最大 7.32 日さかのぼって届く。
+      2026-11-11 以降に通報が無いことは、活動が止まった証拠にならない。</li>
+    <li><strong>理由（カテゴリ）は通報者が選んだ語。</strong>定義はそろっていない。
+      とくに Exploited Host は「送信元が侵害されている」という補助情報で、攻撃手法ではない。</li>
+    <li><strong>遅れが測れるのは通報が 1 件の IP だけ</strong>（115 / 119 IP）。
+      2 件以上あるとどの投稿がどの観測に対応するか決められない。</li>
+    <li><strong>フィード以外の通報は 5 件しか遅れを測れていない。</strong>
+      「0.00 日」はその 5 件についての事実で、一次観測一般の性質ではない。</li>
+    <li><strong>日本からの通報 0 件は「日本向け攻撃元ではない」ではない。</strong>
+      日本の被害者が通報していない・窓の外・公開していない、どれも区別できない。</li>
+    <li><strong>ARTEX と sub2api の起動は利用者の観測</strong>で、こちらが確認したものではない
+      （利用者。255 IP を個別に確認済み（2026-11-12 に申告））。この頁は対象 IP に一切接続していない。</li>
+    <li>スコアは時間で減衰する。取得日の違う数字を横に比べてはいけない。</li>
+  </ul>
+</section>
+
+<footer class="ft">
+  <p>通報者 ID・コメント原文は保存していない。API キーはコンソール・ログ・CSV・JSON・ソース・エラーにも出していない。</p>
+  <p class="meta">作り直すには <code>node reports/artex-timeline/trend.mjs</code>。
+    数字だけ機械で読むには <code>--json</code>。
+    出所は <code>data/ioc/watch/observations/*.jsonl</code> の写しのみで、API は呼んでいない。</p>
+</footer></div>
+<div id="tip" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var b=document.getElementById("themer");
+  b.addEventListener("click",function(){
+    var dark=matchMedia("(prefers-color-scheme: dark)").matches;
+    var cur=document.documentElement.getAttribute("data-theme")||(dark?"dark":"light");
+    document.documentElement.setAttribute("data-theme",cur==="dark"?"light":"dark");
+  });
+  var tip=document.getElementById("tip");
+  function show(e){
+    var t=e.target.closest("[data-tip]"); if(!t){hide();return;}
+    tip.innerHTML="<b>"+t.getAttribute("data-tip")+"</b>"+t.getAttribute("data-val");
+    tip.style.opacity="1";
+    var x=e.clientX+14,y=e.clientY+14;
+    var r=tip.getBoundingClientRect();
+    if(x+r.width>innerWidth-8)x=e.clientX-r.width-14;
+    if(y+r.height>innerHeight-8)y=e.clientY-r.height-14;
+    tip.style.left=x+"px"; tip.style.top=y+"px";
+  }
+  function hide(){tip.style.opacity="0";}
+  document.querySelectorAll(".plot").forEach(function(p){
+    p.addEventListener("mousemove",show);
+    p.addEventListener("mouseleave",hide);
+  });
+})();
+</script>
+</body>
+</html>
