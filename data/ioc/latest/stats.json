@@ -188,7 +188,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1495040,
+        "addresses": 1494016,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -254,7 +254,7 @@
           "VAPOR PANDA",
           "Wizard Spider"
         ],
-        "addresses": 1683200,
+        "addresses": 1683456,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -314,7 +314,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4632576,
+        "addresses": 4632832,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -387,7 +387,7 @@
           "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218612480,
+        "addresses": 218616832,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -446,7 +446,7 @@
           "UNC5174",
           "Winnti Group"
         ],
-        "addresses": 1559552,
+        "addresses": 1559808,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -506,6 +506,22 @@
       },
       {
         "actors": [
+          "DriveSurge",
+          "GTG-50020",
+          "PhantomEnigma",
+          "Rognar",
+          "Storm-3358",
+          "masterblack",
+          "shinyenigma",
+          "vectra"
+        ],
+        "addresses": 1767424,
+        "asn": 6461,
+        "cc": "US",
+        "name": "Zayo Bandwidth"
+      },
+      {
+        "actors": [
           "APT28",
           "APT34",
           "APT42",
@@ -515,7 +531,7 @@
           "Qilin",
           "TAG-83"
         ],
-        "addresses": 496640,
+        "addresses": 495872,
         "asn": 29802,
         "cc": "US",
         "name": "HIVELOCITY, Inc."
@@ -583,26 +599,11 @@
         "asn": 396356,
         "cc": "US",
         "name": "Latitude.sh"
-      },
-      {
-        "actors": [
-          "APT28",
-          "APT29",
-          "APT29 sub-cluster",
-          "Anonymous",
-          "GTG-20006",
-          "Jewelbug",
-          "The Gentlemen"
-        ],
-        "addresses": 37626624,
-        "asn": 174,
-        "cc": "US",
-        "name": "Cogent Communications, LLC"
       }
     ],
-    "multi_actor": 237,
+    "multi_actor": 236,
     "multi_actor_small": 9,
-    "small": 295,
+    "small": 296,
     "top": [
       {
         "actors": [
@@ -737,88 +738,88 @@
         "shared_hosting": false
       }
     ],
-    "total": 1521
+    "total": 1525
   },
   "coverage": {
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 1077,
-          "target": 1077
+          "done": 1083,
+          "target": 1083
         },
         "2": {
-          "done": 494,
-          "target": 494
+          "done": 498,
+          "target": 498
         },
         "5": {
-          "done": 3574,
-          "target": 3574
+          "done": 3575,
+          "target": 3575
         }
       },
-      "done": 5146,
+      "done": 5157,
       "ratio": 1,
-      "target": 5145
+      "target": 5156
     },
-    "newest_fetch": "2026-11-15",
-    "oldest_fetch": "2026-11-15",
+    "newest_fetch": "2026-11-16",
+    "oldest_fetch": "2026-11-16",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 7317,
-          "target": 7317
+          "done": 7332,
+          "target": 7332
         },
         "2": {
-          "done": 494,
-          "target": 494
+          "done": 498,
+          "target": 498
         },
         "3": {
-          "done": 6602,
-          "target": 6602
+          "done": 6636,
+          "target": 6636
         },
         "4": {
-          "done": 7113,
-          "target": 7113
+          "done": 7245,
+          "target": 7245
         },
         "5": {
-          "done": 6024,
-          "target": 6024
+          "done": 6037,
+          "target": 6037
         },
         "6": {
-          "done": 1725,
-          "target": 1725
+          "done": 1758,
+          "target": 1758
         }
       },
-      "done": 29276,
-      "known": 25168,
+      "done": 29507,
+      "known": 25369,
       "ratio": 1,
-      "target": 29275,
-      "unknown": 4108
+      "target": 29506,
+      "unknown": 4138
     }
   },
   "entities": {
-    "actor": 379,
-    "campaign": 13,
+    "actor": 381,
+    "campaign": 17,
     "case": 518,
-    "malware": 614
+    "malware": 617
   },
   "from": {
-    "collected_at": "2026-11-15T00:03:23.659Z",
-    "week": "2026-W46"
+    "collected_at": "2026-11-16T00:03:52.709Z",
+    "week": "2026-W47"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 10306,
+      "ioc.domain": 10446,
       "ioc.email": 268,
       "ioc.endpoint": 317,
-      "ioc.ipv4": 5080,
+      "ioc.ipv4": 5091,
       "ioc.ipv6": 74,
-      "ioc.md5": 2931,
+      "ioc.md5": 2935,
       "ioc.sha1": 1660,
-      "ioc.sha256": 5486,
+      "ioc.sha256": 5528,
       "ioc.sha512": 16,
-      "ioc.url": 3777
+      "ioc.url": 3811
     },
-    "dated": 14283,
+    "dated": 14514,
     "excluded": {
       "bogon": 3,
       "malformed": 30,
@@ -826,8 +827,8 @@
       "popular": 173,
       "sample_reported": 1
     },
-    "total": 29915,
-    "usable": 29703
+    "total": 30146,
+    "usable": 29934
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -855,8 +856,8 @@
         "filename": 52,
         "imphash": 44,
         "ioc": 69,
-        "jarm": 1196,
-        "registered": 1264,
+        "jarm": 1209,
+        "registered": 1291,
         "registrable": 58,
         "resolution": 2,
         "signer": 9,
@@ -864,7 +865,7 @@
         "vhash": 32
       },
       "identical_sets": 5,
-      "pairs": 2369,
+      "pairs": 2403,
       "top": [
         {
           "a": "APT29 sub-cluster",
@@ -1419,7 +1420,7 @@
           ]
         }
       ],
-      "weak_only": 2249
+      "weak_only": 2283
     },
     "campaign": {
       "by_via": {
@@ -1429,7 +1430,7 @@
         "filename": 0,
         "imphash": 0,
         "ioc": 1,
-        "jarm": 4,
+        "jarm": 5,
         "registered": 2,
         "registrable": 1,
         "resolution": 0,
@@ -1438,7 +1439,7 @@
         "vhash": 0
       },
       "identical_sets": 0,
-      "pairs": 6,
+      "pairs": 7,
       "top": [
         {
           "a": "Browser Extension and Google Play Abuse",
@@ -1496,6 +1497,22 @@
           "weak_only": true
         },
         {
+          "a": "BlackX UEFIブートキット、Baton Drop脆弱性でSecure Bootを回避",
+          "b": "標的型広告の表示だけでCandiruスパイウェアに感染するゼロクリック攻撃",
+          "evidence": {
+            "jarm": [
+              "2ad2ad0002ad2ad00042d42d000000ad9bf51cc3f5a1e29eecb81d0c7b06eb"
+            ]
+          },
+          "ratio": 0.5,
+          "shared": 1,
+          "strength": 1,
+          "via": [
+            "jarm"
+          ],
+          "weak_only": true
+        },
+        {
           "a": "Meta APT-C-27 network disruption (October 2021)",
           "b": "TOUGHPROGRESS Government Targeting Campaign",
           "evidence": {
@@ -1544,7 +1561,7 @@
           "weak_only": true
         }
       ],
-      "weak_only": 5
+      "weak_only": 6
     },
     "case": {
       "by_via": {
@@ -1909,11 +1926,11 @@
         "asn": 10,
         "certificate": 6,
         "family": 207,
-        "filename": 41,
+        "filename": 42,
         "imphash": 39,
         "ioc": 90,
         "jarm": 693,
-        "registered": 1236,
+        "registered": 1251,
         "registrable": 73,
         "resolution": 1,
         "signer": 6,
@@ -1921,7 +1938,7 @@
         "vhash": 46
       },
       "identical_sets": 10,
-      "pairs": 2147,
+      "pairs": 2162,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2432,7 +2449,7 @@
           ]
         }
       ],
-      "weak_only": 2004
+      "weak_only": 2019
     }
   },
   "schema": 1,
@@ -2498,6 +2515,26 @@
       },
       {
         "actors": [
+          "GTG-50020",
+          "Storm-3358",
+          "vectra"
+        ],
+        "asns": [
+          {
+            "addresses": 1767424,
+            "asn": 6461,
+            "name": "Zayo Bandwidth"
+          }
+        ],
+        "ips": 6,
+        "malware": [
+          "Phorpiexラベル付きダウンローダー",
+          "VectraRAT"
+        ],
+        "subnet": "178.16.54.0/24"
+      },
+      {
+        "actors": [
           "Gamaredon",
           "KongTuke",
           "Qilin"
@@ -2557,13 +2594,34 @@
       },
       {
         "actors": [
+          "DriveSurge",
+          "Rognar",
+          "Storm-3358"
+        ],
+        "asns": [
+          {
+            "addresses": 1767424,
+            "asn": 6461,
+            "name": "Zayo Bandwidth"
+          }
+        ],
+        "ips": 4,
+        "malware": [
+          "DeviceManager",
+          "FakeUpdates",
+          "NetSupport Manager"
+        ],
+        "subnet": "91.92.240.0/24"
+      },
+      {
+        "actors": [
           "APT34",
           "BITTER",
           "SideCopy"
         ],
         "asns": [
           {
-            "addresses": 110080,
+            "addresses": 109568,
             "asn": 49981,
             "name": "WorldStream B.V."
           }
@@ -2676,7 +2734,7 @@
         ],
         "asns": [
           {
-            "addresses": 37626624,
+            "addresses": 37626112,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2684,52 +2742,16 @@
         "ips": 2,
         "malware": [],
         "subnet": "38.146.28.0/24"
-      },
-      {
-        "actors": [
-          "TAG-56",
-          "TAG-82",
-          "TAG-83"
-        ],
-        "asns": [
-          {
-            "addresses": 3372032,
-            "asn": 24940,
-            "name": "Hetzner Online GmbH"
-          }
-        ],
-        "ips": 1,
-        "malware": [],
-        "subnet": "135.181.203.0/24"
-      },
-      {
-        "actors": [
-          "APT29",
-          "APT29 sub-cluster",
-          "GTG-20006"
-        ],
-        "asns": [
-          {
-            "addresses": 248832,
-            "asn": 396356,
-            "name": "Latitude.sh"
-          }
-        ],
-        "ips": 1,
-        "malware": [
-          "ChocoShell"
-        ],
-        "subnet": "213.145.86.0/24"
       }
     ],
-    "total": 594
+    "total": 596
   },
   "targets": {
     "abuse": 7,
     "by_target": [
       {
         "abuse": 0,
-        "impersonation": 99,
+        "impersonation": 114,
         "rank": 15,
         "target": "live.com"
       },
@@ -2848,7 +2870,7 @@
         "target": "onedrive.com"
       }
     ],
-    "impersonation": 341
+    "impersonation": 356
   },
   "timeline": {
     "actors": {
@@ -2934,7 +2956,7 @@
           "span_days": 5666
         }
       ],
-      "with_dates": 254
+      "with_dates": 255
     },
     "campaigns": {
       "spans": [
@@ -2946,11 +2968,25 @@
           "name": "APTグループHoneyMyteがCoolClientを強化：バックドアにWindowsカーネルレベルのルートキットを追加"
         },
         {
+          "dated": 1,
+          "first": "2024-05-23",
+          "iocs": 2,
+          "last": "2024-05-23",
+          "name": "BlackX UEFIブートキット、Baton Drop脆弱性でSecure Bootを回避"
+        },
+        {
           "dated": 3,
           "first": "2022-08-09",
           "iocs": 12,
           "last": "2022-10-28",
           "name": "Browser Extension and Google Play Abuse"
+        },
+        {
+          "dated": 9,
+          "first": "2026-09-07",
+          "iocs": 17,
+          "last": "2026-10-21",
+          "name": "Lazarus、耐量子暗号を用いてマルウェア配信を秘匿"
         },
         {
           "dated": 2,
@@ -2993,9 +3029,28 @@
           "iocs": 31,
           "last": "2025-05-29",
           "name": "TOUGHPROGRESS Government Targeting Campaign"
+        },
+        {
+          "dated": 1,
+          "first": "2025-05-01",
+          "iocs": 11,
+          "last": "2025-05-01",
+          "name": "標的型広告の表示だけでCandiruスパイウェアに感染するゼロクリック攻撃"
         }
       ],
       "time_overlaps": [
+        {
+          "a": "BlackX UEFIブートキット、Baton Drop脆弱性でSecure Bootを回避",
+          "b": "Operation Newton",
+          "from": "2024-05-23",
+          "to": "2024-05-23"
+        },
+        {
+          "a": "BlackX UEFIブートキット、Baton Drop脆弱性でSecure Bootを回避",
+          "b": "Smoke Screen / Stealth Power",
+          "from": "2024-05-23",
+          "to": "2024-05-23"
+        },
         {
           "a": "Browser Extension and Google Play Abuse",
           "b": "Operation Newton",
@@ -3045,27 +3100,39 @@
           "to": "2025-05-29"
         },
         {
+          "a": "Operation Newton",
+          "b": "標的型広告の表示だけでCandiruスパイウェアに感染するゼロクリック攻撃",
+          "from": "2025-05-01",
+          "to": "2025-05-01"
+        },
+        {
           "a": "Smoke Screen / Stealth Power",
           "b": "TOUGHPROGRESS Government Targeting Campaign",
           "from": "2025-05-09",
           "to": "2025-05-29"
+        },
+        {
+          "a": "Smoke Screen / Stealth Power",
+          "b": "標的型広告の表示だけでCandiruスパイウェアに感染するゼロクリック攻撃",
+          "from": "2025-05-01",
+          "to": "2025-05-01"
         }
       ],
-      "with_dates": 8
+      "with_dates": 11
     },
-    "dated": 9867,
+    "dated": 9917,
     "index_lag": {
-      "ahead": 486,
+      "ahead": 488,
       "median_days": 52,
       "p25_days": 1,
-      "p75_days": 159,
-      "pairs": 5402
+      "p75_days": 158,
+      "pairs": 5452
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 338,
+      "checked": 340,
       "lowest": [
         {
           "checked": 4,
@@ -3139,7 +3206,7 @@
         }
       ]
     },
-    "clean": 3620,
+    "clean": 3626,
     "disagreement": {
       "samples": [
         {
@@ -3278,9 +3345,9 @@
           ]
         }
       ],
-      "total": 723
+      "total": 726
     },
-    "malicious": 21062,
-    "unknown": 4108
+    "malicious": 21256,
+    "unknown": 4138
   }
 }
