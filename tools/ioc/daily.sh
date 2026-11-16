@@ -121,6 +121,13 @@ if [ -f "$WATCH/watchlist.json" ] && [ -n "$ABUSEIPDB_API_KEY$ABUSEIPDB_API_KEYS
     node tools/ioc/watch-report.mjs --watch "$WATCH" --out "$REPORTS"
     node tools/ioc/validate-watch.mjs --watch "$WATCH" || \
       echo "! 監視の検査が通りませんでした。観測は残っています" >&2
+    # 推移の頁。**写しを読み直すだけで外には出ない。**落ちても観測には影響しない
+    if node reports/artex-timeline/trend.mjs >/dev/null; then
+      node reports/artex-timeline/validate-trend.mjs >/dev/null || \
+        echo "! 推移の頁の検算が通りませんでした" >&2
+    else
+      echo "! 推移の頁を作り直せませんでした" >&2
+    fi
   else
     echo "! 監視クラスタの取得が落ちました。本線は続けます" >&2
   fi
@@ -172,6 +179,10 @@ if [ "$COMMIT" = 1 ]; then
   # 翌日には前日が無く、「初めて通報が付いた日」が永久に出せなくなる。
   # 日本向け収集の台帳を入れ忘れて 7 日ルールが効いていなかったのと同じ失敗
   if [ -d "$WATCH" ]; then git add "$WATCH"; fi
+  # 推移の頁も入れる。**生成器と成果物がずれると、後から誰も再現できない**
+  if [ -f reports/artex-timeline/artex_timeline_trend.html ]; then
+    git add reports/artex-timeline/artex_timeline_trend.html
+  fi
   if git diff --cached --quiet; then
     echo "  変化がありません。コミットしません"
   else

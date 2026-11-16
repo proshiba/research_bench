@@ -298,8 +298,8 @@ const body = `
 <header class="hd">
   <p class="eyebrow">AbuseIPDB 上の通報 — クラスタ全体の統計</p>
   <h1>sub2api-198.200.59.85</h1>
-  <p class="lead">${K.ips_in_cluster} IP を 1 つのクラスタとして見た数字。全 IP に sub2api があり、
-    同じリチャージ URL (198.200.59.85) がセットされている。うち 250 IP では ARTEX も起動している（利用者の観測）。</p>
+  <p class="lead">${K.ips_in_cluster} IP を 1 つのクラスタとして見た数字。
+    ${esc(S.cluster.note)}（利用者の観測）。</p>
   <p class="meta">取得 ${String(S.collected_at_utc).slice(0, 10)} ／
     <strong>対象 IP への接続・走査・認証試行は一切していない</strong>／
     この文書は Claude（AI）が自動生成したもので、人の確認を前提とする</p>
