@@ -21586,14 +21586,13 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.556,
-      "shared": 5,
+      "ratio": 0.444,
+      "shared": 4,
       "source": "actor:Icarus",
-      "strength": 13,
+      "strength": 8,
       "target": "actor:UNC6240",
       "via": [
-        "ioc",
-        "subnet"
+        "ioc"
       ]
     },
     {
@@ -27563,10 +27562,10 @@
     },
     {
       "kind": "actor",
-      "ratio": 2.5,
-      "shared": 40,
+      "ratio": 2.438,
+      "shared": 39,
       "source": "actor:Silver Fox",
-      "strength": 32,
+      "strength": 27,
       "target": "actor:UTG-Q-1000",
       "via": [
         "family",
@@ -27576,7 +27575,6 @@
         "jarm",
         "registered",
         "registrable",
-        "subnet",
         "vhash"
       ]
     },
@@ -29394,6 +29392,18 @@
       "weak_only": true
     },
     {
+      "kind": "campaign",
+      "ratio": 0.014,
+      "shared": 1,
+      "source": "campaign:Operation DarkHorse",
+      "strength": 1,
+      "target": "campaign:Smoke Screen / Stealth Power",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
       "kind": "case",
       "ratio": 1,
       "shared": 2,
@@ -29856,10 +29866,35 @@
       "ratio": 0.25,
       "shared": 1,
       "source": "case:case:1fe1d42d293627441517749d73857f49a27224933844bd9cf512de12045e75ed",
-      "strength": 8,
+      "strength": 1,
+      "target": "case:case:307594e042248ad7cc9627e8de385851bd92df452216b1b829077d3a93ac815b",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "case",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "case:case:1fe1d42d293627441517749d73857f49a27224933844bd9cf512de12045e75ed",
+      "strength": 1,
+      "target": "case:case:dfc8e7b7e48faab9a410111ea31001c729ab9b1c83525499f028b5344869be9e",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "case",
+      "ratio": 0.5,
+      "shared": 2,
+      "source": "case:case:1fe1d42d293627441517749d73857f49a27224933844bd9cf512de12045e75ed",
+      "strength": 9,
       "target": "case:case:efc1cb535085a1c44e423c0fd3fbd736d5b55514013093ad25313b42f0b3d296",
       "via": [
-        "ioc"
+        "ioc",
+        "jarm"
       ]
     },
     {
@@ -30247,6 +30282,30 @@
       "via": [
         "vhash"
       ]
+    },
+    {
+      "kind": "case",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "case:case:307594e042248ad7cc9627e8de385851bd92df452216b1b829077d3a93ac815b",
+      "strength": 1,
+      "target": "case:case:dfc8e7b7e48faab9a410111ea31001c729ab9b1c83525499f028b5344869be9e",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "case",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "case:case:307594e042248ad7cc9627e8de385851bd92df452216b1b829077d3a93ac815b",
+      "strength": 1,
+      "target": "case:case:efc1cb535085a1c44e423c0fd3fbd736d5b55514013093ad25313b42f0b3d296",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
     },
     {
       "kind": "case",
@@ -32422,6 +32481,18 @@
       "via": [
         "ioc"
       ]
+    },
+    {
+      "kind": "case",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "case:case:dfc8e7b7e48faab9a410111ea31001c729ab9b1c83525499f028b5344869be9e",
+      "strength": 1,
+      "target": "case:case:efc1cb535085a1c44e423c0fd3fbd736d5b55514013093ad25313b42f0b3d296",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
     },
     {
       "kind": "case",
@@ -40090,6 +40161,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.059,
+      "shared": 1,
+      "source": "malware:BirdCall",
+      "strength": 1,
+      "target": "malware:NarwhalRAT",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.143,
       "shared": 1,
       "source": "malware:BirdCall",
@@ -42566,8 +42649,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 1.867,
-      "shared": 28,
+      "ratio": 1.8,
+      "shared": 27,
       "source": "malware:CloudSorcerer",
       "strength": 19,
       "target": "malware:VShell",
@@ -42586,30 +42669,6 @@
       "source": "malware:CloudSorcerer",
       "strength": 1,
       "target": "malware:ValleyRAT",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.059,
-      "shared": 1,
-      "source": "malware:CloudZ RAT",
-      "strength": 1,
-      "target": "malware:KEYPLUG",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.059,
-      "shared": 1,
-      "source": "malware:CloudZ RAT",
-      "strength": 1,
-      "target": "malware:SectopRAT",
       "via": [
         "jarm"
       ],
@@ -44853,8 +44912,8 @@
     },
     {
       "kind": "malware",
-      "ratio": 1.867,
-      "shared": 28,
+      "ratio": 1.8,
+      "shared": 27,
       "source": "malware:DeedRAT",
       "strength": 19,
       "target": "malware:VShell",
@@ -46637,18 +46696,6 @@
       "source": "malware:Evilginx2",
       "strength": 1,
       "target": "malware:PrincessClub",
-      "via": [
-        "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.036,
-      "shared": 1,
-      "source": "malware:Evilginx2",
-      "strength": 1,
-      "target": "malware:Qilin",
       "via": [
         "jarm"
       ],
@@ -50074,18 +50121,6 @@
       "via": [
         "jarm",
         "registered"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "malware",
-      "ratio": 0.03,
-      "shared": 1,
-      "source": "malware:KEYPLUG",
-      "strength": 1,
-      "target": "malware:SectopRAT",
-      "via": [
-        "jarm"
       ],
       "weak_only": true
     },
@@ -58588,7 +58623,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-11-16T00:03:52.709Z",
+  "generated_from": "2026-11-17T00:03:40.197Z",
   "nodes": [
     {
       "id": "actor:3AM ransomware affiliate",
@@ -61439,12 +61474,6 @@
       "ioc_count": 15,
       "kind": "malware",
       "name": "CloudSorcerer"
-    },
-    {
-      "id": "malware:CloudZ RAT",
-      "ioc_count": 17,
-      "kind": "malware",
-      "name": "CloudZ RAT"
     },
     {
       "id": "malware:Cobalt Strike",
