@@ -1,10 +1,10 @@
 {
   "by_kind": {
-    "その他": 20,
-    "侵入（範囲広い）": 18,
-    "脆弱性狙い": 56,
-    "認証狙い": 31,
-    "走査のみ": 35
+    "その他": 36,
+    "侵入（範囲広い）": 21,
+    "脆弱性狙い": 60,
+    "認証狙い": 35,
+    "走査のみ": 39
   },
   "clustered_24": [
     {
@@ -69,6 +69,18 @@
         "走査のみ"
       ],
       "net": "178.16.54.0/24",
+      "tor": 0
+    },
+    {
+      "actors": [],
+      "ips": 4,
+      "isp": "Lumanex",
+      "jp_reports": 31,
+      "kinds": [
+        "認証狙い",
+        "走査のみ"
+      ],
+      "net": "152.89.170.0/24",
       "tor": 0
     },
     {
@@ -180,6 +192,17 @@
     {
       "actors": [],
       "ips": 2,
+      "isp": "Worldscope-TH",
+      "jp_reports": 2,
+      "kinds": [
+        "その他"
+      ],
+      "net": "103.122.245.0/24",
+      "tor": 0
+    },
+    {
+      "actors": [],
+      "ips": 2,
       "isp": "VPN Consumer Singapore, Republic of Singapore",
       "jp_reports": 2,
       "kinds": [
@@ -189,42 +212,42 @@
       "tor": 0
     }
   ],
-  "exploited_host": 2,
+  "exploited_host": 3,
   "jp_categories": {
-    "DDoS": 6,
+    "DDoS": 7,
     "IoT 狙い": 1,
-    "SQL インジェクション": 10,
-    "SSH": 36,
-    "Web アプリ攻撃": 53,
-    "Web スパム": 18,
-    "オープンプロキシ": 23,
-    "フィッシング": 4,
-    "ポートスキャン": 93,
+    "SQL インジェクション": 11,
+    "SSH": 42,
+    "Web アプリ攻撃": 57,
+    "Web スパム": 19,
+    "オープンプロキシ": 38,
+    "フィッシング": 5,
+    "ポートスキャン": 116,
     "メールスパム": 6,
-    "不正ボット": 37,
-    "侵入": 38,
-    "総当たり": 62,
+    "不正ボット": 39,
+    "侵入": 43,
+    "総当たり": 69,
     "詐欺注文": 1,
-    "踏み台": 2
+    "踏み台": 3
   },
-  "jp_reported": 160,
+  "jp_reported": 191,
   "jp_reported_with_actor": 60,
   "jp_reporter_distribution": {
-    "1": 90,
-    "2": 27,
+    "1": 112,
+    "2": 31,
     "3": 17,
     "4": 7,
-    "5+": 19
+    "5+": 24
   },
   "marks": {
-    "hosting": 142,
+    "hosting": 171,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 878,
+    "reported_ips": 1141,
     "unmeasured": 0
   },
   "rows": [
@@ -500,7 +523,8 @@
         "Carbo506"
       ],
       "articles": [
-        "article:20260925#0"
+        "article:20260925#0",
+        "article:20261117#8"
       ],
       "auth": [
         "SSH"
@@ -2409,6 +2433,48 @@
     },
     {
       "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [
+        "総当たり"
+      ],
+      "broad": [
+        "侵入"
+      ],
+      "country": "FR",
+      "hosting": true,
+      "ioc": "ioc.ipv4|185.177.72.61",
+      "ip": "185.177.72.61",
+      "isp": "FBW NETWORKS SAS",
+      "jp_categories": [
+        "DDoS",
+        "SQL インジェクション",
+        "Web アプリ攻撃",
+        "Web スパム",
+        "ポートスキャン",
+        "不正ボット",
+        "侵入",
+        "総当たり"
+      ],
+      "jp_last": "2026-11-15",
+      "jp_reporters": 11,
+      "jp_reports": 76,
+      "jp_substantive": 76,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 810,
+      "reports": 6884,
+      "roles": [],
+      "score": 100,
+      "strict": [
+        "SQL インジェクション",
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
       "articles": [],
       "auth": [
         "総当たり"
@@ -3062,6 +3128,38 @@
     {
       "actors": [],
       "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "CN",
+      "hosting": true,
+      "ioc": "ioc.ipv4|106.14.176.4",
+      "ip": "106.14.176.4",
+      "isp": "Aliyun Computing Co., LTD",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "ポートスキャン",
+        "不正ボット"
+      ],
+      "jp_last": "2026-08-25",
+      "jp_reporters": 2,
+      "jp_reports": 2,
+      "jp_substantive": 2,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 47,
+      "reports": 73,
+      "roles": [],
+      "score": 0,
+      "strict": [
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260916#2"
       ],
       "auth": [
@@ -3166,6 +3264,44 @@
     {
       "actors": [],
       "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [
+        "SSH",
+        "総当たり"
+      ],
+      "broad": [
+        "侵入"
+      ],
+      "country": "JP",
+      "exploited_host": true,
+      "hosting": true,
+      "ioc": "ioc.ipv4|128.1.48.187",
+      "ip": "128.1.48.187",
+      "isp": "UCLOUD",
+      "jp_categories": [
+        "SSH",
+        "ポートスキャン",
+        "侵入",
+        "総当たり",
+        "踏み台"
+      ],
+      "jp_last": "2026-08-02",
+      "jp_reporters": 10,
+      "jp_reports": 33,
+      "jp_substantive": 33,
+      "kind": "侵入（範囲広い）",
+      "malware": [],
+      "reporters": 472,
+      "reports": 1437,
+      "roles": [],
+      "score": 11,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260723#4"
       ],
       "auth": [
@@ -3197,6 +3333,41 @@
       "reports": 3726,
       "roles": [],
       "score": 100,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [
+        "SSH",
+        "総当たり"
+      ],
+      "broad": [
+        "侵入"
+      ],
+      "country": "HK",
+      "hosting": true,
+      "ioc": "ioc.ipv4|154.88.65.192",
+      "ip": "154.88.65.192",
+      "isp": "Akile LTD",
+      "jp_categories": [
+        "SSH",
+        "侵入",
+        "総当たり"
+      ],
+      "jp_last": "2026-08-20",
+      "jp_reporters": 6,
+      "jp_reports": 8,
+      "jp_substantive": 8,
+      "kind": "侵入（範囲広い）",
+      "malware": [],
+      "reporters": 564,
+      "reports": 2113,
+      "roles": [],
+      "score": 25,
       "strict": [],
       "usage_type": "Data Center/Web Hosting/Transit"
     },
@@ -3434,6 +3605,69 @@
       "reports": 1933,
       "roles": [],
       "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [
+        "SSH",
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "IT",
+      "hosting": true,
+      "ioc": "ioc.ipv4|152.89.170.38",
+      "ip": "152.89.170.38",
+      "isp": "Lumanex",
+      "jp_categories": [
+        "SSH",
+        "総当たり"
+      ],
+      "jp_last": "2026-01-25",
+      "jp_reporters": 13,
+      "jp_reports": 27,
+      "jp_substantive": 27,
+      "kind": "認証狙い",
+      "malware": [],
+      "reporters": 642,
+      "reports": 2004,
+      "roles": [],
+      "score": 7,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "NL",
+      "hosting": true,
+      "ioc": "ioc.ipv4|176.65.132.53",
+      "ip": "176.65.132.53",
+      "isp": "TechTies Inc.",
+      "jp_categories": [
+        "ポートスキャン",
+        "総当たり"
+      ],
+      "jp_last": "2026-08-23",
+      "jp_reporters": 6,
+      "jp_reports": 29,
+      "jp_substantive": 29,
+      "kind": "認証狙い",
+      "malware": [],
+      "reporters": 285,
+      "reports": 2311,
+      "roles": [],
+      "score": 30,
       "strict": [],
       "usage_type": "Data Center/Web Hosting/Transit"
     },
@@ -3753,6 +3987,92 @@
     {
       "actors": [],
       "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "FR",
+      "hosting": true,
+      "ioc": "ioc.ipv4|13.140.218.42",
+      "ip": "13.140.218.42",
+      "isp": "Contabo GmbH",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-10",
+      "jp_reporters": 2,
+      "jp_reports": 2,
+      "jp_substantive": 2,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 2,
+      "reports": 2,
+      "roles": [],
+      "score": 13,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "IT",
+      "hosting": true,
+      "ioc": "ioc.ipv4|152.89.170.75",
+      "ip": "152.89.170.75",
+      "isp": "Lumanex",
+      "jp_categories": [
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-10-03",
+      "jp_reporters": 2,
+      "jp_reports": 2,
+      "jp_substantive": 2,
+      "kind": "走査のみ",
+      "malware": [],
+      "reporters": 116,
+      "reports": 398,
+      "roles": [],
+      "score": 100,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "TW",
+      "hosting": true,
+      "ioc": "ioc.ipv4|165.154.227.78",
+      "ip": "165.154.227.78",
+      "isp": "Scloud Pte Ltd t/a Scloud Pte Ltd",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-06",
+      "jp_reporters": 2,
+      "jp_reports": 2,
+      "jp_substantive": 2,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 2,
+      "reports": 2,
+      "roles": [],
+      "score": 12,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260826#7"
       ],
       "auth": [],
@@ -3898,6 +4218,69 @@
       "reports": 24,
       "roles": [],
       "score": 17,
+      "strict": [
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "JP",
+      "hosting": true,
+      "ioc": "ioc.ipv4|130.94.65.159",
+      "ip": "130.94.65.159",
+      "isp": "LIGHT NODE LIMITED",
+      "jp_categories": [
+        "Web アプリ攻撃"
+      ],
+      "jp_last": "2026-10-28",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 1,
+      "reports": 1,
+      "roles": [],
+      "score": 0,
+      "strict": [
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [
+        "侵入"
+      ],
+      "country": "IN",
+      "hosting": true,
+      "ioc": "ioc.ipv4|160.191.28.10",
+      "ip": "160.191.28.10",
+      "isp": "HOSTDZIRE WEB SERVICES PRIVATE LIMITED",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "侵入"
+      ],
+      "jp_last": "2026-11-08",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 146,
+      "reports": 258,
+      "roles": [],
+      "score": 100,
       "strict": [
         "Web アプリ攻撃"
       ],
@@ -4353,6 +4736,39 @@
     },
     {
       "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [
+        "SSH"
+      ],
+      "broad": [
+        "侵入"
+      ],
+      "country": "JP",
+      "hosting": true,
+      "ioc": "ioc.ipv4|108.187.14.219",
+      "ip": "108.187.14.219",
+      "isp": "SpeedVM Network Group LLC",
+      "jp_categories": [
+        "SSH",
+        "侵入"
+      ],
+      "jp_last": "2026-11-12",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "侵入（範囲広い）",
+      "malware": [],
+      "reporters": 6,
+      "reports": 6,
+      "roles": [],
+      "score": 36,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
       "articles": [],
       "auth": [],
       "broad": [
@@ -4382,7 +4798,8 @@
     {
       "actors": [],
       "articles": [
-        "article:20261107#10"
+        "article:20261107#10",
+        "article:20261117#8"
       ],
       "auth": [],
       "broad": [
@@ -4470,6 +4887,38 @@
     {
       "actors": [],
       "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [
+        "SSH",
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "FR",
+      "hosting": true,
+      "ioc": "ioc.ipv4|144.91.91.205",
+      "ip": "144.91.91.205",
+      "isp": "Contabo GmbH",
+      "jp_categories": [
+        "SSH",
+        "総当たり"
+      ],
+      "jp_last": "2026-07-14",
+      "jp_reporters": 1,
+      "jp_reports": 4,
+      "jp_substantive": 4,
+      "kind": "認証狙い",
+      "malware": [],
+      "reporters": 141,
+      "reports": 252,
+      "roles": [],
+      "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260924#4"
       ],
       "auth": [
@@ -4496,6 +4945,38 @@
       "reports": 29,
       "roles": [],
       "score": 28,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [
+        "SSH",
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "FR",
+      "hosting": true,
+      "ioc": "ioc.ipv4|158.220.107.65",
+      "ip": "158.220.107.65",
+      "isp": "Contabo GmbH",
+      "jp_categories": [
+        "SSH",
+        "総当たり"
+      ],
+      "jp_last": "2025-12-16",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "認証狙い",
+      "malware": [],
+      "reporters": 67,
+      "reports": 103,
+      "roles": [],
+      "score": 0,
       "strict": [],
       "usage_type": "Data Center/Web Hosting/Transit"
     },
@@ -4688,6 +5169,35 @@
     {
       "actors": [],
       "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "HK",
+      "hosting": true,
+      "ioc": "ioc.ipv4|109.206.245.20",
+      "ip": "109.206.245.20",
+      "isp": "TEN",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-08",
+      "jp_reporters": 1,
+      "jp_reports": 13,
+      "jp_substantive": 13,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 2,
+      "reports": 14,
+      "roles": [],
+      "score": 13,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260630#12"
       ],
       "auth": [],
@@ -4748,6 +5258,35 @@
     {
       "actors": [],
       "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "JP",
+      "hosting": true,
+      "ioc": "ioc.ipv4|177.2.188.26",
+      "ip": "177.2.188.26",
+      "isp": "JT TELECOM INTERNATIONAL PTE.LTD.",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-08",
+      "jp_reporters": 1,
+      "jp_reports": 5,
+      "jp_substantive": 5,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 2,
+      "reports": 7,
+      "roles": [],
+      "score": 3,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260609#9"
       ],
       "auth": [],
@@ -4779,6 +5318,63 @@
     {
       "actors": [],
       "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "DE",
+      "hosting": true,
+      "ioc": "ioc.ipv4|102.220.162.196",
+      "ip": "102.220.162.196",
+      "isp": "Internet",
+      "jp_categories": [
+        "フィッシング"
+      ],
+      "jp_last": "2026-11-07",
+      "jp_reporters": 1,
+      "jp_reports": 3,
+      "jp_substantive": 3,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 1,
+      "reports": 3,
+      "roles": [],
+      "score": 1,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "CN",
+      "hosting": true,
+      "ioc": "ioc.ipv4|124.70.98.246",
+      "ip": "124.70.98.246",
+      "isp": "Huawei Public Cloud Service (Huawei Software Technologies Ltd.Co)",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-08",
+      "jp_reporters": 1,
+      "jp_reports": 2,
+      "jp_substantive": 2,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 3,
+      "reports": 6,
+      "roles": [],
+      "score": 21,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260801#7"
       ],
       "auth": [],
@@ -4801,6 +5397,93 @@
       "reports": 2,
       "roles": [],
       "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "HK",
+      "hosting": true,
+      "ioc": "ioc.ipv4|103.110.81.49",
+      "ip": "103.110.81.49",
+      "isp": "VAPELINE TECHNOLOGY(HK).,LIMITED",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-09",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 1,
+      "reports": 1,
+      "roles": [],
+      "score": 3,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "HK",
+      "hosting": true,
+      "ioc": "ioc.ipv4|103.122.245.194",
+      "ip": "103.122.245.194",
+      "isp": "Worldscope-TH",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-10-30",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 2,
+      "reports": 3,
+      "roles": [],
+      "score": 13,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "HK",
+      "hosting": true,
+      "ioc": "ioc.ipv4|103.122.245.215",
+      "ip": "103.122.245.215",
+      "isp": "Worldscope-TH",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-10-23",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 1,
+      "reports": 1,
+      "roles": [],
+      "score": 1,
       "strict": [],
       "usage_type": "Data Center/Web Hosting/Transit"
     },
@@ -4861,6 +5544,63 @@
     },
     {
       "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "HK",
+      "hosting": true,
+      "ioc": "ioc.ipv4|114.134.184.247",
+      "ip": "114.134.184.247",
+      "isp": "ASIA PACIFIC COMMUNICATION HK LIMITED",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-10-29",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 4,
+      "reports": 5,
+      "roles": [],
+      "score": 24,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "ioc": "ioc.ipv4|128.241.26.252",
+      "ip": "128.241.26.252",
+      "isp": "NTT America, Inc.",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-08",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 3,
+      "reports": 3,
+      "roles": [],
+      "score": 13,
+      "strict": [],
+      "usage_type": "Fixed Line ISP"
+    },
+    {
+      "actors": [],
       "articles": [],
       "auth": [],
       "broad": [],
@@ -4916,6 +5656,147 @@
       "score": 26,
       "strict": [],
       "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|152.53.53.142",
+      "ip": "152.53.53.142",
+      "isp": "netcup GmbH",
+      "jp_categories": [
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-06-18",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "走査のみ",
+      "malware": [],
+      "reporters": 66,
+      "reports": 106,
+      "roles": [],
+      "score": 16,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "IT",
+      "hosting": true,
+      "ioc": "ioc.ipv4|152.89.170.49",
+      "ip": "152.89.170.49",
+      "isp": "Lumanex",
+      "jp_categories": [
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-04-08",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "走査のみ",
+      "malware": [],
+      "reporters": 21,
+      "reports": 24,
+      "roles": [],
+      "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "IT",
+      "hosting": true,
+      "ioc": "ioc.ipv4|152.89.170.85",
+      "ip": "152.89.170.85",
+      "isp": "Lumanex",
+      "jp_categories": [
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-02-19",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "走査のみ",
+      "malware": [],
+      "reporters": 21,
+      "reports": 31,
+      "roles": [],
+      "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|154.201.73.148",
+      "ip": "154.201.73.148",
+      "isp": "cognetcloud INC",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-10-12",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 2,
+      "reports": 2,
+      "roles": [],
+      "score": 8,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "ioc": "ioc.ipv4|154.36.168.246",
+      "ip": "154.36.168.246",
+      "isp": "PSINet, Inc.",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-10",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 1,
+      "reports": 1,
+      "roles": [],
+      "score": 3,
+      "strict": [],
+      "usage_type": "Commercial"
     },
     {
       "actors": [],
@@ -5033,6 +5914,35 @@
     {
       "actors": [],
       "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|168.93.199.186",
+      "ip": "168.93.199.186",
+      "isp": "Turing Group Limited",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-10-23",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 2,
+      "reports": 2,
+      "roles": [],
+      "score": 10,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260721#4"
       ],
       "auth": [],
@@ -5114,6 +6024,64 @@
       "reports": 1109,
       "roles": [],
       "score": 100,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#0"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|180.178.56.10",
+      "ip": "180.178.56.10",
+      "isp": "Netsec Limited",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-10",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 3,
+      "reports": 3,
+      "roles": [],
+      "score": 19,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|182.16.69.130",
+      "ip": "182.16.69.130",
+      "isp": "Netsec Limited",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-08",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 1,
+      "reports": 1,
+      "roles": [],
+      "score": 3,
       "strict": [],
       "usage_type": "Data Center/Web Hosting/Transit"
     },
@@ -5466,34 +6434,38 @@
   "top_countries": [
     [
       "US",
-      39
+      46
     ],
     [
       "NL",
-      36
+      37
     ],
     [
       "DE",
-      17
+      18
     ],
     [
       "HK",
-      9
+      15
     ],
     [
       "FR",
-      7
+      11
+    ],
+    [
+      "JP",
+      9
     ],
     [
       "SG",
       7
     ],
     [
-      "JP",
-      5
+      "ID",
+      4
     ],
     [
-      "ID",
+      "IT",
       4
     ],
     [
@@ -5501,16 +6473,12 @@
       3
     ],
     [
-      "PL",
+      "CN",
       3
     ],
     [
-      "DK",
-      2
-    ],
-    [
-      "FI",
-      2
+      "IN",
+      3
     ]
   ],
   "top_isp": [
@@ -5519,12 +6487,12 @@
       9
     ],
     [
-      "DigitalOcean, LLC",
+      "Contabo GmbH",
       8
     ],
     [
-      "Contabo GmbH",
-      5
+      "DigitalOcean, LLC",
+      8
     ],
     [
       "Storm Industries LLC",
@@ -5543,6 +6511,10 @@
       4
     ],
     [
+      "Lumanex",
+      4
+    ],
+    [
       "TECHOFF SRV LIMITED",
       4
     ],
@@ -5556,10 +6528,6 @@
     ],
     [
       "1337 Services GmbH",
-      2
-    ],
-    [
-      "Advin Services LLC",
       2
     ]
   ]

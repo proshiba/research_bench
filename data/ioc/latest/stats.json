@@ -50,7 +50,7 @@
         "asn": 214961,
         "cc": "FR",
         "hosting_ratio": 1,
-        "hosting_seen": 8,
+        "hosting_seen": 10,
         "name": "Stellar Group SAS"
       },
       {
@@ -63,7 +63,7 @@
         "asn": 206216,
         "cc": "US",
         "hosting_ratio": 1,
-        "hosting_seen": 4,
+        "hosting_seen": 6,
         "name": "Advin Services LLC"
       },
       {
@@ -188,7 +188,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1494016,
+        "addresses": 1484288,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -314,7 +314,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4632832,
+        "addresses": 4633344,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -342,7 +342,7 @@
           "UNC5342",
           "UNC7005"
         ],
-        "addresses": 59648,
+        "addresses": 59904,
         "asn": 14956,
         "cc": "US",
         "name": "RouterHosting LLC"
@@ -365,7 +365,7 @@
           "UNC5174",
           "UNC7017"
         ],
-        "addresses": 11264512,
+        "addresses": 11428608,
         "asn": 45102,
         "cc": "US",
         "name": "Alibaba (US) Technology Co., Ltd."
@@ -387,7 +387,7 @@
           "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218616832,
+        "addresses": 218628096,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -446,7 +446,7 @@
           "UNC5174",
           "Winnti Group"
         ],
-        "addresses": 1559808,
+        "addresses": 1560832,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -482,7 +482,7 @@
           "Storm-0940",
           "The Gentlemen"
         ],
-        "addresses": 1118976,
+        "addresses": 1118208,
         "asn": 212238,
         "cc": "GB",
         "name": "Datacamp Limited"
@@ -515,7 +515,7 @@
           "shinyenigma",
           "vectra"
         ],
-        "addresses": 1767424,
+        "addresses": 1767680,
         "asn": 6461,
         "cc": "US",
         "name": "Zayo Bandwidth"
@@ -531,7 +531,7 @@
           "Qilin",
           "TAG-83"
         ],
-        "addresses": 495872,
+        "addresses": 495616,
         "asn": 29802,
         "cc": "US",
         "name": "HIVELOCITY, Inc."
@@ -547,7 +547,7 @@
           "Nie",
           "UNG0002"
         ],
-        "addresses": 12726272,
+        "addresses": 12707840,
         "asn": 45090,
         "cc": "CN",
         "name": "Tencent Cloud"
@@ -595,15 +595,15 @@
           "GTG-20006",
           "Pepesoft"
         ],
-        "addresses": 248832,
+        "addresses": 251136,
         "asn": 396356,
         "cc": "US",
         "name": "Latitude.sh"
       }
     ],
-    "multi_actor": 236,
+    "multi_actor": 235,
     "multi_actor_small": 9,
-    "small": 296,
+    "small": 318,
     "top": [
       {
         "actors": [
@@ -677,7 +677,7 @@
         "addresses": 2304,
         "asn": 215381,
         "cc": "IN",
-        "ips": 2,
+        "ips": 3,
         "malware": [],
         "name": "ROCKHOSTER PRIVATE LIMITED",
         "shared_hosting": false
@@ -738,7 +738,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1525
+    "total": 1593
   },
   "coverage": {
     "abuseipdb": {
@@ -748,20 +748,20 @@
           "target": 1083
         },
         "2": {
-          "done": 498,
-          "target": 498
+          "done": 599,
+          "target": 746
         },
         "5": {
-          "done": 3575,
-          "target": 3575
+          "done": 4474,
+          "target": 5863
         }
       },
-      "done": 5157,
-      "ratio": 1,
-      "target": 5156
+      "done": 6157,
+      "ratio": 0.8,
+      "target": 7692
     },
-    "newest_fetch": "2026-11-16",
-    "oldest_fetch": "2026-11-16",
+    "newest_fetch": "2026-11-17",
+    "oldest_fetch": "2026-11-17",
     "virustotal": {
       "by_stage": {
         "1": {
@@ -769,8 +769,8 @@
           "target": 7332
         },
         "2": {
-          "done": 498,
-          "target": 498
+          "done": 626,
+          "target": 746
         },
         "3": {
           "done": 6636,
@@ -781,18 +781,18 @@
           "target": 7245
         },
         "5": {
-          "done": 6037,
-          "target": 6037
+          "done": 7622,
+          "target": 8325
         },
         "6": {
           "done": 1758,
           "target": 1758
         }
       },
-      "done": 29507,
-      "known": 25369,
-      "ratio": 1,
-      "target": 29506,
+      "done": 31220,
+      "known": 27082,
+      "ratio": 0.974,
+      "target": 32042,
       "unknown": 4138
     }
   },
@@ -803,7 +803,7 @@
     "malware": 617
   },
   "from": {
-    "collected_at": "2026-11-16T00:03:52.709Z",
+    "collected_at": "2026-11-17T00:03:40.197Z",
     "week": "2026-W47"
   },
   "iocs": {
@@ -811,15 +811,15 @@
       "ioc.domain": 10446,
       "ioc.email": 268,
       "ioc.endpoint": 317,
-      "ioc.ipv4": 5091,
-      "ioc.ipv6": 74,
+      "ioc.ipv4": 7626,
+      "ioc.ipv6": 75,
       "ioc.md5": 2935,
       "ioc.sha1": 1660,
       "ioc.sha256": 5528,
       "ioc.sha512": 16,
       "ioc.url": 3811
     },
-    "dated": 14514,
+    "dated": 17051,
     "excluded": {
       "bogon": 3,
       "malformed": 30,
@@ -827,8 +827,8 @@
       "popular": 173,
       "sample_reported": 1
     },
-    "total": 30146,
-    "usable": 29934
+    "total": 32682,
+    "usable": 32470
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -861,7 +861,7 @@
         "registrable": 58,
         "resolution": 2,
         "signer": 9,
-        "subnet": 15,
+        "subnet": 13,
         "vhash": 32
       },
       "identical_sets": 5,
@@ -994,69 +994,6 @@
             "registered",
             "registrable",
             "signer",
-            "vhash"
-          ]
-        },
-        {
-          "a": "Silver Fox",
-          "b": "UTG-Q-1000",
-          "evidence": {
-            "family": [
-              "MODBEACON",
-              "caypnamer"
-            ],
-            "filename": [
-              "64elbn07i.exe",
-              "ab5875aaec3f.exe",
-              "cbvchost.exe"
-            ],
-            "imphash": [
-              "1ca84a3bb3b66c5a60efb6086479acef"
-            ],
-            "ioc": [
-              "ioc.domain|asd268668.oss-ap-southeast-1.aliyuncs.com",
-              "ioc.domain|cn-mumu.com.cn",
-              "ioc.domain|fast-cloud-node.com",
-              "ioc.domain|kkuu8899.org",
-              "ioc.domain|skystackservice.com"
-            ],
-            "jarm": [
-              "27d1dc27d0000001dc43d1dc1dc43d76e1f79b8645e08ae7fa8f07eb5e4202",
-              "29d29d00029d29d21c29d29d29d29dc2ddcfd203d071c45b4b0ffe3d7b4b89"
-            ],
-            "registered": [
-              "2026-01-09",
-              "2026-03-13",
-              "2026-05-01",
-              "2026-05-10",
-              "2026-05-28"
-            ],
-            "registrable": [
-              "aliyuncs.com",
-              "cn-mumu.com.cn",
-              "damaix9k.com",
-              "fast-cloud-node.com",
-              "kkuu8899.org"
-            ],
-            "subnet": [
-              "182.16.88.0/24"
-            ],
-            "vhash": [
-              "035056557515151bzc!z"
-            ]
-          },
-          "ratio": 2.5,
-          "shared": 40,
-          "strength": 32,
-          "via": [
-            "family",
-            "filename",
-            "imphash",
-            "ioc",
-            "jarm",
-            "registered",
-            "registrable",
-            "subnet",
             "vhash"
           ]
         },
@@ -1418,6 +1355,65 @@
             "registrable",
             "vhash"
           ]
+        },
+        {
+          "a": "Silver Fox",
+          "b": "UTG-Q-1000",
+          "evidence": {
+            "family": [
+              "MODBEACON",
+              "caypnamer"
+            ],
+            "filename": [
+              "64elbn07i.exe",
+              "ab5875aaec3f.exe",
+              "cbvchost.exe"
+            ],
+            "imphash": [
+              "1ca84a3bb3b66c5a60efb6086479acef"
+            ],
+            "ioc": [
+              "ioc.domain|asd268668.oss-ap-southeast-1.aliyuncs.com",
+              "ioc.domain|cn-mumu.com.cn",
+              "ioc.domain|fast-cloud-node.com",
+              "ioc.domain|kkuu8899.org",
+              "ioc.domain|skystackservice.com"
+            ],
+            "jarm": [
+              "27d1dc27d0000001dc43d1dc1dc43d76e1f79b8645e08ae7fa8f07eb5e4202",
+              "29d29d00029d29d21c29d29d29d29dc2ddcfd203d071c45b4b0ffe3d7b4b89"
+            ],
+            "registered": [
+              "2026-01-09",
+              "2026-03-13",
+              "2026-05-01",
+              "2026-05-10",
+              "2026-05-28"
+            ],
+            "registrable": [
+              "aliyuncs.com",
+              "cn-mumu.com.cn",
+              "damaix9k.com",
+              "fast-cloud-node.com",
+              "kkuu8899.org"
+            ],
+            "vhash": [
+              "035056557515151bzc!z"
+            ]
+          },
+          "ratio": 2.438,
+          "shared": 39,
+          "strength": 27,
+          "via": [
+            "family",
+            "filename",
+            "imphash",
+            "ioc",
+            "jarm",
+            "registered",
+            "registrable",
+            "vhash"
+          ]
         }
       ],
       "weak_only": 2283
@@ -1430,7 +1426,7 @@
         "filename": 0,
         "imphash": 0,
         "ioc": 1,
-        "jarm": 5,
+        "jarm": 6,
         "registered": 2,
         "registrable": 1,
         "resolution": 0,
@@ -1439,7 +1435,7 @@
         "vhash": 0
       },
       "identical_sets": 0,
-      "pairs": 7,
+      "pairs": 8,
       "top": [
         {
           "a": "Browser Extension and Google Play Abuse",
@@ -1559,9 +1555,25 @@
             "jarm"
           ],
           "weak_only": true
+        },
+        {
+          "a": "Operation DarkHorse",
+          "b": "Smoke Screen / Stealth Power",
+          "evidence": {
+            "jarm": [
+              "29d29d00029d29d00042d43d00041d598ac0c1012db967bb1ad0ff2491b3ae"
+            ]
+          },
+          "ratio": 0.014,
+          "shared": 1,
+          "strength": 1,
+          "via": [
+            "jarm"
+          ],
+          "weak_only": true
         }
       ],
-      "weak_only": 6
+      "weak_only": 7
     },
     "case": {
       "by_via": {
@@ -1571,7 +1583,7 @@
         "filename": 8,
         "imphash": 6,
         "ioc": 132,
-        "jarm": 127,
+        "jarm": 133,
         "registered": 58,
         "registrable": 68,
         "resolution": 0,
@@ -1580,7 +1592,7 @@
         "vhash": 10
       },
       "identical_sets": 156,
-      "pairs": 254,
+      "pairs": 259,
       "top": [
         {
           "a": "case:3f09145757282e6a59cd69319ac3b9da3265022a1d4f92a1646f8ddbaad89333",
@@ -1919,7 +1931,7 @@
           ]
         }
       ],
-      "weak_only": 116
+      "weak_only": 121
     },
     "malware": {
       "by_via": {
@@ -1929,7 +1941,7 @@
         "filename": 42,
         "imphash": 39,
         "ioc": 90,
-        "jarm": 693,
+        "jarm": 690,
         "registered": 1251,
         "registrable": 73,
         "resolution": 1,
@@ -1938,7 +1950,7 @@
         "vhash": 46
       },
       "identical_sets": 10,
-      "pairs": 2162,
+      "pairs": 2159,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2449,7 +2461,7 @@
           ]
         }
       ],
-      "weak_only": 2019
+      "weak_only": 2016
     }
   },
   "schema": 1,
@@ -2485,7 +2497,7 @@
         ],
         "asns": [
           {
-            "addresses": 59648,
+            "addresses": 59904,
             "asn": 14956,
             "name": "RouterHosting LLC"
           }
@@ -2521,7 +2533,7 @@
         ],
         "asns": [
           {
-            "addresses": 1767424,
+            "addresses": 1767680,
             "asn": 6461,
             "name": "Zayo Bandwidth"
           }
@@ -2600,7 +2612,7 @@
         ],
         "asns": [
           {
-            "addresses": 1767424,
+            "addresses": 1767680,
             "asn": 6461,
             "name": "Zayo Bandwidth"
           }
@@ -2714,7 +2726,7 @@
         ],
         "asns": [
           {
-            "addresses": 59648,
+            "addresses": 59904,
             "asn": 14956,
             "name": "RouterHosting LLC"
           }
@@ -2734,7 +2746,7 @@
         ],
         "asns": [
           {
-            "addresses": 37626112,
+            "addresses": 37626624,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2744,7 +2756,7 @@
         "subnet": "38.146.28.0/24"
       }
     ],
-    "total": 596
+    "total": 785
   },
   "targets": {
     "abuse": 7,
@@ -3206,7 +3218,7 @@
         }
       ]
     },
-    "clean": 3626,
+    "clean": 3630,
     "disagreement": {
       "samples": [
         {
@@ -3345,9 +3357,9 @@
           ]
         }
       ],
-      "total": 726
+      "total": 731
     },
-    "malicious": 21256,
+    "malicious": 22965,
     "unknown": 4138
   }
 }
