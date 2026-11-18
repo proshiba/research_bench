@@ -1,13 +1,13 @@
 {
   "asn_check": {
-    "agree": 2,
-    "differ": 0
+    "agree": 811,
+    "differ": 12
   },
   "cache": {
     "abuseipdb": {
       "dir": "data/ioc/.cache/abuseipdb",
       "records": 1000,
-      "sha256": "7acc1e6f324d86957b92594c953a7e557a59086bc3e1451247462e7664ec2fcb"
+      "sha256": "23f0fea70322fbde8761b5a556bb77d2407dff5dc697127aa747892d932f0e8a"
     },
     "virustotal": {
       "dir": "data/ioc/.cache/vt",
@@ -17,74 +17,74 @@
         "ip_addresses": 1,
         "urls": 1
       },
-      "records": 1713,
-      "sha256": "96474ae9963691b7d9f4829fbad46b8e4b3dbc1110dfca0295bb9b67f8c3092c"
+      "records": 901,
+      "sha256": "03eaa39fbe8d342fb56495c3546baac8363e2b1bfebf000e0b17f036f6ff97b0"
     }
   },
   "counts": {
-    "abuseipdb": 6157,
-    "derived_aliases": 289,
-    "derived_certs": 8167,
-    "derived_entities": 620,
-    "derived_iocs": 12544,
-    "derived_links": 30225,
+    "abuseipdb": 7157,
+    "derived_aliases": 290,
+    "derived_certs": 8491,
+    "derived_entities": 621,
+    "derived_iocs": 12592,
+    "derived_links": 30297,
     "derived_verdicts": 165,
-    "shared_certs": 225,
-    "vt": 31220
+    "shared_certs": 227,
+    "vt": 32121
   },
   "coverage": {
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 1083,
-          "target": 1083
+          "done": 1087,
+          "target": 1087
         },
         "2": {
-          "done": 504,
-          "target": 504
+          "done": 746,
+          "target": 746
         },
         "5": {
-          "done": 4569,
-          "target": 6105
+          "done": 5323,
+          "target": 5869
         }
       },
-      "done": 6157,
-      "ratio": 0.8,
-      "target": 7692
+      "done": 7157,
+      "ratio": 0.929,
+      "target": 7702
     },
-    "newest_fetch": "2026-11-17",
-    "oldest_fetch": "2026-11-17",
+    "newest_fetch": "2026-11-18",
+    "oldest_fetch": "2026-11-18",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 7332,
-          "target": 7332
+          "done": 7384,
+          "target": 7384
         },
         "2": {
-          "done": 504,
-          "target": 504
+          "done": 746,
+          "target": 746
         },
         "3": {
-          "done": 6636,
-          "target": 6636
+          "done": 6637,
+          "target": 6637
         },
         "4": {
-          "done": 7245,
-          "target": 7245
+          "done": 7255,
+          "target": 7255
         },
         "5": {
-          "done": 7744,
-          "target": 8567
+          "done": 8332,
+          "target": 8332
         },
         "6": {
-          "done": 1758,
-          "target": 1758
+          "done": 1766,
+          "target": 1766
         }
       },
-      "done": 31220,
-      "known": 27082,
-      "ratio": 0.974,
-      "target": 32042,
+      "done": 32121,
+      "known": 27983,
+      "ratio": 1,
+      "target": 32120,
       "unknown": 4138
     }
   },
