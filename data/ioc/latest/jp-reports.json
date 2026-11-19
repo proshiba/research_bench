@@ -1,10 +1,10 @@
 {
   "by_kind": {
-    "その他": 45,
-    "侵入（範囲広い）": 27,
+    "その他": 52,
+    "侵入（範囲広い）": 28,
     "脆弱性狙い": 84,
-    "認証狙い": 43,
-    "走査のみ": 46
+    "認証狙い": 45,
+    "走査のみ": 47
   },
   "clustered_24": [
     {
@@ -219,6 +219,17 @@
     {
       "actors": [],
       "ips": 2,
+      "isp": "Netsec Limited",
+      "jp_reports": 3,
+      "kinds": [
+        "その他"
+      ],
+      "net": "52.128.241.0/24",
+      "tor": 0
+    },
+    {
+      "actors": [],
+      "ips": 2,
       "isp": "Worldscope-TH",
       "jp_reports": 2,
       "kinds": [
@@ -244,37 +255,37 @@
     "DDoS": 10,
     "IoT 狙い": 1,
     "SQL インジェクション": 14,
-    "SSH": 56,
+    "SSH": 59,
     "Web アプリ攻撃": 81,
     "Web スパム": 28,
-    "オープンプロキシ": 47,
+    "オープンプロキシ": 55,
     "フィッシング": 5,
-    "ポートスキャン": 156,
+    "ポートスキャン": 166,
     "メールスパム": 8,
     "不正ボット": 51,
-    "侵入": 64,
-    "総当たり": 95,
+    "侵入": 65,
+    "総当たり": 97,
     "詐欺注文": 1,
     "踏み台": 3
   },
-  "jp_reported": 245,
+  "jp_reported": 256,
   "jp_reported_with_actor": 61,
   "jp_reporter_distribution": {
-    "1": 130,
-    "2": 41,
+    "1": 134,
+    "2": 47,
     "3": 20,
-    "4": 11,
+    "4": 12,
     "5+": 43
   },
   "marks": {
-    "hosting": 225,
+    "hosting": 236,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 1486,
+    "reported_ips": 1834,
     "unmeasured": 0
   },
   "rows": [
@@ -4449,6 +4460,41 @@
     {
       "actors": [],
       "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [
+        "SSH"
+      ],
+      "broad": [
+        "侵入"
+      ],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|69.12.78.58",
+      "ip": "69.12.78.58",
+      "isp": "HostPapa",
+      "jp_categories": [
+        "SSH",
+        "オープンプロキシ",
+        "ポートスキャン",
+        "侵入"
+      ],
+      "jp_last": "2026-10-30",
+      "jp_reporters": 2,
+      "jp_reports": 3,
+      "jp_substantive": 3,
+      "kind": "侵入（範囲広い）",
+      "malware": [],
+      "reporters": 15,
+      "reports": 18,
+      "roles": [],
+      "score": 44,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260622#0"
       ],
       "auth": [],
@@ -4851,6 +4897,39 @@
     },
     {
       "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [
+        "SSH",
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "DE",
+      "hosting": true,
+      "ioc": "ioc.ipv4|5.231.26.73",
+      "ip": "5.231.26.73",
+      "isp": "ROETH und BECK GbR",
+      "jp_categories": [
+        "SSH",
+        "ポートスキャン",
+        "総当たり"
+      ],
+      "jp_last": "2026-08-02",
+      "jp_reporters": 4,
+      "jp_reports": 4,
+      "jp_substantive": 3,
+      "kind": "認証狙い",
+      "malware": [],
+      "reporters": 191,
+      "reports": 309,
+      "roles": [],
+      "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
       "articles": [],
       "auth": [
         "SSH"
@@ -4908,6 +4987,38 @@
       ],
       "reporters": 9,
       "reports": 43,
+      "roles": [],
+      "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [
+        "SSH",
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|64.44.61.121",
+      "ip": "64.44.61.121",
+      "isp": "365 Group",
+      "jp_categories": [
+        "SSH",
+        "総当たり"
+      ],
+      "jp_last": "2026-08-28",
+      "jp_reporters": 2,
+      "jp_reports": 7,
+      "jp_substantive": 7,
+      "kind": "認証狙い",
+      "malware": [],
+      "reporters": 78,
+      "reports": 111,
       "roles": [],
       "score": 0,
       "strict": [],
@@ -5183,6 +5294,64 @@
       ],
       "auth": [],
       "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|47.254.74.31",
+      "ip": "47.254.74.31",
+      "isp": "Alibaba Cloud - US",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-08",
+      "jp_reporters": 2,
+      "jp_reports": 3,
+      "jp_substantive": 3,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 2,
+      "reports": 3,
+      "roles": [],
+      "score": 11,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "DE",
+      "hosting": true,
+      "ioc": "ioc.ipv4|62.83.72.151",
+      "ip": "62.83.72.151",
+      "isp": "netcup GmbH",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-10",
+      "jp_reporters": 2,
+      "jp_reports": 3,
+      "jp_substantive": 3,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 4,
+      "reports": 5,
+      "roles": [],
+      "score": 25,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
       "country": "FR",
       "hosting": true,
       "ioc": "ioc.ipv4|13.140.218.42",
@@ -5356,6 +5525,35 @@
       ],
       "auth": [],
       "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|52.128.241.51",
+      "ip": "52.128.241.51",
+      "isp": "Netsec Limited",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-08",
+      "jp_reporters": 2,
+      "jp_reports": 2,
+      "jp_substantive": 2,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 18,
+      "reports": 82,
+      "roles": [],
+      "score": 55,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
       "country": "LT",
       "hosting": true,
       "ioc": "ioc.ipv4|91.224.92.154",
@@ -5374,6 +5572,35 @@
       "reports": 144,
       "roles": [],
       "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "NL",
+      "hosting": true,
+      "ioc": "ioc.ipv4|93.152.215.86",
+      "ip": "93.152.215.86",
+      "isp": "DEDIK SERVICES LIMITED",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-08",
+      "jp_reporters": 2,
+      "jp_reports": 2,
+      "jp_substantive": 2,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 2,
+      "reports": 2,
+      "roles": [],
+      "score": 12,
       "strict": [],
       "usage_type": "Data Center/Web Hosting/Transit"
     },
@@ -8127,6 +8354,64 @@
     {
       "actors": [],
       "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|52.128.241.101",
+      "ip": "52.128.241.101",
+      "isp": "Netsec Limited",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-06",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 7,
+      "reports": 24,
+      "roles": [],
+      "score": 47,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|64.31.33.58",
+      "ip": "64.31.33.58",
+      "isp": "Limestone Networks, Inc.",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-10-25",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 1,
+      "reports": 1,
+      "roles": [],
+      "score": 1,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260908#0"
       ],
       "auth": [],
@@ -8212,6 +8497,63 @@
     {
       "actors": [],
       "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|92.255.57.43",
+      "ip": "92.255.57.43",
+      "isp": "UFO TECHNOLOGIES LIMITED",
+      "jp_categories": [
+        "ポートスキャン"
+      ],
+      "jp_last": "2025-12-19",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "走査のみ",
+      "malware": [],
+      "reporters": 36,
+      "reports": 49,
+      "roles": [],
+      "score": 4,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
+        "article:20261117#8"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "HK",
+      "hosting": true,
+      "ioc": "ioc.ipv4|93.177.76.134",
+      "ip": "93.177.76.134",
+      "isp": "Sakura network limited",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-11-07",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 1,
+      "reports": 1,
+      "roles": [],
+      "score": 2,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [],
+      "articles": [
         "article:20260625#2"
       ],
       "auth": [],
@@ -8244,11 +8586,11 @@
   "top_countries": [
     [
       "US",
-      49
+      56
     ],
     [
       "NL",
-      41
+      42
     ],
     [
       "LT",
@@ -8256,11 +8598,11 @@
     ],
     [
       "HK",
-      21
+      22
     ],
     [
       "DE",
-      19
+      21
     ],
     [
       "FR",
@@ -8329,16 +8671,16 @@
       4
     ],
     [
+      "Netsec Limited",
+      4
+    ],
+    [
       "TECHOFF SRV LIMITED",
       4
     ],
     [
       "TechTies Inc.",
       4
-    ],
-    [
-      "31173 Services AB infrastructure in Amsterdam, NL.",
-      3
     ]
   ]
 }
