@@ -1,30 +1,30 @@
 {
   "asn_names": {
-    "bytes": 5614168,
-    "fetched_at": "2026-11-20T00:03:27.502Z",
-    "lines": 123098,
-    "sha256": "de72d087fbf63ab4d31e3b8073269eed3d6c90988b2659a2854a06c66e0de750",
+    "bytes": 5615350,
+    "fetched_at": "2026-11-21T00:03:24.929Z",
+    "lines": 123129,
+    "sha256": "4cf1ee7f0b5600fde7c62b3a38cd7703e2957311857e7fe75eb95acc72cbe7d8",
     "url": "https://bgp.tools/asns.csv"
   },
   "counts": {
-    "asns": 1598,
-    "routed": 19886,
+    "asns": 1600,
+    "routed": 19891,
     "skipped": 103,
-    "unrouted": 325
+    "unrouted": 320
   },
   "schema": 1,
   "source": "bgp.tools",
   "table": {
-    "bytes": 77135120,
-    "fetched_at": "2026-11-20T00:03:27.502Z",
-    "lines": 1510632,
-    "sha256": "f37a4eda80581435943bc256db033a6935cc065b63394997a2c61c0a39f09f49",
+    "bytes": 77266721,
+    "fetched_at": "2026-11-21T00:03:24.929Z",
+    "lines": 1513342,
+    "sha256": "d1ea73fd88e55b821d81d0c2b9a0bf4935f84042d7c4f6de41b26feb8fa98c7d",
     "url": "https://bgp.tools/table.jsonl"
   },
   "table_prefixes": {
     "skipped": 0,
-    "v4": 1203669,
-    "v6": 291132
+    "v4": 1206137,
+    "v6": 291295
   },
   "tool": "tools/ioc/enrich-asn.mjs"
 }
