@@ -328,7 +328,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4637184,
+        "addresses": 4637440,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -379,7 +379,7 @@
           "UNC5174",
           "UNC7017"
         ],
-        "addresses": 11482880,
+        "addresses": 11495168,
         "asn": 45102,
         "cc": "US",
         "name": "Alibaba (US) Technology Co., Ltd."
@@ -424,7 +424,7 @@
           "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218614784,
+        "addresses": 218619648,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -530,7 +530,7 @@
           "shinyenigma",
           "vectra"
         ],
-        "addresses": 1766912,
+        "addresses": 1766656,
         "asn": 6461,
         "cc": "US",
         "name": "Zayo Bandwidth"
@@ -610,13 +610,13 @@
           "GTG-20006",
           "Pepesoft"
         ],
-        "addresses": 252160,
+        "addresses": 253696,
         "asn": 396356,
         "cc": "US",
         "name": "Latitude.sh"
       }
     ],
-    "multi_actor": 237,
+    "multi_actor": 239,
     "multi_actor_small": 8,
     "small": 322,
     "top": [
@@ -740,35 +740,35 @@
         "shared_hosting": false
       }
     ],
-    "total": 1598
+    "total": 1599
   },
   "coverage": {
     "abuseipdb": {
       "by_stage": {
         "1": {
-          "done": 1087,
-          "target": 1087
+          "done": 1105,
+          "target": 1105
         },
         "2": {
           "done": 749,
           "target": 749
         },
         "5": {
-          "done": 5869,
-          "target": 5869
+          "done": 5872,
+          "target": 5872
         }
       },
-      "done": 7706,
+      "done": 7727,
       "ratio": 1,
-      "target": 7705
+      "target": 7726
     },
-    "newest_fetch": null,
-    "oldest_fetch": null,
+    "newest_fetch": "2026-11-23",
+    "oldest_fetch": "2026-11-23",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 7442,
-          "target": 7442
+          "done": 7473,
+          "target": 7473
         },
         "2": {
           "done": 749,
@@ -779,49 +779,49 @@
           "target": 6657
         },
         "4": {
-          "done": 7256,
-          "target": 7256
+          "done": 7255,
+          "target": 7255
         },
         "5": {
-          "done": 8332,
-          "target": 8332
+          "done": 8335,
+          "target": 8335
         },
         "6": {
-          "done": 1783,
-          "target": 1783
+          "done": 1784,
+          "target": 1784
         }
       },
-      "done": 32220,
-      "known": 28051,
+      "done": 32254,
+      "known": 28085,
       "ratio": 1,
-      "target": 32219,
+      "target": 32253,
       "unknown": 4169
     }
   },
   "entities": {
-    "actor": 383,
+    "actor": 384,
     "campaign": 17,
     "case": 518,
-    "malware": 624
+    "malware": 625
   },
   "from": {
-    "collected_at": "2026-11-22T00:03:28.266Z",
-    "week": "2026-W47"
+    "collected_at": "2026-11-23T00:03:53.728Z",
+    "week": "2026-W48"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 10493,
+      "ioc.domain": 10505,
       "ioc.email": 268,
       "ioc.endpoint": 317,
-      "ioc.ipv4": 7639,
+      "ioc.ipv4": 7660,
       "ioc.ipv6": 75,
       "ioc.md5": 2935,
       "ioc.sha1": 1660,
-      "ioc.sha256": 5628,
+      "ioc.sha256": 5629,
       "ioc.sha512": 16,
       "ioc.url": 3828
     },
-    "dated": 17228,
+    "dated": 17262,
     "excluded": {
       "bogon": 3,
       "malformed": 30,
@@ -829,8 +829,8 @@
       "popular": 173,
       "sample_reported": 1
     },
-    "total": 32859,
-    "usable": 32647
+    "total": 32893,
+    "usable": 32681
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -857,17 +857,17 @@
         "family": 203,
         "filename": 54,
         "imphash": 35,
-        "ioc": 70,
-        "jarm": 1224,
-        "registered": 1317,
-        "registrable": 59,
+        "ioc": 71,
+        "jarm": 1237,
+        "registered": 1330,
+        "registrable": 63,
         "resolution": 2,
         "signer": 9,
         "subnet": 13,
         "vhash": 33
       },
       "identical_sets": 5,
-      "pairs": 2440,
+      "pairs": 2462,
       "top": [
         {
           "a": "APT29 sub-cluster",
@@ -1418,7 +1418,7 @@
           ]
         }
       ],
-      "weak_only": 2329
+      "weak_only": 2350
     },
     "campaign": {
       "by_via": {
@@ -1942,17 +1942,17 @@
         "family": 209,
         "filename": 44,
         "imphash": 38,
-        "ioc": 91,
-        "jarm": 698,
-        "registered": 1248,
-        "registrable": 77,
+        "ioc": 93,
+        "jarm": 709,
+        "registered": 1239,
+        "registrable": 83,
         "resolution": 1,
         "signer": 6,
         "subnet": 12,
         "vhash": 47
       },
       "identical_sets": 10,
-      "pairs": 2169,
+      "pairs": 2171,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2468,7 +2468,7 @@
   },
   "schema": 1,
   "subnets": {
-    "multi_actor": 139,
+    "multi_actor": 141,
     "top": [
       {
         "actors": [
@@ -2535,7 +2535,7 @@
         ],
         "asns": [
           {
-            "addresses": 1766912,
+            "addresses": 1766656,
             "asn": 6461,
             "name": "Zayo Bandwidth"
           }
@@ -2614,7 +2614,7 @@
         ],
         "asns": [
           {
-            "addresses": 1766912,
+            "addresses": 1766656,
             "asn": 6461,
             "name": "Zayo Bandwidth"
           }
@@ -2758,7 +2758,7 @@
         "subnet": "38.146.28.0/24"
       }
     ],
-    "total": 786
+    "total": 789
   },
   "targets": {
     "abuse": 7,
@@ -3134,19 +3134,19 @@
       ],
       "with_dates": 11
     },
-    "dated": 10004,
+    "dated": 10005,
     "index_lag": {
-      "ahead": 493,
+      "ahead": 494,
       "median_days": 52,
       "p25_days": 1,
       "p75_days": 160,
-      "pairs": 5539
+      "pairs": 5540
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 342,
+      "checked": 343,
       "lowest": [
         {
           "checked": 4,
@@ -3220,7 +3220,7 @@
         }
       ]
     },
-    "clean": 3647,
+    "clean": 3650,
     "disagreement": {
       "samples": [
         {
@@ -3359,9 +3359,9 @@
           ]
         }
       ],
-      "total": 737
+      "total": 739
     },
-    "malicious": 23917,
+    "malicious": 23947,
     "unknown": 4169
   }
 }
