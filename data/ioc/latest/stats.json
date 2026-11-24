@@ -200,7 +200,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1535488,
+        "addresses": 1536256,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -211,6 +211,7 @@
           "APT29",
           "APT34",
           "APT42",
+          "ARMORY CASTLE",
           "BITTER",
           "Carbo506",
           "Cellebrite",
@@ -268,7 +269,7 @@
           "Wizard Spider",
           "XaocMail ClickFix campaign"
         ],
-        "addresses": 1681920,
+        "addresses": 1685504,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -328,7 +329,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4637440,
+        "addresses": 4638208,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -379,7 +380,7 @@
           "UNC5174",
           "UNC7017"
         ],
-        "addresses": 11495168,
+        "addresses": 11495680,
         "asn": 45102,
         "cc": "US",
         "name": "Alibaba (US) Technology Co., Ltd."
@@ -424,7 +425,7 @@
           "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218619648,
+        "addresses": 218492416,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -461,7 +462,7 @@
           "UNC5174",
           "Winnti Group"
         ],
-        "addresses": 1561088,
+        "addresses": 1561344,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -497,7 +498,7 @@
           "Storm-0940",
           "The Gentlemen"
         ],
-        "addresses": 1123840,
+        "addresses": 1124352,
         "asn": 212238,
         "cc": "GB",
         "name": "Datacamp Limited"
@@ -514,7 +515,7 @@
           "UAT-6275",
           "Videostrong Technology Co."
         ],
-        "addresses": 1086720,
+        "addresses": 1084672,
         "asn": 36352,
         "cc": "US",
         "name": "HostPapa"
@@ -562,7 +563,7 @@
           "Nie",
           "UNG0002"
         ],
-        "addresses": 12726272,
+        "addresses": 12707840,
         "asn": 45090,
         "cc": "CN",
         "name": "Tencent Cloud"
@@ -610,14 +611,14 @@
           "GTG-20006",
           "Pepesoft"
         ],
-        "addresses": 253696,
+        "addresses": 253184,
         "asn": 396356,
         "cc": "US",
         "name": "Latitude.sh"
       }
     ],
-    "multi_actor": 239,
-    "multi_actor_small": 8,
+    "multi_actor": 240,
+    "multi_actor_small": 7,
     "small": 322,
     "top": [
       {
@@ -712,19 +713,6 @@
       },
       {
         "actors": [
-          "SilkParasite",
-          "Toy Ghouls"
-        ],
-        "addresses": 3840,
-        "asn": 56594,
-        "cc": "HK",
-        "ips": 2,
-        "malware": [],
-        "name": "CGI GLOBAL LIMITED",
-        "shared_hosting": false
-      },
-      {
-        "actors": [
           "SQLRCE0",
           "Yx Technology"
         ],
@@ -740,7 +728,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1599
+    "total": 1603
   },
   "coverage": {
     "abuseipdb": {
@@ -754,16 +742,16 @@
           "target": 749
         },
         "5": {
-          "done": 5872,
-          "target": 5872
+          "done": 5891,
+          "target": 5891
         }
       },
-      "done": 7727,
+      "done": 7746,
       "ratio": 1,
-      "target": 7726
+      "target": 7745
     },
-    "newest_fetch": "2026-11-23",
-    "oldest_fetch": "2026-11-23",
+    "newest_fetch": "2026-11-24",
+    "oldest_fetch": "2026-11-24",
     "virustotal": {
       "by_stage": {
         "1": {
@@ -775,53 +763,53 @@
           "target": 749
         },
         "3": {
-          "done": 6657,
-          "target": 6657
+          "done": 6666,
+          "target": 6666
         },
         "4": {
-          "done": 7255,
-          "target": 7255
+          "done": 7258,
+          "target": 7258
         },
         "5": {
-          "done": 8335,
-          "target": 8335
+          "done": 8357,
+          "target": 8357
         },
         "6": {
-          "done": 1784,
-          "target": 1784
+          "done": 1792,
+          "target": 1792
         }
       },
-      "done": 32254,
-      "known": 28085,
+      "done": 32296,
+      "known": 28121,
       "ratio": 1,
-      "target": 32253,
-      "unknown": 4169
+      "target": 32295,
+      "unknown": 4175
     }
   },
   "entities": {
     "actor": 384,
     "campaign": 17,
     "case": 518,
-    "malware": 625
+    "malware": 627
   },
   "from": {
-    "collected_at": "2026-11-23T00:03:53.728Z",
+    "collected_at": "2026-11-24T00:04:05.750Z",
     "week": "2026-W48"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 10505,
+      "ioc.domain": 10509,
       "ioc.email": 268,
       "ioc.endpoint": 317,
-      "ioc.ipv4": 7660,
+      "ioc.ipv4": 7679,
       "ioc.ipv6": 75,
       "ioc.md5": 2935,
       "ioc.sha1": 1660,
-      "ioc.sha256": 5629,
+      "ioc.sha256": 5642,
       "ioc.sha512": 16,
-      "ioc.url": 3828
+      "ioc.url": 3834
     },
-    "dated": 17262,
+    "dated": 17305,
     "excluded": {
       "bogon": 3,
       "malformed": 30,
@@ -829,8 +817,8 @@
       "popular": 173,
       "sample_reported": 1
     },
-    "total": 32893,
-    "usable": 32681
+    "total": 32935,
+    "usable": 32723
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -852,13 +840,13 @@
   "overlaps": {
     "actor": {
       "by_via": {
-        "asn": 6,
+        "asn": 5,
         "certificate": 11,
         "family": 203,
         "filename": 54,
         "imphash": 35,
         "ioc": 71,
-        "jarm": 1237,
+        "jarm": 1238,
         "registered": 1330,
         "registrable": 63,
         "resolution": 2,
@@ -867,7 +855,7 @@
         "vhash": 33
       },
       "identical_sets": 5,
-      "pairs": 2462,
+      "pairs": 2463,
       "top": [
         {
           "a": "APT29 sub-cluster",
@@ -1418,7 +1406,7 @@
           ]
         }
       ],
-      "weak_only": 2350
+      "weak_only": 2352
     },
     "campaign": {
       "by_via": {
@@ -1940,19 +1928,19 @@
         "asn": 10,
         "certificate": 6,
         "family": 209,
-        "filename": 44,
-        "imphash": 38,
-        "ioc": 93,
-        "jarm": 709,
-        "registered": 1239,
+        "filename": 46,
+        "imphash": 39,
+        "ioc": 94,
+        "jarm": 710,
+        "registered": 1243,
         "registrable": 83,
         "resolution": 1,
         "signer": 6,
         "subnet": 12,
-        "vhash": 47
+        "vhash": 48
       },
       "identical_sets": 10,
-      "pairs": 2171,
+      "pairs": 2177,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2463,7 +2451,7 @@
           ]
         }
       ],
-      "weak_only": 2026
+      "weak_only": 2031
     }
   },
   "schema": 1,
@@ -2635,7 +2623,7 @@
         ],
         "asns": [
           {
-            "addresses": 109312,
+            "addresses": 109824,
             "asn": 49981,
             "name": "WorldStream B.V."
           }
@@ -2671,7 +2659,7 @@
         ],
         "asns": [
           {
-            "addresses": 33792,
+            "addresses": 34048,
             "asn": 16125,
             "name": "UAB \"Cherry Servers\""
           }
@@ -2748,7 +2736,7 @@
         ],
         "asns": [
           {
-            "addresses": 37690880,
+            "addresses": 37699840,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2758,7 +2746,7 @@
         "subnet": "38.146.28.0/24"
       }
     ],
-    "total": 789
+    "total": 791
   },
   "targets": {
     "abuse": 7,
@@ -3134,19 +3122,19 @@
       ],
       "with_dates": 11
     },
-    "dated": 10005,
+    "dated": 10018,
     "index_lag": {
-      "ahead": 494,
-      "median_days": 52,
+      "ahead": 495,
+      "median_days": 51,
       "p25_days": 1,
       "p75_days": 160,
-      "pairs": 5540
+      "pairs": 5554
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 343,
+      "checked": 344,
       "lowest": [
         {
           "checked": 4,
@@ -3220,7 +3208,7 @@
         }
       ]
     },
-    "clean": 3650,
+    "clean": 3652,
     "disagreement": {
       "samples": [
         {
@@ -3361,7 +3349,7 @@
       ],
       "total": 739
     },
-    "malicious": 23947,
-    "unknown": 4169
+    "malicious": 23980,
+    "unknown": 4175
   }
 }

@@ -3419,6 +3419,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.077,
+      "shared": 1,
+      "source": "actor:APT37",
+      "strength": 1,
+      "target": "actor:ARMORY CASTLE",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.012,
       "shared": 1,
       "source": "actor:APT37",
@@ -27923,15 +27935,15 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.02,
-      "shared": 2,
+      "ratio": 0.01,
+      "shared": 1,
       "source": "actor:SilkParasite",
-      "strength": 8,
+      "strength": 3,
       "target": "actor:Toy Ghouls",
       "via": [
-        "asn",
         "registered"
-      ]
+      ],
+      "weak_only": true
     },
     {
       "kind": "actor",
@@ -36794,7 +36806,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.042,
       "shared": 1,
       "source": "malware:Agent Tesla",
       "strength": 2,
@@ -38158,7 +38170,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.042,
       "shared": 1,
       "source": "malware:AnonyMousKIT",
       "strength": 1,
@@ -41228,6 +41240,18 @@
       "source": "malware:BoryptGrab",
       "strength": 3,
       "target": "malware:TrapDoor",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:BotHelper RAT",
+      "strength": 3,
+      "target": "malware:HoldingHandsRAT",
       "via": [
         "registered"
       ],
@@ -45850,7 +45874,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.042,
       "shared": 1,
       "source": "malware:DonutLoader",
       "strength": 2,
@@ -48737,7 +48761,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.095,
+      "ratio": 0.083,
       "shared": 2,
       "source": "malware:Formbook",
       "strength": 3,
@@ -49546,7 +49570,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.048,
+      "ratio": 0.042,
       "shared": 1,
       "source": "malware:Gunra",
       "strength": 1,
@@ -50134,6 +50158,55 @@
       "strength": 1,
       "target": "malware:mirai",
       "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "malware:HoldingHandsRAT",
+      "strength": 3,
+      "target": "malware:NetSupport Manager",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "malware:HoldingHandsRAT",
+      "strength": 3,
+      "target": "malware:Node.js Backdoor",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.167,
+      "shared": 1,
+      "source": "malware:HoldingHandsRAT",
+      "strength": 3,
+      "target": "malware:ToxicPanda",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.667,
+      "shared": 4,
+      "source": "malware:HoldingHandsRAT",
+      "strength": 2,
+      "target": "malware:ValleyRAT",
+      "via": [
+        "filename",
         "jarm"
       ],
       "weak_only": true
@@ -58769,6 +58842,20 @@
     },
     {
       "kind": "malware",
+      "ratio": 1.222,
+      "shared": 11,
+      "source": "malware:SparkRAT",
+      "strength": 19,
+      "target": "malware:ValleyRAT",
+      "via": [
+        "filename",
+        "imphash",
+        "ioc",
+        "vhash"
+      ]
+    },
+    {
+      "kind": "malware",
       "ratio": 0.063,
       "shared": 1,
       "source": "malware:SpiceRAT",
@@ -59508,7 +59595,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-11-23T00:03:53.728Z",
+  "generated_from": "2026-11-24T00:04:05.750Z",
   "nodes": [
     {
       "id": "actor:3AM ransomware affiliate",
@@ -59581,6 +59668,12 @@
       "ioc_count": 21,
       "kind": "actor",
       "name": "APT44 subcluster"
+    },
+    {
+      "id": "actor:ARMORY CASTLE",
+      "ioc_count": 13,
+      "kind": "actor",
+      "name": "ARMORY CASTLE"
     },
     {
       "id": "actor:Adception",
@@ -62835,6 +62928,12 @@
       "name": "Hirudo"
     },
     {
+      "id": "malware:HoldingHandsRAT",
+      "ioc_count": 6,
+      "kind": "malware",
+      "name": "HoldingHandsRAT"
+    },
+    {
       "id": "malware:Honeygain",
       "ioc_count": 102,
       "kind": "malware",
@@ -63646,7 +63745,7 @@
     },
     {
       "id": "malware:Remcos",
-      "ioc_count": 21,
+      "ioc_count": 24,
       "kind": "malware",
       "name": "Remcos"
     },
@@ -63889,6 +63988,12 @@
       "ioc_count": 29,
       "kind": "malware",
       "name": "SparkKitty"
+    },
+    {
+      "id": "malware:SparkRAT",
+      "ioc_count": 9,
+      "kind": "malware",
+      "name": "SparkRAT"
     },
     {
       "id": "malware:SparroWocky",
