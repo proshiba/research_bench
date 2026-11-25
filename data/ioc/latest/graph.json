@@ -4547,6 +4547,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.014,
+      "shared": 1,
+      "source": "actor:APT38",
+      "strength": 3,
+      "target": "actor:GT13",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.102,
       "shared": 5,
       "source": "actor:APT38",
@@ -8737,6 +8749,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.03,
+      "shared": 1,
+      "source": "actor:BADBOX 3.0",
+      "strength": 3,
+      "target": "actor:GT13",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.061,
       "shared": 2,
       "source": "actor:BADBOX 3.0",
@@ -10821,6 +10845,18 @@
       "source": "actor:Callisto Group",
       "strength": 3,
       "target": "actor:GOFFEE",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.014,
+      "shared": 1,
+      "source": "actor:Callisto Group",
+      "strength": 3,
+      "target": "actor:GT13",
       "via": [
         "registered"
       ],
@@ -15768,15 +15804,15 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.03,
-      "shared": 1,
+      "ratio": 0.061,
+      "shared": 2,
       "source": "actor:DriveSurge",
-      "strength": 3,
+      "strength": 8,
       "target": "actor:Rognar",
       "via": [
-        "registered"
-      ],
-      "weak_only": true
+        "registered",
+        "subnet"
+      ]
     },
     {
       "kind": "actor",
@@ -15813,6 +15849,17 @@
         "registered"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.125,
+      "shared": 1,
+      "source": "actor:DriveSurge",
+      "strength": 5,
+      "target": "actor:Storm-3358",
+      "via": [
+        "subnet"
+      ]
     },
     {
       "kind": "actor",
@@ -18724,6 +18771,66 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.022,
+      "shared": 1,
+      "source": "actor:GT13",
+      "strength": 3,
+      "target": "actor:JadeProx",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.017,
+      "shared": 1,
+      "source": "actor:GT13",
+      "strength": 3,
+      "target": "actor:KongTuke",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.014,
+      "shared": 1,
+      "source": "actor:GT13",
+      "strength": 1,
+      "target": "actor:MuddyWater",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.014,
+      "shared": 1,
+      "source": "actor:GT13",
+      "strength": 3,
+      "target": "actor:Silver Fox",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.063,
+      "shared": 1,
+      "source": "actor:GT13",
+      "strength": 3,
+      "target": "actor:UTG-Q-1000",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.061,
       "shared": 2,
       "source": "actor:GTG-20006",
@@ -19396,6 +19503,28 @@
         "registered"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.125,
+      "shared": 1,
+      "source": "actor:GTG-50020",
+      "strength": 5,
+      "target": "actor:Storm-3358",
+      "via": [
+        "subnet"
+      ]
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.125,
+      "shared": 1,
+      "source": "actor:GTG-50020",
+      "strength": 5,
+      "target": "actor:vectra",
+      "via": [
+        "subnet"
+      ]
     },
     {
       "kind": "actor",
@@ -26928,6 +27057,28 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.042,
+      "shared": 1,
+      "source": "actor:PhantomEnigma",
+      "strength": 5,
+      "target": "actor:masterblack",
+      "via": [
+        "subnet"
+      ]
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.042,
+      "shared": 1,
+      "source": "actor:PhantomEnigma",
+      "strength": 5,
+      "target": "actor:shinyenigma",
+      "via": [
+        "subnet"
+      ]
+    },
+    {
+      "kind": "actor",
       "ratio": 0.167,
       "shared": 1,
       "source": "actor:Poisson",
@@ -27226,6 +27377,17 @@
         "registered"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.125,
+      "shared": 1,
+      "source": "actor:Rognar",
+      "strength": 5,
+      "target": "actor:Storm-3358",
+      "via": [
+        "subnet"
+      ]
     },
     {
       "kind": "actor",
@@ -28682,6 +28844,17 @@
         "jarm"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.125,
+      "shared": 1,
+      "source": "actor:Storm-3358",
+      "strength": 5,
+      "target": "actor:vectra",
+      "via": [
+        "subnet"
+      ]
     },
     {
       "kind": "actor",
@@ -34575,14 +34748,15 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.151,
-      "shared": 13,
+      "ratio": 0.163,
+      "shared": 14,
       "source": "malware:AMOS",
-      "strength": 11,
+      "strength": 16,
       "target": "malware:ErrTraffic",
       "via": [
         "ioc",
-        "registered"
+        "registered",
+        "subnet"
       ]
     },
     {
@@ -34746,15 +34920,15 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.01,
-      "shared": 1,
+      "ratio": 0.02,
+      "shared": 2,
       "source": "malware:AMOS",
-      "strength": 3,
+      "strength": 8,
       "target": "malware:NetSupport Manager",
       "via": [
-        "registered"
-      ],
-      "weak_only": true
+        "registered",
+        "subnet"
+      ]
     },
     {
       "kind": "malware",
@@ -35302,14 +35476,26 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.5,
-      "shared": 2,
+      "ratio": 0.75,
+      "shared": 3,
       "source": "malware:AMOS Stealer",
-      "strength": 9,
+      "strength": 14,
       "target": "malware:Atomic macOS Stealer",
       "via": [
         "ioc",
-        "jarm"
+        "jarm",
+        "subnet"
+      ]
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:AMOS Stealer",
+      "strength": 5,
+      "target": "malware:VectraRAT",
+      "via": [
+        "subnet"
       ]
     },
     {
@@ -39750,6 +39936,17 @@
         "registered"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:Atomic macOS Stealer",
+      "strength": 5,
+      "target": "malware:VectraRAT",
+      "via": [
+        "subnet"
+      ]
     },
     {
       "kind": "malware",
@@ -45167,15 +45364,15 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.042,
-      "shared": 1,
+      "ratio": 0.083,
+      "shared": 2,
       "source": "malware:DCRat",
-      "strength": 1,
+      "strength": 6,
       "target": "malware:Millenium RAT",
       "via": [
-        "jarm"
-      ],
-      "weak_only": true
+        "jarm",
+        "subnet"
+      ]
     },
     {
       "kind": "malware",
@@ -45733,6 +45930,28 @@
         "jarm"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:DeviceManager",
+      "strength": 5,
+      "target": "malware:FakeUpdates",
+      "via": [
+        "subnet"
+      ]
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:DeviceManager",
+      "strength": 5,
+      "target": "malware:NetSupport Manager",
+      "via": [
+        "subnet"
+      ]
     },
     {
       "kind": "malware",
@@ -46787,6 +47006,17 @@
         "registered"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.012,
+      "shared": 1,
+      "source": "malware:ErrTraffic",
+      "strength": 5,
+      "target": "malware:NetSupport Manager",
+      "via": [
+        "subnet"
+      ]
     },
     {
       "kind": "malware",
@@ -48182,6 +48412,17 @@
         "registered"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.053,
+      "shared": 1,
+      "source": "malware:FakeUpdates",
+      "strength": 5,
+      "target": "malware:NetSupport Manager",
+      "via": [
+        "subnet"
+      ]
     },
     {
       "kind": "malware",
@@ -51693,15 +51934,15 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.042,
-      "shared": 1,
+      "ratio": 0.083,
+      "shared": 2,
       "source": "malware:Lunex",
-      "strength": 1,
+      "strength": 6,
       "target": "malware:Millenium RAT",
       "via": [
-        "jarm"
-      ],
-      "weak_only": true
+        "jarm",
+        "subnet"
+      ]
     },
     {
       "kind": "malware",
@@ -56501,6 +56742,17 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.5,
+      "shared": 1,
+      "source": "malware:Phorpiexラベル付きダウンローダー",
+      "strength": 5,
+      "target": "malware:VectraRAT",
+      "via": [
+        "subnet"
+      ]
+    },
+    {
+      "kind": "malware",
       "ratio": 0.063,
       "shared": 1,
       "source": "malware:PicassoLoader",
@@ -59595,7 +59847,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-11-24T00:04:05.750Z",
+  "generated_from": "2026-11-25T00:03:23.274Z",
   "nodes": [
     {
       "id": "actor:3AM ransomware affiliate",
@@ -60102,6 +60354,12 @@
       "name": "GOLD SHERWOOD"
     },
     {
+      "id": "actor:GT13",
+      "ioc_count": 73,
+      "kind": "actor",
+      "name": "GT13"
+    },
+    {
       "id": "actor:GTG-20006",
       "ioc_count": 49,
       "kind": "actor",
@@ -60112,6 +60370,12 @@
       "ioc_count": 33,
       "kind": "actor",
       "name": "GTG-50014"
+    },
+    {
+      "id": "actor:GTG-50020",
+      "ioc_count": 8,
+      "kind": "actor",
+      "name": "GTG-50020"
     },
     {
       "id": "actor:GTG-50021",
@@ -61132,6 +61396,12 @@
       "ioc_count": 11,
       "kind": "actor",
       "name": "unknown Chinese-speaking APT"
+    },
+    {
+      "id": "actor:vectra",
+      "ioc_count": 20,
+      "kind": "actor",
+      "name": "vectra"
     },
     {
       "id": "campaign:APTグループHoneyMyteがCoolClientを強化：バックドアにWindowsカーネルレベルのルートキットを追加",
@@ -62616,6 +62886,12 @@
       "name": "DesckVB"
     },
     {
+      "id": "malware:DeviceManager",
+      "ioc_count": 4,
+      "kind": "malware",
+      "name": "DeviceManager"
+    },
+    {
       "id": "malware:Dolphin X",
       "ioc_count": 3,
       "kind": "malware",
@@ -63576,6 +63852,12 @@
       "name": "PhantomRelayLite"
     },
     {
+      "id": "malware:Phorpiexラベル付きダウンローダー",
+      "ioc_count": 2,
+      "kind": "malware",
+      "name": "Phorpiexラベル付きダウンローダー"
+    },
+    {
       "id": "malware:PicassoLoader",
       "ioc_count": 45,
       "kind": "malware",
@@ -64237,9 +64519,15 @@
     },
     {
       "id": "malware:ValleyRAT",
-      "ioc_count": 386,
+      "ioc_count": 388,
       "kind": "malware",
       "name": "ValleyRAT"
+    },
+    {
+      "id": "malware:VectraRAT",
+      "ioc_count": 20,
+      "kind": "malware",
+      "name": "VectraRAT"
     },
     {
       "id": "malware:VenomRAT",

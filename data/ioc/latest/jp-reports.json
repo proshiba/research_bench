@@ -1,10 +1,10 @@
 {
   "by_kind": {
-    "その他": 52,
-    "侵入（範囲広い）": 28,
-    "脆弱性狙い": 84,
+    "その他": 55,
+    "侵入（範囲広い）": 30,
+    "脆弱性狙い": 91,
     "認証狙い": 45,
-    "走査のみ": 47
+    "走査のみ": 48
   },
   "clustered_24": [
     {
@@ -204,6 +204,49 @@
     },
     {
       "actors": [
+        "GT13"
+      ],
+      "ips": 5,
+      "isp": "VPN Consumer New York City, United States of America",
+      "jp_reports": 5,
+      "kinds": [
+        "その他",
+        "脆弱性狙い",
+        "走査のみ"
+      ],
+      "net": "45.130.83.0/24",
+      "tor": 0
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "ips": 4,
+      "isp": "VPN Consumer New York City, United States of America",
+      "jp_reports": 5,
+      "kinds": [
+        "その他",
+        "侵入（範囲広い）",
+        "脆弱性狙い"
+      ],
+      "net": "45.92.229.0/24",
+      "tor": 0
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "ips": 2,
+      "isp": "Prefixx, Inc.",
+      "jp_reports": 3,
+      "kinds": [
+        "脆弱性狙い"
+      ],
+      "net": "216.73.160.0/24",
+      "tor": 0
+    },
+    {
+      "actors": [
         "UNK_DeadDrop"
       ],
       "ips": 2,
@@ -254,38 +297,38 @@
   "jp_categories": {
     "DDoS": 10,
     "IoT 狙い": 1,
-    "SQL インジェクション": 14,
+    "SQL インジェクション": 15,
     "SSH": 59,
-    "Web アプリ攻撃": 81,
-    "Web スパム": 28,
-    "オープンプロキシ": 55,
+    "Web アプリ攻撃": 87,
+    "Web スパム": 33,
+    "オープンプロキシ": 59,
     "フィッシング": 5,
-    "ポートスキャン": 166,
+    "ポートスキャン": 171,
     "メールスパム": 8,
-    "不正ボット": 51,
-    "侵入": 65,
-    "総当たり": 97,
+    "不正ボット": 52,
+    "侵入": 68,
+    "総当たり": 101,
     "詐欺注文": 1,
     "踏み台": 3
   },
-  "jp_reported": 256,
-  "jp_reported_with_actor": 61,
+  "jp_reported": 269,
+  "jp_reported_with_actor": 74,
   "jp_reporter_distribution": {
-    "1": 134,
-    "2": 47,
+    "1": 145,
+    "2": 49,
     "3": 20,
     "4": 12,
     "5+": 43
   },
   "marks": {
-    "hosting": 236,
+    "hosting": 249,
     "sample": 0,
     "tor": 8,
     "whitelisted": 2
   },
   "measured": {
     "never_fetched": 1,
-    "reported_ips": 1838,
+    "reported_ips": 1907,
     "unmeasured": 0
   },
   "rows": [
@@ -510,6 +553,78 @@
       "score": 0,
       "strict": [
         "SQL インジェクション"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|216.73.160.188",
+      "ip": "216.73.160.188",
+      "isp": "Prefixx, Inc.",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "Web スパム",
+        "不正ボット"
+      ],
+      "jp_last": "2026-11-13",
+      "jp_reporters": 2,
+      "jp_reports": 2,
+      "jp_substantive": 2,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 115,
+      "reports": 235,
+      "roles": [],
+      "score": 100,
+      "strict": [
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|45.92.229.208",
+      "ip": "45.92.229.208",
+      "isp": "VPN Consumer New York City, United States of America",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "Web スパム",
+        "オープンプロキシ",
+        "ポートスキャン",
+        "総当たり"
+      ],
+      "jp_last": "2026-09-18",
+      "jp_reporters": 2,
+      "jp_reports": 2,
+      "jp_substantive": 2,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 107,
+      "reports": 200,
+      "roles": [],
+      "score": 100,
+      "strict": [
+        "Web アプリ攻撃"
       ],
       "usage_type": "Data Center/Web Hosting/Transit"
     },
@@ -1436,6 +1551,78 @@
     },
     {
       "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|216.73.160.29",
+      "ip": "216.73.160.29",
+      "isp": "Prefixx, Inc.",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "Web スパム",
+        "総当たり"
+      ],
+      "jp_last": "2026-10-04",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 105,
+      "reports": 233,
+      "roles": [],
+      "score": 100,
+      "strict": [
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|216.73.161.118",
+      "ip": "216.73.161.118",
+      "isp": "Prefixx, Inc.",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "Web スパム",
+        "総当たり"
+      ],
+      "jp_last": "2026-09-19",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 65,
+      "reports": 125,
+      "roles": [],
+      "score": 56,
+      "strict": [
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
         "Load",
         "Mine campaign"
       ],
@@ -1467,6 +1654,109 @@
       "score": 55,
       "strict": [
         "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [
+        "総当たり"
+      ],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|45.130.83.138",
+      "ip": "45.130.83.138",
+      "isp": "VPN Consumer New York City, United States of America",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "Web スパム",
+        "総当たり"
+      ],
+      "jp_last": "2025-12-17",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 88,
+      "reports": 164,
+      "roles": [],
+      "score": 100,
+      "strict": [
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [],
+      "broad": [
+        "侵入"
+      ],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|45.130.83.39",
+      "ip": "45.130.83.39",
+      "isp": "VPN Consumer New York City, United States of America",
+      "jp_categories": [
+        "Web アプリ攻撃",
+        "侵入"
+      ],
+      "jp_last": "2026-05-11",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 62,
+      "reports": 129,
+      "roles": [],
+      "score": 49,
+      "strict": [
+        "Web アプリ攻撃"
+      ],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|45.92.229.9",
+      "ip": "45.92.229.9",
+      "isp": "VPN Consumer New York City, United States of America",
+      "jp_categories": [
+        "SQL インジェクション"
+      ],
+      "jp_last": "2026-09-14",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "脆弱性狙い",
+      "malware": [],
+      "reporters": 72,
+      "reports": 140,
+      "roles": [],
+      "score": 51,
+      "strict": [
+        "SQL インジェクション"
       ],
       "usage_type": "Data Center/Web Hosting/Transit"
     },
@@ -1572,6 +1862,38 @@
     },
     {
       "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [],
+      "broad": [
+        "侵入"
+      ],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|173.239.211.246",
+      "ip": "173.239.211.246",
+      "isp": "LogicWeb Inc.",
+      "jp_categories": [
+        "侵入"
+      ],
+      "jp_last": "2026-01-10",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "侵入（範囲広い）",
+      "malware": [],
+      "reporters": 62,
+      "reports": 125,
+      "roles": [],
+      "score": 62,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
         "Load",
         "Mine campaign"
       ],
@@ -1641,6 +1963,38 @@
       "score": 0,
       "strict": [],
       "usage_type": "Fixed Line ISP"
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [],
+      "broad": [
+        "侵入"
+      ],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|45.92.229.11",
+      "ip": "45.92.229.11",
+      "isp": "VPN Consumer New York City, United States of America",
+      "jp_categories": [
+        "侵入"
+      ],
+      "jp_last": "2026-01-10",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "侵入（範囲広い）",
+      "malware": [],
+      "reporters": 68,
+      "reports": 131,
+      "roles": [],
+      "score": 59,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
     },
     {
       "actors": [
@@ -2209,6 +2563,129 @@
       "reports": 60,
       "roles": [],
       "score": 0,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|45.130.83.46",
+      "ip": "45.130.83.46",
+      "isp": "VPN Consumer New York City, United States of America",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-08-18",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 69,
+      "reports": 131,
+      "roles": [],
+      "score": 55,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|45.130.83.47",
+      "ip": "45.130.83.47",
+      "isp": "VPN Consumer New York City, United States of America",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-07-15",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 61,
+      "reports": 128,
+      "roles": [],
+      "score": 52,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|45.130.83.55",
+      "ip": "45.130.83.55",
+      "isp": "VPN Consumer New York City, United States of America",
+      "jp_categories": [
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-01-02",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "走査のみ",
+      "malware": [],
+      "reporters": 76,
+      "reports": 181,
+      "roles": [],
+      "score": 68,
+      "strict": [],
+      "usage_type": "Data Center/Web Hosting/Transit"
+    },
+    {
+      "actors": [
+        "GT13"
+      ],
+      "articles": [
+        "article:20261125#4"
+      ],
+      "auth": [],
+      "broad": [],
+      "country": "US",
+      "hosting": true,
+      "ioc": "ioc.ipv4|45.92.229.1",
+      "ip": "45.92.229.1",
+      "isp": "VPN Consumer New York City, United States of America",
+      "jp_categories": [
+        "オープンプロキシ",
+        "ポートスキャン"
+      ],
+      "jp_last": "2026-08-13",
+      "jp_reporters": 1,
+      "jp_reports": 1,
+      "jp_substantive": 1,
+      "kind": "その他",
+      "malware": [],
+      "reporters": 61,
+      "reports": 132,
+      "roles": [],
+      "score": 56,
       "strict": [],
       "usage_type": "Data Center/Web Hosting/Transit"
     },
@@ -8586,7 +9063,7 @@
   "top_countries": [
     [
       "US",
-      56
+      69
     ],
     [
       "NL",
@@ -8647,6 +9124,10 @@
       9
     ],
     [
+      "VPN Consumer New York City, United States of America",
+      9
+    ],
+    [
       "Contabo GmbH",
       8
     ],
@@ -8675,11 +9156,7 @@
       4
     ],
     [
-      "TECHOFF SRV LIMITED",
-      4
-    ],
-    [
-      "TechTies Inc.",
+      "Prefixx, Inc.",
       4
     ]
   ]

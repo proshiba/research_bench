@@ -200,7 +200,7 @@
           "Volt Typhoon",
           "Webworm"
         ],
-        "addresses": 1536256,
+        "addresses": 1605120,
         "asn": 20473,
         "cc": "US",
         "name": "The Constant Company, LLC"
@@ -269,7 +269,7 @@
           "Wizard Spider",
           "XaocMail ClickFix campaign"
         ],
-        "addresses": 1685504,
+        "addresses": 1655552,
         "asn": 9009,
         "cc": "RO",
         "name": "M247 Europe SRL"
@@ -329,7 +329,7 @@
           "Void Balaur",
           "Wizard Spider"
         ],
-        "addresses": 4638208,
+        "addresses": 4640000,
         "asn": 16276,
         "cc": "FR",
         "name": "OVH SAS"
@@ -380,7 +380,7 @@
           "UNC5174",
           "UNC7017"
         ],
-        "addresses": 11495680,
+        "addresses": 11495424,
         "asn": 45102,
         "cc": "US",
         "name": "Alibaba (US) Technology Co., Ltd."
@@ -425,7 +425,7 @@
           "UAT-11988",
           "Void Balaur"
         ],
-        "addresses": 218492416,
+        "addresses": 218505984,
         "asn": 16509,
         "cc": "US",
         "name": "Amazon.com, Inc."
@@ -462,7 +462,7 @@
           "UNC5174",
           "Winnti Group"
         ],
-        "addresses": 1561344,
+        "addresses": 1560832,
         "asn": 13335,
         "cc": "US",
         "name": "Cloudflare, Inc."
@@ -498,7 +498,7 @@
           "Storm-0940",
           "The Gentlemen"
         ],
-        "addresses": 1124352,
+        "addresses": 1123584,
         "asn": 212238,
         "cc": "GB",
         "name": "Datacamp Limited"
@@ -515,26 +515,10 @@
           "UAT-6275",
           "Videostrong Technology Co."
         ],
-        "addresses": 1084672,
+        "addresses": 1084928,
         "asn": 36352,
         "cc": "US",
         "name": "HostPapa"
-      },
-      {
-        "actors": [
-          "DriveSurge",
-          "GTG-50020",
-          "PhantomEnigma",
-          "Rognar",
-          "Storm-3358",
-          "masterblack",
-          "shinyenigma",
-          "vectra"
-        ],
-        "addresses": 1766656,
-        "asn": 6461,
-        "cc": "US",
-        "name": "Zayo Bandwidth"
       },
       {
         "actors": [
@@ -611,10 +595,25 @@
           "GTG-20006",
           "Pepesoft"
         ],
-        "addresses": 253184,
+        "addresses": 252416,
         "asn": 396356,
         "cc": "US",
         "name": "Latitude.sh"
+      },
+      {
+        "actors": [
+          "APT28",
+          "APT29",
+          "APT29 sub-cluster",
+          "Anonymous",
+          "GTG-20006",
+          "Jewelbug",
+          "The Gentlemen"
+        ],
+        "addresses": 37693952,
+        "asn": 174,
+        "cc": "US",
+        "name": "Cogent Communications, LLC"
       }
     ],
     "multi_actor": 240,
@@ -728,7 +727,7 @@
         "shared_hosting": false
       }
     ],
-    "total": 1603
+    "total": 1604
   },
   "coverage": {
     "abuseipdb": {
@@ -738,78 +737,78 @@
           "target": 1105
         },
         "2": {
-          "done": 749,
-          "target": 749
+          "done": 750,
+          "target": 750
         },
         "5": {
-          "done": 5891,
-          "target": 5891
+          "done": 5960,
+          "target": 5960
         }
       },
-      "done": 7746,
+      "done": 7816,
       "ratio": 1,
-      "target": 7745
+      "target": 7815
     },
-    "newest_fetch": "2026-11-24",
-    "oldest_fetch": "2026-11-24",
+    "newest_fetch": "2026-11-25",
+    "oldest_fetch": "2026-11-25",
     "virustotal": {
       "by_stage": {
         "1": {
-          "done": 7473,
-          "target": 7473
+          "done": 7474,
+          "target": 7474
         },
         "2": {
-          "done": 749,
-          "target": 749
+          "done": 750,
+          "target": 750
         },
         "3": {
-          "done": 6666,
-          "target": 6666
+          "done": 6668,
+          "target": 6668
         },
         "4": {
-          "done": 7258,
-          "target": 7258
+          "done": 7261,
+          "target": 7261
         },
         "5": {
-          "done": 8357,
-          "target": 8357
+          "done": 8426,
+          "target": 8426
         },
         "6": {
-          "done": 1792,
-          "target": 1792
+          "done": 1800,
+          "target": 1800
         }
       },
-      "done": 32296,
-      "known": 28121,
+      "done": 32380,
+      "known": 28205,
       "ratio": 1,
-      "target": 32295,
+      "target": 32379,
       "unknown": 4175
     }
   },
   "entities": {
-    "actor": 384,
+    "actor": 385,
     "campaign": 17,
     "case": 518,
-    "malware": 627
+    "malware": 628
   },
   "from": {
-    "collected_at": "2026-11-24T00:04:05.750Z",
+    "collected_at": "2026-11-25T00:03:23.274Z",
     "week": "2026-W48"
   },
   "iocs": {
     "by_type": {
-      "ioc.domain": 10509,
+      "ioc.domain": 10515,
       "ioc.email": 268,
       "ioc.endpoint": 317,
-      "ioc.ipv4": 7679,
+      "ioc.ipv4": 7749,
       "ioc.ipv6": 75,
       "ioc.md5": 2935,
       "ioc.sha1": 1660,
-      "ioc.sha256": 5642,
+      "ioc.sha256": 5649,
       "ioc.sha512": 16,
-      "ioc.url": 3834
+      "ioc.url": 3835
     },
-    "dated": 17305,
+    "dated": 17389,
     "excluded": {
       "bogon": 3,
       "malformed": 30,
@@ -817,8 +816,8 @@
       "popular": 173,
       "sample_reported": 1
     },
-    "total": 32935,
-    "usable": 32723
+    "total": 33019,
+    "usable": 32807
   },
   "options": {
     "asn_max_addresses": 4096,
@@ -846,16 +845,16 @@
         "filename": 54,
         "imphash": 35,
         "ioc": 71,
-        "jarm": 1238,
-        "registered": 1330,
+        "jarm": 1239,
+        "registered": 1337,
         "registrable": 63,
         "resolution": 2,
         "signer": 9,
-        "subnet": 13,
+        "subnet": 21,
         "vhash": 33
       },
       "identical_sets": 5,
-      "pairs": 2463,
+      "pairs": 2478,
       "top": [
         {
           "a": "APT29 sub-cluster",
@@ -1406,7 +1405,7 @@
           ]
         }
       ],
-      "weak_only": 2352
+      "weak_only": 2359
     },
     "campaign": {
       "by_via": {
@@ -1936,11 +1935,11 @@
         "registrable": 83,
         "resolution": 1,
         "signer": 6,
-        "subnet": 12,
+        "subnet": 24,
         "vhash": 48
       },
       "identical_sets": 10,
-      "pairs": 2177,
+      "pairs": 2184,
       "top": [
         {
           "a": "Backdoor.Turn",
@@ -2451,7 +2450,7 @@
           ]
         }
       ],
-      "weak_only": 2031
+      "weak_only": 2028
     }
   },
   "schema": 1,
@@ -2520,13 +2519,6 @@
           "GTG-50020",
           "Storm-3358",
           "vectra"
-        ],
-        "asns": [
-          {
-            "addresses": 1766656,
-            "asn": 6461,
-            "name": "Zayo Bandwidth"
-          }
         ],
         "ips": 6,
         "malware": [
@@ -2600,13 +2592,6 @@
           "Rognar",
           "Storm-3358"
         ],
-        "asns": [
-          {
-            "addresses": 1766656,
-            "asn": 6461,
-            "name": "Zayo Bandwidth"
-          }
-        ],
         "ips": 4,
         "malware": [
           "DeviceManager",
@@ -2623,7 +2608,7 @@
         ],
         "asns": [
           {
-            "addresses": 109824,
+            "addresses": 110592,
             "asn": 49981,
             "name": "WorldStream B.V."
           }
@@ -2736,7 +2721,7 @@
         ],
         "asns": [
           {
-            "addresses": 37699840,
+            "addresses": 37693952,
             "asn": 174,
             "name": "Cogent Communications, LLC"
           }
@@ -2746,7 +2731,7 @@
         "subnet": "38.146.28.0/24"
       }
     ],
-    "total": 791
+    "total": 798
   },
   "targets": {
     "abuse": 7,
@@ -3122,19 +3107,19 @@
       ],
       "with_dates": 11
     },
-    "dated": 10018,
+    "dated": 10026,
     "index_lag": {
       "ahead": 495,
       "median_days": 51,
       "p25_days": 1,
       "p75_days": 160,
-      "pairs": 5554
+      "pairs": 5562
     }
   },
   "tool": "tools/ioc/stats.mjs",
   "verdicts": {
     "by_actor": {
-      "checked": 344,
+      "checked": 345,
       "lowest": [
         {
           "checked": 4,
@@ -3208,7 +3193,7 @@
         }
       ]
     },
-    "clean": 3652,
+    "clean": 3656,
     "disagreement": {
       "samples": [
         {
@@ -3287,6 +3272,15 @@
           "classes": [
             "c2"
           ],
+          "ioc": "ioc.domain|2ev5.newpayapp.com",
+          "sources": [
+            "tech-memo-daily-news"
+          ]
+        },
+        {
+          "classes": [
+            "c2"
+          ],
           "ioc": "ioc.domain|457cfa2fb7p5.daf892t5qau4og8pi4cghbc6fhm1dim3u.oast.site",
           "sources": [
             "tech-memo-daily-news"
@@ -3336,20 +3330,11 @@
           "sources": [
             "tech-memo-daily-news"
           ]
-        },
-        {
-          "classes": [
-            "phishing-site"
-          ],
-          "ioc": "ioc.domain|actions-bot.com",
-          "sources": [
-            "tech-memo-daily-news"
-          ]
         }
       ],
-      "total": 739
+      "total": 741
     },
-    "malicious": 23980,
+    "malicious": 24054,
     "unknown": 4175
   }
 }
