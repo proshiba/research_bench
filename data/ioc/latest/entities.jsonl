@@ -145,7 +145,7 @@
 {"ioc_count":31,"kind":"actor","name":"INC Ransomware","sources":["tech-memo-daily-news"]}
 {"ioc_count":9,"kind":"actor","name":"Icarus","sources":["tech-memo-daily-news"]}
 {"ioc_count":4,"kind":"actor","name":"Ice Fog","sources":["threatactor-intel-analysis"]}
-{"aliases":["Cloud Atlas","Inception Framework"],"ioc_count":116,"kind":"actor","name":"Inception","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
+{"aliases":["Cloud Atlas","Inception Framework"],"ioc_count":190,"kind":"actor","name":"Inception","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"aliases":["DEV-0243","Evil Corp","Manatee Tempest","UNC2165"],"ioc_count":1,"kind":"actor","name":"Indrik Spider","sources":["threatactor-intel-analysis"]}
 {"ioc_count":211,"kind":"actor","name":"Intellexa","sources":["threatactor-intel-analysis"]}
 {"ioc_count":1,"kind":"actor","name":"InvisiMole","sources":["threatactor-intel-analysis"]}
@@ -287,6 +287,7 @@
 {"ioc_count":82,"kind":"actor","name":"TGR-STA-0049","sources":["tech-memo-daily-news"]}
 {"aliases":["DeadCatx3","IronErn","PCPCat","SHADOW-WATER-058","ShellForce","Storm-2999","TA-NATALSTATUS","TeamPCP（UNC6780）","UNC6780"],"ioc_count":89,"kind":"actor","name":"TeamPCP","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":5,"kind":"actor","name":"TeamTNT","sources":["threatactor-intel-analysis"]}
+{"ioc_count":62,"kind":"actor","name":"The Com","sources":["tech-memo-daily-news"]}
 {"ioc_count":88,"kind":"actor","name":"The Gentlemen","sources":["tech-memo-daily-news"]}
 {"aliases":["White Company"],"ioc_count":42,"kind":"actor","name":"The White Company","sources":["threatactor-intel-analysis"]}
 {"aliases":["APT27","BRONZE UNION","Earth Smilodon","Emissary Panda","Iron Tiger","Linen Typhoon","LuckyMouse","SHORE CASTLE","TG-3390","UNC215"],"ioc_count":1,"kind":"actor","name":"Threat Group-3390","sources":["threatactor-intel-analysis"]}
@@ -325,7 +326,7 @@
 {"aliases":["Jade Sleet","PUKCHONG","TraderTraitor"],"ioc_count":38,"kind":"actor","name":"UNC4899","sources":["tech-memo-daily-news"]}
 {"aliases":["CL-STA-1015"],"ioc_count":67,"kind":"actor","name":"UNC5174","sources":["threatactor-intel-analysis"]}
 {"aliases":["Contagious Interview"],"ioc_count":44,"kind":"actor","name":"UNC5342","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
-{"aliases":["Bling Libra","ShinyHunters","ShinyHunters関連 (frkoo)","Storm-3127"],"ioc_count":30,"kind":"actor","name":"UNC6240","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
+{"aliases":["Bling Libra","ShinyHunters","ShinyHunters関連 (frkoo)","ShinyHunters（Bling Libra）","Storm-3127"],"ioc_count":30,"kind":"actor","name":"UNC6240","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"ioc_count":8,"kind":"actor","name":"UNC6508","sources":["tech-memo-daily-news"]}
 {"ioc_count":78,"kind":"actor","name":"UNC6671","sources":["tech-memo-daily-news"]}
 {"aliases":["STORM-2945"],"ioc_count":5,"kind":"actor","name":"UNC7005","sources":["tech-memo-daily-news"]}
@@ -345,6 +346,7 @@
 {"ioc_count":89,"kind":"actor","name":"Videostrong Technology Co.","sources":["tech-memo-daily-news"]}
 {"ioc_count":208,"kind":"actor","name":"Void Balaur","sources":["threatactor-intel-analysis"]}
 {"ioc_count":47,"kind":"actor","name":"Void Dokkaebi","sources":["tech-memo-daily-news"]}
+{"ioc_count":113,"kind":"actor","name":"Volant Manticore","sources":["tech-memo-daily-news"]}
 {"aliases":["BRONZE SILHOUETTE","DEV-0391","DazedToad","Insidious Taurus","UNC3236","Vanguard Panda","Voltzite"],"ioc_count":1,"kind":"actor","name":"Volt Typhoon","sources":["tech-memo-daily-news","threatactor-intel-analysis"]}
 {"aliases":["Ashen Lepus"],"ioc_count":2,"kind":"actor","name":"WIRTE","sources":["threatactor-intel-analysis"]}
 {"ioc_count":20,"kind":"actor","name":"Webworm","sources":["tech-memo-daily-news"]}
@@ -921,6 +923,11 @@
 {"ioc_count":1,"kind":"article","name":"article:20261123#3","sources":["tech-memo-daily-news"]}
 {"ioc_count":33,"kind":"article","name":"article:20261123#5","sources":["tech-memo-daily-news"]}
 {"ioc_count":73,"kind":"article","name":"article:20261125#4","sources":["tech-memo-daily-news"]}
+{"ioc_count":113,"kind":"article","name":"article:20261126#10","sources":["tech-memo-daily-news"]}
+{"ioc_count":1,"kind":"article","name":"article:20261126#6","sources":["tech-memo-daily-news"]}
+{"ioc_count":74,"kind":"article","name":"article:20261126#7","sources":["tech-memo-daily-news"]}
+{"ioc_count":6,"kind":"article","name":"article:20261126#8","sources":["tech-memo-daily-news"]}
+{"ioc_count":62,"kind":"article","name":"article:20261126#9","sources":["tech-memo-daily-news"]}
 {"ioc_count":15,"kind":"campaign","name":"APTグループHoneyMyteがCoolClientを強化：バックドアにWindowsカーネルレベルのルートキットを追加","sources":["threatactor-intel-analysis"]}
 {"ioc_count":6,"kind":"campaign","name":"ARTEXを悪用するStorm-0940、ConnectWise経由でMicrosoft 365テナントへ侵入","sources":["threatactor-intel-analysis"]}
 {"ioc_count":2,"kind":"campaign","name":"BlackX UEFIブートキット、Baton Drop脆弱性でSecure Bootを回避","sources":["threatactor-intel-analysis"]}
@@ -1733,6 +1740,7 @@
 {"ioc_count":4,"kind":"malware","name":"HiddenView","sources":["tech-memo-daily-news"]}
 {"ioc_count":17,"kind":"malware","name":"Hirudo","sources":["tech-memo-daily-news"]}
 {"ioc_count":6,"kind":"malware","name":"HoldingHandsRAT","sources":["tech-memo-daily-news"]}
+{"ioc_count":53,"kind":"malware","name":"Homa Framework","sources":["tech-memo-daily-news"]}
 {"ioc_count":102,"kind":"malware","name":"Honeygain","sources":["tech-memo-daily-news"]}
 {"ioc_count":2,"kind":"malware","name":"HttpSpy","sources":["tech-memo-daily-news"]}
 {"ioc_count":16,"kind":"malware","name":"INC Ransomware","sources":["tech-memo-daily-news"]}
@@ -1767,6 +1775,7 @@
 {"ioc_count":4,"kind":"malware","name":"Kazuar","sources":["tech-memo-daily-news"]}
 {"ioc_count":2,"kind":"malware","name":"KillSec","sources":["tech-memo-daily-news"]}
 {"ioc_count":15,"kind":"malware","name":"Kimwolf","sources":["tech-memo-daily-news"]}
+{"ioc_count":5,"kind":"malware","name":"KuboShell","sources":["tech-memo-daily-news"]}
 {"ioc_count":1,"kind":"malware","name":"LEASHTEST","sources":["tech-memo-daily-news"]}
 {"ioc_count":2,"kind":"malware","name":"LONEPAGE","sources":["tech-memo-daily-news"]}
 {"ioc_count":1,"kind":"malware","name":"LONGLEASH","sources":["tech-memo-daily-news"]}
