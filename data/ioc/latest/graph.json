@@ -290,8 +290,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.015,
-      "shared": 5,
+      "ratio": 0.017,
+      "shared": 6,
       "source": "actor:APT28",
       "strength": 4,
       "target": "actor:APT38",
@@ -994,7 +994,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.026,
+      "ratio": 0.016,
       "shared": 3,
       "source": "actor:APT28",
       "strength": 1,
@@ -1422,7 +1422,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.011,
+      "ratio": 0.009,
       "shared": 2,
       "source": "actor:APT28",
       "strength": 1,
@@ -1515,6 +1515,19 @@
       "target": "actor:TeamPCP",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.032,
+      "shared": 2,
+      "source": "actor:APT28",
+      "strength": 4,
+      "target": "actor:The Com",
+      "via": [
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -1786,6 +1799,19 @@
       "target": "actor:Void Balaur",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.027,
+      "shared": 3,
+      "source": "actor:APT28",
+      "strength": 4,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -2442,7 +2468,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
+      "ratio": 0.005,
       "shared": 1,
       "source": "actor:APT29",
       "strength": 1,
@@ -2814,12 +2840,14 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.011,
-      "shared": 2,
+      "ratio": 0.022,
+      "shared": 5,
       "source": "actor:APT29",
-      "strength": 4,
+      "strength": 7,
       "target": "actor:Silver Fox",
       "via": [
+        "family",
+        "filename",
         "jarm",
         "registered"
       ],
@@ -2882,6 +2910,18 @@
       "target": "actor:TAG-195",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.032,
+      "shared": 2,
+      "source": "actor:APT29",
+      "strength": 3,
+      "target": "actor:The Com",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -3054,6 +3094,19 @@
       "source": "actor:APT29",
       "strength": 4,
       "target": "actor:Void Balaur",
+      "via": [
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.027,
+      "shared": 3,
+      "source": "actor:APT29",
+      "strength": 4,
+      "target": "actor:Volant Manticore",
       "via": [
         "jarm",
         "registered"
@@ -3748,7 +3801,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
+      "ratio": 0.005,
       "shared": 1,
       "source": "actor:APT37",
       "strength": 1,
@@ -4038,7 +4091,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.006,
+      "ratio": 0.004,
       "shared": 1,
       "source": "actor:APT37",
       "strength": 1,
@@ -4658,7 +4711,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.017,
+      "ratio": 0.011,
       "shared": 2,
       "source": "actor:APT38",
       "strength": 4,
@@ -4925,6 +4978,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.059,
+      "shared": 1,
+      "source": "actor:APT38",
+      "strength": 2,
+      "target": "actor:PolinRider",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.154,
       "shared": 2,
       "source": "actor:APT38",
@@ -5046,7 +5111,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.011,
+      "ratio": 0.009,
       "shared": 2,
       "source": "actor:APT38",
       "strength": 3,
@@ -5172,6 +5237,18 @@
       "source": "actor:APT38",
       "strength": 3,
       "target": "actor:TeamPCP",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.081,
+      "shared": 5,
+      "source": "actor:APT38",
+      "strength": 3,
+      "target": "actor:The Com",
       "via": [
         "registered"
       ],
@@ -5432,6 +5509,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.018,
+      "shared": 2,
+      "source": "actor:APT38",
+      "strength": 3,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.04,
       "shared": 1,
       "source": "actor:APT38",
@@ -5492,13 +5581,12 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.043,
-      "shared": 3,
+      "ratio": 0.029,
+      "shared": 2,
       "source": "actor:APT41",
-      "strength": 3,
+      "strength": 1,
       "target": "actor:APT43",
       "via": [
-        "family",
         "jarm"
       ],
       "weak_only": true
@@ -5589,18 +5677,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.014,
-      "shared": 1,
-      "source": "actor:APT41",
-      "strength": 2,
-      "target": "actor:Charming Kitten",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.077,
       "shared": 1,
       "source": "actor:APT41",
@@ -5620,18 +5696,6 @@
       "target": "actor:DPRK IT Worker Schemes",
       "via": [
         "jarm"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.014,
-      "shared": 1,
-      "source": "actor:APT41",
-      "strength": 2,
-      "target": "actor:Darkhotel",
-      "via": [
-        "family"
       ],
       "weak_only": true
     },
@@ -5735,18 +5799,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.014,
-      "shared": 1,
-      "source": "actor:APT41",
-      "strength": 2,
-      "target": "actor:MuddyWater",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.022,
       "shared": 1,
       "source": "actor:APT41",
@@ -5843,13 +5895,12 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.118,
-      "shared": 2,
+      "ratio": 0.059,
+      "shared": 1,
       "source": "actor:APT41",
-      "strength": 3,
+      "strength": 1,
       "target": "actor:UNC3347",
       "via": [
-        "family",
         "jarm"
       ],
       "weak_only": true
@@ -6027,13 +6078,12 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.031,
-      "shared": 4,
+      "ratio": 0.023,
+      "shared": 3,
       "source": "actor:APT43",
-      "strength": 3,
+      "strength": 1,
       "target": "actor:Charming Kitten",
       "via": [
-        "family",
         "jarm"
       ],
       "weak_only": true
@@ -6089,8 +6139,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.02,
-      "shared": 2,
+      "ratio": 0.01,
+      "shared": 1,
       "source": "actor:APT43",
       "strength": 2,
       "target": "actor:Darkhotel",
@@ -6429,13 +6479,12 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.021,
-      "shared": 5,
+      "ratio": 0.017,
+      "shared": 4,
       "source": "actor:APT43",
-      "strength": 3,
+      "strength": 1,
       "target": "actor:MuddyWater",
       "via": [
-        "family",
         "jarm"
       ],
       "weak_only": true
@@ -6589,7 +6638,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.017,
+      "ratio": 0.013,
       "shared": 3,
       "source": "actor:APT43",
       "strength": 1,
@@ -6642,6 +6691,18 @@
       "source": "actor:APT43",
       "strength": 1,
       "target": "actor:TeamTNT",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.016,
+      "shared": 1,
+      "source": "actor:APT43",
+      "strength": 1,
+      "target": "actor:The Com",
       "via": [
         "jarm"
       ],
@@ -6721,18 +6782,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.059,
-      "shared": 1,
-      "source": "actor:APT43",
-      "strength": 2,
-      "target": "actor:UNC3347",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.024,
       "shared": 1,
       "source": "actor:APT43",
@@ -6775,6 +6824,18 @@
       "target": "actor:Videostrong Technology Co.",
       "via": [
         "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.009,
+      "shared": 1,
+      "source": "actor:APT43",
+      "strength": 3,
+      "target": "actor:Volant Manticore",
+      "via": [
         "registered"
       ],
       "weak_only": true
@@ -6930,6 +6991,18 @@
       "source": "actor:Adception",
       "strength": 3,
       "target": "actor:STAC4749",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.182,
+      "shared": 2,
+      "source": "actor:Adception",
+      "strength": 3,
+      "target": "actor:The Com",
       "via": [
         "registered"
       ],
@@ -7761,7 +7834,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.017,
+      "ratio": 0.011,
       "shared": 2,
       "source": "actor:Anonymous",
       "strength": 4,
@@ -9156,8 +9229,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.022,
-      "shared": 10,
+      "ratio": 0.024,
+      "shared": 11,
       "source": "actor:BITTER",
       "strength": 4,
       "target": "actor:Gamaredon",
@@ -9218,7 +9291,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
+      "ratio": 0.005,
       "shared": 1,
       "source": "actor:BITTER",
       "strength": 1,
@@ -9498,6 +9571,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.016,
+      "shared": 1,
+      "source": "actor:BITTER",
+      "strength": 3,
+      "target": "actor:The Com",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.009,
       "shared": 2,
       "source": "actor:BITTER",
@@ -9523,13 +9608,14 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.002,
-      "shared": 1,
+      "ratio": 0.004,
+      "shared": 2,
       "source": "actor:BITTER",
-      "strength": 5,
+      "strength": 8,
       "target": "actor:Transparent Tribe",
       "via": [
-        "asn"
+        "asn",
+        "registered"
       ]
     },
     {
@@ -9626,6 +9712,18 @@
       "target": "actor:UNK_DeadDrop",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.018,
+      "shared": 2,
+      "source": "actor:BITTER",
+      "strength": 1,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -9763,8 +9861,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.012,
-      "shared": 1,
+      "ratio": 0.024,
+      "shared": 2,
       "source": "actor:BRONZE BUTLER",
       "strength": 2,
       "target": "actor:Silver Fox",
@@ -10928,7 +11026,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
+      "ratio": 0.008,
       "shared": 1,
       "source": "actor:Callisto Group",
       "strength": 1,
@@ -11160,6 +11258,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.016,
+      "shared": 1,
+      "source": "actor:Callisto Group",
+      "strength": 3,
+      "target": "actor:The Com",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.008,
       "shared": 1,
       "source": "actor:Callisto Group",
@@ -11270,6 +11380,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.009,
+      "shared": 1,
+      "source": "actor:Callisto Group",
+      "strength": 3,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.048,
       "shared": 1,
       "source": "actor:Callisto Group",
@@ -11325,6 +11447,18 @@
       "target": "actor:Gunra",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.056,
+      "shared": 1,
+      "source": "actor:Calypso",
+      "strength": 3,
+      "target": "actor:Inception",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -11656,7 +11790,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
+      "ratio": 0.005,
       "shared": 1,
       "source": "actor:Candiru",
       "strength": 3,
@@ -12455,18 +12589,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.01,
-      "shared": 1,
-      "source": "actor:Charming Kitten",
-      "strength": 2,
-      "target": "actor:Darkhotel",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.036,
       "shared": 1,
       "source": "actor:Charming Kitten",
@@ -12626,18 +12748,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.008,
-      "shared": 1,
-      "source": "actor:Charming Kitten",
-      "strength": 2,
-      "target": "actor:MuddyWater",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.009,
       "shared": 1,
       "source": "actor:Charming Kitten",
@@ -12771,11 +12881,11 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.01,
+      "ratio": 0.016,
       "shared": 1,
       "source": "actor:Charming Kitten",
       "strength": 1,
-      "target": "actor:Toy Ghouls",
+      "target": "actor:The Com",
       "via": [
         "jarm"
       ],
@@ -12783,13 +12893,13 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.059,
+      "ratio": 0.01,
       "shared": 1,
       "source": "actor:Charming Kitten",
-      "strength": 2,
-      "target": "actor:UNC3347",
+      "strength": 1,
+      "target": "actor:Toy Ghouls",
       "via": [
-        "family"
+        "jarm"
       ],
       "weak_only": true
     },
@@ -12836,6 +12946,18 @@
       "source": "actor:Charming Kitten",
       "strength": 1,
       "target": "actor:Void Balaur",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.009,
+      "shared": 1,
+      "source": "actor:Charming Kitten",
+      "strength": 1,
+      "target": "actor:Volant Manticore",
       "via": [
         "jarm"
       ],
@@ -14102,6 +14224,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.016,
+      "shared": 1,
+      "source": "actor:Cytrox",
+      "strength": 1,
+      "target": "actor:The Com",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.024,
       "shared": 1,
       "source": "actor:Cytrox",
@@ -14192,6 +14326,19 @@
       "source": "actor:Cytrox",
       "strength": 4,
       "target": "actor:Void Balaur",
+      "via": [
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.018,
+      "shared": 2,
+      "source": "actor:Cytrox",
+      "strength": 4,
+      "target": "actor:Volant Manticore",
       "via": [
         "jarm",
         "registered"
@@ -14677,6 +14824,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.059,
+      "shared": 1,
+      "source": "actor:DPRK IT Worker Schemes",
+      "strength": 2,
+      "target": "actor:PolinRider",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 1,
       "shared": 1,
       "source": "actor:DPRK IT Worker Schemes",
@@ -15093,6 +15252,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.015,
+      "shared": 1,
+      "source": "actor:DarkWire",
+      "strength": 1,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.067,
       "shared": 1,
       "source": "actor:DarkWire",
@@ -15129,24 +15300,13 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.01,
-      "shared": 1,
+      "ratio": 0.02,
+      "shared": 2,
       "source": "actor:Darkhotel",
-      "strength": 2,
-      "target": "actor:MuddyWater",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.01,
-      "shared": 1,
-      "source": "actor:Darkhotel",
-      "strength": 3,
+      "strength": 5,
       "target": "actor:Silver Fox",
       "via": [
+        "family",
         "registered"
       ],
       "weak_only": true
@@ -15182,18 +15342,6 @@
       "source": "actor:Darkhotel",
       "strength": 2,
       "target": "actor:Transparent Tribe",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
-      "ratio": 0.059,
-      "shared": 1,
-      "source": "actor:Darkhotel",
-      "strength": 2,
-      "target": "actor:UNC3347",
       "via": [
         "family"
       ],
@@ -16495,7 +16643,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.006,
+      "ratio": 0.004,
       "shared": 1,
       "source": "actor:Equation Group",
       "strength": 1,
@@ -16861,6 +17009,18 @@
       "source": "actor:Exvicy",
       "strength": 3,
       "target": "actor:Sandworm Team",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.065,
+      "shared": 4,
+      "source": "actor:Exvicy",
+      "strength": 3,
+      "target": "actor:The Com",
       "via": [
         "registered"
       ],
@@ -17453,7 +17613,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.017,
+      "ratio": 0.011,
       "shared": 2,
       "source": "actor:Flax Typhoon",
       "strength": 5,
@@ -17706,7 +17866,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.006,
+      "ratio": 0.004,
       "shared": 1,
       "source": "actor:Flax Typhoon",
       "strength": 1,
@@ -18771,6 +18931,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.028,
+      "shared": 1,
+      "source": "actor:GOLD SHERWOOD",
+      "strength": 2,
+      "target": "actor:Silver Fox",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.022,
       "shared": 1,
       "source": "actor:GT13",
@@ -19770,7 +19942,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.034,
+      "ratio": 0.021,
       "shared": 4,
       "source": "actor:Gamaredon",
       "strength": 4,
@@ -20230,11 +20402,12 @@
     {
       "kind": "actor",
       "ratio": 0.017,
-      "shared": 3,
+      "shared": 4,
       "source": "actor:Gamaredon",
-      "strength": 4,
+      "strength": 6,
       "target": "actor:Silver Fox",
       "via": [
+        "family",
         "jarm",
         "registered"
       ],
@@ -20304,6 +20477,19 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.048,
+      "shared": 3,
+      "source": "actor:Gamaredon",
+      "strength": 4,
+      "target": "actor:The Com",
+      "via": [
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.011,
       "shared": 1,
       "source": "actor:Gamaredon",
@@ -20340,8 +20526,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.014,
-      "shared": 7,
+      "ratio": 0.016,
+      "shared": 8,
       "source": "actor:Gamaredon",
       "strength": 8,
       "target": "actor:Transparent Tribe",
@@ -20541,6 +20727,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.009,
+      "shared": 1,
+      "source": "actor:Gamaredon",
+      "strength": 3,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.021,
       "shared": 2,
       "source": "actor:Gamaredon",
@@ -20589,7 +20787,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
+      "ratio": 0.008,
       "shared": 1,
       "source": "actor:Gambling Goblin",
       "strength": 1,
@@ -20913,6 +21111,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.037,
+      "shared": 1,
+      "source": "actor:Gentlemen RaaS",
+      "strength": 2,
+      "target": "actor:Silver Fox",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.476,
       "shared": 10,
       "source": "actor:Gentlemen RaaS",
@@ -20975,7 +21185,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
+      "ratio": 0.008,
       "shared": 1,
       "source": "actor:Ghostwriter",
       "strength": 1,
@@ -21317,7 +21527,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
+      "ratio": 0.007,
       "shared": 1,
       "source": "actor:GreyVibe",
       "strength": 3,
@@ -22071,6 +22281,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.065,
+      "shared": 2,
+      "source": "actor:INC Ransomware",
+      "strength": 3,
+      "target": "actor:The Com",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.032,
       "shared": 1,
       "source": "actor:INC Ransomware",
@@ -22193,7 +22415,19 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
+      "ratio": 0.005,
+      "shared": 1,
+      "source": "actor:Inception",
+      "strength": 3,
+      "target": "actor:Intellexa",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.005,
       "shared": 1,
       "source": "actor:Inception",
       "strength": 1,
@@ -22205,7 +22439,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
+      "ratio": 0.005,
       "shared": 1,
       "source": "actor:Inception",
       "strength": 1,
@@ -22229,7 +22463,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.017,
+      "ratio": 0.011,
       "shared": 2,
       "source": "actor:Inception",
       "strength": 1,
@@ -22241,13 +22475,14 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.017,
-      "shared": 2,
+      "ratio": 0.016,
+      "shared": 3,
       "source": "actor:Inception",
-      "strength": 1,
+      "strength": 4,
       "target": "actor:SideCopy",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -22265,7 +22500,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.009,
+      "ratio": 0.005,
       "shared": 1,
       "source": "actor:Inception",
       "strength": 3,
@@ -22483,7 +22718,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.006,
+      "ratio": 0.005,
       "shared": 1,
       "source": "actor:Intellexa",
       "strength": 3,
@@ -22526,6 +22761,18 @@
       "target": "actor:TGR-STA-0049",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.016,
+      "shared": 1,
+      "source": "actor:Intellexa",
+      "strength": 3,
+      "target": "actor:The Com",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -23035,6 +23282,18 @@
       "target": "actor:Sidewinder",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.083,
+      "shared": 1,
+      "source": "actor:JeetBot",
+      "strength": 1,
+      "target": "actor:The Com",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -23778,13 +24037,14 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.011,
-      "shared": 2,
+      "ratio": 0.013,
+      "shared": 3,
       "source": "actor:Konni",
-      "strength": 1,
+      "strength": 4,
       "target": "actor:Silver Fox",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -23972,6 +24232,19 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.018,
+      "shared": 2,
+      "source": "actor:Konni",
+      "strength": 4,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.021,
       "shared": 2,
       "source": "actor:Konni",
@@ -24016,6 +24289,18 @@
       "target": "actor:ZooPark",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.042,
+      "shared": 1,
+      "source": "actor:Konni",
+      "strength": 3,
+      "target": "actor:shinyenigma",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -24291,6 +24576,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.059,
+      "shared": 1,
+      "source": "actor:Lazarus",
+      "strength": 2,
+      "target": "actor:PolinRider",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.063,
       "shared": 1,
       "source": "actor:Lazarus",
@@ -24401,8 +24698,8 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.011,
-      "shared": 2,
+      "ratio": 0.013,
+      "shared": 3,
       "source": "actor:Lazarus",
       "strength": 4,
       "target": "actor:Silver Fox",
@@ -24748,6 +25045,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.009,
+      "shared": 1,
+      "source": "actor:Lazarus",
+      "strength": 1,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.052,
       "shared": 5,
       "source": "actor:Lazarus",
@@ -24898,6 +25207,18 @@
       "source": "actor:Lockster",
       "strength": 3,
       "target": "actor:PasteSwitch",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "actor:Lockster",
+      "strength": 3,
+      "target": "actor:The Com",
       "via": [
         "registered"
       ],
@@ -25304,12 +25625,13 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.006,
-      "shared": 1,
+      "ratio": 0.009,
+      "shared": 2,
       "source": "actor:MuddyWater",
-      "strength": 1,
+      "strength": 3,
       "target": "actor:Silver Fox",
       "via": [
+        "family",
         "jarm"
       ],
       "weak_only": true
@@ -25354,18 +25676,6 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.059,
-      "shared": 1,
-      "source": "actor:MuddyWater",
-      "strength": 2,
-      "target": "actor:UNC3347",
-      "via": [
-        "family"
-      ],
-      "weak_only": true
-    },
-    {
-      "kind": "actor",
       "ratio": 0.024,
       "shared": 1,
       "source": "actor:MuddyWater",
@@ -25407,6 +25717,18 @@
       "source": "actor:MuddyWater",
       "strength": 2,
       "target": "actor:Videostrong Technology Co.",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.018,
+      "shared": 2,
+      "source": "actor:MuddyWater",
+      "strength": 2,
+      "target": "actor:Volant Manticore",
       "via": [
         "family"
       ],
@@ -26006,6 +26328,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.2,
+      "shared": 1,
+      "source": "actor:O-UNC-066",
+      "strength": 1,
+      "target": "actor:The Com",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.6,
       "shared": 3,
       "source": "actor:O-UNC-066",
@@ -26248,6 +26582,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.004,
+      "shared": 1,
+      "source": "actor:OceanLotus",
+      "strength": 2,
+      "target": "actor:Silver Fox",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.01,
       "shared": 1,
       "source": "actor:OceanLotus",
@@ -26418,6 +26764,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.143,
+      "shared": 1,
+      "source": "actor:PCPJack",
+      "strength": 1,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.077,
       "shared": 1,
       "source": "actor:PLATINUM",
@@ -26551,7 +26909,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.017,
+      "ratio": 0.013,
       "shared": 3,
       "source": "actor:PasteSwitch",
       "strength": 3,
@@ -26653,6 +27011,18 @@
       "source": "actor:PasteSwitch",
       "strength": 3,
       "target": "actor:TeamPCP",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.194,
+      "shared": 12,
+      "source": "actor:PasteSwitch",
+      "strength": 3,
+      "target": "actor:The Com",
       "via": [
         "registered"
       ],
@@ -27427,6 +27797,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.023,
+      "shared": 1,
+      "source": "actor:Rognar",
+      "strength": 3,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.2,
       "shared": 1,
       "source": "actor:Rognar",
@@ -27619,7 +28001,7 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.006,
+      "ratio": 0.004,
       "shared": 1,
       "source": "actor:Sandworm Team",
       "strength": 1,
@@ -28157,6 +28539,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.009,
+      "shared": 1,
+      "source": "actor:SilkParasite",
+      "strength": 3,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.017,
       "shared": 1,
       "source": "actor:SilkParasite",
@@ -28248,13 +28642,38 @@
     },
     {
       "kind": "actor",
-      "ratio": 0.007,
+      "ratio": 0.01,
       "shared": 1,
       "source": "actor:Silver Fox",
-      "strength": 1,
+      "strength": 2,
+      "target": "actor:Toy Ghouls",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.004,
+      "shared": 1,
+      "source": "actor:Silver Fox",
+      "strength": 2,
+      "target": "actor:Transparent Tribe",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.022,
+      "shared": 3,
+      "source": "actor:Silver Fox",
+      "strength": 4,
       "target": "actor:UAT-11587",
       "via": [
-        "jarm"
+        "jarm",
+        "registered"
       ],
       "weak_only": true
     },
@@ -28304,6 +28723,18 @@
       "target": "actor:UNK_DeadDrop",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.042,
+      "shared": 1,
+      "source": "actor:Silver Fox",
+      "strength": 1,
+      "target": "actor:UNK_QuietRacket",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -28404,6 +28835,18 @@
       "source": "actor:SlippyNunchucks",
       "strength": 3,
       "target": "actor:UNC6671",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "actor:SlippyNunchucks",
+      "strength": 3,
+      "target": "actor:Volant Manticore",
       "via": [
         "registered"
       ],
@@ -28603,6 +29046,19 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.267,
+      "shared": 4,
+      "source": "actor:Storm-3032",
+      "strength": 13,
+      "target": "actor:The Com",
+      "via": [
+        "ioc",
+        "registered",
+        "registrable"
+      ]
+    },
+    {
+      "kind": "actor",
       "ratio": 0.067,
       "shared": 1,
       "source": "actor:Storm-3032",
@@ -28722,6 +29178,19 @@
         "registered"
       ],
       "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.267,
+      "shared": 4,
+      "source": "actor:Storm-3121",
+      "strength": 13,
+      "target": "actor:The Com",
+      "via": [
+        "ioc",
+        "registered",
+        "registrable"
+      ]
     },
     {
       "kind": "actor",
@@ -28855,6 +29324,18 @@
       "via": [
         "subnet"
       ]
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.045,
+      "shared": 1,
+      "source": "actor:TA412",
+      "strength": 3,
+      "target": "actor:The Com",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
     },
     {
       "kind": "actor",
@@ -29165,6 +29646,152 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.016,
+      "shared": 1,
+      "source": "actor:The Com",
+      "strength": 3,
+      "target": "actor:Tortoiseshell",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.032,
+      "shared": 2,
+      "source": "actor:The Com",
+      "strength": 3,
+      "target": "actor:Transparent Tribe",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.016,
+      "shared": 1,
+      "source": "actor:The Com",
+      "strength": 3,
+      "target": "actor:UNC5174",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.081,
+      "shared": 5,
+      "source": "actor:The Com",
+      "strength": 14,
+      "target": "actor:UNC6671",
+      "via": [
+        "ioc",
+        "jarm",
+        "registered",
+        "registrable"
+      ]
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.118,
+      "shared": 2,
+      "source": "actor:The Com",
+      "strength": 3,
+      "target": "actor:UNK_DoubleCheck",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.038,
+      "shared": 1,
+      "source": "actor:The Com",
+      "strength": 3,
+      "target": "actor:UNK_LateNight",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.042,
+      "shared": 1,
+      "source": "actor:The Com",
+      "strength": 3,
+      "target": "actor:UNK_QuietRacket",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.016,
+      "shared": 1,
+      "source": "actor:The Com",
+      "strength": 1,
+      "target": "actor:Void Balaur",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.017,
+      "shared": 1,
+      "source": "actor:The Com",
+      "strength": 3,
+      "target": "actor:XaocMail ClickFix campaign",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.038,
+      "shared": 1,
+      "source": "actor:The Com",
+      "strength": 3,
+      "target": "actor:ZIRCONIUM",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.083,
+      "shared": 2,
+      "source": "actor:The Com",
+      "strength": 3,
+      "target": "actor:masterblack",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.067,
+      "shared": 1,
+      "source": "actor:The Com",
+      "strength": 3,
+      "target": "actor:terminalfix",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.143,
       "shared": 1,
       "source": "actor:The Gentlemen",
@@ -29308,6 +29935,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.009,
+      "shared": 1,
+      "source": "actor:Tortoiseshell",
+      "strength": 3,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.05,
       "shared": 1,
       "source": "actor:Tortoiseshell",
@@ -29387,6 +30026,18 @@
       "target": "actor:UNC6671",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.01,
+      "shared": 1,
+      "source": "actor:Toy Ghouls",
+      "strength": 1,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "jarm"
       ],
       "weak_only": true
     },
@@ -29813,6 +30464,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.033,
+      "shared": 1,
+      "source": "actor:UNC6240",
+      "strength": 1,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.5,
       "shared": 1,
       "source": "actor:UNC6240",
@@ -29904,6 +30567,18 @@
       "target": "actor:Void Balaur",
       "via": [
         "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.026,
+      "shared": 2,
+      "source": "actor:UNC6671",
+      "strength": 3,
+      "target": "actor:Volant Manticore",
+      "via": [
         "registered"
       ],
       "weak_only": true
@@ -30092,6 +30767,18 @@
     },
     {
       "kind": "actor",
+      "ratio": 0.009,
+      "shared": 1,
+      "source": "actor:Void Balaur",
+      "strength": 1,
+      "target": "actor:Volant Manticore",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
       "ratio": 0.01,
       "shared": 1,
       "source": "actor:Void Balaur",
@@ -30122,6 +30809,43 @@
       "strength": 3,
       "target": "actor:Yx Technology",
       "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.014,
+      "shared": 1,
+      "source": "actor:Volant Manticore",
+      "strength": 1,
+      "target": "actor:ZooPark",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.2,
+      "shared": 1,
+      "source": "actor:Volant Manticore",
+      "strength": 3,
+      "target": "actor:momo",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "actor",
+      "ratio": 0.083,
+      "shared": 2,
+      "source": "actor:Volant Manticore",
+      "strength": 4,
+      "target": "actor:shinyenigma",
+      "via": [
+        "jarm",
         "registered"
       ],
       "weak_only": true
@@ -35209,7 +35933,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.03,
+      "ratio": 0.026,
       "shared": 1,
       "source": "malware:AMOS",
       "strength": 3,
@@ -36627,7 +37351,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.03,
+      "ratio": 0.026,
       "shared": 1,
       "source": "malware:AdaptixC2",
       "strength": 1,
@@ -36682,6 +37406,18 @@
       "target": "malware:ToxNetV2",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.018,
+      "shared": 1,
+      "source": "malware:Agent Tesla",
+      "strength": 3,
+      "target": "malware:Amadey",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -37116,7 +37852,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.063,
+      "ratio": 0.053,
       "shared": 1,
       "source": "malware:Agent Tesla",
       "strength": 2,
@@ -38380,6 +39116,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.036,
+      "shared": 1,
+      "source": "malware:AnonyMousKIT",
+      "strength": 3,
+      "target": "malware:SYS010",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.043,
       "shared": 1,
       "source": "malware:AnonyMousKIT",
@@ -39150,6 +39898,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.091,
+      "shared": 1,
+      "source": "malware:AskLink",
+      "strength": 3,
+      "target": "malware:PamStealer",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.2,
       "shared": 1,
       "source": "malware:AskLink",
@@ -39167,6 +39927,18 @@
       "source": "malware:AskLink",
       "strength": 1,
       "target": "malware:ValleyRAT",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.071,
+      "shared": 1,
+      "source": "malware:AskLink",
+      "strength": 1,
+      "target": "malware:gh0strat",
       "via": [
         "jarm"
       ],
@@ -40877,7 +41649,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.03,
+      "ratio": 0.026,
       "shared": 1,
       "source": "malware:Beagle",
       "strength": 1,
@@ -42461,6 +43233,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.05,
+      "shared": 1,
+      "source": "malware:Candiru",
+      "strength": 3,
+      "target": "malware:SYS010",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.1,
       "shared": 2,
       "source": "malware:Candiru",
@@ -43564,6 +44348,18 @@
       "source": "malware:ClientHub",
       "strength": 2,
       "target": "malware:NukeSped",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:ClientHub",
+      "strength": 2,
+      "target": "malware:PolinRider",
       "via": [
         "family"
       ],
@@ -44726,7 +45522,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.091,
+      "ratio": 0.077,
       "shared": 3,
       "source": "malware:CountLoader",
       "strength": 4,
@@ -45464,6 +46260,18 @@
       "shared": 1,
       "source": "malware:DIDS.exe",
       "strength": 2,
+      "target": "malware:KuboShell",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 1,
+      "shared": 1,
+      "source": "malware:DIDS.exe",
+      "strength": 2,
       "target": "malware:WebView2.exe",
       "via": [
         "family"
@@ -46173,7 +46981,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.063,
+      "ratio": 0.053,
       "shared": 1,
       "source": "malware:DonutLoader",
       "strength": 2,
@@ -48067,6 +48875,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.027,
+      "shared": 1,
+      "source": "malware:Exvicy",
+      "strength": 3,
+      "target": "malware:SYS010",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.009,
       "shared": 1,
       "source": "malware:Exvicy",
@@ -49042,6 +49862,18 @@
       "ratio": 0.03,
       "shared": 1,
       "source": "malware:Formbook",
+      "strength": 3,
+      "target": "malware:SYS010",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.03,
+      "shared": 1,
+      "source": "malware:Formbook",
       "strength": 1,
       "target": "malware:SourTrade",
       "via": [
@@ -49123,7 +49955,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.063,
+      "ratio": 0.053,
       "shared": 1,
       "source": "malware:Formbook",
       "strength": 2,
@@ -49271,6 +50103,18 @@
       "target": "malware:proxyware",
       "via": [
         "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.2,
+      "shared": 1,
+      "source": "malware:Game.exe",
+      "strength": 2,
+      "target": "malware:KuboShell",
+      "via": [
+        "family"
       ],
       "weak_only": true
     },
@@ -51163,13 +52007,13 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.077,
+      "ratio": 0.053,
       "shared": 1,
-      "source": "malware:KEYPLUG",
-      "strength": 2,
-      "target": "malware:KGH Spyware",
+      "source": "malware:K2F",
+      "strength": 3,
+      "target": "malware:SYS010",
       "via": [
-        "family"
+        "registered"
       ],
       "weak_only": true
     },
@@ -51369,6 +52213,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.027,
+      "shared": 1,
+      "source": "malware:KREMLIN",
+      "strength": 3,
+      "target": "malware:SYS010",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.043,
       "shared": 1,
       "source": "malware:Kapeka",
@@ -51470,6 +52326,30 @@
       "source": "malware:Kimwolf",
       "strength": 2,
       "target": "malware:curlRAT",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 1,
+      "shared": 1,
+      "source": "malware:KuboShell",
+      "strength": 2,
+      "target": "malware:WebView2.exe",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.25,
+      "shared": 1,
+      "source": "malware:KuboShell",
+      "strength": 2,
+      "target": "malware:ms_upd.exe",
       "via": [
         "family"
       ],
@@ -51934,15 +52814,15 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.083,
-      "shared": 2,
+      "ratio": 0.042,
+      "shared": 1,
       "source": "malware:Lunex",
-      "strength": 6,
+      "strength": 1,
       "target": "malware:Millenium RAT",
       "via": [
-        "jarm",
-        "subnet"
-      ]
+        "jarm"
+      ],
+      "weak_only": true
     },
     {
       "kind": "malware",
@@ -55128,6 +56008,18 @@
     },
     {
       "kind": "malware",
+      "ratio": 0.029,
+      "shared": 1,
+      "source": "malware:Noodle RAT",
+      "strength": 2,
+      "target": "malware:gh0strat",
+      "via": [
+        "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
       "ratio": 0.011,
       "shared": 1,
       "source": "malware:NukeSped",
@@ -55208,6 +56100,18 @@
       "target": "malware:PhantomRelayLite",
       "via": [
         "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.059,
+      "shared": 1,
+      "source": "malware:NukeSped",
+      "strength": 2,
+      "target": "malware:PolinRider",
+      "via": [
+        "family"
       ],
       "weak_only": true
     },
@@ -56057,6 +56961,18 @@
       "source": "malware:PNG/registry cache loader",
       "strength": 1,
       "target": "malware:ValleyRAT",
+      "via": [
+        "jarm"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.333,
+      "shared": 1,
+      "source": "malware:PNG/registry cache loader",
+      "strength": 1,
+      "target": "malware:gh0strat",
       "via": [
         "jarm"
       ],
@@ -57732,7 +58648,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.125,
+      "ratio": 0.105,
       "shared": 2,
       "source": "malware:Remcos",
       "strength": 2,
@@ -57866,7 +58782,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.03,
+      "ratio": 0.026,
       "shared": 1,
       "source": "malware:Remus Stealer",
       "strength": 3,
@@ -57914,7 +58830,7 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.03,
+      "ratio": 0.026,
       "shared": 1,
       "source": "malware:Remus Stealer",
       "strength": 3,
@@ -58112,6 +59028,18 @@
       "target": "malware:ValleyRAT",
       "via": [
         "family"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.027,
+      "shared": 1,
+      "source": "malware:SCKit",
+      "strength": 3,
+      "target": "malware:SYS010",
+      "via": [
+        "registered"
       ],
       "weak_only": true
     },
@@ -58385,6 +59313,30 @@
       "target": "malware:proxyware",
       "via": [
         "jarm",
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.027,
+      "shared": 1,
+      "source": "malware:SYS010",
+      "strength": 3,
+      "target": "malware:ValleyRAT",
+      "via": [
+        "registered"
+      ],
+      "weak_only": true
+    },
+    {
+      "kind": "malware",
+      "ratio": 0.027,
+      "shared": 1,
+      "source": "malware:SYS010",
+      "strength": 3,
+      "target": "malware:XMRig",
+      "via": [
         "registered"
       ],
       "weak_only": true
@@ -59608,14 +60560,17 @@
     },
     {
       "kind": "malware",
-      "ratio": 0.714,
-      "shared": 5,
+      "ratio": 0.257,
+      "shared": 9,
       "source": "malware:ValleyRAT",
-      "strength": 18,
+      "strength": 22,
       "target": "malware:gh0strat",
       "via": [
+        "family",
+        "filename",
         "imphash",
         "ioc",
+        "jarm",
         "vhash"
       ]
     },
@@ -59847,7 +60802,7 @@
       "weak_only": true
     }
   ],
-  "generated_from": "2026-11-25T00:03:23.274Z",
+  "generated_from": "2026-11-27T00:03:42.131Z",
   "nodes": [
     {
       "id": "actor:3AM ransomware affiliate",
@@ -60493,7 +61448,7 @@
     },
     {
       "id": "actor:Inception",
-      "ioc_count": 116,
+      "ioc_count": 190,
       "kind": "actor",
       "name": "Inception"
     },
@@ -60738,6 +61693,12 @@
       "name": "Poisson"
     },
     {
+      "id": "actor:PolinRider",
+      "ioc_count": 17,
+      "kind": "actor",
+      "name": "PolinRider"
+    },
+    {
       "id": "actor:Poseidon",
       "ioc_count": 2,
       "kind": "actor",
@@ -60859,7 +61820,7 @@
     },
     {
       "id": "actor:Silver Fox",
-      "ioc_count": 174,
+      "ioc_count": 232,
       "kind": "actor",
       "name": "Silver Fox"
     },
@@ -61012,6 +61973,12 @@
       "ioc_count": 5,
       "kind": "actor",
       "name": "TeamTNT"
+    },
+    {
+      "id": "actor:The Com",
+      "ioc_count": 62,
+      "kind": "actor",
+      "name": "The Com"
     },
     {
       "id": "actor:The Gentlemen",
@@ -61264,6 +62231,12 @@
       "ioc_count": 208,
       "kind": "actor",
       "name": "Void Balaur"
+    },
+    {
+      "id": "actor:Volant Manticore",
+      "ioc_count": 113,
+      "kind": "actor",
+      "name": "Volant Manticore"
     },
     {
       "id": "actor:Webworm",
@@ -63330,6 +64303,12 @@
       "name": "Kimwolf"
     },
     {
+      "id": "malware:KuboShell",
+      "ioc_count": 5,
+      "kind": "malware",
+      "name": "KuboShell"
+    },
+    {
       "id": "malware:LEASHTEST",
       "ioc_count": 1,
       "kind": "malware",
@@ -63888,6 +64867,12 @@
       "name": "PoisonX RAT"
     },
     {
+      "id": "malware:PolinRider",
+      "ioc_count": 17,
+      "kind": "malware",
+      "name": "PolinRider"
+    },
+    {
       "id": "malware:PollCat",
       "ioc_count": 51,
       "kind": "malware",
@@ -64045,7 +65030,7 @@
     },
     {
       "id": "malware:Remus Stealer",
-      "ioc_count": 34,
+      "ioc_count": 40,
       "kind": "malware",
       "name": "Remus Stealer"
     },
@@ -64108,6 +65093,12 @@
       "ioc_count": 192,
       "kind": "malware",
       "name": "SUNBURST"
+    },
+    {
+      "id": "malware:SYS010",
+      "ioc_count": 37,
+      "kind": "malware",
+      "name": "SYS010"
     },
     {
       "id": "malware:SafePay",
@@ -64519,7 +65510,7 @@
     },
     {
       "id": "malware:ValleyRAT",
-      "ioc_count": 388,
+      "ioc_count": 390,
       "kind": "malware",
       "name": "ValleyRAT"
     },
@@ -64627,7 +65618,7 @@
     },
     {
       "id": "malware:XWorm",
-      "ioc_count": 16,
+      "ioc_count": 19,
       "kind": "malware",
       "name": "XWorm"
     },
@@ -64669,7 +65660,7 @@
     },
     {
       "id": "malware:gh0strat",
-      "ioc_count": 7,
+      "ioc_count": 35,
       "kind": "malware",
       "name": "gh0strat"
     },
