@@ -1,25 +1,25 @@
 {
-  "built_at": "2026-11-26T00:35:34.810Z",
+  "built_at": "2026-11-27T00:35:48.773Z",
   "bulk_shapes": 1,
   "day_range": [
     "2026-10-30",
-    "2026-11-26"
+    "2026-11-27"
   ],
-  "days": 20,
+  "days": 21,
   "events": {
     "by_kind": {
       "already_independent_at_first_sight": 1,
       "already_reported_at_first_sight": 44,
-      "backdated_report": 89,
+      "backdated_report": 92,
       "first_independent_report": 8,
-      "first_report": 94,
+      "first_report": 97,
       "new_category": 3,
       "reporters_up": 3,
       "score_up": 2
     },
-    "total": 244
+    "total": 250
   },
-  "events_on_last_day": 2,
+  "events_on_last_day": 6,
   "generated_from": "observations/*.jsonl のみ。API も写しも見ていない",
   "ips": 255,
   "not_observed_last_fetch": 0,
@@ -103,40 +103,44 @@
     {
       "day": "2026-11-26",
       "ips": 255
+    },
+    {
+      "day": "2026-11-27",
+      "ips": 255
     }
   ],
   "per_cluster": {
     "sub2api-198.200.59.85": {
       "categories": {
-        "Exploited Host": 133,
+        "Exploited Host": 136,
         "Hacking": 1,
         "Port Scan": 1,
         "Web App Attack": 9
       },
       "ips": 255,
       "max_score": 12,
-      "reported_pct": 54.1,
-      "total_reports": 143,
+      "reported_pct": 55.3,
+      "total_reports": 146,
       "with_independent_report": 9,
       "with_jp_report": 0,
-      "with_reports": 138
+      "with_reports": 141
     }
   },
   "per_role": {
     "artex": {
       "categories": {
-        "Exploited Host": 133,
+        "Exploited Host": 136,
         "Hacking": 1,
         "Port Scan": 1,
         "Web App Attack": 9
       },
       "ips": 255,
       "max_score": 12,
-      "reported_pct": 54.1,
-      "total_reports": 143,
+      "reported_pct": 55.3,
+      "total_reports": 146,
       "with_independent_report": 9,
       "with_jp_report": 0,
-      "with_reports": 138
+      "with_reports": 141
     },
     "recharge_host": {
       "categories": {
@@ -155,18 +159,18 @@
     },
     "sub2api": {
       "categories": {
-        "Exploited Host": 133,
+        "Exploited Host": 136,
         "Hacking": 1,
         "Port Scan": 1,
         "Web App Attack": 9
       },
       "ips": 255,
       "max_score": 12,
-      "reported_pct": 54.1,
-      "total_reports": 143,
+      "reported_pct": 55.3,
+      "total_reports": 146,
       "with_independent_report": 9,
       "with_jp_report": 0,
-      "with_reports": 138
+      "with_reports": 141
     }
   },
   "per_role_set": {
@@ -187,16 +191,16 @@
     },
     "artex;sub2api": {
       "categories": {
-        "Exploited Host": 132,
+        "Exploited Host": 135,
         "Web App Attack": 8
       },
       "ips": 254,
       "max_score": 10,
-      "reported_pct": 53.9,
-      "total_reports": 140,
+      "reported_pct": 55.1,
+      "total_reports": 143,
       "with_independent_report": 8,
       "with_jp_report": 0,
-      "with_reports": 137
+      "with_reports": 140
     }
   }
 }
