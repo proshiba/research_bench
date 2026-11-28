@@ -1,4 +1,4 @@
-# 監視クラスタの現況 — 2026-11-27
+# 監視クラスタの現況 — 2026-11-28
 
 > **この文書は Claude（AI）が自動生成したものです。人の確認を前提としてください。**
 
@@ -6,30 +6,7 @@
 
 ## 今日の変化
 
-| 変化 | 件数 | 意味 |
-| --- | --- | --- |
-| `first_report` | 3 | 初めて通報が付いた |
-| `backdated_report` | 3 | 過去の日付の通報が後から増えた（さかのぼり投稿） |
-
-### `first_report` — 3 件
-
-初めて通報が付いた
-
-| IP | 役割 | 前回の観測 | 内容 |
-| --- | --- | --- | --- |
-| `38.11.173.61` | artex;sub2api | 2026-11-26 | categories=20 / reports=1 |
-| `38.11.221.40` | artex;sub2api | 2026-11-26 | categories=20 / reports=1 |
-| `38.11.221.53` | artex;sub2api | 2026-11-26 | categories=20 / reports=1 |
-
-### `backdated_report` — 3 件
-
-過去の日付の通報が後から増えた（さかのぼり投稿）
-
-| IP | 役割 | 前回の観測 | 内容 |
-| --- | --- | --- | --- |
-| `38.11.173.61` | artex;sub2api | 2026-11-26 | backdate_days=1.52 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-24T12:54:23+00:00 |
-| `38.11.221.40` | artex;sub2api | 2026-11-26 | backdate_days=1.51 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-24T12:54:44+00:00 |
-| `38.11.221.53` | artex;sub2api | 2026-11-26 | backdate_days=1.49 / bulk=true / categories=20 / cc=BR / observed_at=2026-11-24T12:55:05+00:00 |
+**変化はありません。** 監視は動いており、255 IP ぶんの観測を取っています（2026-11-28）。
 
 ## クラスタの現況
 
@@ -63,7 +40,7 @@
 | 役割の組 | IP | 通報あり | **フィード以外** | 最大スコア |
 | --- | --- | --- | --- | --- |
 | `artex;recharge_host;sub2api` | 1 | 1 | **1** | 12 |
-| `artex;sub2api` | 254 | 140 | **8** | 10 |
+| `artex;sub2api` | 254 | 140 | **8** | 9 |
 
 ## フィード以外の通報が付いている IP（9 件）
 
@@ -72,11 +49,11 @@
 
 | IP | 役割 | 初めて付いた日 | 通報 | 通報者 | 国 | カテゴリ | スコア |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `38.11.173.21` | artex;sub2api | 2026-11-06 | 1 / 2 | 2 | IN | Exploited Host;Web App Attack | 10 |
+| `38.11.173.21` | artex;sub2api | 2026-11-06 | 1 / 2 | 2 | IN | Exploited Host;Web App Attack | 9 |
 | `38.11.173.22` | artex;sub2api | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 1 |
-| `38.11.173.107` | artex;sub2api | 2026-11-06 | 1 / 2 | 2 | IN | Exploited Host;Web App Attack | 9 |
+| `38.11.173.107` | artex;sub2api | 2026-11-06 | 1 / 2 | 2 | IN | Exploited Host;Web App Attack | 8 |
 | `38.11.173.122` | artex;sub2api | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 1 |
-| `38.11.221.61` | artex;sub2api | 2026-11-06 | 1 / 2 | 2 | IN | Exploited Host;Web App Attack | 10 |
+| `38.11.221.61` | artex;sub2api | 2026-11-06 | 1 / 2 | 2 | IN | Exploited Host;Web App Attack | 9 |
 | `38.11.221.65` | artex;sub2api | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 1 |
 | `38.11.221.104` | artex;sub2api | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 1 |
 | `38.11.221.111` | artex;sub2api | 2026-11-06 | 1 / 1 | 1 | IN | Web App Attack | 1 |
@@ -124,6 +101,7 @@ ARTEX では被害者側の通報が 8 IP で、閾値 10 を
 | 2026-11-25 | 255 |
 | 2026-11-26 | 255 |
 | 2026-11-27 | 255 |
+| 2026-11-28 | 255 |
 
 連日とは限りません。変化の行の「前回の観測」が、その変化をどれだけの
 間隔で見たかを示します。
